@@ -32,8 +32,8 @@ static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_
     /* initialize an output stream */
     universal_memory_output_stream_t memout;
     universal_memory_output_stream_init( &memout,
-                                         utf8stringbuf_get_string( out_buf ),
-                                         utf8stringbuf_get_size( out_buf ),
+                                         utf8stringbuf_get_string( &out_buf ),
+                                         utf8stringbuf_get_size( &out_buf ),
                                          UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                        );
     universal_output_stream_t *output;

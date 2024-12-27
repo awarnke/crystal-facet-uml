@@ -330,7 +330,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE;
-                    utf8stringbuf_clear( xml_attr_value );
+                    utf8stringbuf_clear( &xml_attr_value );
                 }
                 else
                 {
@@ -352,14 +352,14 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* parse the color */
-                    if ( utf8stringbuf_equals_str( xml_attr_value, "none" ) )
+                    if ( utf8stringbuf_equals_str( &xml_attr_value, "none" ) )
                     {
                         stroke_color = (GdkRGBA) { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
                     }
                     else
                     {
-                        U8_TRACE_INFO_STR( "stroke:", utf8stringbuf_get_string( xml_attr_value ) );
-                        const gboolean success = gdk_rgba_parse( &stroke_color, utf8stringbuf_get_string( xml_attr_value ) );
+                        U8_TRACE_INFO_STR( "stroke:", utf8stringbuf_get_string( &xml_attr_value ) );
+                        const gboolean success = gdk_rgba_parse( &stroke_color, utf8stringbuf_get_string( &xml_attr_value ) );
                         if ( ! success )
                         {
                             result |= U8_ERROR_PARSER_STRUCTURE;
@@ -374,7 +374,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 }
                 else
                 {
-                    utf8stringbuf_append_view( xml_attr_value, &tok );
+                    utf8stringbuf_append_view( &xml_attr_value, &tok );
                 }
             }
             break;
@@ -408,7 +408,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE;
-                    utf8stringbuf_clear( xml_attr_value );
+                    utf8stringbuf_clear( &xml_attr_value );
                 }
                 else
                 {
@@ -430,14 +430,14 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* parse the color */
-                    if ( utf8stringbuf_equals_str( xml_attr_value, "none" ) )
+                    if ( utf8stringbuf_equals_str( &xml_attr_value, "none" ) )
                     {
                         fill_color = (GdkRGBA) { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
                     }
                     else
                     {
-                        U8_TRACE_INFO_STR( "fill:", utf8stringbuf_get_string( xml_attr_value ) );
-                        const gboolean success = gdk_rgba_parse( &fill_color, utf8stringbuf_get_string( xml_attr_value ) );
+                        U8_TRACE_INFO_STR( "fill:", utf8stringbuf_get_string( &xml_attr_value ) );
+                        const gboolean success = gdk_rgba_parse( &fill_color, utf8stringbuf_get_string( &xml_attr_value ) );
                         if ( ! success )
                         {
                             result |= U8_ERROR_PARSER_STRUCTURE;
@@ -452,7 +452,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 }
                 else
                 {
-                    utf8stringbuf_append_view( xml_attr_value, &tok );
+                    utf8stringbuf_append_view( &xml_attr_value, &tok );
                 }
             }
             break;

@@ -99,7 +99,7 @@ static void render_to_file( cairo_surface_t *surface,
     /* create filename */
     char filename_buf[48]="";
     utf8stringbuf_t filename = UTF8STRINGBUF(filename_buf);
-    utf8stringbuf_append_str( filename, "test_pencil" );
+    utf8stringbuf_append_str( &filename, "test_pencil" );
 
     const unsigned int variant = test_data_setup_get_variant( ts_case_setup );
     switch ( test_data_setup_get_mode( ts_case_setup ) )
@@ -107,36 +107,36 @@ static void render_to_file( cairo_surface_t *surface,
         default:
         case TEST_DATA_SETUP_MODE_GOOD_CASES:
         {
-            utf8stringbuf_append_str( filename, "_good" );
+            utf8stringbuf_append_str( &filename, "_good" );
         }
         break;
 
         case TEST_DATA_SETUP_MODE_CHALLENGING_CASES:
         {
-            utf8stringbuf_append_str( filename, "_cllg" );
+            utf8stringbuf_append_str( &filename, "_cllg" );
         }
         break;
 
         case TEST_DATA_SETUP_MODE_EDGE_CASES:
         {
-            utf8stringbuf_append_str( filename, "_edge" );
+            utf8stringbuf_append_str( &filename, "_edge" );
         }
         break;
     }
-    utf8stringbuf_append_str( filename, "_" );
-    utf8stringbuf_append_int( filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_ERROR ) );
-    utf8stringbuf_append_str( filename, "e_" );
-    utf8stringbuf_append_int( filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_WARNING ) );
-    utf8stringbuf_append_str( filename, "w_" );
-    utf8stringbuf_append_int( filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_EXPORTED ) );
-    utf8stringbuf_append_str( filename, "ok_" );
-    utf8stringbuf_append_int( filename, variant );
-    utf8stringbuf_append_str( filename, ".png" );
-    U8_TRACE_INFO_STR("filename:", utf8stringbuf_get_string( filename ));
+    utf8stringbuf_append_str( &filename, "_" );
+    utf8stringbuf_append_int( &filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_ERROR ) );
+    utf8stringbuf_append_str( &filename, "e_" );
+    utf8stringbuf_append_int( &filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_WARNING ) );
+    utf8stringbuf_append_str( &filename, "w_" );
+    utf8stringbuf_append_int( &filename, data_stat_get_series_count( render_stats, DATA_STAT_SERIES_EXPORTED ) );
+    utf8stringbuf_append_str( &filename, "ok_" );
+    utf8stringbuf_append_int( &filename, variant );
+    utf8stringbuf_append_str( &filename, ".png" );
+    U8_TRACE_INFO_STR("filename:", utf8stringbuf_get_string( &filename ));
 
     /* finish surface */
     const cairo_status_t png_result
-        = cairo_surface_write_to_png ( surface, utf8stringbuf_get_string( filename ) );
+        = cairo_surface_write_to_png ( surface, utf8stringbuf_get_string( &filename ) );
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == png_result );
     U8_TRACE_END();
 }

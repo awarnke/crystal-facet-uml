@@ -58,31 +58,31 @@ static inline utf8codepoint_t utf8codepoint( uint32_t code_point );
  * \param max_size maximum number of bytes to read.
  * \return A utf8codepoint_t struct. Even if that was NULL.
  */
-static inline utf8codepoint_t utf8codepoint_init( const char *that, unsigned int max_size );
+static inline utf8codepoint_t utf8codepoint_new( const char *that, unsigned int max_size );
 
 /*!
  * \brief Gets the unicode code point
  * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The code point object
+ * \param this_ pointer to own object attributes
  * \return Unicode code point
  */
-static inline uint32_t utf8codepoint_get_char( const utf8codepoint_t this_ );
+static inline uint32_t utf8codepoint_get_char( const utf8codepoint_t *this_ );
 
 /*!
  * \brief Gets the length of the utf8 encoded character in bytes.
  * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The code point object
+ * \param this_ pointer to own object attributes
  * \return length of the utf8 encoded character in bytes. 0 if the code point is invalid.
  */
-static inline unsigned int utf8codepoint_get_length( const utf8codepoint_t this_ );
+static inline unsigned int utf8codepoint_get_length( const utf8codepoint_t *this_ );
 
 /*!
  * \brief Gets the utf8 sequence
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The code point object
+ * \param this_ pointer to own object attributes
  * \return utf8 sequence, unused bytes filled with 0
  */
-static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t this_ );
+static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t *this_ );
 
 /*!
  * \brief Determines if this_ object is a valid unicode codepoint.
@@ -95,10 +95,10 @@ static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t t
  * The 0x0 character which terminates strings is a valid unicode character.
  *
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The code point object
+ * \param this_ pointer to own object attributes
  * \return 1 if this object is valid and encodes a valid unicode code point, 0 otherwise.
  */
-static inline int utf8codepoint_is_unicode( const utf8codepoint_t this_ );
+static inline int utf8codepoint_is_unicode( const utf8codepoint_t *this_ );
 
 /*!
  * \brief Determines if this_ object is valid.
@@ -112,10 +112,10 @@ static inline int utf8codepoint_is_unicode( const utf8codepoint_t this_ );
  * \link utf8codepoint_is_unicode(const utf8codepoint_t this_) utf8codepoint_is_unicode \endlink
  * to check if the code point encodes a valid unicode character.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The code point object
+ * \param this_ pointer to own object attributes
  * \return 1 if this object is valid, 0 otherwise.
  */
-static inline int utf8codepoint_is_valid( const utf8codepoint_t this_ );
+static inline int utf8codepoint_is_valid( const utf8codepoint_t *this_ );
 
 extern const utf8codepoint_t UTF8CODEPOINT_INVAL_CHAR;
 

@@ -664,12 +664,12 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
     {
         char name_buf[8];
         utf8stringbuf_t name_str = UTF8STRINGBUF(name_buf);
-        utf8stringbuf_clear( name_str );
-        utf8stringbuf_append_str( name_str, "NM_" );
-        utf8stringbuf_append_int( name_str, idx_c );
+        utf8stringbuf_clear( &name_str );
+        utf8stringbuf_append_str( &name_str, "NM_" );
+        utf8stringbuf_append_int( &name_str, idx_c );
         const data_row_t classifier_blue_id
             = tvec_add_classifier( &setup_env,
-                                   utf8stringbuf_get_string( name_str ),
+                                   utf8stringbuf_get_string( &name_str ),
                                    DATA_CLASSIFIER_TYPE_COMPONENT,
                                    "stereotype"
                                  );

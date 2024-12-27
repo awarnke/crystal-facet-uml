@@ -64,12 +64,12 @@ utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_
         const char *const default_locale_temp = setlocale( LC_NUMERIC, NULL );  /* get the current locale */
         char default_locale_buf[20];  /* expecting max length = 19: sr_YU.utf8@cyrillic */
         utf8stringbuf_t default_locale = UTF8STRINGBUF( default_locale_buf );
-        utf8stringbuf_copy_str( default_locale, default_locale_temp );
+        utf8stringbuf_copy_str( &default_locale, default_locale_temp );
         const char *const c_locale = setlocale( LC_NUMERIC, "C" );  /* set separator to point (by C locale) */
         assert ( c_locale != NULL );
         (void) c_locale;
         double parseResult = strtod( this_, &endptr );
-        const char *const restored_locale = setlocale( LC_NUMERIC, utf8stringbuf_get_string( default_locale ) );  /* set separator back to previous character */
+        const char *const restored_locale = setlocale( LC_NUMERIC, utf8stringbuf_get_string( &default_locale ) );  /* set separator back to previous character */
         assert ( restored_locale != NULL );
         (void) restored_locale;
         if ((parseResult==INFINITY)||(parseResult==-INFINITY)||(parseResult==0.0)||(parseResult==-0.0))

@@ -158,9 +158,9 @@ static inline void data_id_trace ( const data_id_t *this_ )
     const char prefix[] = "data_id_t: ";
     char id_buf[sizeof(prefix)+DATA_ID_MAX_UTF8STRING_LENGTH];
     utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-    utf8stringbuf_copy_str( id_str, prefix );
+    utf8stringbuf_copy_str( &id_str, prefix );
     data_id_to_utf8stringbuf( this_, id_str );
-    U8_TRACE_INFO( utf8stringbuf_get_string( id_str ) );
+    U8_TRACE_INFO( utf8stringbuf_get_string( &id_str ) );
 }
 
 static inline bool data_id_equals ( const data_id_t *this_, const data_id_t *that )
@@ -196,37 +196,37 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
         default:
         case DATA_TABLE_VOID:
         {
-            result |= utf8stringbuf_append_str( out_str, "void" );
+            result |= utf8stringbuf_append_str( &out_str, "void" );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            result |= utf8stringbuf_append_str( out_str, "C" );
+            result |= utf8stringbuf_append_str( &out_str, "C" );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            result |= utf8stringbuf_append_str( out_str, "F" );
+            result |= utf8stringbuf_append_str( &out_str, "F" );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            result |= utf8stringbuf_append_str( out_str, "R" );
+            result |= utf8stringbuf_append_str( &out_str, "R" );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            result |= utf8stringbuf_append_str( out_str, "E" );
+            result |= utf8stringbuf_append_str( &out_str, "E" );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            result |= utf8stringbuf_append_str( out_str, "D" );
+            result |= utf8stringbuf_append_str( &out_str, "D" );
         }
         break;
     }
@@ -239,7 +239,7 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
             {
                 if ( 0 <= (*this_).row_id )
                 {
-                    result |= utf8stringbuf_append_str( out_str, "000" );
+                    result |= utf8stringbuf_append_str( &out_str, "000" );
                 }
                 else
                 {
@@ -248,21 +248,21 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
             }
             else
             {
-                result |= utf8stringbuf_append_str( out_str, "00" );
+                result |= utf8stringbuf_append_str( &out_str, "00" );
             }
         }
         else
         {
             if ( 1000 > (*this_).row_id )
             {
-                result |= utf8stringbuf_append_str( out_str, "0" );
+                result |= utf8stringbuf_append_str( &out_str, "0" );
             }
             else
             {
                 /* row_id is greater than 1000 */
             }
         }
-        result |= utf8stringbuf_append_int( out_str, (*this_).row_id );
+        result |= utf8stringbuf_append_int( &out_str, (*this_).row_id );
     }
 
     return result;

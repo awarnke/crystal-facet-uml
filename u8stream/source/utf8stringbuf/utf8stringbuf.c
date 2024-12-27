@@ -23,46 +23,46 @@ static inline utf8error_t utf8stringbuf_private_write_char( char *destination, u
 static const unsigned char utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[5] = { 0, 0, 0xc0, 0xe0, 0xf0 };
 
 /* Note: There is some magic in the design of utf8 which makes the implementation of this function quite short */
-unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t this_ ) {
+unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t *this_ ) {
     unsigned int truncatedLength;
     int clearAtEnd = 1;
 
     for ( int searchBackwards = 2; searchBackwards <= 4; searchBackwards ++ ) {
-        if ( searchBackwards > this_.size ) {
+        if ( searchBackwards > (*this_).size ) {
             break;
         }
         const char pattern = utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[searchBackwards];
-        if ( ( this_.buf[this_.size-searchBackwards] & pattern ) == pattern ) {
+        if ( ( (*this_).buf[(*this_).size-searchBackwards] & pattern ) == pattern ) {
             clearAtEnd = searchBackwards;
             break;
         }
     }
 
-    truncatedLength = this_.size - clearAtEnd;
-    /* this_.buf[truncatedLength] = '\0'; */ /* Note: some functions like splitIn2 require complete zeroed trailings */
-    memset( &(this_.buf[truncatedLength]), '\0', clearAtEnd );
+    truncatedLength = (*this_).size - clearAtEnd;
+    /* (*this_).buf[truncatedLength] = '\0'; */ /* Note: some functions like splitIn2 require complete zeroed trailings */
+    memset( &((*this_).buf[truncatedLength]), '\0', clearAtEnd );
     return truncatedLength;
 }
 
-utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix ) {
+utf8error_t utf8stringbuf_append_char( utf8stringbuf_t *this_, const uint32_t appendix ) {
     utf8error_t result;
     const unsigned int start = utf8stringbuf_get_length( this_ );
     int appendLen;
-    result = utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix, &appendLen );
+    result = utf8stringbuf_private_write_char( &((*this_).buf[start]), (*this_).size - start - 1, appendix, &appendLen );
     if ( result == UTF8ERROR_SUCCESS ) {
-        this_.buf[start+appendLen] = '\0';
+        (*this_).buf[start+appendLen] = '\0';
     }
     return result;
 }
 
-utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *appendix ) {
+utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wchar_t *appendix ) {
     utf8error_t result = UTF8ERROR_NULL_PARAM;
     if ( appendix != NULL ) {
         unsigned int start = utf8stringbuf_get_length( this_ );
         result = UTF8ERROR_SUCCESS;
         for( ; appendix[0]!=L'\0'; appendix = &(appendix[1]) ) {
             int appendLen;
-            result |= utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix[0], &appendLen );
+            result |= utf8stringbuf_private_write_char( &((*this_).buf[start]), (*this_).size - start - 1, appendix[0], &appendLen );
             if ( result != UTF8ERROR_SUCCESS ) {
                 if ( ( result & UTF8ERROR_TRUNCATED ) != 0 ) {
                     break;
@@ -70,7 +70,7 @@ utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *app
             }
             start = start + appendLen;
         }
-        this_.buf[start] = '\0';
+        (*this_).buf[start] = '\0';
     }
     return result;
 }

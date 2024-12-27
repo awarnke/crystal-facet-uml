@@ -83,20 +83,20 @@ void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_la
                 /* prepare text */
                 char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
                 utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
+                utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
                 if ( has_stereotype )
                 {
-                    utf8stringbuf_append_str( stereotype_buf, relationship_stereotype );
+                    utf8stringbuf_append_str( &stereotype_buf, relationship_stereotype );
                 }
                 else
                 {
-                    utf8stringbuf_append_str( stereotype_buf, pseudo_stereotype );
+                    utf8stringbuf_append_str( &stereotype_buf, pseudo_stereotype );
                 }
-                utf8stringbuf_append_str( stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
+                utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
 
                 /* determine text width and height */
                 pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
-                pango_layout_set_text( font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH );
+                pango_layout_set_text( font_layout, utf8stringbuf_get_string( &stereotype_buf ), DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH );
                 pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
                 text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
                 text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
@@ -232,22 +232,22 @@ void draw_relationship_label_draw_type_and_name ( draw_relationship_label_t *thi
             /* prepare text */
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
             utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
+            utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
             if ( has_stereotype )
             {
-                utf8stringbuf_append_str( stereotype_buf, relationship_stereotype );
+                utf8stringbuf_append_str( &stereotype_buf, relationship_stereotype );
             }
             else
             {
-                utf8stringbuf_append_str( stereotype_buf, pseudo_stereotype );
+                utf8stringbuf_append_str( &stereotype_buf, pseudo_stereotype );
             }
-            utf8stringbuf_append_str( stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
+            utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
 
             int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
             pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
             pango_layout_set_text( font_layout,
-                                   utf8stringbuf_get_string( stereotype_buf ),
+                                   utf8stringbuf_get_string( &stereotype_buf ),
                                    DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
                                  );
             pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );

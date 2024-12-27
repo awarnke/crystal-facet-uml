@@ -456,7 +456,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
         /* find an alternative, unused name */
         char wish_name_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
         utf8stringbuf_t wish_name = UTF8STRINGBUF( wish_name_buf );
-        result |= utf8stringbuf_copy_str( wish_name, data_classifier_get_name_const( new_classifier ) );  /* error to be reported to caller */
+        result |= utf8stringbuf_copy_str( &wish_name, data_classifier_get_name_const( new_classifier ) );  /* error to be reported to caller */
         {
             bool name_ok = false;
             static const uint_fast16_t MAX_SEARCH_STEP = 10000;
@@ -467,15 +467,15 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
                 utf8stringbuf_t new_name = UTF8STRINGBUF( new_name_buf );
                 const u8_error_t trunc_err
                     = ctrl_multi_step_changer_private_propose_classifier_name( this_,
-                                                                               utf8stringbuf_get_string( wish_name ),
+                                                                               utf8stringbuf_get_string( &wish_name ),
                                                                                search_step,
                                                                                new_name
                                                                              );
                 if ( trunc_err != U8_ERROR_NONE )
                 {
-                    U8_TRACE_INFO_STR("Name truncated at search for alternative:", utf8stringbuf_get_string( new_name ) );
+                    U8_TRACE_INFO_STR("Name truncated at search for alternative:", utf8stringbuf_get_string( &new_name ) );
                 }
-                data_classifier_set_name( new_classifier, utf8stringbuf_get_string( new_name ) );
+                data_classifier_set_name( new_classifier, utf8stringbuf_get_string( &new_name ) );
                 const u8_error_t retry_err
                     = ctrl_classifier_controller_create_classifier( classifier_ctrl,
                                                                     new_classifier,
@@ -667,20 +667,20 @@ u8_error_t ctrl_multi_step_changer_private_propose_classifier_name ( ctrl_multi_
     U8_TRACE_BEGIN();
     const size_t RESERVED_FOR_NUMBER = 5;
     assert( NULL != base_classifier_name );
-    assert( utf8stringbuf_get_size(out_name) > RESERVED_FOR_NUMBER );
+    assert( utf8stringbuf_get_size( &out_name ) > RESERVED_FOR_NUMBER );
     u8_error_t result = U8_ERROR_NONE;
 
     /* find an alternative, unused name */
     /* copy the base_classifier_name to newname_buf */
     {
         utf8stringbuf_t shortened_new_name
-            = utf8stringbuf_init( utf8stringbuf_get_size(out_name)-RESERVED_FOR_NUMBER, utf8stringbuf_get_string(out_name) );
-        result |= utf8stringbuf_copy_str( shortened_new_name, base_classifier_name );
+            = utf8stringbuf_new( utf8stringbuf_get_size( &out_name ) - RESERVED_FOR_NUMBER, utf8stringbuf_get_string( &out_name ) );
+        result |= utf8stringbuf_copy_str( &shortened_new_name, base_classifier_name );
         /* null termination is guaranteed, also this function does not cut an utf8 code point in the middle. */
     }
     /* append a separator and the iteration number */
-    result |= utf8stringbuf_append_str( out_name, "-" );
-    result |= utf8stringbuf_append_int( out_name, iteration );
+    result |= utf8stringbuf_append_str( &out_name, "-" );
+    result |= utf8stringbuf_append_int( &out_name, iteration );
 
     U8_TRACE_END_ERR( result );
     return result;

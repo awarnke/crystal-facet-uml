@@ -298,8 +298,8 @@ void data_database_init ( data_database_t *this_ )
     U8_LOG_EVENT_INT( "compiled against sqlite3:    ", SQLITE_VERSION_NUMBER );
     U8_LOG_EVENT_STR( "linked to sqlite3_libversion:", sqlite3_libversion() );
 
-    (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
-    utf8stringbuf_clear( (*this_).db_file_name );
+    (*this_).db_file_name = utf8stringbuf_new( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
+    utf8stringbuf_clear( &(*this_).db_file_name );
 
     g_mutex_init ( &((*this_).lock_on_write) );
     g_mutex_lock ( &((*this_).lock_on_write) );  /* (*this_).locked_on_write may only be changed when having the lock */
@@ -343,10 +343,10 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
     }
     else
     {
-        utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
+        utf8stringbuf_copy_str( &(*this_).db_file_name, db_file_path );
 
-        U8_LOG_EVENT_STR( "sqlite3_open_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
-        sqlite_err = sqlite3_open_v2( utf8stringbuf_get_string( (*this_).db_file_name ),
+        U8_LOG_EVENT_STR( "sqlite3_open_v2:", utf8stringbuf_get_string( &(*this_).db_file_name ) );
+        sqlite_err = sqlite3_open_v2( utf8stringbuf_get_string( &(*this_).db_file_name ),
                                       &((*this_).db),
                                       sqlite3_flags,
                                       NULL
@@ -354,7 +354,7 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
         if ( SQLITE_OK != sqlite_err )
         {
             U8_LOG_ERROR_INT( "sqlite3_open_v2() failed:", sqlite_err );
-            U8_LOG_ERROR_STR( "sqlite3_open_v2() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+            U8_LOG_ERROR_STR( "sqlite3_open_v2() failed:", utf8stringbuf_get_string( &(*this_).db_file_name ) );
             (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
             result |= U8_ERROR_NO_DB;  /* no db to use */
         }
@@ -377,13 +377,13 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
             }
             else
             {
-                U8_LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+                U8_LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( &(*this_).db_file_name ) );
                 sqlite_err = sqlite3_close( (*this_).db );
                 if ( SQLITE_OK != sqlite_err )
                 {
                     U8_LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
                 }
-                utf8stringbuf_clear( (*this_).db_file_name );
+                utf8stringbuf_clear( &(*this_).db_file_name );
                 (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
             }
             result |= init_err;
@@ -447,7 +447,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         /* perform close */
-        U8_LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+        U8_LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( &(*this_).db_file_name ) );
         sqlite_err = sqlite3_close( (*this_).db );
         if ( SQLITE_OK != sqlite_err )
         {
@@ -455,7 +455,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
             result |= U8_ERROR_AT_DB;
         }
 
-        utf8stringbuf_clear( (*this_).db_file_name );
+        utf8stringbuf_clear( &(*this_).db_file_name );
         (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
         (*this_).transaction_recursion = 0;
 

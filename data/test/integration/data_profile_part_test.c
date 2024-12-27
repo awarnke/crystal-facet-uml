@@ -236,13 +236,13 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
         /* create a stereotype (which references itself as stereotype) */
         char name_buf[16];
         utf8stringbuf_t name = UTF8STRINGBUF( name_buf );
-        utf8stringbuf_copy_str( name, "Kind-" );
-        utf8stringbuf_append_int( name, index );
+        utf8stringbuf_copy_str( &name, "Kind-" );
+        utf8stringbuf_append_int( &name, index );
         const data_row_t stereotype_id
             = tvec_add_classifier( &setup_env,
-                                   utf8stringbuf_get_string( name ),  /* name */
+                                   utf8stringbuf_get_string( &name ),  /* name */
                                    DATA_CLASSIFIER_TYPE_STEREOTYPE,
-                                   utf8stringbuf_get_string( name )  /* stereotype */
+                                   utf8stringbuf_get_string( &name )  /* stereotype */
                                  );
         (void) tvec_add_diagramelement( &setup_env, root_diag_id, stereotype_id );
     }

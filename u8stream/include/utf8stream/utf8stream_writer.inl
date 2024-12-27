@@ -66,8 +66,8 @@ static inline utf8error_t utf8stream_writer_write_char( utf8stream_writer_t *thi
     assert( (*this_).output_stream != NULL );
 
     const utf8codepoint_t cp = utf8codepoint( codepoint );
-    const utf8codepointseq_t mem_buf = utf8codepoint_get_utf8( cp );
-    const unsigned int mem_len = utf8codepoint_get_length( cp );
+    const utf8codepointseq_t mem_buf = utf8codepoint_get_utf8( &cp );
+    const unsigned int mem_len = utf8codepoint_get_length( &cp );
     assert( mem_len <= sizeof(utf8codepointseq_t) );
 
     utf8stringview_t view = UTF8STRINGVIEW( (const char*) &mem_buf, mem_len );

@@ -86,7 +86,7 @@ static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_write
     while( utf8codepointiterator_has_next( &it ) && ( ! result ) )
     {
         utf8codepoint_t next = utf8codepointiterator_next( &it );
-        if ( io_xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), true ) )
+        if ( io_xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( &next ), true ) )
         {
             result = true;
         }
@@ -108,7 +108,7 @@ static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_wr
     while( utf8codepointiterator_has_next( &it ) )
     {
         utf8codepoint_t next = utf8codepointiterator_next( &it );
-        if ( io_xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), is_start ) )
+        if ( io_xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( &next ), is_start ) )
         {
             if ( is_start )
             {
@@ -116,8 +116,8 @@ static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_wr
                 result = U8_ERROR_NONE;
             }
 
-            const utf8codepointseq_t text = utf8codepoint_get_utf8( next );
-            const unsigned int text_len = utf8codepoint_get_length( next );
+            const utf8codepointseq_t text = utf8codepoint_get_utf8( &next );
+            const unsigned int text_len = utf8codepoint_get_length( &next );
             result |= universal_escaping_output_stream_write ( &((*this_).esc_output), &(text.seq), text_len );
         }
     }

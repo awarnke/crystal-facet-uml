@@ -103,7 +103,7 @@ static test_case_result_t testClear( test_fixture_t *fix )
     /* measure the time of the utf8stringbuf function */
     utf8sbStart = clock();
     for ( int loop2 = 0; loop2 < loopMax; loop2 ++ ) {
-        utf8stringbuf_clear( (*fix).utf8_sb_buf );
+        utf8stringbuf_clear( &(*fix).utf8_sb_buf );
     }
     utf8sbEnd = clock();
     utf8sbDiff = utf8sbEnd - utf8sbStart;
@@ -152,7 +152,7 @@ static test_case_result_t testAppendStr( test_fixture_t *fix )
             /* reset */
             (*fix).utf8_sb_arr[0] = '\0';
         }
-        utf8stringbuf_append_str( (*fix).utf8_sb_buf, "Hello World 345678[20]345678[30]34567890" );
+        utf8stringbuf_append_str( &(*fix).utf8_sb_buf, "Hello World 345678[20]345678[30]34567890" );
     }
     utf8sbEnd = clock();
     utf8sbDiff = utf8sbEnd - utf8sbStart;

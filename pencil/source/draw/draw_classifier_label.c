@@ -70,13 +70,13 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
                 /* prepare text */
                 char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
                 utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
-                utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
-                utf8stringbuf_append_str( stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
+                utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
+                utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
+                utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
 
                 /* determine text width and height */
                 pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH );
+                pango_layout_set_text (font_layout, utf8stringbuf_get_string( &stereotype_buf ), DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH );
                 pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
                 text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
                 text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
@@ -199,15 +199,15 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
             /* prepare text */
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
             utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
-            utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
-            utf8stringbuf_append_str( stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
+            utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
+            utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
+            utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
 
             int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
             pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text( font_layout,
-                                   utf8stringbuf_get_string( stereotype_buf ),
+                                   utf8stringbuf_get_string( &stereotype_buf ),
                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                                  );
             pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);

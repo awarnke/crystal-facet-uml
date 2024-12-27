@@ -28,7 +28,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
     (*this_).message_to_user = message_to_user;
     (*this_).tool_switcher = tool_switcher;
     (*this_).the_clipboard = clipboard;
-    (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
+    (*this_).clipboard_stringbuf = utf8stringbuf_new( sizeof((*this_).private_clipboard_buffer),
                                                        (*this_).private_clipboard_buffer
                                                      );
 
@@ -67,13 +67,13 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
 
     if ( serialize_error == 0 )
     {
-        gdk_clipboard_set_text( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
+        gdk_clipboard_set_text( (*this_).the_clipboard, utf8stringbuf_get_string( &(*this_).clipboard_stringbuf ) );
     }
     else
     {
         U8_LOG_ERROR_HEX( "Exporting selected set to clipboard failed:", serialize_error );
     }
-    U8_TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
+    U8_TRACE_INFO( utf8stringbuf_get_string( &(*this_).clipboard_stringbuf ) );
 
     U8_TRACE_END_ERR( serialize_error );
     return serialize_error;
@@ -83,7 +83,7 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_t de
 {
     U8_TRACE_BEGIN();
 
-    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
+    utf8stringbuf_clear( &(*this_).clipboard_stringbuf );
 
     (*this_).destination_diagram_id = destination_diagram_id;
     U8_TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );

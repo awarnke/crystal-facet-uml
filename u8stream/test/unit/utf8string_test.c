@@ -222,34 +222,34 @@ static test_case_result_t testCharAt( test_fixture_t *fix )
 
     /* check utf8string_get_char_at */
     result = utf8string_get_char_at( dynTestArr1, 0 );
-    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
-    TEST_EXPECT_EQUAL_INT( 'H', utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( &result ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( &result ) );
+    TEST_EXPECT_EQUAL_INT( 'H', utf8codepoint_get_char( &result ) );
 
     result = utf8string_get_char_at( dynTestArr1, 2 );
-    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length(result) );
-    TEST_EXPECT_EQUAL_INT( 0x20ac, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( &result ) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length( &result ) );
+    TEST_EXPECT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( &result ) );
 
     result = utf8string_get_char_at( dynTestArr1, 3 );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
-    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length(result) );
-    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( &result ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( &result ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( &result ) );
 
     result = utf8string_get_char_at( dynTestArr1, 5 );
-    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
-    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( &result ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( &result ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( &result ) );
 
     result = utf8string_get_char_at( dynTestArr1, 6 );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
-    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length(result) );
-    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( &result ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( &result ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( &result ) );
 
     result = utf8string_get_char_at( NULL, 0 );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
-    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length(result) );
-    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( &result ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( &result ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( &result ) );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -264,7 +264,7 @@ static test_case_result_t testCharAtLoops( test_fixture_t *fix )
     unsigned int byte_length = utf8string_get_length( dynTestArr1 );
     for ( int idx = 0; idx < byte_length; idx ++ ) {
         result = utf8string_get_char_at( dynTestArr1, idx );
-        if ( utf8codepoint_is_valid(result) ) {
+        if ( utf8codepoint_is_valid( &result ) ) {
             countCodePoints ++;
         }
     }
@@ -275,9 +275,9 @@ static test_case_result_t testCharAtLoops( test_fixture_t *fix )
     byte_length = utf8string_get_length( dynTestArr1 );
     for ( int idx = 0; idx < byte_length; ) {
         result = utf8string_get_char_at( dynTestArr1, idx );
-        if ( utf8codepoint_is_valid(result) ) {
+        if ( utf8codepoint_is_valid( &result ) ) {
             countCodePoints ++;
-            idx += utf8codepoint_get_length(result);
+            idx += utf8codepoint_get_length( &result );
         }
         else {
             break;
@@ -291,9 +291,9 @@ static test_case_result_t testCharAtLoops( test_fixture_t *fix )
     unsigned int byteSize = utf8string_get_size( dynTestArr1 );
     for ( int idx = 0; idx < byteSize; ) {
         result = utf8string_get_char_at( dynTestArr1, idx );
-        if ( utf8codepoint_is_valid(result) && ( utf8codepoint_get_char(result) != '\0' )) {
+        if ( utf8codepoint_is_valid( &result ) && ( utf8codepoint_get_char( &result ) != '\0' )) {
             countCodePoints ++;
-            idx += utf8codepoint_get_length(result);
+            idx += utf8codepoint_get_length( &result );
         }
         else {
             break;
@@ -307,9 +307,9 @@ static test_case_result_t testCharAtLoops( test_fixture_t *fix )
     unsigned int currentIndex = 0;
     for ( int loopCount = 0; loopCount < byteSize; loopCount ++ ) {
         result = utf8string_get_char_at( dynTestArr1, currentIndex );
-        if ( utf8codepoint_is_valid(result) && ( utf8codepoint_get_char(result) != '\0' )) {
+        if ( utf8codepoint_is_valid( &result ) && ( utf8codepoint_get_char( &result ) != '\0' )) {
             countCodePoints ++;
-            currentIndex += utf8codepoint_get_length(result);
+            currentIndex += utf8codepoint_get_length( &result );
         }
         else {
             break;

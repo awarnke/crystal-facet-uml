@@ -33,33 +33,33 @@ u8_error_t gui_error_info_printer_show_error_info ( gui_error_info_printer_t *th
     {
         case U8_ERROR_LEXICAL_STRUCTURE:
         {
-            result |= utf8stringbuf_append_str( out_buf, "Lexical error in input" );
+            result |= utf8stringbuf_append_str( &out_buf, "Lexical error in input" );
         }
         break;
 
         case U8_ERROR_PARSER_STRUCTURE:
         {
-            result |= utf8stringbuf_append_str( out_buf, "Parser error in input" );
+            result |= utf8stringbuf_append_str( &out_buf, "Parser error in input" );
         }
         break;
 
         case U8_ERROR_STRING_BUFFER_EXCEEDED:
         {
-            result |= utf8stringbuf_append_str( out_buf, "String too long in input" );
+            result |= utf8stringbuf_append_str( &out_buf, "String too long in input" );
         }
         break;
 
         case U8_ERROR_VALUE_OUT_OF_RANGE:
         {
-            result |= utf8stringbuf_append_str( out_buf, "Illegal value in input" );
+            result |= utf8stringbuf_append_str( &out_buf, "Illegal value in input" );
         }
         break;
 
         default:
         {
-            result |= utf8stringbuf_append_str( out_buf, "Error x" );
-            result |= utf8stringbuf_append_hex( out_buf, u8_error_info_get_error( err_info ) );
-            result |= utf8stringbuf_append_str( out_buf, " occurred" );
+            result |= utf8stringbuf_append_str( &out_buf, "Error x" );
+            result |= utf8stringbuf_append_hex( &out_buf, u8_error_info_get_error( err_info ) );
+            result |= utf8stringbuf_append_str( &out_buf, " occurred" );
         }
         break;
     }
@@ -68,24 +68,24 @@ u8_error_t gui_error_info_printer_show_error_info ( gui_error_info_printer_t *th
     {
         case U8_ERROR_INFO_UNIT_LINE:
         {
-            result |= utf8stringbuf_append_str( out_buf, " at line " );
-            result |= utf8stringbuf_append_int( out_buf, u8_error_info_get_line( err_info ) );
+            result |= utf8stringbuf_append_str( &out_buf, " at line " );
+            result |= utf8stringbuf_append_int( &out_buf, u8_error_info_get_line( err_info ) );
         }
         break;
 
         case U8_ERROR_INFO_UNIT_NAME:
         {
-            result |= utf8stringbuf_append_str( out_buf, " at name " );
-            result |= utf8stringbuf_append_str( out_buf, u8_error_info_get_name( err_info ) );
+            result |= utf8stringbuf_append_str( &out_buf, " at name " );
+            result |= utf8stringbuf_append_str( &out_buf, u8_error_info_get_name( err_info ) );
         }
         break;
 
         case U8_ERROR_INFO_UNIT_LINE_NAME:
         {
-            result |= utf8stringbuf_append_str( out_buf, " at name " );
-            result |= utf8stringbuf_append_str( out_buf, u8_error_info_get_name( err_info ) );
-            result |= utf8stringbuf_append_str( out_buf, " at line " );
-            result |= utf8stringbuf_append_int( out_buf, u8_error_info_get_line( err_info ) );
+            result |= utf8stringbuf_append_str( &out_buf, " at name " );
+            result |= utf8stringbuf_append_str( &out_buf, u8_error_info_get_name( err_info ) );
+            result |= utf8stringbuf_append_str( &out_buf, " at line " );
+            result |= utf8stringbuf_append_int( &out_buf, u8_error_info_get_line( err_info ) );
         }
         break;
 

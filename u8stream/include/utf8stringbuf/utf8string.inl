@@ -78,7 +78,7 @@ static inline utf8codepoint_t utf8string_get_char_at( utf8string_t *this_, unsig
     utf8codepoint_t result = UTF8CODEPOINT_INVAL_CHAR;
     unsigned int thisSize = utf8string_get_size( this_ );
     if ( byte_index < thisSize ) {
-        result = utf8codepoint_init( &(this_[byte_index]), thisSize-byte_index );
+        result = utf8codepoint_new( &(this_[byte_index]), thisSize-byte_index );
     }
     return result;
 }

@@ -124,14 +124,14 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 
         char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+5];
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-        utf8stringbuf_copy_str( id_str, "{id=" );
+        utf8stringbuf_copy_str( &id_str, "{id=" );
         data_id_to_utf8stringbuf( &the_id, id_str );
-        utf8stringbuf_append_str( id_str, "}" );
+        utf8stringbuf_append_str( &id_str, "}" );
 
         int text4_width;
         int text4_height;
         pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, utf8stringbuf_get_string( id_str ), -1);
+        pango_layout_set_text (font_layout, utf8stringbuf_get_string( &id_str ), -1);
         pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
         text4_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
         text4_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;

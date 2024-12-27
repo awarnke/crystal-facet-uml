@@ -1361,7 +1361,7 @@ void gui_attributes_editor_private_id_update_view ( gui_attributes_editor_t *thi
 
     char data_id_string_buf[DATA_ID_MAX_UTF8STRING_SIZE];
     utf8stringbuf_t data_id_string = UTF8STRINGBUF( data_id_string_buf );
-    utf8stringbuf_clear( data_id_string );
+    utf8stringbuf_clear( &data_id_string );
     if ( data_id_is_valid( &((*this_).selected_object_id) ) )
     {
         utf8error_t str_err = data_id_to_utf8stringbuf ( &((*this_).selected_object_id), data_id_string );
@@ -1370,7 +1370,7 @@ void gui_attributes_editor_private_id_update_view ( gui_attributes_editor_t *thi
             U8_LOG_ERROR_HEX( "data_id_to_utf8stringbuf failed:", str_err );
         }
     }
-    gtk_label_set_text ( id_widget, utf8stringbuf_get_string( data_id_string ) );
+    gtk_label_set_text ( id_widget, utf8stringbuf_get_string( &data_id_string ) );
 
     U8_TRACE_END();
 }

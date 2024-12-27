@@ -129,13 +129,13 @@ u8_error_t io_txt_writer_write_indent_id ( io_txt_writer_t *this_, int indent_wi
     {
         char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+2];
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-        utf8stringbuf_clear( id_str );
-        utf8stringbuf_append_str( id_str, " [" );
+        utf8stringbuf_clear( &id_str );
+        utf8stringbuf_append_str( &id_str, " [" );
         data_id_to_utf8stringbuf( &id, id_str );
-        utf8stringbuf_append_str( id_str, "]" );
+        utf8stringbuf_append_str( &id_str, "]" );
 
-        const unsigned int len = utf8stringbuf_get_length(id_str);
-        result |= universal_output_stream_write( (*this_).output, utf8stringbuf_get_string(id_str), len );
+        const unsigned int len = utf8stringbuf_get_length( &id_str );
+        result |= universal_output_stream_write( (*this_).output, utf8stringbuf_get_string( &id_str ), len );
     }
 
     U8_TRACE_END_ERR( result );
@@ -154,11 +154,11 @@ u8_error_t io_txt_writer_write_plain_id ( io_txt_writer_t *this_, data_id_t id )
     {
         char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-        utf8stringbuf_clear( id_str );
+        utf8stringbuf_clear( &id_str );
         data_id_to_utf8stringbuf( &id, id_str );
 
-        const unsigned int len = utf8stringbuf_get_length(id_str);
-        result |= universal_output_stream_write ( (*this_).output, utf8stringbuf_get_string(id_str), len );
+        const unsigned int len = utf8stringbuf_get_length( &id_str );
+        result |= universal_output_stream_write ( (*this_).output, utf8stringbuf_get_string( &id_str ), len );
     }
 
     U8_TRACE_END_ERR( result );

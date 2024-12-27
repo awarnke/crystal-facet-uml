@@ -332,12 +332,12 @@ u8_error_t io_xml_writer_write_plain_id ( io_xml_writer_t *this_, data_id_t id )
     {
         char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-        utf8stringbuf_clear( id_str );
+        utf8stringbuf_clear( &id_str );
         data_id_to_utf8stringbuf( &id, id_str );
 
-        const unsigned int len = utf8stringbuf_get_length(id_str);
+        const unsigned int len = utf8stringbuf_get_length( &id_str );
         universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
-        result = universal_escaping_output_stream_write( &((*this_).esc_output), utf8stringbuf_get_string(id_str), len );
+        result = universal_escaping_output_stream_write( &((*this_).esc_output), utf8stringbuf_get_string( &id_str ), len );
     }
 
     U8_TRACE_END_ERR( result );

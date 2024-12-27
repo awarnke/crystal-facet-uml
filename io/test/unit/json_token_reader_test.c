@@ -242,7 +242,7 @@ static test_case_result_t test_parse_string( test_fixture_t *fix )
 
         test_err = json_token_reader_read_string_value( &tok, parsed_str );
         TEST_EXPECT_EQUAL_INT( (index>=4)?U8_ERROR_LEXICAL_STRUCTURE:U8_ERROR_NONE, test_err );
-        TEST_EXPECT_EQUAL_INT( 1, utf8stringbuf_equals_str( parsed_str, expect_str[index] ) );
+        TEST_EXPECT_EQUAL_INT( 1, utf8stringbuf_equals_str( &parsed_str, expect_str[index] ) );
     }
 
     json_token_reader_destroy( &tok );
@@ -361,7 +361,7 @@ static test_case_result_t test_parse( test_fixture_t *fix )
     res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
     TEST_EXPECT_EQUAL_INT( 11, json_token_reader_get_input_pos( &tok ) );
-    TEST_EXPECT_EQUAL_INT( 0, strcmp( "data", utf8stringbuf_get_string(my_string)) );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( "data", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
@@ -388,7 +388,7 @@ static test_case_result_t test_parse( test_fixture_t *fix )
     res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
     TEST_EXPECT_EQUAL_INT( 39, json_token_reader_get_input_pos( &tok ) );
-    TEST_EXPECT_EQUAL_INT( 0, strcmp( "classifier", utf8stringbuf_get_string(my_string)) );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( "classifier", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
@@ -403,7 +403,7 @@ static test_case_result_t test_parse( test_fixture_t *fix )
     res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
     TEST_EXPECT_EQUAL_INT( 56, json_token_reader_get_input_pos( &tok ) );
-    TEST_EXPECT_EQUAL_INT( 0, strcmp( "id", utf8stringbuf_get_string(my_string)) );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( "id", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
@@ -423,7 +423,7 @@ static test_case_result_t test_parse( test_fixture_t *fix )
     res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
     TEST_EXPECT_EQUAL_INT( 85, json_token_reader_get_input_pos( &tok ) );
-    TEST_EXPECT_EQUAL_INT( 0, strcmp( "main_type", utf8stringbuf_get_string(my_string)) );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( "main_type", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
@@ -438,7 +438,7 @@ static test_case_result_t test_parse( test_fixture_t *fix )
     res = json_token_reader_read_member_name ( &tok, my_string );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
     TEST_EXPECT_EQUAL_INT( 129, json_token_reader_get_input_pos( &tok ) );
-    TEST_EXPECT_EQUAL_INT( 0, strcmp( "stereotype\r/\"\\", utf8stringbuf_get_string(my_string)) );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( "stereotype\r/\"\\", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
@@ -447,7 +447,7 @@ static test_case_result_t test_parse( test_fixture_t *fix )
     res = json_token_reader_read_string_value ( &tok, my_string );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
     TEST_EXPECT_EQUAL_INT( 149, json_token_reader_get_input_pos( &tok ) );
-    TEST_EXPECT_EQUAL_INT( 0, strcmp( "\f\n\t\b\r/\"\\", utf8stringbuf_get_string(my_string)) );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( "\f\n\t\b\r/\"\\", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_check_end_object ( &tok, &cond );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );

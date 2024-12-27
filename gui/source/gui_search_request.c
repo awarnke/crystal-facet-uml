@@ -160,8 +160,8 @@ void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_da
         if ( id_err == UTF8ERROR_SUCCESS )
         {
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( GTK_ENTRY( (*this_).search_entry ) );
-            gtk_entry_buffer_set_text( name_buf, utf8stringbuf_get_string( focused_id_str ), -1 /* = n_chars */ );
-            gui_search_runner_run ( (*this_).search_runner, utf8stringbuf_get_string( focused_id_str ) );
+            gtk_entry_buffer_set_text( name_buf, utf8stringbuf_get_string( &focused_id_str ), -1 /* = n_chars */ );
+            gui_search_runner_run ( (*this_).search_runner, utf8stringbuf_get_string( &focused_id_str ) );
         }
     }
 

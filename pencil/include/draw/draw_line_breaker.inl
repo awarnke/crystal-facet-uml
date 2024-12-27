@@ -24,7 +24,7 @@ static inline u8_error_t draw_line_breaker_append( const draw_line_breaker_t *th
     for(; utf8codepointiterator_has_next( &iter ); )
     {
         utf8codepoint_t codepnt = utf8codepointiterator_next( &iter );
-        uint32_t current = utf8codepoint_get_char ( codepnt );
+        uint32_t current = utf8codepoint_get_char ( &codepnt );
         const bool no_space = ( last != ' ' )&&( current != ' ' );
         if ( no_space )
         {
@@ -58,10 +58,10 @@ static inline u8_error_t draw_line_breaker_append( const draw_line_breaker_t *th
 
             if (( ! same_token )&&( ! no_break ))
             {
-                err |= utf8stream_writer_write_char( out_text, utf8codepoint_get_char( space0width ) );
+                err |= utf8stream_writer_write_char( out_text, utf8codepoint_get_char( &space0width ) );
             }
         }
-        err |= utf8stream_writer_write_char( out_text, utf8codepoint_get_char( codepnt ) );
+        err |= utf8stream_writer_write_char( out_text, utf8codepoint_get_char( &codepnt ) );
         last = current;
     }
 

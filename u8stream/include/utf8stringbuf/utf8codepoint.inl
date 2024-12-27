@@ -37,7 +37,7 @@ static inline utf8codepoint_t utf8codepoint( uint32_t code_point ) {
     return result;
 }
 
-static inline utf8codepoint_t utf8codepoint_init( const char *that, unsigned int max_size ) {
+static inline utf8codepoint_t utf8codepoint_new( const char *that, unsigned int max_size ) {
     utf8codepoint_t result = { UTF8CODEPOINT_INVALID_LEN, 0x0, };
     if (( that != NULL )&&( max_size > 0 ))
     {
@@ -107,17 +107,17 @@ static inline utf8codepoint_t utf8codepoint_init( const char *that, unsigned int
     return result;
 }
 
-static inline uint32_t utf8codepoint_get_char( const utf8codepoint_t this_ ) {
-    return this_.code_point;
+static inline uint32_t utf8codepoint_get_char( const utf8codepoint_t *this_ ) {
+    return (*this_).code_point;
 }
 
-static inline unsigned int utf8codepoint_get_length( const utf8codepoint_t this_ ) {
-    return this_.byte_length;
+static inline unsigned int utf8codepoint_get_length( const utf8codepoint_t *this_ ) {
+    return (*this_).byte_length;
 }
 
-static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t this_ ) {
+static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t *this_ ) {
     utf8codepointseq_t result;
-    const uint32_t code_point = this_.code_point;
+    const uint32_t code_point = (*this_).code_point;
 
     if ( code_point <= 0x7ff )
     {
@@ -127,7 +127,7 @@ static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t t
             result.seq[1] = '\0';
             result.seq[2] = '\0';
             result.seq[3] = '\0';
-            assert( this_.byte_length == 1 );
+            assert( (*this_).byte_length == 1 );
         }
         else
         {
@@ -135,7 +135,7 @@ static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t t
             result.seq[1] = (0x80 | (code_point&0x3f));
             result.seq[2] = '\0';
             result.seq[3] = '\0';
-            assert( this_.byte_length == 2 );
+            assert( (*this_).byte_length == 2 );
         }
     }
     else
@@ -148,7 +148,7 @@ static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t t
                 result.seq[1] = (0x80 | ((code_point>>6)&0x3f));
                 result.seq[2] = (0x80 | (code_point&0x3f));
                 result.seq[3] = '\0';
-                assert( this_.byte_length == 3 );
+                assert( (*this_).byte_length == 3 );
             }
             else
             {
@@ -156,7 +156,7 @@ static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t t
                 result.seq[1] = (0x80 | ((code_point>>12)&0x3f));
                 result.seq[2] = (0x80 | ((code_point>>6)&0x3f));
                 result.seq[3] = (0x80 | (code_point&0x3f));
-                assert( this_.byte_length == 4 );
+                assert( (*this_).byte_length == 4 );
             }
         }
         else
@@ -166,28 +166,28 @@ static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t t
             result.seq[1] = '\0';
             result.seq[2] = '\0';
             result.seq[3] = '\0';
-            assert( this_.byte_length == 0 );
+            assert( (*this_).byte_length == 0 );
         }
     }
 
     return result;
 }
 
-static inline int utf8codepoint_is_valid( const utf8codepoint_t this_ ) {
-    return ( UTF8CODEPOINT_INVALID_LEN != this_.byte_length ) ? 1 : 0;
+static inline int utf8codepoint_is_valid( const utf8codepoint_t *this_ ) {
+    return ( UTF8CODEPOINT_INVALID_LEN != (*this_).byte_length ) ? 1 : 0;
 }
 
-static inline int utf8codepoint_is_unicode( const utf8codepoint_t this_ ) {
+static inline int utf8codepoint_is_unicode( const utf8codepoint_t *this_ ) {
     int result = 0;
-    if ( this_.byte_length != UTF8CODEPOINT_INVALID_LEN ) {
-        if ( this_.code_point < 0xd800 ) {
+    if ( (*this_).byte_length != UTF8CODEPOINT_INVALID_LEN ) {
+        if ( (*this_).code_point < 0xd800 ) {
             result = 1;
         }
-        else if (( this_.code_point > 0xdfff ) && ( this_.code_point < 0xfdd0 )) {
+        else if (( (*this_).code_point > 0xdfff ) && ( (*this_).code_point < 0xfdd0 )) {
             result = 1;
         }
-        else if (( this_.code_point > 0xfdef ) && ( this_.code_point < 0x110000 )) {
-            if (( this_.code_point & 0x00fffe ) != 0x00fffe ) {
+        else if (( (*this_).code_point > 0xfdef ) && ( (*this_).code_point < 0x110000 )) {
+            if (( (*this_).code_point & 0x00fffe ) != 0x00fffe ) {
                 result = 1;
             }
         }

@@ -40,7 +40,7 @@ static inline bool io_data_file_is_in_sync ( io_data_file_t *this_ )
 
 static inline const char *io_data_file_get_filename_const ( const io_data_file_t *this_ )
 {
-    return utf8stringbuf_get_string( (*this_).data_file_name );
+    return utf8stringbuf_get_string( &(*this_).data_file_name );
 }
 
 static inline bool io_data_file_is_open( io_data_file_t *this_ )

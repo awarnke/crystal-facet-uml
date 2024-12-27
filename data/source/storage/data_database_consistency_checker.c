@@ -1133,14 +1133,14 @@ u8_error_t data_database_consistency_checker_kill_classifier( data_database_cons
 
         char delete_statement_buf[56];
         utf8stringbuf_t delete_statement = UTF8STRINGBUF( delete_statement_buf );
-        utf8stringbuf_copy_str( delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX );
-        utf8stringbuf_append_int( delete_statement, obj_id );
-        utf8stringbuf_append_str( delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX );
-        U8_LOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string(delete_statement) );
-        sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string(delete_statement), NULL, NULL, &error_msg );
+        utf8stringbuf_copy_str( &delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX );
+        utf8stringbuf_append_int( &delete_statement, obj_id );
+        utf8stringbuf_append_str( &delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX );
+        U8_LOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string( &delete_statement ) );
+        sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string( &delete_statement ), NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            U8_LOG_ERROR_STR( "sqlite3_exec() failed:", utf8stringbuf_get_string(delete_statement) );
+            U8_LOG_ERROR_STR( "sqlite3_exec() failed:", utf8stringbuf_get_string( &delete_statement ) );
             U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= (sqlite_err == SQLITE_READONLY) ? U8_ERROR_READ_ONLY_DB : U8_ERROR_AT_DB;
         }

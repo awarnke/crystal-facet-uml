@@ -10,12 +10,12 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ )
     (*this_).parent_id = DATA_ROW_VOID;
     (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
 
-    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    utf8stringbuf_clear( (*this_).stereotype );
-    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    utf8stringbuf_clear( (*this_).name );
-    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
-    utf8stringbuf_clear( (*this_).description );
+    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    utf8stringbuf_clear( &(*this_).stereotype );
+    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    utf8stringbuf_clear( &(*this_).name );
+    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    utf8stringbuf_clear( &(*this_).description );
 
     (*this_).list_order = 0;
     (*this_).display_flags = DATA_DIAGRAM_FLAG_NONE;
@@ -47,24 +47,24 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
     (*this_).parent_id = parent_diagram_id;
     (*this_).diagram_type = diagram_type;
 
-    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
+    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    strerr = utf8stringbuf_copy_str( &(*this_).stereotype, stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).name, name );
+    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    strerr = utf8stringbuf_copy_str( &(*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).description, description );
+    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    strerr = utf8stringbuf_copy_str( &(*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -100,24 +100,24 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
     (*this_).parent_id = parent_diagram_id;
     (*this_).diagram_type = diagram_type;
 
-    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
+    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    strerr = utf8stringbuf_copy_str( &(*this_).stereotype, stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).name, name );
+    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    strerr = utf8stringbuf_copy_str( &(*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).description, description );
+    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    strerr = utf8stringbuf_copy_str( &(*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -136,9 +136,9 @@ static inline void data_diagram_copy ( data_diagram_t *this_, const data_diagram
 
     (*this_) = (*original);
     /* repair the overwritten pointers */
-    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
     data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
@@ -148,9 +148,9 @@ static inline void data_diagram_replace ( data_diagram_t *this_, const data_diag
 
     (*this_) = (*that);
     /* repair the overwritten pointers */
-    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
     data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 
@@ -167,9 +167,9 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     U8_TRACE_INFO_INT( "- id:", (*this_).id );
     U8_TRACE_INFO_INT( "- parent_id:", (*this_).parent_id );
     U8_TRACE_INFO_INT( "- diagram_type:", (*this_).diagram_type );
-    U8_TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string((*this_).stereotype) );
-    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
-    U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
+    U8_TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string( &(*this_).stereotype) );
+    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string( &(*this_).name) );
+    U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string( &(*this_).description) );
     U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );
     U8_TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
@@ -221,12 +221,12 @@ static inline void data_diagram_set_diagram_type ( data_diagram_t *this_, data_d
 
 static inline const char *data_diagram_get_stereotype_const ( const data_diagram_t *this_ )
 {
-    return utf8stringbuf_get_string( (*this_).stereotype );
+    return utf8stringbuf_get_string( &(*this_).stereotype );
 }
 
 static inline bool data_diagram_has_stereotype ( const data_diagram_t *this_ )
 {
-    return ( ! utf8stringbuf_equals_str( (*this_).stereotype, "" ) );
+    return ( ! utf8stringbuf_equals_str( &(*this_).stereotype, "" ) );
 }
 
 static inline u8_error_t data_diagram_set_stereotype ( data_diagram_t *this_, const char *stereotype )
@@ -235,7 +235,7 @@ static inline u8_error_t data_diagram_set_stereotype ( data_diagram_t *this_, co
 
     u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
-    strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
+    strerr = utf8stringbuf_copy_str( &(*this_).stereotype, stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -246,7 +246,7 @@ static inline u8_error_t data_diagram_set_stereotype ( data_diagram_t *this_, co
 
 static inline const char *data_diagram_get_name_const ( const data_diagram_t *this_ )
 {
-    return utf8stringbuf_get_string( (*this_).name );
+    return utf8stringbuf_get_string( &(*this_).name );
 }
 
 static inline u8_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name )
@@ -254,7 +254,7 @@ static inline u8_error_t data_diagram_set_name ( data_diagram_t *this_, const ch
     assert( NULL != name );
     u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
-    strerr = utf8stringbuf_copy_str( (*this_).name, name );
+    strerr = utf8stringbuf_copy_str( &(*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -265,7 +265,7 @@ static inline u8_error_t data_diagram_set_name ( data_diagram_t *this_, const ch
 
 static inline const char *data_diagram_get_description_const ( const data_diagram_t *this_ )
 {
-    return utf8stringbuf_get_string( (*this_).description );
+    return utf8stringbuf_get_string( &(*this_).description );
 }
 
 static inline u8_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description )
@@ -273,7 +273,7 @@ static inline u8_error_t data_diagram_set_description ( data_diagram_t *this_, c
     assert( NULL != description );
     u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
-    strerr = utf8stringbuf_copy_str( (*this_).description, description );
+    strerr = utf8stringbuf_copy_str( &(*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -287,7 +287,7 @@ static inline u8_error_t data_diagram_append_description ( data_diagram_t *this_
     assert( NULL != description );
     u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
-    strerr = utf8stringbuf_append_str( (*this_).description, description );
+    strerr = utf8stringbuf_append_str( &(*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );

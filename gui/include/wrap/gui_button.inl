@@ -21,12 +21,12 @@ static inline void gui_button_init( gui_button_t *this_,
     */
     char css_buf[48] = "";
     utf8stringbuf_t css = UTF8STRINGBUF( css_buf );
-    utf8stringbuf_append_str( css, "<small>" );
-    utf8stringbuf_append_str( css, label_text );
-    utf8stringbuf_append_str( css, "</small>" );
+    utf8stringbuf_append_str( &css, "<small>" );
+    utf8stringbuf_append_str( &css, label_text );
+    utf8stringbuf_append_str( &css, "</small>" );
 
     (*this_).label = GTK_LABEL( gtk_label_new( NULL ) );
-    gtk_label_set_markup( (*this_).label, utf8stringbuf_get_string( css ) );
+    gtk_label_set_markup( (*this_).label, utf8stringbuf_get_string( &css ) );
 
     (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 4 /* spacing */ ) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).icon) );
@@ -51,12 +51,12 @@ static inline void gui_button_init_toggle( gui_button_t *this_,
 
     char css_buf[48] = "";
     utf8stringbuf_t css = UTF8STRINGBUF( css_buf );
-    utf8stringbuf_append_str( css, "<small>" );
-    utf8stringbuf_append_str( css, label_text );
-    utf8stringbuf_append_str( css, "</small>" );
+    utf8stringbuf_append_str( &css, "<small>" );
+    utf8stringbuf_append_str( &css, label_text );
+    utf8stringbuf_append_str( &css, "</small>" );
 
     (*this_).label = GTK_LABEL( gtk_label_new( NULL ) );
-    gtk_label_set_markup( (*this_).label, utf8stringbuf_get_string( css ) );
+    gtk_label_set_markup( (*this_).label, utf8stringbuf_get_string( &css ) );
 
     (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 2 /* spacing */ ) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).icon) );

@@ -126,7 +126,7 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
                         {
                             sync_error = io_import_elements_sync_diagram( (*this_).elements_importer,
                                                                           &((*this_).temp_diagram),
-                                                                          utf8stringbuf_get_string( diag_parent_uuid )
+                                                                          utf8stringbuf_get_string( &diag_parent_uuid )
                                                                         );
 
                             if ( has_diagramelements )
@@ -303,8 +303,8 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
                         {
                             sync_error = io_import_elements_sync_relationship( (*this_).elements_importer,
                                                                                &((*this_).temp_relationship),
-                                                                               utf8stringbuf_get_string( rel_from_node_uuid ),
-                                                                               utf8stringbuf_get_string( rel_to_node_uuid )
+                                                                               utf8stringbuf_get_string( &rel_from_node_uuid ),
+                                                                               utf8stringbuf_get_string( &rel_to_node_uuid )
                                                                              );
 
                             /* cleanup */
@@ -365,7 +365,7 @@ u8_error_t json_importer_private_import_diagramelement_array( json_importer_t *t
                     sync_error |= io_import_elements_sync_diagramelement( (*this_).elements_importer,
                                                                           &((*this_).temp_diagramelement),
                                                                           diagram_uuid,
-                                                                          utf8stringbuf_get_string( node_uuid )
+                                                                          utf8stringbuf_get_string( &node_uuid )
                                                                         );
                     data_diagramelement_destroy( &((*this_).temp_diagramelement) );
                 }

@@ -55,48 +55,48 @@ static test_case_result_t testStandardUseCase( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 97, utf8codepoint_get_char( next ) );  /* a == 97 */
-    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 97, utf8codepoint_get_char( &next ) );  /* a == 97 */
+    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( &next ) );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_char( next ) );  /* 0 == 0 */
-    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_char( &next ) );  /* 0 == 0 */
+    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( &next ) );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( next ) );
-    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( &next ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( &next ) );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( next ) );
-    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( &next ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( &next ) );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( next ) );  /* a == 97 */
-    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( &next ) );  /* a == 97 */
+    TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( &next ) );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( &next ) );
 
     /* finish */
     utf8codepointiterator_destroy( &it );
@@ -118,8 +118,8 @@ static test_case_result_t testEmptyUseCase( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( &next ) );
 
     /* finish */
     utf8codepointiterator_destroy( &it );
@@ -141,15 +141,15 @@ static test_case_result_t testIllegalUseCase( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( &next ) );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8codepointiterator_next( &it );
-    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( &next ) );
 
     /* finish */
     utf8codepointiterator_destroy( &it );

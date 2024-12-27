@@ -14,18 +14,18 @@ static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t *uuid
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
-    (*this_).uuid_string = utf8stringbuf_init( sizeof((*this_).private_uuid_string_buffer),
+    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
                                                (*this_).private_uuid_string_buffer
                                              );
-    strerr = utf8stringbuf_copy_str( (*this_).uuid_string, uuid_string );
+    strerr = utf8stringbuf_copy_str( &(*this_).uuid_string, uuid_string );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
-    else if ( utf8stringbuf_get_length( (*this_).uuid_string ) != DATA_UUID_STRING_LENGTH )
+    else if ( utf8stringbuf_get_length( &(*this_).uuid_string ) != DATA_UUID_STRING_LENGTH )
     {
-        U8_LOG_ERROR_INT( "uuid_string too short:", utf8stringbuf_get_length( (*this_).uuid_string ) );
+        U8_LOG_ERROR_INT( "uuid_string too short:", utf8stringbuf_get_length( &(*this_).uuid_string ) );
         result |= U8_ERROR_VALUE_OUT_OF_RANGE;
     }
 
@@ -39,10 +39,10 @@ static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t *uu
 
 static inline void data_uuid_init_new ( data_uuid_t *this_ )
 {
-    (*this_).uuid_string = utf8stringbuf_init( sizeof((*this_).private_uuid_string_buffer),
+    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
                                                (*this_).private_uuid_string_buffer
                                              );
-    utf8stringbuf_clear( (*this_).uuid_string );
+    utf8stringbuf_clear( &(*this_).uuid_string );
 
     /* Get current time to enrich the universal_random_t by additional entropy. */
     /* Otherwise the pseudo-random number only depends on the initial seed and number of samples already produced. */
@@ -73,7 +73,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
                                   );
         assert( length == sizeof(thirtyseven_bytes) - sizeof((const char)'\0') );
         data_uuid_unused( length );
-        strerr |= utf8stringbuf_append_str( (*this_).uuid_string, &(thirtyseven_bytes[0]) );
+        strerr |= utf8stringbuf_append_str( &(*this_).uuid_string, &(thirtyseven_bytes[0]) );
         assert( strerr == UTF8ERROR_SUCCESS );
     }
     universal_simple_random_destroy( &rnd );
@@ -85,7 +85,7 @@ static inline void data_uuid_copy ( data_uuid_t *this_, const data_uuid_t *origi
 
     (*this_) = (*original);
     /* repair the overwritten pointers */
-    (*this_).uuid_string = utf8stringbuf_init( sizeof((*this_).private_uuid_string_buffer),
+    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
                                                (*this_).private_uuid_string_buffer
                                              );
 }
@@ -96,7 +96,7 @@ static inline void data_uuid_replace ( data_uuid_t *this_, const data_uuid_t *th
 
     (*this_) = (*that);
     /* repair the overwritten pointers */
-    (*this_).uuid_string = utf8stringbuf_init( sizeof((*this_).private_uuid_string_buffer),
+    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
                                                (*this_).private_uuid_string_buffer
                                              );
 }
@@ -107,12 +107,12 @@ static inline void data_uuid_destroy ( data_uuid_t *this_ )
 
 static inline utf8string_t * data_uuid_get_string ( const data_uuid_t *this_ )
 {
-    return utf8stringbuf_get_string( (*this_).uuid_string );
+    return utf8stringbuf_get_string( &(*this_).uuid_string );
 }
 
 static inline void data_uuid_trace ( const data_uuid_t *this_ )
 {
-    U8_TRACE_INFO_STR( "data_uuid_t", utf8stringbuf_get_string( (*this_).uuid_string ) );
+    U8_TRACE_INFO_STR( "data_uuid_t", utf8stringbuf_get_string( &(*this_).uuid_string ) );
 }
 
 

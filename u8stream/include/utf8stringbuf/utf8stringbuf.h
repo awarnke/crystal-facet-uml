@@ -19,13 +19,13 @@
  *
  *  Use the utf8stringbuf functions like
  *  \code
- *      utf8stringbuf_append_str( myStrBuf, "Hello" );
+ *      utf8stringbuf_append_str( &myStrBuf, "Hello" );
  *  \endcode
  *  to build strings, search strings and copy strings.
  *
  *  Get a standard, 0-terminated C-String whenever needed:
  *  \code
- *     char* cStr = utf8stringbuf_get_string( myStrBuf );
+ *     char* cStr = utf8stringbuf_get_string( &myStrBuf );
  *  \endcode
  */
 
@@ -63,7 +63,7 @@ struct utf8stringbuf_struct {
 
 /*!
  *  \typedef utf8stringbuf_t
- *  \brief The string buffer object
+ *  \brief pointer to own object attributes
  *
  *  It encapsulates memory-pointers (char*), memory-sizes (size_t) and indices (ptrdiff_t)
  *  so that the calling code only sees a pointer-like utf8stringbuf_t struct and integer-indices.
@@ -158,7 +158,7 @@ typedef struct utf8stringbuf_struct utf8stringbuf_t;
 static inline utf8stringbuf_t utf8stringbuf( char *that );
 
 /*!
- *  \brief utf8stringbuf_init returns a stringbuf struct, buf is not modified
+ *  \brief utf8stringbuf_new returns a stringbuf struct, buf is not modified
  *
  *  Use \link utf8stringbuf_clear(utf8stringbuf_t) utf8stringbuf_clear \endlink to empty the string buffer.
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
@@ -166,7 +166,7 @@ static inline utf8stringbuf_t utf8stringbuf( char *that );
  *  \param buf pointer to a non-const byte array. buf must not be NULL.
  *  \return A valid utf8stringbuf_t struct. Even if buf or size were NULL.
  */
-static inline utf8stringbuf_t utf8stringbuf_init( size_t size, char *buf );
+static inline utf8stringbuf_t utf8stringbuf_new( size_t size, char *buf );
 
 /*!
  *  \brief utf8stringbuf_clear clears the contents of the string buffer.
@@ -175,115 +175,115 @@ static inline utf8stringbuf_t utf8stringbuf_init( size_t size, char *buf );
  *  \n
  *  This function may be called on an uninitialized buffer that possibly is not null-terminated.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:size
- *  \param this_ The string buffer object to be cleared.
+ *  \param this_ pointer to own object attributes to be cleared.
  */
-static inline void utf8stringbuf_clear( utf8stringbuf_t this_ );
+static inline void utf8stringbuf_clear( utf8stringbuf_t *this_ );
 
 /*!
  *  \brief Gets the pointer to the character array
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- *  \param this_ The string buffer object
+ *  \param this_ pointer to own object attributes
  *  \return Pointer to the character array, never NULL
  */
-static inline char* utf8stringbuf_get_string( const utf8stringbuf_t this_ );
+static inline char* utf8stringbuf_get_string( const utf8stringbuf_t *this_ );
 
 /*!
  *  \brief Gets the size of the character array (not the length of the current c string which is always shorter)
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- *  \param this_ The string buffer object
+ *  \param this_ pointer to own object attributes
  *  \return Size of the character array. This is always positive, never 0.
  */
-static inline size_t utf8stringbuf_get_size( const utf8stringbuf_t this_ );
+static inline size_t utf8stringbuf_get_size( const utf8stringbuf_t *this_ );
 
 /*!
  *  \brief Gets the length of the string.
  *
  *  The 0 termination byte is not counted.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \return Length of the string in bytes (not in utf-8 code-points)
  */
-static inline unsigned int utf8stringbuf_get_length( const utf8stringbuf_t this_ );
+static inline unsigned int utf8stringbuf_get_length( const utf8stringbuf_t *this_ );
 
 /*!
  *  \brief Gets a view on the character array, excluding the terminating zero
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The string buffer object
+ *  \param this_ pointer to own object attributes
  *  \return A stringview instance
  */
-static inline utf8stringview_t utf8stringbuf_get_view( const utf8stringbuf_t this_ );
+static inline utf8stringview_t utf8stringbuf_get_view( const utf8stringbuf_t *this_ );
 
 /*!
  *  \brief Checks if two strings are equal.
  *
  *  Only the strings are compared, not the possibly trailing bytes after the string.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const char *that );
+static inline int utf8stringbuf_equals_str( const utf8stringbuf_t *this_, const char *that );
 
 /*!
  *  \brief Checks if two strings are equal.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \param that pointer to a string view object
  *  \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t *that );
+static inline int utf8stringbuf_equals_view( const utf8stringbuf_t *this_, const utf8stringview_t *that );
 
 /*!
  *  \brief Checks if two strings are equal.
  *
  *  Only the strings are compared, not the trailing bytes after the string.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \param that Another string buffer object
  *  \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
+static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t *this_, const utf8stringbuf_t *that );
 
 /*!
  *  \brief Checks if the string buffer starts with the specified characters.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return 1 if the string buffer starts with the characters in that, 0 if not.
  */
-static inline int utf8stringbuf_starts_with_str( const utf8stringbuf_t this_, const char *that );
+static inline int utf8stringbuf_starts_with_str( const utf8stringbuf_t *this_, const char *that );
 
 /*!
  *  \brief Checks if the string buffer starts with the specified characters.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \param that Another string buffer object.
  *  \return 1 if the string buffer starts with the characters in that, 0 if not.
  */
-static inline int utf8stringbuf_starts_with_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
+static inline int utf8stringbuf_starts_with_buf( const utf8stringbuf_t *this_, const utf8stringbuf_t *that );
 
 /*!
  *  \brief Checks if the string buffer ends with the specified characters.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return 1 if the string buffer ends with the characters in that, 0 if not.
  */
-static inline int utf8stringbuf_ends_with_str( const utf8stringbuf_t this_, const char *that );
+static inline int utf8stringbuf_ends_with_str( const utf8stringbuf_t *this_, const char *that );
 
 /*!
  *  \brief Checks if the string buffer ends with the specified characters.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
+ *  \param this_ pointer to own object attributes
  *  \param that Another string buffer object.
  *  \return 1 if the string buffer ends with the characters in that, 0 if not.
  */
-static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
+static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t *this_, const utf8stringbuf_t *that );
 
 /*!
  *  \brief Copies a string
@@ -292,12 +292,12 @@ static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t this_, cons
  *  the copied string gets truncated. This function ensures, that
  *  truncation does not split an utf8 code-point in half.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The destination string buffer.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
+ *  \param this_ pointer to own object attributes.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  *  \param original The source string buffer. The buffers of this_ and original must not overlap!
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t this_, const utf8stringbuf_t original );
+static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *original );
 
 /*!
  *  \brief Copies a string
@@ -307,13 +307,13 @@ static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t this_, const u
  *  truncation does not split an utf8 code-point in half.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
+ *  \param this_ pointer to own object attributes. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  *  \param original The 0-terminated source string. The buffers of this_ and original must not overlap!
  *                  NULL will cause the destination to be the empty string.
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation or UTF8ERROR_NULL_PARAM if that was NULL.
  */
-static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const char *original );
+static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t *this_, const char *original );
 
 /*!
  *  \brief Copies a stringview
@@ -323,12 +323,12 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
  *  truncation does not split an utf8 code-point in half.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
+ *  \param this_ pointer to own object attributes. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  *  \param original pointer to the source string view. The buffers of this_ and original must not overlap!
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation
  */
-static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const utf8stringview_t *original );
+static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t *this_, const utf8stringview_t *original );
 
 /*!
  *  \brief Splits a string buffer into an ignored first part and the unfilled terminating part
@@ -336,10 +336,10 @@ static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const 
  *  This function may be useful when building an string using the append functions:
  *  Future append calls are faster because the utf8stringbuf is smaller.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The string buffer
+ *  \param this_ pointer to own object attributes
  *  \return an utf8stringbuf containing only the end
  */
-static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ );
+static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t *this_ );
 
 /*!
  *  \brief Appends a string to a string buffer
@@ -348,13 +348,13 @@ static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ );
  *  the copied string gets truncated. This function ensures, that
  *  truncation does not split an utf8 code-point in half.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- *  \param this_ The destination string buffer
+ *  \param this_ pointer to own object attributes
  *  \param appendix The 0-terminated source string.
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation or
  *          UTF8ERROR_NULL_PARAM if appendix was NULL.
  */
-static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const char *appendix );
+static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, const char *appendix );
 
 /*!
  *  \brief Appends a string buffer to a string buffer
@@ -363,12 +363,12 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
  *  the copied string gets truncated. This function ensures, that
  *  truncation does not split an utf8 code-point in half.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- *  \param this_ The destination string buffer
+ *  \param this_ pointer to own object attributes
  *  \param appendix The source string buffer
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const utf8stringbuf_t appendix );
+static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *appendix );
 
 /*!
  *  \brief Appends a signed integer to a string buffer in decimal format
@@ -377,12 +377,12 @@ static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const
  *  the copied string gets truncated. This function ensures, that
  *  truncation does not split an utf8 code-point in half.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The destination string buffer
+ *  \param this_ pointer to own object attributes
  *  \param appendix The integer to be appended
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t this_, const int64_t appendix );
+static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t *this_, const int64_t appendix );
 
 /*!
  *  \brief Appends an unsigned integer to a string buffer in hexadecimal format
@@ -391,12 +391,12 @@ static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t this_, const
  *  the copied string gets truncated. This function ensures, that
  *  truncation does not split an utf8 code-point in half.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The destination string buffer
+ *  \param this_ pointer to own object attributes
  *  \param appendix The integer to be appended
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t this_, const uint64_t appendix );
+static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t *this_, const uint64_t appendix );
 
 /*!
  *  \brief Appends an unicode character to a string buffer
@@ -404,13 +404,13 @@ static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t this_, const
  *  If the character does not fit to the destination buffer,
  *  the destination buffer is not modified.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ The destination string buffer
+ *  \param this_ pointer to own object attributes
  *  \param appendix The unicode codepoint to be appended
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED if the character could not be appended.
  *          UTF8ERROR_NOT_A_CODEPOINT if appendix is greater than 0x10ffff
  */
-extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix );
+extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t *this_, const uint32_t appendix );
 
 /*!
  *  \brief Appends a string of wchar_t to a string buffer
@@ -419,14 +419,14 @@ extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint3
  *  the copied string gets truncated. This function ensures, that
  *  truncation does not split an utf8 code-point in half.
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- *  \param this_ The destination string buffer
+ *  \param this_ pointer to own object attributes
  *  \param appendix The 0-terminated source string.
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation or
  *          UTF8ERROR_NULL_PARAM if appendix was NULL or
  *          UTF8ERROR_NOT_A_CODEPOINT if one or more characters of appendix are greater than 0x7fffffff
  */
-extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *appendix );
+extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wchar_t *appendix );
 
 /*!
  *  \brief Appends a stringview to a string buffer
@@ -435,13 +435,13 @@ extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar
  *  the copied string gets truncated. This function ensures, that
  *  truncation does not split an utf8 code-point in half.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- *  \param this_ The destination string buffer
+ *  \param this_ pointer to own object attributes
  *  \param appendix pointer to the source stringview.
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED in case of truncation or
  *          UTF8ERROR_NULL_PARAM if appendix was NULL.
  */
-static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, const utf8stringview_t *appendix );
+static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, const utf8stringview_t *appendix );
 
 #ifdef __cplusplus
 }

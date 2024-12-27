@@ -27,8 +27,8 @@ void io_exporter_init ( io_exporter_t *this_,
 
     (*this_).db_reader = db_reader;
 
-    (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
-    utf8stringbuf_clear( (*this_).temp_filename );
+    (*this_).temp_filename = utf8stringbuf_new( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
+    utf8stringbuf_clear( &(*this_).temp_filename );
 
     U8_TRACE_END();
 }
@@ -58,7 +58,7 @@ u8_error_t io_exporter_export_files( io_exporter_t *this_,
     char temp_filename_buf[48];
     utf8stringbuf_t temp_filename = UTF8STRINGBUF(temp_filename_buf);
     u8_error_t err = io_exporter_private_get_filename( this_, document_file_path, temp_filename );
-    const char *const document_file_name = (err==0) ? utf8stringbuf_get_string(temp_filename) : "document";
+    const char *const document_file_name = (err==0) ? utf8stringbuf_get_string( &temp_filename ) : "document";
 
     if ( NULL != target_folder )
     {
@@ -174,8 +174,8 @@ u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
         before_dot = after_unixpath_sep;
     }
 
-    err = utf8stringbuf_copy_view( out_base_filename, &before_dot );
-    if ( utf8stringbuf_get_length( out_base_filename ) == 0 )
+    err = utf8stringbuf_copy_view( &out_base_filename, &before_dot );
+    if ( utf8stringbuf_get_length( &out_base_filename ) == 0 )
     {
         err = U8_ERROR_INPUT_EMPTY;
     }
@@ -204,36 +204,36 @@ u8_error_t io_exporter_private_export_image_files( io_exporter_t *this_,
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
         /* determine filename */
-        utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
-        utf8stringbuf_append_str( (*this_).temp_filename, "/" );
-        result |= io_exporter_private_get_filename_for_diagram( this_, diagram_id, utf8stringbuf_get_end( (*this_).temp_filename ) );
+        utf8stringbuf_copy_str( &(*this_).temp_filename, target_folder );
+        utf8stringbuf_append_str( &(*this_).temp_filename, "/" );
+        result |= io_exporter_private_get_filename_for_diagram( this_, diagram_id, utf8stringbuf_get_end( &(*this_).temp_filename ) );
 
         if ( IO_FILE_FORMAT_SVG == export_type )
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".svg" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".svg" );
         }
         else if ( IO_FILE_FORMAT_PNG == export_type )
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".png" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".png" );
         }
         else if ( IO_FILE_FORMAT_PDF == export_type )
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".pdf" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".pdf" );
         }
         else if ( IO_FILE_FORMAT_PS == export_type )
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".ps" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".ps" );
         }
         else /* IO_FILE_FORMAT_TXT */
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".txt" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".txt" );
         }
-        U8_LOG_EVENT_STR( "exporting diagram to file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
+        U8_LOG_EVENT_STR( "exporting diagram to file:", utf8stringbuf_get_string( &(*this_).temp_filename ) );
 
         result |= io_exporter_export_image_file( this_,
                                                  diagram_id,
                                                  export_type,
-                                                 utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                 utf8stringbuf_get_string( &(*this_).temp_filename ),
                                                  io_export_stat
                                                );
     }
@@ -368,60 +368,60 @@ u8_error_t io_exporter_private_export_document_file( io_exporter_t *this_,
     u8_error_t export_err = U8_ERROR_NONE;
 
     /* open file */
-    utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
-    utf8stringbuf_append_str( (*this_).temp_filename, "/" );
-    utf8stringbuf_append_str( (*this_).temp_filename, document_file_name );
+    utf8stringbuf_copy_str( &(*this_).temp_filename, target_folder );
+    utf8stringbuf_append_str( &(*this_).temp_filename, "/" );
+    utf8stringbuf_append_str( &(*this_).temp_filename, document_file_name );
     switch ( export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".xml" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".xml" );
         }
         break;
 
         case IO_FILE_FORMAT_HTML:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".html" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".html" );
         }
         break;
 
         case IO_FILE_FORMAT_CSS:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".css" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".css" );
         }
         break;
 
         case IO_FILE_FORMAT_JSON:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".json" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".json" );
         }
         break;
 
         case IO_FILE_FORMAT_SCHEMA:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".schema" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".schema" );
         }
         break;
 
         case IO_FILE_FORMAT_XMI2:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".xmi" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".xmi" );
         }
         break;
 
         default:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".unknown_format" );
+            utf8stringbuf_append_str( &(*this_).temp_filename, ".unknown_format" );
             U8_LOG_ERROR("error: unknown_format.");
         }
         break;
     }
-    U8_LOG_EVENT_STR( "exporting diagrams to document file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
+    U8_LOG_EVENT_STR( "exporting diagrams to document file:", utf8stringbuf_get_string( &(*this_).temp_filename ) );
 
     export_err |= io_exporter_export_document_file( this_,
                                                     export_type,
                                                     document_file_name,
-                                                    utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                    utf8stringbuf_get_string( &(*this_).temp_filename ),
                                                     io_export_stat
                                                   );
 
@@ -600,7 +600,7 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
         /* write doc part */
         export_err |= io_export_diagram_traversal_begin_and_walk_diagram( &((*this_).temp_diagram_traversal),
                                                                           diagram_id,
-                                                                          utf8stringbuf_get_string( (*this_).temp_filename )
+                                                                          utf8stringbuf_get_string( &(*this_).temp_filename )
                                                                         );
     }
 
@@ -723,7 +723,7 @@ u8_error_t io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
     U8_TRACE_BEGIN();
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     u8_error_t result = U8_ERROR_NONE;
-    utf8stringbuf_clear( filename );
+    utf8stringbuf_clear( &filename );
 
     u8_error_t db_err;
     db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id( &diagram_id ), &((*this_).temp_diagram) );
@@ -739,7 +739,7 @@ u8_error_t io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
 
         /* determine filename */
         data_id_to_utf8stringbuf( &diagram_id, filename );
-        utf8stringbuf_append_str( filename, "_" );
+        utf8stringbuf_append_str( &filename, "_" );
         io_exporter_private_append_valid_chars_to_filename( this_, diag_name, filename );
         data_diagram_destroy( &((*this_).temp_diagram) );
     }
@@ -767,27 +767,27 @@ void io_exporter_private_append_valid_chars_to_filename( io_exporter_t *this_,
         }
         else if (( 'A' <= probe ) && ( probe <= 'Z' ))
         {
-            utf8stringbuf_append_char( filename, probe );
+            utf8stringbuf_append_char( &filename, probe );
         }
         else if (( 'a' <= probe ) && ( probe <= 'z' ))
         {
-            utf8stringbuf_append_char( filename, probe );
+            utf8stringbuf_append_char( &filename, probe );
         }
         else if (( '0' <= probe ) && ( probe <= '9' ))
         {
-            utf8stringbuf_append_char( filename, probe );
+            utf8stringbuf_append_char( &filename, probe );
         }
         else if ( '-' == probe )
         {
-            utf8stringbuf_append_char( filename, probe );
+            utf8stringbuf_append_char( &filename, probe );
         }
         else if ( '_' == probe )
         {
-            utf8stringbuf_append_char( filename, probe );
+            utf8stringbuf_append_char( &filename, probe );
         }
         else if ( ' ' == probe )
         {
-            utf8stringbuf_append_char( filename, '_' );
+            utf8stringbuf_append_char( &filename, '_' );
         }
     }
 

@@ -230,43 +230,43 @@ static test_case_result_t test_to_string( test_fixture_t *test_env )
     utf8error_t err;
 
     char buf[8];
-    utf8stringbuf_t strbuf = utf8stringbuf_init( sizeof( buf ), &(buf[0]) );
+    utf8stringbuf_t strbuf = utf8stringbuf_new( sizeof( buf ), &(buf[0]) );
 
     data_id_init( &testee, DATA_TABLE_FEATURE, 123 );
-    utf8stringbuf_clear( strbuf );
+    utf8stringbuf_clear( &strbuf );
     err = data_id_to_utf8stringbuf( &testee, strbuf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
-    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( strbuf, "F0123" ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( &strbuf, "F0123" ) );
 
     data_id_reinit( &testee, DATA_TABLE_RELATIONSHIP, DATA_ROW_VOID );
-    utf8stringbuf_clear( strbuf );
+    utf8stringbuf_clear( &strbuf );
     err = data_id_to_utf8stringbuf( &testee, strbuf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
-    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( strbuf, "R-1" ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( &strbuf, "R-1" ) );
 
     data_id_reinit( &testee, DATA_TABLE_CLASSIFIER, 1234567 );
-    utf8stringbuf_clear( strbuf );
+    utf8stringbuf_clear( &strbuf );
     err = data_id_to_utf8stringbuf( &testee, strbuf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, err );
-    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( strbuf, "C123456" ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( &strbuf, "C123456" ) );
 
     data_id_reinit( &testee, DATA_TABLE_DIAGRAM, 0 );
-    utf8stringbuf_clear( strbuf );
+    utf8stringbuf_clear( &strbuf );
     err = data_id_to_utf8stringbuf( &testee, strbuf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
-    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( strbuf, "D0000" ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( &strbuf, "D0000" ) );
 
     data_id_reinit( &testee, DATA_TABLE_DIAGRAMELEMENT, 40 );
-    utf8stringbuf_clear( strbuf );
+    utf8stringbuf_clear( &strbuf );
     err = data_id_to_utf8stringbuf( &testee, strbuf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
-    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( strbuf, "E0040" ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( &strbuf, "E0040" ) );
 
     data_id_reinit_void( &testee );
-    utf8stringbuf_clear( strbuf );
+    utf8stringbuf_clear( &strbuf );
     err = data_id_to_utf8stringbuf( &testee, strbuf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
-    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( strbuf, "void" ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( &strbuf, "void" ) );
 
     data_id_trace( &testee );
     /* only check that function returns */

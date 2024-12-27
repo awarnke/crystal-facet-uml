@@ -10,78 +10,78 @@ void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_
     U8_TRACE_BEGIN();
 
     int count = 0;
-    utf8stringbuf_clear( out_fileformat );
+    utf8stringbuf_clear( &out_fileformat );
 
     if ( ( format_set & IO_FILE_FORMAT_PDF ) != 0 )
     {
-        /*utf8stringbuf_append_str( out_fileformat, (count==0)?("pdf"):(", pdf") );*/
-        utf8stringbuf_append_str( out_fileformat, "pdf" );
+        /*utf8stringbuf_append_str( &out_fileformat, (count==0)?("pdf"):(", pdf") );*/
+        utf8stringbuf_append_str( &out_fileformat, "pdf" );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_PNG ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("png"):(", png") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("png"):(", png") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_PS ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("ps"):(", ps") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("ps"):(", ps") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_SVG ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("svg"):(", svg") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("svg"):(", svg") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_TXT ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("txt"):(", txt") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("txt"):(", txt") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_DOCBOOK ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("docbook"):(", docbook") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("docbook"):(", docbook") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_HTML ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("html"):(", html") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("html"):(", html") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_CSS ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("css"):(", css") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("css"):(", css") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_JSON ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("json"):(", json") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("json"):(", json") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_SCHEMA ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("schema"):(", schema") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("schema"):(", schema") );
         count ++;
     }
 
     if ( ( format_set & IO_FILE_FORMAT_XMI2 ) != 0 )
     {
-        utf8stringbuf_append_str( out_fileformat, (count==0)?("xmi"):(", xmi") );
+        utf8stringbuf_append_str( &out_fileformat, (count==0)?("xmi"):(", xmi") );
         count ++;
     }
 
     if ( count == 0 )
     {
-        utf8stringbuf_copy_str( out_fileformat, "none" );
+        utf8stringbuf_copy_str( &out_fileformat, "none" );
     }
 
     U8_TRACE_END();

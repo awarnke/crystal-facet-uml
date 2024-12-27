@@ -89,7 +89,7 @@ u8_error_t json_token_reader_read_member_name ( json_token_reader_t *this_, utf8
 
     result_err = json_token_reader_read_string_value( this_, out_name );
 
-    U8_TRACE_INFO_STR( "member name:", utf8stringbuf_get_string( out_name ) );
+    U8_TRACE_INFO_STR( "member name:", utf8stringbuf_get_string( &out_name ) );
 
     U8_TRACE_END_ERR( result_err );
     return result_err;
@@ -282,8 +282,8 @@ u8_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf
 
         universal_memory_output_stream_t mem_out;
         universal_memory_output_stream_init( &mem_out,
-                                             utf8stringbuf_get_string(out_value),
-                                             utf8stringbuf_get_size(out_value),
+                                             utf8stringbuf_get_string( &out_value ),
+                                             utf8stringbuf_get_size( &out_value ),
                                              UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                            );
 

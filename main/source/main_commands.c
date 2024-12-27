@@ -346,14 +346,14 @@ u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
     {
         char info_string_buf[80];
         utf8stringbuf_t info_string = UTF8STRINGBUF(info_string_buf);
-        utf8stringbuf_clear( info_string );
+        utf8stringbuf_clear( &info_string );
         {
             gui_error_info_printer_t my_err_info_printer;
             gui_error_info_printer_init( &my_err_info_printer );
             write_err |= gui_error_info_printer_show_error_info( &my_err_info_printer, error_info, info_string );
             gui_error_info_printer_destroy( &my_err_info_printer );
         }
-        write_err |= utf8stream_writer_write_str( out_english_report, utf8stringbuf_get_string(info_string) );
+        write_err |= utf8stream_writer_write_str( out_english_report, utf8stringbuf_get_string( &info_string ) );
         write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
     }
 

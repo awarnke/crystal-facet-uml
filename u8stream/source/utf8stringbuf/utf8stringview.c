@@ -17,10 +17,10 @@ utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *ou
     /* adding some buffer for leading zeros and spaces... */
     char number_arr[40] = "";
     utf8stringbuf_t number_buf = UTF8STRINGBUF( number_arr );
-    result |= utf8stringbuf_copy_view( number_buf, this_ );
+    result |= utf8stringbuf_copy_view( &number_buf, this_ );
 
     unsigned int byte_length = 0;
-    result |= utf8string_parse_int( utf8stringbuf_get_string( number_buf ), &byte_length, out_number );
+    result |= utf8string_parse_int( utf8stringbuf_get_string( &number_buf ), &byte_length, out_number );
     assert( byte_length <= (*this_).length );
 
     if ( out_remainder != NULL )
@@ -39,10 +39,10 @@ utf8error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *o
     /* adding some buffer for leading zeros, spaces, additional accuracy and non-e-notation */
     char number_arr[80] = "";
     utf8stringbuf_t number_buf = UTF8STRINGBUF( number_arr );
-    result |= utf8stringbuf_copy_view( number_buf, this_ );
+    result |= utf8stringbuf_copy_view( &number_buf, this_ );
 
     unsigned int byte_length = 0;
-    result |= utf8string_parse_float( utf8stringbuf_get_string( number_buf ), &byte_length, out_number );
+    result |= utf8string_parse_float( utf8stringbuf_get_string( &number_buf ), &byte_length, out_number );
     assert( byte_length <= (*this_).length );
 
     if ( out_remainder != NULL )

@@ -131,11 +131,11 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
                         utf8stringbuf_t probe_id_str = UTF8STRINGBUF( probe_id_str_buf );
                         write_err |= data_id_to_utf8stringbuf ( &probe_id, probe_id_str );
                         write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_start );
-                        write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
+                        write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( &probe_id_str ) );
                         write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_middle );
                         if ( show_id )
                         {
-                            write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
+                            write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( &probe_id_str ) );
                             text_current_byte += id_length + sizeof(IO_MD_WRITER_LINK_AS_ID)-1 - 1;
                         }
                         else /* show_name */
