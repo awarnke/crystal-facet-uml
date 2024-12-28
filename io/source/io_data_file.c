@@ -27,11 +27,11 @@ void io_data_file_init ( io_data_file_t *this_ )
     ctrl_controller_init( &((*this_).controller), &((*this_).database) );
 
     (*this_).data_file_name
-        = utf8stringbuf_new( sizeof((*this_).private_data_file_name_buffer), (*this_).private_data_file_name_buffer );
+        = utf8stringbuf_new( (*this_).private_data_file_name_buffer, sizeof((*this_).private_data_file_name_buffer) );
     utf8stringbuf_clear( &((*this_).data_file_name) );
 
     (*this_).db_file_name
-        = utf8stringbuf_new( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
+        = utf8stringbuf_new( (*this_).private_db_file_name_buffer, sizeof((*this_).private_db_file_name_buffer) );
     utf8stringbuf_clear( &((*this_).db_file_name) );
 
     (*this_).auto_writeback_to_json = false;

@@ -14,9 +14,9 @@ static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t *uuid
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
-    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
-                                               (*this_).private_uuid_string_buffer
-                                             );
+    (*this_).uuid_string = utf8stringbuf_new( (*this_).private_uuid_string_buffer,
+                                              sizeof((*this_).private_uuid_string_buffer)
+                                            );
     strerr = utf8stringbuf_copy_str( &((*this_).uuid_string), uuid_string );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -39,9 +39,9 @@ static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t *uu
 
 static inline void data_uuid_init_new ( data_uuid_t *this_ )
 {
-    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
-                                               (*this_).private_uuid_string_buffer
-                                             );
+    (*this_).uuid_string = utf8stringbuf_new( (*this_).private_uuid_string_buffer,
+                                              sizeof((*this_).private_uuid_string_buffer)
+                                            );
     utf8stringbuf_clear( &((*this_).uuid_string) );
 
     /* Get current time to enrich the universal_random_t by additional entropy. */
@@ -85,9 +85,9 @@ static inline void data_uuid_copy ( data_uuid_t *this_, const data_uuid_t *origi
 
     (*this_) = (*original);
     /* repair the overwritten pointers */
-    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
-                                               (*this_).private_uuid_string_buffer
-                                             );
+    (*this_).uuid_string = utf8stringbuf_new( (*this_).private_uuid_string_buffer,
+                                              sizeof((*this_).private_uuid_string_buffer)
+                                            );
 }
 
 static inline void data_uuid_replace ( data_uuid_t *this_, const data_uuid_t *that )
@@ -96,9 +96,9 @@ static inline void data_uuid_replace ( data_uuid_t *this_, const data_uuid_t *th
 
     (*this_) = (*that);
     /* repair the overwritten pointers */
-    (*this_).uuid_string = utf8stringbuf_new( sizeof((*this_).private_uuid_string_buffer),
-                                               (*this_).private_uuid_string_buffer
-                                             );
+    (*this_).uuid_string = utf8stringbuf_new( (*this_).private_uuid_string_buffer,
+                                              sizeof((*this_).private_uuid_string_buffer)
+                                            );
 }
 
 static inline void data_uuid_destroy ( data_uuid_t *this_ )

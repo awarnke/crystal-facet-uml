@@ -10,11 +10,11 @@ static inline void data_classifier_init_empty ( data_classifier_t *this_ )
     (*this_).id = DATA_ROW_VOID;
     (*this_).main_type = DATA_CLASSIFIER_TYPE_BLOCK;
 
-    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    (*this_).stereotype = utf8stringbuf_new( (*this_).private_stereotype_buffer, sizeof((*this_).private_stereotype_buffer) );
     utf8stringbuf_clear( &((*this_).stereotype) );
-    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).name = utf8stringbuf_new( (*this_).private_name_buffer, sizeof((*this_).private_name_buffer) );
     utf8stringbuf_clear( &((*this_).name) );
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     utf8stringbuf_clear( &((*this_).description) );
 
     (*this_).x_order = 0;
@@ -47,7 +47,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
     (*this_).id = DATA_ROW_VOID;
     (*this_).main_type = main_type;
 
-    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    (*this_).stereotype = utf8stringbuf_new( (*this_).private_stereotype_buffer, sizeof((*this_).private_stereotype_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).stereotype), stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -55,7 +55,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).name = utf8stringbuf_new( (*this_).private_name_buffer, sizeof((*this_).private_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).name), name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -63,7 +63,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -100,7 +100,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
     (*this_).id = id;
     (*this_).main_type = main_type;
 
-    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    (*this_).stereotype = utf8stringbuf_new( (*this_).private_stereotype_buffer, sizeof((*this_).private_stereotype_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).stereotype), stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -108,7 +108,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).name = utf8stringbuf_new( (*this_).private_name_buffer, sizeof((*this_).private_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).name), name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -116,7 +116,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -152,9 +152,9 @@ static inline void data_classifier_copy ( data_classifier_t *this_, const data_c
 
     (*this_) = (*original);
     /* repair the overwritten pointers */
-    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).stereotype = utf8stringbuf_new( (*this_).private_stereotype_buffer, sizeof((*this_).private_stereotype_buffer) );
+    (*this_).name = utf8stringbuf_new( (*this_).private_name_buffer, sizeof((*this_).private_name_buffer) );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
@@ -164,9 +164,9 @@ static inline void data_classifier_replace ( data_classifier_t *this_, const dat
 
     (*this_) = (*that);
     /* repair the overwritten pointers */
-    (*this_).stereotype = utf8stringbuf_new( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
-    (*this_).name = utf8stringbuf_new( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).stereotype = utf8stringbuf_new( (*this_).private_stereotype_buffer, sizeof((*this_).private_stereotype_buffer) );
+    (*this_).name = utf8stringbuf_new( (*this_).private_name_buffer, sizeof((*this_).private_name_buffer) );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 

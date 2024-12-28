@@ -27,7 +27,7 @@ void io_exporter_init ( io_exporter_t *this_,
 
     (*this_).db_reader = db_reader;
 
-    (*this_).temp_filename = utf8stringbuf_new( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
+    (*this_).temp_filename = utf8stringbuf_new( (*this_).temp_filename_buf, sizeof((*this_).temp_filename_buf) );
     utf8stringbuf_clear( &((*this_).temp_filename) );
 
     U8_TRACE_END();

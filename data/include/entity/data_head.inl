@@ -14,7 +14,7 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
 
     (*this_).id = DATA_ROW_VOID;
 
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), head_key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -22,7 +22,7 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), head_value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -45,7 +45,7 @@ static inline u8_error_t data_head_init ( data_head_t *this_,
 
     (*this_).id = head_id;
 
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), head_key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -53,7 +53,7 @@ static inline u8_error_t data_head_init ( data_head_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), head_value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -70,8 +70,8 @@ static inline void data_head_copy ( data_head_t *this_, const data_head_t *origi
 
     (*this_) = (*original);
     /* repair the overwritten pointers */
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
 }
 
 static inline void data_head_replace ( data_head_t *this_, const data_head_t *that )
@@ -80,8 +80,8 @@ static inline void data_head_replace ( data_head_t *this_, const data_head_t *th
 
     (*this_) = (*that);
     /* repair the overwritten pointers */
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
 }
 
 static inline void data_head_destroy ( data_head_t *this_ )

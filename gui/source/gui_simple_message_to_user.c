@@ -22,7 +22,7 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
     (*this_).icon_image = icon_image;
     (*this_).res = res;
 
-    (*this_).private_temp_str = utf8stringbuf_new( sizeof((*this_).private_temp_buf), (*this_).private_temp_buf );
+    (*this_).private_temp_str = utf8stringbuf_new( (*this_).private_temp_buf, sizeof((*this_).private_temp_buf) );
     utf8stringbuf_clear( &((*this_).private_temp_str) );
 
     U8_TRACE_END();

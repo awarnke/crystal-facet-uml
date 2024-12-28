@@ -68,7 +68,7 @@ static inline utf8stringbuf_t utf8stringbuf( char *that )
     return result;
 }
 
-static inline utf8stringbuf_t utf8stringbuf_new( size_t size, char *buf )
+static inline utf8stringbuf_t utf8stringbuf_new( char *buf, size_t size )
 {
     utf8stringbuf_t result;
     if (( buf == NULL )||(size==0))
@@ -351,7 +351,7 @@ static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t *this_, cons
 
 static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t *this_ ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
-    return utf8stringbuf_new( (*this_).size-this_Length, &((*this_).buf[this_Length]) );
+    return utf8stringbuf_new( &((*this_).buf[this_Length]), (*this_).size - this_Length );
 }
 
 static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, const utf8stringview_t *appendix )

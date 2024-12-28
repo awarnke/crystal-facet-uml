@@ -10,7 +10,7 @@ void json_element_reader_init ( json_element_reader_t *this_, universal_input_st
     U8_TRACE_BEGIN();
     assert( NULL != in_data );
 
-    (*this_).temp_string = utf8stringbuf_new( sizeof((*this_).temp_string_buffer), (*this_).temp_string_buffer );
+    (*this_).temp_string = utf8stringbuf_new( (*this_).temp_string_buffer, sizeof((*this_).temp_string_buffer) );
 
     json_token_reader_init( &((*this_).tokenizer), in_data );
 

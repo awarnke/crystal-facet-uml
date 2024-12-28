@@ -298,7 +298,7 @@ void data_database_init ( data_database_t *this_ )
     U8_LOG_EVENT_INT( "compiled against sqlite3:    ", SQLITE_VERSION_NUMBER );
     U8_LOG_EVENT_STR( "linked to sqlite3_libversion:", sqlite3_libversion() );
 
-    (*this_).db_file_name = utf8stringbuf_new( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
+    (*this_).db_file_name = utf8stringbuf_new( (*this_).private_db_file_name_buffer, sizeof((*this_).private_db_file_name_buffer) );
     utf8stringbuf_clear( &((*this_).db_file_name) );
 
     g_mutex_init ( &((*this_).lock_on_write) );

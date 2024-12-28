@@ -34,7 +34,7 @@ static inline void u8_error_info_init_name ( u8_error_info_t *this_, u8_error_t 
     (*this_).error = error;
     (*this_).unit = U8_ERROR_INFO_UNIT_NAME;
     (*this_).position = -1;
-    utf8stringbuf_t my_strbuf = utf8stringbuf_new( U8_ERROR_INFO_MAX_NAME_SIZE, &((*this_).name[0]) );
+    utf8stringbuf_t my_strbuf = utf8stringbuf_new( &((*this_).name[0]), U8_ERROR_INFO_MAX_NAME_SIZE );
     utf8stringbuf_copy_str( &my_strbuf, name );
 }
 
@@ -43,7 +43,7 @@ static inline void u8_error_info_init_line_name ( u8_error_info_t *this_, u8_err
     (*this_).error = error;
     (*this_).unit = U8_ERROR_INFO_UNIT_LINE_NAME;
     (*this_).position = line;
-    utf8stringbuf_t my_strbuf = utf8stringbuf_new( U8_ERROR_INFO_MAX_NAME_SIZE, &((*this_).name[0]) );
+    utf8stringbuf_t my_strbuf = utf8stringbuf_new( &((*this_).name[0]), U8_ERROR_INFO_MAX_NAME_SIZE );
     utf8stringbuf_copy_str( &my_strbuf, name );
 }
 

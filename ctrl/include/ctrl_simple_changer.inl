@@ -119,7 +119,7 @@ static inline u8_error_t ctrl_simple_changer_private_propose_classifier_name ( c
     /* copy the base_classifier_name to newname_buf */
     {
         utf8stringbuf_t shortened_new_name
-            = utf8stringbuf_new( utf8stringbuf_get_size( &out_name ) - RESERVED_FOR_NUMBER, utf8stringbuf_get_string( &out_name ) );
+            = utf8stringbuf_new( utf8stringbuf_get_string( &out_name ), utf8stringbuf_get_size( &out_name ) - RESERVED_FOR_NUMBER );
         result |= utf8stringbuf_copy_str( &shortened_new_name, base_classifier_name );
         /* null termination is guaranteed, also this function does not cut an utf8 code point in the middle. */
     }

@@ -28,9 +28,9 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
     (*this_).message_to_user = message_to_user;
     (*this_).tool_switcher = tool_switcher;
     (*this_).the_clipboard = clipboard;
-    (*this_).clipboard_stringbuf = utf8stringbuf_new( sizeof((*this_).private_clipboard_buffer),
-                                                       (*this_).private_clipboard_buffer
-                                                     );
+    (*this_).clipboard_stringbuf = utf8stringbuf_new( (*this_).private_clipboard_buffer,
+                                                      sizeof((*this_).private_clipboard_buffer)
+                                                    );
 
     io_exporter_light_init ( &((*this_).exporter), db_reader );
     io_importer_init ( &((*this_).importer), db_reader, controller );

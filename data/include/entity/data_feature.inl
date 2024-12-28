@@ -9,11 +9,11 @@ static inline void data_feature_init_empty ( data_feature_t *this_ )
     (*this_).classifier_id = DATA_ROW_VOID;
     (*this_).main_type = DATA_FEATURE_TYPE_PROPERTY;
 
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     utf8stringbuf_clear( &((*this_).key) );
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     utf8stringbuf_clear( &((*this_).value) );
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     utf8stringbuf_clear( &((*this_).description) );
 
     (*this_).list_order = 0;
@@ -44,7 +44,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
     (*this_).classifier_id = classifier_id;
     (*this_).main_type = feature_main_type;
 
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), feature_key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -52,7 +52,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), feature_value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -60,7 +60,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), feature_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -95,7 +95,7 @@ static inline u8_error_t data_feature_init ( data_feature_t *this_,
     (*this_).classifier_id = classifier_id;
     (*this_).main_type = feature_main_type;
 
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), feature_key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -103,7 +103,7 @@ static inline u8_error_t data_feature_init ( data_feature_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), feature_value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -111,7 +111,7 @@ static inline u8_error_t data_feature_init ( data_feature_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), feature_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -131,9 +131,9 @@ static inline void data_feature_copy ( data_feature_t *this_, const data_feature
 
     (*this_) = (*original);
     /* repair the overwritten pointers */
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
@@ -143,9 +143,9 @@ static inline void data_feature_replace ( data_feature_t *this_, const data_feat
 
     (*this_) = (*that);
     /* repair the overwritten pointers */
-    (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
-    (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
-    (*this_).description = utf8stringbuf_new( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
+    (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
+    (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 

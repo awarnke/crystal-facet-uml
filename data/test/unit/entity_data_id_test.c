@@ -230,7 +230,7 @@ static test_case_result_t test_to_string( test_fixture_t *test_env )
     utf8error_t err;
 
     char buf[8];
-    utf8stringbuf_t strbuf = utf8stringbuf_new( sizeof( buf ), &(buf[0]) );
+    utf8stringbuf_t strbuf = utf8stringbuf_new( &(buf[0]), sizeof( buf ) );
 
     data_id_init( &testee, DATA_TABLE_FEATURE, 123 );
     utf8stringbuf_clear( &strbuf );

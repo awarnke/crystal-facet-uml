@@ -180,12 +180,12 @@ static test_case_result_t testInit( test_fixture_t *fix )
     TEST_EXPECT( utf8stringbuf_equals_str( &ThousandPaths[100], "" ));
 
     /* check runtime init function */
-    utf8stringbuf_t dynTestBuf3 = utf8stringbuf_new( 10, dynTestArr2 );
+    utf8stringbuf_t dynTestBuf3 = utf8stringbuf_new( dynTestArr2, 10 );
     TEST_EXPECT( utf8stringbuf_get_string( &dynTestBuf3 ) == dynTestArr2 );
     TEST_EXPECT_EQUAL_INT( 10, utf8stringbuf_get_size( &dynTestBuf3 ) );
 
     /* check NULL initialization */
-    utf8stringbuf_t nullTestBuf = utf8stringbuf_new( 4, NULL );
+    utf8stringbuf_t nullTestBuf = utf8stringbuf_new( NULL, 4 );
     TEST_EXPECT_EQUAL_INT( 1, utf8stringbuf_get_size( &nullTestBuf ) );
 
     return TEST_CASE_RESULT_OK;

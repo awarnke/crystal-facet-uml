@@ -13,7 +13,7 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_DIAGRAM, match_id );
     data_type_init_diagram( &((*this_).match_object_type), match_type );
-    (*this_).match_object_name = utf8stringbuf_new( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    (*this_).match_object_name = utf8stringbuf_new( (*this_).private_match_name_buffer, sizeof((*this_).private_match_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).match_object_name), match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -37,7 +37,7 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_CLASSIFIER, match_id );
     data_type_init_classifier( &((*this_).match_object_type), match_type );
-    (*this_).match_object_name = utf8stringbuf_new( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    (*this_).match_object_name = utf8stringbuf_new( (*this_).private_match_name_buffer, sizeof((*this_).private_match_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).match_object_name), match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -62,7 +62,7 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_FEATURE, match_id );
     data_type_init_feature( &((*this_).match_object_type), match_type );
-    (*this_).match_object_name = utf8stringbuf_new( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    (*this_).match_object_name = utf8stringbuf_new( (*this_).private_match_name_buffer, sizeof((*this_).private_match_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).match_object_name), match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -88,7 +88,7 @@ static inline void data_search_result_init_relationship ( data_search_result_t *
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_RELATIONSHIP, match_id );
     data_type_init_relationship( &((*this_).match_object_type), match_type );
-    (*this_).match_object_name = utf8stringbuf_new( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    (*this_).match_object_name = utf8stringbuf_new( (*this_).private_match_name_buffer, sizeof((*this_).private_match_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).match_object_name), match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -107,7 +107,7 @@ static inline void data_search_result_copy ( data_search_result_t *this_, const 
 
     *this_ = *original;
     /* repair the overwritten pointers */
-    (*this_).match_object_name = utf8stringbuf_new( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    (*this_).match_object_name = utf8stringbuf_new( (*this_).private_match_name_buffer, sizeof((*this_).private_match_name_buffer) );
 }
 
 static inline void data_search_result_destroy ( data_search_result_t *this_ )
