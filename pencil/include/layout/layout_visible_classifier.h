@@ -26,6 +26,9 @@ struct layout_visible_classifier_struct {
                                  /*!< or contained classifiers are drawn. space is stated in absolute coordinates. */
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier. */
                                      /*!< label_box is stated in absolute coordinates. */
+    geometry_rectangle_t icon_box;  /*!< bounding box of the main_type or stereotype icon of the visible classifier. */
+                                    /*!< The icon_box is not the symbol box of actor, fork, join, start, end, history, time,... */
+                                    /*!< icon_box is stated in absolute coordinates. */
     geometry_h_align_t label_h_anchor;  /*!< side of the label box that stays fix in case of expand */
     geometry_v_align_t label_v_anchor;  /*!< side of the label box that stays fix in case of expand */
     geometry_rectangle_t envelope_box_cache;  /*!< for caching the envelope_box, */
@@ -94,7 +97,7 @@ static inline bool layout_visible_classifier_is_valid ( const layout_visible_cla
  *  \brief gets the symbol_box of the classifier
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
+ *  \return pointer to geometry_rectangle_t
  */
 static inline const geometry_rectangle_t *layout_visible_classifier_get_symbol_box_const ( const layout_visible_classifier_t *this_ );
 
@@ -110,7 +113,7 @@ static inline void layout_visible_classifier_set_symbol_box ( layout_visible_cla
  *  \brief gets the inner space of the classifier
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
+ *  \return pointer to geometry_rectangle_t
  */
 static inline const geometry_rectangle_t *layout_visible_classifier_get_space_const ( const layout_visible_classifier_t *this_ );
 
@@ -126,7 +129,7 @@ static inline void layout_visible_classifier_set_space ( layout_visible_classifi
  *  \brief gets the label bounds of the classifier
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
+ *  \return pointer to geometry_rectangle_t
  */
 static inline const geometry_rectangle_t *layout_visible_classifier_get_label_box_const ( const layout_visible_classifier_t *this_ );
 
@@ -139,7 +142,7 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_label_bo
 static inline void layout_visible_classifier_set_label_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *label_box );
 
 /*!
- *  \brief sets the bounding box of the classifier
+ *  \brief sets the alignment of the label text within the label box
  *
  *  \param this_ pointer to own object attributes
  *  \param label_h_anchor side of the label that stays fix in case of expand
@@ -148,7 +151,23 @@ static inline void layout_visible_classifier_set_label_box ( layout_visible_clas
 static inline void layout_visible_classifier_set_label_anchor ( layout_visible_classifier_t *this_,
                                                                 geometry_h_align_t label_h_anchor,
                                                                 geometry_v_align_t label_v_anchor
-                                                              );
+);
+
+/*!
+ *  \brief gets the icon bounds of the main type or the stereotype of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t
+ */
+static inline const geometry_rectangle_t *layout_visible_classifier_get_icon_box_const ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief sets the icon bounds of the main type or the stereotype of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param icon_box coordinates of new icon bounds
+ */
+static inline void layout_visible_classifier_set_icon_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *icon_box );
 
 /*!
  *  \brief calculates the envelope bounds of the classifier.
@@ -156,9 +175,9 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
  *  The envelope contains the label and the symbol box and implicitly the (inner) space.
  *
  *  \param this_ pointer to own object attributes
- *  \return geometry_rectangle_t which is the envelope to label and symbol-box.
+ *  \return geometry_rectangle_t which is the envelope to label and symbol_box.
  */
-static inline geometry_rectangle_t layout_visible_classifier_get_envelope_box2 ( const layout_visible_classifier_t *this_ );
+static inline geometry_rectangle_t layout_visible_classifier_get_envelope_box ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief gets the envelope of the classifier

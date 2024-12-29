@@ -2906,7 +2906,7 @@
             "id": 869,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "pencil/layout",
+            "classifier_name": "pencil.layout",
             "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
             "uuid": "c7691fd9-ffc3-4391-906e-a6dc2fec8dd7"
           }
@@ -2975,7 +2975,7 @@
             "id": 295,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "pencil/layout",
+            "classifier_name": "pencil.layout",
             "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
             "uuid": "45bd84ea-34a5-449c-9cde-e0ec7743c992"
           },
@@ -3101,7 +3101,8 @@
         "type": "UMLComponentDiagram",
         "name": "pencil.layout package",
         "description": [
-                ""
+                "The layout package holds the layout data.\n",
+                "It does not calculate the data."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -3113,7 +3114,7 @@
           {
             "id": 287,
             "display_flags": 0,
-            "classifier_name": "pencil/layout",
+            "classifier_name": "pencil.layout",
             "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
             "uuid": "75a99553-46a5-43f7-a895-1403d70503d7"
           },
@@ -3183,6 +3184,32 @@
             "classifier_name": "layout_visible_set_t",
             "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
             "uuid": "8da431c6-5781-46b2-ba47-a6414b94363b"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 124,
+        "diagram_type": 33,
+        "type": "UMLPackageDiagram",
+        "name": "pencil.draw package",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "pencil: White Box View",
+        "parent": "7d61eb8f-2f4c-4d9e-a4d2-77062df53926",
+        "uuid": "905138f3-5b1d-42ad-b8a4-86f4d3761572",
+        "diagramelements":
+        [
+          {
+            "id": 913,
+            "display_flags": 0,
+            "classifier_name": "pencil.draw",
+            "node": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
+            "uuid": "3854918e-ca7e-4190-a807-5fd16a6d5dfb"
           }
         ]
       }
@@ -3342,6 +3369,67 @@
             "classifier_name": "Layouting Algorithm",
             "node": "c298116d-781a-4e45-a87e-e24be984fbfa",
             "uuid": "17a2f987-1000-4d36-82b8-f600674f1d9c"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 125,
+        "diagram_type": 13,
+        "type": "UMLInteractionDiagram/sequence",
+        "name": "Layouting interaction",
+        "description": [
+                "This diagram shows the responsability split between different sub-packages of pencil."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "pencil: Runtime View",
+        "parent": "a2f918c1-8bd8-4f9a-9d3e-3026a52c3b55",
+        "uuid": "0b7db6f6-516b-4177-a134-1ccb900c63da",
+        "diagramelements":
+        [
+          {
+            "id": 914,
+            "display_flags": 0,
+            "classifier_name": "pencil.draw",
+            "node": "c0689f1e-b0cd-4a98-9907-b280b2baf778",
+            "uuid": "8d7dd051-0d09-4724-b81e-0853019718c6"
+          },
+          {
+            "id": 915,
+            "display_flags": 0,
+            "classifier_name": "pencil_xxx_layouter",
+            "node": "bb7ad922-f06f-4869-94ca-2b1be997b204",
+            "uuid": "0b7ce25f-1a2f-42a5-a067-56a0416c07ca"
+          },
+          {
+            "id": 916,
+            "display_flags": 0,
+            "classifier_name": "pencil_xxx_painter",
+            "node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
+            "uuid": "9eea5f27-1c90-4e4a-84f2-c98ce53ba6a5"
+          },
+          {
+            "id": 917,
+            "display_flags": 0,
+            "classifier_name": "pencil.layout",
+            "node": "66d177d2-544b-4bdf-bd1f-6d7fd25897c4",
+            "uuid": "5e3b3190-abb2-4d41-8f19-540f3b43b0a3"
+          },
+          {
+            "id": 918,
+            "display_flags": 0,
+            "classifier_name": "element part:",
+            "node": "40e03ddb-4f3f-46f1-b67a-9310d5dea2c8",
+            "uuid": "f8453046-4f37-4a6f-89df-1ea0dbab0a70"
+          },
+          {
+            "id": 919,
+            "display_flags": 0,
+            "classifier_name": "pencil_diagram_maker",
+            "node": "5fad270d-9c29-4533-962f-0276acb7a084",
+            "uuid": "8dca4c9a-117c-4098-9f51-bd7db4108b94"
           }
         ]
       }
@@ -8382,10 +8470,21 @@
         ],
         "x_order": -1429582248,
         "y_order": -1300007225,
-        "list_order": 0,
+        "list_order": -1724040564,
         "uuid": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "features":
         [
+          {
+            "id": 157,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "5fad270d-9c29-4533-962f-0276acb7a084"
+          }
         ]
       }
     },
@@ -8413,10 +8512,21 @@
         ],
         "x_order": -1818442449,
         "y_order": -698109218,
-        "list_order": 0,
+        "list_order": -1408096479,
         "uuid": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
         "features":
         [
+          {
+            "id": 153,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "bb7ad922-f06f-4869-94ca-2b1be997b204"
+          }
         ]
       }
     },
@@ -8433,10 +8543,21 @@
         ],
         "x_order": -1209753928,
         "y_order": -698109218,
-        "list_order": 0,
+        "list_order": -1349588315,
         "uuid": "a49bd993-9c84-44a1-8eef-457a2986a266",
         "features":
         [
+          {
+            "id": 154,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "53daf1a3-fc6e-45c5-9aa1-0b7061523085"
+          }
         ]
       }
     },
@@ -11975,7 +12096,7 @@
         "id": 196,
         "main_type": 124,
         "type": "Package",
-        "name": "pencil/layout",
+        "name": "pencil.layout",
         "description": [
                 "This package contains data objects\n",
                 "that define the layout positions of model elements.\n",
@@ -11983,10 +12104,21 @@
         ],
         "x_order": -1899688922,
         "y_order": 1275880861,
-        "list_order": -1304108565,
+        "list_order": -1142859469,
         "uuid": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "features":
         [
+          {
+            "id": 155,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "66d177d2-544b-4bdf-bd1f-6d7fd25897c4"
+          }
         ]
       }
     },
@@ -19298,6 +19430,66 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 557,
+        "main_type": 124,
+        "type": "Package",
+        "name": "pencil.draw",
+        "description": [
+                ""
+        ],
+        "x_order": -327645719,
+        "y_order": -547736745,
+        "list_order": -370551706,
+        "uuid": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
+        "features":
+        [
+          {
+            "id": 152,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "c0689f1e-b0cd-4a98-9907-b280b2baf778"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 558,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "element part:",
+        "description": [
+                "label\n",
+                "icon\n",
+                "contour"
+        ],
+        "x_order": 1431499742,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "0b9678cc-9994-4572-9806-afd4f7121e6c",
+        "features":
+        [
+          {
+            "id": 156,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "40e03ddb-4f3f-46f1-b67a-9310d5dea2c8"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -19659,7 +19851,7 @@
         ],
         "list_order": 1411758533,
         "from_classifier_name": "pencil",
-        "to_classifier_name": "pencil/layout",
+        "to_classifier_name": "pencil.layout",
         "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
         "to_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "uuid": "3a50f7d4-d125-46a3-ab6e-2607486804c7"
@@ -21166,6 +21358,44 @@
     },
     {
       "relationship": {
+        "id": 1003,
+        "main_type": 221,
+        "type": "Message",
+        "name": "layout elements",
+        "description": [
+                ""
+        ],
+        "list_order": -930510395,
+        "from_classifier_name": "pencil_diagram_maker",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil_xxx_layouter",
+        "to_feature_key": "",
+        "from_node": "5fad270d-9c29-4533-962f-0276acb7a084",
+        "to_node": "bb7ad922-f06f-4869-94ca-2b1be997b204",
+        "uuid": "833b4821-6fa8-4b43-8489-a5ba6cf843e7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1004,
+        "main_type": 221,
+        "type": "Message",
+        "name": "draw",
+        "description": [
+                ""
+        ],
+        "list_order": 495630137,
+        "from_classifier_name": "pencil_diagram_maker",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil_xxx_painter",
+        "to_feature_key": "",
+        "from_node": "5fad270d-9c29-4533-962f-0276acb7a084",
+        "to_node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
+        "uuid": "7563b26e-7511-4496-9d9c-51a1fdaa7740"
+      }
+    },
+    {
+      "relationship": {
         "id": 22,
         "main_type": 200,
         "type": "Association",
@@ -21268,6 +21498,63 @@
     },
     {
       "relationship": {
+        "id": 996,
+        "main_type": 221,
+        "type": "Message",
+        "name": "get dimensions",
+        "description": [
+                ""
+        ],
+        "list_order": -745297339,
+        "from_classifier_name": "pencil_xxx_layouter",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil.draw",
+        "to_feature_key": "",
+        "from_node": "bb7ad922-f06f-4869-94ca-2b1be997b204",
+        "to_node": "c0689f1e-b0cd-4a98-9907-b280b2baf778",
+        "uuid": "d6822ff6-59b9-48ec-8055-1e38ef185e05"
+      }
+    },
+    {
+      "relationship": {
+        "id": 998,
+        "main_type": 221,
+        "type": "Message",
+        "name": "set coordinates of element-part",
+        "description": [
+                ""
+        ],
+        "list_order": 14076191,
+        "from_classifier_name": "pencil_xxx_layouter",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil.layout",
+        "to_feature_key": "",
+        "from_node": "bb7ad922-f06f-4869-94ca-2b1be997b204",
+        "to_node": "66d177d2-544b-4bdf-bd1f-6d7fd25897c4",
+        "uuid": "a180a142-8fdc-4c8e-b15e-1a23064848b5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1005,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 199289247,
+        "from_classifier_name": "pencil_xxx_layouter",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil_diagram_maker",
+        "to_feature_key": "",
+        "from_node": "bb7ad922-f06f-4869-94ca-2b1be997b204",
+        "to_node": "5fad270d-9c29-4533-962f-0276acb7a084",
+        "uuid": "e3d5b868-c3e7-4719-9cb3-1bec26733d66"
+      }
+    },
+    {
+      "relationship": {
         "id": 25,
         "main_type": 200,
         "type": "Association",
@@ -21366,6 +21653,63 @@
         "from_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
         "to_node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
         "uuid": "08ab025c-7bae-4a18-a69e-73f5ce486720"
+      }
+    },
+    {
+      "relationship": {
+        "id": 999,
+        "main_type": 221,
+        "type": "Message",
+        "name": "get coordinates",
+        "description": [
+                ""
+        ],
+        "list_order": 742580878,
+        "from_classifier_name": "pencil_xxx_painter",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil.layout",
+        "to_feature_key": "",
+        "from_node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
+        "to_node": "66d177d2-544b-4bdf-bd1f-6d7fd25897c4",
+        "uuid": "448fa7cb-5e1f-434c-9ec5-7de8ade2c45b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1001,
+        "main_type": 221,
+        "type": "Message",
+        "name": "draw element",
+        "description": [
+                ""
+        ],
+        "list_order": 1483433103,
+        "from_classifier_name": "pencil_xxx_painter",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil.draw",
+        "to_feature_key": "",
+        "from_node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
+        "to_node": "c0689f1e-b0cd-4a98-9907-b280b2baf778",
+        "uuid": "3b8e0182-be2c-43e7-ae15-3c212eaf2547"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1006,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1613082242,
+        "from_classifier_name": "pencil_xxx_painter",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil_diagram_maker",
+        "to_feature_key": "",
+        "from_node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
+        "to_node": "5fad270d-9c29-4533-962f-0276acb7a084",
+        "uuid": "576c57d2-00b8-4356-b876-2dd11111a7a5"
       }
     },
     {
@@ -25877,7 +26221,7 @@
                 ""
         ],
         "list_order": -1304108565,
-        "from_classifier_name": "pencil/layout",
+        "from_classifier_name": "pencil.layout",
         "to_classifier_name": "layout_diagram",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "a17e7252-9d30-44b4-96a4-4c46278cf393",
@@ -25894,7 +26238,7 @@
                 ""
         ],
         "list_order": -1322359446,
-        "from_classifier_name": "pencil/layout",
+        "from_classifier_name": "pencil.layout",
         "to_classifier_name": "layout_feature",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "e0ce0921-4c9e-4b11-bbbd-5e2209715115",
@@ -25911,7 +26255,7 @@
                 ""
         ],
         "list_order": -1307331198,
-        "from_classifier_name": "pencil/layout",
+        "from_classifier_name": "pencil.layout",
         "to_classifier_name": "layout _visible_classifier",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
@@ -25928,7 +26272,7 @@
                 ""
         ],
         "list_order": -1304108565,
-        "from_classifier_name": "pencil/layout",
+        "from_classifier_name": "pencil.layout",
         "to_classifier_name": "layout _relationship",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "a372226d-373f-4bca-b48c-d5a9f6480050",
@@ -25945,11 +26289,30 @@
                 ""
         ],
         "list_order": 1412348357,
-        "from_classifier_name": "pencil/layout",
+        "from_classifier_name": "pencil.layout",
         "to_classifier_name": "layout_visible_set_t",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
         "uuid": "079603bf-a8e3-47ea-ac94-e19dfc13b11a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1000,
+        "main_type": 222,
+        "type": "Message",
+        "name": "coordinates of element-part to draw",
+        "description": [
+                ""
+        ],
+        "list_order": 1113006991,
+        "from_classifier_name": "pencil.layout",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil_xxx_painter",
+        "to_feature_key": "",
+        "from_node": "66d177d2-544b-4bdf-bd1f-6d7fd25897c4",
+        "to_node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
+        "uuid": "32104155-9994-475c-9768-900dc94b0cde"
       }
     },
     {
@@ -33516,6 +33879,44 @@
         "from_node": "a0cf9e76-52b9-4270-877d-c9418bf7395d",
         "to_node": "73518f23-8ab4-4889-87a8-b74032072d85",
         "uuid": "4daca06c-4202-4c9a-9df9-56ae6d2ed360"
+      }
+    },
+    {
+      "relationship": {
+        "id": 997,
+        "main_type": 222,
+        "type": "Message",
+        "name": "dimensions of element-part to draw",
+        "description": [
+                ""
+        ],
+        "list_order": -362523689,
+        "from_classifier_name": "pencil.draw",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil_xxx_layouter",
+        "to_feature_key": "",
+        "from_node": "c0689f1e-b0cd-4a98-9907-b280b2baf778",
+        "to_node": "bb7ad922-f06f-4869-94ca-2b1be997b204",
+        "uuid": "85ab6b37-351d-4677-b9b1-9d7fffc5ed69"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1002,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -905815321,
+        "from_classifier_name": "element part:",
+        "from_feature_key": "",
+        "to_classifier_name": "pencil.draw",
+        "to_feature_key": "",
+        "from_node": "40e03ddb-4f3f-46f1-b67a-9310d5dea2c8",
+        "to_node": "c0689f1e-b0cd-4a98-9907-b280b2baf778",
+        "uuid": "8d84d70d-149a-47a3-90f2-fce20c3a3d7c"
       }
     }
   ]

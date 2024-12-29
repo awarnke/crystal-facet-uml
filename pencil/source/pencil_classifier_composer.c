@@ -38,16 +38,16 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
     U8_TRACE_END();
 }
 
-void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
-                                       const layout_visible_classifier_t *layouted_classifier,
-                                       data_id_t mark_focused,
-                                       data_id_t mark_highlighted,
-                                       const data_small_set_t *mark_selected,
-                                       const layout_visible_set_t *layout_data,
-                                       const data_profile_part_t *profile,
-                                       const pencil_size_t *pencil_size,
-                                       PangoLayout *font_layout,
-                                       cairo_t *cr )
+void pencil_classifier_composer_draw( pencil_classifier_composer_t *this_,
+                                      const layout_visible_classifier_t *layouted_classifier,
+                                      data_id_t mark_focused,
+                                      data_id_t mark_highlighted,
+                                      const data_small_set_t *mark_selected,
+                                      const layout_visible_set_t *layout_data,
+                                      const data_profile_part_t *profile,
+                                      const pencil_size_t *pencil_size,
+                                      PangoLayout *font_layout,
+                                      cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layouted_classifier );
@@ -64,6 +64,8 @@ void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
         = layout_visible_classifier_get_symbol_box_const( layouted_classifier );
     const geometry_rectangle_t *const classifier_label_box
         = layout_visible_classifier_get_label_box_const( layouted_classifier );
+    //const geometry_rectangle_t *const classifier_icon_box
+    //    = layout_visible_classifier_get_icon_box_const( layouted_classifier );
     const data_classifier_t *const classifier
         = data_visible_classifier_get_classifier_const( visible_classifier );
     const data_diagramelement_t *const diagramelement
@@ -472,13 +474,13 @@ void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
     U8_TRACE_END();
 }
 
-int pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
-                                              const geometry_rectangle_t *space,
-                                              bool shows_contained_children,
-                                              const data_profile_part_t *profile,
-                                              const pencil_size_t *pencil_size,
-                                              PangoLayout *font_layout,
-                                              layout_visible_classifier_t *io_classifier_layout )
+int pencil_classifier_composer_expand_space( pencil_classifier_composer_t *this_,
+                                             const geometry_rectangle_t *space,
+                                             bool shows_contained_children,
+                                             const data_profile_part_t *profile,
+                                             const pencil_size_t *pencil_size,
+                                             PangoLayout *font_layout,
+                                             layout_visible_classifier_t *io_classifier_layout )
 {
     U8_TRACE_BEGIN();
     assert( NULL != space );
@@ -794,16 +796,16 @@ int pencil_classifier_composer_set_envelope_box( pencil_classifier_composer_t *t
     return area_too_small;
 }
 
-int pencil_classifier_composer_private_get_label_box ( pencil_classifier_composer_t *this_,
-                                                       const data_visible_classifier_t *visible_classifier,
-                                                       bool shows_contained_children,
-                                                       bool with_stereotype,
-                                                       const geometry_rectangle_t *space_and_label,
-                                                       const geometry_dimensions_t *icon_dim,
-                                                       const pencil_size_t *pencil_size,
-                                                       PangoLayout *font_layout,
-                                                       geometry_rectangle_t *out_label_box,
-                                                       geometry_rectangle_t *out_label_compartment )
+int pencil_classifier_composer_private_get_label_box( pencil_classifier_composer_t *this_,
+                                                      const data_visible_classifier_t *visible_classifier,
+                                                      bool shows_contained_children,
+                                                      bool with_stereotype,
+                                                      const geometry_rectangle_t *space_and_label,
+                                                      const geometry_dimensions_t *icon_dim,
+                                                      const pencil_size_t *pencil_size,
+                                                      PangoLayout *font_layout,
+                                                      geometry_rectangle_t *out_label_box,
+                                                      geometry_rectangle_t *out_label_compartment )
 {
     U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
@@ -946,11 +948,11 @@ int pencil_classifier_composer_private_get_label_box ( pencil_classifier_compose
     return result;
 }
 
-void pencil_classifier_composer_private_draw_feature_compartments ( const pencil_classifier_composer_t *this_,
-                                                                    const layout_visible_classifier_t *layouted_classifier,
-                                                                    const layout_visible_set_t *layout_data,
-                                                                    const pencil_size_t *pencil_size,
-                                                                    cairo_t *cr )
+void pencil_classifier_composer_private_draw_feature_compartments( const pencil_classifier_composer_t *this_,
+                                                                   const layout_visible_classifier_t *layouted_classifier,
+                                                                   const layout_visible_set_t *layout_data,
+                                                                   const pencil_size_t *pencil_size,
+                                                                   cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layouted_classifier );

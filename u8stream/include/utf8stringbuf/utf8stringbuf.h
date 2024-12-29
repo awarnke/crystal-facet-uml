@@ -57,8 +57,8 @@ extern "C" {
  *             The array shall be valid and null-terminated and located on a writeable memory page (non-const).
  */
 struct utf8stringbuf_struct {
-    size_t size;
     char* buf;
+    size_t size;
 };
 
 /*!
@@ -96,7 +96,7 @@ typedef struct utf8stringbuf_struct utf8stringbuf_t;
  *  \n
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  */
-#define UTF8STRINGBUF(charArr) (utf8stringbuf_t){.size=sizeof(charArr),.buf=charArr}
+#define UTF8STRINGBUF(charArr) (utf8stringbuf_t){.buf=charArr,.size=sizeof(charArr)}
 
 /*!
  *  \def UTF8STRINGBUF_INIT(charArr)
@@ -145,7 +145,7 @@ typedef struct utf8stringbuf_struct utf8stringbuf_t;
  *  \n
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  */
-#define UTF8STRINGBUF_INIT(charArr) {.size=sizeof(charArr),.buf=charArr}
+#define UTF8STRINGBUF_INIT(charArr) {.buf=charArr,.size=sizeof(charArr)}
 
 /*!
  *  \brief Creates a utf8stringbuf_t struct from a 0-terminated string

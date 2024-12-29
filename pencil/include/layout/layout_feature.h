@@ -19,7 +19,8 @@
  *  \brief visibility, shape and location of a feature
  */
 struct layout_feature_struct {
-    geometry_rectangle_t symbol_box;  /*!< In case the feature is a symbol, the label_box may be outside of symbol_box. Oterwise it is the bounding box of the feature */
+    geometry_rectangle_t symbol_box;  /*!< In case the feature is a symbol, the label_box may be outside of symbol_box.*/
+                                      /*!< Otherwise it is the bounding box of the feature */
     geometry_direction_t icon_direction;  /*!< icon direction, a hint for drawing the icon of a feature, e.g. lifelines and required interfaces. */
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the feature. For operations and properties, this is identical to the bounding box */
     const data_feature_t *data;  /*!< pointer to the data object of the feature */

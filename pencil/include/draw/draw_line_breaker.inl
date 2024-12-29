@@ -21,7 +21,7 @@ static inline u8_error_t draw_line_breaker_append( const draw_line_breaker_t *th
 
     const utf8codepoint_t space0width = utf8codepoint( 0x200B );
     uint32_t last = ' ';
-    for(; utf8codepointiterator_has_next( &iter ); )
+    while( utf8codepointiterator_has_next( &iter ) )
     {
         utf8codepoint_t codepnt = utf8codepointiterator_next( &iter );
         uint32_t current = utf8codepoint_get_char ( &codepnt );
