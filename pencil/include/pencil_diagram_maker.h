@@ -12,7 +12,7 @@
 #include "pencil_layouter.h"
 #include "pencil_marker.h"
 #include "pencil_diagram_painter.h"
-#include "pencil_classifier_composer.h"
+#include "pencil_classifier_painter.h"
 #include "pencil_relationship_painter.h"
 #include "pencil_size.h"
 #include "pencil_error.h"
@@ -41,7 +41,7 @@ struct pencil_diagram_maker_struct {
     pencil_layouter_t layouter;  /* own instance of a layouter */
 
     pencil_diagram_painter_t diagram_painter;  /*!< own instance of a diagram_painter */
-    pencil_classifier_composer_t classifier_painter;  /*!< own instance of a classifier painter */
+    pencil_classifier_painter_t classifier_painter;  /*!< own instance of a classifier painter */
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a relationship_painter */
     pencil_feature_painter_t feature_painter;  /*!< own instance of a feature_painter */
 };

@@ -100,17 +100,17 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 
         const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_const( &((*this_).layouter) );
 
-        pencil_classifier_composer_draw( &((*this_).classifier_painter),
-                                         classifier_layout,
-                                         mark_focused,
-                                         mark_highlighted,
-                                         mark_selected,
-                                         layout_data,
-                                         (*this_).profile,
-                                         pencil_size,
-                                         layout,
-                                         cr
-                                       );
+        pencil_classifier_painter_draw( &((*this_).classifier_painter),
+                                        classifier_layout,
+                                        mark_focused,
+                                        mark_highlighted,
+                                        mark_selected,
+                                        layout_data,
+                                        (*this_).profile,
+                                        pencil_size,
+                                        layout,
+                                        cr
+                                      );
     }
 
     U8_TRACE_END();

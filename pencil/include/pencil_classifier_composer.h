@@ -32,14 +32,13 @@
 #include <stdint.h>
 
 /*!
- *  \brief attributes of the classifier painter
+ *  \brief attributes of the classifier-internal layouter
  *
  *  \note This class is stateless.
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_classifier_composer_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
-    data_rules_t data_rules;  /*!< own instance of data rules */
     draw_classifier_icon_t draw_classifier_icon;  /*!< collection of draw symbol/icon functions */
     draw_classifier_label_t draw_classifier_label;  /*!< collection of draw label functions */
     draw_classifier_contour_t draw_classifier_contour;  /*!< collection of draw contour functions */
@@ -61,32 +60,6 @@ void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
-
-/*!
- *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
- *
- *  \param this_ pointer to own object attributes
- *  \param layouted_classifier pointer to the layout-information and data to be drawn
- *  \param mark_focused true if the object is to be marked as "focused"
- *  \param mark_highlighted true if the object is to be marked as "highlighted"
- *  \param mark_selected true if the object is to be marked as "selected"
- *  \param layout_data pointer to the diagrams layout-information needed to calculate the feature compartments
- *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param font_layout structure to layout fonts
- *  \param cr a cairo drawing context
- */
-void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
-                                       const layout_visible_classifier_t *layouted_classifier,
-                                       data_id_t mark_focused,
-                                       data_id_t mark_highlighted,
-                                       const data_small_set_t *mark_selected,
-                                       const layout_visible_set_t *layout_data,
-                                       const data_profile_part_t *profile,
-                                       const pencil_size_t *pencil_size,
-                                       PangoLayout *font_layout,
-                                       cairo_t *cr
-                                     );
 
 /*!
  *  \brief recalculates symbol_box and label_box based on new space_and_label
@@ -164,22 +137,6 @@ int pencil_classifier_composer_private_get_label_box ( pencil_classifier_compose
                                                        geometry_rectangle_t *out_label_box,
                                                        geometry_rectangle_t *out_label_compartment
                                                      );
-
-/*!
- *  \brief draws feature compartments of the given classifier into the classifier_space area
- *
- *  \param this_ pointer to own object attributes
- *  \param layouted_classifier pointer to the classifiers layout-information and data to be drawn
- *  \param layout_data pointer to the diagrams layout-information needed to calculate the feature compartments
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param cr a cairo drawing context
- */
-void pencil_classifier_composer_private_draw_feature_compartments ( const pencil_classifier_composer_t *this_,
-                                                                    const layout_visible_classifier_t *layouted_classifier,
-                                                                    const layout_visible_set_t *layout_data,
-                                                                    const pencil_size_t *pencil_size,
-                                                                    cairo_t *cr
-                                                                  );
 
 #endif  /* PENCIL_CLASSIFIER_COMPOSER_H */
 
