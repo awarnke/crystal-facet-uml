@@ -52,11 +52,11 @@ void draw_classifier_label_init( draw_classifier_label_t *this_ );
 void draw_classifier_label_destroy( draw_classifier_label_t *this_ );
 
 /*!
- *  \brief determines the dimensions of the stereotype and name of the classifier.
+ *  \brief determines the dimensions of the stereotype-as-text and name of the classifier.
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
- *  \param with_stereotype false if no stereotype label shall be printed because an image is shown instead
+ *  \param with_stereotype false if no stereotype label shall be printed because an icon is shown instead
  *  \param proposed_bounds proposed bounds for the text width and height
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -72,11 +72,11 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
                                                              );
 
 /*!
- *  \brief renders stereotype and name of the classifier.
+ *  \brief renders stereotype-as-text and name of the classifier.
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
- *  \param with_stereotype false if no stereotype label shall be printed because an image is shown instead
+ *  \param with_stereotype false if no stereotype label shall be printed because an icon is shown instead
  *  \param color color to draw text
  *  \param label_box the rectangle where to draw to
  *  \param pencil_size set of sizes and colors for drawing lines and text

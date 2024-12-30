@@ -7225,7 +7225,7 @@
           {
             "id": 696,
             "display_flags": 0,
-            "classifier_name": "image",
+            "classifier_name": "stereotype",
             "node": "d17d6bfb-2dad-492e-963e-74c25b1e9942",
             "uuid": "fcaee51e-c322-4273-8fca-5cb3b905aedb"
           }
@@ -14752,7 +14752,8 @@
         "name": "icon",
         "description": [
                 "An icon is a small picture\n",
-                "representing an element-type"
+                "representing an element-type\n",
+                "or stereotype"
         ],
         "x_order": -1481702233,
         "y_order": 0,
@@ -16781,12 +16782,12 @@
         "id": 435,
         "main_type": 130,
         "type": "Comment",
-        "name": "image",
+        "name": "stereotype",
         "description": [
-                "The image of a stereotype.\n",
-                "This may replace either the stand-alone icon\n",
-                "or the icon in the top right corner\n",
-                "of a contour."
+                "A stereotype is a custom,\n",
+                "projectspecific type of an\n",
+                "element. It may be drawn\n",
+                "as text or as icon."
         ],
         "x_order": 1740096155,
         "y_order": 964280023,

@@ -1,7 +1,7 @@
-/* File: draw_stereotype_image.c; Copyright and License: see below */
+/* File: draw_stereotype_icon.c; Copyright and License: see below */
 
 #include "draw_svg_path_data.h"
-#include "draw/draw_stereotype_image.h"
+#include "draw/draw_stereotype_icon.h"
 #include "layout/layout_visible_set.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8stringbuf.h"
@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-const double DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT = 1.0;
+const double DRAW_STEREOTYPE_ICON_WIDTH_TO_HEIGHT = 1.0;
 
-u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
+u8_error_t draw_stereotype_icon_draw ( const draw_stereotype_icon_t *this_,
                                         const char *stereotype,
                                         const data_profile_part_t *profile,
                                         const GdkRGBA *default_color,
@@ -37,7 +37,7 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
         const char *const drawing_directives = data_classifier_get_description_const( optional_stereotype );
         geometry_rectangle_t io_view_rect;
         geometry_rectangle_init_empty( &io_view_rect );
-        result |= draw_stereotype_image_private_parse_svg_xml( this_,
+        result |= draw_stereotype_icon_private_parse_svg_xml( this_,
                                                                false,  /* draw */
                                                                drawing_directives,
                                                                &io_view_rect,
@@ -61,7 +61,7 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                 geometry_rectangle_set_left( &io_view_rect, geometry_rectangle_get_left( &io_view_rect ) - 0.5*(view_height-view_width) );
                 geometry_rectangle_set_width( &io_view_rect, view_height );
             }
-            result |= draw_stereotype_image_private_parse_svg_xml( this_,
+            result |= draw_stereotype_icon_private_parse_svg_xml( this_,
                                                                    true,  /* draw */
                                                                    drawing_directives,
                                                                    &io_view_rect,
@@ -84,23 +84,23 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
 }
 
 /*! \brief states of parsing svg, the xml parts */
-enum draw_stereotype_image_xml_enum {
-    DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH,  /*!< nothing passed yet */
-    DRAW_STEREOTYPE_IMAGE_XML_TAG_STARTED,  /*!< XML tag start passed */
-    DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG,  /*!< XML token path passed */
-    DRAW_STEREOTYPE_IMAGE_XML_D_ATTR,  /*!< XML attribute d: name passed */
-    DRAW_STEREOTYPE_IMAGE_XML_D_DEF,  /*!< XML attribute d: assignment passed */
-    DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR,  /*!< XML attribute fill: name passed, see svg spec 13.2. Specifying paint */
-    DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF,  /*!< XML attribute fill: assignment passed */
-    DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE,  /*!< XML attribute fill: single or double quotes passed */
-    DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR,  /*!< XML attribute stroke: name passed, see svg spec 13.2. Specifying paint */
-    DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF,  /*!< XML attribute stroke: assignment passed */
-    DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE,  /*!< XML attribute stroke: single or double quotes passed */
-    DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE,  /*!< single-quoted XML attribute-value of any other attribute-name */
-    DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE,  /*!< double-quoted XML attribute-value of any other attribute-name */
+enum draw_stereotype_icon_xml_enum {
+    DRAW_STEREOTYPE_ICON_XML_OUTSIDE_PATH,  /*!< nothing passed yet */
+    DRAW_STEREOTYPE_ICON_XML_TAG_STARTED,  /*!< XML tag start passed */
+    DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG,  /*!< XML token path passed */
+    DRAW_STEREOTYPE_ICON_XML_D_ATTR,  /*!< XML attribute d: name passed */
+    DRAW_STEREOTYPE_ICON_XML_D_DEF,  /*!< XML attribute d: assignment passed */
+    DRAW_STEREOTYPE_ICON_XML_FILL_ATTR,  /*!< XML attribute fill: name passed, see svg spec 13.2. Specifying paint */
+    DRAW_STEREOTYPE_ICON_XML_FILL_DEF,  /*!< XML attribute fill: assignment passed */
+    DRAW_STEREOTYPE_ICON_XML_FILL_VALUE,  /*!< XML attribute fill: single or double quotes passed */
+    DRAW_STEREOTYPE_ICON_XML_STROKE_ATTR,  /*!< XML attribute stroke: name passed, see svg spec 13.2. Specifying paint */
+    DRAW_STEREOTYPE_ICON_XML_STROKE_DEF,  /*!< XML attribute stroke: assignment passed */
+    DRAW_STEREOTYPE_ICON_XML_STROKE_VALUE,  /*!< XML attribute stroke: single or double quotes passed */
+    DRAW_STEREOTYPE_ICON_XML_INSIDE_SGLQ_VALUE,  /*!< single-quoted XML attribute-value of any other attribute-name */
+    DRAW_STEREOTYPE_ICON_XML_INSIDE_DBLQ_VALUE,  /*!< double-quoted XML attribute-value of any other attribute-name */
 };
 
-u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_image_t *this_,
+u8_error_t draw_stereotype_icon_private_parse_svg_xml ( const draw_stereotype_icon_t *this_,
                                                          bool draw,
                                                          const char *drawing_directives,
                                                          geometry_rectangle_t *io_view_rect,
@@ -118,7 +118,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
     u8_error_t result = U8_ERROR_NONE;
 
     /* states while parsing: */
-    enum draw_stereotype_image_xml_enum parser_state = DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH;
+    enum draw_stereotype_icon_xml_enum parser_state = DRAW_STEREOTYPE_ICON_XML_OUTSIDE_PATH;
     uint_fast16_t path_count = 0;
     GdkRGBA stroke_color = *default_color;
     GdkRGBA fill_color = { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
@@ -136,55 +136,55 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
         switch ( parser_state )
         {
-            case DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH:
+            case DRAW_STEREOTYPE_ICON_XML_OUTSIDE_PATH:
             {
                 if ( utf8stringview_equals_str( &tok, "<" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_TAG_STARTED;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_TAG_STARTED;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_TAG_STARTED:
+            case DRAW_STEREOTYPE_ICON_XML_TAG_STARTED:
             {
                 if ( utf8stringview_equals_str( &tok, "path" ) )
                 {
                     /* for each new path, reset the colors to defaults */
                     stroke_color = *default_color;
                     fill_color = (GdkRGBA) { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
                 else
                 {
                     /* no error, accept anythig here: */
                     /* not a path tag, back to ouside state */
                     /* TODO accept a namespace for the path maybe? */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_OUTSIDE_PATH;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG:
+            case DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG:
             {
                 if ( utf8stringview_equals_str( &tok, "d" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_D_ATTR;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_D_ATTR;
                 }
                 else if ( utf8stringview_equals_str( &tok, "stroke" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_STROKE_ATTR;
                 }
                 else if ( utf8stringview_equals_str( &tok, "fill" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_FILL_ATTR;
                 }
                 else if ( utf8stringview_equals_str( &tok, "\'" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_SGLQ_VALUE;
                 }
                 else if ( utf8stringview_equals_str( &tok, "\"" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_DBLQ_VALUE;
                 }
                 else if ( utf8stringview_equals_str( &tok, "/" ) )
                 {
@@ -218,16 +218,16 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                         }
                     }
                     /* end of path tag */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_OUTSIDE_PATH;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_D_ATTR:
+            case DRAW_STEREOTYPE_ICON_XML_D_ATTR:
             {
                 if ( utf8stringview_equals_str( &tok, "=" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_D_DEF;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_D_DEF;
                 }
                 else
                 {
@@ -241,12 +241,12 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                            );
 
                     /* not a d attribute, back to inside path state */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_D_DEF:
+            case DRAW_STEREOTYPE_ICON_XML_D_DEF:
             {
                 if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
@@ -297,15 +297,15 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                            );
                 }
                 /* back to inside path state */
-                parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR:
+            case DRAW_STEREOTYPE_ICON_XML_STROKE_ATTR:
             {
                 if ( utf8stringview_equals_str( &tok, "=" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_STROKE_DEF;
                 }
                 else
                 {
@@ -319,17 +319,17 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                            );
 
                     /* not a stroke attribute, back to inside path state */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF:
+            case DRAW_STEREOTYPE_ICON_XML_STROKE_DEF:
             {
                 if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* end of the value of another, ignored tag */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_STROKE_VALUE;
                     utf8stringbuf_clear( &xml_attr_value );
                 }
                 else
@@ -342,12 +342,12 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                            );
 
                     /* not a stroke attribute, back to inside path state */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE:
+            case DRAW_STEREOTYPE_ICON_XML_STROKE_VALUE:
             {
                 if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
@@ -370,7 +370,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                         }
                     }
                     /* end of the value of fill tag */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
                 else
                 {
@@ -379,11 +379,11 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR:
+            case DRAW_STEREOTYPE_ICON_XML_FILL_ATTR:
             {
                 if ( utf8stringview_equals_str( &tok, "=" ) )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_FILL_DEF;
                 }
                 else
                 {
@@ -397,17 +397,17 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                            );
 
                     /* not a fill attribute, back to inside path state */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF:
+            case DRAW_STEREOTYPE_ICON_XML_FILL_DEF:
             {
                 if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* end of the value of another, ignored tag */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_FILL_VALUE;
                     utf8stringbuf_clear( &xml_attr_value );
                 }
                 else
@@ -420,12 +420,12 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                            );
 
                     /* not a stroke attribute, back to inside path state */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE:
+            case DRAW_STEREOTYPE_ICON_XML_FILL_VALUE:
             {
                 if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
@@ -448,7 +448,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                         }
                     }
                     /* end of the value of fill tag */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
                 else
                 {
@@ -457,12 +457,12 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE:
+            case DRAW_STEREOTYPE_ICON_XML_INSIDE_SGLQ_VALUE:
             {
                 if ( utf8stringview_equals_str( &tok, "\'" ) )
                 {
                     /* end of the value of another, ignored tag */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
                 /*
                 else
@@ -473,12 +473,12 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE:
+            case DRAW_STEREOTYPE_ICON_XML_INSIDE_DBLQ_VALUE:
             {
                 if ( utf8stringview_equals_str( &tok, "\"" ) )
                 {
                     /* end of the value of another, ignored tag */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                    parser_state = DRAW_STEREOTYPE_ICON_XML_INSIDE_PATH_TAG;
                 }
                 /*
                 else
@@ -492,7 +492,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
     }
 
     /* report error on unfinished drawing */
-    if (( result == U8_ERROR_NONE )&&( parser_state != DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH ))
+    if (( result == U8_ERROR_NONE )&&( parser_state != DRAW_STEREOTYPE_ICON_XML_OUTSIDE_PATH ))
     {
         result |= U8_ERROR_PARSER_STRUCTURE;
         /* if no other error encountered yet, report this one: */

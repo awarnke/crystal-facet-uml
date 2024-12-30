@@ -13,7 +13,6 @@
 #include "layout/layout_visible_set.h"
 #include "pencil_label_layout_helper.h"
 #include "draw/draw_relationship_label.h"
-#include "draw/draw_stereotype_image.h"
 #include "geometry/geometry_rectangle.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"

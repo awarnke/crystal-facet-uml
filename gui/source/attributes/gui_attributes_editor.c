@@ -5,7 +5,7 @@
 #include "gui_attribute_type_of_diagram.h"
 #include "gui_attribute_type_of_feature.h"
 #include "gui_attribute_type_of_relationship.h"
-#include "draw/draw_stereotype_image.h"
+#include "draw/draw_stereotype_icon.h"
 #include "u8/u8_trace.h"
 #include "ctrl_simple_changer.h"
 #include "entity/data_table.h"
@@ -1251,15 +1251,15 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     geometry_rectangle_t view_rect;
                     u8_error_info_t svg_err_info;
-                    draw_stereotype_image_t svg_parser;
-                    draw_stereotype_image_init( &svg_parser );
+                    draw_stereotype_icon_t svg_parser;
+                    draw_stereotype_icon_init( &svg_parser );
                     const u8_error_t svg_err
-                        = draw_stereotype_image_parse_svg_xml( &svg_parser,
-                                                               text,  /* drawing_directives */
-                                                               &view_rect,
-                                                               &svg_err_info
-                                                             );
-                    draw_stereotype_image_destroy( &svg_parser );
+                        = draw_stereotype_icon_parse_svg_xml( &svg_parser,
+                                                              text,  /* drawing_directives */
+                                                              &view_rect,
+                                                              &svg_err_info
+                                                            );
+                    draw_stereotype_icon_destroy( &svg_parser );
                     if ( svg_err == U8_ERROR_NOT_FOUND )
                     {
                         U8_TRACE_INFO( "the stereotype has no image." );

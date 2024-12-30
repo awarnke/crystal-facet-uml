@@ -13,7 +13,7 @@
 #include "pencil_size.h"
 #include "layout/layout_relationship.h"
 #include "draw/draw_relationship_label.h"
-#include "draw/draw_stereotype_image.h"
+#include "draw/draw_stereotype_icon.h"
 #include "geometry/geometry_connector.h"
 #include "set/data_profile_part.h"
 #include "set/data_visible_set.h"

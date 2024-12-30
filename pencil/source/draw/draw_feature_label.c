@@ -18,7 +18,7 @@ void draw_feature_label_init( draw_feature_label_t *this_ )
 {
     utf8stream_writemem_init( &((*this_).text_builder), &((*this_).text_buffer), sizeof( (*this_).text_buffer) );
     draw_line_breaker_init( &((*this_).linebr) );
-    draw_stereotype_image_init( &((*this_).image_renderer) );
+    draw_stereotype_icon_init( &((*this_).image_renderer) );
 }
 
 void draw_feature_label_destroy( draw_feature_label_t *this_ )
@@ -29,7 +29,7 @@ void draw_feature_label_destroy( draw_feature_label_t *this_ )
     {
         U8_LOG_WARNING_HEX( "error at draw/draw_classifier_label: buffer too small", text_err );
     }
-    draw_stereotype_image_destroy( &((*this_).image_renderer) );
+    draw_stereotype_icon_destroy( &((*this_).image_renderer) );
 }
 
 void draw_feature_label_get_key_and_value_dimensions ( draw_feature_label_t *this_,
@@ -53,10 +53,10 @@ void draw_feature_label_get_key_and_value_dimensions ( draw_feature_label_t *thi
         /* calc stereotype image bounds */
         const char *const feature_stereotype = data_feature_get_value_const( feature );
         const bool has_stereotype_image
-            = draw_stereotype_image_exists( &((*this_).image_renderer), feature_stereotype, profile );
+            = draw_stereotype_icon_exists( &((*this_).image_renderer), feature_stereotype, profile );
         const geometry_dimensions_t icon_dim
             = has_stereotype_image
-            ? draw_stereotype_image_get_dimensions( &((*this_).image_renderer), pencil_size )
+            ? draw_stereotype_icon_get_dimensions( &((*this_).image_renderer), pencil_size )
             : (geometry_dimensions_t){ .width = 0.0, .height = 0.0 };
         const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
 
@@ -136,10 +136,10 @@ void draw_feature_label_draw_key_and_value ( draw_feature_label_t *this_,
     /* calc bounds of stereotype icon */
     const char *const feature_stereotype = data_feature_get_value_const( feature );
     const bool has_stereotype_image
-        = draw_stereotype_image_exists( &((*this_).image_renderer), feature_stereotype, profile );
+        = draw_stereotype_icon_exists( &((*this_).image_renderer), feature_stereotype, profile );
     const geometry_rectangle_t stereotype_box
         = has_stereotype_image
-        ? draw_stereotype_image_get_bounds( &((*this_).image_renderer),
+        ? draw_stereotype_icon_get_bounds( &((*this_).image_renderer),
                                             geometry_rectangle_get_left( label_box ),
                                             geometry_rectangle_get_top( label_box ),
                                             GEOMETRY_H_ALIGN_LEFT,
@@ -154,7 +154,7 @@ void draw_feature_label_draw_key_and_value ( draw_feature_label_t *this_,
     {
         u8_error_info_t err_info;
         const u8_error_t stereotype_err
-            = draw_stereotype_image_draw( &((*this_).image_renderer),
+            = draw_stereotype_icon_draw( &((*this_).image_renderer),
                                           feature_stereotype,
                                           profile,
                                           color,

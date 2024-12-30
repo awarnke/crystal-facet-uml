@@ -9,7 +9,7 @@
  *  \brief Draws titles and types of relationships
  */
 
-#include "draw/draw_stereotype_image.h"
+#include "draw/draw_stereotype_icon.h"
 #include "pencil_size.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
@@ -27,7 +27,7 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_diagram_label_struct {
-    draw_stereotype_image_t image_renderer;  /*!< own instance of stereotype image renderer */
+    draw_stereotype_icon_t image_renderer;  /*!< own instance of stereotype image renderer */
 };
 
 typedef struct draw_diagram_label_struct draw_diagram_label_t;

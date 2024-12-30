@@ -1,7 +1,7 @@
-/* File: draw_stereotype_image_test.h; Copyright and License: see below */
+/* File: draw_stereotype_icon_test.h; Copyright and License: see below */
 
-#ifndef DRAW_STEREOTYPE_IMAGE_TEST_H
-#define DRAW_STEREOTYPE_IMAGE_TEST_H
+#ifndef DRAW_STEREOTYPE_ICON_TEST_H
+#define DRAW_STEREOTYPE_ICON_TEST_H
 
 /*!
  *  \file
@@ -10,9 +10,9 @@
 
 #include "test_suite.h"
 
-test_suite_t draw_stereotype_image_test_get_suite(void);
+test_suite_t draw_stereotype_icon_test_get_suite(void);
 
-#endif  /* DRAW_STEREOTYPE_IMAGE_TEST_H */
+#endif  /* DRAW_STEREOTYPE_ICON_TEST_H */
 
 
 /*

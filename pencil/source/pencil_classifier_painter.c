@@ -18,7 +18,7 @@ void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
     draw_classifier_icon_init( &((*this_).draw_classifier_icon) );
     draw_classifier_label_init( &((*this_).draw_classifier_label) );
     draw_classifier_contour_init( &((*this_).draw_classifier_contour) );
-    draw_stereotype_image_init( &((*this_).draw_stereotype_image) );
+    draw_stereotype_icon_init( &((*this_).draw_stereotype_icon) );
 
     U8_TRACE_END();
 }
@@ -30,22 +30,22 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
     draw_classifier_icon_destroy( &((*this_).draw_classifier_icon) );
     draw_classifier_label_destroy( &((*this_).draw_classifier_label) );
     draw_classifier_contour_destroy( &((*this_).draw_classifier_contour) );
-    draw_stereotype_image_destroy( &((*this_).draw_stereotype_image) );
+    draw_stereotype_icon_destroy( &((*this_).draw_stereotype_icon) );
     pencil_marker_destroy( &((*this_).marker) );
 
     U8_TRACE_END();
 }
 
 void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
-                                      const layout_visible_classifier_t *layouted_classifier,
-                                      data_id_t mark_focused,
-                                      data_id_t mark_highlighted,
-                                      const data_small_set_t *mark_selected,
-                                      const layout_visible_set_t *layout_data,
-                                      const data_profile_part_t *profile,
-                                      const pencil_size_t *pencil_size,
-                                      PangoLayout *font_layout,
-                                      cairo_t *cr )
+                                     const layout_visible_classifier_t *layouted_classifier,
+                                     data_id_t mark_focused,
+                                     data_id_t mark_highlighted,
+                                     const data_small_set_t *mark_selected,
+                                     const layout_visible_set_t *layout_data,
+                                     const data_profile_part_t *profile,
+                                     const pencil_size_t *pencil_size,
+                                     PangoLayout *font_layout,
+                                     cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layouted_classifier );
@@ -62,8 +62,8 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
         = layout_visible_classifier_get_symbol_box_const( layouted_classifier );
     const geometry_rectangle_t *const classifier_label_box
         = layout_visible_classifier_get_label_box_const( layouted_classifier );
-    //const geometry_rectangle_t *const classifier_icon_box
-    //    = layout_visible_classifier_get_icon_box_const( layouted_classifier );
+    const geometry_rectangle_t *const classifier_icon_box
+        = layout_visible_classifier_get_icon_box_const( layouted_classifier );
     const data_classifier_t *const classifier
         = data_visible_classifier_get_classifier_const( visible_classifier );
     const data_diagramelement_t *const diagramelement
@@ -71,7 +71,7 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
     const bool has_stereotype_image
-        = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), classifier_stereotype, profile );
+        = draw_stereotype_icon_exists( &((*this_).draw_stereotype_icon), classifier_stereotype, profile );
     const data_diagramelement_flag_t display_flags
         = data_diagramelement_get_display_flags( diagramelement );
 
@@ -103,36 +103,16 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
         /* check if the image is a small icon within a contour or if it is the full symbol */
         const bool has_contour = geometry_rectangle_is_containing( classifier_symbol_box, classifier_label_box );
 
-        /* determine border sizes of the classifier-shape */
-        const geometry_rectangle_t space_and_label
-            = has_contour
-            ? draw_classifier_contour_calc_inner_area( &((*this_).draw_classifier_contour),
-                                                       classifier_type,
-                                                       classifier_symbol_box,
-                                                       pencil_size
-                                                     )
-            : (*classifier_symbol_box);
-
-        /* draw icon */
         cairo_set_line_width( cr, std_line_width );
-        const geometry_rectangle_t stereotype_box
-            = has_contour
-            ? draw_stereotype_image_get_bounds( &((*this_).draw_stereotype_image),
-                                                geometry_rectangle_get_right( &space_and_label ),  /* x */
-                                                geometry_rectangle_get_top( &space_and_label ),  /* y */
-                                                GEOMETRY_H_ALIGN_RIGHT,
-                                                GEOMETRY_V_ALIGN_TOP,
-                                                pencil_size
-                                              )
-            : (*classifier_symbol_box);
+
         u8_error_info_t err_info;
         const u8_error_t stereotype_err
-            = draw_stereotype_image_draw( &((*this_).draw_stereotype_image),
+            = draw_stereotype_icon_draw( &((*this_).draw_stereotype_icon),
                                           data_classifier_get_stereotype_const( classifier ),
                                           profile,
                                           &foreground_color,
                                           &err_info,
-                                          &stereotype_box,
+                                          has_contour ? classifier_icon_box : classifier_symbol_box,
                                           cr
                                         );
         if ( u8_error_info_is_error( &err_info ) )
@@ -473,10 +453,10 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
 }
 
 void pencil_classifier_painter_private_draw_feature_compartments( const pencil_classifier_painter_t *this_,
-                                                                   const layout_visible_classifier_t *layouted_classifier,
-                                                                   const layout_visible_set_t *layout_data,
-                                                                   const pencil_size_t *pencil_size,
-                                                                   cairo_t *cr )
+                                                                  const layout_visible_classifier_t *layouted_classifier,
+                                                                  const layout_visible_set_t *layout_data,
+                                                                  const pencil_size_t *pencil_size,
+                                                                  cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layouted_classifier );

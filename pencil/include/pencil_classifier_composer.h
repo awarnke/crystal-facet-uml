@@ -17,7 +17,7 @@
 #include "draw/draw_classifier_icon.h"
 #include "draw/draw_classifier_label.h"
 #include "draw/draw_classifier_contour.h"
-#include "draw/draw_stereotype_image.h"
+#include "draw/draw_stereotype_icon.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_h_align.h"
@@ -42,7 +42,7 @@ struct pencil_classifier_composer_struct {
     draw_classifier_icon_t draw_classifier_icon;  /*!< collection of draw symbol/icon functions */
     draw_classifier_label_t draw_classifier_label;  /*!< collection of draw label functions */
     draw_classifier_contour_t draw_classifier_contour;  /*!< collection of draw contour functions */
-    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custom stereotype images */
+    draw_stereotype_icon_t draw_stereotype_icon;  /*!< collection of draw functions for custom stereotype images */
 };
 
 typedef struct pencil_classifier_composer_struct pencil_classifier_composer_t;
@@ -117,24 +117,24 @@ int pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
- *  \param with_stereotype false if no stereotype label shall be printed because an image is shown instead
+ *  \param has_stereotype_icon true if no stereotype label shall be printed because an icon is shown instead
  *  \param space_and_label proposed rectangle for the position, width and height of: label and icon and features and contained classifiers
  *  \param icon_dim dimensions of the label
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype and name)
+ *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype-as-text and name)
  *  \param out_label_compartment position and dimensions of label compartment (width as the inner_area if fitting, may contain an icon)
  *  \return 0 in case of success, 1 in case of additionally needed width or height
  */
 int pencil_classifier_composer_private_get_label_box ( pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
-                                                       bool with_stereotype,
+                                                       bool has_stereotype_icon,
                                                        const geometry_rectangle_t *space_and_label,
-                                                       const geometry_dimensions_t *icon_dim,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
                                                        geometry_rectangle_t *out_label_box,
+                                                       geometry_rectangle_t *out_icon_box,
                                                        geometry_rectangle_t *out_label_compartment
                                                      );
 

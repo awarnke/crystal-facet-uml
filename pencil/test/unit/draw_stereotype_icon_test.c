@@ -1,7 +1,7 @@
-/* File: draw_stereotype_image_test.c; Copyright and License: see below */
+/* File: draw_stereotype_icon_test.c; Copyright and License: see below */
 
-#include "draw_stereotype_image_test.h"
-#include "draw/draw_stereotype_image.h"
+#include "draw_stereotype_icon_test.h"
+#include "draw/draw_stereotype_icon.h"
 #include "entity/data_classifier_type.h"
 #include "test_fixture.h"
 #include "test_expect.h"
@@ -14,11 +14,11 @@ static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *fix )
 static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *fix );
 static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *fix );
 
-test_suite_t draw_stereotype_image_test_get_suite(void)
+test_suite_t draw_stereotype_icon_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "draw_stereotype_image_test_get_suite",
+                     "draw_stereotype_icon_test_get_suite",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
@@ -44,8 +44,8 @@ static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *fix )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
-    draw_stereotype_image_t svg_parser;
-    draw_stereotype_image_init( &svg_parser );
+    draw_stereotype_icon_t svg_parser;
+    draw_stereotype_icon_init( &svg_parser );
 
     const char *const drawing_directives[DRAW_STEREOTYPE_IMAGE_SIMPLE_TESTS_MAX]
     = {
@@ -74,7 +74,7 @@ static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *fix )
     {
         const bool is_arc = (( t_case == 9 )||( t_case == 19 ));
         const u8_error_t svg_err
-            = draw_stereotype_image_parse_svg_xml( &svg_parser,
+            = draw_stereotype_icon_parse_svg_xml( &svg_parser,
                                                    drawing_directives[t_case],
                                                    &view_rect,
                                                    &svg_err_info
@@ -87,7 +87,7 @@ static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_height( &view_rect ) );
     }
 
-    draw_stereotype_image_destroy( &svg_parser );
+    draw_stereotype_icon_destroy( &svg_parser );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -95,8 +95,8 @@ static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *fix )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
-    draw_stereotype_image_t svg_parser;
-    draw_stereotype_image_init( &svg_parser );
+    draw_stereotype_icon_t svg_parser;
+    draw_stereotype_icon_init( &svg_parser );
 
     const char *const drawing_directives
         = "<path d=\""
@@ -122,7 +122,7 @@ static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *fix )
         "A 1,1 45 0 1 -2 0 1,2 45 1 0 -1 -1"
         "\"/>";
     const u8_error_t svg_err
-        = draw_stereotype_image_parse_svg_xml( &svg_parser,
+        = draw_stereotype_icon_parse_svg_xml( &svg_parser,
                                                drawing_directives,
                                                &view_rect,
                                                &svg_err_info
@@ -135,7 +135,7 @@ static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_DOUBLE( 8.0, geometry_rectangle_get_width( &view_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 11.0, geometry_rectangle_get_height( &view_rect ) );
 
-    draw_stereotype_image_destroy( &svg_parser );
+    draw_stereotype_icon_destroy( &svg_parser );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -145,8 +145,8 @@ static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *fix )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
-    draw_stereotype_image_t svg_parser;
-    draw_stereotype_image_init( &svg_parser );
+    draw_stereotype_icon_t svg_parser;
+    draw_stereotype_icon_init( &svg_parser );
 
     const char *const drawing_directives[DRAW_STEREOTYPE_IMAGE_INVALID_TESTS_MAX]
     = {
@@ -164,7 +164,7 @@ static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *fix )
         const bool no_path = ( t_case <= 3 );
         const bool parse_err = ( t_case >= 3 );
         const u8_error_t svg_err
-            = draw_stereotype_image_parse_svg_xml( &svg_parser,
+            = draw_stereotype_icon_parse_svg_xml( &svg_parser,
                                                    drawing_directives[t_case],
                                                    &view_rect,
                                                    &svg_err_info
@@ -179,7 +179,7 @@ static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *fix )
         }
     }
 
-    draw_stereotype_image_destroy( &svg_parser );
+    draw_stereotype_icon_destroy( &svg_parser );
     return TEST_CASE_RESULT_OK;
 }
 

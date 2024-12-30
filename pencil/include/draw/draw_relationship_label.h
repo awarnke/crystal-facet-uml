@@ -10,7 +10,7 @@
  */
 
 #include "draw/draw_line_breaker.h"
-#include "draw/draw_stereotype_image.h"
+#include "draw/draw_stereotype_icon.h"
 #include "pencil_size.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
@@ -32,7 +32,7 @@ struct draw_relationship_label_struct {
     char text_buffer[ ( DATA_RELATIONSHIP_MAX_NAME_SIZE ) * 4 ];  /*!< x4 because any character may be followed by a 3-byte space */
     utf8stream_writemem_t text_builder;  /*!< a pair of utf8stream_writer_t and universal_memory_output_stream_t to build an output text */
     draw_line_breaker_t linebr;  /*!< An object to insert zero-width spaces (a 3 byte utf8 sequence) wherever a linebreak is allowed */
-    draw_stereotype_image_t image_renderer;  /*!< own instance of stereotype image renderer */
+    draw_stereotype_icon_t image_renderer;  /*!< own instance of stereotype image renderer */
 };
 
 typedef struct draw_relationship_label_struct draw_relationship_label_t;

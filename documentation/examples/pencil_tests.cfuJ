@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.62.0"
+    "generator_version": "1.62.1"
   }
   ,
   "views":
@@ -3371,6 +3371,61 @@
             "classifier_name": "boundary",
             "node": "ba32cf89-fe44-4fc7-b1a6-fae5a7189b55",
             "uuid": "16b690b8-b738-41ba-97a7-e805f10b3a47"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 39,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "stereotype": "flower_as_paths",
+        "name": "Application to Elements",
+        "description": [
+                ""
+        ],
+        "list_order": 131071,
+        "display_flags": 0,
+        "parent_name": "Stereotypes",
+        "parent": "2f4e6fc2-567e-48a3-bb80-1561e010226d",
+        "uuid": "b2c96cad-973a-4c76-b3ad-a0ae4e151350",
+        "diagramelements":
+        [
+          {
+            "id": 340,
+            "display_flags": 0,
+            "classifier_name": "Class-2",
+            "node": "3cf5d153-18f8-4ef0-ad7f-ec57c5010b56",
+            "uuid": "810e7cf0-ce2e-42dc-a590-694b6d990c1f"
+          },
+          {
+            "id": 341,
+            "display_flags": 0,
+            "classifier_name": "Package w child",
+            "node": "b1a41bc4-c6e5-4770-a90d-954b0bc9597f",
+            "uuid": "e77c6a33-fec6-4d81-8886-18389d3f14e3"
+          },
+          {
+            "id": 342,
+            "display_flags": 0,
+            "classifier_name": "Package w/o child",
+            "node": "fd508122-21b7-4894-a65b-a58f06485caa",
+            "uuid": "ee0e3325-b1e8-4535-b893-6848a267c023"
+          },
+          {
+            "id": 343,
+            "display_flags": 0,
+            "classifier_name": "image",
+            "node": "4168d2ed-a36c-4823-a356-4728db22adb9",
+            "uuid": "390d7f4d-65ff-4850-9b38-c9fbc0c85af4"
+          },
+          {
+            "id": 344,
+            "display_flags": 0,
+            "classifier_name": "start node",
+            "node": "29399844-146e-4606-bc63-50321f8d74ba",
+            "uuid": "95e384d7-345f-43f6-bcd0-d31154a657d3"
           }
         ]
       }
@@ -9581,6 +9636,125 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 191,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "flower_as_paths",
+        "name": "Class-2",
+        "description": [
+                ""
+        ],
+        "x_order": -958952557,
+        "y_order": -884364248,
+        "list_order": -884364248,
+        "uuid": "3cf5d153-18f8-4ef0-ad7f-ec57c5010b56",
+        "features":
+        [
+          {
+            "id": 140,
+            "main_type": 0,
+            "type": "Property",
+            "key": "attr",
+            "value": "flower_as_paths",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "7d665735-b821-4360-90b1-2d5c30a3892f"
+          },
+          {
+            "id": 141,
+            "main_type": 2,
+            "type": "Port",
+            "key": "port",
+            "value": "flower_as_paths",
+            "description": [
+                ""
+            ],
+            "list_order": 210763881,
+            "uuid": "b2de98b7-a86b-4309-a780-e89bb8f0ab9c"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 192,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "flower_as_paths",
+        "name": "Package w child",
+        "description": [
+                ""
+        ],
+        "x_order": 1288203974,
+        "y_order": -945315206,
+        "list_order": -945315206,
+        "uuid": "b1a41bc4-c6e5-4770-a90d-954b0bc9597f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 193,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "flower_as_paths",
+        "name": "Package w/o child",
+        "description": [
+                ""
+        ],
+        "x_order": 1382803272,
+        "y_order": -934360077,
+        "list_order": -934360077,
+        "uuid": "fd508122-21b7-4894-a65b-a58f06485caa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 194,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "flower_as_paths",
+        "name": "image",
+        "description": [
+                ""
+        ],
+        "x_order": 1403914702,
+        "y_order": -890448111,
+        "list_order": -890448111,
+        "uuid": "4168d2ed-a36c-4823-a356-4728db22adb9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 195,
+        "main_type": 151,
+        "type": "InitialNode",
+        "stereotype": "flower_as_paths",
+        "name": "start node",
+        "description": [
+                ""
+        ],
+        "x_order": 1394452227,
+        "y_order": -885222299,
+        "list_order": -885222299,
+        "uuid": "29399844-146e-4606-bc63-50321f8d74ba",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -11907,6 +12081,42 @@
         "from_node": "f3b3eab2-3b2a-41ca-8ac8-73e4f345ddda",
         "to_node": "72d613c3-0bc7-4451-9bad-7db3afa92986",
         "uuid": "44b50f57-fca6-4967-b16c-52cf391e4a60"
+      }
+    },
+    {
+      "relationship": {
+        "id": 135,
+        "main_type": 200,
+        "type": "Association",
+        "stereotype": "flower_as_paths",
+        "name": "relation",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Class-2",
+        "to_classifier_name": "start node",
+        "from_node": "3cf5d153-18f8-4ef0-ad7f-ec57c5010b56",
+        "to_node": "29399844-146e-4606-bc63-50321f8d74ba",
+        "uuid": "8ddd5718-a064-4455-9e3a-13b752726aa0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 134,
+        "main_type": 300,
+        "type": "Association",
+        "stereotype": "flower_as_paths",
+        "name": "contains",
+        "description": [
+                ""
+        ],
+        "list_order": -934360077,
+        "from_classifier_name": "Package w child",
+        "to_classifier_name": "Package w/o child",
+        "from_node": "b1a41bc4-c6e5-4770-a90d-954b0bc9597f",
+        "to_node": "fd508122-21b7-4894-a65b-a58f06485caa",
+        "uuid": "0f3e1308-11e2-4073-8bc7-9013f4002ed6"
       }
     }
   ]
