@@ -528,7 +528,7 @@ void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *thi
 
     double tab_width;
     double tab_height;
-    const bool label_in_tab = ( geometry_rectangle_get_top( label_box ) < (border_top + gap + gap) );
+    const bool label_in_tab = ( geometry_rectangle_get_top( label_box ) < ( border_top + gap + gap ) );
     if ( label_in_tab )
     {
         tab_width = geometry_rectangle_get_width ( label_box ) + gap + gap;
