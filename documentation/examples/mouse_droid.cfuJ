@@ -7618,6 +7618,7 @@
         "name": "SW",
         "description": [
                 "<path fill=\"#eeffdd\" d=\"\n",
+                "M 0,-1\n",
                 "M 1.5,5 \n",
                 "L 2,3\n",
                 "C 4,2 6,2, 8,3\n",
