@@ -1100,21 +1100,21 @@
           {
             "id": 89,
             "display_flags": 0,
-            "classifier_name": "Explore Environment",
+            "classifier_name": "Explore environment",
             "node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
             "uuid": "fb2944ad-73d1-4f8c-ad5a-170797f0dd31"
           },
           {
             "id": 90,
             "display_flags": 0,
-            "classifier_name": "Perform Movement",
+            "classifier_name": "Perform movement",
             "node": "936fe58f-da28-4424-ab39-57acf1ca7066",
             "uuid": "e4798f52-57c1-4a4e-9625-98fa22e5cdcb"
           },
           {
             "id": 91,
             "display_flags": 0,
-            "classifier_name": "Steer motors of tools",
+            "classifier_name": "Operate zools",
             "node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
             "uuid": "22ec9f93-3e8e-430e-a171-f721d344f00c"
           },
@@ -1178,7 +1178,7 @@
             "id": 241,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Explore Environment",
+            "classifier_name": "Explore environment",
             "node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
             "uuid": "9cecfba7-147c-41a5-b857-6a8a65b5a8ac"
           },
@@ -1186,7 +1186,7 @@
             "id": 242,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Steer motors of tools",
+            "classifier_name": "Operate zools",
             "node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
             "uuid": "bc757720-374a-4c34-9ed0-8687c0682c19"
           },
@@ -3356,8 +3356,8 @@
         "description": [
                 "The commander instructs the MoD5G on the mission to perform."
         ],
-        "x_order": 676128467,
-        "y_order": -1472838877,
+        "x_order": 6528480,
+        "y_order": 588772117,
         "list_order": -474887197,
         "uuid": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
         "features":
@@ -4784,7 +4784,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "env-perception",
-        "name": "Explore Environment",
+        "name": "Explore environment",
         "description": [
                 "When the mouse droid is missing relevant data on the environment, it plans a list of actions that suits the purpose of gaining the missing knowledge."
         ],
@@ -4802,11 +4802,11 @@
         "id": 68,
         "main_type": 101,
         "type": "UseCase",
-        "name": "Perform Movement",
+        "name": "Perform movement",
         "description": [
                 ""
         ],
-        "x_order": 403710992,
+        "x_order": 676128467,
         "y_order": 37845092,
         "list_order": 36311310,
         "uuid": "936fe58f-da28-4424-ab39-57acf1ca7066",
@@ -4820,7 +4820,7 @@
         "id": 69,
         "main_type": 101,
         "type": "UseCase",
-        "name": "Steer motors of tools",
+        "name": "Operate zools",
         "description": [
                 ""
         ],
@@ -5614,7 +5614,7 @@
         ],
         "x_order": -1319632463,
         "y_order": -1212883541,
-        "list_order": 742633411,
+        "list_order": 470202357,
         "uuid": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "features":
         [
@@ -5879,7 +5879,7 @@
         ],
         "x_order": -1693475552,
         "y_order": -1289206389,
-        "list_order": -54224028,
+        "list_order": -185818802,
         "uuid": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "features":
         [
@@ -7916,7 +7916,7 @@
         ],
         "list_order": 38074468,
         "from_classifier_name": "Drive to location",
-        "to_classifier_name": "Explore Environment",
+        "to_classifier_name": "Explore environment",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "8c28af62-06e1-45f5-bb40-4e70bc760c24"
@@ -7933,7 +7933,7 @@
         ],
         "list_order": 38107236,
         "from_classifier_name": "Drive to location",
-        "to_classifier_name": "Perform Movement",
+        "to_classifier_name": "Perform movement",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
         "uuid": "8dc36e54-8ccc-46bb-8b03-9e20d3b30caa"
@@ -7967,7 +7967,7 @@
         ],
         "list_order": 38041700,
         "from_classifier_name": "Repair using tools",
-        "to_classifier_name": "Steer motors of tools",
+        "to_classifier_name": "Operate zools",
         "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "4f6d0591-b868-4f72-ae1a-dc946c5a5e6a"
@@ -9749,7 +9749,7 @@
         ],
         "list_order": 38172772,
         "from_classifier_name": "Base Micro Controller",
-        "to_classifier_name": "Steer motors of tools",
+        "to_classifier_name": "Operate zools",
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "ae2b496b-cc41-4be9-9305-cb51f6f7946e"
@@ -9766,7 +9766,7 @@
         ],
         "list_order": 38205540,
         "from_classifier_name": "Base Micro Controller",
-        "to_classifier_name": "Perform Movement",
+        "to_classifier_name": "Perform movement",
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
         "uuid": "53fe9cf0-0ba5-4b34-9c08-981733857162"
@@ -9977,7 +9977,7 @@
         ],
         "list_order": 38238308,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "Explore Environment",
+        "to_classifier_name": "Explore environment",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "6dd4f27e-2c1e-4876-9597-521749b78497"
@@ -10027,7 +10027,7 @@
                 ""
         ],
         "list_order": 38140004,
-        "from_classifier_name": "Steer motors of tools",
+        "from_classifier_name": "Operate zools",
         "to_classifier_name": "Base Micro Controller",
         "from_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "to_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
@@ -11782,7 +11782,7 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
-        "to_classifier_name": "Explore Environment",
+        "to_classifier_name": "Explore environment",
         "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "bcabd929-6e0b-4bf3-9c7b-86a800ffe8d4"
@@ -11833,7 +11833,7 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "L3Req: Operate motors of tool-arm",
-        "to_classifier_name": "Steer motors of tools",
+        "to_classifier_name": "Operate zools",
         "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "3a931cae-b951-439f-a5a5-a75b4ac9c0b9"

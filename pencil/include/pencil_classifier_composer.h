@@ -119,10 +119,10 @@ int pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
  *  \param has_stereotype_icon true if no stereotype label shall be printed because an icon is shown instead
  *  \param space_and_label proposed rectangle for the position, width and height of: label and icon and features and contained classifiers
- *  \param icon_dim dimensions of the label
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype-as-text and name)
+ *  \param out_icon_box position and dimensions of the icon box of the stereotype icon (in case of has_stereotype_icon)
  *  \param out_label_compartment position and dimensions of label compartment (width as the inner_area if fitting, may contain an icon)
  *  \return 0 in case of success, 1 in case of additionally needed width or height
  */

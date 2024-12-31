@@ -459,22 +459,7 @@ int pencil_classifier_composer_private_get_label_box( pencil_classifier_composer
                                                              pencil_size
                                                            );
             double comp_top = geometry_rectangle_get_top( &envelope ) + 2.0 * gap;
-#if 0
-            /* calculate label_box */
-            geometry_rectangle_reinit( out_label_box,
-                                       geometry_rectangle_get_left( &envelope ) + 2.0 * gap,
-                                       geometry_rectangle_get_top( &envelope ) + 2.0 * gap,
-                                       text_width,
-                                       text_height
-                                     );
-            /* calculate icon_box */
-            geometry_rectangle_reinit( out_icon_box,
-                                       geometry_rectangle_get_left( &envelope ) + 2.0 * gap + text_width + icon_gap,
-                                       geometry_rectangle_get_top( &envelope ) + 2.0 * gap,
-                                       geometry_dimensions_get_width( &icon_dim ),
-                                       geometry_dimensions_get_height( &icon_dim )
-                                     );
-#endif
+
             /* calculate label_box */
             geometry_rectangle_reinit( out_label_box,
                                        comp_left,
@@ -506,14 +491,6 @@ int pencil_classifier_composer_private_get_label_box( pencil_classifier_composer
                                        text_height
                                      );
             /* calculate icon_box */
-#if 0
-            geometry_rectangle_reinit( out_icon_box,
-                                       geometry_rectangle_get_right( space_and_label ) - geometry_dimensions_get_width( &icon_dim ),
-                                       top_border,
-                                       geometry_dimensions_get_width( &icon_dim ),
-                                       geometry_dimensions_get_height( &icon_dim )
-                                     );
-#endif
             geometry_rectangle_reinit( out_icon_box,
                                        comp_left + comp_width - geometry_dimensions_get_width( &icon_dim ),
                                        top_border,

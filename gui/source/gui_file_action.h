@@ -33,7 +33,6 @@ typedef struct gui_file_action_struct gui_file_action_t;
  *  \param controller pointer to the controller object to use
  *  \param data_file pointer to the data_file object to use
  *  \param message_to_user pointer to the message_to_user object to use
- *  \param save_button pointer to the save button, which indicates if the database is saved or not
  */
 void gui_file_action_init( gui_file_action_t *this_,
                            ctrl_controller_t *controller,

@@ -109,7 +109,7 @@ static inline int utf8codepoint_is_unicode( const utf8codepoint_t *this_ );
  * \n
  * Unicode only defines code points from 0x000000 to 0x10ffff. And even within this range,
  * some code points are invalid. Call
- * \link utf8codepoint_is_unicode(const utf8codepoint_t this_) utf8codepoint_is_unicode \endlink
+ * \link utf8codepoint_is_unicode(const utf8codepoint_t *this_) utf8codepoint_is_unicode \endlink
  * to check if the code point encodes a valid unicode character.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  * \param this_ pointer to own object attributes

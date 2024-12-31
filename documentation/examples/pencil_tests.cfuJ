@@ -647,7 +647,7 @@
           {
             "id": 322,
             "display_flags": 0,
-            "classifier_name": "inner package",
+            "classifier_name": "inner",
             "node": "066c3c82-b9bc-4ecd-9b50-125dacbbcfd9",
             "uuid": "5778ce95-ba7d-4521-8cde-b005605948e6"
           }
@@ -9305,7 +9305,7 @@
         "id": 174,
         "main_type": 124,
         "type": "Package",
-        "name": "inner package",
+        "name": "inner",
         "description": [
                 ""
         ],
@@ -9891,7 +9891,7 @@
         ],
         "list_order": 386784964,
         "from_classifier_name": "Package",
-        "to_classifier_name": "inner package",
+        "to_classifier_name": "inner",
         "from_node": "d8c0adcf-acef-4316-83cf-d9c7714cd4a7",
         "to_node": "066c3c82-b9bc-4ecd-9b50-125dacbbcfd9",
         "uuid": "7ec5f72f-f82c-4d41-be43-d6b4f043816a"

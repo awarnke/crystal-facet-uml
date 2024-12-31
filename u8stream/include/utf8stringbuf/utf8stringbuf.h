@@ -160,7 +160,7 @@ static inline utf8stringbuf_t utf8stringbuf( char *that );
 /*!
  *  \brief utf8stringbuf_wrong_init returns a stringbuf struct, buf is not modified
  *
- *  Use \link utf8stringbuf_clear(utf8stringbuf_t) utf8stringbuf_clear \endlink to empty the string buffer.
+ *  Use \link utf8stringbuf_clear(utf8stringbuf_t*) utf8stringbuf_clear \endlink to empty the string buffer.
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param buf pointer to a non-const byte array. buf must not be NULL.
  *  \param size size of the buf array. size shall be greater or equal 1.
