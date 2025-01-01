@@ -35,7 +35,7 @@ io_import_mode_t main_execute_private_get_selected_mode( char *arg_fmt );
 
 
 /*
-Copyright 2019-2024 Andreas Warnke
+Copyright 2019-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

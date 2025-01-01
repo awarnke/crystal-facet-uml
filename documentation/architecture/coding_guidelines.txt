@@ -189,5 +189,5 @@
  *  https://www.autosar.org/fileadmin/standards/R22-11/AP/AUTOSAR_RS_CPP14Guidelines.pdf
  *
  *  \section cfu-coding-guidelines-apx Appendix
- *  \author Copyright 2016-2024 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ *  \author Copyright 2016-2025 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */

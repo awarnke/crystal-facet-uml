@@ -70,6 +70,6 @@ About
 
 > Version: see META_VERSION_STR in [meta_version.inl](main/include/meta/meta_version.inl)
 >
-> Author+Copyright: 2016-2024 Andreas Warnke
+> Author and Copyright: 2016-2025 Andreas Warnke
 >
 > License: Apache 2.0 License

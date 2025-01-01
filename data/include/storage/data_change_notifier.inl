@@ -46,7 +46,7 @@ static inline void data_change_notifier_disable_stealth_mode ( data_change_notif
 
 
 /*
-Copyright 2018-2024 Andreas Warnke
+Copyright 2018-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

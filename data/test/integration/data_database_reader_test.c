@@ -615,7 +615,7 @@ static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix )
 
 
 /*
- * Copyright 2017-2024 Andreas Warnke
+ * Copyright 2017-2025 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

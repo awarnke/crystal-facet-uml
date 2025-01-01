@@ -85,7 +85,7 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement ( ctrl_
 
 
 /*
-Copyright 2018-2024 Andreas Warnke
+Copyright 2018-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

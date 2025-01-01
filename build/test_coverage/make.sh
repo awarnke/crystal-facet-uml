@@ -51,7 +51,7 @@ zip -r crystal-facet-uml_${VERSIONSTR}_covts_coverage.zip crystal-facet-uml_${VE
 echo "output written to crystal-facet-uml_${VERSIONSTR}_covts_coverage"
 
 
-# Copyright 2021-2024 Andreas Warnke
+# Copyright 2021-2025 Andreas Warnke
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

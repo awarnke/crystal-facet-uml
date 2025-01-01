@@ -272,7 +272,7 @@ static inline data_row_t tvec_add_relationship( tvec_add_t *this_,
 
 
 /*
- * Copyright 2023-2024 Andreas Warnke
+ * Copyright 2023-2025 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

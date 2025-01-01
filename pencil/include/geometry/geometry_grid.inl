@@ -85,7 +85,7 @@ static inline const geometry_non_linear_scale_t * geometry_grid_get_y_scale_cons
 
 
 /*
-Copyright 2024-2024 Andreas Warnke
+Copyright 2024-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

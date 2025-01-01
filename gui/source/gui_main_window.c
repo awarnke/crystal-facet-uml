@@ -1136,7 +1136,7 @@ void gui_main_window_state_callback( GtkWidget* window, GtkStateFlags old_flags,
 
 
 /*
-Copyright 2016-2024 Andreas Warnke
+Copyright 2016-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

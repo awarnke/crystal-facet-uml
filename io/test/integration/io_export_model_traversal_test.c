@@ -418,7 +418,7 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
 
 
 /*
- * Copyright 2020-2024 Andreas Warnk e
+ * Copyright 2020-2025 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

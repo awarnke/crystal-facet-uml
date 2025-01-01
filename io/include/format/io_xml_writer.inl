@@ -189,7 +189,7 @@ static inline bool io_xml_writer_private_is_xml_tag_name_character ( io_xml_writ
 
 
 /*
-Copyright 2019-2024 Andreas Warnke
+Copyright 2019-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -75,7 +75,7 @@ static inline const data_full_id_t *layout_subelement_id_get_id_const( const lay
 
 
 /*
-Copyright 2024-2024 Andreas Warnke
+Copyright 2024-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

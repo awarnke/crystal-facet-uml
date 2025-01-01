@@ -338,7 +338,7 @@ static test_case_result_t test_to_stream( test_fixture_t *test_env )
 
 
 /*
- * Copyright 2024-2024 Andreas Warnke
+ * Copyright 2024-2025 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

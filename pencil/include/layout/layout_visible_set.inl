@@ -158,7 +158,7 @@ static inline uint32_t layout_visible_set_count_descendants ( const layout_visib
 
 
 /*
-Copyright 2017-2024 Andreas Warnke
+Copyright 2017-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -112,7 +112,7 @@ echo `date +'%H:%M'`" finished. Please check the log files for errors."
 # 3) https://mesonbuild.com/Cross-compilation.html (2018-2022)
 # 4) https://autotools.info/pkgconfig/cross-compiling.html
 
-# Copyright 2022-2024 Andreas Warnke
+# Copyright 2022-2025 Andreas Warnke
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

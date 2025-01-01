@@ -27,7 +27,7 @@ const data_relationship_type_t DATA_RELATIONSHIP_TYPE_ARRAY [DATA_RELATIONSHIP_T
 
 
 /*
-Copyright 2021-2024 Andreas Warnke
+Copyright 2021-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -28,7 +28,7 @@ static inline gui_attributes_editor_t* gui_attribute_type_of_relationship_get_ed
 
 
 /*
-Copyright 2023-2024 Andreas Warnke
+Copyright 2023-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -244,7 +244,7 @@ static inline u8_error_t data_database_text_search_private_bind_three_texts_to_s
 
 
 /*
-Copyright 2020-2024 Andreas Warnke
+Copyright 2020-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -58,7 +58,7 @@ static inline u8_error_t draw_line_breaker_append ( const draw_line_breaker_t *t
 
 
 /*
-Copyright 2024-2024 Andreas Warnke
+Copyright 2024-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

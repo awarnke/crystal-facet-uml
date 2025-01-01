@@ -38,7 +38,7 @@ static inline const char * xmi_diagram_info_get_name ( const xmi_diagram_info_t 
 
 
 /*
-Copyright 2022-2024 Andreas Warnke
+Copyright 2022-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

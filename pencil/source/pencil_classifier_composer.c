@@ -542,7 +542,7 @@ int pencil_classifier_composer_private_get_label_box( pencil_classifier_composer
 
 
 /*
-Copyright 2016-2024 Andreas Warnke
+Copyright 2016-2025 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
