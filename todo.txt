@@ -71,6 +71,7 @@ ideas for future versions:
       Possibly crystal-facet-uml searches and waits for a non-existing accessability service?
   [ ] in debug mode, on WSL, the program does not quit when the main function returns.
   @test_fw
+  @documentation
 
 ideas for a version 2
   - drop backwards-compatibility for old cfu1 storage formats (use cfuJ only)

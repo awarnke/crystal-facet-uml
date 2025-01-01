@@ -7,7 +7,7 @@ How to prepare for build from source using mingw and wine
 
 wine on debian/raspbian/ubuntu:
 
-> sudo apt install cmake meson ninja
+> sudo apt install cmake meson
 >
 > sudo apt install wine
 >
