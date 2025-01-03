@@ -21,28 +21,28 @@ static inline void layout_order_init_x_y ( layout_order_t *this_, int32_t x_orde
 {
     (*this_).first = x_order;
     (*this_).second = y_order;
-    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_X_Y;
+    (*this_).order_type = LAYOUT_ORDER_TYPE_X_Y;
 }
 
 static inline void layout_order_reinit_x_y ( layout_order_t *this_, int32_t x_order, int32_t y_order )
 {
     (*this_).first = x_order;
     (*this_).second = y_order;
-    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_X_Y;
+    (*this_).order_type = LAYOUT_ORDER_TYPE_X_Y;
 }
 
 static inline void layout_order_init_list ( layout_order_t *this_, int32_t list_order )
 {
     (*this_).first = list_order;
     (*this_).second = 0;
-    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_LIST;
+    (*this_).order_type = LAYOUT_ORDER_TYPE_LIST;
 }
 
 static inline void layout_order_reinit_list ( layout_order_t *this_, int32_t list_order )
 {
     (*this_).first = list_order;
     (*this_).second = 0;
-    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_LIST;
+    (*this_).order_type = LAYOUT_ORDER_TYPE_LIST;
 }
 
 static inline void layout_order_copy ( layout_order_t *this_, const layout_order_t *original )
@@ -59,14 +59,14 @@ static inline void layout_order_init_empty ( layout_order_t *this_ )
 {
     (*this_).first = 0;
     (*this_).second = 0;
-    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_NONE;
+    (*this_).order_type = LAYOUT_ORDER_TYPE_NONE;
 }
 
 static inline void layout_order_reinit_empty ( layout_order_t *this_ )
 {
     (*this_).first = 0;
     (*this_).second = 0;
-    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_NONE;
+    (*this_).order_type = LAYOUT_ORDER_TYPE_NONE;
 }
 
 static inline void layout_order_destroy ( layout_order_t *this_ )
@@ -93,27 +93,21 @@ static inline void layout_order_trace ( const layout_order_t *this_ )
     U8_TRACE_INFO( "layout_order_t" );
     switch ( (*this_).order_type )
     {
-        case PENCIL_LAYOUT_ORDER_TYPE_NONE:
+        case LAYOUT_ORDER_TYPE_NONE:
         {
-            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_NONE" );
+            U8_TRACE_INFO( "- order_type: LAYOUT_ORDER_TYPE_NONE" );
         }
         break;
 
-        case PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE:
+        case LAYOUT_ORDER_TYPE_X_Y:
         {
-            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE" );
+            U8_TRACE_INFO( "- order_type: LAYOUT_ORDER_TYPE_X_Y" );
         }
         break;
 
-        case PENCIL_LAYOUT_ORDER_TYPE_X_Y:
+        case LAYOUT_ORDER_TYPE_LIST:
         {
-            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_X_Y" );
-        }
-        break;
-
-        case PENCIL_LAYOUT_ORDER_TYPE_LIST:
-        {
-            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_LIST" );
+            U8_TRACE_INFO( "- order_type: LAYOUT_ORDER_TYPE_LIST" );
         }
         break;
 
@@ -129,7 +123,7 @@ static inline void layout_order_trace ( const layout_order_t *this_ )
 
 
 /*
-Copyright 2018-2025 Andreas Warnke
+Copyright 2025-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

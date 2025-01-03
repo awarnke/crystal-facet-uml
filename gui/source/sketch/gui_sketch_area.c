@@ -1374,7 +1374,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &dragged_element ) )
                 {
                     layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_classifier, x, y );
-                    if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
+                    if ( LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t list_order = layout_order_get_first( &layout_order );
                         U8_TRACE_INFO_INT( "list_order", list_order );
@@ -1392,7 +1392,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                             U8_LOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_list_order" );
                         }
                     }
-                    else if ( PENCIL_LAYOUT_ORDER_TYPE_X_Y == layout_order_get_order_type( &layout_order ) )
+                    else if ( LAYOUT_ORDER_TYPE_X_Y == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t x_order = layout_order_get_first( &layout_order );
                         int32_t y_order = layout_order_get_second( &layout_order );
@@ -1416,7 +1416,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &dragged_element ) )
                 {
                     layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_element, x, y );
-                    if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
+                    if ( LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t list_order = layout_order_get_first( &layout_order );
                         U8_TRACE_INFO_INT( "list_order", list_order );
@@ -1438,7 +1438,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 else if ( DATA_TABLE_FEATURE == data_id_get_table( &dragged_element ) )
                 {
                     layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_element, x, y );
-                    if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
+                    if ( LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t list_order = layout_order_get_first( &layout_order );
                         U8_TRACE_INFO_INT( "list_order", list_order );
@@ -1571,11 +1571,11 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                             data_id_init ( &fake_relationship, DATA_TABLE_RELATIONSHIP, DATA_ROW_VOID );
                             const layout_order_t layout_order
                                 = gui_sketch_card_get_order_at_pos( target_card, fake_relationship, x, y );
-                            if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
+                            if ( LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                             {
                                 list_order_proposal = layout_order_get_first( &layout_order );
                             }
-                            else  /* PENCIL_LAYOUT_ORDER_TYPE_NONE */
+                            else  /* LAYOUT_ORDER_TYPE_NONE */
                             {
                                 list_order_proposal = gui_sketch_card_get_highest_rel_list_order( target_card ) + 32768;
                             }

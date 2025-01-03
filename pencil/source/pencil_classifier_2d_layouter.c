@@ -1,6 +1,7 @@
 /* File: pencil_classifier_2d_layouter.c; Copyright and License: see below */
 
 #include "pencil_classifier_2d_layouter.h"
+#include "layout/layout_quality.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>

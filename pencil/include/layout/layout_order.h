@@ -15,10 +15,9 @@
  *  \brief enumeration of pencil internal order types
  */
 enum layout_order_type_enum {
-    PENCIL_LAYOUT_ORDER_TYPE_NONE = 0,  /*!< there is no order for this type of object in this type of diagram */
-    PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE = 1,  /*!< there is an order but the position is out of range */
-    PENCIL_LAYOUT_ORDER_TYPE_X_Y = 2,  /*!< the order is an x/y order pair */
-    PENCIL_LAYOUT_ORDER_TYPE_LIST = 3,  /*!< the order is a list order */
+    LAYOUT_ORDER_TYPE_NONE,  /*!< there is no order for this type of object in this type of diagram */
+    LAYOUT_ORDER_TYPE_X_Y,  /*!< the order is an x/y order pair */
+    LAYOUT_ORDER_TYPE_LIST,  /*!< the order is a list order */
 };
 
 typedef enum layout_order_type_enum layout_order_type_t;
@@ -55,7 +54,7 @@ static inline void layout_order_private_init ( layout_order_t *this_, layout_ord
 static inline void layout_order_private_reinit ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second );
 
 /*!
- *  \brief initializes the layout_order_t struct to PENCIL_LAYOUT_ORDER_TYPE_X_Y
+ *  \brief initializes the layout_order_t struct to LAYOUT_ORDER_TYPE_X_Y
  *
  *  \param this_ pointer to own object attributes
  *  \param x_order first value of the pair
@@ -64,7 +63,7 @@ static inline void layout_order_private_reinit ( layout_order_t *this_, layout_o
 static inline void layout_order_init_x_y ( layout_order_t *this_, int32_t x_order, int32_t y_order );
 
 /*!
- *  \brief re-initializes the layout_order_t struct to PENCIL_LAYOUT_ORDER_TYPE_X_Y
+ *  \brief re-initializes the layout_order_t struct to LAYOUT_ORDER_TYPE_X_Y
  *
  *  \param this_ pointer to own object attributes
  *  \param x_order first value of the pair
@@ -73,7 +72,7 @@ static inline void layout_order_init_x_y ( layout_order_t *this_, int32_t x_orde
 static inline void layout_order_reinit_x_y ( layout_order_t *this_, int32_t x_order, int32_t y_order );
 
 /*!
- *  \brief initializes the layout_order_t struct to PENCIL_LAYOUT_ORDER_TYPE_LIST
+ *  \brief initializes the layout_order_t struct to LAYOUT_ORDER_TYPE_LIST
  *
  *  \param this_ pointer to own object attributes
  *  \param list_order the list_order value
@@ -81,7 +80,7 @@ static inline void layout_order_reinit_x_y ( layout_order_t *this_, int32_t x_or
 static inline void layout_order_init_list ( layout_order_t *this_, int32_t list_order );
 
 /*!
- *  \brief re-initializes the layout_order_t struct to PENCIL_LAYOUT_ORDER_TYPE_LIST
+ *  \brief re-initializes the layout_order_t struct to LAYOUT_ORDER_TYPE_LIST
  *
  *  \param this_ pointer to own object attributes
  *  \param list_order the list_order value
@@ -105,14 +104,14 @@ static inline void layout_order_copy ( layout_order_t *this_, const layout_order
 static inline void layout_order_replace ( layout_order_t *this_, const layout_order_t *original );
 
 /*!
- *  \brief initializes the layout_order_t struct to a pair of 0,0, PENCIL_LAYOUT_ORDER_TYPE_NONE
+ *  \brief initializes the layout_order_t struct to a pair of 0,0, LAYOUT_ORDER_TYPE_NONE
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void layout_order_init_empty ( layout_order_t *this_ );
 
 /*!
- *  \brief re-initializes the layout_order_t struct to a pair of 0,0, PENCIL_LAYOUT_ORDER_TYPE_NONE
+ *  \brief re-initializes the layout_order_t struct to a pair of 0,0, LAYOUT_ORDER_TYPE_NONE
  *
  *  \param this_ pointer to own object attributes
  */

@@ -353,7 +353,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
     layout_order_type_t order_type = layout_order_get_order_type( order );
     switch ( order_type )
     {
-        case PENCIL_LAYOUT_ORDER_TYPE_X_Y:
+        case LAYOUT_ORDER_TYPE_X_Y:
         {
             switch ( table )
             {
@@ -414,7 +414,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
         }
         break;
 
-        case PENCIL_LAYOUT_ORDER_TYPE_LIST:
+        case LAYOUT_ORDER_TYPE_LIST:
         {
             switch ( table )
             {
@@ -500,18 +500,12 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
         }
         break;
 
-        case PENCIL_LAYOUT_ORDER_TYPE_NONE:
+        case LAYOUT_ORDER_TYPE_NONE:
+        default:
         {
             /* nothing to do */
             /* no error */
             U8_LOG_ANOMALY( "object to be moved has no movement data" );
-        }
-        break;
-
-        case PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE:
-        default:
-        {
-            U8_LOG_WARNING( "object to be x/y-moved has illegal movement data" );
         }
         break;
     }

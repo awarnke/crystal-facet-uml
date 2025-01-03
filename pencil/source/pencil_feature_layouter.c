@@ -1,6 +1,7 @@
 /* File: pencil_feature_layouter.c; Copyright and License: see below */
 
 #include "pencil_feature_layouter.h"
+#include "layout/layout_quality.h"
 #include "u8/u8_f64.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>

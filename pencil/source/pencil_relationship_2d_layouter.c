@@ -1,6 +1,7 @@
 /* File: pencil_relationship_2d_layouter.c; Copyright and License: see below */
 
 #include "pencil_relationship_2d_layouter.h"
+#include "layout/layout_quality.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>

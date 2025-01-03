@@ -5,7 +5,7 @@
 
 /*!
  *  \file utf8stringbuf.h
- *  \brief utf8stringbuf provides functions to build, search and modify c-strings.
+ *  \brief utf8stringbuf provides functions to build and search within c-strings.
  *
  *  utf8stringbuf provides a struct consisting of
  *  \li a pointer to an character array and
