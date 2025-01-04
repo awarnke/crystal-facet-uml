@@ -2,28 +2,25 @@
 
 #include "u8/u8_trace.h"
 
-static inline void layout_quality_init ( layout_quality_t *this_, layout_quality_check_t check_criteria )
+static inline void layout_quality_init ( layout_quality_t *this_, const pencil_size_t *pencil_size )
 {
-    (*this_).check_criteria = check_criteria;
+    (*this_).pencil_size = pencil_size;
+}
+
+static inline layout_quality_t layout_quality_new ( const pencil_size_t *pencil_size )
+{
+    layout_quality_t result;
+    layout_quality_init( &result, pencil_size );
+    return result;
 }
 
 static inline void layout_quality_destroy ( layout_quality_t *this_ )
 {
 }
 
-static inline int32_t layout_quality_get_first ( const layout_quality_t *this_ )
-{
-    return (*this_).check_criteria;
-}
-
-static inline int32_t layout_quality_get_second ( const layout_quality_t *this_ )
-{
-    return (*this_).check_criteria;
-}
-
 static inline double layout_quality_debts_class_diag( const layout_quality_t *this_,
                                                       const layout_visible_classifier_t *probe,
-                                                      const layout_diagram_t *environment )
+                                                      const layout_diagram_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -31,7 +28,7 @@ static inline double layout_quality_debts_class_diag( const layout_quality_t *th
 
 static inline double layout_quality_debts_class_class( const layout_quality_t *this_,
                                                        const layout_visible_classifier_t *probe,
-                                                       const layout_visible_classifier_t *environment )
+                                                       const layout_visible_classifier_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -39,7 +36,7 @@ static inline double layout_quality_debts_class_class( const layout_quality_t *t
 
 static inline double layout_quality_debts_feat_diag( const layout_quality_t *this_,
                                                      const layout_feature_t *probe,
-                                                     const layout_diagram_t *environment )
+                                                     const layout_diagram_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -47,7 +44,7 @@ static inline double layout_quality_debts_feat_diag( const layout_quality_t *thi
 
 static inline double layout_quality_debts_feat_class( const layout_quality_t *this_,
                                                       const layout_feature_t *probe,
-                                                      const layout_visible_classifier_t *environment )
+                                                      const layout_visible_classifier_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -55,7 +52,7 @@ static inline double layout_quality_debts_feat_class( const layout_quality_t *th
 
 static inline double layout_quality_debts_feat_feat( const layout_quality_t *this_,
                                                      const layout_feature_t *probe,
-                                                     const layout_feature_t *environment )
+                                                     const layout_feature_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -63,7 +60,7 @@ static inline double layout_quality_debts_feat_feat( const layout_quality_t *thi
 
 static inline double layout_quality_debts_rel_diag( const layout_quality_t *this_,
                                                     const layout_relationship_t *probe,
-                                                    const layout_diagram_t *environment )
+                                                    const layout_diagram_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -71,7 +68,7 @@ static inline double layout_quality_debts_rel_diag( const layout_quality_t *this
 
 static inline double layout_quality_debts_rel_class( const layout_quality_t *this_,
                                                      const layout_relationship_t *probe,
-                                                     const layout_visible_classifier_t *environment )
+                                                     const layout_visible_classifier_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -79,7 +76,7 @@ static inline double layout_quality_debts_rel_class( const layout_quality_t *thi
 
 static inline double layout_quality_debts_rel_feat( const layout_quality_t *this_,
                                                     const layout_relationship_t *probe,
-                                                    const layout_feature_t *environment )
+                                                    const layout_feature_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -87,7 +84,39 @@ static inline double layout_quality_debts_rel_feat( const layout_quality_t *this
 
 static inline double layout_quality_debts_rel_rel( const layout_quality_t *this_,
                                                    const layout_relationship_t *probe,
-                                                   const layout_relationship_t *environment )
+                                                   const layout_relationship_t *other )
+{
+    double debts = 0.0;
+    return debts;
+}
+
+static inline double layout_quality_debts_sym_sym( const layout_quality_t *this_,
+                                                   const geometry_rectangle_t *probe,
+                                                   const geometry_rectangle_t *other)
+{
+    double debts = 0.0;
+    return debts;
+}
+
+static inline double layout_quality_debts_conn_diag( const layout_quality_t *this_,
+                                                     const geometry_connector_t *probe,
+                                                     const layout_diagram_t *other )
+{
+    double debts = 0.0;
+    return debts;
+}
+
+static inline double layout_quality_debts_conn_sym( const layout_quality_t *this_,
+                                                    const geometry_connector_t *probe,
+                                                    const geometry_rectangle_t *other )
+{
+    double debts = 0.0;
+    return debts;
+}
+
+static inline double layout_quality_debts_conn_conn( const layout_quality_t *this_,
+                                                     const geometry_connector_t *probe,
+                                                     const geometry_rectangle_t *other )
 {
     double debts = 0.0;
     return debts;
@@ -95,7 +124,7 @@ static inline double layout_quality_debts_rel_rel( const layout_quality_t *this_
 
 
 /*
-Copyright 2018-2025 Andreas Warnke
+Copyright 2025-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

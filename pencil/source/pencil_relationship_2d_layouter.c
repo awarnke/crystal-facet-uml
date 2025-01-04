@@ -295,8 +295,12 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
     for ( uint32_t solution_idx = 0; solution_idx < solutions_count; solution_idx ++ )
     {
         /* evalute the debts of this solution */
-        double debts_of_current = 0.0;
         const geometry_connector_t *const current_solution = &(solutions[solution_idx]);
+
+        double debts_of_current = 0.0;
+        const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
+        debts_of_current += layout_quality_debts_conn_diag( &quality, current_solution, diagram_layout );
+
         const geometry_rectangle_t connector_bounds
             = geometry_connector_get_bounding_rectangle( current_solution );
 
