@@ -182,13 +182,30 @@ static inline double layout_quality_debts_sym_sym ( const layout_quality_t *this
  *
  *  \param this_ pointer to own object attributes
  *  \param probe a partly layouted relationship
+ *  \param source_rect the rectangle from which the connector shall start
+ *  \param dest_rect the rectangle at which the connector shall end
  *  \param other the diagram to which to draw to
  *  \return 0.0 if there are no overlaps, a positive value otherwise
  */
 static inline double layout_quality_debts_conn_diag ( const layout_quality_t *this_,
                                                       const geometry_connector_t *probe,
+                                                      const geometry_rectangle_t *source_rect,
+                                                      const geometry_rectangle_t *dest_rect,
                                                       const layout_diagram_t *other
                                                     );
+
+/*!
+ *  \brief determines the quality debts for drawing the connector of a relationship and the visible classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param probe a partly layouted relationship
+ *  \param other a completely layouted visible classifier
+ *  \return 0.0 if there are no overlaps, a positive value otherwise
+ */
+static inline double layout_quality_debts_conn_class ( const layout_quality_t *this_,
+                                                       const geometry_connector_t *probe,
+                                                       const layout_visible_classifier_t *other
+                                                     );
 
 /*!
  *  \brief determines the quality debts for drawing the connector of a relationship and the symbol box of a feature
@@ -213,7 +230,7 @@ static inline double layout_quality_debts_conn_sym ( const layout_quality_t *thi
  */
 static inline double layout_quality_debts_conn_conn ( const layout_quality_t *this_,
                                                       const geometry_connector_t *probe,
-                                                      const geometry_rectangle_t *other
+                                                      const geometry_connector_t *other
                                                     );
 
 #include "layout_quality.inl"

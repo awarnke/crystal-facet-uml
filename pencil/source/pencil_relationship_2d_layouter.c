@@ -238,15 +238,6 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
     U8_TRACE_END();
 }
 
-static const geometry_3dir_t PENCIL_BAD_V_PATTERN1
-   = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
-static const geometry_3dir_t PENCIL_BAD_V_PATTERN2
-   = { .first = GEOMETRY_DIRECTION_RIGHT, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
-static const geometry_3dir_t PENCIL_BAD_H_PATTERN1
-   = { .first = GEOMETRY_DIRECTION_DOWN,  .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
-static const geometry_3dir_t PENCIL_BAD_H_PATTERN2
-   = { .first = GEOMETRY_DIRECTION_UP,    .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
-
 void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationship_2d_layouter_t *this_,
                                                                uint32_t solutions_count,
                                                                const geometry_connector_t solutions[],
@@ -258,34 +249,19 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
 
-    /* get current relation data */
+    /* get current relationship data */
     const uint32_t index
         = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
     const layout_relationship_t *const current_relation
         = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
-#if 0
-    const data_relationship_t *const current_relation_data
-        = layout_relationship_get_data_const ( current_relation );
-#endif
     const geometry_rectangle_t *const source_rect
         = layout_relationship_get_from_symbol_box_const ( current_relation );
     const geometry_rectangle_t *const dest_rect
         = layout_relationship_get_to_symbol_box_const ( current_relation );
-    const double src_center_x = geometry_rectangle_get_center_x ( source_rect );
-    const double src_center_y = geometry_rectangle_get_center_y ( source_rect );
-    const double dst_center_x = geometry_rectangle_get_center_x ( dest_rect );
-    const double dst_center_y = geometry_rectangle_get_center_y ( dest_rect );
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
         = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
-    const geometry_rectangle_t *const diagram_draw_area
-        = layout_diagram_get_draw_area_const( diagram_layout );
-    const double diagram_draw_center_x = geometry_rectangle_get_center_x( diagram_draw_area );
-    const double diagram_draw_center_y = geometry_rectangle_get_center_y( diagram_draw_area );
-
-    /* get preferred object distance */
-    const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* define potential solution and rating */
     uint32_t index_of_best = 0;
@@ -294,171 +270,15 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
     /* evaluate the solutions by their overlaps with classifiers */
     for ( uint32_t solution_idx = 0; solution_idx < solutions_count; solution_idx ++ )
     {
-        /* evalute the debts of this solution */
         const geometry_connector_t *const current_solution = &(solutions[solution_idx]);
 
-        double debts_of_current = 0.0;
-        const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
-        debts_of_current += layout_quality_debts_conn_diag( &quality, current_solution, diagram_layout );
-
-        const geometry_rectangle_t connector_bounds
-            = geometry_connector_get_bounding_rectangle( current_solution );
-
         /* avoid alternating solutions in case their debts are identical */
+        double debts_of_current = 0.0;
         debts_of_current += 0.1 * solution_idx;
 
-        /* the more length, the more unwanted... */
-        debts_of_current += geometry_connector_get_length( current_solution );
-
-        /* prefer _either_ no _or_ minimum-dist lengths of parts... */
-        const double HEAVIER_THAN_DETOUR = 4.0;
-        const double source_length = geometry_connector_get_source_length( current_solution );
-        if (( source_length > 0.000001 )&&( source_length < object_dist ))
-        {
-            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - source_length );
-
-        }
-        const double destination_length = geometry_connector_get_destination_length( current_solution );
-        if (( destination_length > 0.000001 )&&( destination_length < object_dist ))
-        {
-            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - destination_length );
-        }
-        const bool no_source_or_no_dest = ( source_length < 0.000001 )||( destination_length < 0.000001 );
-        const double main_length = geometry_connector_get_main_length( current_solution );
-        if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_no_dest ))
-        {
-            debts_of_current += HEAVIER_THAN_DETOUR * ( object_dist - main_length );
-        }
-
-        /* prefer centered over uncentered departure and arrival */
-        const double HEAVIER_THAN_CENTERED = 2.0;
-        const double delta_source
-            = fmin( fabs( geometry_connector_get_source_end_x( current_solution ) - src_center_x ),
-            fabs( geometry_connector_get_source_end_y( current_solution ) - src_center_y ) );
-        debts_of_current += delta_source * HEAVIER_THAN_CENTERED;
-        const double delta_destination
-            = fmin( fabs( geometry_connector_get_destination_end_x( current_solution ) - dst_center_x ),
-            fabs( geometry_connector_get_destination_end_y( current_solution ) - dst_center_y ) );
-        debts_of_current += delta_destination * HEAVIER_THAN_CENTERED;
-
-        /* prefer left-hand angles over right-handed */
-        bool bad_pattern_h = false;
-        bool bad_pattern_v = false;
-        const geometry_3dir_t pattern = geometry_connector_get_directions( current_solution );
-        {
-
-            bad_pattern_v = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 )
-                || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
-            bad_pattern_h = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 )
-                || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
-            if ( bad_pattern_h || bad_pattern_v )
-            {
-                const double current_len = geometry_connector_get_length( current_solution );
-                if ( current_len > ( 4.0 * object_dist ) )
-                {
-                    /* current_solution is a long path and right-handed */
-                    debts_of_current += 0.2 * geometry_connector_get_length( current_solution );
-                }
-            }
-        }
-
-        /* to avoid bad patterns: no L on top-left, no 7 on bottom-right, no r on top-right, no J on bottom-left */
-        {
-            const bool connector_is_left
-                = geometry_rectangle_get_center_x( &connector_bounds ) < diagram_draw_center_x;
-            const bool connector_is_top
-                = geometry_rectangle_get_center_y( &connector_bounds ) < diagram_draw_center_y;
-            if ( connector_is_left )
-            {
-                if ( connector_is_top )
-                {
-                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN1
-                         = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_UP,     .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN2
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
-                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN3
-                         = { .first = GEOMETRY_DIRECTION_DOWN,   .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_L_PATTERN4
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_RIGHT };
-
-                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN1 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN2 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN3 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN4 ) ))
-                    {
-                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
-                    }
-                }
-                else
-                {
-                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN1
-                         = { .first = GEOMETRY_DIRECTION_DOWN,   .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN2
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
-                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN3
-                         = { .first = GEOMETRY_DIRECTION_RIGHT,  .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_J_PATTERN4
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_UP };
-
-                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN1 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN2 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN3 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN4 ) ))
-                    {
-                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
-                    }
-                }
-            }
-            else
-            {
-                if ( connector_is_top )
-                {
-                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN1
-                         = { .first = GEOMETRY_DIRECTION_UP,     .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN2
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
-                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN3
-                         = { .first = GEOMETRY_DIRECTION_LEFT,   .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_r_PATTERN4
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_DOWN };
-
-                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN1 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN2 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN3 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN4 ) ))
-                    {
-                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
-                    }
-                }
-                else
-                {
-                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN1
-                         = { .first = GEOMETRY_DIRECTION_RIGHT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN2
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
-                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN3
-                         = { .first = GEOMETRY_DIRECTION_UP,     .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_CENTER };
-                    static const geometry_3dir_t PENCIL_BAD_7_PATTERN4
-                         = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_LEFT };
-
-                    if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN1 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN2 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN3 ) )
-                        || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN4 ) ))
-                    {
-                        debts_of_current += 4.0 * geometry_connector_get_length( current_solution );
-                    }
-                }
-            }
-        }
-
-        /* add debts for overlap to diagram boundary */
-        {
-            if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connector_bounds ) )
-            {
-                debts_of_current += 1000000.0;
-            }
-        }
+        /* evalute the debts of this solution */
+        const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
+        debts_of_current += layout_quality_debts_conn_diag( &quality, current_solution, source_rect, dest_rect, diagram_layout );
 
         /* iterate over all classifiers */
         const uint32_t count_clasfy
@@ -468,24 +288,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             const layout_visible_classifier_t *const probe_classifier
                 = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
 
-            const geometry_rectangle_t *const classifier_space
-                = layout_visible_classifier_get_space_const( probe_classifier );
-            if ( ! geometry_rectangle_is_containing( classifier_space, &connector_bounds ) )
-            {
-                const geometry_rectangle_t *const classifier_symbol_box
-                    = layout_visible_classifier_get_symbol_box_const( probe_classifier );
-                if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_symbol_box ) )
-                {
-                    debts_of_current += 100000.0;
-                }
-
-                const geometry_rectangle_t *const classifier_label_box
-                    = layout_visible_classifier_get_label_box_const( probe_classifier );
-                if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_label_box ) )
-                {
-                    debts_of_current += 10000.0;
-                }
-            }
+            debts_of_current += layout_quality_debts_conn_class( &quality, current_solution, probe_classifier);
         }
 
         /* iterate over all features, check symbol boxes only, label boxes are not yet initialized */
@@ -498,10 +301,8 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
 
             const geometry_rectangle_t *const feature_symbol_box
                 = layout_feature_get_symbol_box_const( feature_layout );
-            if ( geometry_connector_is_intersecting_rectangle( current_solution, feature_symbol_box ) )
-            {
-                debts_of_current += 30000.0;
-            }
+
+            debts_of_current += layout_quality_debts_conn_sym( &quality, current_solution, feature_symbol_box );
         }
 
         /* iterate over the already created connectors (probe_sort_index < (*this_).sorted_rel_index) */
@@ -528,22 +329,8 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             {
                 const geometry_connector_t *const probe_shape
                     = layout_relationship_get_shape_const( probe_relationship );
-                const uint32_t intersects
-                    = geometry_connector_count_connector_intersects( current_solution, probe_shape );
-                debts_of_current += 1000.0 * intersects;
 
-                if ( ( bad_pattern_h || bad_pattern_v ) && ( intersects > 0 ) )
-                {
-                    const geometry_3dir_t probe_pattern = geometry_connector_get_directions( probe_shape );
-                    const bool bad_probe_v = geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_V_PATTERN1 )
-                        || geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_V_PATTERN2 );
-                    const bool bad_probe_h = geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_H_PATTERN1 )
-                        || geometry_3dir_equals( &probe_pattern, &PENCIL_BAD_H_PATTERN2 );
-                    if (( bad_pattern_h && bad_probe_v )||( bad_pattern_v && bad_probe_h ))
-                    {
-                         debts_of_current += 1000000.0;
-                    }
-                }
+                debts_of_current += layout_quality_debts_conn_conn( &quality, current_solution, probe_shape );
             }
         }
 
