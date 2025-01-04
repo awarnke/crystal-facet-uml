@@ -20,7 +20,7 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
-    pencil_label_layout_helper_init ( &((*this_).label_layout_helper) );
+    pencil_label_layout_helper_init ( &((*this_).label_layout_helper), pencil_size );
 
     U8_TRACE_END();
 }

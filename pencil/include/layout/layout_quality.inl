@@ -92,20 +92,20 @@ static inline double layout_quality_debts_rel_rel( const layout_quality_t *this_
 
 static inline double layout_quality_debts_sym_sym( const layout_quality_t *this_,
                                                    const geometry_rectangle_t *probe,
-                                                   const geometry_rectangle_t *other)
+                                                   const geometry_rectangle_t *other )
 {
     double debts = 0.0;
     return debts;
 }
 
 static const geometry_3dir_t PENCIL_BAD_V_PATTERN1
-= { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
+    = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
 static const geometry_3dir_t PENCIL_BAD_V_PATTERN2
-= { .first = GEOMETRY_DIRECTION_RIGHT, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
+    = { .first = GEOMETRY_DIRECTION_RIGHT, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
 static const geometry_3dir_t PENCIL_BAD_H_PATTERN1
-= { .first = GEOMETRY_DIRECTION_DOWN,  .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
+    = { .first = GEOMETRY_DIRECTION_DOWN,  .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
 static const geometry_3dir_t PENCIL_BAD_H_PATTERN2
-= { .first = GEOMETRY_DIRECTION_UP,    .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
+    = { .first = GEOMETRY_DIRECTION_UP,    .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
 
 static inline double layout_quality_debts_conn_diag( const layout_quality_t *this_,
                                                      const geometry_connector_t *probe,
@@ -365,9 +365,121 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
     return debts;
 }
 
+static inline double layout_quality_debts_label_diag( const layout_quality_t *this_,
+                                                      const geometry_rectangle_t *probe,
+                                                      const geometry_point_t *target_point,
+                                                      const layout_diagram_t *other )
+{
+    double debts = 0.0;
+
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( other );
+
+    /* check distance to target point */
+    const geometry_point_t probe_middle = geometry_rectangle_get_center( probe );
+    debts += geometry_point_calc_chess_distance ( target_point, &probe_middle );
+
+    /* add debts for overlap to diagram boundary */
+    if ( ! geometry_rectangle_is_containing( diagram_draw_area, probe ) )
+    {
+        debts += 100.0 * geometry_rectangle_get_area(diagram_draw_area); /* high debt */
+    }
+
+    return debts;
+}
+
+static inline double layout_quality_debts_label_class( const layout_quality_t *this_,
+                                                       const geometry_rectangle_t *probe,
+                                                       const layout_visible_classifier_t *other )
+{
+    double debts = 0.0;
+
+    const geometry_rectangle_t *const classifier_symbol_box
+        = layout_visible_classifier_get_symbol_box_const( other );
+    if ( geometry_rectangle_is_intersecting( probe, classifier_symbol_box ) )
+    {
+        /* overlaps to the symbol box are bad only if not contained in space area */
+        const geometry_rectangle_t *const classifier_space
+            = layout_visible_classifier_get_space_const( other );
+        if ( ! geometry_rectangle_is_containing( classifier_space, probe ) )
+        {
+            debts += geometry_rectangle_get_intersect_area( probe, classifier_symbol_box ); /* low debt */
+        }
+    }
+
+    const geometry_rectangle_t *const classifier_label_box
+        = layout_visible_classifier_get_label_box_const( other );
+    if ( geometry_rectangle_is_intersecting( probe, classifier_label_box ) )
+    {
+        debts += 100.0 * geometry_rectangle_get_intersect_area( probe, classifier_label_box ); /* medium debt */
+    }
+
+    return debts;
+}
+
+static inline double layout_quality_debts_label_feat( const layout_quality_t *this_,
+                                                      const geometry_rectangle_t *probe,
+                                                      const layout_feature_t *other )
+{
+    double debts = 0.0;
+
+    const data_feature_t *const probe_f_data
+        = layout_feature_get_data_const( other );
+
+    const geometry_rectangle_t *const feature_symbol_box
+        = layout_feature_get_symbol_box_const( other );
+    if ( geometry_rectangle_is_intersecting( probe, feature_symbol_box ) )
+    {
+        if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) )
+        {
+            debts += geometry_rectangle_get_intersect_area( probe, feature_symbol_box ); /* low debt */
+        }
+        else
+        {
+            debts += 100.0 * geometry_rectangle_get_intersect_area( probe, feature_symbol_box ); /* medium debt */
+        }
+    }
+
+    const geometry_rectangle_t *const feature_label_box
+        = layout_feature_get_label_box_const( other );
+    if ( geometry_rectangle_is_intersecting( probe, feature_label_box ) )
+    {
+        debts += 100.0 * geometry_rectangle_get_intersect_area( probe, feature_label_box ); /* medium debt */
+    }
+
+    return debts;
+}
+
+static inline double layout_quality_debts_label_rel( const layout_quality_t *this_,
+                                                     const geometry_rectangle_t *probe,
+                                                     const layout_relationship_t *other )
+{
+    double debts = 0.0;
+
+    if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( other ) )
+        || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( other ) ))
+    {
+        const geometry_connector_t *const probe_shape
+            = layout_relationship_get_shape_const( other );
+        if ( geometry_connector_is_intersecting_rectangle( probe_shape, probe ) )
+        {
+            debts += geometry_rectangle_get_area( probe );  /* relationship bounds intersects are not so bad ... low debt */
+        }
+
+        const geometry_rectangle_t *const relationship_label_box
+            = layout_relationship_get_label_box_const( other );
+        if ( geometry_rectangle_is_intersecting( probe, relationship_label_box ) )
+        {
+            debts += 100.0 * geometry_rectangle_get_intersect_area( probe, relationship_label_box ); /* medium debt */
+        }
+    }
+
+    return debts;
+}
+
 
 /*
-Copyright 2025-2025 Andreas Warnke
+Copyright 2017-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -48,7 +48,7 @@ static inline layout_quality_t layout_quality_new ( const pencil_size_t *pencil_
 static inline void layout_quality_destroy ( layout_quality_t *this_ );
 
 /*!
- *  \brief determines the quality debts if the visible classifier is drawn to the diagram
+ *  \brief determines the quality debts for drawing the visible classifier to the diagram
  *
  *  \param this_ pointer to own object attributes
  *  \param probe a completely layouted visible classifier
@@ -74,7 +74,7 @@ static inline double layout_quality_debts_class_class ( const layout_quality_t *
                                                       );
 
 /*!
- *  \brief determines the quality debts if the feature is drawn to the diagram
+ *  \brief determines the quality debts for drawing the feature to the diagram
  *
  *  \param this_ pointer to own object attributes
  *  \param probe a completely layouted feature
@@ -113,7 +113,7 @@ static inline double layout_quality_debts_feat_feat ( const layout_quality_t *th
                                                     );
 
 /*!
- *  \brief determines the quality debts if the relationship is drawn to the diagram
+ *  \brief determines the quality debts for drawing the relationship to the diagram
  *
  *  \param this_ pointer to own object attributes
  *  \param probe a completely layouted relationship
@@ -152,7 +152,7 @@ static inline double layout_quality_debts_rel_feat ( const layout_quality_t *thi
                                                    );
 
 /*!
- *  \brief determines the quality debts if both relationships are drawn into the same diagram
+ *  \brief determines the quality debts for drawing both relationships
  *
  *  \param this_ pointer to own object attributes
  *  \param probe a completely layouted relationship
@@ -178,7 +178,7 @@ static inline double layout_quality_debts_sym_sym ( const layout_quality_t *this
                                                   );
 
 /*!
- *  \brief determines the quality debts if the connector of a relationship is drawn to the diagram
+ *  \brief determines the quality debts for drawing the connector of a relationship to the diagram
  *
  *  \param this_ pointer to own object attributes
  *  \param probe a partly layouted relationship
@@ -218,7 +218,7 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
 static inline double layout_quality_debts_conn_sym ( const layout_quality_t *this_,
                                                      const geometry_connector_t *probe,
                                                      const geometry_rectangle_t *other
-);
+                                                   );
 
 /*!
  *  \brief determines the quality debts for drawing both connectors of relationships
@@ -232,6 +232,61 @@ static inline double layout_quality_debts_conn_conn ( const layout_quality_t *th
                                                       const geometry_connector_t *probe,
                                                       const geometry_connector_t *other
                                                     );
+
+/*!
+ *  \brief determines the quality debts for drawing the label to the diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param probe a partly layouted feature or relationship
+ *  \param target_point the point where the object is located that the label refers to
+ *  \param other the diagram to which to draw to
+ *  \return 0.0 if there are no overlaps, a positive value otherwise
+ */
+static inline double layout_quality_debts_label_diag ( const layout_quality_t *this_,
+                                                       const geometry_rectangle_t *probe,
+                                                       const geometry_point_t *target_point,
+                                                       const layout_diagram_t *other
+                                                     );
+
+/*!
+ *  \brief determines the quality debts for drawing the label and the visible classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param probe a partly layouted feature or relationship
+ *  \param other a completely layouted visible classifier
+ *  \return 0.0 if there are no overlaps, a positive value otherwise
+ */
+static inline double layout_quality_debts_label_class ( const layout_quality_t *this_,
+                                                        const geometry_rectangle_t *probe,
+                                                        const layout_visible_classifier_t *other
+                                                      );
+
+/*!
+ *  \brief determines the quality debts for drawing the label and the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param probe a partly layouted feature or relationship
+ *  \param other a completely layouted feature
+ *  \return 0.0 if there are no overlaps, a positive value otherwise
+ */
+static inline double layout_quality_debts_label_feat ( const layout_quality_t *this_,
+                                                       const geometry_rectangle_t *probe,
+                                                       const layout_feature_t *other
+                                                     );
+
+/*!
+ *  \brief determines the quality debts for drawing the label and the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param probe a partly layouted feature or relationship
+ *  \param other a completely layouted relationship
+ *  \return 0.0 if there are no overlaps, a positive value otherwise
+ */
+static inline double layout_quality_debts_label_rel ( const layout_quality_t *this_,
+                                                      const geometry_rectangle_t *probe,
+                                                      const layout_relationship_t *other
+                                                    );
+
 
 #include "layout_quality.inl"
 

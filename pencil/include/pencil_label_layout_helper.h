@@ -9,6 +9,7 @@
  *  \brief Evaluates proposed label positions in a diagram
  */
 
+#include "pencil_size.h"
 #include "layout/layout_visible_set.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_point.h"
@@ -21,7 +22,7 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_label_layout_helper_struct {
-    int dummy;  /*!< This object is a collection of stateless layouting helper functions */
+    const pencil_size_t *pencil_size;  /*!< the pencil size proposes preferred distances */
 };
 
 typedef struct pencil_label_layout_helper_struct pencil_label_layout_helper_t;
@@ -30,8 +31,9 @@ typedef struct pencil_label_layout_helper_struct pencil_label_layout_helper_t;
  *  \brief initializes the label layout helper
  *
  *  \param this_ pointer to own object attributes
+ *  \param pencil_size proposal for preferred distances
  */
-void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_ );
+void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_, const pencil_size_t *pencil_size );
 
 /*!
  *  \brief destroys the label layout helper

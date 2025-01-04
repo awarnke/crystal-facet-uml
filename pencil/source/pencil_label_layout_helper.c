@@ -1,15 +1,15 @@
 /* File: pencil_label_layout_helper.c; Copyright and License: see below */
 
 #include "pencil_label_layout_helper.h"
+#include "layout/layout_quality.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 
-void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_ )
+void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_, const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
 
-    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
-
+    (*this_).pencil_size = pencil_size;
     U8_TRACE_END();
 }
 
@@ -35,8 +35,6 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
     /* get draw area */
     const layout_diagram_t *const diagram_layout
         = layout_visible_set_get_diagram_ptr( layout_data );
-    const geometry_rectangle_t *const diagram_draw_area
-        = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* define potential solution and rating */
     uint32_t index_of_best = 0;
@@ -52,15 +50,20 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         /* avoid alternating solutions in case their debts are identical */
         debts_of_current += 0.1 * solution_idx;
 
-        /* check distance to target point */
-        const geometry_point_t solution_middle = geometry_rectangle_get_center( current_solution );
-        debts_of_current += geometry_point_calc_chess_distance ( &target_point, &solution_middle );
+        const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
+        debts_of_current += layout_quality_debts_label_diag( &quality, current_solution, &target_point, diagram_layout );
 
-        /* add debts for overlap to diagram boundary */
-        if ( ! geometry_rectangle_is_containing( diagram_draw_area, current_solution ) )
-        {
-            debts_of_current += 100.0 * geometry_rectangle_get_area(diagram_draw_area); /* high debt */
-        }
+/*
+
+        static inline double layout_quality_debts_label_feat( const layout_quality_t *this_,
+                                                              const geometry_rectangle_t *probe,
+                                                              const layout_feature_t *other )
+
+        static inline double layout_quality_debts_label_rel( const layout_quality_t *this_,
+                                                             const geometry_rectangle_t *probe,
+                                                             const layout_relationship_t *other )
+                                                             */
+
 
         /* iterate over all classifiers */
         const uint32_t count_clasfy
@@ -70,25 +73,7 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
             const layout_visible_classifier_t *const probe_classifier
                 = layout_visible_set_get_visible_classifier_ptr( layout_data, clasfy_index );
 
-            const geometry_rectangle_t *const classifier_symbol_box
-                = layout_visible_classifier_get_symbol_box_const( probe_classifier );
-            if ( geometry_rectangle_is_intersecting( current_solution, classifier_symbol_box ) )
-            {
-                /* overlaps to the symbol box are bad only if not contained in space area */
-                const geometry_rectangle_t *const classifier_space
-                    = layout_visible_classifier_get_space_const( probe_classifier );
-                if ( ! geometry_rectangle_is_containing( classifier_space, current_solution ) )
-                {
-                    debts_of_current += geometry_rectangle_get_intersect_area( current_solution, classifier_symbol_box ); /* low debt */
-                }
-            }
-
-            const geometry_rectangle_t *const classifier_label_box
-                = layout_visible_classifier_get_label_box_const( probe_classifier );
-            if ( geometry_rectangle_is_intersecting( current_solution, classifier_label_box ) )
-            {
-                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, classifier_label_box ); /* medium debt */
-            }
+            debts_of_current += layout_quality_debts_label_class( &quality, current_solution, probe_classifier );
         }
 
         /* iterate over all features */
@@ -98,29 +83,8 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         {
             const layout_feature_t *const probe_feature
                 = layout_visible_set_get_feature_ptr( layout_data, feat_index );
-            const data_feature_t *const probe_f_data
-                = layout_feature_get_data_const( probe_feature );
 
-            const geometry_rectangle_t *const feature_symbol_box
-                = layout_feature_get_symbol_box_const( probe_feature );
-            if ( geometry_rectangle_is_intersecting( current_solution, feature_symbol_box ) )
-            {
-                if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) )
-                {
-                    debts_of_current += geometry_rectangle_get_intersect_area( current_solution, feature_symbol_box ); /* low debt */
-                }
-                else
-                {
-                    debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_symbol_box ); /* medium debt */
-                }
-            }
-
-            const geometry_rectangle_t *const feature_label_box
-                = layout_feature_get_label_box_const( probe_feature );
-            if ( geometry_rectangle_is_intersecting( current_solution, feature_label_box ) )
-            {
-                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_label_box ); /* medium debt */
-            }
+            debts_of_current += layout_quality_debts_label_feat( &quality, current_solution, probe_feature );
         }
 
         /* iterate over all relationships */
@@ -131,23 +95,8 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
             /* add debts if intersects */
             const layout_relationship_t *const probe_relationship
                 = layout_visible_set_get_relationship_ptr( layout_data, rel_index );
-            if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( probe_relationship ) )
-                || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( probe_relationship ) ))
-            {
-                const geometry_connector_t *const probe_shape
-                    = layout_relationship_get_shape_const( probe_relationship );
-                if ( geometry_connector_is_intersecting_rectangle( probe_shape, current_solution ) )
-                {
-                    debts_of_current += geometry_rectangle_get_area( current_solution );  /* relationship bounds intersects are not so bad ... low debt */
-                }
 
-                const geometry_rectangle_t *const relationship_label_box
-                    = layout_relationship_get_label_box_const( probe_relationship );
-                if ( geometry_rectangle_is_intersecting( current_solution, relationship_label_box ) )
-                {
-                    debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, relationship_label_box ); /* medium debt */
-                }
-            }
+            debts_of_current += layout_quality_debts_label_rel( &quality, current_solution, probe_relationship );
         }
 
         /* update best solution */
