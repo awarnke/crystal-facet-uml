@@ -20,17 +20,70 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ )
 
 static inline double layout_quality_debts_class_diag( const layout_quality_t *this_,
                                                       const layout_visible_classifier_t *probe,
+                                                      const geometry_offset_t *order_target,
                                                       const layout_diagram_t *other )
 {
     double debts = 0.0;
+
+    /* add move distance as debt */
+    debts += fabs ( geometry_offset_get_dx( order_target ) );
+    debts += fabs ( geometry_offset_get_dy( order_target ) );
+
+    /* add debts for overlap to diagram boundary */
+    {
+        static const double DIAG_BOUNDS_SEVERITY = 32.0;
+
+        const geometry_rectangle_t *const diagram_draw_area
+            = layout_diagram_get_draw_area_const( other );
+
+        const geometry_rectangle_t *const solution_bounds
+            = layout_visible_classifier_get_envelope_box_const( probe );
+
+        double current_area = geometry_rectangle_get_area ( solution_bounds );
+        geometry_rectangle_t intersect;
+        geometry_rectangle_init_by_intersect( &intersect, solution_bounds, diagram_draw_area );
+        double intersect_area = geometry_rectangle_get_area ( &intersect );
+
+        debts += DIAG_BOUNDS_SEVERITY * ( current_area - intersect_area );
+    }
+
     return debts;
 }
 
 static inline double layout_quality_debts_class_class( const layout_quality_t *this_,
                                                        const layout_visible_classifier_t *probe,
-                                                       const layout_visible_classifier_t *other )
+                                                       const layout_visible_classifier_t *other,
+                                                       const layout_visible_set_t *layout_data )
 {
     double debts = 0.0;
+
+    const geometry_rectangle_t *const probe_envelope_box
+        = layout_visible_classifier_get_envelope_box_const( probe );
+    const geometry_rectangle_t *const other_envelope_box
+        = layout_visible_classifier_get_envelope_box_const( other );
+
+    geometry_rectangle_t probe_intersect;
+    const int intersect_err
+        = geometry_rectangle_init_by_intersect( &probe_intersect, probe_envelope_box, other_envelope_box );
+    if ( 0 == intersect_err )
+    {
+        /* there is an intersect */
+        if ( layout_visible_set_is_ancestor( layout_data, probe, other ) )
+        {
+            /* no debt: parent my overlap children */
+        }
+        else if ( layout_visible_set_is_ancestor( layout_data, other, probe ) )
+        {
+            /* no debt: child may overlap parent */
+        }
+        else
+        {
+            const double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
+            debts += probe_intersect_area;
+        }
+    }
+    /* else no intersect/overlap */
+
     return debts;
 }
 
@@ -85,14 +138,6 @@ static inline double layout_quality_debts_rel_feat( const layout_quality_t *this
 static inline double layout_quality_debts_rel_rel( const layout_quality_t *this_,
                                                    const layout_relationship_t *probe,
                                                    const layout_relationship_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-
-static inline double layout_quality_debts_sym_sym( const layout_quality_t *this_,
-                                                   const geometry_rectangle_t *probe,
-                                                   const geometry_rectangle_t *other )
 {
     double debts = 0.0;
     return debts;

@@ -35,8 +35,8 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
 
     /* get draw area */
     {
-        layout_diagram_t *diagram_layout;
-        diagram_layout = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
+        const layout_diagram_t *const diagram_layout
+            = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
         (*this_).diagram_draw_area = layout_diagram_get_draw_area_const( diagram_layout );
     }
 
@@ -630,43 +630,38 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
     uint32_t index_of_best;
     double debts_of_best;
     index_of_best = 0;  /* in case of doubts, take the first solution */
-    debts_of_best = 1000000000.0;
+    debts_of_best = DBL_MAX;
 
     /* get classifier to move */
     const uint32_t index
         = universal_array_index_sorter_get_array_index( sorted, sort_index );
     const layout_visible_classifier_t *const the_classifier
         = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
-    const geometry_rectangle_t *const classifier_envelope_box
-        = layout_visible_classifier_get_envelope_box_const( the_classifier );
 
     /* check all solutions */
     for ( uint32_t solution_index = 0; solution_index < solutions_count; solution_index ++ )
     {
-        /* calculate the solution rectangle */
+        /* calculate the solution classifier */
+        layout_visible_classifier_t solution;
+        layout_visible_classifier_copy( &solution, the_classifier );
+        layout_visible_classifier_shift( &solution, solution_move_dx[solution_index], solution_move_dy[solution_index] );
+        const geometry_offset_t shifted = geometry_offset_new( solution_move_dx[solution_index], solution_move_dy[solution_index] );
+
+        /*
         geometry_rectangle_t solution_bounds;
         geometry_rectangle_copy( &solution_bounds, classifier_envelope_box );
         geometry_rectangle_shift ( &solution_bounds, solution_move_dx[solution_index], solution_move_dy[solution_index] );
+        */
 
         /* evalute the debts of this solution */
         double debts_of_current;
         debts_of_current = 0.0;
 
-        /* add move distance as debt */
-        debts_of_current += fabs ( solution_move_dx[solution_index] );
-        debts_of_current += fabs ( solution_move_dy[solution_index] );
+        const layout_diagram_t *const diagram_layout
+            = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
 
-        /* add debts for overlap to diagram boundary */
-        {
-            static const double DIAG_BOUNDS_SEVERITY = 32.0;
-
-            double current_area = geometry_rectangle_get_area ( &solution_bounds );
-            geometry_rectangle_t intersect;
-            geometry_rectangle_init_by_intersect( &intersect, &solution_bounds, (*this_).diagram_draw_area );
-            double intersect_area = geometry_rectangle_get_area ( &intersect );
-
-            debts_of_current += DIAG_BOUNDS_SEVERITY * ( current_area - intersect_area );
-        }
+        const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
+        debts_of_current += layout_quality_debts_class_diag( &quality, &solution, &shifted, diagram_layout );
 
         /* check overlap to other classifiers */
         for ( uint32_t probe_sort_index = 0; probe_sort_index < universal_array_index_sorter_get_count( sorted ); probe_sort_index ++ )
@@ -679,37 +674,16 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
 
                 const layout_visible_classifier_t *const the_probe
                     = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, probe_index );
-                const geometry_rectangle_t *const probe_envelope_box
-                    = layout_visible_classifier_get_envelope_box_const( the_probe );
 
-                geometry_rectangle_t probe_intersect;
-                const int intersect_err
-                    = geometry_rectangle_init_by_intersect( &probe_intersect, &solution_bounds, probe_envelope_box );
-                if ( 0 == intersect_err )
-                {
-                    /* there is an intersect */
-                    if ( layout_visible_set_is_ancestor( (*this_).layout_data, the_classifier, the_probe ) )
-                    {
-                        /* no debt: parent my overlap children */
-                    }
-                    else if ( layout_visible_set_is_ancestor( (*this_).layout_data, the_probe, the_classifier ) )
-                    {
-                        /* no debt: child may overlap parent */
-                    }
-                    else
-                    {
-                        /* already processed classifiers have higher severity because these do not move anymore */
-                        const double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
-                        const double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
-                        debts_of_current += severity * probe_intersect_area;
-                    }
-                }
-                /* else no intersect/overlap */
+                /* already processed classifiers have higher severity because these do not move anymore */
+                const double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
+
+                debts_of_current += severity * layout_quality_debts_class_class( &quality, &solution, the_probe, (*this_).layout_data );
             }
         }
 
         /* finish evaluating this solution */
-        geometry_rectangle_destroy( &solution_bounds );
+        layout_visible_classifier_destroy( &solution );
         if ( debts_of_current < debts_of_best )
         {
             debts_of_best = debts_of_current;

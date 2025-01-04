@@ -53,18 +53,6 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
         debts_of_current += layout_quality_debts_label_diag( &quality, current_solution, &target_point, diagram_layout );
 
-/*
-
-        static inline double layout_quality_debts_label_feat( const layout_quality_t *this_,
-                                                              const geometry_rectangle_t *probe,
-                                                              const layout_feature_t *other )
-
-        static inline double layout_quality_debts_label_rel( const layout_quality_t *this_,
-                                                             const geometry_rectangle_t *probe,
-                                                             const layout_relationship_t *other )
-                                                             */
-
-
         /* iterate over all classifiers */
         const uint32_t count_clasfy
             = layout_visible_set_get_visible_classifier_count ( layout_data );

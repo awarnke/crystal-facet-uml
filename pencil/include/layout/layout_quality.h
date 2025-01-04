@@ -13,6 +13,7 @@
  */
 
 #include "pencil_size.h"
+#include "geometry/geometry_offset.h"
 #include <stdint.h>
 
 /*!
@@ -52,11 +53,13 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param probe a completely layouted visible classifier
+ *  \param order_target the delta from order-based location to the current classifiers location
  *  \param other the diagram to which to draw to
  *  \return 0.0 if there are no overlaps, a positive value otherwise
  */
 static inline double layout_quality_debts_class_diag ( const layout_quality_t *this_,
                                                        const layout_visible_classifier_t *probe,
+                                                       const geometry_offset_t *order_target,
                                                        const layout_diagram_t *other
                                                      );
 
@@ -66,11 +69,13 @@ static inline double layout_quality_debts_class_diag ( const layout_quality_t *t
  *  \param this_ pointer to own object attributes
  *  \param probe a completely layouted visible classifier
  *  \param other another completely layouted visible classifier
+ *  \param layout_data the visible set allows to determine if probe is parent or child of other
  *  \return 0.0 if there are no overlaps, a positive value otherwise
  */
 static inline double layout_quality_debts_class_class ( const layout_quality_t *this_,
                                                         const layout_visible_classifier_t *probe,
-                                                        const layout_visible_classifier_t *other
+                                                        const layout_visible_classifier_t *other,
+                                                        const layout_visible_set_t *layout_data
                                                       );
 
 /*!
@@ -162,19 +167,6 @@ static inline double layout_quality_debts_rel_feat ( const layout_quality_t *thi
 static inline double layout_quality_debts_rel_rel ( const layout_quality_t *this_,
                                                     const layout_relationship_t *probe,
                                                     const layout_relationship_t *other
-                                                  );
-
-/*!
- *  \brief determines the quality debts for drawing both symbol boxes of features
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a partly layouted feature
- *  \param other another partly layouted feature
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_sym_sym ( const layout_quality_t *this_,
-                                                    const geometry_rectangle_t *probe,
-                                                    const geometry_rectangle_t *other
                                                   );
 
 /*!
