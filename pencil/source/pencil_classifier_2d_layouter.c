@@ -175,32 +175,29 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
         /* declaration of list of options */
-        uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 6;
-        double solution_move_dx[6];
-        double solution_move_dy[6];
+        uint32_t solution_count = 0;
+        static const uint32_t SOLUTION_MAX = 6;
+        geometry_offset_t solution[6];
 
         /* propose options of moving left/right/up/down */
         pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( this_,
                                                                            &sorted,
                                                                            sort_index,
-                                                                           SOLUTIONS_MAX-1,
-                                                                           solution_move_dx,
-                                                                           solution_move_dy,
-                                                                           &solutions_count
+                                                                           SOLUTION_MAX-1,
+                                                                           &solution,
+                                                                           &solution_count
                                                                          );
         /* propose options of moving close at origin-area */
         pencil_classifier_2d_layouter_private_propose_anchored_solution( this_,
                                                                          &sorted,
                                                                          sort_index,
-                                                                         &(solution_move_dx[solutions_count]),
-                                                                         &(solution_move_dy[solutions_count])
+                                                                         &(solution[solution_count])
                                                                        );
-        solutions_count ++;
+        solution_count ++;
 
         /* select best option */
         uint32_t index_of_best;
-        if ( 1 == solutions_count )
+        if ( 1 == solution_count )
         {
             index_of_best = 0;
         }
@@ -209,9 +206,8 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
             pencil_classifier_2d_layouter_private_select_move_solution( this_,
                                                                         &sorted,
                                                                         sort_index,
-                                                                        solutions_count,
-                                                                        solution_move_dx,
-                                                                        solution_move_dy,
+                                                                        solution_count,
+                                                                        &solution,
                                                                         &index_of_best
                                                                       );
         }
@@ -222,7 +218,10 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
         /* move the classifier */
         layout_visible_classifier_t *the_classifier;
         the_classifier = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
-        layout_visible_classifier_shift( the_classifier, solution_move_dx[index_of_best], solution_move_dy[index_of_best] );
+        layout_visible_classifier_shift( the_classifier,
+                                         geometry_offset_get_dx( &(solution[index_of_best]) ),
+                                         geometry_offset_get_dy( &(solution[index_of_best]) )
+                                       );
     }
 
     universal_array_index_sorter_destroy( &sorted );
@@ -331,16 +330,14 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
                                                                         const universal_array_index_sorter_t *sorted,
                                                                         uint32_t sort_index,
                                                                         uint32_t solutions_max,
-                                                                        double out_solution_move_dx[],
-                                                                        double out_solution_move_dy[],
-                                                                        uint32_t *out_solutions_count )
+                                                                        geometry_offset_t (*out_solution)[],
+                                                                        uint32_t *out_solution_count )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != sorted );
     assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
-    assert ( NULL != out_solution_move_dx );
-    assert ( NULL != out_solution_move_dy );
-    assert ( NULL != out_solutions_count );
+    assert ( NULL != out_solution );
+    assert ( NULL != out_solution_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
     assert ( (unsigned int) PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 5 options */
 
@@ -380,21 +377,16 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
         }
     }
 
-    *out_solutions_count = 1;
-    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_NOT] = shift_x;
-    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_NOT] = shift_y;
+    *out_solution_count = 1;
+    (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_NOT] = geometry_offset_new( shift_x, shift_y );
 
     /* determine minimum and comfort distances between classifiers */
     const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
 
-    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_y;
+    (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = geometry_offset_new( shift_x, shift_y );
+    (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = geometry_offset_new( shift_x, shift_y );
+    (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = geometry_offset_new( shift_x, shift_y );
+    (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = geometry_offset_new( shift_x, shift_y );
 
     /* adjust information on current rectangle */
     top += shift_y;
@@ -447,33 +439,33 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
 
             double my_shift_x_left_min;
             my_shift_x_left_min = probe_left - right - gap;
-            if ( my_shift_x_left_min < out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] )
+            if ( my_shift_x_left_min < geometry_offset_get_dx( &((*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN]) ) )
             {
-                out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = my_shift_x_left_min;
+                (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = geometry_offset_new( my_shift_x_left_min, shift_y );
             }
 
             double my_shift_x_right_min;
             my_shift_x_right_min = probe_right - left + gap;
-            if ( my_shift_x_right_min > out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] )
+            if ( my_shift_x_right_min > geometry_offset_get_dx( &((*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN]) ) )
             {
-                out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = my_shift_x_right_min;
+                (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = geometry_offset_new( my_shift_x_right_min, shift_y );
             }
 
             double my_shift_y_up_min;
             my_shift_y_up_min = probe_top - bottom - gap;
-            if ( my_shift_y_up_min < out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] )
+            if ( my_shift_y_up_min < geometry_offset_get_dy( &((*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN]) ) )
             {
-                out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = my_shift_y_up_min;
+                (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = geometry_offset_new( shift_x, my_shift_y_up_min );
             }
 
             double my_shift_y_down_min;
             my_shift_y_down_min = probe_bottom - top + gap;
-            if ( my_shift_y_down_min > out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] )
+            if ( my_shift_y_down_min > geometry_offset_get_dy( &((*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN]) ) )
             {
-                out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = my_shift_y_down_min;
+                (*out_solution)[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = geometry_offset_new( shift_x, my_shift_y_down_min );
             }
 
-            *out_solutions_count = PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX;
+            *out_solution_count = PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX;
 
             /* trace */
             const data_visible_classifier_t *visible_classifier_data;
@@ -500,14 +492,12 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
 void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_classifier_2d_layouter_t *this_,
                                                                       const universal_array_index_sorter_t *sorted,
                                                                       uint32_t sort_index,
-                                                                      double * out_solution_move_dx,
-                                                                      double * out_solution_move_dy )
+                                                                      geometry_offset_t *out_solution )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != sorted );
     assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
-    assert ( NULL != out_solution_move_dx );
-    assert ( NULL != out_solution_move_dy );
+    assert ( NULL != out_solution );
 
     /* get classifier to move */
     const uint32_t index
@@ -563,6 +553,8 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     geometry_rectangle_enlarge ( &classifier_solution_area, -2.0*gap, -2.0*gap );
 
     /* move - but not to eager - only the minumum distance */
+    double solution_move_dx = 0.0;
+    double solution_move_dy = 0.0;
     const bool is_x_contained
         = ( geometry_rectangle_get_left( &classifier_solution_area ) < geometry_rectangle_get_left( classifier_envelope_box ) )
         && ( geometry_rectangle_get_right( classifier_envelope_box ) < geometry_rectangle_get_right( &classifier_solution_area ) );
@@ -571,13 +563,13 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
         && ( geometry_rectangle_get_bottom( classifier_envelope_box ) < geometry_rectangle_get_bottom( &classifier_solution_area ) );
     if ( is_x_contained )
     {
-        *out_solution_move_dx = 0.0;
+        solution_move_dx = 0.0;
     }
     else
     {
         const double sol_center_x = geometry_rectangle_get_center_x( &classifier_solution_area );
         const double cur_center_x = geometry_rectangle_get_center_x( classifier_envelope_box );
-        *out_solution_move_dx = ( sol_center_x < cur_center_x )
+        solution_move_dx = ( sol_center_x < cur_center_x )
             ? geometry_rectangle_get_right( &classifier_solution_area )
             - geometry_rectangle_get_right( classifier_envelope_box )
             : geometry_rectangle_get_left( &classifier_solution_area )
@@ -587,18 +579,19 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     }
     if ( is_y_contained )
     {
-        *out_solution_move_dy = 0.0;
+        solution_move_dy = 0.0;
     }
     else
     {
         const double sol_center_y = geometry_rectangle_get_center_y( &classifier_solution_area );
         const double cur_center_y = geometry_rectangle_get_center_y( classifier_envelope_box );
-        *out_solution_move_dy = ( sol_center_y < cur_center_y )
+        solution_move_dy = ( sol_center_y < cur_center_y )
             ? geometry_rectangle_get_bottom( &classifier_solution_area )
             - geometry_rectangle_get_bottom( classifier_envelope_box )
             : geometry_rectangle_get_top( &classifier_solution_area )
             - geometry_rectangle_get_top( classifier_envelope_box );
     }
+    *out_solution = geometry_offset_new( solution_move_dx, solution_move_dy );
 
     /* trace */
     const data_visible_classifier_t *visible_classifier;
@@ -613,18 +606,16 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
 void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifier_2d_layouter_t *this_,
                                                                  const universal_array_index_sorter_t *sorted,
                                                                  uint32_t sort_index,
-                                                                 uint32_t solutions_count,
-                                                                 const double solution_move_dx[],
-                                                                 const double solution_move_dy[],
+                                                                 uint32_t solution_count,
+                                                                 geometry_offset_t (*solution)[],
                                                                  uint32_t *out_index_of_best )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != sorted );
     assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
-    assert ( NULL != solution_move_dx );
-    assert ( NULL != solution_move_dy );
+    assert ( NULL != solution );
     assert ( NULL != out_index_of_best );
-    assert ( 1 <= solutions_count );
+    assert ( 1 <= solution_count );
 
     /* define potential solution and rating */
     uint32_t index_of_best;
@@ -639,19 +630,15 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
         = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
 
     /* check all solutions */
-    for ( uint32_t solution_index = 0; solution_index < solutions_count; solution_index ++ )
+    for ( uint32_t solution_index = 0; solution_index < solution_count; solution_index ++ )
     {
         /* calculate the solution classifier */
-        layout_visible_classifier_t solution;
-        layout_visible_classifier_copy( &solution, the_classifier );
-        layout_visible_classifier_shift( &solution, solution_move_dx[solution_index], solution_move_dy[solution_index] );
-        const geometry_offset_t shifted = geometry_offset_new( solution_move_dx[solution_index], solution_move_dy[solution_index] );
-
-        /*
-        geometry_rectangle_t solution_bounds;
-        geometry_rectangle_copy( &solution_bounds, classifier_envelope_box );
-        geometry_rectangle_shift ( &solution_bounds, solution_move_dx[solution_index], solution_move_dy[solution_index] );
-        */
+        layout_visible_classifier_t moved_solution;
+        layout_visible_classifier_copy( &moved_solution, the_classifier );
+        layout_visible_classifier_shift( &moved_solution,
+                                         geometry_offset_get_dx( &((*solution)[solution_index]) ),
+                                         geometry_offset_get_dy( &((*solution)[solution_index]) )
+                                       );
 
         /* evalute the debts of this solution */
         double debts_of_current;
@@ -661,7 +648,7 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
             = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
 
         const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
-        debts_of_current += layout_quality_debts_class_diag( &quality, &solution, &shifted, diagram_layout );
+        debts_of_current += layout_quality_debts_class_diag( &quality, &moved_solution, &((*solution)[solution_index]), diagram_layout );
 
         /* check overlap to other classifiers */
         for ( uint32_t probe_sort_index = 0; probe_sort_index < universal_array_index_sorter_get_count( sorted ); probe_sort_index ++ )
@@ -676,14 +663,14 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
                     = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, probe_index );
 
                 /* already processed classifiers have higher severity because these do not move anymore */
-                const double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
+                const double severity = ( probe_sort_index < sort_index ) ? 1.0 : 0.25;
 
-                debts_of_current += severity * layout_quality_debts_class_class( &quality, &solution, the_probe, (*this_).layout_data );
+                debts_of_current += severity * layout_quality_debts_class_class( &quality, &moved_solution, the_probe, (*this_).layout_data );
             }
         }
 
         /* finish evaluating this solution */
-        layout_visible_classifier_destroy( &solution );
+        layout_visible_classifier_destroy( &moved_solution );
         if ( debts_of_current < debts_of_best )
         {
             debts_of_best = debts_of_current;
