@@ -289,32 +289,6 @@ bool layout_visible_set_is_consistent ( const layout_visible_set_t *this_ );
 void layout_visible_set_get_statistics ( const layout_visible_set_t *this_, data_stat_t *io_layout_stat );
 
 /*!
- *  \brief analyzes layout_visible_set: gets statistics and calls back a function in case of overlaps
- *
- *  \param this_ pointer to own object attributes
- *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
- *  \param overlap_callback pointer to a function that is called in case of overlaps
- *  \param data pointer that is passed to overlap_callback
- */
-void layout_visible_set_analyze ( const layout_visible_set_t *this_,
-                                  data_stat_t *io_layout_stat,
-                                  void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b),
-                                  void *data
-                                );
-
-/*!
- *  \brief analyzes layout_visible_set: gets statistics and calls back a function in case of overlaps
- *
- *  \param data pointer that is passed to overlap_callback
- *  \param rect_a pointer to a rectangle that overlaps with rect_b
- *  \param rect_b pointer to a rectangle that overlaps with rect_a
- */
-void layout_visible_set_private_analyze_nothing_callback ( void *data,
-                                                           const geometry_rectangle_t *rect_a,
-                                                           const geometry_rectangle_t *rect_b
-                                                         );
-
-/*!
  *  \brief initializes the diagram_layout member
  *
  *  \param this_ pointer to own object attributes, input_data shall be already initialized

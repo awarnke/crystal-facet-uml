@@ -7,6 +7,7 @@
 #include "set/data_visible_set.h"
 #include "set/data_profile_part.h"
 #include "test_data/test_data_setup.h"
+#include "test_data/test_data_evaluation.h"
 #include "u8/u8_trace.h"
 #include "test_fixture.h"
 #include "test_expect.h"
@@ -183,6 +184,8 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
     assert( fix != NULL );
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
+    test_data_evaluation_t ts_eval;
+    test_data_evaluation_init( &ts_eval );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
@@ -198,11 +201,12 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
         pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        layout_visible_set_analyze( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
-                                    &layout_stats,
-                                    pencil_diagram_maker_test_draw_rects_callback,
-                                    (*fix).cr /* the user data of type void* */
-                                  );
+        test_data_evaluation_analyze( &ts_eval,
+                                      pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                      &layout_stats,
+                                      pencil_diagram_maker_test_draw_rects_callback,
+                                      (*fix).cr /* the user data of type void* */
+                                    );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -214,6 +218,7 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
+    test_data_evaluation_destroy( &ts_eval );
     test_data_setup_destroy( &ts_setup );
     return TEST_CASE_RESULT_OK;
 }
@@ -223,6 +228,8 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
     assert( fix != NULL );
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
+    test_data_evaluation_t ts_eval;
+    test_data_evaluation_init( &ts_eval );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
@@ -238,11 +245,12 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
         pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        layout_visible_set_analyze( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
-                                    &layout_stats,
-                                    pencil_diagram_maker_test_draw_rects_callback,
-                                    (*fix).cr /* the user data of type void* */
-                                  );
+        test_data_evaluation_analyze( &ts_eval,
+                                      pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                      &layout_stats,
+                                      pencil_diagram_maker_test_draw_rects_callback,
+                                      (*fix).cr /* the user data of type void* */
+                                    );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -254,6 +262,7 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
+    test_data_evaluation_destroy( &ts_eval );
     test_data_setup_destroy( &ts_setup );
     return TEST_CASE_RESULT_OK;
 }
@@ -263,6 +272,8 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
     assert( fix != NULL );
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
+    test_data_evaluation_t ts_eval;
+    test_data_evaluation_init( &ts_eval );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
@@ -278,11 +289,12 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
         pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        layout_visible_set_analyze( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
-                                    &layout_stats,
-                                    pencil_diagram_maker_test_draw_rects_callback,
-                                    (*fix).cr /* the user data of type void* */
-                                  );
+        test_data_evaluation_analyze( &ts_eval,
+                                      pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                      &layout_stats,
+                                      pencil_diagram_maker_test_draw_rects_callback,
+                                      (*fix).cr /* the user data of type void* */
+                                    );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -294,6 +306,7 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
+    test_data_evaluation_destroy( &ts_eval );
     test_data_setup_destroy( &ts_setup );
     return TEST_CASE_RESULT_OK;
 }

@@ -86,6 +86,7 @@ FILE(GLOB utestSource  ../../main/test/*.c
                        ../../io/test/unit/*.c
                        ../../io/test/integration/*.c
                        ../../pencil/test/unit/*.c
+                       ../../pencil/test/test_data/*.c
                        ../../pencil/test/integration/*.c
                        ../../u8stream/test/unit/*.c
                        ../../u8stream/test/integration/*.c)
