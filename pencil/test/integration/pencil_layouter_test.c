@@ -4,6 +4,7 @@
 #include "pencil_layouter.h"
 #include "pencil_diagram_maker.h"
 #include "test_data/test_data_setup.h"
+#include "test_data/test_data_evaluation.h"
 #include "u8/u8_trace.h"
 #include "test_fixture.h"
 #include "test_expect.h"
@@ -16,7 +17,7 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t layout_good_cases( test_fixture_t *fix );
 static test_case_result_t layout_challenging_cases( test_fixture_t *fix );
 static test_case_result_t layout_edge_cases( test_fixture_t *fix );
-
+void pencil_layouter_test_draw_rects_callback( void *data, const geometry_rectangle_t *rect_a, const geometry_rectangle_t *rect_b );
 /*
 Note that the test results/statistics stronly depend on the installed fonts.
 */
@@ -89,6 +90,8 @@ static test_case_result_t layout_good_cases( test_fixture_t *fix )
 
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
+    test_data_evaluation_t ts_eval;
+    test_data_evaluation_init( &ts_eval );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
@@ -100,7 +103,12 @@ static test_case_result_t layout_good_cases( test_fixture_t *fix )
         pencil_layouter_prepare ( &((*fix).layouter) );
         pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
-        layout_visible_set_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
+        test_data_evaluation_analyze( &ts_eval,
+                                      pencil_layouter_get_layout_data_const( &((*fix).layouter) ),
+                                      &layout_stats,
+                                      pencil_layouter_test_draw_rects_callback,
+                                      NULL /* the user data of type void* */
+                                    );
 
         /* check result */
         const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
@@ -133,6 +141,7 @@ static test_case_result_t layout_good_cases( test_fixture_t *fix )
         data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
+    test_data_evaluation_destroy( &ts_eval );
     test_data_setup_destroy( &ts_setup );
 
     fprintf( stdout,
@@ -158,6 +167,8 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *fix )
 
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
+    test_data_evaluation_t ts_eval;
+    test_data_evaluation_init( &ts_eval );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
@@ -169,7 +180,12 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *fix )
         pencil_layouter_prepare ( &((*fix).layouter) );
         pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
-        layout_visible_set_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
+        test_data_evaluation_analyze( &ts_eval,
+                                      pencil_layouter_get_layout_data_const( &((*fix).layouter) ),
+                                      &layout_stats,
+                                      pencil_layouter_test_draw_rects_callback,
+                                      NULL /* the user data of type void* */
+                                    );
 
         /* check result */
         const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
@@ -185,7 +201,9 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *fix )
         data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
+    test_data_evaluation_destroy( &ts_eval );
     test_data_setup_destroy( &ts_setup );
+
     fprintf( stdout,
              "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32
              ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/L=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
@@ -215,6 +233,9 @@ static test_case_result_t layout_edge_cases( test_fixture_t *fix )
         pencil_layouter_prepare ( &((*fix).layouter) );
         pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
+        /*
+        layout_visible_set_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
+        */
 
         /* check result */
         const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
@@ -232,6 +253,11 @@ static test_case_result_t layout_edge_cases( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+void pencil_layouter_test_draw_rects_callback( void *data,
+                                               const geometry_rectangle_t *rect_a,
+                                               const geometry_rectangle_t *rect_b )
+{
+}
 
 /*
  * Copyright 2021-2025 Andreas Warnke

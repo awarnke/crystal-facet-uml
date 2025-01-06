@@ -52,12 +52,11 @@ void test_data_evaluation_analyze( const test_data_evaluation_t *this_,
         for ( uint_fast32_t c_idx = 0; c_idx < (*input_layout).visible_classifier_count; c_idx ++ )
         {
             const layout_visible_classifier_t *const classifier = &((*input_layout).visible_classifier_layout[c_idx]);
-            const geometry_rectangle_t *const c_symbox
-                = layout_visible_classifier_get_symbol_box_const( classifier );
-            const geometry_rectangle_t *const c_label
-               = layout_visible_classifier_get_label_box_const( classifier );
-            const geometry_rectangle_t *const c_space
-               = layout_visible_classifier_get_space_const( classifier );
+
+            const geometry_rectangle_t *const c_symbox = layout_visible_classifier_get_symbol_box_const( classifier );
+            const geometry_rectangle_t *const c_label = layout_visible_classifier_get_label_box_const( classifier );
+            const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const( classifier );
+            const geometry_rectangle_t *const c_icon = layout_visible_classifier_get_icon_box_const( classifier );
 
             if ( geometry_rectangle_is_containing( diag_space, c_symbox )
                 && geometry_rectangle_is_containing( diag_space, c_label ) )
@@ -154,10 +153,8 @@ void test_data_evaluation_analyze( const test_data_evaluation_t *this_,
             const data_stat_table_t feat_or_lifeline
                 = ( feature_type == DATA_FEATURE_TYPE_LIFELINE ) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
 
-            const geometry_rectangle_t *const f_symbox
-                = layout_feature_get_symbol_box_const( feature );
-            const geometry_rectangle_t *const f_label
-                = layout_feature_get_label_box_const( feature );
+            const geometry_rectangle_t *const f_symbox = layout_feature_get_symbol_box_const( feature );
+            const geometry_rectangle_t *const f_label = layout_feature_get_label_box_const( feature );
 
             if ( ! feature_visible )
             {
@@ -306,10 +303,8 @@ void test_data_evaluation_analyze( const test_data_evaluation_t *this_,
                                                          (*input_layout).input_data,
                                                          relationship_id
                                                        );
-            const geometry_rectangle_t *const r_label
-                = layout_relationship_get_label_box_const( relationship );
-            const geometry_connector_t *const r_shape
-                = layout_relationship_get_shape_const( relationship );
+            const geometry_rectangle_t *const r_label = layout_relationship_get_label_box_const( relationship );
+            const geometry_connector_t *const r_shape = layout_relationship_get_shape_const( relationship );
             const geometry_rectangle_t r_bounds = geometry_connector_get_bounding_rectangle( r_shape );
 
             if ( ! relationship_visible )

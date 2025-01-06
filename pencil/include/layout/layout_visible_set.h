@@ -281,7 +281,8 @@ bool layout_visible_set_is_consistent ( const layout_visible_set_t *this_ );
 /*!
  *  \brief gets statistics on layout_visible_set.
  *
- *  This encompasses number of objects, number of overlaps (warnings), number of objects outside diagram (errors).
+ *  This encompasses number of objects, number of overlaps with the diagram border (warnings),
+ *  number of objects outside diagram (errors). It does not evaluate the layouting quality.
  *
  *  \param this_ pointer to own object attributes
  *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added

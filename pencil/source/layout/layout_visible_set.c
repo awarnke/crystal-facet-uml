@@ -537,23 +537,23 @@ void layout_visible_set_get_statistics ( const layout_visible_set_t *this_, data
     pencil_rules_init( &pencil_rules );
 
     /* check if diagram is valid */
-
     if ( (*this_).diagram_valid )
     {
         data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
 
         const geometry_rectangle_t *const diag_bounds = layout_diagram_get_bounds_const( &((*this_).diagram_layout) );
         const geometry_rectangle_t *const diag_space = layout_diagram_get_draw_area_const( &((*this_).diagram_layout) );
+        /* ignore the label_box, it is irrelevant for determining overlaps with classifiers, features and relationships */
 
         /* check classifiers against diagram */
-
         for ( uint_fast32_t c_idx = 0; c_idx < (*this_).visible_classifier_count; c_idx ++ )
         {
             const layout_visible_classifier_t *const classifier = &((*this_).visible_classifier_layout[c_idx]);
-            const geometry_rectangle_t *const c_symbox
-                = layout_visible_classifier_get_symbol_box_const( classifier );
-            const geometry_rectangle_t *const c_label
-               = layout_visible_classifier_get_label_box_const( classifier );
+
+            const geometry_rectangle_t *const c_symbox = layout_visible_classifier_get_symbol_box_const( classifier );
+            const geometry_rectangle_t *const c_label = layout_visible_classifier_get_label_box_const( classifier );
+            /* ignore the space, it is irrelevant for determining overlaps with the diagram border */
+            /* ignore the icon_box, it is irrelevant for determining overlaps with the diagram border */
 
             if ( geometry_rectangle_is_containing( diag_space, c_symbox )
                 && geometry_rectangle_is_containing( diag_space, c_label ) )
@@ -570,11 +570,9 @@ void layout_visible_set_get_statistics ( const layout_visible_set_t *this_, data
             {
                 data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
             }
-
         }
 
         /* check features against diagram */
-
         for ( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
         {
             const layout_feature_t *const feature = &((*this_).feature_layout[f_idx]);
@@ -589,17 +587,15 @@ void layout_visible_set_get_statistics ( const layout_visible_set_t *this_, data
             const data_stat_table_t feat_or_lifeline
                 = ( feature_type == DATA_FEATURE_TYPE_LIFELINE ) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
 
-            const geometry_rectangle_t *const f_symbox
-                = layout_feature_get_symbol_box_const( feature );
-            const geometry_rectangle_t *const f_label
-                = layout_feature_get_label_box_const( feature );
+            const geometry_rectangle_t *const f_symbox = layout_feature_get_symbol_box_const( feature );
+            const geometry_rectangle_t *const f_label = layout_feature_get_label_box_const( feature );
 
             if ( ! feature_visible )
             {
                 /* nothing to do, feature is not visible in this diagram */
             }
             else if ( ( geometry_rectangle_is_empty( f_symbox )
-                || geometry_rectangle_is_containing( diag_space, f_symbox ))
+                || geometry_rectangle_is_containing( diag_space, f_symbox ) )
                 && geometry_rectangle_is_containing( diag_space, f_label ) )
             {
                 data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_EXPORTED );
@@ -617,7 +613,6 @@ void layout_visible_set_get_statistics ( const layout_visible_set_t *this_, data
         }
 
         /* check relationships against diagram */
-
         for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count; r_idx ++ )
         {
             const layout_relationship_t *const relationship = &((*this_).relationship_layout[r_idx]);
@@ -627,23 +622,21 @@ void layout_visible_set_get_statistics ( const layout_visible_set_t *this_, data
                                                          (*this_).input_data,
                                                          relationship_id
                                                        );
-            const geometry_rectangle_t *const r_label
-                = layout_relationship_get_label_box_const( relationship );
-            const geometry_connector_t *const r_shape
-                = layout_relationship_get_shape_const( relationship );
-            const geometry_rectangle_t r_bounds = geometry_connector_get_bounding_rectangle( r_shape );
+            const geometry_rectangle_t *const rel_label = layout_relationship_get_label_box_const( relationship );
+            const geometry_connector_t *const rel_shape = layout_relationship_get_shape_const( relationship );
+            const geometry_rectangle_t rel_bounds = geometry_connector_get_bounding_rectangle( rel_shape );
 
             if ( ! relationship_visible )
             {
                 /* nothing to do, relationship is not visible in this diagram */
             }
-            else if ( geometry_rectangle_is_containing( diag_space, &r_bounds )
-                 && geometry_rectangle_is_containing( diag_space, r_label ) )
+            else if ( geometry_rectangle_is_containing( diag_space, &rel_bounds )
+                 && geometry_rectangle_is_containing( diag_space, rel_label ) )
             {
                 data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
             }
-            else if ( geometry_rectangle_is_containing( diag_bounds, &r_bounds )
-                && geometry_rectangle_is_containing( diag_bounds, r_label ) )
+            else if ( geometry_rectangle_is_containing( diag_bounds, &rel_bounds )
+                && geometry_rectangle_is_containing( diag_bounds, rel_label ) )
             {
                 data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
                 data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );

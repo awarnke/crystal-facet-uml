@@ -2,6 +2,8 @@ crystal-facet-uml (1.62.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * TODO
+    layout_good_cases: ERR=3, W/C=9, W/F=3, W/L=25, W/R=71
+    layout_challenging_cases: ERR=37, W/C=9433, W/F=531, W/L=6622, W/R=7840
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 02 Feb 2025 08:30:00 +0100
 
