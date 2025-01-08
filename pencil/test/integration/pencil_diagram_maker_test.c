@@ -319,32 +319,34 @@ void pencil_diagram_maker_test_draw_rects_callback ( void *data,
     assert( NULL != rect_a );
     assert( NULL != rect_b );
     cairo_t *cr = data;
-    cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, 1.0 );
-    cairo_rectangle ( cr,
-                      geometry_rectangle_get_left ( rect_a ),
-                      geometry_rectangle_get_top ( rect_a ),
-                      geometry_rectangle_get_width ( rect_a ),
-                      geometry_rectangle_get_height ( rect_a )
-                    );
-    cairo_rectangle ( cr,
-                      geometry_rectangle_get_left ( rect_b ),
-                      geometry_rectangle_get_top ( rect_b ),
-                      geometry_rectangle_get_width ( rect_b ),
-                      geometry_rectangle_get_height ( rect_b )
-                    );
-    cairo_stroke (cr);
+    cairo_set_source_rgba( cr, 1.0, 0.6, 0.65, 1.0 );
+    cairo_rectangle( cr,
+                     geometry_rectangle_get_left ( rect_a ),
+                     geometry_rectangle_get_top ( rect_a ),
+                     geometry_rectangle_get_width ( rect_a ),
+                     geometry_rectangle_get_height ( rect_a )
+                   );
+    cairo_rectangle( cr,
+                     geometry_rectangle_get_left ( rect_b ),
+                     geometry_rectangle_get_top ( rect_b ),
+                     geometry_rectangle_get_width ( rect_b ),
+                     geometry_rectangle_get_height ( rect_b )
+                   );
+    cairo_stroke( cr );
 
     geometry_rectangle_t isect;
     const int err_no_intersect = geometry_rectangle_init_by_intersect( &isect, rect_a, rect_b );
     if ( err_no_intersect == 0 )
     {
-        cairo_rectangle ( cr,
-                        geometry_rectangle_get_left ( &isect ),
-                        geometry_rectangle_get_top ( &isect ),
-                        geometry_rectangle_get_width ( &isect ),
-                        geometry_rectangle_get_height ( &isect )
-                        );
-        cairo_fill (cr);
+        geometry_rectangle_enlarge( &isect, 6.0, 6.0 );
+        geometry_rectangle_shift( &isect, -3.0, -3.0 );
+        cairo_rectangle( cr,
+                         geometry_rectangle_get_left ( &isect ),
+                         geometry_rectangle_get_top ( &isect ),
+                         geometry_rectangle_get_width ( &isect ),
+                         geometry_rectangle_get_height ( &isect )
+                       );
+        cairo_fill( cr );
         geometry_rectangle_destroy( &isect );
     }
 }

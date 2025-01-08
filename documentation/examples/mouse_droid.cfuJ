@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.62.2"
+    "generator_version": "1.62.1"
   }
   ,
   "views":
@@ -10500,7 +10500,7 @@
         "id": 132,
         "main_type": 0,
         "type": "Dependency",
-        "name": "provides background",
+        "name": "explains the challenge to solve",
         "description": [
                 ""
         ],

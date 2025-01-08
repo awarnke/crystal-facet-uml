@@ -12183,7 +12183,7 @@
             "id": 49,
             "main_type": 0,
             "type": "Property",
-            "key": "bounds",
+            "key": "symbol_box",
             "value": "rect",
             "description": [
                 ""
@@ -12225,10 +12225,12 @@
             "id": 48,
             "main_type": 0,
             "type": "Property",
-            "key": "bounds",
+            "key": "symbol_box",
             "value": "rect",
             "description": [
-                ""
+                "symbol_box defines the location of the symbol.\n",
+                "\n",
+                "Symbol is either the icon above the label or the outer border if the label is contained with the outer border line."
             ],
             "list_order": 163840,
             "uuid": "7d042899-fe73-48d4-8fdc-fb19af86a0d5"
@@ -12256,6 +12258,18 @@
             ],
             "list_order": 1412348357,
             "uuid": "75bd95ef-bbc0-4a26-8f44-5f9c8ca9d99d"
+          },
+          {
+            "id": 158,
+            "main_type": 0,
+            "type": "Property",
+            "key": "icon_box",
+            "value": "rect",
+            "description": [
+                ""
+            ],
+            "list_order": 1412381125,
+            "uuid": "33cacb94-2910-4795-98fd-0be94f79e992"
           }
         ]
       }

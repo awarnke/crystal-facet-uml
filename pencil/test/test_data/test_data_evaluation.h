@@ -54,6 +54,11 @@ void test_data_evaluation_destroy( test_data_evaluation_t *this_ );
 /*!
  *  \brief analyzes test_data_evaluation: gets statistics and calls back a function in case of overlaps
  *
+ *  \note
+ *  The analyze function to evaluate test results must not use the evaluation functions
+ *  of the layout_quality class. Otherwise the layouting quality is determined by the same
+ *  methods that produce the layout - which is not a comparable, objective result.
+ *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the data that was layouted
  *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
