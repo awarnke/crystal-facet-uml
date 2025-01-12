@@ -16,8 +16,10 @@
 static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_descendant_envelope( pencil_classifier_2d_layouter_t *this_,
                                                                                                    const layout_visible_classifier_t *ancestor_classifier )
 {
+    U8_TRACE_BEGIN();
     assert( ancestor_classifier != NULL );
     geometry_rectangle_t descendant_envelope;
+    geometry_rectangle_init( &descendant_envelope, 0.0, 0.0, 0.0, 0.0 );
     bool descendant_envelope_initialized = false;
 
     const uint32_t count_classifiers = layout_visible_set_get_visible_classifier_count( (*this_).layout_data );
@@ -25,7 +27,13 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_de
     {
         const layout_visible_classifier_t *const probe_classifier
             = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, classifier_search_idx );
-        if ( layout_visible_set_is_ancestor( (*this_).layout_data, ancestor_classifier, probe_classifier ) )
+
+        const bool is_ancestor = layout_visible_set_is_ancestor( (*this_).layout_data, ancestor_classifier, probe_classifier );
+        const bool is_self
+            = ( layout_visible_classifier_get_classifier_id( ancestor_classifier )
+            == layout_visible_classifier_get_classifier_id( probe_classifier ) );
+
+        if ( is_ancestor && ( ! is_self ) )
         {
             const geometry_rectangle_t probe_envelope = layout_visible_classifier_get_envelope_box( probe_classifier );
             if ( ! descendant_envelope_initialized )
@@ -39,11 +47,8 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_de
             }
         }
     }
-    if ( ! descendant_envelope_initialized )
-    {
-        descendant_envelope = layout_visible_classifier_get_envelope_box( ancestor_classifier );
-    }
 
+    U8_TRACE_END();
     return descendant_envelope;
 }
 
@@ -51,6 +56,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
                                                                                            const geometry_rectangle_t *start_rect,
                                                                                            const layout_visible_classifier_t *the_classifier )
 {
+    U8_TRACE_BEGIN();
     assert( start_rect != NULL );
     assert( the_classifier != NULL );
 
@@ -98,14 +104,15 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
         }
     }
 
+    U8_TRACE_END();
     return outer_space;
 }
 
 static inline void pencil_classifier_2d_layouter_private_move_descendants( pencil_classifier_2d_layouter_t *this_,
                                                                            const layout_visible_classifier_t *ancestor_classifier,
-                                                                           double delta_x,
-                                                                           double delta_y )
+                                                                           const geometry_offset_t *offset )
 {
+    U8_TRACE_BEGIN();
     assert( ancestor_classifier != NULL );
 
     /* check all classifiers */
@@ -114,11 +121,21 @@ static inline void pencil_classifier_2d_layouter_private_move_descendants( penci
     {
         layout_visible_classifier_t *const probe_classifier = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
         const bool is_descendant = layout_visible_set_is_ancestor ( (*this_).layout_data, ancestor_classifier, probe_classifier );
-        if ( is_descendant )
+        const bool is_self
+            = ( layout_visible_classifier_get_classifier_id( ancestor_classifier )
+            == layout_visible_classifier_get_classifier_id( probe_classifier ) );
+        if ( is_descendant && ( ! is_self ) )
         {
-            layout_visible_classifier_shift ( probe_classifier, delta_x, delta_y );
+            /* trace */
+            U8_TRACE_INFO_INT_INT( "classifier moved:",
+                                   geometry_offset_get_dx( offset ),
+                                   geometry_offset_get_dy( offset )
+                                 );
+
+            layout_visible_classifier_shift( probe_classifier, offset );
         }
     }
+    U8_TRACE_END();
 }
 
 

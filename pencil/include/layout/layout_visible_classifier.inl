@@ -175,8 +175,12 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_envelope
     return &((*this_).envelope_box_cache);
 }
 
-static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y )
+static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, const geometry_offset_t *offset )
 {
+    assert( offset != NULL );
+    const double delta_x = geometry_offset_get_dx( offset );
+    const double delta_y = geometry_offset_get_dy( offset );
+
     geometry_rectangle_shift( &((*this_).symbol_box), delta_x, delta_y );
     geometry_rectangle_shift( &((*this_).space), delta_x, delta_y );
     geometry_rectangle_shift( &((*this_).label_box), delta_x, delta_y );

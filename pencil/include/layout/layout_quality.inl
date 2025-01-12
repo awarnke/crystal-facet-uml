@@ -36,15 +36,20 @@ static inline double layout_quality_debts_class_diag( const layout_quality_t *th
         const geometry_rectangle_t *const diagram_draw_area
             = layout_diagram_get_draw_area_const( other );
 
-        const geometry_rectangle_t *const solution_bounds
+        const geometry_rectangle_t *const classifier_bounds
             = layout_visible_classifier_get_envelope_box_const( probe );
 
-        double current_area = geometry_rectangle_get_area ( solution_bounds );
-        geometry_rectangle_t intersect;
-        geometry_rectangle_init_by_intersect( &intersect, solution_bounds, diagram_draw_area );
-        double intersect_area = geometry_rectangle_get_area ( &intersect );
+        double classifier_area = geometry_rectangle_get_area ( classifier_bounds );
 
-        debts += DIAG_BOUNDS_SEVERITY * ( current_area - intersect_area );
+        geometry_rectangle_t intersect;
+        geometry_rectangle_init_by_intersect( &intersect, classifier_bounds, diagram_draw_area );
+        double intersect_area = geometry_rectangle_get_area ( &intersect );
+        debts += DIAG_BOUNDS_SEVERITY * ( classifier_area - intersect_area );
+        if ( ( 0.0001 + intersect_area ) < classifier_area )
+        {
+            debts += DIAG_BOUNDS_SEVERITY * geometry_rectangle_get_area ( diagram_draw_area );
+            debts += 1000000000;
+        }
     }
 
     return debts;

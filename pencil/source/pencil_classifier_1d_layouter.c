@@ -429,8 +429,9 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
         {
             /* equal spaces if there are spaces */
             const double delta_x = current_x + (dx_spaces/2.0) - envelope_left;
+            const geometry_offset_t offset = geometry_offset_new( delta_x, delta_y );
 
-            layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+            layout_visible_classifier_shift( visible_classifier2, &offset );
 
             current_x += dx_spaces + envelope_width;
         }
@@ -444,8 +445,9 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
             const double x_align_available = available_width * x_align_ratio;
 
             const double delta_x = (current_x+x_align_available) - (envelope_left+x_align_envelope);
+            const geometry_offset_t offset = geometry_offset_new( delta_x, delta_y );
 
-            layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+            layout_visible_classifier_shift( visible_classifier2, &offset );
 
             current_x += available_width;
         }
@@ -507,8 +509,9 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
         {
             /* equal spaces if there are spaces */
             const double delta_y = current_y + (dy_spaces/2.0) - envelope_top;
+            const geometry_offset_t offset = geometry_offset_new( delta_x, delta_y );
 
-            layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+            layout_visible_classifier_shift( visible_classifier2, &offset );
 
             current_y += dy_spaces + envelope_height;
         }
@@ -523,8 +526,9 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
             const double y_align_available = available_height * y_align_ratio;
 
             const double delta_y = (current_y+y_align_available) - (envelope_top+y_align_envelope);
+            const geometry_offset_t offset = geometry_offset_new( delta_x, delta_y );
 
-            layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+            layout_visible_classifier_shift( visible_classifier2, &offset );
 
             current_y += available_height;
         }
@@ -586,8 +590,9 @@ void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_class
                                                           geometry_rectangle_get_height( dest_rect )
                                                         );
         const double delta_y = dest_top - envelope_top;
+        const geometry_offset_t offset = geometry_offset_new( delta_x, delta_y );
 
-        layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+        layout_visible_classifier_shift( visible_classifier2, &offset );
     }
 
     U8_TRACE_END();
@@ -646,8 +651,9 @@ void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classif
             new_top = dest_top;
         }
         const double delta_y = new_top - envelope_top;
+        const geometry_offset_t offset = geometry_offset_new( delta_x, delta_y );
 
-        layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
+        layout_visible_classifier_shift( visible_classifier2, &offset );
 
     }
 

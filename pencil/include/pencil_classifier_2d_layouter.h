@@ -247,13 +247,11 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
  *
  *  \param this_ pointer to own object attributes
  *  \param ancestor_classifier the ancestor classifier
- *  \param delta_x distance to move in x direction
- *  \param delta_y distance to move in y direction
+ *  \param offset distance to move all children/descendants
  */
 static inline void pencil_classifier_2d_layouter_private_move_descendants( pencil_classifier_2d_layouter_t *this_,
                                                                            const layout_visible_classifier_t *ancestor_classifier,
-                                                                           double delta_x,
-                                                                           double delta_y
+                                                                           const geometry_offset_t *offset
                                                                          );
 
 

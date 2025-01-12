@@ -339,7 +339,8 @@ int pencil_classifier_composer_set_envelope_box( pencil_classifier_composer_t *t
             = layout_visible_classifier_get_envelope_box( io_classifier_layout );
         const double shift_to_right = geometry_rectangle_get_center_x( envelope ) - geometry_rectangle_get_center_x( &current_envelope );
         const double shift_to_bottom = geometry_rectangle_get_center_y( envelope ) - geometry_rectangle_get_center_y( &current_envelope );
-        layout_visible_classifier_shift( io_classifier_layout, shift_to_right, shift_to_bottom );
+        const geometry_offset_t offset = geometry_offset_new( shift_to_right, shift_to_bottom );
+        layout_visible_classifier_shift( io_classifier_layout, &offset );
     }
 
     geometry_rectangle_destroy( &label_rect );

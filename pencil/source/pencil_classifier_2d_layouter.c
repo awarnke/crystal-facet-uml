@@ -63,7 +63,16 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
     for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
         layout_visible_classifier_t *const classifier_layout
-             = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
+
+        /* trace */
+        {
+            const data_visible_classifier_t *const visible_classifier
+                = layout_visible_classifier_get_data_const( classifier_layout );
+            const data_classifier_t *const classifier
+                = data_visible_classifier_get_classifier_const( visible_classifier );
+            U8_TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
+        }
 
         /* set the bounds, space and label_box of the classifier layout */
         {
@@ -136,7 +145,7 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
         /* move the classifier rectangles to the target location */
         {
             const data_visible_classifier_t *const visible_classifier2
-                = layout_visible_classifier_get_data_const ( classifier_layout );
+                = layout_visible_classifier_get_data_const( classifier_layout );
             const data_classifier_t *const classifier2
                 = data_visible_classifier_get_classifier_const( visible_classifier2 );
             const geometry_rectangle_t *const classifier_symbol_box
@@ -150,7 +159,8 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
             const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( (*this_).grid );
             const double center_x = geometry_non_linear_scale_get_location( x_scale, order_x );
             const double center_y = geometry_non_linear_scale_get_location( y_scale, order_y );
-            layout_visible_classifier_shift( classifier_layout, center_x-act_center_x, center_y-act_center_y );
+            const geometry_offset_t offset = geometry_offset_new( center_x - act_center_x, center_y - act_center_y );
+            layout_visible_classifier_shift( classifier_layout, &offset );
         }
     }
 
@@ -174,6 +184,21 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
     const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
+        /* get iteration-specific data */
+        const uint32_t index
+            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        layout_visible_classifier_t *const layouted_classifier
+            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
+
+        /* trace */
+        {
+            const data_visible_classifier_t *const visible_classifier
+                = layout_visible_classifier_get_data_const( layouted_classifier );
+            const data_classifier_t *const classifier
+                = data_visible_classifier_get_classifier_const( visible_classifier );
+            U8_TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
+        }
+
         /* declaration of list of options */
         uint32_t solution_count = 0;
         static const uint32_t SOLUTION_MAX = 6;
@@ -187,6 +212,7 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
                                                                            &solution,
                                                                            &solution_count
                                                                          );
+        assert( solution_count < SOLUTION_MAX );
         /* propose options of moving close at origin-area */
         pencil_classifier_2d_layouter_private_propose_anchored_solution( this_,
                                                                          &sorted,
@@ -212,16 +238,12 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
                                                                       );
         }
 
-        /* perform best option */
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         /* move the classifier */
-        layout_visible_classifier_t *the_classifier;
-        the_classifier = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
-        layout_visible_classifier_shift( the_classifier,
-                                         geometry_offset_get_dx( &(solution[index_of_best]) ),
-                                         geometry_offset_get_dy( &(solution[index_of_best]) )
-                                       );
+        layout_visible_classifier_shift( layouted_classifier, &(solution[index_of_best]) );
+        U8_TRACE_INFO_INT_INT( "classifier moved:",
+                               geometry_offset_get_dx( &(solution[index_of_best]) ),
+                               geometry_offset_get_dy( &(solution[index_of_best]) )
+                             );
     }
 
     universal_array_index_sorter_destroy( &sorted );
@@ -357,7 +379,7 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
     double shift_x = 0.0;
     double shift_y = 0.0;
 
-    /* check overlap to diagram boundary */
+    /* initial check of overlaps to diagram boundary */
     {
         if ( bottom > geometry_rectangle_get_bottom( (*this_).diagram_draw_area ) )
         {
@@ -469,7 +491,7 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
 
             /* trace */
             const data_visible_classifier_t *visible_classifier_data;
-            visible_classifier_data = layout_visible_classifier_get_data_const ( the_probe );
+            visible_classifier_data = layout_visible_classifier_get_data_const( the_probe );
             if (( visible_classifier_data != NULL ) && ( data_visible_classifier_is_valid( visible_classifier_data ) ))
             {
                 const data_classifier_t *classifier_p;
@@ -478,13 +500,6 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
             }
         }
     }
-
-    /* trace */
-    const data_visible_classifier_t *visible_classifier;
-    visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
-    const data_classifier_t *classifier;
-    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    U8_TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
 
     U8_TRACE_END();
 }
@@ -514,12 +529,12 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
 
     /* wish a solution area */
     geometry_rectangle_t classifier_solution_area;
-    geometry_rectangle_init ( &classifier_solution_area,
-                              geometry_rectangle_get_left( classifier_envelope_box ) - 0.5*width - gap,
-                              geometry_rectangle_get_top( classifier_envelope_box ) - 0.5*height - gap,
-                              2.0*width + 2.0*gap,
-                              2.0*height + 2.0*gap
-                            );
+    geometry_rectangle_init( &classifier_solution_area,
+                             geometry_rectangle_get_left( classifier_envelope_box ) - 0.5*width - gap,
+                             geometry_rectangle_get_top( classifier_envelope_box ) - 0.5*height - gap,
+                             2.0*width + 2.0*gap,
+                             2.0*height + 2.0*gap
+                           );
 
     /* shrink solution area to diagram_draw_area */
     geometry_rectangle_init_by_intersect( &classifier_solution_area,
@@ -595,7 +610,7 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
 
     /* trace */
     const data_visible_classifier_t *visible_classifier;
-    visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
+    visible_classifier = layout_visible_classifier_get_data_const( the_classifier );
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
     U8_TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
@@ -618,10 +633,8 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
     assert ( 1 <= solution_count );
 
     /* define potential solution and rating */
-    uint32_t index_of_best;
-    double debts_of_best;
-    index_of_best = 0;  /* in case of doubts, take the first solution */
-    debts_of_best = DBL_MAX;
+    uint32_t index_of_best = 0;  /* in case of doubts, take the first solution */
+    double debts_of_best = DBL_MAX;
 
     /* get classifier to move */
     const uint32_t index
@@ -635,14 +648,10 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
         /* calculate the solution classifier */
         layout_visible_classifier_t moved_solution;
         layout_visible_classifier_copy( &moved_solution, the_classifier );
-        layout_visible_classifier_shift( &moved_solution,
-                                         geometry_offset_get_dx( &((*solution)[solution_index]) ),
-                                         geometry_offset_get_dy( &((*solution)[solution_index]) )
-                                       );
+        layout_visible_classifier_shift( &moved_solution, &((*solution)[solution_index]) );
 
         /* evalute the debts of this solution */
-        double debts_of_current;
-        debts_of_current = 0.0;
+        double debts_of_current = 0.0;
 
         const layout_diagram_t *const diagram_layout
             = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
@@ -671,6 +680,7 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
 
         /* finish evaluating this solution */
         layout_visible_classifier_destroy( &moved_solution );
+        U8_TRACE_INFO_FLT( "classifier solution debts", debts_of_current );
         if ( debts_of_current < debts_of_best )
         {
             debts_of_best = debts_of_current;
@@ -845,6 +855,15 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
             /* cancel or commit */
             if ( ! illegal_overlap )
             {
+                /* trace */
+                {
+                    const data_visible_classifier_t *const visible_classifier
+                    = layout_visible_classifier_get_data_const( &probe_parent_layout );
+                    const data_classifier_t *const classifier
+                    = data_visible_classifier_get_classifier_const( visible_classifier );
+                    U8_TRACE_INFO_STR( "parent classifier:", data_classifier_get_name_const( classifier ) );
+                }
+
                 layout_visible_classifier_replacemove( from_classifier, &probe_parent_layout );
                 result_err = 0;
             }
@@ -938,9 +957,18 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
             = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, classifier_idx );
 
         /* only if the classifier has children */
-        const uint32_t child_count = layout_visible_set_count_descendants ( (*this_).layout_data, the_classifier );
+        const uint32_t child_count = layout_visible_set_count_descendants( (*this_).layout_data, the_classifier );
         if ( child_count > 0 )
         {
+            /* trace */
+            {
+                const data_visible_classifier_t *const visible_classifier
+                    = layout_visible_classifier_get_data_const( the_classifier );
+                const data_classifier_t *const classifier
+                    = data_visible_classifier_get_classifier_const( visible_classifier );
+                U8_TRACE_INFO_STR( "parent classifier:", data_classifier_get_name_const( classifier ) );
+            }
+
             /* get envelope rectangle of all children */
             const geometry_rectangle_t children_envelope
                 = pencil_classifier_2d_layouter_private_calc_descendant_envelope( this_, the_classifier );
@@ -993,9 +1021,10 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                 const geometry_rectangle_t *const parent_new_space = layout_visible_classifier_get_space_const( the_classifier );
                 const double descendant_add_dx = geometry_rectangle_get_center_x( parent_new_space ) - geometry_rectangle_get_center_x( &children_envelope );
                 const double descendant_add_dy = geometry_rectangle_get_center_y( parent_new_space ) - geometry_rectangle_get_center_y( &children_envelope );
+                const geometry_offset_t offset = geometry_offset_new( descendant_add_dx, descendant_add_dy );
 
                 /* move the descendants */
-                pencil_classifier_2d_layouter_private_move_descendants( this_, the_classifier, descendant_add_dx, descendant_add_dy );
+                pencil_classifier_2d_layouter_private_move_descendants( this_, the_classifier, &offset );
             }
 
             /* cleanup */

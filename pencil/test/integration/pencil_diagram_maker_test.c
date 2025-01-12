@@ -19,7 +19,10 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t render_good_cases_no_output( test_fixture_t *fix );
 static test_case_result_t render_good_cases( test_fixture_t *fix );
 static test_case_result_t render_challenging_cases( test_fixture_t *fix );
+/*
+ * There is no value in rendering too full diagrams
 static test_case_result_t render_edge_cases( test_fixture_t *fix );
+*/
 
 test_suite_t pencil_diagram_maker_test_get_suite(void)
 {
@@ -34,7 +37,9 @@ test_suite_t pencil_diagram_maker_test_get_suite(void)
     const test_category_t ON_QUEST = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_QUEST;
     test_suite_add_special_test_case( &result, "render_good_cases", ON_QUEST, &render_good_cases );
     test_suite_add_special_test_case( &result, "render_challenging_cases", ON_QUEST, &render_challenging_cases );
+/*
     test_suite_add_special_test_case( &result, "render_edge_cases", ON_QUEST, &render_edge_cases );
+*/
     return result;
 }
 
@@ -267,6 +272,7 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+/*
 static test_case_result_t render_edge_cases( test_fixture_t *fix )
 {
     assert( fix != NULL );
@@ -276,11 +282,11 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
     test_data_evaluation_init( &ts_eval );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
-        /* setup */
+        / * setup * /
         test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
         draw_background( &((*fix).diagram_bounds), (*fix).cr );
 
-        /* perform test: draw diagram */
+        / * perform test: draw diagram * /
         data_id_t void_id;
         data_id_init_void( &void_id );
         data_small_set_t void_set;
@@ -293,7 +299,7 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
                                       pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
                                       &layout_stats,
                                       pencil_diagram_maker_test_draw_rects_callback,
-                                      (*fix).cr /* the user data of type void* */
+                                      (*fix).cr / * the user data of type void* * /
                                     );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
@@ -302,7 +308,7 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
                                     (*fix).cr
                                   );
 
-        /* check result */
+        / * check result * /
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
@@ -310,6 +316,7 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
     test_data_setup_destroy( &ts_setup );
     return TEST_CASE_RESULT_OK;
 }
+*/
 
 void pencil_diagram_maker_test_draw_rects_callback ( void *data,
                                                      const geometry_rectangle_t *rect_a,

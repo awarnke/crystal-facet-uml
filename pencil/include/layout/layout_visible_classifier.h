@@ -10,6 +10,7 @@
  */
 
 #include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_offset.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
 #include "set/data_visible_classifier.h"
@@ -191,10 +192,9 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_envelope
  *  \brief moves the layout_visible_classifier_t
  *
  *  \param this_ pointer to own object attributes
- *  \param delta_x delta-x difference by which to shift the layout_visible_classifier_t
- *  \param delta_y delta-y difference by which to shift the layout_visible_classifier_t
+ *  \param offset difference by which to shift the layout_visible_classifier_t
  */
-static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y );
+static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, const geometry_offset_t *offset );
 
 /*!
  *  \brief gets the pointer to the data_visible_classifier_t object

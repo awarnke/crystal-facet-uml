@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.62.1"
+    "generator_version": "1.62.2"
   }
   ,
   "views":
@@ -3369,6 +3369,217 @@
             "classifier_name": "Layouting Algorithm",
             "node": "c298116d-781a-4e45-a87e-e24be984fbfa",
             "uuid": "17a2f987-1000-4d36-82b8-f600674f1d9c"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 126,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "Classifier Layouting",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Layouting Steps",
+        "parent": "0bf50c19-6908-41d5-ab3d-bc1f56cb0eb5",
+        "uuid": "005ae57d-d5ee-4d39-b7cd-8b1937e10861",
+        "diagramelements":
+        [
+          {
+            "id": 920,
+            "display_flags": 0,
+            "classifier_name": "pencil::classifier_layouter layout_*",
+            "node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
+            "uuid": "6b999a7b-da53-4f13-be7e-a861f1e08d31"
+          },
+          {
+            "id": 921,
+            "display_flags": 0,
+            "classifier_name": "no classifiers layouted",
+            "node": "6de081cf-7686-491a-9f74-f09583c74fe4",
+            "uuid": "e2d77158-fa8a-42f0-8210-14ff67e22598"
+          },
+          {
+            "id": 922,
+            "display_flags": 0,
+            "classifier_name": "all classifiers layouted",
+            "node": "c1d7d951-97ac-4a33-8d6f-c6df30d0f3bf",
+            "uuid": "881cdaa7-99b9-4891-ade1-0d67bd422884"
+          },
+          {
+            "id": 923,
+            "display_flags": 0,
+            "classifier_name": "dim?",
+            "node": "01909a0c-5b6e-45a5-8dd8-9fdf291a1d91",
+            "uuid": "1f1fcdb8-7ebd-4403-9e0f-229c519509bf"
+          },
+          {
+            "id": 924,
+            "display_flags": 0,
+            "classifier_name": "pencil_classifier_1d_layouter",
+            "node": "e0984f76-2ad1-4d0c-a283-9ad605c24689",
+            "uuid": "2db15fe4-9a27-4f1e-9666-9b4a03cae516"
+          },
+          {
+            "id": 935,
+            "display_flags": 0,
+            "classifier_name": "pencil_classifier_2d_layouter",
+            "node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+            "uuid": "85e348a7-d5a0-462c-b9a8-e6f54906e87a"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 127,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "2D Layouting",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Classifier Layouting",
+        "parent": "005ae57d-d5ee-4d39-b7cd-8b1937e10861",
+        "uuid": "e9c00fdd-6067-4307-b7bb-5119209d02da",
+        "diagramelements":
+        [
+          {
+            "id": 925,
+            "display_flags": 0,
+            "classifier_name": "estimate_bounds",
+            "node": "d2b1ccd7-d64d-49ba-8926-8371a5498afb",
+            "uuid": "9057c4cd-fe67-4dea-bfc7-e4e749b52877"
+          },
+          {
+            "id": 926,
+            "display_flags": 0,
+            "classifier_name": "processing_order",
+            "node": "f2558d17-a781-460c-b115-b262e84fa7c0",
+            "uuid": "5d4f1cf2-df29-4fe3-b2dc-80a1ec20e19f"
+          },
+          {
+            "id": 927,
+            "display_flags": 0,
+            "classifier_name": "pencil_classifier_2d_layouter",
+            "node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+            "uuid": "20ce346e-4728-4763-b521-2a21fcd81413"
+          },
+          {
+            "id": 928,
+            "display_flags": 0,
+            "classifier_name": "propose_4dir_move",
+            "node": "bf844226-c674-40a6-bd12-c8321f2e1810",
+            "uuid": "e215e5a3-5680-478f-916d-eec8aa92d4f8"
+          },
+          {
+            "id": 929,
+            "display_flags": 0,
+            "classifier_name": "move_to_avoid_overlaps (2)",
+            "node": "4fc3669e-4f2f-4f9f-8007-ffb595f32a6f",
+            "uuid": "a5971a10-576b-4480-9a7c-91d69b993b03"
+          },
+          {
+            "id": 930,
+            "display_flags": 0,
+            "classifier_name": "propose_anchored",
+            "node": "827d3bb1-16ed-4043-afc2-ff4e7ed1e4f7",
+            "uuid": "95e8b40a-7bdd-40a4-9b2e-75ddef718885"
+          },
+          {
+            "id": 931,
+            "display_flags": 0,
+            "classifier_name": "move_to_avoid_overlaps (3)",
+            "node": "64696e7c-efce-4e24-9145-047115e2b57f",
+            "uuid": "64cf634a-5bc0-426f-9e3d-0caccb110856"
+          },
+          {
+            "id": 932,
+            "display_flags": 0,
+            "classifier_name": "select_solution",
+            "node": "e8bf1ac7-1be2-47e6-b765-62eac5480160",
+            "uuid": "3c5d52cd-ed01-49bc-bd7d-2d9f8009fc5c"
+          },
+          {
+            "id": 933,
+            "display_flags": 0,
+            "classifier_name": "no classifier",
+            "node": "7f4d36b7-92ad-4537-8931-c64ce44ebfaf",
+            "uuid": "df3d75de-020e-4762-b573-c3c3ae5c806f"
+          },
+          {
+            "id": 934,
+            "display_flags": 0,
+            "classifier_name": "all classifiers",
+            "node": "78a95ab2-8b71-4f37-ac05-a55dabbaa9e4",
+            "uuid": "c1be84c3-9957-4ea4-a458-88f24b358c9e"
+          },
+          {
+            "id": 936,
+            "display_flags": 0,
+            "classifier_name": "foreach",
+            "node": "f6698b25-ed62-464e-802d-3eb0ab7d039b",
+            "uuid": "e2ffdb37-1ce4-4848-8c84-8664d31f65f4"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 128,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "2D Embrace Children",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Classifier Layouting",
+        "parent": "005ae57d-d5ee-4d39-b7cd-8b1937e10861",
+        "uuid": "39df9a68-72d2-40d0-83e8-ed60b2573fcc",
+        "diagramelements":
+        [
+          {
+            "id": 937,
+            "display_flags": 0,
+            "classifier_name": "pencil_classifier_2d_layouter",
+            "node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+            "uuid": "c08f22d0-3ccc-4908-b88d-f87937c79be3"
+          },
+          {
+            "id": 938,
+            "display_flags": 0,
+            "classifier_name": "no children embraced",
+            "node": "9d8a0230-191b-4e44-ac3e-faf0612056fb",
+            "uuid": "fad2d62c-08b4-4229-a250-9e16f0652664"
+          },
+          {
+            "id": 939,
+            "display_flags": 0,
+            "classifier_name": "all possible children embraced",
+            "node": "ca542715-a002-4d31-bb89-d4ebbcadb6ac",
+            "uuid": "ae843956-3982-40f4-b30a-701f7d30ff66"
+          },
+          {
+            "id": 940,
+            "display_flags": 0,
+            "classifier_name": "embrace_children (old, simple)",
+            "node": "ab318733-7b05-4eb0-9435-40add25fab77",
+            "uuid": "f87676d3-74df-438d-8a03-dc47a7e44ea9"
+          },
+          {
+            "id": 941,
+            "display_flags": 0,
+            "classifier_name": "move_and_embrace_children (new, nicer)",
+            "node": "f0e8f176-21ab-444f-a198-59d674dfa5d0",
+            "uuid": "bbfda0e7-54d1-4b36-aeaa-ccf3e0057403"
           }
         ]
       }
@@ -19505,6 +19716,348 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 559,
+        "main_type": 151,
+        "type": "InitialNode",
+        "name": "no classifiers layouted",
+        "description": [
+                ""
+        ],
+        "x_order": -882850496,
+        "y_order": 76242957,
+        "list_order": -498068643,
+        "uuid": "6de081cf-7686-491a-9f74-f09583c74fe4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 560,
+        "main_type": 152,
+        "type": "ActivityFinalNode",
+        "name": "all classifiers layouted",
+        "description": [
+                ""
+        ],
+        "x_order": -40912335,
+        "y_order": 657810916,
+        "list_order": 657810916,
+        "uuid": "c1d7d951-97ac-4a33-8d6f-c6df30d0f3bf",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 561,
+        "main_type": 157,
+        "type": "DecisionNode",
+        "name": "dim?",
+        "description": [
+                ""
+        ],
+        "x_order": -503086776,
+        "y_order": 76242957,
+        "list_order": 103464135,
+        "uuid": "01909a0c-5b6e-45a5-8dd8-9fdf291a1d91",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 562,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "pencil_classifier_1d_layouter",
+        "description": [
+                ""
+        ],
+        "x_order": -503086776,
+        "y_order": 657810916,
+        "list_order": -121554342,
+        "uuid": "e0984f76-2ad1-4d0c-a283-9ad605c24689",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 563,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "pencil_classifier_2d_layouter",
+        "description": [
+                ""
+        ],
+        "x_order": -40912335,
+        "y_order": 76242957,
+        "list_order": 18924047,
+        "uuid": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 564,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "estimate_bounds",
+        "description": [
+                ""
+        ],
+        "x_order": -87664209,
+        "y_order": -498068643,
+        "list_order": 37163089,
+        "uuid": "d2b1ccd7-d64d-49ba-8926-8371a5498afb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 565,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "processing_order",
+        "description": [
+                ""
+        ],
+        "x_order": -87664209,
+        "y_order": 47905750,
+        "list_order": 56372536,
+        "uuid": "f2558d17-a781-460c-b115-b262e84fa7c0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 566,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "propose_4dir_move",
+        "description": [
+                "This function proposes 4 solutions for moving the current classifier to one of left, right, top, bottom."
+        ],
+        "x_order": -71014443,
+        "y_order": 76242957,
+        "list_order": 87766935,
+        "uuid": "bf844226-c674-40a6-bd12-c8321f2e1810",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 567,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "propose_anchored",
+        "description": [
+                "Search for the biggest free space close to the current diagram"
+        ],
+        "x_order": -71014443,
+        "y_order": 47905750,
+        "list_order": 76242957,
+        "uuid": "827d3bb1-16ed-4043-afc2-ff4e7ed1e4f7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 568,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "select_solution",
+        "description": [
+                ""
+        ],
+        "x_order": 739356762,
+        "y_order": 47905750,
+        "list_order": 98741967,
+        "uuid": "e8bf1ac7-1be2-47e6-b765-62eac5480160",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 569,
+        "main_type": 154,
+        "type": "ForkNode",
+        "name": "move_to_avoid_overlaps (2)",
+        "description": [
+                ""
+        ],
+        "x_order": -71405104,
+        "y_order": 47905750,
+        "list_order": 47905750,
+        "uuid": "4fc3669e-4f2f-4f9f-8007-ffb595f32a6f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 570,
+        "main_type": 155,
+        "type": "JoinNode",
+        "name": "move_to_avoid_overlaps (3)",
+        "description": [
+                ""
+        ],
+        "x_order": -63563555,
+        "y_order": 47905750,
+        "list_order": 94700357,
+        "uuid": "64696e7c-efce-4e24-9145-047115e2b57f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 571,
+        "main_type": 151,
+        "type": "InitialNode",
+        "name": "no classifier",
+        "description": [
+                ""
+        ],
+        "x_order": -739807816,
+        "y_order": -498068643,
+        "list_order": -360338248,
+        "uuid": "7f4d36b7-92ad-4537-8931-c64ce44ebfaf",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 572,
+        "main_type": 152,
+        "type": "ActivityFinalNode",
+        "name": "all classifiers",
+        "description": [
+                ""
+        ],
+        "x_order": 1446796271,
+        "y_order": -498068643,
+        "list_order": 732738600,
+        "uuid": "78a95ab2-8b71-4f37-ac05-a55dabbaa9e4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 573,
+        "main_type": 157,
+        "type": "DecisionNode",
+        "name": "foreach",
+        "description": [
+                ""
+        ],
+        "x_order": -71405104,
+        "y_order": -498068643,
+        "list_order": -479487094,
+        "uuid": "f6698b25-ed62-464e-802d-3eb0ab7d039b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 574,
+        "main_type": 151,
+        "type": "InitialNode",
+        "name": "no children embraced",
+        "description": [
+                ""
+        ],
+        "x_order": -632496350,
+        "y_order": -231415596,
+        "list_order": -231415596,
+        "uuid": "9d8a0230-191b-4e44-ac3e-faf0612056fb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 575,
+        "main_type": 152,
+        "type": "ActivityFinalNode",
+        "name": "all possible children embraced",
+        "description": [
+                ""
+        ],
+        "x_order": -192173020,
+        "y_order": 646927499,
+        "list_order": 646927499,
+        "uuid": "ca542715-a002-4d31-bb89-d4ebbcadb6ac",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 576,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "embrace_children (old, simple)",
+        "description": [
+                ""
+        ],
+        "x_order": -599100922,
+        "y_order": 321340040,
+        "list_order": 321340040,
+        "uuid": "ab318733-7b05-4eb0-9435-40add25fab77",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 577,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "move_and_embrace_children (new, nicer)",
+        "description": [
+                ""
+        ],
+        "x_order": -289881586,
+        "y_order": 321340040,
+        "list_order": 96973028,
+        "uuid": "f0e8f176-21ab-444f-a198-59d674dfa5d0",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -27980,6 +28533,91 @@
     },
     {
       "relationship": {
+        "id": 1007,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -498068643,
+        "from_classifier_name": "pencil::classifier_layouter layout_*",
+        "to_classifier_name": "no classifiers layouted",
+        "from_node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
+        "to_node": "6de081cf-7686-491a-9f74-f09583c74fe4",
+        "uuid": "6dd50cd0-1590-4545-b109-7b3d5626cd1a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1008,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 657810916,
+        "from_classifier_name": "pencil::classifier_layouter layout_*",
+        "to_classifier_name": "all classifiers layouted",
+        "from_node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
+        "to_node": "c1d7d951-97ac-4a33-8d6f-c6df30d0f3bf",
+        "uuid": "af20e692-552b-46ac-851f-4920923919a7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1009,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 103464135,
+        "from_classifier_name": "pencil::classifier_layouter layout_*",
+        "to_classifier_name": "dim?",
+        "from_node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
+        "to_node": "01909a0c-5b6e-45a5-8dd8-9fdf291a1d91",
+        "uuid": "7b072f99-f6bd-4f96-ade3-e673e1f048dc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1010,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -121554342,
+        "from_classifier_name": "pencil::classifier_layouter layout_*",
+        "to_classifier_name": "pencil_classifier_1d_layouter",
+        "from_node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
+        "to_node": "e0984f76-2ad1-4d0c-a283-9ad605c24689",
+        "uuid": "5641513d-57c1-4ba3-8a79-a96d39d2efba"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1044,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658204132,
+        "from_classifier_name": "pencil::classifier_layouter layout_*",
+        "to_classifier_name": "pencil_classifier_2d_layouter",
+        "from_node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
+        "to_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "uuid": "138939ed-1cf3-49a1-bc75-de1f48bdbd4e"
+      }
+    },
+    {
+      "relationship": {
         "id": 385,
         "main_type": 240,
         "type": "ControlFlow",
@@ -33932,6 +34570,567 @@
         "from_node": "40e03ddb-4f3f-46f1-b67a-9310d5dea2c8",
         "to_node": "c0689f1e-b0cd-4a98-9907-b280b2baf778",
         "uuid": "8d84d70d-149a-47a3-90f2-fce20c3a3d7c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1012,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 657843684,
+        "from_classifier_name": "no classifiers layouted",
+        "to_classifier_name": "dim?",
+        "from_node": "6de081cf-7686-491a-9f74-f09583c74fe4",
+        "to_node": "01909a0c-5b6e-45a5-8dd8-9fdf291a1d91",
+        "uuid": "83aa24b5-a6e6-4d4d-9042-6a21eacda97a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1013,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "list, sequence, time",
+        "description": [
+                ""
+        ],
+        "list_order": 657876452,
+        "from_classifier_name": "dim?",
+        "to_classifier_name": "pencil_classifier_1d_layouter",
+        "from_node": "01909a0c-5b6e-45a5-8dd8-9fdf291a1d91",
+        "to_node": "e0984f76-2ad1-4d0c-a283-9ad605c24689",
+        "uuid": "d806433e-49c9-436d-a1c2-ac974d96de8c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1045,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "other diagram types",
+        "description": [
+                ""
+        ],
+        "list_order": 658236900,
+        "from_classifier_name": "dim?",
+        "to_classifier_name": "pencil_classifier_2d_layouter",
+        "from_node": "01909a0c-5b6e-45a5-8dd8-9fdf291a1d91",
+        "to_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "uuid": "0afa81b1-3478-4fc9-920f-868d180bb1d7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1030,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658171364,
+        "from_classifier_name": "pencil_classifier_1d_layouter",
+        "to_classifier_name": "all classifiers layouted",
+        "from_node": "e0984f76-2ad1-4d0c-a283-9ad605c24689",
+        "to_node": "c1d7d951-97ac-4a33-8d6f-c6df30d0f3bf",
+        "uuid": "fd02d5a2-7cc8-47dc-a481-18c6781d0c31"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1033,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658269668,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "estimate_bounds",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "d2b1ccd7-d64d-49ba-8926-8371a5498afb",
+        "uuid": "57897712-5bf9-4e00-a923-9bac8bcc63d7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1034,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658302436,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "processing_order",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "f2558d17-a781-460c-b115-b262e84fa7c0",
+        "uuid": "caa91105-bd6b-4e8e-a904-43edbdfb1cda"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1035,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658335204,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "move_to_avoid_overlaps (3)",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "64696e7c-efce-4e24-9145-047115e2b57f",
+        "uuid": "d4269e79-9ea4-40bd-986d-cce035d1a383"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1036,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658367972,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "move_to_avoid_overlaps (2)",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "4fc3669e-4f2f-4f9f-8007-ffb595f32a6f",
+        "uuid": "40dee8a2-b0d9-4f1e-88aa-aad5ff978274"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1037,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658400740,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "propose_4dir_move",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "bf844226-c674-40a6-bd12-c8321f2e1810",
+        "uuid": "def96b71-e40c-4def-aa3b-9dddfd8dcefe"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1038,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658433508,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "propose_anchored",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "827d3bb1-16ed-4043-afc2-ff4e7ed1e4f7",
+        "uuid": "d6900cc9-bcb0-4c92-8ac2-ccd2d4de46dd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1039,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658466276,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "select_solution",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "e8bf1ac7-1be2-47e6-b765-62eac5480160",
+        "uuid": "e9f42e67-28c9-4251-8295-22c6ffd2aaa9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1040,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -360338248,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "no classifier",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "7f4d36b7-92ad-4537-8931-c64ce44ebfaf",
+        "uuid": "0136051e-4026-48ef-a558-588c3d584f0c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1041,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 732738600,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "all classifiers",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "78a95ab2-8b71-4f37-ac05-a55dabbaa9e4",
+        "uuid": "c5c71d8e-2bf1-4b82-bf8f-878bdb3c4f40"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1046,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658269668,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "all classifiers layouted",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "c1d7d951-97ac-4a33-8d6f-c6df30d0f3bf",
+        "uuid": "54732c0f-7f51-4045-a644-0beace671057"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1047,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -479487094,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "foreach",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "f6698b25-ed62-464e-802d-3eb0ab7d039b",
+        "uuid": "8cb0b0fc-e058-4754-a94a-33b3866218e3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1052,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -231415596,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "no children embraced",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "9d8a0230-191b-4e44-ac3e-faf0612056fb",
+        "uuid": "b9659c1d-84d8-468f-819e-731cd9a9cff5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1053,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 646927499,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "all possible children embraced",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "ca542715-a002-4d31-bb89-d4ebbcadb6ac",
+        "uuid": "e1ad2526-ea10-4c17-97b8-9b7af584e61e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1054,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 321340040,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "embrace_children (old, simple)",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "ab318733-7b05-4eb0-9435-40add25fab77",
+        "uuid": "60ba2852-5175-4ef9-8c3b-c7c026e780a6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1055,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 96973028,
+        "from_classifier_name": "pencil_classifier_2d_layouter",
+        "to_classifier_name": "move_and_embrace_children (new, nicer)",
+        "from_node": "20eea273-a006-46cd-b407-74b13ecbe52c",
+        "to_node": "f0e8f176-21ab-444f-a198-59d674dfa5d0",
+        "uuid": "ee26af9f-70c7-43fd-b4d3-098f343bd14f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1031,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658204132,
+        "from_classifier_name": "estimate_bounds",
+        "to_classifier_name": "processing_order",
+        "from_node": "d2b1ccd7-d64d-49ba-8926-8371a5498afb",
+        "to_node": "f2558d17-a781-460c-b115-b262e84fa7c0",
+        "uuid": "deeccb11-c492-4f0a-b244-eee9071b9289"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1051,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 732935208,
+        "from_classifier_name": "processing_order",
+        "to_classifier_name": "foreach",
+        "from_node": "f2558d17-a781-460c-b115-b262e84fa7c0",
+        "to_node": "f6698b25-ed62-464e-802d-3eb0ab7d039b",
+        "uuid": "624bc1a7-134c-4246-9b49-2bfb044c4d1f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1026,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658040292,
+        "from_classifier_name": "propose_4dir_move",
+        "to_classifier_name": "move_to_avoid_overlaps (3)",
+        "from_node": "bf844226-c674-40a6-bd12-c8321f2e1810",
+        "to_node": "64696e7c-efce-4e24-9145-047115e2b57f",
+        "uuid": "f314391a-2b8c-4f4b-aa6f-479069a44a4a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1027,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658073060,
+        "from_classifier_name": "propose_anchored",
+        "to_classifier_name": "move_to_avoid_overlaps (3)",
+        "from_node": "827d3bb1-16ed-4043-afc2-ff4e7ed1e4f7",
+        "to_node": "64696e7c-efce-4e24-9145-047115e2b57f",
+        "uuid": "9f861c65-9ea2-4775-a08c-2145b1dd74d3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1049,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 732869672,
+        "from_classifier_name": "select_solution",
+        "to_classifier_name": "foreach",
+        "from_node": "e8bf1ac7-1be2-47e6-b765-62eac5480160",
+        "to_node": "f6698b25-ed62-464e-802d-3eb0ab7d039b",
+        "uuid": "a2c72483-96c3-44df-94b7-4741738c9466"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1024,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 657974756,
+        "from_classifier_name": "move_to_avoid_overlaps (2)",
+        "to_classifier_name": "propose_anchored",
+        "from_node": "4fc3669e-4f2f-4f9f-8007-ffb595f32a6f",
+        "to_node": "827d3bb1-16ed-4043-afc2-ff4e7ed1e4f7",
+        "uuid": "a02c0641-c715-4e95-b0da-08c4986e64e6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1025,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658007524,
+        "from_classifier_name": "move_to_avoid_overlaps (2)",
+        "to_classifier_name": "propose_4dir_move",
+        "from_node": "4fc3669e-4f2f-4f9f-8007-ffb595f32a6f",
+        "to_node": "bf844226-c674-40a6-bd12-c8321f2e1810",
+        "uuid": "03f69c55-712e-409d-a292-99184f7091ed"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1028,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 658105828,
+        "from_classifier_name": "move_to_avoid_overlaps (3)",
+        "to_classifier_name": "select_solution",
+        "from_node": "64696e7c-efce-4e24-9145-047115e2b57f",
+        "to_node": "e8bf1ac7-1be2-47e6-b765-62eac5480160",
+        "uuid": "74b6c5e4-1f65-41ef-93fa-3c83263272f9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1042,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 732771368,
+        "from_classifier_name": "no classifier",
+        "to_classifier_name": "estimate_bounds",
+        "from_node": "7f4d36b7-92ad-4537-8931-c64ce44ebfaf",
+        "to_node": "d2b1ccd7-d64d-49ba-8926-8371a5498afb",
+        "uuid": "b12d0188-0ce9-4cb0-97f5-60c8b49ab083"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1048,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "next",
+        "description": [
+                ""
+        ],
+        "list_order": 732836904,
+        "from_classifier_name": "foreach",
+        "to_classifier_name": "move_to_avoid_overlaps (2)",
+        "from_node": "f6698b25-ed62-464e-802d-3eb0ab7d039b",
+        "to_node": "4fc3669e-4f2f-4f9f-8007-ffb595f32a6f",
+        "uuid": "0df56564-10c7-4c57-afaa-08b93621be4b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1050,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "done",
+        "description": [
+                ""
+        ],
+        "list_order": 732902440,
+        "from_classifier_name": "foreach",
+        "to_classifier_name": "all classifiers",
+        "from_node": "f6698b25-ed62-464e-802d-3eb0ab7d039b",
+        "to_node": "78a95ab2-8b71-4f37-ac05-a55dabbaa9e4",
+        "uuid": "85e121de-034e-44fa-8687-4f6c9e6a0f8f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1056,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 646960267,
+        "from_classifier_name": "no children embraced",
+        "to_classifier_name": "embrace_children (old, simple)",
+        "from_node": "9d8a0230-191b-4e44-ac3e-faf0612056fb",
+        "to_node": "ab318733-7b05-4eb0-9435-40add25fab77",
+        "uuid": "7932462c-a177-4bea-bfe7-8152d3335572"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1057,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 646993035,
+        "from_classifier_name": "embrace_children (old, simple)",
+        "to_classifier_name": "move_and_embrace_children (new, nicer)",
+        "from_node": "ab318733-7b05-4eb0-9435-40add25fab77",
+        "to_node": "f0e8f176-21ab-444f-a198-59d674dfa5d0",
+        "uuid": "1c354a4f-6f30-4efc-b452-bfbb2af14aad"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1058,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 647025803,
+        "from_classifier_name": "move_and_embrace_children (new, nicer)",
+        "to_classifier_name": "all possible children embraced",
+        "from_node": "f0e8f176-21ab-444f-a198-59d674dfa5d0",
+        "to_node": "ca542715-a002-4d31-bb89-d4ebbcadb6ac",
+        "uuid": "c73c60c8-1767-4561-b239-d57b5b8c03d2"
       }
     }
   ]
