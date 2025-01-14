@@ -268,7 +268,8 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
     return ( close_to_source_end_line || close_to_main_line || close_to_destination_end_line );
 }
 
-static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_, const geometry_rectangle_t *rect )
+static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_,
+                                                                  const geometry_rectangle_t *rect )
 {
     geometry_rectangle_t source;
     geometry_rectangle_t main_line;
@@ -298,7 +299,50 @@ static inline bool geometry_connector_is_intersecting_rectangle ( const geometry
     return result;
 }
 
-static inline uint32_t geometry_connector_count_connector_intersects ( const geometry_connector_t *this_, const geometry_connector_t *that )
+static inline double geometry_connector_get_transit_length ( const geometry_connector_t *this_,
+                                                             const geometry_rectangle_t *rect )
+{
+    double result = 0.0;
+
+    geometry_rectangle_t source;
+    geometry_rectangle_t main_line;
+    geometry_rectangle_t destination;
+    geometry_rectangle_init_by_corners( &source,
+                                        (*this_).source_end_x, (*this_).source_end_y,
+                                        (*this_).main_line_source_x, (*this_).main_line_source_y
+                                      );
+    geometry_rectangle_init_by_corners( &main_line,
+                                        (*this_).main_line_source_x, (*this_).main_line_source_y,
+                                        (*this_).main_line_destination_x, (*this_).main_line_destination_y
+                                      );
+    geometry_rectangle_init_by_corners( &destination,
+                                        (*this_).main_line_destination_x, (*this_).main_line_destination_y,
+                                        (*this_).destination_end_x, (*this_).destination_end_y
+                                      );
+    const int src_err = geometry_rectangle_init_by_intersect( &source, &source, rect );
+    const int main_err = geometry_rectangle_init_by_intersect( &main_line, &main_line, rect );
+    const int dst_err = geometry_rectangle_init_by_intersect( &destination, &destination, rect );
+    if ( src_err == 0 )
+    {
+        result += geometry_rectangle_get_width( &source ) + geometry_rectangle_get_height( &source );
+    }
+    if ( main_err == 0 )
+    {
+        result += geometry_rectangle_get_width( &main_line ) + geometry_rectangle_get_height( &main_line );
+    }
+    if ( dst_err == 0 )
+    {
+        result += geometry_rectangle_get_width( &destination ) + geometry_rectangle_get_height( &destination );
+    }
+    geometry_rectangle_destroy( &source );
+    geometry_rectangle_destroy( &main_line );
+    geometry_rectangle_destroy( &destination );
+
+    return result;
+}
+
+static inline uint32_t geometry_connector_count_connector_intersects ( const geometry_connector_t *this_,
+                                                                       const geometry_connector_t *that )
 {
     uint32_t result = 0;
 

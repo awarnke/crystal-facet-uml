@@ -217,6 +217,7 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
  *  \brief gets the length of the connector line
  *
  *  \param this_ pointer to own object attributes
+ *  \return length of the connector
  */
 static inline double geometry_connector_get_length ( const geometry_connector_t *this_ );
 
@@ -224,6 +225,7 @@ static inline double geometry_connector_get_length ( const geometry_connector_t 
  *  \brief gets the length of the source segment of the connector line
  *
  *  \param this_ pointer to own object attributes
+ *  \return length of the source-segment of the connector
  */
 static inline double geometry_connector_get_source_length ( const geometry_connector_t *this_ );
 
@@ -231,6 +233,7 @@ static inline double geometry_connector_get_source_length ( const geometry_conne
  *  \brief gets the length of the main segment of the connector line
  *
  *  \param this_ pointer to own object attributes
+ *  \return length of the main-segment of the connector
  */
 static inline double geometry_connector_get_main_length ( const geometry_connector_t *this_ );
 
@@ -238,6 +241,7 @@ static inline double geometry_connector_get_main_length ( const geometry_connect
  *  \brief gets the length of the destination segment of the connector line
  *
  *  \param this_ pointer to own object attributes
+ *  \return length of the destination-segment of the connector
  */
 static inline double geometry_connector_get_destination_length ( const geometry_connector_t *this_ );
 
@@ -259,7 +263,20 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
  *  \param rect rectangle that is checked for overlaps
  *  \return true if the rectangle is intersected
  */
-static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_, const geometry_rectangle_t *rect );
+static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_,
+                                                                  const geometry_rectangle_t *rect
+                                                                );
+
+/*!
+ *  \brief determines the length of a connector that is intersecting a given rectangle (touching included)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect rectangle that is checked for overlaps
+ *  \return length of the connector-part that is contained within rect
+ */
+static inline double geometry_connector_get_transit_length ( const geometry_connector_t *this_,
+                                                             const geometry_rectangle_t *rect
+                                                           );
 
 /*!
  *  \brief counts intersections of two connector objects
@@ -268,7 +285,9 @@ static inline bool geometry_connector_is_intersecting_rectangle ( const geometry
  *  \param that pointer to connector where intersections shall be determined
  *  \return number of intersections. 0 if there are no intersections, 9 max (3x3, one for each segment)
  */
-static inline uint32_t geometry_connector_count_connector_intersects ( const geometry_connector_t *this_, const geometry_connector_t *that );
+static inline uint32_t geometry_connector_count_connector_intersects ( const geometry_connector_t *this_,
+                                                                       const geometry_connector_t *that
+                                                                     );
 
 /*!
  *  \brief gets the bounding rectangle of geometry_connector_t

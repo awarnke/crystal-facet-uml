@@ -18,6 +18,19 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ )
 {
 }
 
+/* if an object is not fully contained in the diagrams drawing area: */
+#define LAYOUT_QUALITY_WEIGHT_NOT_IN_DIAGRAM_AREA (1000.0)
+/* if an objects label or type-icon crosses another objects label or type-icon: */
+#define LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP (100.0)
+/* if an objects label or type-icon crosses another objects contour or connection line: */
+#define LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE (10.0)
+/* if an objects contour or connection line is shared with another objects contour or connection line: */
+#define LAYOUT_QUALITY_WEIGHT_SHARED_LINES (10.0)
+/* if an objects contour or connection line crosses another objects contour or connection line: */
+#define LAYOUT_QUALITY_WEIGHT_CROSS_LINES (1.0)
+/* if an objects contour, label or type-icon is too far from the target location or a connection line is longer than needed: */
+#define LAYOUT_QUALITY_WEIGHT_DISTANCE (0.1)
+
 static inline double layout_quality_debts_class_diag( const layout_quality_t *this_,
                                                       const layout_visible_classifier_t *probe,
                                                       const geometry_offset_t *order_target,
@@ -25,32 +38,22 @@ static inline double layout_quality_debts_class_diag( const layout_quality_t *th
 {
     double debts = 0.0;
 
-    /* add move distance as debt */
-    debts += fabs ( geometry_offset_get_dx( order_target ) );
-    debts += fabs ( geometry_offset_get_dy( order_target ) );
+    const geometry_rectangle_t *const diagram_draw_area
+    = layout_diagram_get_draw_area_const( other );
+
+    const geometry_rectangle_t *const classifier_bounds
+    = layout_visible_classifier_get_envelope_box_const( probe );
 
     /* add debts for overlap to diagram boundary */
+    if ( ! geometry_rectangle_is_containing( diagram_draw_area, classifier_bounds ) )
     {
-        static const double DIAG_BOUNDS_SEVERITY = 32.0;
-
-        const geometry_rectangle_t *const diagram_draw_area
-            = layout_diagram_get_draw_area_const( other );
-
-        const geometry_rectangle_t *const classifier_bounds
-            = layout_visible_classifier_get_envelope_box_const( probe );
-
-        double classifier_area = geometry_rectangle_get_area ( classifier_bounds );
-
-        geometry_rectangle_t intersect;
-        geometry_rectangle_init_by_intersect( &intersect, classifier_bounds, diagram_draw_area );
-        double intersect_area = geometry_rectangle_get_area ( &intersect );
-        debts += DIAG_BOUNDS_SEVERITY * ( classifier_area - intersect_area );
-        if ( ( 0.0001 + intersect_area ) < classifier_area )
-        {
-            debts += DIAG_BOUNDS_SEVERITY * geometry_rectangle_get_area ( diagram_draw_area );
-            debts += 1000000000;
-        }
+        /* it does not matter how big a classifier is - being outside is a high debt: */
+        debts += LAYOUT_QUALITY_WEIGHT_NOT_IN_DIAGRAM_AREA * geometry_rectangle_get_area ( diagram_draw_area );
     }
+
+    /* add move distance as debt */
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * fabs( geometry_offset_get_dx( order_target ) );
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * fabs( geometry_offset_get_dy( order_target ) );
 
     return debts;
 }
@@ -92,6 +95,7 @@ static inline double layout_quality_debts_class_class( const layout_quality_t *t
     return debts;
 }
 
+#if 0
 static inline double layout_quality_debts_feat_diag( const layout_quality_t *this_,
                                                      const layout_feature_t *probe,
                                                      const layout_diagram_t *other )
@@ -147,6 +151,7 @@ static inline double layout_quality_debts_rel_rel( const layout_quality_t *this_
     double debts = 0.0;
     return debts;
 }
+#endif
 
 static const geometry_3dir_t PENCIL_BAD_V_PATTERN1
     = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
@@ -183,6 +188,13 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
 
     /* get preferred object distance */
     const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+    /* add debts for exceeding the diagram draw area */
+    if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connector_bounds ) )
+    {
+        /* high debt */
+        debts += LAYOUT_QUALITY_WEIGHT_NOT_IN_DIAGRAM_AREA * geometry_rectangle_get_area(diagram_draw_area);
+    }
 
     /* the more length, the more unwanted... */
     debts += geometry_connector_get_length( probe );
@@ -324,14 +336,6 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         }
     }
 
-    /* add debts for overlap to diagram boundary */
-    {
-        if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connector_bounds ) )
-        {
-            debts += 1000000.0;
-        }
-    }
-
     return debts;
 }
 
@@ -343,24 +347,27 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
 
     const geometry_rectangle_t connector_bounds
         = geometry_connector_get_bounding_rectangle( probe );
-
     const geometry_rectangle_t *const classifier_space
         = layout_visible_classifier_get_space_const( other );
+
     if ( ! geometry_rectangle_is_containing( classifier_space, &connector_bounds ) )
     {
+        const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
         const geometry_rectangle_t *const classifier_symbol_box
-        = layout_visible_classifier_get_symbol_box_const( other );
-        if ( geometry_connector_is_intersecting_rectangle( probe, classifier_symbol_box ) )
-        {
-            debts += 100000.0;
-        }
+            = layout_visible_classifier_get_symbol_box_const( other );
+        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES
+            * geometry_connector_get_transit_length( probe, classifier_symbol_box ) * line_corridor;
+
+        const geometry_rectangle_t *const classifier_icon_box
+            = layout_visible_classifier_get_icon_box_const( other );
+        debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE
+            * geometry_connector_get_transit_length( probe, classifier_icon_box ) * line_corridor;
 
         const geometry_rectangle_t *const classifier_label_box
-        = layout_visible_classifier_get_label_box_const( other );
-        if ( geometry_connector_is_intersecting_rectangle( probe, classifier_label_box ) )
-        {
-            debts += 10000.0;
-        }
+            = layout_visible_classifier_get_label_box_const( other );
+        debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE
+            * geometry_connector_get_transit_length( probe, classifier_label_box ) * line_corridor;
     }
 
     return debts;
@@ -372,6 +379,7 @@ static inline double layout_quality_debts_conn_sym( const layout_quality_t *this
 {
     double debts = 0.0;
 
+    /* TODO: use geometry_connector_get_intersecting_length */
     if ( geometry_connector_is_intersecting_rectangle( probe, other ) )
     {
         debts += 30000.0;
@@ -427,12 +435,13 @@ static inline double layout_quality_debts_label_diag( const layout_quality_t *th
 
     /* check distance to target point */
     const geometry_point_t probe_middle = geometry_rectangle_get_center( probe );
-    debts += geometry_point_calc_chess_distance ( target_point, &probe_middle );
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * geometry_point_calc_chess_distance ( target_point, &probe_middle );
 
-    /* add debts for overlap to diagram boundary */
+    /* add debts for exceeding the diagram draw area */
     if ( ! geometry_rectangle_is_containing( diagram_draw_area, probe ) )
     {
-        debts += 100.0 * geometry_rectangle_get_area(diagram_draw_area); /* high debt */
+        /* high debt */
+        debts += LAYOUT_QUALITY_WEIGHT_NOT_IN_DIAGRAM_AREA * geometry_rectangle_get_area(diagram_draw_area);
     }
 
     return debts;
@@ -453,7 +462,8 @@ static inline double layout_quality_debts_label_class( const layout_quality_t *t
             = layout_visible_classifier_get_space_const( other );
         if ( ! geometry_rectangle_is_containing( classifier_space, probe ) )
         {
-            debts += geometry_rectangle_get_intersect_area( probe, classifier_symbol_box ); /* low debt */
+            /* lower debt */
+            debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE * geometry_rectangle_get_intersect_area( probe, classifier_symbol_box );
         }
     }
 
@@ -461,7 +471,8 @@ static inline double layout_quality_debts_label_class( const layout_quality_t *t
         = layout_visible_classifier_get_label_box_const( other );
     if ( geometry_rectangle_is_intersecting( probe, classifier_label_box ) )
     {
-        debts += 100.0 * geometry_rectangle_get_intersect_area( probe, classifier_label_box ); /* medium debt */
+        /* medium debt */
+        debts += LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP * geometry_rectangle_get_intersect_area( probe, classifier_label_box );
     }
 
     return debts;
@@ -482,11 +493,13 @@ static inline double layout_quality_debts_label_feat( const layout_quality_t *th
     {
         if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) )
         {
-            debts += geometry_rectangle_get_intersect_area( probe, feature_symbol_box ); /* low debt */
+            /* lower debt */
+            debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE * geometry_rectangle_get_intersect_area( probe, feature_symbol_box );
         }
         else
         {
-            debts += 100.0 * geometry_rectangle_get_intersect_area( probe, feature_symbol_box ); /* medium debt */
+            /* lower debt */
+            debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE * geometry_rectangle_get_intersect_area( probe, feature_symbol_box );
         }
     }
 
@@ -494,7 +507,8 @@ static inline double layout_quality_debts_label_feat( const layout_quality_t *th
         = layout_feature_get_label_box_const( other );
     if ( geometry_rectangle_is_intersecting( probe, feature_label_box ) )
     {
-        debts += 100.0 * geometry_rectangle_get_intersect_area( probe, feature_label_box ); /* medium debt */
+        /* medium debt */
+        debts += LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP * geometry_rectangle_get_intersect_area( probe, feature_label_box );
     }
 
     return debts;
@@ -513,6 +527,7 @@ static inline double layout_quality_debts_label_rel( const layout_quality_t *thi
             = layout_relationship_get_shape_const( other );
         if ( geometry_connector_is_intersecting_rectangle( probe_shape, probe ) )
         {
+            /* TODO: use geometry_connector_get_intersecting_length */
             debts += geometry_rectangle_get_area( probe );  /* relationship bounds intersects are not so bad ... low debt */
         }
 
@@ -520,7 +535,8 @@ static inline double layout_quality_debts_label_rel( const layout_quality_t *thi
             = layout_relationship_get_label_box_const( other );
         if ( geometry_rectangle_is_intersecting( probe, relationship_label_box ) )
         {
-            debts += 100.0 * geometry_rectangle_get_intersect_area( probe, relationship_label_box ); /* medium debt */
+            /* medium debt */
+            debts += LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP * geometry_rectangle_get_intersect_area( probe, relationship_label_box );
         }
     }
 

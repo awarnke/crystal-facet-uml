@@ -16,6 +16,7 @@ static test_case_result_t test_bounding_rectangle( test_fixture_t *fix );
 static test_case_result_t test_segment_bounds( test_fixture_t *fix );
 static test_case_result_t test_intersecting_rectangle_simple( test_fixture_t *fix );
 static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *fix );
+static test_case_result_t test_intersecting_rectangle_length( test_fixture_t *fix );
 static test_case_result_t test_connector_intersects( test_fixture_t *fix );
 static test_case_result_t test_calc_waypoint_good( test_fixture_t *fix );
 static test_case_result_t test_calc_waypoint_zero( test_fixture_t *fix );
@@ -34,6 +35,7 @@ test_suite_t geometry_connector_test_get_suite(void)
     test_suite_add_test_case( &result, "test_segment_bounds", &test_segment_bounds );
     test_suite_add_test_case( &result, "test_intersecting_rectangle_simple", &test_intersecting_rectangle_simple );
     test_suite_add_test_case( &result, "test_intersecting_rectangle_corner", &test_intersecting_rectangle_corner );
+    test_suite_add_test_case( &result, "test_intersecting_rectangle_length", &test_intersecting_rectangle_length );
     test_suite_add_test_case( &result, "test_connector_intersects", &test_connector_intersects );
     test_suite_add_test_case( &result, "test_calc_waypoint_good", &test_calc_waypoint_good );
     test_suite_add_test_case( &result, "test_calc_waypoint_zero", &test_calc_waypoint_zero );
@@ -277,6 +279,43 @@ static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *fi
 
     geometry_rectangle_destroy ( &touching );
     geometry_connector_destroy ( &my_connector );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_intersecting_rectangle_length( test_fixture_t *fix )
+{
+    geometry_connector_t my_connector;
+    geometry_rectangle_t label_rect;
+
+    /* init 3 segments line, C-Form */
+    geometry_connector_init_vertical( &my_connector,
+                                      2.0 /*source_end_x*/,
+                                      1.0 /*source_end_y*/,
+                                      2.0 /*destination_end_x*/,
+                                      2.0 /*destination_end_y*/,
+                                      1.0 /*main_line_x*/
+                                    );
+
+    /* rect within C-connector */
+    geometry_rectangle_init( &label_rect, 1.1, 1.1, 0.8, 0.8 );
+    const double no_transit = geometry_connector_get_transit_length( &my_connector, &label_rect );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, no_transit );
+
+    /* rect touching C-connector */
+    geometry_rectangle_init( &label_rect, 1.0, 1.0, 10.0, 1.0 );
+    const double all_touch = geometry_connector_get_transit_length( &my_connector, &label_rect );
+    TEST_EXPECT_EQUAL_FLOAT( 3.0, all_touch );
+
+    /* rect around C-connector */
+    geometry_rectangle_init( &label_rect, 0.9, 0.9, 1.2, 1.2 );
+    const double all_in = geometry_connector_get_transit_length( &my_connector, &label_rect );
+    TEST_EXPECT_EQUAL_FLOAT( 3.0, all_in );
+
+    /* rect cut C-connector */
+    geometry_rectangle_init( &label_rect, 0.5, 1.5, 1.0, 1.0 );
+    const double part_transit = geometry_connector_get_transit_length( &my_connector, &label_rect );
+    TEST_EXPECT_EQUAL_FLOAT( 1.0, part_transit );
+
     return TEST_CASE_RESULT_OK;
 }
 

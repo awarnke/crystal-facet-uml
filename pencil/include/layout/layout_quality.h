@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines functinos to measure the layouting quality of a diagram.
+ *  \brief Defines functions to measure the layouting quality of a diagram.
  *
  *  This measurement can be performed during layouting to select the best option
  *  or afterwards to determine the overall layouting quality.
@@ -18,6 +18,15 @@
 
 /*!
  *  \brief attributes of the layout_quality
+ *
+ *  These attributes are needed to determine the layout quality.
+ *
+ *  The methods of layout_quality_t return a debt value that is zero if the layout is perfect,
+ *  positive if there are unwanted overlaps of objects or other suboptimal characteristics.
+ *
+ *  A debt value is roughly linear to the 2-dimensional area ( width * height ) that is affected.
+ *  In some less important cases, it is linear to a distance.
+ *  A weight factor ( LAYOUT_QUALITY_WEIGHT_* ) reflects the severity of the layouting defect.
  */
 struct layout_quality_struct {
     const pencil_size_t *pencil_size;  /*!< the pencil size proposes preferred distances */
@@ -78,6 +87,7 @@ static inline double layout_quality_debts_class_class ( const layout_quality_t *
                                                         const layout_visible_set_t *layout_data
                                                       );
 
+#if 0
 /*!
  *  \brief determines the quality debts for drawing the feature to the diagram
  *
@@ -168,6 +178,7 @@ static inline double layout_quality_debts_rel_rel ( const layout_quality_t *this
                                                     const layout_relationship_t *probe,
                                                     const layout_relationship_t *other
                                                   );
+#endif
 
 /*!
  *  \brief determines the quality debts for drawing the connector of a relationship to the diagram
