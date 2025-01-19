@@ -177,12 +177,12 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
 
     /* prefer centered over uncentered departure and arrival */
     const double delta_source
-    = fmin( fabs( geometry_connector_get_source_end_x( probe ) - src_center_x ),
-            fabs( geometry_connector_get_source_end_y( probe ) - src_center_y ) );
+        = fmin( fabs( geometry_connector_get_source_end_x( probe ) - src_center_x ),
+                fabs( geometry_connector_get_source_end_y( probe ) - src_center_y ) );
     debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_source * ( 2.0 * line_corridor );
     const double delta_destination
-    = fmin( fabs( geometry_connector_get_destination_end_x( probe ) - dst_center_x ),
-            fabs( geometry_connector_get_destination_end_y( probe ) - dst_center_y ) );
+        = fmin( fabs( geometry_connector_get_destination_end_x( probe ) - dst_center_x ),
+                fabs( geometry_connector_get_destination_end_y( probe ) - dst_center_y ) );
     debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_destination * ( 2.0 * line_corridor );
 
     /* prefer left-hand angles over right-handed */
@@ -197,6 +197,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         if ( current_len > ( 4.0 * object_dist ) )
         {
             /* probe is a long path and right-handed */
+            /* to avoid overreactions, we assume a line width of 0.1 only */
             debts += LAYOUT_QUALITY_WEIGHT_AVOID * 0.1 * geometry_connector_get_length( probe );
         }
     }
@@ -353,9 +354,9 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
     /* get data on probe */
     const geometry_3dir_t pattern = geometry_connector_get_directions( probe );
     const bool bad_pattern_v
-    = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
+        = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
     const bool bad_pattern_h
-    = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
+        = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
 
     const uint32_t intersects
         = geometry_connector_count_connector_intersects( probe, other );

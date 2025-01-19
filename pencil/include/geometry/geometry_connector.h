@@ -289,6 +289,14 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
                                                                        const geometry_connector_t *that
                                                                      );
 
+/* static inline double geometry_connector_get_same_path_length_rect ( const geometry_connector_t *this_,
+ * const geometry_rectangle_t *rect, double line_width
+ * ); */
+
+/* static inline double geometry_connector_get_same_path_length_conn ( const geometry_connector_t *this_,
+ * const geometry_connector_t *that, double line_width
+ * ); */
+
 /*!
  *  \brief gets the bounding rectangle of geometry_connector_t
  *

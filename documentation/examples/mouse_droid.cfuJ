@@ -734,6 +734,13 @@
             "classifier_name": "Skeleton Frame",
             "node": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
             "uuid": "e21f6b37-437d-4288-9338-205b996a0128"
+          },
+          {
+            "id": 355,
+            "display_flags": 0,
+            "classifier_name": "Tool-Arm",
+            "node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
+            "uuid": "24ca2b90-70d7-4738-af79-7c7adba83207"
           }
         ]
       }
@@ -3849,7 +3856,7 @@
         "type": "Activity",
         "name": "power::booting",
         "description": [
-                ""
+                "While the MoD5G is in booting state, the MoD5G can not yet react on input data; input signals from sensors are queued for later processing."
         ],
         "x_order": 1513277740,
         "y_order": -1659012173,
@@ -3907,7 +3914,7 @@
         "type": "Activity",
         "name": "power::energy_saving",
         "description": [
-                ""
+                "While the MoD5G is in energy saving state, the MoD5G does not react on input data. Only few wakeup mechanisms can caus a transition to full operation."
         ],
         "x_order": 1139012495,
         "y_order": -1194731099,
@@ -4132,7 +4139,7 @@
         "type": "Block",
         "name": "Cargo Bin",
         "description": [
-                ""
+                "A cargo bin allows to transport replacement parts to repair remote systems."
         ],
         "x_order": 645157058,
         "y_order": -1080714627,
@@ -4150,7 +4157,7 @@
         "type": "Block",
         "name": "Screw Driver",
         "description": [
-                ""
+                "A screw driver can rotate screws. It is one of several tools fixed on top of the Tool-Arm."
         ],
         "x_order": 645157058,
         "y_order": -1412570674,
@@ -4170,7 +4177,7 @@
         "description": [
                 ""
         ],
-        "x_order": -203135287,
+        "x_order": -855507639,
         "y_order": -1412570674,
         "list_order": -1053905027,
         "uuid": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
@@ -4204,7 +4211,7 @@
         "type": "Block",
         "name": "Motors",
         "description": [
-                ""
+                "There are two motors to drive and steer and further motors to control the movement of a tool-arm."
         ],
         "x_order": 645157058,
         "y_order": -1053978658,
@@ -4223,7 +4230,7 @@
         "stereotype": "env-perception",
         "name": "Camera",
         "description": [
-                ""
+                "A camera records the video signal of the environment."
         ],
         "x_order": -1130653626,
         "y_order": -1168769568,
@@ -4242,7 +4249,7 @@
         "stereotype": "env-perception",
         "name": "Microphone",
         "description": [
-                ""
+                "A microphone records the audio signal of the environment."
         ],
         "x_order": -1130653626,
         "y_order": -1412570674,
@@ -4260,7 +4267,7 @@
         "type": "Block",
         "name": "Loud Speaker",
         "description": [
-                ""
+                "A loud speaker allows to produce single-frequency audio signals."
         ],
         "x_order": -920059638,
         "y_order": -1053978658,
@@ -4278,7 +4285,7 @@
         "type": "Block",
         "name": "Programming and Diagnostic Connector",
         "description": [
-                ""
+                "A connector allows to attach a cable. Via this cable, self diagnosis and re-programming can be performed."
         ],
         "x_order": -1130653626,
         "y_order": -1080714627,
@@ -4296,7 +4303,7 @@
         "type": "Block",
         "name": "Charging Connector",
         "description": [
-                ""
+                "A connector allows to attach a cable. Via this cable, the energy cell can be re-charged."
         ],
         "x_order": -858822106,
         "y_order": -1053978658,
@@ -4314,7 +4321,7 @@
         "type": "Block",
         "name": "Energy Cell",
         "description": [
-                ""
+                "An energy cell provides power sufficient for one 1-day mission."
         ],
         "x_order": -1044323579,
         "y_order": -1053978658,
@@ -4586,7 +4593,7 @@
         "type": "Block",
         "name": "Gripper",
         "description": [
-                "A tool that allows to grab objects and move them."
+                "A tool that allows to grab objects and move them. It is one of several tools fixed on top of the Tool-Arm."
         ],
         "x_order": 645157058,
         "y_order": -1168769568,
@@ -7444,7 +7451,7 @@
         "type": "Block",
         "name": "Tactic execution (L1)",
         "description": [
-                "This system element aggregates functions that have high demands on realtime observations and reations; also high demands on availability."
+                "This system element aggregates functions that have high demands on realtime observations and reactions; also high demands on availability."
         ],
         "x_order": 2001393748,
         "y_order": -1886953723,
@@ -7743,6 +7750,25 @@
         "y_order": -2039976797,
         "list_order": -2039976797,
         "uuid": "9046bd5b-70c4-45e4-b894-36e31a67de97",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 202,
+        "main_type": 121,
+        "type": "Component",
+        "name": "Tool-Arm",
+        "description": [
+                "An arm consisting of two segments.\n",
+                "The angle between the segments provides 1 degree of movement freedom, both ends provide 2 degrees of movement freedom each."
+        ],
+        "x_order": -203135287,
+        "y_order": -1412570674,
+        "list_order": -1412570674,
+        "uuid": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
         "features":
         [
         ]
@@ -9179,6 +9205,23 @@
         "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
         "uuid": "621dd235-698b-4595-afb1-ea76d363fd8f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 327,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1412570674,
+        "from_classifier_name": "Chassis",
+        "to_classifier_name": "Tool-Arm",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
+        "to_node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
+        "uuid": "f86e174e-a7e6-4bf3-9c0e-0ce385dbd8da"
       }
     },
     {
@@ -12739,6 +12782,23 @@
         "from_node": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
         "to_node": "9046bd5b-70c4-45e4-b894-36e31a67de97",
         "uuid": "76c83dc1-4828-4d26-800e-5a15ee45d4d2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 328,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "protected by",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Tool-Arm",
+        "to_classifier_name": "Tool-Window (2)",
+        "from_node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
+        "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
+        "uuid": "1eb8d183-7cf6-41cb-8257-3816471429e5"
       }
     }
   ]
