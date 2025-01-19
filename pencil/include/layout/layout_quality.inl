@@ -18,16 +18,22 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ )
 {
 }
 
+/* if an object is forbidden (e.g. german swastika): */
+#define LAYOUT_QUALITY_WEIGHT_FORBIDDEN (1000000.0)
 /* if an object is not fully contained in the diagrams drawing area: */
 #define LAYOUT_QUALITY_WEIGHT_NOT_IN_DIAGRAM_AREA (1000.0)
 /* if an objects label or type-icon crosses another objects label or type-icon: */
 #define LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP (100.0)
+/* if an object shall be avoided to find nice solutions and not run into a local layouting optimum that is forbidden: */
+#define LAYOUT_QUALITY_WEIGHT_AVOID (10.0)
 /* if an objects label or type-icon crosses another objects contour or connection line: */
 #define LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE (10.0)
 /* if an objects contour or connection line is shared with another objects contour or connection line: */
 #define LAYOUT_QUALITY_WEIGHT_SHARED_LINES (10.0)
 /* if an objects contour or connection line crosses another objects contour or connection line: */
 #define LAYOUT_QUALITY_WEIGHT_CROSS_LINES (1.0)
+/* if a location is not nice (too short line segment, too far from source or target): */
+#define LAYOUT_QUALITY_WEIGHT_LOCATION (0.5)
 /* if an objects contour, label or type-icon is too far from the target location or a connection line is longer than needed: */
 #define LAYOUT_QUALITY_WEIGHT_DISTANCE (0.1)
 
@@ -39,10 +45,10 @@ static inline double layout_quality_debts_class_diag( const layout_quality_t *th
     double debts = 0.0;
 
     const geometry_rectangle_t *const diagram_draw_area
-    = layout_diagram_get_draw_area_const( other );
+        = layout_diagram_get_draw_area_const( other );
 
     const geometry_rectangle_t *const classifier_bounds
-    = layout_visible_classifier_get_envelope_box_const( probe );
+        = layout_visible_classifier_get_envelope_box_const( probe );
 
     /* add debts for overlap to diagram boundary */
     if ( ! geometry_rectangle_is_containing( diagram_draw_area, classifier_bounds ) )
@@ -52,8 +58,8 @@ static inline double layout_quality_debts_class_diag( const layout_quality_t *th
     }
 
     /* add move distance as debt */
-    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * fabs( geometry_offset_get_dx( order_target ) );
-    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * fabs( geometry_offset_get_dy( order_target ) );
+    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * fabs( geometry_offset_get_dx( order_target ) );
+    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * fabs( geometry_offset_get_dy( order_target ) );
 
     return debts;
 }
@@ -65,14 +71,14 @@ static inline double layout_quality_debts_class_class( const layout_quality_t *t
 {
     double debts = 0.0;
 
-    const geometry_rectangle_t *const probe_envelope_box
-        = layout_visible_classifier_get_envelope_box_const( probe );
-    const geometry_rectangle_t *const other_envelope_box
-        = layout_visible_classifier_get_envelope_box_const( other );
+    const geometry_rectangle_t *const probe_symbol_box
+        = layout_visible_classifier_get_symbol_box_const( probe );
+    const geometry_rectangle_t *const other_symbol_box
+        = layout_visible_classifier_get_symbol_box_const( other );
 
     geometry_rectangle_t probe_intersect;
     const int intersect_err
-        = geometry_rectangle_init_by_intersect( &probe_intersect, probe_envelope_box, other_envelope_box );
+        = geometry_rectangle_init_by_intersect( &probe_intersect, probe_symbol_box, other_symbol_box );
     if ( 0 == intersect_err )
     {
         /* there is an intersect */
@@ -87,71 +93,21 @@ static inline double layout_quality_debts_class_class( const layout_quality_t *t
         else
         {
             const double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
-            debts += probe_intersect_area;
+            debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES * probe_intersect_area;
         }
     }
-    /* else no intersect/overlap */
+    /* else no intersect/overlap of symbol box */
+
+    /* independant of relationship between classifiers, overlapping labels are not good */
+    const geometry_rectangle_t *const probe_icon_box
+        = layout_visible_classifier_get_icon_box_const( probe );
+    const geometry_rectangle_t *const probe_label_box
+        = layout_visible_classifier_get_label_box_const( probe );
+    debts += layout_quality_debts_label_class( this_, probe_icon_box, other );
+    debts += layout_quality_debts_label_class( this_, probe_label_box, other );
 
     return debts;
 }
-
-#if 0
-static inline double layout_quality_debts_feat_diag( const layout_quality_t *this_,
-                                                     const layout_feature_t *probe,
-                                                     const layout_diagram_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-
-static inline double layout_quality_debts_feat_class( const layout_quality_t *this_,
-                                                      const layout_feature_t *probe,
-                                                      const layout_visible_classifier_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-
-static inline double layout_quality_debts_feat_feat( const layout_quality_t *this_,
-                                                     const layout_feature_t *probe,
-                                                     const layout_feature_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-
-static inline double layout_quality_debts_rel_diag( const layout_quality_t *this_,
-                                                    const layout_relationship_t *probe,
-                                                    const layout_diagram_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-
-static inline double layout_quality_debts_rel_class( const layout_quality_t *this_,
-                                                     const layout_relationship_t *probe,
-                                                     const layout_visible_classifier_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-
-static inline double layout_quality_debts_rel_feat( const layout_quality_t *this_,
-                                                    const layout_relationship_t *probe,
-                                                    const layout_feature_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-
-static inline double layout_quality_debts_rel_rel( const layout_quality_t *this_,
-                                                   const layout_relationship_t *probe,
-                                                   const layout_relationship_t *other )
-{
-    double debts = 0.0;
-    return debts;
-}
-#endif
 
 static const geometry_3dir_t PENCIL_BAD_V_PATTERN1
     = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
@@ -186,8 +142,9 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     const double diagram_draw_center_x = geometry_rectangle_get_center_x( diagram_draw_area );
     const double diagram_draw_center_y = geometry_rectangle_get_center_y( diagram_draw_area );
 
-    /* get preferred object distance */
+    /* get preferred object distance and line-corrdor width */
     const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* add debts for exceeding the diagram draw area */
     if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connector_bounds ) )
@@ -199,36 +156,34 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     /* the more length, the more unwanted... */
     debts += geometry_connector_get_length( probe );
 
-    /* prefer _either_ no _or_ minimum-dist lengths of parts... */
-    const double HEAVIER_THAN_DETOUR = 4.0;
+    /* prefer _either_ no _or_ minimum-dist lengths of parts, otherwise line too close to object... */
     const double source_length = geometry_connector_get_source_length( probe );
     if (( source_length > 0.000001 )&&( source_length < object_dist ))
     {
-        debts += HEAVIER_THAN_DETOUR * ( object_dist - source_length );
+        debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( object_dist - source_length ) * line_corridor;
 
     }
     const double destination_length = geometry_connector_get_destination_length( probe );
     if (( destination_length > 0.000001 )&&( destination_length < object_dist ))
     {
-        debts += HEAVIER_THAN_DETOUR * ( object_dist - destination_length );
+        debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( object_dist - destination_length ) * line_corridor;
     }
     const bool no_source_or_no_dest = ( source_length < 0.000001 )||( destination_length < 0.000001 );
     const double main_length = geometry_connector_get_main_length( probe );
     if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_no_dest ))
     {
-        debts += HEAVIER_THAN_DETOUR * ( object_dist - main_length );
+        debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( object_dist - main_length ) * line_corridor;
     }
 
     /* prefer centered over uncentered departure and arrival */
-    const double HEAVIER_THAN_CENTERED = 2.0;
     const double delta_source
     = fmin( fabs( geometry_connector_get_source_end_x( probe ) - src_center_x ),
             fabs( geometry_connector_get_source_end_y( probe ) - src_center_y ) );
-    debts += delta_source * HEAVIER_THAN_CENTERED;
+    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_source * ( 2.0 * line_corridor );
     const double delta_destination
     = fmin( fabs( geometry_connector_get_destination_end_x( probe ) - dst_center_x ),
             fabs( geometry_connector_get_destination_end_y( probe ) - dst_center_y ) );
-    debts += delta_destination * HEAVIER_THAN_CENTERED;
+    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_destination * ( 2.0 * line_corridor );
 
     /* prefer left-hand angles over right-handed */
     const geometry_3dir_t pattern = geometry_connector_get_directions( probe );
@@ -242,7 +197,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         if ( current_len > ( 4.0 * object_dist ) )
         {
             /* probe is a long path and right-handed */
-            debts += 0.2 * geometry_connector_get_length( probe );
+            debts += LAYOUT_QUALITY_WEIGHT_AVOID * 0.1 * geometry_connector_get_length( probe );
         }
     }
 
@@ -270,7 +225,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN4 ) ))
                 {
-                    debts += 4.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
                 }
             }
             else
@@ -289,7 +244,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN4 ) ))
                 {
-                    debts += 4.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
                 }
             }
         }
@@ -311,7 +266,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN4 ) ))
                 {
-                    debts += 4.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
                 }
             }
             else
@@ -330,7 +285,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN4 ) ))
                 {
-                    debts += 4.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
                 }
             }
         }
@@ -379,11 +334,10 @@ static inline double layout_quality_debts_conn_sym( const layout_quality_t *this
 {
     double debts = 0.0;
 
-    /* TODO: use geometry_connector_get_intersecting_length */
-    if ( geometry_connector_is_intersecting_rectangle( probe, other ) )
-    {
-        debts += 30000.0;
-    }
+    const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+    debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES
+        * geometry_connector_get_transit_length( probe, other ) * line_corridor;
 
     return debts;
 }
@@ -394,6 +348,8 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
 {
     double debts = 0.0;
 
+    const double line_corridor = 2.0 * pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
     /* get data on probe */
     const geometry_3dir_t pattern = geometry_connector_get_directions( probe );
     const bool bad_pattern_v
@@ -403,7 +359,7 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
 
     const uint32_t intersects
         = geometry_connector_count_connector_intersects( probe, other );
-    debts += 1000.0 * intersects;
+    debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES * line_corridor * line_corridor;
 
     if ( ( bad_pattern_h || bad_pattern_v ) && ( intersects > 0 ) )
     {
@@ -416,7 +372,13 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
             || geometry_3dir_equals( &other_pattern, &PENCIL_BAD_H_PATTERN2 );
         if (( bad_pattern_h && bad_other_v )||( bad_pattern_v && bad_other_h ))
         {
-            debts += 1000000.0;
+            const geometry_rectangle_t probe_bounds
+                = geometry_connector_get_bounding_rectangle( probe );
+            const geometry_rectangle_t other_bounds
+                = geometry_connector_get_bounding_rectangle( other );
+
+            debts += LAYOUT_QUALITY_WEIGHT_FORBIDDEN * geometry_rectangle_get_area( &probe_bounds );
+            debts += LAYOUT_QUALITY_WEIGHT_FORBIDDEN * geometry_rectangle_get_area( &other_bounds );
         }
     }
 
@@ -475,6 +437,14 @@ static inline double layout_quality_debts_label_class( const layout_quality_t *t
         debts += LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP * geometry_rectangle_get_intersect_area( probe, classifier_label_box );
     }
 
+    const geometry_rectangle_t *const classifier_icon_box
+    = layout_visible_classifier_get_icon_box_const( other );
+    if ( geometry_rectangle_is_intersecting( probe, classifier_icon_box ) )
+    {
+        /* medium debt */
+        debts += LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP * geometry_rectangle_get_intersect_area( probe, classifier_icon_box );
+    }
+
     return debts;
 }
 
@@ -523,13 +493,12 @@ static inline double layout_quality_debts_label_rel( const layout_quality_t *thi
     if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( other ) )
         || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( other ) ))
     {
-        const geometry_connector_t *const probe_shape
+        const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+        const geometry_connector_t *const other_shape
             = layout_relationship_get_shape_const( other );
-        if ( geometry_connector_is_intersecting_rectangle( probe_shape, probe ) )
-        {
-            /* TODO: use geometry_connector_get_intersecting_length */
-            debts += geometry_rectangle_get_area( probe );  /* relationship bounds intersects are not so bad ... low debt */
-        }
+        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES
+            * geometry_connector_get_transit_length( other_shape, probe ) * line_corridor;
 
         const geometry_rectangle_t *const relationship_label_box
             = layout_relationship_get_label_box_const( other );

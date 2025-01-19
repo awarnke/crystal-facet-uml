@@ -25,7 +25,7 @@
  *  positive if there are unwanted overlaps of objects or other suboptimal characteristics.
  *
  *  A debt value is roughly linear to the 2-dimensional area ( width * height ) that is affected.
- *  In some less important cases, it is linear to a distance.
+ *  In some less important cases, it is linear to a distance ( which equals a width of 1.0 ).
  *  A weight factor ( LAYOUT_QUALITY_WEIGHT_* ) reflects the severity of the layouting defect.
  */
 struct layout_quality_struct {
@@ -86,99 +86,6 @@ static inline double layout_quality_debts_class_class ( const layout_quality_t *
                                                         const layout_visible_classifier_t *other,
                                                         const layout_visible_set_t *layout_data
                                                       );
-
-#if 0
-/*!
- *  \brief determines the quality debts for drawing the feature to the diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a completely layouted feature
- *  \param other the diagram to which to draw to
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_feat_diag ( const layout_quality_t *this_,
-                                                      const layout_feature_t *probe,
-                                                      const layout_diagram_t *other
-                                                    );
-
-/*!
- *  \brief determines the quality debts for drawing the feature and the visible classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a completely layouted feature
- *  \param other a completely layouted visible classifier
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_feat_class ( const layout_quality_t *this_,
-                                                       const layout_feature_t *probe,
-                                                       const layout_visible_classifier_t *other
-                                                     );
-
-/*!
- *  \brief determines the quality debts for drawing both features
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a completely layouted feature
- *  \param other another completely layouted feature
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_feat_feat ( const layout_quality_t *this_,
-                                                      const layout_feature_t *probe,
-                                                      const layout_feature_t *other
-                                                    );
-
-/*!
- *  \brief determines the quality debts for drawing the relationship to the diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a completely layouted relationship
- *  \param other the diagram to which to draw to
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_rel_diag ( const layout_quality_t *this_,
-                                                     const layout_relationship_t *probe,
-                                                     const layout_diagram_t *other
-                                                   );
-
-/*!
- *  \brief determines the quality debts for drawing the relationship and the visible classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a completely layouted relationship
- *  \param other a completely layouted visible classifier
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_rel_class ( const layout_quality_t *this_,
-                                                      const layout_relationship_t *probe,
-                                                      const layout_visible_classifier_t *other
-                                                    );
-
-/*!
- *  \brief determines the quality debts for drawing the relationship and the feature
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a completely layouted relationship
- *  \param other a completely layouted feature
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_rel_feat ( const layout_quality_t *this_,
-                                                     const layout_relationship_t *probe,
-                                                     const layout_feature_t *other
-                                                   );
-
-/*!
- *  \brief determines the quality debts for drawing both relationships
- *
- *  \param this_ pointer to own object attributes
- *  \param probe a completely layouted relationship
- *  \param other another completely layouted relationship
- *  \return 0.0 if there are no overlaps, a positive value otherwise
- */
-static inline double layout_quality_debts_rel_rel ( const layout_quality_t *this_,
-                                                    const layout_relationship_t *probe,
-                                                    const layout_relationship_t *other
-                                                  );
-#endif
 
 /*!
  *  \brief determines the quality debts for drawing the connector of a relationship to the diagram

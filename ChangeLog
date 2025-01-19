@@ -6,9 +6,10 @@ crystal-facet-uml (1.62.2) UNRELEASED; urgency=medium
     OLD layout_challenging_cases ERR=37, W/C=9433, W/F=531, W/L=6622, W/R=7844
     NEW layout_good_cases        ERR=0,  W/C=7,    W/F=3,   W/L=25,   W/R=74
     NEW layout_challenging_cases ERR=31, W/C=9446, W/F=536, W/L=6626, W/R=7908
-  * layouting further improved by adjusting debts:
-    layout_good_cases            ERR=0,  W/C=7,    W/F=2,   W/L=25,   W/R=66
-    layout_challenging_cases     ERR=31, W/C=9445, W/F=524, W/L=6627, W/R=8138
+  * layouting further modified by adjusting debts; optimization needed:
+    layout_good_cases            ERR=0,  W/C=8,    W/F=3,   W/L=25,   W/R=69
+    layout_challenging_cases     ERR=32, W/C=9701, W/F=508, W/L=6714, W/R=8497
+
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 02 Feb 2025 08:30:00 +0100
 
