@@ -6,6 +6,12 @@ rm -f log_*.txt
 rm -f cross_file.txt
 echo "      to clean up also the downloaded archives, type: rm -fr packed_src/"
 
+echo "== MANUAL CONFIGURATION =="
+echo ""
+echo "in file cross_file.txt.in set exe_wrapper to 'wine' or 'wine64'"
+echo "in file cross_file.txt.in set cpp to '*g++' or '*cpp'"
+echo ""
+
 
 # Copyright 2022-2025 Andreas Warnke
 #

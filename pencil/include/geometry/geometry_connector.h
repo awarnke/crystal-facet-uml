@@ -289,13 +289,32 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
                                                                        const geometry_connector_t *that
                                                                      );
 
-/* static inline double geometry_connector_get_same_path_length_rect ( const geometry_connector_t *this_,
- * const geometry_rectangle_t *rect, double line_width
- * ); */
+/*!
+ *  \brief determines the length of the sub-path where the connector has the same location and direction
+ *         as the border of the rectangle.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect pointer to rectangle where the length of the same path shall be determined
+ *  \param max_distance maximum distance between the connector and the rectangle
+ *  \return length of the connector-part that is the same with the rect boundary
+ */
+static inline double geometry_connector_get_same_path_length_rect ( const geometry_connector_t *this_,
+                                                                    const geometry_rectangle_t *rect,
+                                                                    double max_distance
+                                                                  );
 
-/* static inline double geometry_connector_get_same_path_length_conn ( const geometry_connector_t *this_,
- * const geometry_connector_t *that, double line_width
- * ); */
+/*!
+ *  \brief determines the length of the sub-path where both connectors have the same location and direction.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to connector where the length of the same path shall be determined
+ *  \param max_distance maximum distance between the two connectors
+ *  \return length of the connector-parts that are the same
+ */
+static inline double geometry_connector_get_same_path_length_conn ( const geometry_connector_t *this_,
+                                                                    const geometry_connector_t *that,
+                                                                    double max_distance
+                                                                  );
 
 /*!
  *  \brief gets the bounding rectangle of geometry_connector_t

@@ -18,6 +18,8 @@ static test_case_result_t test_intersecting_rectangle_simple( test_fixture_t *fi
 static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *fix );
 static test_case_result_t test_intersecting_rectangle_length( test_fixture_t *fix );
 static test_case_result_t test_connector_intersects( test_fixture_t *fix );
+static test_case_result_t test_get_same_path_length_rect( test_fixture_t *fix );
+static test_case_result_t test_get_same_path_length_conn( test_fixture_t *fix );
 static test_case_result_t test_calc_waypoint_good( test_fixture_t *fix );
 static test_case_result_t test_calc_waypoint_zero( test_fixture_t *fix );
 
@@ -37,6 +39,8 @@ test_suite_t geometry_connector_test_get_suite(void)
     test_suite_add_test_case( &result, "test_intersecting_rectangle_corner", &test_intersecting_rectangle_corner );
     test_suite_add_test_case( &result, "test_intersecting_rectangle_length", &test_intersecting_rectangle_length );
     test_suite_add_test_case( &result, "test_connector_intersects", &test_connector_intersects );
+    test_suite_add_test_case( &result, "test_get_same_path_length_rect", &test_get_same_path_length_rect );
+    test_suite_add_test_case( &result, "test_get_same_path_length_conn", &test_get_same_path_length_conn );
     test_suite_add_test_case( &result, "test_calc_waypoint_good", &test_calc_waypoint_good );
     test_suite_add_test_case( &result, "test_calc_waypoint_zero", &test_calc_waypoint_zero );
     return result;
@@ -336,20 +340,20 @@ static test_case_result_t test_connector_intersects( test_fixture_t *fix )
     geometry_connector_destroy ( &my_connector_2 );
 
     /* completely separated */
-    geometry_connector_init_vertical ( &my_connector_1,
-                                       10.0 /*source_end_x*/,
-                                       10.0 /*source_end_y*/,
-                                       10.0 /*destination_end_x*/,
-                                       30.0 /*destination_end_y*/,
-                                       20.0 /*main_line_x*/
-                                     );
-    geometry_connector_init_vertical ( &my_connector_2,
-                                       40.0 /*source_end_x*/,
-                                       10.0 /*source_end_y*/,
-                                       40.0 /*destination_end_x*/,
-                                       30.0 /*destination_end_y*/,
-                                       50.0 /*main_line_x*/
-                                     );
+    geometry_connector_init_vertical( &my_connector_1,
+                                      10.0 /*source_end_x*/,
+                                      10.0 /*source_end_y*/,
+                                      10.0 /*destination_end_x*/,
+                                      30.0 /*destination_end_y*/,
+                                      20.0 /*main_line_x*/
+                                    );
+    geometry_connector_init_vertical( &my_connector_2,
+                                      40.0 /*source_end_x*/,
+                                      10.0 /*source_end_y*/,
+                                      40.0 /*destination_end_x*/,
+                                      30.0 /*destination_end_y*/,
+                                      50.0 /*main_line_x*/
+                                    );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
     TEST_EXPECT_EQUAL_INT( 0, intersect_count );
@@ -358,20 +362,20 @@ static test_case_result_t test_connector_intersects( test_fixture_t *fix )
     geometry_connector_destroy ( &my_connector_2 );
 
     /* close but not overlapping */
-    geometry_connector_init_horizontal ( &my_connector_1,
-                                         10.0 /*source_end_x*/,
-                                         30.0 /*source_end_y*/,
-                                         30.0 /*destination_end_x*/,
-                                         30.0 /*destination_end_y*/,
-                                         10.0 /*main_line_y*/
-                                       );
-    geometry_connector_init_horizontal ( &my_connector_2,
-                                         15.0 /*source_end_x*/,
-                                         30.0 /*source_end_y*/,
-                                         25.0 /*destination_end_x*/,
-                                         30.0 /*destination_end_y*/,
-                                         11.0 /*main_line_y*/
-                                       );
+    geometry_connector_init_horizontal( &my_connector_1,
+                                        10.0 /*source_end_x*/,
+                                        30.0 /*source_end_y*/,
+                                        30.0 /*destination_end_x*/,
+                                        30.0 /*destination_end_y*/,
+                                        10.0 /*main_line_y*/
+                                      );
+    geometry_connector_init_horizontal( &my_connector_2,
+                                        15.0 /*source_end_x*/,
+                                        30.0 /*source_end_y*/,
+                                        25.0 /*destination_end_x*/,
+                                        30.0 /*destination_end_y*/,
+                                        11.0 /*main_line_y*/
+                                      );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
     TEST_EXPECT_EQUAL_INT( 0, intersect_count );
@@ -380,20 +384,20 @@ static test_case_result_t test_connector_intersects( test_fixture_t *fix )
     geometry_connector_destroy ( &my_connector_2 );
 
     /* 2x touching but not overlapping */
-    geometry_connector_init_horizontal ( &my_connector_1,
-                                         10.0 /*source_end_x*/,
-                                         10.0 /*source_end_y*/,
-                                         30.0 /*destination_end_x*/,
-                                         10.0 /*destination_end_y*/,
-                                         20.0 /*main_line_y*/
-                                       );
-    geometry_connector_init_horizontal ( &my_connector_2,
-                                         15.0 /*source_end_x*/,
-                                         20.0 /*source_end_y*/,
-                                         25.0 /*destination_end_x*/,
-                                         20.0 /*destination_end_y*/,
-                                         10.0 /*main_line_y*/
-                                       );
+    geometry_connector_init_horizontal( &my_connector_1,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        30.0 /*destination_end_x*/,
+                                        10.0 /*destination_end_y*/,
+                                        20.0 /*main_line_y*/
+                                      );
+    geometry_connector_init_horizontal( &my_connector_2,
+                                        15.0 /*source_end_x*/,
+                                        20.0 /*source_end_y*/,
+                                        25.0 /*destination_end_x*/,
+                                        20.0 /*destination_end_y*/,
+                                        10.0 /*main_line_y*/
+                                      );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
     TEST_EXPECT_EQUAL_INT( 2, intersect_count );
@@ -402,13 +406,13 @@ static test_case_result_t test_connector_intersects( test_fixture_t *fix )
     geometry_connector_destroy ( &my_connector_2 );
 
     /* 2 segments identical, 1 empty */
-    geometry_connector_init_horizontal ( &my_connector_1,
-                                         10.0 /*source_end_x*/,
-                                         10.0 /*source_end_y*/,
-                                         30.0 /*destination_end_x*/,
-                                         20.0 /*destination_end_y*/,
-                                         20.0 /*main_line_y*/
-                                       );
+    geometry_connector_init_horizontal( &my_connector_1,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        30.0 /*destination_end_x*/,
+                                        20.0 /*destination_end_y*/,
+                                        20.0 /*main_line_y*/
+                                      );
     geometry_connector_replace ( &my_connector_2, &my_connector_1 );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
@@ -418,20 +422,20 @@ static test_case_result_t test_connector_intersects( test_fixture_t *fix )
     geometry_connector_destroy ( &my_connector_2 );
 
     /* three real intersects */
-    geometry_connector_init_horizontal ( &my_connector_1,
-                                         10.0 /*source_end_x*/,
-                                         10.0 /*source_end_y*/,
-                                         30.0 /*destination_end_x*/,
-                                         12.0 /*destination_end_y*/,
-                                         20.0 /*main_line_y*/
-                                       );
-    geometry_connector_init_vertical ( &my_connector_2,
-                                       5.0 /*source_end_x*/,
-                                       11.0 /*source_end_y*/,
-                                       5.0 /*destination_end_x*/,
-                                       19.0 /*destination_end_y*/,
-                                       40.0 /*main_line_x*/
-                                     );
+    geometry_connector_init_horizontal( &my_connector_1,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        30.0 /*destination_end_x*/,
+                                        12.0 /*destination_end_y*/,
+                                        20.0 /*main_line_y*/
+                                      );
+    geometry_connector_init_vertical( &my_connector_2,
+                                      5.0 /*source_end_x*/,
+                                      11.0 /*source_end_y*/,
+                                      5.0 /*destination_end_x*/,
+                                      19.0 /*destination_end_y*/,
+                                      40.0 /*main_line_x*/
+                                    );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
     TEST_EXPECT_EQUAL_INT( 3, intersect_count );
@@ -441,17 +445,59 @@ static test_case_result_t test_connector_intersects( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+static test_case_result_t test_get_same_path_length_rect( test_fixture_t *fix )
+{
+    double result;
+    geometry_connector_t my_connector_1;
+    geometry_rectangle_t my_rectangle_2;
+
+    /* test case ] around rect */
+    geometry_connector_init_vertical( &my_connector_1,
+                                      10.0 /*source_end_x*/,
+                                      10.0 /*source_end_y*/,
+                                      10.0 /*destination_end_x*/,
+                                      30.0 /*destination_end_y*/,
+                                      20.0 /*main_line_x*/
+                                    );
+    geometry_rectangle_init( &my_rectangle_2, 8.0, 9.0, 5.0 /*W*/, 21.0 /*H*/ );
+    result = geometry_connector_get_same_path_length_rect( &my_connector_1, &my_rectangle_2, 2.1 /* max_distance */ );
+    TEST_EXPECT_EQUAL_DOUBLE( 6.0, result );
+
+    /* test case U around rect */
+    geometry_connector_init_horizontal( &my_connector_1,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        30.0 /*destination_end_x*/,
+                                        10.0 /*destination_end_y*/,
+                                        20.0 /*main_line_y*/
+                                      );
+    geometry_rectangle_init( &my_rectangle_2, 13.0, 9.0, 19.0 /*W*/, 12.0 /*H*/ );
+    result = geometry_connector_get_same_path_length_rect( &my_connector_1, &my_rectangle_2, 2.1 /* max_distance */ );
+    TEST_EXPECT_EQUAL_DOUBLE( 27.0, result );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_get_same_path_length_conn( test_fixture_t *fix )
+{
+    double result;
+    geometry_connector_t my_connector_1;
+    geometry_connector_t my_connector_2;
+    result = geometry_connector_get_same_path_length_conn( &my_connector_1, &my_connector_2, 2.1 /* max_distance */ );
+    return TEST_CASE_RESULT_ERR;
+}
+
 static test_case_result_t test_calc_waypoint_good( test_fixture_t *fix )
 {
     geometry_connector_t my_connector_1;
 
-    geometry_connector_init_vertical ( &my_connector_1,
-                                       10.0 /*source_end_x*/,
-                                       10.0 /*source_end_y*/,
-                                       10.0 /*destination_end_x*/,
-                                       30.0 /*destination_end_y*/,
-                                       20.0 /*main_line_x*/
-                                     );
+    geometry_connector_init_vertical( &my_connector_1,
+                                      10.0 /*source_end_x*/,
+                                      10.0 /*source_end_y*/,
+                                      10.0 /*destination_end_x*/,
+                                      30.0 /*destination_end_y*/,
+                                      20.0 /*main_line_x*/
+                                    );
 
     geometry_point_t pos_before = geometry_connector_calculate_waypoint( &my_connector_1, -0.1 );
     TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos_before ) );
@@ -480,20 +526,20 @@ static test_case_result_t test_calc_waypoint_zero( test_fixture_t *fix )
     geometry_connector_t my_connector_2; /* main line length = 0 */
     geometry_connector_t my_connector_3; /* srd+dest end line length = 0 */
 
-    geometry_connector_init_horizontal ( &my_connector_2,
-                                       10.0 /*source_end_x*/,
-                                       10.0 /*source_end_y*/,
-                                       10.0 /*destination_end_x*/,
-                                       10.0 /*destination_end_y*/,
-                                       20.0 /*main_line_y*/
-                                     );
-    geometry_connector_init_horizontal ( &my_connector_3,
-                                       10.0 /*source_end_x*/,
-                                       10.0 /*source_end_y*/,
-                                       20.0 /*destination_end_x*/,
-                                       10.0 /*destination_end_y*/,
-                                       10.0 /*main_line_y*/
-                                     );
+    geometry_connector_init_horizontal( &my_connector_2,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        10.0 /*destination_end_x*/,
+                                        10.0 /*destination_end_y*/,
+                                        20.0 /*main_line_y*/
+                                      );
+    geometry_connector_init_horizontal( &my_connector_3,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        20.0 /*destination_end_x*/,
+                                        10.0 /*destination_end_y*/,
+                                        10.0 /*main_line_y*/
+                                      );
 
     geometry_point_t pos3_source = geometry_connector_calculate_waypoint( &my_connector_3, 0.0 );
     TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos3_source ) );

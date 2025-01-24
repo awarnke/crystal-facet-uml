@@ -434,6 +434,160 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
     return result;
 }
 
+static inline double get_interval_intersection_length( double i1_from, double i1_to, double i2_end1, double i2_end2 )
+{
+    double length;
+
+    assert( i1_low <= i1_to );
+    const double i1_low = i1_from;
+    const double i1_high = i1_to;
+    const double i2_low = fmin( i2_end1, i2_end2 );
+    const double i2_high = fmax( i2_end1, i2_end2 );
+
+    if (( i1_high < i2_low )||( i1_low > i2_high ))
+    {
+        /* there is no overlap */
+        length = 0.0;
+    }
+    else
+    {
+        /* there is an overlap, lower border is the max of the low values, upper border is the min of the high values: */
+        length = fmin( i1_high, i2_high ) - fmax( i1_low, i2_low );
+    }
+
+    return length;
+}
+
+static inline double geometry_connector_get_same_path_length_rect( const geometry_connector_t *this_,
+                                                                   const geometry_rectangle_t *rect,
+                                                                   double max_distance )
+{
+    double result = 0.0;
+
+    const double left = geometry_rectangle_get_left( rect );
+    const double top = geometry_rectangle_get_top( rect );
+    const double right = geometry_rectangle_get_right( rect );
+    const double bottom = geometry_rectangle_get_bottom( rect );
+
+    /* check same path with left side of rectangle */
+    {
+        const double left_lo = left - max_distance;
+        const double left_hi = left + max_distance;
+
+        const bool source_end_is_on_left_side
+            = ( left_lo < (*this_).source_end_x )&&( (*this_).source_end_x < left_hi );
+        const bool main_line_source_is_on_left_side
+            = ( left_lo < (*this_).main_line_source_x )&&( (*this_).main_line_source_x < left_hi );
+        const bool main_line_end_is_on_left_side
+            = ( left_lo < (*this_).main_line_destination_x )&&( (*this_).main_line_destination_x < left_hi );
+        const bool destination_end_is_on_left_side
+            = ( left_lo < (*this_).destination_end_x )&&( (*this_).destination_end_x < left_hi );
+        if ( source_end_is_on_left_side && main_line_source_is_on_left_side )
+        {
+            result += get_interval_intersection_length( top, bottom, (*this_).source_end_y, (*this_).main_line_source_y );
+        }
+        if ( main_line_source_is_on_left_side && main_line_end_is_on_left_side )
+        {
+            result += get_interval_intersection_length( top, bottom, (*this_).main_line_source_y, (*this_).main_line_destination_y );
+        }
+        if ( main_line_end_is_on_left_side && destination_end_is_on_left_side )
+        {
+            result += get_interval_intersection_length( top, bottom, (*this_).main_line_destination_y, (*this_).destination_end_y );
+        }
+    }
+
+    /* check same path with top side of rectangle */
+    {
+        const double top_lo = top - max_distance;
+        const double top_hi = top + max_distance;
+
+        const bool source_end_is_on_top_side
+            = ( top_lo < (*this_).source_end_y )&&( (*this_).source_end_y < top_hi );
+        const bool main_line_source_is_on_top_side
+            = ( top_lo < (*this_).main_line_source_y )&&( (*this_).main_line_source_y < top_hi );
+        const bool main_line_end_is_on_top_side
+            = ( top_lo < (*this_).main_line_destination_y )&&( (*this_).main_line_destination_y < top_hi );
+        const bool destination_end_is_on_top_side
+            = ( top_lo < (*this_).destination_end_y )&&( (*this_).destination_end_y < top_hi );
+        if ( source_end_is_on_top_side && main_line_source_is_on_top_side )
+        {
+            result += get_interval_intersection_length( left, right, (*this_).source_end_x, (*this_).main_line_source_x );
+        }
+        if ( main_line_source_is_on_top_side && main_line_end_is_on_top_side )
+        {
+            result += get_interval_intersection_length( left, right, (*this_).main_line_source_x, (*this_).main_line_destination_x );
+        }
+        if ( main_line_end_is_on_top_side && destination_end_is_on_top_side )
+        {
+            result += get_interval_intersection_length( left, right, (*this_).main_line_destination_x, (*this_).destination_end_x );
+        }
+    }
+    /* check same path with right side of rectangle */
+    {
+        const double right_lo = right - max_distance;
+        const double right_hi = right + max_distance;
+
+        const bool source_end_is_on_right_side
+            = ( right_lo < (*this_).source_end_x )&&( (*this_).source_end_x < right_hi );
+        const bool main_line_source_is_on_right_side
+            = ( right_lo < (*this_).main_line_source_x )&&( (*this_).main_line_source_x < right_hi );
+        const bool main_line_end_is_on_right_side
+            = ( right_lo < (*this_).main_line_destination_x )&&( (*this_).main_line_destination_x < right_hi );
+        const bool destination_end_is_on_right_side
+            = ( right_lo < (*this_).destination_end_x )&&( (*this_).destination_end_x < right_hi );
+        if ( source_end_is_on_right_side && main_line_source_is_on_right_side )
+        {
+            result += get_interval_intersection_length( top, bottom, (*this_).source_end_y, (*this_).main_line_source_y );
+        }
+        if ( main_line_source_is_on_right_side && main_line_end_is_on_right_side )
+        {
+            result += get_interval_intersection_length( top, bottom, (*this_).main_line_source_y, (*this_).main_line_destination_y );
+        }
+        if ( main_line_end_is_on_right_side && destination_end_is_on_right_side )
+        {
+            result += get_interval_intersection_length( top, bottom, (*this_).main_line_destination_y, (*this_).destination_end_y );
+        }
+    }
+    /* check same path with bottom side of rectangle */
+    {
+        const double bottom_lo = bottom - max_distance;
+        const double bottom_hi = bottom + max_distance;
+
+        const bool source_end_is_on_bottom_side
+            = ( bottom_lo < (*this_).source_end_y )&&( (*this_).source_end_y < bottom_hi );
+        const bool main_line_source_is_on_bottom_side
+            = ( bottom_lo < (*this_).main_line_source_y )&&( (*this_).main_line_source_y < bottom_hi );
+        const bool main_line_end_is_on_bottom_side
+            = ( bottom_lo < (*this_).main_line_destination_y )&&( (*this_).main_line_destination_y < bottom_hi );
+        const bool destination_end_is_on_bottom_side
+            = ( bottom_lo < (*this_).destination_end_y )&&( (*this_).destination_end_y < bottom_hi );
+        if ( source_end_is_on_bottom_side && main_line_source_is_on_bottom_side )
+        {
+            result += get_interval_intersection_length( left, right, (*this_).source_end_x, (*this_).main_line_source_x );
+        }
+        if ( main_line_source_is_on_bottom_side && main_line_end_is_on_bottom_side )
+        {
+            result += get_interval_intersection_length( left, right, (*this_).main_line_source_x, (*this_).main_line_destination_x );
+        }
+        if ( main_line_end_is_on_bottom_side && destination_end_is_on_bottom_side )
+        {
+            result += get_interval_intersection_length( left, right, (*this_).main_line_destination_x, (*this_).destination_end_x );
+        }
+    }
+
+    return result;
+}
+
+static inline double geometry_connector_get_same_path_length_conn( const geometry_connector_t *this_,
+                                                                   const geometry_connector_t *that,
+                                                                   double max_distance )
+{
+    double result = 0.0;
+
+
+    return result;
+}
+
 static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ )
 {
     geometry_rectangle_t result;
