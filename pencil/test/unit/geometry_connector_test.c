@@ -475,6 +475,18 @@ static test_case_result_t test_get_same_path_length_rect( test_fixture_t *fix )
     result = geometry_connector_get_same_path_length_rect( &my_connector_1, &my_rectangle_2, 2.1 /* max_distance */ );
     TEST_EXPECT_EQUAL_DOUBLE( 27.0, result );
 
+    /* test case U next to rect */
+    geometry_connector_init_horizontal( &my_connector_1,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        30.0 /*destination_end_x*/,
+                                        10.0 /*destination_end_y*/,
+                                        20.0 /*main_line_y*/
+    );
+    geometry_rectangle_init( &my_rectangle_2, 31.0, 21.0, 1.0 /*W*/, 1.0 /*H*/ );
+    result = geometry_connector_get_same_path_length_rect( &my_connector_1, &my_rectangle_2, 2.1 /* max_distance */ );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, result );
+
     return TEST_CASE_RESULT_OK;
 }
 
