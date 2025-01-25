@@ -624,17 +624,6 @@ static test_case_result_t test_get_same_path_length_conn( test_fixture_t *fix )
                                         10.3 /*destination_end_y*/,
                                         30.3 /*main_line_x*/
                                       );
-    /* test case bottom Z */
-    /*
-    geometry_connector_t my_connector_bottom_Z;
-    geometry_connector_init_vertical( &my_connector_bottom_Z,
-                                      20.4 / *source_end_x* /,
-                                      30.4 / *source_end_y* /,
-                                      30.4 / *destination_end_x* /,
-                                      50.4 / *destination_end_y* /,
-                                      25.4 / *main_line_x* /
-                                    );
-    */
 
     result = geometry_connector_get_same_path_length_conn( &my_connector_upper_Z, &my_connector_upper_Z, 2.1 /* max_distance */ );
     TEST_EXPECT_EQUAL_DOUBLE( 30.0, result );
@@ -672,10 +661,6 @@ static test_case_result_t test_get_same_path_length_conn( test_fixture_t *fix )
     result = geometry_connector_get_same_path_length_conn( &my_connector_upper_L7, &my_connector_lower_Z, 2.1 /* max_distance */ );
     TEST_EXPECT_EQUAL_DOUBLE( 24.7, result );
 
-    /*
-    result = geometry_connector_get_same_path_length_conn( &my_connector_upper_L7, &my_connector_bottom_Z, 2.1 / * max_distance * / );
-    TEST_EXPECT_EQUAL_DOUBLE( 24.2, result );
-    */
     return TEST_CASE_RESULT_OK;
 }
 
