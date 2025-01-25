@@ -49,7 +49,7 @@ if ((exp==NULL)||(act==NULL)||(0!=strcmp(exp,act))) \
 #define TEST_DOUBLE_TINIEST 4.94e-322
 #define TEST_EXPECT_EQUAL_DOUBLE(EXPECTED,ACTUAL)\
 {const double exp = (EXPECTED); const double act = (ACTUAL);\
-if ( fabs(exp-act) > ((fabs(exp)*TEST_DOUBLE_EPSILON)+TEST_DOUBLE_TINIEST) ) \
+if (( fabs(exp-act) > ((fabs(exp)*TEST_DOUBLE_EPSILON)+TEST_DOUBLE_TINIEST) )||( isnan(act) )) \
 {fprintf(stderr,"TEST FAILED ((%s)==%f!=%f==(%s)) at %s:%d\n",\
 #EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }
@@ -62,7 +62,7 @@ if ( fabs(exp-act) > ((fabs(exp)*TEST_DOUBLE_EPSILON)+TEST_DOUBLE_TINIEST) ) \
 #define TEST_FLOAT_TINIEST 1.40e-43
 #define TEST_EXPECT_EQUAL_FLOAT(EXPECTED,ACTUAL)\
 {const float exp = (EXPECTED); const float act = (ACTUAL);\
-if ( fabs(exp-act) > ((fabs(exp)*TEST_FLOAT_EPSILON)+TEST_FLOAT_TINIEST) ) \
+if (( fabs(exp-act) > ((fabs(exp)*TEST_FLOAT_EPSILON)+TEST_FLOAT_TINIEST) )||( isnan(act) )) \
 {fprintf(stderr,"TEST FAILED ((%s)==%f!=%f==(%s)) at %s:%d\n",\
 #EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }

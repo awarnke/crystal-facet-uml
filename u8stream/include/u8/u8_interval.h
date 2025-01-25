@@ -78,12 +78,12 @@ static inline double u8_interval_get_low ( const u8_interval_t *this_ );
 static inline double u8_interval_get_high ( const u8_interval_t *this_ );
 
 /*!
- *  \brief gets the width
+ *  \brief gets the width/size of the interval
  *
  *  \param this_ pointer to own object attributes
- *  \return the width of the interval
+ *  \return the size of the interval
  */
-static inline double u8_interval_get_width ( const u8_interval_t *this_ );
+static inline double u8_interval_get_size ( const u8_interval_t *this_ );
 
 #include "u8/u8_interval.inl"
 

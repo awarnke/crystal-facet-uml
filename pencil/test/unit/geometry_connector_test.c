@@ -475,7 +475,7 @@ static test_case_result_t test_get_same_path_length_rect( test_fixture_t *fix )
     result = geometry_connector_get_same_path_length_rect( &my_connector_1, &my_rectangle_2, 2.1 /* max_distance */ );
     TEST_EXPECT_EQUAL_DOUBLE( 27.0, result );
 
-    /* test case U next to rect */
+    /* test case U in proximity to rect */
     geometry_connector_init_horizontal( &my_connector_1,
                                         10.0 /*source_end_x*/,
                                         10.0 /*source_end_y*/,
@@ -495,8 +495,44 @@ static test_case_result_t test_get_same_path_length_conn( test_fixture_t *fix )
     double result;
     geometry_connector_t my_connector_1;
     geometry_connector_t my_connector_2;
+
+    /* test case C around C */
+    geometry_connector_init_vertical( &my_connector_1,
+                                      20.0 /*source_end_x*/,
+                                      10.0 /*source_end_y*/,
+                                      20.0 /*destination_end_x*/,
+                                      30.0 /*destination_end_y*/,
+                                      10.0 /*main_line_x*/
+                                    );
+    geometry_connector_init_vertical( &my_connector_2,
+                                      25.0 /*source_end_x*/,
+                                      11.0 /*source_end_y*/,
+                                      25.0 /*destination_end_x*/,
+                                      20.0 /*destination_end_y*/,
+                                      9.0 /*main_line_x*/
+                                    );
     result = geometry_connector_get_same_path_length_conn( &my_connector_1, &my_connector_2, 2.1 /* max_distance */ );
-    return TEST_CASE_RESULT_ERR;
+    TEST_EXPECT_EQUAL_DOUBLE( 19.0, result );
+
+    /* test case C cuts U */
+    geometry_connector_init_vertical( &my_connector_1,
+                                      20.0 /*source_end_x*/,
+                                      10.0 /*source_end_y*/,
+                                      20.0 /*destination_end_x*/,
+                                      30.0 /*destination_end_y*/,
+                                      10.0 /*main_line_x*/
+                                    );
+    geometry_connector_init_horizontal( &my_connector_2,
+                                        13.0 /*source_end_x*/,
+                                        8.0 /*source_end_y*/,
+                                        17.0 /*destination_end_x*/,
+                                        8.0 /*destination_end_y*/,
+                                        31.0 /*main_line_x*/
+                                      );
+    result = geometry_connector_get_same_path_length_conn( &my_connector_1, &my_connector_2, 2.1 /* max_distance */ );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, result );
+
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t test_calc_waypoint_good( test_fixture_t *fix )

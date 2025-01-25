@@ -38,7 +38,7 @@ static inline u8_interval_t u8_interval_new_intersect ( const u8_interval_t *a, 
 
 static inline bool u8_interval_is_valid ( const u8_interval_t *this_ )
 {
-    return (( (*this_).low != NAN )&&( (*this_).high != NAN ));
+    return (( ! isnan( (*this_).low ) )&&( ! isnan( (*this_).high ) ));
 }
 
 static inline double u8_interval_get_low ( const u8_interval_t *this_ )
@@ -51,7 +51,7 @@ static inline double u8_interval_get_high ( const u8_interval_t *this_ )
     return (*this_).high;
 }
 
-static inline double u8_interval_get_width ( const u8_interval_t *this_ )
+static inline double u8_interval_get_size ( const u8_interval_t *this_ )
 {
     return u8_interval_is_valid( this_ ) ? ( (*this_).high - (*this_).low ) : 0.0;
 }
