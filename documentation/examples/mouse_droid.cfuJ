@@ -2083,7 +2083,7 @@
         "description": [
                 "This section lists the risks and not-yet-addressed requirements. (Solution Space, Software Level L3)"
         ],
-        "list_order": 360448,
+        "list_order": 344064,
         "display_flags": 0,
         "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
@@ -4417,7 +4417,7 @@
             "description": [
                 ""
             ],
-            "list_order": 886197654,
+            "list_order": 915814031,
             "uuid": "a538b940-007d-4236-991f-b2e674e0c275"
           },
           {

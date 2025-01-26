@@ -18,22 +18,34 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ )
 {
 }
 
+/* NO-GOs */
+
 /* if an object is forbidden (e.g. german swastika): */
 #define LAYOUT_QUALITY_WEIGHT_FORBIDDEN (1000000.0)
 /* if an object is not fully contained in the diagrams drawing area: */
 #define LAYOUT_QUALITY_WEIGHT_NOT_IN_DIAGRAM_AREA (1000.0)
+
+/* OVERLAPS */
+
 /* if an objects label or type-icon crosses another objects label or type-icon: */
 #define LAYOUT_QUALITY_WEIGHT_LABEL_OVERLAP (100.0)
-/* if an object shall be avoided to find nice solutions and not run into a local layouting optimum that is forbidden: */
-#define LAYOUT_QUALITY_WEIGHT_AVOID (10.0)
 /* if an objects label or type-icon crosses another objects contour or connection line: */
 #define LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE (10.0)
 /* if an objects contour or connection line is shared with another objects contour or connection line: */
 #define LAYOUT_QUALITY_WEIGHT_SHARED_LINES (10.0)
 /* if an objects contour or connection line crosses another objects contour or connection line: */
-#define LAYOUT_QUALITY_WEIGHT_CROSS_LINES (1.0)
+#define LAYOUT_QUALITY_WEIGHT_CROSS_LINES (20.0)
+/* if an objects contour or connection line crosses another objects envelope-area: */
+#define LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA (5.0)
+/* if an objects envelope-area crosses another objects envelope-area: */
+#define LAYOUT_QUALITY_WEIGHT_CROSS_AREAS (1.0)
+
+/* SUBOPTIMAL LOCATIONS OR DISTANCES */
+
+/* if an object shall be avoided to find nice solutions and not run into a local layouting optimum that is forbidden: */
+#define LAYOUT_QUALITY_WEIGHT_AVOID (10.0)
 /* if a location is not nice (too short line segment, too far from source or target): */
-#define LAYOUT_QUALITY_WEIGHT_LOCATION (0.5)
+#define LAYOUT_QUALITY_WEIGHT_LOCATION (1.0)
 /* if an objects contour, label or type-icon is too far from the target location or a connection line is longer than needed: */
 #define LAYOUT_QUALITY_WEIGHT_DISTANCE (0.1)
 
@@ -93,7 +105,7 @@ static inline double layout_quality_debts_class_class( const layout_quality_t *t
         else
         {
             const double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
-            debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES * probe_intersect_area;
+            debts += LAYOUT_QUALITY_WEIGHT_CROSS_AREAS * probe_intersect_area;
         }
     }
     /* else no intersect/overlap of symbol box */
@@ -179,11 +191,11 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     const double delta_source
         = fmin( fabs( geometry_connector_get_source_end_x( probe ) - src_center_x ),
                 fabs( geometry_connector_get_source_end_y( probe ) - src_center_y ) );
-    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_source * ( 2.0 * line_corridor );
+    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_source * ( line_corridor );
     const double delta_destination
         = fmin( fabs( geometry_connector_get_destination_end_x( probe ) - dst_center_x ),
                 fabs( geometry_connector_get_destination_end_y( probe ) - dst_center_y ) );
-    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_destination * ( 2.0 * line_corridor );
+    debts += LAYOUT_QUALITY_WEIGHT_LOCATION * delta_destination * ( line_corridor );
 
     /* prefer left-hand angles over right-handed */
     const geometry_3dir_t pattern = geometry_connector_get_directions( probe );
@@ -313,7 +325,7 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
 
         const geometry_rectangle_t *const classifier_symbol_box
             = layout_visible_classifier_get_symbol_box_const( other );
-        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES
+        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
             * geometry_connector_get_transit_length( probe, classifier_symbol_box ) * line_corridor;
         const double same_path
             = geometry_connector_get_same_path_length_rect( probe,
@@ -345,7 +357,7 @@ static inline double layout_quality_debts_conn_sym( const layout_quality_t *this
     const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
     const double line_width = pencil_size_get_standard_line_width( (*this_).pencil_size );
 
-    debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES
+    debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
         * geometry_connector_get_transit_length( probe, other ) * line_corridor;
     const double same_path
         = geometry_connector_get_same_path_length_rect( probe, other, 5.0 * line_width ); /* max_distance is 5x line width */
@@ -514,7 +526,7 @@ static inline double layout_quality_debts_label_rel( const layout_quality_t *thi
 
         const geometry_connector_t *const other_shape
             = layout_relationship_get_shape_const( other );
-        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES
+        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
             * geometry_connector_get_transit_length( other_shape, probe ) * line_corridor;
 
         const geometry_rectangle_t *const relationship_label_box

@@ -1,3 +1,16 @@
+crystal-facet-uml (1.62.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Layouting improved when classifier contains itself; less errors:
+  * layouting further modified by adjusting debts
+    OLD layout_good_cases:       ERR=3,  W/C=9,    W/F=3,   W/L=25,   W/R=71
+    OLD layout_challenging_cases ERR=37, W/C=9433, W/F=531, W/L=6622, W/R=7844
+    NEW layout_good_cases        ERR=0,  W/C=8,    W/F=2,   W/L=25,   W/R=64
+    NEW layout_challenging_cases ERR=32, W/C=9710, W/F=510, W/L=6716, W/R=8492
+    The diagrams look more orderly - even if this is not reflected in the stats
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 26 Jan 2025 15:30:00 +0100
+
 crystal-facet-uml (1.62.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
