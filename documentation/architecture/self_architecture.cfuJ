@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.62.2"
+    "generator_version": "1.62.3"
   }
   ,
   "views":
@@ -5157,25 +5157,11 @@
         "diagramelements":
         [
           {
-            "id": 830,
-            "display_flags": 0,
-            "classifier_name": "DATA FILE EXISTS",
-            "node": "92b311f2-a941-4130-80b5-2d999f0174cd",
-            "uuid": "e73b6749-d429-409c-bfa0-5a46163bb0f5"
-          },
-          {
             "id": 831,
             "display_flags": 0,
             "classifier_name": "TEMP DB FILE EXISTS",
             "node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
             "uuid": "79357f30-842e-41f4-9057-193988400bf5"
-          },
-          {
-            "id": 832,
-            "display_flags": 0,
-            "classifier_name": "work on model",
-            "node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
-            "uuid": "7f926f9d-7c7f-472e-9bb9-b70d7e748848"
           },
           {
             "id": 833,
@@ -5250,7 +5236,7 @@
           {
             "id": 845,
             "display_flags": 0,
-            "classifier_name": "checksum changed?",
+            "classifier_name": "checksum",
             "node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
             "uuid": "97b21b6b-e3bd-430f-b8d8-242f264115db"
           }
@@ -18311,7 +18297,7 @@
                 ""
         ],
         "x_order": 1474089831,
-        "y_order": -1012513578,
+        "y_order": -1014565162,
         "list_order": -1089631555,
         "uuid": "af4fa45c-aed1-4d4e-bac0-0d6c7eed9edd",
         "features":
@@ -18347,7 +18333,7 @@
                 ""
         ],
         "x_order": 321408711,
-        "y_order": -1012513578,
+        "y_order": -1014565162,
         "list_order": 249278623,
         "uuid": "ca929e7b-f2b6-43f9-8a02-1b9264ac80f3",
         "features":
@@ -18365,7 +18351,7 @@
                 ""
         ],
         "x_order": 321408711,
-        "y_order": -743214894,
+        "y_order": 1081347266,
         "list_order": 841605018,
         "uuid": "edd43c17-505d-4f45-825c-4d8bd8c5e98d",
         "features":
@@ -18489,24 +18475,6 @@
     },
     {
       "classifier": {
-        "id": 502,
-        "main_type": 150,
-        "type": "InterruptibleActivityRegion",
-        "name": "DATA FILE EXISTS",
-        "description": [
-                ""
-        ],
-        "x_order": -1255847425,
-        "y_order": -1096868346,
-        "list_order": -1096868346,
-        "uuid": "92b311f2-a941-4130-80b5-2d999f0174cd",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 503,
         "main_type": 150,
         "type": "InterruptibleActivityRegion",
@@ -18525,24 +18493,6 @@
     },
     {
       "classifier": {
-        "id": 504,
-        "main_type": 110,
-        "type": "Activity",
-        "name": "work on model",
-        "description": [
-                ""
-        ],
-        "x_order": -1362910767,
-        "y_order": -1666925334,
-        "list_order": -1666925334,
-        "uuid": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 505,
         "main_type": 151,
         "type": "InitialNode",
@@ -18551,7 +18501,7 @@
                 ""
         ],
         "x_order": -1381270029,
-        "y_order": -1154323452,
+        "y_order": -1307517898,
         "list_order": -1301527152,
         "uuid": "150d8d95-85eb-4934-a681-93525de34562",
         "features":
@@ -18653,7 +18603,7 @@
                 "If the .tmp-cfu file has the right checksum of the data file stored, then the .tmp-cfu file is more actual (newer).\n",
                 "Otherwise the .cfuJ file is modified and shall not be overwritten."
         ],
-        "x_order": -1091257349,
+        "x_order": -1381270029,
         "y_order": -812452706,
         "list_order": -988493427,
         "uuid": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
@@ -18740,7 +18690,7 @@
         "main_type": 157,
         "type": "DecisionNode",
         "stereotype": "not-yet-implemented",
-        "name": "checksum changed?",
+        "name": "checksum",
         "description": [
                 "If the checksum of the data file changed during focus lost, the data file shall be reloaded."
         ],
@@ -32202,7 +32152,7 @@
         "main_type": 201,
         "type": "Association",
         "stereotype": "reason_argument",
-        "name": "---> has lifeline   /.     <--- context",
+        "name": "has lifeline (<--- context)",
         "description": [
                 ""
         ],
@@ -33375,74 +33325,6 @@
     },
     {
       "relationship": {
-        "id": 850,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1096868346,
-        "from_classifier_name": "DATA FILE EXISTS",
-        "to_classifier_name": "TEMP DB FILE EXISTS",
-        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
-        "to_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
-        "uuid": "f5255631-a8ff-4003-b638-e0d333ea1164"
-      }
-    },
-    {
-      "relationship": {
-        "id": 854,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1154323452,
-        "from_classifier_name": "DATA FILE EXISTS",
-        "to_classifier_name": "parse data file",
-        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
-        "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
-        "uuid": "30b18055-0ad6-4fa1-ace9-db67730e3ca7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 862,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -988493427,
-        "from_classifier_name": "DATA FILE EXISTS",
-        "to_classifier_name": "newer?",
-        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
-        "to_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
-        "uuid": "94e36c33-a7ae-4abd-ada2-9031fd3377f8"
-      }
-    },
-    {
-      "relationship": {
-        "id": 869,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -105420737,
-        "from_classifier_name": "DATA FILE EXISTS",
-        "to_classifier_name": "delete temp db file",
-        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
-        "to_node": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
-        "uuid": "ab6b5a69-d53d-4cb1-804d-67473c274c12"
-      }
-    },
-    {
-      "relationship": {
         "id": 856,
         "main_type": 300,
         "type": "Association",
@@ -33537,61 +33419,10 @@
         ],
         "list_order": -1154323452,
         "from_classifier_name": "TEMP DB FILE EXISTS",
-        "to_classifier_name": "checksum changed?",
+        "to_classifier_name": "checksum",
         "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
         "to_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
         "uuid": "928531f3-3ad1-4f81-9af4-8d9e1d43877a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 851,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "work on model",
-        "to_classifier_name": "DATA FILE EXISTS",
-        "from_node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
-        "to_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
-        "uuid": "e3ce5cd6-f649-4c45-bf25-d3bee5564015"
-      }
-    },
-    {
-      "relationship": {
-        "id": 852,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1301527152,
-        "from_classifier_name": "work on model",
-        "to_classifier_name": "open data file",
-        "from_node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
-        "to_node": "150d8d95-85eb-4934-a681-93525de34562",
-        "uuid": "252b4206-aa75-4d0d-8c9e-cc198bc51eaa"
-      }
-    },
-    {
-      "relationship": {
-        "id": 867,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -503685151,
-        "from_classifier_name": "work on model",
-        "to_classifier_name": "stop work",
-        "from_node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
-        "to_node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
-        "uuid": "25e5feca-3e00-4b68-9e64-445f9195b75b"
       }
     },
     {
@@ -33775,7 +33606,7 @@
         ],
         "list_order": 819200,
         "from_classifier_name": "pause work",
-        "to_classifier_name": "checksum changed?",
+        "to_classifier_name": "checksum",
         "from_node": "482cbb84-526f-4a67-9672-7ed8dceeca5b",
         "to_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
         "uuid": "8fbc2ddb-1119-4b57-a62f-7d0c97248848"
@@ -33786,12 +33617,12 @@
         "id": 886,
         "main_type": 240,
         "type": "ControlFlow",
-        "name": "[yes]",
+        "name": "[changed]",
         "description": [
                 ""
         ],
         "list_order": 753664,
-        "from_classifier_name": "checksum changed?",
+        "from_classifier_name": "checksum",
         "to_classifier_name": "parse data file",
         "from_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
         "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
@@ -33803,12 +33634,12 @@
         "id": 887,
         "main_type": 240,
         "type": "ControlFlow",
-        "name": "[no]",
+        "name": "[unchanged]",
         "description": [
                 ""
         ],
         "list_order": 786432,
-        "from_classifier_name": "checksum changed?",
+        "from_classifier_name": "checksum",
         "to_classifier_name": "do work",
         "from_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
         "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",

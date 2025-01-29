@@ -258,6 +258,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         = layout_relationship_get_from_symbol_box_const ( current_relation );
     const geometry_rectangle_t *const dest_rect
         = layout_relationship_get_to_symbol_box_const ( current_relation );
+    U8_TRACE_INFO_INT_INT( "current list_pos -> index", (*this_).sorted_rel_index, index );
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
@@ -331,6 +332,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                     = layout_relationship_get_shape_const( probe_relationship );
 
                 debts_of_current += layout_quality_debts_conn_conn( &quality, current_solution, probe_shape );
+                /* U8_TRACE_INFO_INT_INT( "solution[idx] vs probe[idx]", solution_idx, probe_index ); */
             }
         }
 

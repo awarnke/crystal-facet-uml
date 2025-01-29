@@ -1,3 +1,10 @@
+crystal-facet-uml (1.62.3-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * bugfix for layouting issue: line intersects were ignored in 1.62.2
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 29 Jan 2025 18:30:00 +0100
+
 crystal-facet-uml (1.62.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

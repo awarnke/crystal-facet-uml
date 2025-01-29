@@ -34,7 +34,7 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ )
 /* if an objects contour or connection line is shared with another objects contour or connection line: */
 #define LAYOUT_QUALITY_WEIGHT_SHARED_LINES (10.0)
 /* if an objects contour or connection line crosses another objects contour or connection line: */
-#define LAYOUT_QUALITY_WEIGHT_CROSS_LINES (20.0)
+#define LAYOUT_QUALITY_WEIGHT_CROSS_LINES (10.0)
 /* if an objects contour or connection line crosses another objects envelope-area: */
 #define LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA (5.0)
 /* if an objects envelope-area crosses another objects envelope-area: */
@@ -166,7 +166,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     }
 
     /* the more length, the more unwanted... */
-    debts += geometry_connector_get_length( probe );
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * geometry_connector_get_length( probe ) * line_corridor;
 
     /* prefer _either_ no _or_ minimum-dist lengths of parts, otherwise line too close to object... */
     const double source_length = geometry_connector_get_source_length( probe );
@@ -330,8 +330,9 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
         const double same_path
             = geometry_connector_get_same_path_length_rect( probe,
                                                             classifier_symbol_box,
-                                                            5.0 * line_width /* max_distance is 5x line width */
+                                                            5.0 * line_width
                                                           );
+         /* ^ max_distance is 5x line width because the contour line of a classifier is 3x linewidth within the bounds */
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * same_path * line_corridor;
 
         const geometry_rectangle_t *const classifier_icon_box
@@ -360,7 +361,8 @@ static inline double layout_quality_debts_conn_sym( const layout_quality_t *this
     debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
         * geometry_connector_get_transit_length( probe, other ) * line_corridor;
     const double same_path
-        = geometry_connector_get_same_path_length_rect( probe, other, 5.0 * line_width ); /* max_distance is 5x line width */
+        = geometry_connector_get_same_path_length_rect( probe, other, 5.0 * line_width );
+    /* ^ max_distance is 5x line width because the contour line of a classifier is 3x linewidth within the bounds */
     debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * same_path * line_corridor;
 
     return debts;
@@ -372,7 +374,7 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
 {
     double debts = 0.0;
 
-    const double line_corridor = 2.0 * pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
     const double line_width = pencil_size_get_standard_line_width( (*this_).pencil_size );
 
     /* get data on probe */
@@ -384,10 +386,10 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
 
     const uint32_t intersects
         = geometry_connector_count_connector_intersects( probe, other );
-    debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES * line_corridor * line_corridor;
+    debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES * intersects * ( line_corridor * line_corridor );
     const double same_path
         = geometry_connector_get_same_path_length_conn( probe, other, 3.0 * line_width );
-    /* max_distance is 3x line width for 1) own line, 2) minimal gap and 3) other line */
+    /* ^ max_distance is 3x line width for 1) own line, 2) minimal gap and 3) other line */
     debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * same_path * line_corridor;
 
     if ( ( bad_pattern_h || bad_pattern_v ) && ( intersects > 0 ) )
