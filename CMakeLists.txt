@@ -168,9 +168,9 @@ endif(CFU_ADD_GCOV_TARGET)
 # ==== ==== ==== ==== ==== ==== ==== ==== run the msys2 deploy script ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_CUSTOM_TARGET(msys2_deploy
-                  ${crystal-facet-uml_SOURCE_DIR}/build/msys2/deploy.sh
-                  ${crystal-facet-uml_SOURCE_DIR}
-                  ${crystal-facet-uml_BINARY_DIR})
+                  ${CMAKE_CURRENT_SOURCE_DIR}/build/msys2/deploy.sh
+                  ${CMAKE_CURRENT_SOURCE_DIR}
+                  ${CMAKE_CURRENT_BINARY_DIR})
 
 
 # Copyright 2018-2025 Andreas Warnke
