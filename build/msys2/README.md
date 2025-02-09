@@ -37,9 +37,8 @@ build (adapt the path to the source code ../crystal-facet-uml):
 >
 > windres ../crystal-facet-uml/build/msys2/crystal-facet-uml.rc -O coff -o tmp/crystal-facet-uml.res
 >
-> cmake -DCOMPILE_IN_LINKER_FLAG="tmp/crystal-facet-uml.res" -DCOMPILE_IN_SOURCE_FILE="tmp/crystal-facet-uml.res" \\
->
->       -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml
+> cmake -DCOMPILE_IN_LINKER_FLAG="tmp/crystal-facet-uml.res" -DCOMPILE_IN_SOURCE_FILE="tmp/crystal-facet-uml.res" \\\
+>       -DCMAKE_C_FLAGS="-mwindows" -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml
 >
 > make --debug=p -j12
 
