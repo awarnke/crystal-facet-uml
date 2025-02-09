@@ -44,28 +44,11 @@ build (adapt the path to the source code ../crystal-facet-uml):
 
 deploy:
 
-> ldd crystal-facet-uml.exe | grep -e 'ucrt' | sort
->
-> echo https://www.gtk.org/docs/installations/windows
+> make msys2_deploy
 
+see also https://www.gtk.org/docs/installations/windows
 
-An information - maybe for later if needed:
+run:
 
-> Note that 'C:/msys64/mingw64/share' is not in the search path
->
-> set by the XDG_DATA_HOME and XDG_DATA_DIRS
->
-> environment variables, so applications may not
->
-> be able to find it until you set them. The
->
-> directories currently searched are:
->
->
-> - C:\msys64\home\andre\.local\share
->
-> - C:\msys64\ucrt64\share\
->
-> - C:\msys64\usr\local\share\
->
-> - C:\msys64\usr\share\
+> append 'C:/msys64/mingw64/share' to XDG_DATA_HOME and XDG_DATA_DIRS
+
