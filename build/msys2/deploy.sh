@@ -18,7 +18,9 @@ echo "The shared libraries are taken from the UCRT64 environment of MSYS2." > cr
 
 mkdir -p crystal-facet-uml/bin
 cp crystal-facet-uml.exe crystal-facet-uml/bin/
+cp test_crystal-facet-uml.exe crystal-facet-uml/bin/
 ldd crystal-facet-uml.exe | grep -e ' /ucrt64' | sed -e 's/^[^/]*\(\S*\).*$/\1/' | xargs cp -t crystal-facet-uml/bin/
+cp /ucrt64/bin/gdbus.exe crystal-facet-uml/bin/
 
 mkdir -p crystal-facet-uml/share/glib-2.0/schemas
 cp /ucrt64/share/glib-2.0/schemas/gschemas.compiled crystal-facet-uml/share/glib-2.0/schemas/
