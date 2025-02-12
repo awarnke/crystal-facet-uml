@@ -12,7 +12,7 @@ crystal-facet-uml dynamically links to libraries
 - cairo
 - pango
 - gio-unix
-- sqlite3 (static linkage for win)
+- sqlite3
 
 It relies on
 - a POSIX OS
