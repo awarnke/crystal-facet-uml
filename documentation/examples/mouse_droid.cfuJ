@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.62.3"
+    "generator_version": "1.62.4-pre2"
   }
   ,
   "views":
@@ -312,13 +312,6 @@
         "uuid": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
         "diagramelements":
         [
-          {
-            "id": 124,
-            "display_flags": 0,
-            "classifier_name": "Electrical Parts and Electronics",
-            "node": "c1419268-c407-4e91-a9de-386c65b7459b",
-            "uuid": "6cf84530-e118-48a1-bd06-45ce4c7c2b01"
-          },
           {
             "id": 125,
             "display_flags": 0,
@@ -1121,7 +1114,7 @@
           {
             "id": 91,
             "display_flags": 0,
-            "classifier_name": "Operate zools",
+            "classifier_name": "Operate tools",
             "node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
             "uuid": "22ec9f93-3e8e-430e-a171-f721d344f00c"
           },
@@ -1193,7 +1186,7 @@
             "id": 242,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Operate zools",
+            "classifier_name": "Operate tools",
             "node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
             "uuid": "bc757720-374a-4c34-9ed0-8687c0682c19"
           },
@@ -4827,7 +4820,7 @@
         "id": 69,
         "main_type": 101,
         "type": "UseCase",
-        "name": "Operate zools",
+        "name": "Operate tools",
         "description": [
                 ""
         ],
@@ -5296,8 +5289,8 @@
                 "- calculating movement actions\n",
                 "  to be performed by base logic (tactics)"
         ],
-        "x_order": -1310350961,
-        "y_order": -703990301,
+        "x_order": -863148120,
+        "y_order": -738100747,
         "list_order": -1529738312,
         "uuid": "267dd099-bd18-4f00-8ac1-ea27009f5250",
         "features":
@@ -5312,6 +5305,8 @@
         "type": "Node",
         "name": "Space Station",
         "description": [
+                "A station allows persons and goods to arrive, stay, leave or transit.\n",
+                "This station is engineered for that purpose; it is not attached to a natural asteroid or planet.\n",
                 ""
         ],
         "x_order": -383445618,
@@ -5330,7 +5325,7 @@
         "type": "Node",
         "name": "Programming Terminal",
         "description": [
-                ""
+                "This terminal programs the next mission for the MoD5G."
         ],
         "x_order": 399546593,
         "y_order": -474887197,
@@ -5348,7 +5343,7 @@
         "type": "Node",
         "name": "Charging Terminal",
         "description": [
-                ""
+                "This terminal charges the energy cell of the MoD5G."
         ],
         "x_order": 399546593,
         "y_order": -539740535,
@@ -5366,7 +5361,7 @@
         "type": "Node",
         "name": "Maintenance Booth",
         "description": [
-                ""
+                "A thie booth, a mechanic analyzes the health of the MoD5G and replaces parts if damaged."
         ],
         "x_order": 399546593,
         "y_order": 514857488,
@@ -5822,13 +5817,12 @@
                 "- programming\n",
                 "- steering the motors\n",
                 "- self-check\n",
-                "\n",
                 "If a list of actions is available,\n",
-                "this logic board can steer the MoD6G\n",
-                "without the help of the main logic board."
+                "this logic board can steer the MoD5G\n",
+                "without further help of the main logic board."
         ],
-        "x_order": -858822106,
-        "y_order": -1669019477,
+        "x_order": -790789043,
+        "y_order": -1607790014,
         "list_order": 807995528,
         "uuid": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
         "features":
@@ -6633,7 +6627,7 @@
         "type": "InitialNode",
         "name": "start operation",
         "description": [
-                ""
+                "After production or repair, this initial state indicates the system start."
         ],
         "x_order": -418684660,
         "y_order": -1137380574,
@@ -6662,7 +6656,7 @@
         "type": "ForkNode",
         "name": "orthogonal",
         "description": [
-                ""
+                "operation mode, power states and heath states are three distinct statemachines that handle their state-transitions independantly."
         ],
         "x_order": -601749482,
         "y_order": -914544445,
@@ -7577,7 +7571,7 @@
         "type": "InteractionUse",
         "name": "Operation Modes",
         "description": [
-                ""
+                "refers to D0053#name"
         ],
         "x_order": -1084878860,
         "y_order": -808409892,
@@ -7993,7 +7987,7 @@
         ],
         "list_order": 38041700,
         "from_classifier_name": "Repair using tools",
-        "to_classifier_name": "Operate zools",
+        "to_classifier_name": "Operate tools",
         "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "4f6d0591-b868-4f72-ae1a-dc946c5a5e6a"
@@ -9792,7 +9786,7 @@
         ],
         "list_order": 38172772,
         "from_classifier_name": "Base Micro Controller",
-        "to_classifier_name": "Operate zools",
+        "to_classifier_name": "Operate tools",
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "ae2b496b-cc41-4be9-9305-cb51f6f7946e"
@@ -10070,7 +10064,7 @@
                 ""
         ],
         "list_order": 38140004,
-        "from_classifier_name": "Operate zools",
+        "from_classifier_name": "Operate tools",
         "to_classifier_name": "Base Micro Controller",
         "from_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "to_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
@@ -11876,7 +11870,7 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "L3Req: Operate motors of tool-arm",
-        "to_classifier_name": "Operate zools",
+        "to_classifier_name": "Operate tools",
         "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "3a931cae-b951-439f-a5a5-a75b4ac9c0b9"

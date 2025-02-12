@@ -27,8 +27,9 @@ LOG_FILE=${LOG_DIR}/log_iconv.txt
 echo "      log: ${LOG_FILE}"
 cd src/libiconv-1*
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
-    make >> ${LOG_FILE} 2>&1
-    make install >> ${LOG_FILE} 2>&1
+    make lib/localcharset.h >> ${LOG_FILE} 2>&1
+    make lib >> ${LOG_FILE} 2>&1
+    cd lib && make install prefix=${PREFIX} exec_prefix=${PREFIX} libdir=${PREFIX}/lib includedir=${PREFIX}/include && cd .. >> ${LOG_FILE} 2>&1
 cd ../..
 echo "      lib: "`ls ${PREFIX}/bin/libiconv*`
 
@@ -51,7 +52,7 @@ cd src/gettext-0*
     sed -i -e 's/\&formatstring_ruby,/\&formatstring_php,/' gettext-tools/src/format.c
     ./configure --host=${HOST} --prefix=${PREFIX} --disable-libasprintf --disable-java \
     --disable-native-java --disable-openmp > ${LOG_FILE} 2>&1
-    make -j4 >> ${LOG_FILE} 2>&1
+    make -j8 >> ${LOG_FILE} 2>&1
     make install >> ${LOG_FILE} 2>&1
 cd ../..
 echo "      lib: "`ls ${PREFIX}/bin/libgettextlib*`

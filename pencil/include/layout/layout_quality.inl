@@ -45,9 +45,9 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ )
 /* if an object shall be avoided to find nice solutions and not run into a local layouting optimum that is forbidden: */
 #define LAYOUT_QUALITY_WEIGHT_AVOID (10.0)
 /* if a location is not nice (too short line segment, too far from source or target): */
-#define LAYOUT_QUALITY_WEIGHT_LOCATION (1.0)
+#define LAYOUT_QUALITY_WEIGHT_LOCATION (3.0)
 /* if an objects contour, label or type-icon is too far from the target location or a connection line is longer than needed: */
-#define LAYOUT_QUALITY_WEIGHT_DISTANCE (0.1)
+#define LAYOUT_QUALITY_WEIGHT_DISTANCE (1.0)
 
 static inline double layout_quality_debts_class_diag( const layout_quality_t *this_,
                                                       const layout_visible_classifier_t *probe,
