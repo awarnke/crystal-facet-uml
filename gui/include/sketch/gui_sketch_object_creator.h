@@ -156,36 +156,6 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
                                                         data_row_t *out_feature_id
                                                       );
 
-/*!
- *  \brief proposes a default name for diagrams
- *
- *  \param this_ pointer to own object attributes
- *  \return a name for a diagram
- */
-const char* gui_sketch_object_creator_private_propose_diagram_name ( gui_sketch_object_creator_t *this_ );
-
-/*!
- *  \brief proposes a default name for classifiers
- *
- *  \param this_ pointer to own object attributes
- *  \param c_type type of the classifier
- *  \return a name for a classifier
- */
-const char* gui_sketch_object_creator_private_propose_classifier_name ( gui_sketch_object_creator_t *this_,
-                                                                        data_classifier_type_t c_type
-                                                                      );
-
-/*!
- *  \brief proposes a default name for features
- *
- *  \param this_ pointer to own object attributes
- *  \param f_type type of the feature
- *  \return a name for a feature
- */
-const char* gui_sketch_object_creator_private_propose_feature_name ( gui_sketch_object_creator_t *this_,
-                                                                     data_feature_type_t f_type
-                                                                   );
-
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */
 
 

@@ -485,14 +485,13 @@ static inline double layout_quality_debts_label_feat( const layout_quality_t *th
 {
     double debts = 0.0;
 
-    const data_feature_t *const probe_f_data
-        = layout_feature_get_data_const( other );
-
     const geometry_rectangle_t *const feature_symbol_box
         = layout_feature_get_symbol_box_const( other );
     if ( geometry_rectangle_is_intersecting( probe, feature_symbol_box ) )
     {
-        /* if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) ) { } else { } - no change for lifelines */
+        /* no special handling for lifelines */
+        /* const data_feature_t *const probe_f_data = layout_feature_get_data_const( other ); */
+        /* if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) ) { } else { } */
         debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE * geometry_rectangle_get_intersect_area( probe, feature_symbol_box );
     }
 

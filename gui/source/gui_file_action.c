@@ -76,7 +76,7 @@ u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filenam
         diag_control = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
         ctrl_diagram_controller_create_root_diagram_if_not_exists( diag_control,
                                                                    DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM,
-                                                                   "New Overview",
+                                                                   "New Diagram",
                                                                    NULL
                                                                  );
 

@@ -2,8 +2,9 @@ crystal-facet-uml (1.62.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * scripts added to build for Windows(TM) using msys2
+  * no fancy names for new objects, only New Diagram, New Element, New Feature
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 29 Jan 2025 18:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 28 Feb 2025 18:30:00 +0100
 
 crystal-facet-uml (1.62.3) UNRELEASED; urgency=medium
 
