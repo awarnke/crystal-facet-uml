@@ -2,6 +2,7 @@
 
 #include "pencil_relationship_2d_layouter.h"
 #include "layout/layout_quality.h"
+#include "layout/layout_relationship_iter.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -253,7 +254,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
     const uint32_t index
         = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
     const layout_relationship_t *const current_relation
-        = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
+        = layout_visible_set_get_relationship_const ( (*this_).layout_data, index );
     const geometry_rectangle_t *const source_rect
         = layout_relationship_get_from_symbol_box_const ( current_relation );
     const geometry_rectangle_t *const dest_rect
@@ -313,7 +314,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             const uint32_t probe_index
                 = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), probe_sort_index );
             const layout_relationship_t *const probe_relationship
-                = layout_visible_set_get_relationship_ptr( (*this_).layout_data, probe_index );
+                = layout_visible_set_get_relationship_const( (*this_).layout_data, probe_index );
 #if 0
             const data_relationship_t *const probe_relation_data
                 = layout_relationship_get_data_const ( probe_relationship );
@@ -1496,7 +1497,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             const uint32_t exist_index
                 = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), exist_sort_index );
             const layout_relationship_t *const exist_relationship
-                = layout_visible_set_get_relationship_ptr( (*this_).layout_data, exist_index );
+                = layout_visible_set_get_relationship_const( (*this_).layout_data, exist_index );
             /* Note: This algorithm ignores the relationship types (same_type), sources and destinations (one_same_end) */
 
             const geometry_connector_t *const exist_shape = layout_relationship_get_shape_const( exist_relationship );
