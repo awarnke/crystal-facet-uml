@@ -21,7 +21,7 @@
  *  \brief attributes of the sketch overlay
  */
 struct gui_sketch_card_painter_struct {
-    gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing */
+    gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing and calculating distances */
 };
 
 typedef struct gui_sketch_card_painter_struct gui_sketch_card_painter_t;

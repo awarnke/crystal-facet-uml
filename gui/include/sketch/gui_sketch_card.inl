@@ -80,11 +80,12 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos( const gui_sketch_
     layout_order_t result;
     pencil_error_t pen_err;
 
+    const double snap_to_grid = gui_sketch_style_get_snap_to_grid( &((*this_).sketch_style) );
     pen_err = pencil_diagram_maker_get_order_at_pos ( &((*this_).painter),
                                                       obj_id,
                                                       (double) x,
                                                       (double) y,
-                                                      (*this_).snap_to_grid_distance,
+                                                      snap_to_grid,
                                                       &result
                                                     );
 

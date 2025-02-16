@@ -9,6 +9,7 @@
  */
 
 #include "sketch/gui_sketch_marker.h"
+#include "sketch/gui_sketch_style.h"
 #include "sketch/gui_sketch_drag_state.h"
 #include "gui_marked_set.h"
 #include "gui_tool.h"
@@ -40,8 +41,7 @@ struct gui_sketch_card_struct {
 
     /* helper classes to perform drawing */
     gui_sketch_marker_t sketch_marker;
-
-    double snap_to_grid_distance;  /*!< number of pixels by which a close-to-grid position is snapped to the grid */
+    gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing and calculating distances */
 };
 
 typedef struct gui_sketch_card_struct gui_sketch_card_t;
@@ -163,16 +163,16 @@ layout_subelement_id_t gui_sketch_card_private_get_feature_at_pos ( const gui_sk
 /*!
  *  \brief gets the id and kind of the relationship-part at a given position
  *
+ *  The maximum snap distance from mouse position to relationship line is given by sketch_style.
+ *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param snap_distance maximum distance to the next connector line when to select the connector
  *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
 layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos ( const gui_sketch_card_t *this_,
                                                                          int32_t x,
-                                                                         int32_t y,
-                                                                         int32_t snap_distance
+                                                                         int32_t y
                                                                        );
 
 /*!

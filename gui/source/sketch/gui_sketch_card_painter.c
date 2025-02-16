@@ -432,7 +432,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
     /* fetch input data: grid */
     const geometry_grid_t *const grid = gui_sketch_card_get_grid_const( card_under_mouse);
     const geometry_grid_kind_t grid_kind = geometry_grid_get_kind( grid );
-    const double snap_interval = 5.0;
+    const double snap_interval = gui_sketch_style_get_snap_to_grid( &((*this_).sketch_style) );
     const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( grid );
     const int32_t order_at_x = geometry_non_linear_scale_get_order( x_scale, (double) x, snap_interval );
     const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( grid );
@@ -744,6 +744,8 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
     assert( NULL != layouted_set );
     assert( NULL != cr );
     const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layouted_set );
+    const double label_border = 2.0;  /* additional visible border that just draws a box nicely, without effect for selecting */
+    const double connector_border = (double) gui_sketch_style_get_snap_to_relationship( &((*this_).sketch_style) );
 
     geometry_rectangle_t highlight;
     geometry_rectangle_init_empty( &highlight );
@@ -840,7 +842,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                 case LAYOUT_SUBELEMENT_KIND_LABEL:
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
-                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 * label_border, 2.0 * label_border );
                     gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
@@ -849,7 +851,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                 case LAYOUT_SUBELEMENT_KIND_OUTLINE:
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_symbol_box_const( the_feature ) );
-                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 * label_border, 2.0 * label_border );
                     gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
@@ -871,7 +873,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                 case LAYOUT_SUBELEMENT_KIND_LABEL:
                 {
                     geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
-                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 * label_border, 2.0 * label_border );
                     gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
@@ -886,7 +888,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                         segment_src = geometry_connector_get_segment_bounds( relationship_shape,
                                                                              GEOMETRY_CONNECTOR_SEGMENT_SOURCE
                                                                            );
-                        geometry_rectangle_expand_4dir( &segment_src, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        geometry_rectangle_expand_4dir( &segment_src, 2.0 * connector_border, 2.0 * connector_border );
                         gui_sketch_card_painter_private_draw_rect( this_, &segment_src, cr );
                     }
                     {
@@ -894,7 +896,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                         segment_dst = geometry_connector_get_segment_bounds( relationship_shape,
                                                                              GEOMETRY_CONNECTOR_SEGMENT_DESTINATION
                                                                            );
-                        geometry_rectangle_expand_4dir( &segment_dst, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        geometry_rectangle_expand_4dir( &segment_dst, 2.0 * connector_border, 2.0 * connector_border );
                         gui_sketch_card_painter_private_draw_rect( this_, &segment_dst, cr );
                     }
                     {
@@ -902,7 +904,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                         segment_main = geometry_connector_get_segment_bounds( relationship_shape,
                                                                               GEOMETRY_CONNECTOR_SEGMENT_MAIN
                                                                             );
-                        geometry_rectangle_expand_4dir( &segment_main, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        geometry_rectangle_expand_4dir( &segment_main, 2.0 * connector_border, 2.0 * connector_border );
                         gui_sketch_card_painter_private_draw_rect( this_, &segment_main, cr );
                     }
                 }
