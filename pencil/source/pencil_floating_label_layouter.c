@@ -1,11 +1,11 @@
-/* File: pencil_label_layout_helper.c; Copyright and License: see below */
+/* File: pencil_floating_label_layouter.c; Copyright and License: see below */
 
-#include "pencil_label_layout_helper.h"
+#include "pencil_floating_label_layouter.h"
 #include "layout/layout_quality.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 
-void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_, const pencil_size_t *pencil_size )
+void pencil_floating_label_layouter_init( pencil_floating_label_layouter_t *this_, const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
 
@@ -13,14 +13,14 @@ void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_, const
     U8_TRACE_END();
 }
 
-void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ )
+void pencil_floating_label_layouter_destroy( pencil_floating_label_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
     U8_TRACE_END();
 }
 
-void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *this_,
+void pencil_floating_label_layouter_select_solution ( pencil_floating_label_layouter_t *this_,
                                                   layout_visible_set_t *layout_data,
                                                   geometry_point_t target_point,
                                                   uint32_t solutions_count,

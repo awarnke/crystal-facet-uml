@@ -1,7 +1,7 @@
-/* File: pencil_label_layout_helper.h; Copyright and License: see below */
+/* File: pencil_floating_label_layouter.h; Copyright and License: see below */
 
-#ifndef PENCIL_LABEL_LAYOUT_HELPER_H
-#define PENCIL_LABEL_LAYOUT_HELPER_H
+#ifndef PENCIL_FLOATING_LABEL_LAYOUTER_H
+#define PENCIL_FLOATING_LABEL_LAYOUTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -21,11 +21,11 @@
  *  \note This class is stateless.
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
-struct pencil_label_layout_helper_struct {
+struct pencil_floating_label_layouter_struct {
     const pencil_size_t *pencil_size;  /*!< the pencil size proposes preferred distances */
 };
 
-typedef struct pencil_label_layout_helper_struct pencil_label_layout_helper_t;
+typedef struct pencil_floating_label_layouter_struct pencil_floating_label_layouter_t;
 
 /*!
  *  \brief initializes the label layout helper
@@ -33,14 +33,14 @@ typedef struct pencil_label_layout_helper_struct pencil_label_layout_helper_t;
  *  \param this_ pointer to own object attributes
  *  \param pencil_size proposal for preferred distances
  */
-void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_, const pencil_size_t *pencil_size );
+void pencil_floating_label_layouter_init( pencil_floating_label_layouter_t *this_, const pencil_size_t *pencil_size );
 
 /*!
  *  \brief destroys the label layout helper
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ );
+void pencil_floating_label_layouter_destroy( pencil_floating_label_layouter_t *this_ );
 
 /*!
  *  \brief selects one solution to layout a label rectangle
@@ -52,7 +52,7 @@ void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ );
  *  \param solutions array of solutions
  *  \param out_index_of_best index of the best solution; must not be NULL.
  */
-void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *this_,
+void pencil_floating_label_layouter_select_solution ( pencil_floating_label_layouter_t *this_,
                                                   layout_visible_set_t *layout_data,
                                                   geometry_point_t target_point,
                                                   uint32_t solutions_count,
@@ -60,7 +60,7 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
                                                   uint32_t *out_index_of_best
                                                 );
 
-#endif  /* PENCIL_LABEL_LAYOUT_HELPER_H */
+#endif  /* PENCIL_FLOATING_LABEL_LAYOUTER_H */
 
 
 /*

@@ -2,6 +2,7 @@
 
 #include "pencil_classifier_2d_layouter.h"
 #include "layout/layout_quality.h"
+#include "layout/layout_visible_classifier_iter.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>

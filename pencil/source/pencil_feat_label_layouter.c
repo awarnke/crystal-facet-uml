@@ -18,7 +18,7 @@ void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     draw_feature_label_init( &((*this_).draw_feature_label) );
-    pencil_label_layout_helper_init ( &((*this_).label_layout_helper), pencil_size );
+    pencil_floating_label_layouter_init ( &((*this_).label_layout_helper), pencil_size );
 
     U8_TRACE_END();
 }
@@ -44,7 +44,7 @@ void pencil_feat_label_layouter_destroy( pencil_feat_label_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    pencil_label_layout_helper_destroy ( &((*this_).label_layout_helper) );
+    pencil_floating_label_layouter_destroy ( &((*this_).label_layout_helper) );
     draw_feature_label_destroy( &((*this_).draw_feature_label) );
 
     U8_TRACE_END();
@@ -96,7 +96,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         }
         else
         {
-            pencil_label_layout_helper_select_solution ( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_select_solution ( &((*this_).label_layout_helper),
                                                          (*this_).layout_data,
                                                          feature_middle,
                                                          solutions_count,

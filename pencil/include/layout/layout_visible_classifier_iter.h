@@ -1,15 +1,15 @@
-/* File: layout_relationship_iter.h; Copyright and License: see below */
+/* File: layout_visible_classifier_iter.h; Copyright and License: see below */
 
-#ifndef LAYOUT_RELATIONSHIP_ITER_H
-#define LAYOUT_RELATIONSHIP_ITER_H
+#ifndef LAYOUT_VISIBLE_CLASSIFIER_ITER_H
+#define LAYOUT_VISIBLE_CLASSIFIER_ITER_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Iterator over sorted arrays of relationships.
+ *  \brief Iterator over sorted arrays of visible classifiers.
  */
 
-#include "layout/layout_relationship.h"
+#include "layout/layout_visible_classifier.h"
 #include "u8list/universal_array_index_sorter.h"
 #include "u8list/universal_array_list.h"
 #include <stdint.h>
@@ -18,32 +18,32 @@
 /*!
  *  \brief attributes of the iterator
  */
-struct layout_relationship_iter_struct {
+struct layout_visible_classifier_iter_struct {
     uint32_t next_idx;  /*!< next index on the order index_sorter, not the index in items */
     const universal_array_list_t *items;
     const universal_array_index_sorter_t *order;
 };
 
-typedef struct layout_relationship_iter_struct layout_relationship_iter_t;
+typedef struct layout_visible_classifier_iter_struct layout_visible_classifier_iter_t;
 
 /*!
- *  \brief initializes the layout_relationship_iter_t
+ *  \brief initializes the layout_visible_classifier_iter_t
  *
  *  \param this_ pointer to own object attributes
  *  \param items array of items to iterate over
  *  \param order sorted list of indexes which determine the order
  */
-static inline void layout_relationship_iter_init( layout_relationship_iter_t *this_,
-                                                  const universal_array_list_t *items,
-                                                  const universal_array_index_sorter_t *order
-                                                );
+static inline void layout_visible_classifier_iter_init( layout_visible_classifier_iter_t *this_,
+                                                        const universal_array_list_t *items,
+                                                        const universal_array_index_sorter_t *order
+                                                      );
 
 /*!
- *  \brief destroys the layout_relationship_iter_t
+ *  \brief destroys the layout_visible_classifier_iter_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void layout_relationship_iter_destroy( layout_relationship_iter_t *this_ );
+static inline void layout_visible_classifier_iter_destroy( layout_visible_classifier_iter_t *this_ );
 
 /*!
  *  \brief checks if there are more elements
@@ -53,19 +53,19 @@ static inline void layout_relationship_iter_destroy( layout_relationship_iter_t 
  *  \param this_ pointer to own object attributes
  *  \return true if there is at least one more element.
  */
-static inline bool layout_relationship_iter_has_next( const layout_relationship_iter_t *this_ );
+static inline bool layout_visible_classifier_iter_has_next( const layout_visible_classifier_iter_t *this_ );
 
 /*!
- *  \brief gets the next layout_relationship_t if there are more, NULL otherwise.
+ *  \brief gets the next layout_visible_classifier_t if there are more, NULL otherwise.
  *
  *  \param this_ pointer to own object attributes
- *  \return the next layout_relationship_t
+ *  \return the next layout_visible_classifier_t
  */
-static inline const layout_relationship_t *layout_relationship_iter_next_const( layout_relationship_iter_t *this_ );
+static inline const layout_visible_classifier_t *layout_visible_classifier_iter_next_const( layout_visible_classifier_iter_t *this_ );
 
-#include "layout_relationship_iter.inl"
+#include "layout_visible_classifier_iter.inl"
 
-#endif  /* LAYOUT_RELATIONSHIP_ITER_H */
+#endif  /* LAYOUT_VISIBLE_CLASSIFIER_ITER_H */
 
 
 /*
