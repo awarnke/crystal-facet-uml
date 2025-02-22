@@ -1,6 +1,7 @@
 /* File: pencil_rel_label_layouter.c; Copyright and License: see below */
 
 #include "pencil_rel_label_layouter.h"
+#include "layout/layout_relationship_iter.h"
 #include "geometry/geometry_point.h"
 #include "geometry/geometry_direction.h"
 #include "u8/u8_trace.h"
@@ -65,15 +66,12 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
     pencil_rel_label_layouter_private_propose_processing_order ( this_, &sorted );
 
     /* layout the relationship label-boxes */
-    const uint32_t count_sorted
-        = universal_array_index_sorter_get_count( &sorted );
-    for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
+    layout_relationship_iter_t relationship_iterator;
+    layout_relationship_iter_init( &relationship_iterator, (*this_).layout_data, &sorted );
+    while ( layout_relationship_iter_has_next( &relationship_iterator ) )
     {
         /* determine pointer to relationship */
-        const uint32_t index
-            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-        layout_relationship_t *const current_relation
-            = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const current_relation = layout_relationship_iter_next_ptr( &relationship_iterator );
         geometry_point_t relation_middle = layout_relationship_get_middle ( current_relation );
 
         /* declaration of list of options */
@@ -111,6 +109,7 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         layout_relationship_set_label_box( current_relation, &(solution[index_of_best]) );
     }
 
+    layout_relationship_iter_destroy( &relationship_iterator );
     universal_array_index_sorter_destroy( &sorted );
 
     U8_TRACE_END();

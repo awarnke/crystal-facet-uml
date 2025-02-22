@@ -4,7 +4,7 @@
 #include <assert.h>
 
 static inline void layout_relationship_iter_init( layout_relationship_iter_t *this_,
-                                                  const universal_array_list_t *items,
+                                                  layout_visible_set_t *items,
                                                   const universal_array_index_sorter_t *order )
 {
     (*this_).next_idx = 0;
@@ -24,14 +24,14 @@ static inline bool layout_relationship_iter_has_next( const layout_relationship_
     return ( (*this_).next_idx < universal_array_index_sorter_get_count( (*this_).order ) );
 }
 
-static inline const layout_relationship_t *layout_relationship_iter_next_const( layout_relationship_iter_t *this_ )
+static inline layout_relationship_t *layout_relationship_iter_next_ptr( layout_relationship_iter_t *this_ )
 {
-    const layout_relationship_t *result = NULL;
+    layout_relationship_t *result = NULL;
     if ( layout_relationship_iter_has_next( this_ ) )
     {
         uint32_t array_index = universal_array_index_sorter_get_array_index( (*this_).order, (*this_).next_idx );
-        assert( array_index <= universal_array_list_get_length( (*this_).items ) );
-        result = (const layout_relationship_t*) universal_array_list_get_const( (*this_).items, array_index );
+        assert( array_index < layout_visible_set_get_relationship_count( (*this_).items ) );
+        result = layout_visible_set_get_relationship_ptr( (*this_).items, array_index );
         (*this_).next_idx ++;
     }
     return result;

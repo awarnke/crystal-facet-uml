@@ -10,8 +10,8 @@
  */
 
 #include "layout/layout_relationship.h"
+#include "layout/layout_visible_set.h"
 #include "u8list/universal_array_index_sorter.h"
-#include "u8list/universal_array_list.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -20,7 +20,7 @@
  */
 struct layout_relationship_iter_struct {
     uint32_t next_idx;  /*!< next index on the order index_sorter, not the index in items */
-    const universal_array_list_t *items;
+    layout_visible_set_t *items;
     const universal_array_index_sorter_t *order;
 };
 
@@ -34,7 +34,7 @@ typedef struct layout_relationship_iter_struct layout_relationship_iter_t;
  *  \param order sorted list of indexes which determine the order
  */
 static inline void layout_relationship_iter_init( layout_relationship_iter_t *this_,
-                                                  const universal_array_list_t *items,
+                                                  layout_visible_set_t *items,
                                                   const universal_array_index_sorter_t *order
                                                 );
 
@@ -61,7 +61,7 @@ static inline bool layout_relationship_iter_has_next( const layout_relationship_
  *  \param this_ pointer to own object attributes
  *  \return the next layout_relationship_t
  */
-static inline const layout_relationship_t *layout_relationship_iter_next_const( layout_relationship_iter_t *this_ );
+static inline layout_relationship_t *layout_relationship_iter_next_ptr( layout_relationship_iter_t *this_ );
 
 #include "layout_relationship_iter.inl"
 

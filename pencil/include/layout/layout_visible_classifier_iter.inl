@@ -4,7 +4,7 @@
 #include <assert.h>
 
 static inline void layout_visible_classifier_iter_init( layout_visible_classifier_iter_t *this_,
-                                                        const universal_array_list_t *items,
+                                                        layout_visible_set_t *items,
                                                         const universal_array_index_sorter_t *order )
 {
     (*this_).next_idx = 0;
@@ -24,14 +24,14 @@ static inline bool layout_visible_classifier_iter_has_next( const layout_visible
     return ( (*this_).next_idx < universal_array_index_sorter_get_count( (*this_).order ) );
 }
 
-static inline const layout_visible_classifier_t *layout_visible_classifier_iter_next_const( layout_visible_classifier_iter_t *this_ )
+static inline layout_visible_classifier_t *layout_visible_classifier_iter_next_ptr( layout_visible_classifier_iter_t *this_ )
 {
-    const layout_visible_classifier_t *result = NULL;
+    layout_visible_classifier_t *result = NULL;
     if ( layout_visible_classifier_iter_has_next( this_ ) )
     {
         uint32_t array_index = universal_array_index_sorter_get_array_index( (*this_).order, (*this_).next_idx );
-        assert( array_index <= universal_array_list_get_length( (*this_).items ) );
-        result = (const layout_visible_classifier_t*) universal_array_list_get_const( (*this_).items, array_index );
+        assert( array_index < layout_visible_set_get_visible_classifier_count( (*this_).items ) );
+        result = layout_visible_set_get_visible_classifier_ptr( (*this_).items, array_index );
         (*this_).next_idx ++;
     }
     return result;
