@@ -80,13 +80,13 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         geometry_rectangle_t solution[16];
 
         /* propose options */
-        pencil_rel_label_layouter_private_propose_solutions ( this_,
-                                                              current_relation,
-                                                              font_layout,
-                                                              SOLUTIONS_MAX,
-                                                              solution,
-                                                              &solutions_count
-                                                            );
+        pencil_rel_label_layouter_private_propose_solutions( this_,
+                                                             current_relation,
+                                                             font_layout,
+                                                             SOLUTIONS_MAX,
+                                                             solution,
+                                                             &solutions_count
+                                                           );
 
         /* select best option */
         uint32_t index_of_best;
@@ -96,13 +96,13 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         }
         else
         {
-            pencil_floating_label_layouter_select_solution ( &((*this_).label_layout_helper),
-                                                         (*this_).layout_data,
-                                                         relation_middle,
-                                                         solutions_count,
-                                                         solution,
-                                                         &index_of_best
-                                                       );
+            pencil_floating_label_layouter_select_solution( &((*this_).label_layout_helper),
+                                                            (*this_).layout_data,
+                                                            relation_middle,
+                                                            solutions_count,
+                                                            solution,
+                                                            &index_of_best
+                                                          );
         }
 
         /* store best option to (*this_).layout_data */

@@ -20,12 +20,80 @@ void pencil_floating_label_layouter_destroy( pencil_floating_label_layouter_t *t
     U8_TRACE_END();
 }
 
-void pencil_floating_label_layouter_select_solution ( pencil_floating_label_layouter_t *this_,
-                                                  layout_visible_set_t *layout_data,
-                                                  geometry_point_t target_point,
-                                                  uint32_t solutions_count,
-                                                  const geometry_rectangle_t solutions[],
-                                                  uint32_t *out_index_of_best )
+void pencil_floating_label_layouter_propose_solution_feat( const pencil_floating_label_layouter_t *this_,
+                                                           const geometry_anchor_t *anchor,
+                                                           const geometry_dimensions_t *preferred_dim,
+                                                           const draw_feature_label_t *draw_estimator,
+                                                           const layout_feature_t *feature,
+                                                           const data_profile_part_t *profile,
+                                                           PangoLayout *font_layout,
+                                                           geometry_rectangle_t *out_solution )
+{
+    U8_TRACE_BEGIN();
+
+    pencil_floating_label_layouter_private_propose_solution( this_,
+                                                             anchor,
+                                                             preferred_dim,
+                                                             draw_estimator,
+                                                             feature,
+                                                             NULL,
+                                                             NULL,
+                                                             profile,
+                                                             font_layout,
+                                                             out_solution
+                                                           );
+
+    U8_TRACE_END();
+}
+
+void pencil_floating_label_layouter_propose_solution_rel( const pencil_floating_label_layouter_t *this_,
+                                                          const geometry_anchor_t *anchor,
+                                                          const geometry_dimensions_t *preferred_dim,
+                                                          const draw_relationship_label_t *draw_estimator,
+                                                          const layout_relationship_t *relation,
+                                                          const data_profile_part_t *profile,
+                                                          PangoLayout *font_layout,
+                                                          geometry_rectangle_t *out_solution )
+{
+    U8_TRACE_BEGIN();
+
+    pencil_floating_label_layouter_private_propose_solution( this_,
+                                                             anchor,
+                                                             preferred_dim,
+                                                             NULL,
+                                                             NULL,
+                                                             draw_estimator,
+                                                             relation,
+                                                             profile,
+                                                             font_layout,
+                                                             out_solution
+                                                           );
+
+    U8_TRACE_END();
+}
+
+void pencil_floating_label_layouter_private_propose_solution( const pencil_floating_label_layouter_t *this_,
+                                                              const geometry_anchor_t *anchor,
+                                                              const geometry_dimensions_t *preferred_dim,
+                                                              const draw_feature_label_t *draw_estimator_feat,
+                                                              const layout_feature_t *feature,
+                                                              const draw_relationship_label_t *draw_estimator_rel,
+                                                              const layout_relationship_t *relation,
+                                                              const data_profile_part_t *profile,
+                                                              PangoLayout *font_layout,
+                                                              geometry_rectangle_t *out_solution )
+{
+    U8_TRACE_BEGIN();
+
+    U8_TRACE_END();
+}
+
+void pencil_floating_label_layouter_select_solution( pencil_floating_label_layouter_t *this_,
+                                                     layout_visible_set_t *layout_data,
+                                                     geometry_point_t target_point,
+                                                     uint32_t solutions_count,
+                                                     const geometry_rectangle_t solutions[],
+                                                     uint32_t *out_index_of_best )
 {
     U8_TRACE_BEGIN();
     assert( NULL != solutions );
