@@ -248,6 +248,15 @@ static inline double geometry_rectangle_get_area ( const geometry_rectangle_t *t
 static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *this_, double x, double y );
 
 /*!
+ *  \brief determines if a given point is within geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param point point to check
+ *  \return true if the point is within the rectangle.
+ */
+static inline bool geometry_rectangle_contains_point ( const geometry_rectangle_t *this_, const geometry_point_t *point );
+
+/*!
  *  \brief determines if the given rectangle has a valid (positive) size
  *
  *  \param this_ pointer to own object attributes

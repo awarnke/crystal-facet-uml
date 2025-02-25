@@ -21,6 +21,7 @@ void pencil_floating_label_layouter_destroy( pencil_floating_label_layouter_t *t
 }
 
 void pencil_floating_label_layouter_propose_solution_feat( const pencil_floating_label_layouter_t *this_,
+                                                           layout_visible_set_t *layout_data,
                                                            const geometry_anchor_t *anchor,
                                                            const geometry_dimensions_t *preferred_dim,
                                                            const draw_feature_label_t *draw_estimator,
@@ -32,6 +33,7 @@ void pencil_floating_label_layouter_propose_solution_feat( const pencil_floating
     U8_TRACE_BEGIN();
 
     pencil_floating_label_layouter_private_propose_solution( this_,
+                                                             layout_data,
                                                              anchor,
                                                              preferred_dim,
                                                              draw_estimator,
@@ -47,6 +49,7 @@ void pencil_floating_label_layouter_propose_solution_feat( const pencil_floating
 }
 
 void pencil_floating_label_layouter_propose_solution_rel( const pencil_floating_label_layouter_t *this_,
+                                                          layout_visible_set_t *layout_data,
                                                           const geometry_anchor_t *anchor,
                                                           const geometry_dimensions_t *preferred_dim,
                                                           const draw_relationship_label_t *draw_estimator,
@@ -58,6 +61,7 @@ void pencil_floating_label_layouter_propose_solution_rel( const pencil_floating_
     U8_TRACE_BEGIN();
 
     pencil_floating_label_layouter_private_propose_solution( this_,
+                                                             layout_data,
                                                              anchor,
                                                              preferred_dim,
                                                              NULL,
@@ -72,22 +76,6 @@ void pencil_floating_label_layouter_propose_solution_rel( const pencil_floating_
     U8_TRACE_END();
 }
 
-void pencil_floating_label_layouter_private_propose_solution( const pencil_floating_label_layouter_t *this_,
-                                                              const geometry_anchor_t *anchor,
-                                                              const geometry_dimensions_t *preferred_dim,
-                                                              const draw_feature_label_t *draw_estimator_feat,
-                                                              const layout_feature_t *feature,
-                                                              const draw_relationship_label_t *draw_estimator_rel,
-                                                              const layout_relationship_t *relation,
-                                                              const data_profile_part_t *profile,
-                                                              PangoLayout *font_layout,
-                                                              geometry_rectangle_t *out_solution )
-{
-    U8_TRACE_BEGIN();
-
-    U8_TRACE_END();
-}
-
 void pencil_floating_label_layouter_select_solution( pencil_floating_label_layouter_t *this_,
                                                      layout_visible_set_t *layout_data,
                                                      geometry_point_t target_point,
@@ -96,6 +84,7 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
                                                      uint32_t *out_index_of_best )
 {
     U8_TRACE_BEGIN();
+    assert( NULL != layout_data );
     assert( NULL != solutions );
     assert( solutions_count >= 1 );
     assert( NULL != out_index_of_best );
@@ -109,48 +98,48 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
     double debts_of_best = DBL_MAX;
 
     /* evaluate the solutions by their overlaps with classifiers */
-    for ( uint32_t solution_idx = 0; solution_idx < solutions_count; solution_idx ++ )
+    for ( uint32_t solution_index = 0; solution_index < solutions_count; solution_index ++ )
     {
         /* evalute the debts of this solution */
         double debts_of_current = 0.0;
-        const geometry_rectangle_t * const current_solution = &(solutions[solution_idx]);
+        const geometry_rectangle_t * const current_solution = &(solutions[solution_index]);
 
         /* avoid alternating solutions in case their debts are identical */
-        debts_of_current += 0.1 * solution_idx;
+        debts_of_current += 0.1 * solution_index;
 
         const layout_quality_t quality = layout_quality_new( (*this_).pencil_size );
         debts_of_current += layout_quality_debts_label_diag( &quality, current_solution, &target_point, diagram_layout );
 
         /* iterate over all classifiers */
-        const uint32_t count_clasfy
+        const uint32_t count_classifiers
             = layout_visible_set_get_visible_classifier_count ( layout_data );
-        for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
+        for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
         {
             const layout_visible_classifier_t *const probe_classifier
-                = layout_visible_set_get_visible_classifier_ptr( layout_data, clasfy_index );
+                = layout_visible_set_get_visible_classifier_ptr( layout_data, classifier_index );
 
             debts_of_current += layout_quality_debts_label_class( &quality, current_solution, probe_classifier );
         }
 
         /* iterate over all features */
-        const uint32_t count_feat
+        const uint32_t count_features
             = layout_visible_set_get_feature_count ( layout_data );
-        for ( uint32_t feat_index = 0; feat_index < count_feat; feat_index ++ )
+        for ( uint32_t feature_index = 0; feature_index < count_features; feature_index ++ )
         {
             const layout_feature_t *const probe_feature
-                = layout_visible_set_get_feature_ptr( layout_data, feat_index );
+                = layout_visible_set_get_feature_ptr( layout_data, feature_index );
 
             debts_of_current += layout_quality_debts_label_feat( &quality, current_solution, probe_feature );
         }
 
         /* iterate over all relationships */
-        const uint32_t count_relations
+        const uint32_t count_relationships
             = layout_visible_set_get_relationship_count ( layout_data );
-        for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+        for ( uint32_t relationship_index = 0; relationship_index < count_relationships; relationship_index ++ )
         {
             /* add debts if intersects */
             const layout_relationship_t *const probe_relationship
-                = layout_visible_set_get_relationship_ptr( layout_data, rel_index );
+                = layout_visible_set_get_relationship_ptr( layout_data, relationship_index );
 
             debts_of_current += layout_quality_debts_label_rel( &quality, current_solution, probe_relationship );
         }
@@ -158,7 +147,7 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
         /* update best solution */
         if ( debts_of_current < debts_of_best )
         {
-            index_of_best = solution_idx;
+            index_of_best = solution_index;
             debts_of_best = debts_of_current;
         }
     }
@@ -170,7 +159,7 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
     */
 
     /* output the best */
-    U8_TRACE_INFO_INT_INT("label layout idx, debt:", index_of_best, (int32_t)debts_of_best)
+    U8_TRACE_INFO_INT_INT("floating_label_layout index, debt:", index_of_best, (int32_t)debts_of_best)
     *out_index_of_best = index_of_best;
 
     U8_TRACE_END();

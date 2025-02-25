@@ -5,55 +5,85 @@
 #include <assert.h>
 #include <math.h>
 
-static inline void geometry_anchor_init ( geometry_anchor_t *this_,
-                                          double x,
-                                          double y,
-                                          geometry_h_align_t x_align,
-                                          geometry_v_align_t y_align )
+static inline void geometry_anchor_init( geometry_anchor_t *this_,
+                                         double x,
+                                         double y,
+                                         geometry_h_align_t x_align,
+                                         geometry_v_align_t y_align )
 {
     geometry_point_init( &((*this_).reference_point), x, y );
     (*this_).x_align = x_align;
     (*this_).y_align = y_align;
 }
 
-static inline void geometry_anchor_copy ( geometry_anchor_t *this_, const geometry_anchor_t *original )
+static inline void geometry_anchor_copy( geometry_anchor_t *this_, const geometry_anchor_t *original )
 {
     assert( NULL != original );
     (*this_) = (*original);
 }
 
-static inline void geometry_anchor_replace ( geometry_anchor_t *this_, const geometry_anchor_t *original )
+static inline void geometry_anchor_replace( geometry_anchor_t *this_, const geometry_anchor_t *original )
 {
     assert( NULL != original );
     (*this_) = (*original);
 }
 
-static inline void geometry_anchor_destroy ( geometry_anchor_t *this_ )
+static inline void geometry_anchor_destroy( geometry_anchor_t *this_ )
 {
     geometry_point_destroy( &((*this_).reference_point) );
 }
 
-static inline double geometry_anchor_get_x ( const geometry_anchor_t *this_ )
+static inline double geometry_anchor_get_x( const geometry_anchor_t *this_ )
 {
     return geometry_point_get_x( &((*this_).reference_point) );
 }
 
-static inline double geometry_anchor_get_y ( const geometry_anchor_t *this_ )
+static inline double geometry_anchor_get_y( const geometry_anchor_t *this_ )
 {
     return geometry_point_get_y( &((*this_).reference_point) );
 }
 
-static inline geometry_h_align_t geometry_anchor_get_x_align ( const geometry_anchor_t *this_ )
+static inline geometry_h_align_t geometry_anchor_get_x_align( const geometry_anchor_t *this_ )
 {
     return (*this_).x_align;
 }
 
-static inline geometry_v_align_t geometry_anchor_get_y_align ( const geometry_anchor_t *this_ )
+static inline geometry_v_align_t geometry_anchor_get_y_align( const geometry_anchor_t *this_ )
 {
     return (*this_).y_align;
 }
 
-static inline void geometry_anchor_trace ( const geometry_anchor_t *this_ )
+static inline const geometry_point_t * geometry_anchor_get_point_const( const geometry_anchor_t *this_ )
+{
+    return &((*this_).reference_point);
+}
+
+static inline geometry_rectangle_t geometry_anchor_align_rect( const geometry_anchor_t *this_,
+                                                               const geometry_rectangle_t *unaligned )
+{
+    assert( unaligned != NULL );
+
+    geometry_rectangle_t result;
+    double left = geometry_h_align_get_left( &((*this_).x_align),
+                                             geometry_rectangle_get_width( unaligned ),
+                                             geometry_point_get_x( &((*this_).reference_point) ),
+                                             0.0 /* reference_width is zero, the reference is a point */
+                                           );
+    double top = geometry_v_align_get_top( &((*this_).y_align),
+                                           geometry_rectangle_get_height( unaligned ),
+                                           geometry_point_get_y( &((*this_).reference_point) ),
+                                           0.0 /* reference_height is zero, the reference is a point */
+                                         );
+    geometry_rectangle_init( &result,
+                             left,
+                             top,
+                             geometry_rectangle_get_width( unaligned ),
+                             geometry_rectangle_get_height( unaligned )
+                           );
+    return result;
+}
+
+static inline void geometry_anchor_trace( const geometry_anchor_t *this_ )
 {
     U8_TRACE_INFO( "geometry_anchor_t" );
     U8_TRACE_INFO_INT( "- x:", geometry_point_get_x( &((*this_).reference_point) ) );

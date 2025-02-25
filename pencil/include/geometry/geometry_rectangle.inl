@@ -290,6 +290,11 @@ static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *thi
     return (( (*this_).left <= x )&&( x < (*this_).left + (*this_).width )&&( (*this_).top <= y )&&( y < (*this_).top + (*this_).height ));
 }
 
+static inline bool geometry_rectangle_contains_point ( const geometry_rectangle_t *this_, const geometry_point_t *point )
+{
+    return geometry_rectangle_contains( this_, geometry_point_get_x( point ), geometry_point_get_y( point ) );
+}
+
 static inline double geometry_rectangle_calc_chess_distance ( const geometry_rectangle_t *this_, double x, double y )
 {
     double result = 0.0;

@@ -83,6 +83,14 @@ static inline double geometry_anchor_get_x ( const geometry_anchor_t *this_ );
 static inline double geometry_anchor_get_y ( const geometry_anchor_t *this_ );
 
 /*!
+ *  \brief gets the reference point of geometry_anchor_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the reference point
+ */
+static inline const geometry_point_t * geometry_anchor_get_point_const ( const geometry_anchor_t *this_ );
+
+/*!
  *  \brief gets the horizontal alignment of geometry_anchor_t
  *
  *  \param this_ pointer to own object attributes
@@ -95,6 +103,17 @@ static inline geometry_h_align_t geometry_anchor_get_x_align ( const geometry_an
  *  \param this_ pointer to own object attributes
  */
 static inline geometry_v_align_t geometry_anchor_get_y_align ( const geometry_anchor_t *this_ );
+
+/*!
+ *  \brief gets the vertical alignment coordinate of geometry_anchor_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param unaligned geometry_rectangle to be aligned to this_ anchor
+ *  \return geometry_rectangle aligned to anchor
+ */
+static inline geometry_rectangle_t geometry_anchor_align_rect ( const geometry_anchor_t *this_,
+                                                                const geometry_rectangle_t *unaligned
+                                                              );
 
 /*!
  *  \brief prints the geometry_anchor_t struct to the trace output
