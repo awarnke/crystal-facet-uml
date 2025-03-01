@@ -222,12 +222,39 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
             if ( ( src_dir == GEOMETRY_DIRECTION_UP ) || ( src_dir == GEOMETRY_DIRECTION_DOWN ) )
             {
                 /* right */
+
+
+
+
                 geometry_rectangle_init( &(out_solutions[solution_idx]),
                                          main_line_source_x + gap,
                                          (source_end_y + main_line_source_y - text_height) / 2.0,
                                          text_width,
                                          text_height
                                        );
+
+
+                geometry_anchor_t anchor;
+                geometry_anchor_init( &anchor,
+                                      main_line_source_x + gap,
+                                      (source_end_y + main_line_source_y - text_height) / 2.0,
+                                      GEOMETRY_H_ALIGN_RIGHT,
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+
+                pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+                                                                     (*this_).layout_data,
+                                                                     &anchor,
+                                                                     &label_dim,  /* preferred_dim */
+                                                                     &((*this_).draw_relationship_label),
+                                                                     the_relationship,
+                                                                     (*this_).profile,
+                                                                     font_layout,
+                                                                     &(out_solutions[solution_idx])
+                                                                   );
+
+
+
                 solution_idx ++;
 
                 /* left */
@@ -237,6 +264,27 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                          text_width,
                                          text_height
                                        );
+
+
+                geometry_anchor_init( &anchor,
+                                      main_line_source_x - gap,
+                                      (source_end_y + main_line_source_y - text_height) / 2.0,
+                                      GEOMETRY_H_ALIGN_LEFT,
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+
+                pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+                                                                     (*this_).layout_data,
+                                                                     &anchor,
+                                                                     &label_dim,  /* preferred_dim */
+                                                                     &((*this_).draw_relationship_label),
+                                                                     the_relationship,
+                                                                     (*this_).profile,
+                                                                     font_layout,
+                                                                     &(out_solutions[solution_idx])
+                                                                   );
+
+
                 solution_idx ++;
             }
             else

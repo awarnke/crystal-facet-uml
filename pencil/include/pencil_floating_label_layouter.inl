@@ -6,10 +6,10 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
                                                                             layout_visible_set_t *layout_data,
                                                                             const geometry_anchor_t *anchor,
                                                                             const geometry_dimensions_t *preferred_dim,
-                                                                            const draw_feature_label_t *draw_estimator_feat,
-                                                                            const layout_feature_t *feature,
-                                                                            const draw_relationship_label_t *draw_estimator_rel,
-                                                                            const layout_relationship_t *relation,
+                                                                            draw_feature_label_t *draw_estimator_feat,
+                                                                            const data_feature_t *feature,
+                                                                            draw_relationship_label_t *draw_estimator_rel,
+                                                                            const data_relationship_t *relation,
                                                                             const data_profile_part_t *profile,
                                                                             PangoLayout *font_layout,
                                                                             geometry_rectangle_t *out_solution )
@@ -103,9 +103,44 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
 
     /* if the available solution space has a positive width, layout the label */
     const double available_width = geometry_rectangle_get_width( &available );
-    if ( available_width > pencil_size_get_standard_font_size( (*this_).pencil_size ) )
+    const geometry_dimensions_t available_dim = geometry_rectangle_get_dimensions( &available );
+    bool preferred_fits = geometry_dimensions_can_contain( &available_dim, preferred_dim );
+    if ( preferred_fits )
     {
+        /* no need to re-calculate, just shift */
+        *out_solution = geometry_anchor_align_dim( anchor, preferred_dim );
+    }
+    else if ( available_width > pencil_size_get_standard_font_size( (*this_).pencil_size ) )
+    {
+        /* try to fit the label into the available space */
+        geometry_dimensions_t label_dim;
+        if ( draw_estimator_feat != NULL )
+        {
+            draw_feature_label_get_key_and_value_dimensions( draw_estimator_feat,
+                                                             feature,
+                                                             profile,
+                                                             &available_dim,
+                                                             (*this_).pencil_size,
+                                                             font_layout,
+                                                             &label_dim
+                                                           );
+        }
+        else
+        {
+            draw_relationship_label_get_type_and_name_dimensions( draw_estimator_rel,
+                                                                  relation,
+                                                                  profile,
+                                                                  &available_dim,
+                                                                  (*this_).pencil_size,
+                                                                  font_layout,
+                                                                  &label_dim
+                                                                );
+        }
 
+        *out_solution = geometry_anchor_align_dim( anchor, &label_dim );
+
+        U8_TRACE_INFO_INT_INT("pencil_floating_label: label does not fit to available space", (int) geometry_dimensions_get_width( preferred_dim ), (int) available_width );
+        U8_TRACE_INFO_INT("pencil_floating_label: suitable label width found:", (int) geometry_dimensions_get_width( &label_dim ) );
     }
     else
     {

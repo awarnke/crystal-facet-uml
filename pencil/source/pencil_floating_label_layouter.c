@@ -24,8 +24,8 @@ void pencil_floating_label_layouter_propose_solution_feat( const pencil_floating
                                                            layout_visible_set_t *layout_data,
                                                            const geometry_anchor_t *anchor,
                                                            const geometry_dimensions_t *preferred_dim,
-                                                           const draw_feature_label_t *draw_estimator,
-                                                           const layout_feature_t *feature,
+                                                           draw_feature_label_t *draw_estimator,
+                                                           const data_feature_t *feature,
                                                            const data_profile_part_t *profile,
                                                            PangoLayout *font_layout,
                                                            geometry_rectangle_t *out_solution )
@@ -52,8 +52,8 @@ void pencil_floating_label_layouter_propose_solution_rel( const pencil_floating_
                                                           layout_visible_set_t *layout_data,
                                                           const geometry_anchor_t *anchor,
                                                           const geometry_dimensions_t *preferred_dim,
-                                                          const draw_relationship_label_t *draw_estimator,
-                                                          const layout_relationship_t *relation,
+                                                          draw_relationship_label_t *draw_estimator,
+                                                          const data_relationship_t *relation,
                                                           const data_profile_part_t *profile,
                                                           PangoLayout *font_layout,
                                                           geometry_rectangle_t *out_solution )
