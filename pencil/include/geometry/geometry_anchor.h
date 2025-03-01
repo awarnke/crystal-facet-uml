@@ -23,8 +23,8 @@
  */
 struct geometry_anchor_struct {
     geometry_point_t reference_point;
-    geometry_h_align_t x_align;
-    geometry_v_align_t y_align;
+    geometry_h_align_t x_align;  /*!< align the objects left or right to the reference point */
+    geometry_v_align_t y_align;  /*!< align the objects top or bottmo to the reference point */
 };
 
 typedef struct geometry_anchor_struct geometry_anchor_t;

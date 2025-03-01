@@ -104,7 +104,8 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     /* if the available solution space has a positive width, layout the label */
     const double available_width = geometry_rectangle_get_width( &available );
     const geometry_dimensions_t available_dim = geometry_rectangle_get_dimensions( &available );
-    bool preferred_fits = geometry_dimensions_can_contain( &available_dim, preferred_dim );
+    bool preferred_fits = geometry_dimensions_can_contain( &available_dim, preferred_dim )
+        || ( geometry_dimensions_get_width( preferred_dim ) < 0.000000001 );
     if ( preferred_fits )
     {
         /* no need to re-calculate, just shift */
