@@ -152,6 +152,26 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                                           );
 
 /*!
+ *  \brief initializes the geometry_rectangle_t struct by the difference of moon minus shadow.
+ *
+ *  If the difference is not a rectangle, the algorithm chooses the rectange closest to pivot_point.
+ *
+ *  It is valid if parameters this_ and/or moon and/or shadow are identical (same pointer).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param moon the full rectangle from which to subtract shadow. Must not be NULL
+ *  \param shadow shadow rectangle which to subtract from the full moon. Must not be NULL
+ *  \param pivot_point point that determines the selection of the result in case the difference is not a rectangle.
+ *                     Must not be NULL
+ *  \return 0 in case of success (always)
+ */
+int geometry_rectangle_init_by_difference_at_pivot ( geometry_rectangle_t *this_,
+                                                     const geometry_rectangle_t *moon,
+                                                     const geometry_rectangle_t *shadow,
+                                                     const geometry_point_t *pivot_point
+                                                   );
+
+/*!
  *  \brief destroys the geometry_rectangle_t struct
  *
  *  \param this_ pointer to own object attributes

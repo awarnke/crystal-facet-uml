@@ -419,6 +419,78 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
     return result;
 }
 
+static const double GEOMETRY_RECTANGLE_ZERO = 0.000000001;  /* allow for calculation errors by adding and subtracting */
+
+int geometry_rectangle_init_by_difference_at_pivot( geometry_rectangle_t *this_,
+                                                    const geometry_rectangle_t *moon,
+                                                    const geometry_rectangle_t *shadow,
+                                                    const geometry_point_t *pivot_point )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != moon );
+    assert( NULL != shadow );
+    assert( NULL != pivot_point );
+
+    int result = 0;
+
+    const double moon_left = geometry_rectangle_get_left( moon );
+    const double moon_right = geometry_rectangle_get_right( moon );
+    const double moon_top = geometry_rectangle_get_top( moon );
+    const double moon_bottom = geometry_rectangle_get_bottom( moon );
+    const double moon_width = geometry_rectangle_get_width( moon );
+    const double moon_height = geometry_rectangle_get_height( moon );
+
+    geometry_rectangle_t shadow_intersect;
+    const int empty = geometry_rectangle_init_by_intersect( &shadow_intersect, moon, shadow );
+    if ( empty != 0 )
+    {
+        const double shadow_left = geometry_rectangle_get_left( &shadow_intersect );
+        const double shadow_top = geometry_rectangle_get_top( &shadow_intersect );
+        const double shadow_right = geometry_rectangle_get_right( &shadow_intersect );
+        const double shadow_bottom = geometry_rectangle_get_bottom( &shadow_intersect );
+        const double left_distance = fabs( shadow_left - geometry_point_get_x( pivot_point ) );
+        const double top_distance = fabs( shadow_top - geometry_point_get_y( pivot_point ) );
+        const double right_distance = fabs( shadow_right - geometry_point_get_x( pivot_point ) );
+        const double bottom_distance = fabs( shadow_bottom - geometry_point_get_y( pivot_point ) );
+
+
+        const bool take_left = ( GEOMETRY_RECTANGLE_ZERO < left_distance )&&( left_distance < top_distance )
+            &&( left_distance < right_distance )&&( left_distance < bottom_distance );
+        const bool take_right = ( ! take_left )&&( GEOMETRY_RECTANGLE_ZERO < right_distance )
+            &&( right_distance < top_distance )&&( right_distance < bottom_distance );
+        const bool take_bottom = ( ! take_left )&&( ! take_right )&&( GEOMETRY_RECTANGLE_ZERO < bottom_distance )
+            &&( bottom_distance < top_distance );
+
+        if ( take_left )
+        {
+            /* take left side of shadow_intersect */
+            geometry_rectangle_init ( this_, moon_left, moon_top, shadow_left - moon_left, moon_height );
+        }
+        else if ( take_right )
+        {
+            /* take right side of shadow_intersect */
+            geometry_rectangle_init ( this_, shadow_right, moon_top, moon_right - shadow_right, moon_height );
+        }
+        else if ( take_bottom )
+        {
+            /* take bottom side of shadow_intersect */
+            geometry_rectangle_init ( this_, moon_left, shadow_bottom, moon_width, moon_bottom - shadow_bottom );
+        }
+        else
+        {
+            /* take top side of shadow_intersect */
+            geometry_rectangle_init ( this_, moon_left, moon_top, moon_width, shadow_top - moon_top );
+        }
+    }
+    else
+    {
+        *this_ = *moon;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2020-2025 Andreas Warnke

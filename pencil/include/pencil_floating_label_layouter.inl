@@ -39,7 +39,7 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     const layout_diagram_t *const diagram_layout = layout_visible_set_get_diagram_ptr( layout_data );
     const geometry_rectangle_t *const diagram_draw_rect = layout_diagram_get_draw_area_const( diagram_layout );
 
-    /* start shrinking the available space */
+    /* shrinking the available solution space to anchor-alignment and diagram space */
     geometry_rectangle_t available = geometry_anchor_align_rect( anchor, diagram_draw_rect );
     geometry_rectangle_init_by_intersect( &available, &available, diagram_draw_rect );
 
@@ -49,18 +49,38 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     {
         const layout_visible_classifier_t *const probe_classifier
             = layout_visible_set_get_visible_classifier_ptr( layout_data, classifier_index );
-        const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( probe_classifier );
-        if ( geometry_rectangle_contains_point( space, geometry_anchor_get_point_const( anchor ) ) )
+        const geometry_rectangle_t *const probe_space = layout_visible_classifier_get_space_const( probe_classifier );
+        if ( geometry_rectangle_contains_point( probe_space, geometry_anchor_get_point_const( anchor ) ) )
         {
             /* reference point is inside the space of probe_classifier */
+            /* shrink the available solution space to the classifier space */
+            geometry_rectangle_init_by_intersect( &available, &available, probe_space );
         }
         else
         {
-
+            geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                            &available,
+                                                            layout_visible_classifier_get_symbol_box_const( probe_classifier ),
+                                                            geometry_anchor_get_point_const( anchor )
+                                                          );
+            geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                            &available,
+                                                            layout_visible_classifier_get_label_box_const( probe_classifier ),
+                                                            geometry_anchor_get_point_const( anchor )
+                                                          );
+            /*
+            icon_box is covered by symbol_box
+            geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                            &available,
+                                                            layout_visible_classifier_get_icon_box_const( probe_classifier ),
+                                                            geometry_anchor_get_point_const( anchor )
+                                                          );
+            */
         }
     }
 
     /* iterate over all features */
+    /*
     const uint32_t count_features = layout_visible_set_get_feature_count ( layout_data );
     for ( uint32_t feature_index = 0; feature_index < count_features; feature_index ++ )
     {
@@ -68,14 +88,29 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
             = layout_visible_set_get_feature_ptr( layout_data, feature_index );
         (void) probe_feature;
     }
+    */
 
     /* iterate over all relationships */
+    /*
     const uint32_t count_relationships = layout_visible_set_get_relationship_count ( layout_data );
     for ( uint32_t relationship_index = 0; relationship_index < count_relationships; relationship_index ++ )
     {
         const layout_relationship_t *const probe_relationship
             = layout_visible_set_get_relationship_ptr( layout_data, relationship_index );
         (void) probe_relationship;
+    }
+    */
+
+    /* if the available solution space has a positive width, layout the label */
+    const double available_width = geometry_rectangle_get_width( &available );
+    if ( available_width > pencil_size_get_standard_font_size( (*this_).pencil_size ) )
+    {
+
+    }
+    else
+    {
+        /* there is no space, accept any overlap */
+        *out_solution = geometry_anchor_align_dim( anchor, preferred_dim );
     }
 
     U8_TRACE_END();

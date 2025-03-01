@@ -83,6 +83,31 @@ static inline geometry_rectangle_t geometry_anchor_align_rect( const geometry_an
     return result;
 }
 
+static inline geometry_rectangle_t geometry_anchor_align_dim ( const geometry_anchor_t *this_,
+                                                               const geometry_dimensions_t *unaligned )
+{
+    assert( unaligned != NULL );
+
+    geometry_rectangle_t result;
+    double left = geometry_h_align_get_left( &((*this_).x_align),
+                                             geometry_dimensions_get_width( unaligned ),
+                                             geometry_point_get_x( &((*this_).reference_point) ),
+                                             0.0 /* reference_width is zero, the reference is a point */
+                                           );
+    double top = geometry_v_align_get_top( &((*this_).y_align),
+                                           geometry_dimensions_get_height( unaligned ),
+                                           geometry_point_get_y( &((*this_).reference_point) ),
+                                           0.0 /* reference_height is zero, the reference is a point */
+                                         );
+    geometry_rectangle_init( &result,
+                             left,
+                             top,
+                             geometry_dimensions_get_width( unaligned ),
+                             geometry_dimensions_get_height( unaligned )
+                           );
+    return result;
+}
+
 static inline void geometry_anchor_trace( const geometry_anchor_t *this_ )
 {
     U8_TRACE_INFO( "geometry_anchor_t" );
