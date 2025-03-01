@@ -181,8 +181,10 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                                               font_layout,
                                                               &preferred_label_dim
                                                             );
+        /*
         const double text_width = geometry_dimensions_get_width( &preferred_label_dim );
         const double text_height = geometry_dimensions_get_height( &preferred_label_dim );
+        */./c
 
         /* get layout data */
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
@@ -430,14 +432,17 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
             solution_idx ++;
         }
 
-#if 0
         /* there are 0..2 solutions at the dst line segment */
         if ( geometry_point_calc_chess_distance( &main_dst, &dst_end ) > object_dist )
         {
+            geometry_anchor_t anchor_5;
+            geometry_anchor_t anchor_6;
+
             /* this is a noteworthy line segment */
             if ( ( dst_dir == GEOMETRY_DIRECTION_UP ) || ( dst_dir == GEOMETRY_DIRECTION_DOWN ) )
             {
                 /* right */
+                /*
                 geometry_rectangle_init( &(out_solutions[solution_idx]),
                                          main_line_destination_x + gap,
                                          (destination_end_y + main_line_destination_y - text_height) / 2.0,
@@ -445,8 +450,24 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                          text_height
                                        );
                 solution_idx ++;
+                */
+
+                geometry_anchor_init( &anchor_5,
+                                      main_line_destination_x + gap,
+                                      (destination_end_y + main_line_destination_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+
+                geometry_anchor_init( &anchor_6,
+                                      main_line_destination_x - gap,
+                                      (destination_end_y + main_line_destination_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
 
                 /* left */
+                /*
                 geometry_rectangle_init( &(out_solutions[solution_idx]),
                                          main_line_destination_x - text_width - gap,
                                          (destination_end_y + main_line_destination_y - text_height) / 2.0,
@@ -454,10 +475,12 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                          text_height
                                        );
                 solution_idx ++;
+                */
             }
             else
             {
                 /* down */
+                /*
                 geometry_rectangle_init( &(out_solutions[solution_idx]),
                                          (destination_end_x + main_line_destination_x - text_width) / 2.0,
                                          main_line_destination_y + gap,
@@ -465,8 +488,24 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                          text_height
                                        );
                 solution_idx ++;
+                */
+
+                geometry_anchor_init( &anchor_5,
+                                      (destination_end_x + main_line_destination_x) / 2.0,
+                                      main_line_destination_y + gap,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_TOP  /* the reference point is the top of the label */
+                                    );
+
+                geometry_anchor_init( &anchor_6,
+                                      (destination_end_x + main_line_destination_x) / 2.0,
+                                      main_line_destination_y - gap,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom of the label */
+                                    );
 
                 /* up */
+                /*
                 geometry_rectangle_init( &(out_solutions[solution_idx]),
                                          (destination_end_x + main_line_destination_x - text_width) / 2.0,
                                          main_line_destination_y - text_height - gap,
@@ -474,9 +513,35 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                          text_height
                                        );
                 solution_idx ++;
+                */
             }
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+                                                                 (*this_).layout_data,
+                                                                 &anchor_5,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 (*this_).profile,
+                                                                 font_layout,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
+            solution_idx ++;
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+                                                                 (*this_).layout_data,
+                                                                 &anchor_6,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 (*this_).profile,
+                                                                 font_layout,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
+            solution_idx ++;
         }
 
+#if 0
         /* 0..4 at main line source if source end line exists */
         if ( src_dir != GEOMETRY_DIRECTION_CENTER )
         {
