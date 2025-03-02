@@ -1,9 +1,10 @@
-crystal-facet-uml (1.62.4) UNRELEASED; urgency=medium
+crystal-facet-uml (1.63.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * scripts added to build for Windows(TM) using msys2
   * no fancy names for new objects, only New Diagram, New Element, New Feature
   * snapping distance increased for snapping classifiers to grid
+  * layouting of relationship labels consider the surrouding space
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 28 Feb 2025 18:30:00 +0100
 
