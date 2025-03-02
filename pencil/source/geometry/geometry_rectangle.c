@@ -441,8 +441,8 @@ int geometry_rectangle_init_by_difference_at_pivot( geometry_rectangle_t *this_,
     const double moon_height = geometry_rectangle_get_height( moon );
 
     geometry_rectangle_t shadow_intersect;
-    const int empty = geometry_rectangle_init_by_intersect( &shadow_intersect, moon, shadow );
-    if ( empty != 0 )
+    const int no_overlap = geometry_rectangle_init_by_intersect( &shadow_intersect, moon, shadow );
+    if ( no_overlap == 0 )
     {
         const double shadow_left = geometry_rectangle_get_left( &shadow_intersect );
         const double shadow_top = geometry_rectangle_get_top( &shadow_intersect );
@@ -579,29 +579,34 @@ int geometry_rectangle_init_by_difference_at_pivot( geometry_rectangle_t *this_,
         if ( take_left )
         {
             /* take left side of shadow_intersect */
-            geometry_rectangle_init ( this_, moon_left, moon_top, shadow_left - moon_left, moon_height );
+            geometry_rectangle_init( this_, moon_left, moon_top, shadow_left - moon_left, moon_height );
+            U8_TRACE_INFO("left");
         }
         else if ( take_right )
         {
             /* take right side of shadow_intersect */
-            geometry_rectangle_init ( this_, shadow_right, moon_top, moon_right - shadow_right, moon_height );
+            geometry_rectangle_init( this_, shadow_right, moon_top, moon_right - shadow_right, moon_height );
+            U8_TRACE_INFO("right");
         }
         else if ( take_bottom )
         {
             /* take bottom side of shadow_intersect */
-            geometry_rectangle_init ( this_, moon_left, shadow_bottom, moon_width, moon_bottom - shadow_bottom );
+            geometry_rectangle_init( this_, moon_left, shadow_bottom, moon_width, moon_bottom - shadow_bottom );
+            U8_TRACE_INFO("bottom");
         }
         else
         {
             assert( take_top );
             (void) take_top;
             /* take top side of shadow_intersect */
-            geometry_rectangle_init ( this_, moon_left, moon_top, moon_width, shadow_top - moon_top );
+            geometry_rectangle_init( this_, moon_left, moon_top, moon_width, shadow_top - moon_top );
+            U8_TRACE_INFO("top");
         }
     }
     else
     {
         *this_ = *moon;
+        U8_TRACE_INFO("no intersect");
     }
 
     U8_TRACE_END_ERR( result );

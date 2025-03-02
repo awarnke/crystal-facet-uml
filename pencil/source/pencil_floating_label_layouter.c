@@ -152,11 +152,12 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
         }
     }
 
-    /*
+    /* make all alternatives visible */
+#ifndef NDEBUG
     static unsigned int random;
     random ++;
     index_of_best = random % solutions_count;
-    */
+#endif
 
     /* output the best */
     U8_TRACE_INFO_INT_INT("floating_label_layout index, debt:", index_of_best, (int32_t)debts_of_best)

@@ -20,6 +20,7 @@ static test_case_result_t test_difference_2_stripe_candidates( test_fixture_t *f
 static test_case_result_t test_difference_1_candidate( test_fixture_t *fix );
 static test_case_result_t test_expand_4d( test_fixture_t *fix );
 static test_case_result_t test_embrace( test_fixture_t *fix );
+static test_case_result_t test_difference_at_pivot( test_fixture_t *fix );
 
 
 test_suite_t geometry_rectangle_test_get_suite(void)
@@ -42,6 +43,7 @@ test_suite_t geometry_rectangle_test_get_suite(void)
     test_suite_add_test_case( &result, "test_difference_1_candidate", &test_difference_1_candidate );
     test_suite_add_test_case( &result, "test_expand_4d", &test_expand_4d );
     test_suite_add_test_case( &result, "test_embrace", &test_embrace );
+    test_suite_add_test_case( &result, "test_difference_at_pivot", &test_difference_at_pivot );
     return result;
 }
 
@@ -442,6 +444,71 @@ static test_case_result_t test_embrace( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_width( &rect_a ) );
     TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_height( &rect_a ) );
     geometry_rectangle_destroy ( &rect_a );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_difference_at_pivot( test_fixture_t *fix )
+{
+    geometry_rectangle_t rect_moon;
+    geometry_rectangle_t rect_shadow;
+    geometry_rectangle_t diff_rect;
+
+    geometry_rectangle_init ( &rect_moon, 2.0, 2.0, 6.0 /*width*/, 7.0 /*height*/ );
+    geometry_rectangle_init ( &rect_shadow, 3.0, 4.0, 2.0 /*width*/, 1.0 /*height*/ );
+    /*    2 3 4 5 6 7 8 */
+    /* 2  + - - - - - + */
+    /* 3  I           I */
+    /* 4  I + - +     I */
+    /* 5  I + - +     I */
+    /* 6  I           I */
+    /* 7  I           I */
+    /* 8  I           I */
+    /* 9  + - - - - - + */
+
+    /* pivot at left top */
+    geometry_point_t sun_1 = { .x = 1.0, .y = 1.0 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_1 );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    /* pivot at left bottom */
+    geometry_point_t sun_2 = { .x = 2.5, .y = 8.5 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_2 );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    /* pivot at right bottom */
+    geometry_point_t sun_3 = { .x = 5.0, .y = 5.0 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_3 );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    /* pivot at right top */
+    geometry_point_t sun_4 = { .x = 7.0, .y = 3.0 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_4 );
+    TEST_EXPECT_EQUAL_DOUBLE( 6.5, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.5, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    geometry_rectangle_reinit ( &rect_shadow, 1.0, 4.0, 4.0 /*width*/, 5.0 /*height*/ );
+    /*    1 2 3 4 5 6 7 8 */
+    /* 2    + - - - - - + */
+    /* 3    I           I */
+    /* 4  + - - - +     I */
+    /* 5  +       I     I */
+    /* 6  +       I     I */
+    /* 7  +       I     I */
+    /* 8  +       I     I */
+    /* 9  + - - - + - - + */
+
+    /* pivot at left bottom */
+    geometry_point_t sun_5 = { .x = 2.0, .y = 5.0 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_5 );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    geometry_rectangle_destroy ( &rect_moon );
+    geometry_rectangle_destroy ( &rect_shadow );
+    geometry_rectangle_destroy ( &diff_rect );
     return TEST_CASE_RESULT_OK;
 }
 
