@@ -184,7 +184,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         /*
         const double text_width = geometry_dimensions_get_width( &preferred_label_dim );
         const double text_height = geometry_dimensions_get_height( &preferred_label_dim );
-        */./c
+        */
 
         /* get layout data */
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );

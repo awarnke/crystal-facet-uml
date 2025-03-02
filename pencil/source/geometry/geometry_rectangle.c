@@ -448,18 +448,133 @@ int geometry_rectangle_init_by_difference_at_pivot( geometry_rectangle_t *this_,
         const double shadow_top = geometry_rectangle_get_top( &shadow_intersect );
         const double shadow_right = geometry_rectangle_get_right( &shadow_intersect );
         const double shadow_bottom = geometry_rectangle_get_bottom( &shadow_intersect );
+        const double left_width = fabs( shadow_left - moon_left );
+        const double top_height = fabs( shadow_top - moon_top );
+        const double right_width = fabs( shadow_right - moon_right );
+        const double bottom_height = fabs( shadow_bottom - moon_bottom );
         const double left_distance = fabs( shadow_left - geometry_point_get_x( pivot_point ) );
         const double top_distance = fabs( shadow_top - geometry_point_get_y( pivot_point ) );
         const double right_distance = fabs( shadow_right - geometry_point_get_x( pivot_point ) );
         const double bottom_distance = fabs( shadow_bottom - geometry_point_get_y( pivot_point ) );
 
+        bool take_left = false;
+        bool take_top = false;
+        bool take_bottom = false;
+        bool take_right = false;
+        if ( top_distance < bottom_distance )
+        {
+            /* prefer top because it is closer to pivot_point */
 
-        const bool take_left = ( GEOMETRY_RECTANGLE_ZERO < left_distance )&&( left_distance < top_distance )
-            &&( left_distance < right_distance )&&( left_distance < bottom_distance );
-        const bool take_right = ( ! take_left )&&( GEOMETRY_RECTANGLE_ZERO < right_distance )
-            &&( right_distance < top_distance )&&( right_distance < bottom_distance );
-        const bool take_bottom = ( ! take_left )&&( ! take_right )&&( GEOMETRY_RECTANGLE_ZERO < bottom_distance )
-            &&( bottom_distance < top_distance );
+            if ( left_distance < right_distance )
+            {
+                /* prefer left because it is closer to pivot_point */
+
+                if (( left_width > top_height )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
+                {
+                    take_left = true;
+                }
+                else if ( top_height > GEOMETRY_RECTANGLE_ZERO )
+                {
+                    take_top = true;
+                }
+                else
+                {
+                    /* none of the close-by sections exists */
+
+                    if (( right_distance < bottom_distance )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
+                    {
+                        take_right = true;
+                    }
+                    else
+                    {
+                        take_bottom = true;
+                    }
+                }
+            }
+            else
+            {
+                /* prefer right because it is closer to pivot_point */
+
+                if (( right_width > top_height )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
+                {
+                    take_right = true;
+                }
+                else if ( top_height > GEOMETRY_RECTANGLE_ZERO )
+                {
+                    take_top = true;
+                }
+                else
+                {
+                    /* none of the close-by sections exists */
+
+                    if (( left_distance < bottom_distance )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
+                    {
+                        take_left = true;
+                    }
+                    else
+                    {
+                        take_bottom = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            /* prefer bottom because it is closer to pivot_point */
+
+            if ( left_distance < right_distance )
+            {
+                /* prefer left because it is closer to pivot_point */
+
+                if (( left_width > bottom_height )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
+                {
+                    take_left = true;
+                }
+                else if ( bottom_height > GEOMETRY_RECTANGLE_ZERO )
+                {
+                    take_bottom = true;
+                }
+                else
+                {
+                    /* none of the close-by sections exists */
+
+                    if (( right_distance < top_distance )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
+                    {
+                        take_right = true;
+                    }
+                    else
+                    {
+                        take_top = true;
+                    }
+                }
+            }
+            else
+            {
+                /* prefer right because it is closer to pivot_point */
+
+                if (( right_width > bottom_height )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
+                {
+                    take_right = true;
+                }
+                else if ( bottom_height > GEOMETRY_RECTANGLE_ZERO )
+                {
+                    take_bottom = true;
+                }
+                else
+                {
+                    /* none of the close-by sections exists */
+
+                    if (( left_distance < top_distance )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
+                    {
+                        take_left = true;
+                    }
+                    else
+                    {
+                        take_top = true;
+                    }
+                }
+            }
+        }
 
         if ( take_left )
         {
@@ -478,6 +593,8 @@ int geometry_rectangle_init_by_difference_at_pivot( geometry_rectangle_t *this_,
         }
         else
         {
+            assert( take_top );
+            (void) take_top;
             /* take top side of shadow_intersect */
             geometry_rectangle_init ( this_, moon_left, moon_top, moon_width, shadow_top - moon_top );
         }

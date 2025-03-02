@@ -108,6 +108,50 @@ static inline geometry_rectangle_t geometry_anchor_align_dim ( const geometry_an
     return result;
 }
 
+static inline geometry_rectangle_t geometry_anchor_align_dim_bounded ( const geometry_anchor_t *this_,
+                                                                       const geometry_dimensions_t *unaligned,
+                                                                       const geometry_rectangle_t *fence )
+{
+    assert( unaligned != NULL );
+
+    geometry_rectangle_t result;
+
+    const double width = geometry_dimensions_get_width( unaligned );
+    const double height = geometry_dimensions_get_height( unaligned );
+
+    double left = geometry_h_align_get_left( &((*this_).x_align),
+                                             width,
+                                             geometry_point_get_x( &((*this_).reference_point) ),
+                                             0.0 /* reference_width is zero, the reference is a point */
+    );
+    double top = geometry_v_align_get_top( &((*this_).y_align),
+                                           height,
+                                           geometry_point_get_y( &((*this_).reference_point) ),
+                                           0.0 /* reference_height is zero, the reference is a point */
+    );
+
+    /* move the top-left point in case the result rectangle is outside fence */
+    if ( left + width > geometry_rectangle_get_right( fence ) )
+    {
+        left = geometry_rectangle_get_right( fence ) - width;
+    }
+    if ( top + height > geometry_rectangle_get_bottom( fence ) )
+    {
+        top = geometry_rectangle_get_bottom( fence ) - height;
+    }
+    if ( left < geometry_rectangle_get_left( fence ) )
+    {
+        left = geometry_rectangle_get_left( fence );
+    }
+    if ( top < geometry_rectangle_get_top( fence ) )
+    {
+        top = geometry_rectangle_get_top( fence );
+    }
+
+    geometry_rectangle_init( &result, left, top, width, height );
+    return result;
+}
+
 static inline void geometry_anchor_trace( const geometry_anchor_t *this_ )
 {
     U8_TRACE_INFO( "geometry_anchor_t" );

@@ -138,7 +138,7 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
                                                                 );
         }
 
-        *out_solution = geometry_anchor_align_dim( anchor, &label_dim );
+        *out_solution = geometry_anchor_align_dim_bounded( anchor, &label_dim, &available );
 
         U8_TRACE_INFO_INT_INT("pencil_floating_label: label does not fit to available space", (int) geometry_dimensions_get_width( preferred_dim ), (int) available_width );
         U8_TRACE_INFO_INT("pencil_floating_label: suitable label width found:", (int) geometry_dimensions_get_width( &label_dim ) );
