@@ -154,9 +154,11 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
 
     /* make all alternatives visible */
 #ifndef NDEBUG
+#if 0
     static unsigned int random;
     random ++;
     index_of_best = random % solutions_count;
+#endif
 #endif
 
     /* output the best */

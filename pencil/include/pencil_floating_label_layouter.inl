@@ -80,26 +80,46 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     }
 
     /* iterate over all features */
-    /*
     const uint32_t count_features = layout_visible_set_get_feature_count ( layout_data );
     for ( uint32_t feature_index = 0; feature_index < count_features; feature_index ++ )
     {
         const layout_feature_t *const probe_feature
             = layout_visible_set_get_feature_ptr( layout_data, feature_index );
-        (void) probe_feature;
+        geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                        &available,
+                                                        layout_feature_get_symbol_box_const( probe_feature ),
+                                                        geometry_anchor_get_point_const( anchor )
+                                                      );
+        /* note: the label_box may not yet have been initialized in all cases */
     }
-    */
 
     /* iterate over all relationships */
-    /*
     const uint32_t count_relationships = layout_visible_set_get_relationship_count ( layout_data );
     for ( uint32_t relationship_index = 0; relationship_index < count_relationships; relationship_index ++ )
     {
         const layout_relationship_t *const probe_relationship
             = layout_visible_set_get_relationship_ptr( layout_data, relationship_index );
-        (void) probe_relationship;
+        const geometry_connector_t *const conn = layout_relationship_get_shape_const( probe_relationship );
+        const geometry_rectangle_t source = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_SOURCE );
+        const geometry_rectangle_t main = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_MAIN );
+        const geometry_rectangle_t dest = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_DESTINATION );
+        geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                        &available,
+                                                        &source,
+                                                        geometry_anchor_get_point_const( anchor )
+                                                      );
+        geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                        &available,
+                                                        &main,
+                                                        geometry_anchor_get_point_const( anchor )
+                                                      );
+        geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                        &available,
+                                                        &dest,
+                                                        geometry_anchor_get_point_const( anchor )
+                                                      );
+        /* note: the label_box may not yet have been initialized in all cases */
     }
-    */
 
     /* if the available solution space has a positive width, layout the label */
     const double available_width = geometry_rectangle_get_width( &available );

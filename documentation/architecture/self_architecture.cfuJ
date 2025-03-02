@@ -28452,7 +28452,7 @@
         "id": 374,
         "main_type": 240,
         "type": "ControlFlow",
-        "name": "if layout know, draw only",
+        "name": "if layout known, draw only",
         "description": [
                 ""
         ],
