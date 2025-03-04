@@ -56,6 +56,57 @@ static inline bool geometry_offset_equals ( const geometry_offset_t *this_, cons
     return ( ( fabs( (*this_).dx - (*that).dx ) + fabs( (*this_).dy - (*that).dy ) ) < 0.000000001 );
 }
 
+static inline geometry_direction_t geometry_offset_get_direction ( const geometry_offset_t *this_ )
+{
+    geometry_direction_t result;
+    if ( (*this_).dx > 0.000000001 )
+    {
+        if ( (*this_).dy > 0.000000001 )
+        {
+            result = GEOMETRY_DIRECTION_DOWN_RIGHT;
+        }
+        else if ( (*this_).dy < -0.000000001 )
+        {
+            result = GEOMETRY_DIRECTION_UP_RIGHT;
+        }
+        else
+        {
+            result = GEOMETRY_DIRECTION_RIGHT;
+        }
+    }
+    else if ( (*this_).dx < -0.000000001 )
+    {
+        if ( (*this_).dy > 0.000000001 )
+        {
+            result = GEOMETRY_DIRECTION_DOWN_LEFT;
+        }
+        else if ( (*this_).dy < -0.000000001 )
+        {
+            result = GEOMETRY_DIRECTION_UP_LEFT;
+        }
+        else
+        {
+            result = GEOMETRY_DIRECTION_LEFT;
+        }
+    }
+    else
+    {
+        if ( (*this_).dy > 0.000000001 )
+        {
+            result = GEOMETRY_DIRECTION_DOWN;
+        }
+        else if ( (*this_).dy < -0.000000001 )
+        {
+            result = GEOMETRY_DIRECTION_UP;
+        }
+        else
+        {
+            result = GEOMETRY_DIRECTION_CENTER;
+        }
+    }
+    return result;
+}
+
 static inline void geometry_offset_trace ( const geometry_offset_t *this_ )
 {
     U8_TRACE_INFO( "geometry_offset_t" );

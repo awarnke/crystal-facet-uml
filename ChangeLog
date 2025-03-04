@@ -5,10 +5,10 @@ crystal-facet-uml (1.63.0) UNRELEASED; urgency=medium
   * no fancy names for new objects, only New Diagram, New Element, New Feature
   * snapping distance increased for snapping classifiers to grid
   * layouting of relationship labels consider the surrouding space
-    layout_good_cases         ERR=0,  W/C=8,    W/F=2,   W/L=25,   W/R=107
-    layout_challenging_cases  ERR=78, W/C=9751, W/F=516, W/L=6720, W/R=7905
+    layout_good_cases         ERR=0,  W/C=8,    W/F=2,   W/L=25,   W/R=89
+    layout_challenging_cases  ERR=42, W/C=9751, W/F=516, W/L=6720, W/R=8243
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 28 Feb 2025 18:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 08 Mar 2025 18:30:00 +0100
 
 crystal-facet-uml (1.62.3) UNRELEASED; urgency=medium
 

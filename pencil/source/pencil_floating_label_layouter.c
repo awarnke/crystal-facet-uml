@@ -157,7 +157,7 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
 #if 0
     static unsigned int random;
     random ++;
-    index_of_best = random % solutions_count;
+    index_of_best = random % 13 % solutions_count;
 #endif
 #endif
 

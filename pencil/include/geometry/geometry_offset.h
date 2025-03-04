@@ -95,6 +95,16 @@ static inline double geometry_offset_get_dy ( const geometry_offset_t *this_ );
 static inline bool geometry_offset_equals ( const geometry_offset_t *this_, const geometry_offset_t *that );
 
 /*!
+ *  \brief gets the direction of *this_ offset.
+ *
+ *  Negative dy values mean GEOMETRY_DIRECTION_UP, negative dx values mean GEOMETRY_DIRECTION_LEFT. GEOMETRY_DIRECTION_CENTER if offset is zero.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return direction of the offset
+ */
+static inline geometry_direction_t geometry_offset_get_direction ( const geometry_offset_t *this_ );
+
+/*!
  *  \brief prints the geometry_offset_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes

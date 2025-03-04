@@ -108,9 +108,9 @@ static inline geometry_rectangle_t geometry_anchor_align_dim ( const geometry_an
     return result;
 }
 
-static inline geometry_rectangle_t geometry_anchor_align_dim_bounded ( const geometry_anchor_t *this_,
-                                                                       const geometry_dimensions_t *unaligned,
-                                                                       const geometry_rectangle_t *fence )
+static inline geometry_rectangle_t geometry_anchor_align_biased_dim( const geometry_anchor_t *this_,
+                                                                     const geometry_dimensions_t *unaligned,
+                                                                     const geometry_rectangle_t *preferred_location )
 {
     assert( unaligned != NULL );
 
@@ -130,22 +130,34 @@ static inline geometry_rectangle_t geometry_anchor_align_dim_bounded ( const geo
                                            0.0 /* reference_height is zero, the reference is a point */
     );
 
-    /* move the top-left point in case the result rectangle is outside fence */
-    if ( left + width > geometry_rectangle_get_right( fence ) )
+    /* in case of center, allow small moves */
+    if ( (*this_).x_align == GEOMETRY_H_ALIGN_CENTER )
     {
-        left = geometry_rectangle_get_right( fence ) - width;
+        /* center to available space and pull back to anchor */
+        const double reference_x = geometry_point_get_x( &((*this_).reference_point) );
+        left = geometry_rectangle_get_center_x( preferred_location ) - 0.5 * width;
+        if ( left + width < reference_x )
+        {
+            left = reference_x - width;
+        }
+        if ( left > reference_x )
+        {
+            left = reference_x;
+        }
     }
-    if ( top + height > geometry_rectangle_get_bottom( fence ) )
+    if ( (*this_).y_align == GEOMETRY_V_ALIGN_CENTER )
     {
-        top = geometry_rectangle_get_bottom( fence ) - height;
-    }
-    if ( left < geometry_rectangle_get_left( fence ) )
-    {
-        left = geometry_rectangle_get_left( fence );
-    }
-    if ( top < geometry_rectangle_get_top( fence ) )
-    {
-        top = geometry_rectangle_get_top( fence );
+        /* center to available space and pull back to anchor */
+        const double reference_y = geometry_point_get_y( &((*this_).reference_point) );
+        top = geometry_rectangle_get_center_y( preferred_location ) - 0.5 * height;
+        if ( top + height < reference_y )
+        {
+            top = reference_y - height;
+        }
+        if ( top > reference_y )
+        {
+            top = reference_y;
+        }
     }
 
     geometry_rectangle_init( &result, left, top, width, height );
