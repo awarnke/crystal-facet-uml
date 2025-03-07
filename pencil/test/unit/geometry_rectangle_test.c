@@ -503,8 +503,9 @@ static test_case_result_t test_difference_at_pivot( test_fixture_t *fix )
     /* pivot at left bottom */
     geometry_point_t sun_5 = { .x = 2.0, .y = 5.0 };
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_5 );
-    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
-    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_center_y( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.5, geometry_rectangle_get_center_y( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &diff_rect ) );
 
     geometry_rectangle_destroy ( &rect_moon );
     geometry_rectangle_destroy ( &rect_shadow );

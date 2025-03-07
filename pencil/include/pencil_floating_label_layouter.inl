@@ -39,8 +39,12 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     const layout_diagram_t *const diagram_layout = layout_visible_set_get_diagram_ptr( layout_data );
     const geometry_rectangle_t *const diagram_draw_rect = layout_diagram_get_draw_area_const( diagram_layout );
 
-    /* shrinking the available solution space to anchor-alignment and diagram space */
-    geometry_rectangle_t available = geometry_anchor_align_rect( anchor, diagram_draw_rect );
+    /* Start shrinking the available solution space to anchor-alignment and diagram space. */
+    /* To not accidentially shrink to wrong width/height by taking into account far-away elements, */
+    /* start with a smaller rectagle of 3..5 * preferred_dim: This allows for moving by +/- 0.5 and re-sizing by factor 2..4 */
+    geometry_dimensions_t search_area;  /* limit the search area to avoid that far-away elements limit width or height */
+    geometry_dimensions_init( &search_area, 3.0 * geometry_dimensions_get_width( preferred_dim ), 5.0 * geometry_dimensions_get_height( preferred_dim ) );
+    geometry_rectangle_t available = geometry_anchor_align_dim( anchor, &search_area );
     geometry_rectangle_init_by_intersect( &available, &available, diagram_draw_rect );
 
     /* iterate over all classifiers */
@@ -85,12 +89,20 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     {
         const layout_feature_t *const probe_feature
             = layout_visible_set_get_feature_ptr( layout_data, feature_index );
-        geometry_rectangle_init_by_difference_at_pivot( &available,
-                                                        &available,
-                                                        layout_feature_get_symbol_box_const( probe_feature ),
-                                                        geometry_anchor_get_point_const( anchor )
-                                                      );
-        /* note: the label_box may not yet have been initialized in all cases */
+        const data_feature_t *const probe_feature_data = layout_feature_get_data_const( probe_feature );
+        if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( probe_feature_data ) )
+        {
+            geometry_rectangle_init_by_difference_at_pivot( &available,
+                                                            &available,
+                                                            layout_feature_get_symbol_box_const( probe_feature ),
+                                                            geometry_anchor_get_point_const( anchor )
+                                                          );
+            /* note: the label_box may not yet have been initialized in all cases */
+        }
+        else
+        {
+            /* ignore lifelines - otherwise the labels are shrinked to fit between lielines which looks ugly */
+        }
     }
 
     /* iterate over all relationships */

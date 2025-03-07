@@ -419,8 +419,6 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
     return result;
 }
 
-static const double GEOMETRY_RECTANGLE_ZERO = 0.000000001;  /* allow for calculation errors by adding and subtracting */
-
 int geometry_rectangle_init_by_difference_at_pivot( geometry_rectangle_t *this_,
                                                     const geometry_rectangle_t *moon,
                                                     const geometry_rectangle_t *shadow,
@@ -448,165 +446,108 @@ int geometry_rectangle_init_by_difference_at_pivot( geometry_rectangle_t *this_,
         const double shadow_top = geometry_rectangle_get_top( &shadow_intersect );
         const double shadow_right = geometry_rectangle_get_right( &shadow_intersect );
         const double shadow_bottom = geometry_rectangle_get_bottom( &shadow_intersect );
-        const double left_width = fabs( shadow_left - moon_left );
-        const double top_height = fabs( shadow_top - moon_top );
-        const double right_width = fabs( shadow_right - moon_right );
-        const double bottom_height = fabs( shadow_bottom - moon_bottom );
-        const double left_distance = fabs( shadow_left - geometry_point_get_x( pivot_point ) );
-        const double top_distance = fabs( shadow_top - geometry_point_get_y( pivot_point ) );
-        const double right_distance = fabs( shadow_right - geometry_point_get_x( pivot_point ) );
-        const double bottom_distance = fabs( shadow_bottom - geometry_point_get_y( pivot_point ) );
+        const double left_width = shadow_left - moon_left;
+        const double top_height = shadow_top - moon_top;
+        const double right_width = moon_right - shadow_right;
+        const double bottom_height = moon_bottom - shadow_bottom;
 
-        bool take_left = false;
-        bool take_top = false;
-        bool take_bottom = false;
-        bool take_right = false;
-        if ( top_distance < bottom_distance )
+        geometry_direction_t keep;
+        if ( geometry_point_get_x( pivot_point ) <= shadow_left )
         {
-            /* prefer top because it is closer to pivot_point */
-
-            if ( left_distance < right_distance )
+            if ( geometry_point_get_y( pivot_point ) <= shadow_top )
             {
-                /* prefer left because it is closer to pivot_point */
-
-                if (( left_width > top_height )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
-                {
-                    take_left = true;
-                }
-                else if ( top_height > GEOMETRY_RECTANGLE_ZERO )
-                {
-                    take_top = true;
-                }
-                else
-                {
-                    /* none of the close-by sections exists */
-
-                    if (( right_distance < bottom_distance )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
-                    {
-                        take_right = true;
-                    }
-                    else
-                    {
-                        take_bottom = true;
-                    }
-                }
+                keep = ( left_width > top_height ) ? GEOMETRY_DIRECTION_LEFT : GEOMETRY_DIRECTION_UP;
+            }
+            else if ( geometry_point_get_y( pivot_point ) >= shadow_bottom )
+            {
+                keep = ( left_width > bottom_height ) ? GEOMETRY_DIRECTION_LEFT : GEOMETRY_DIRECTION_DOWN;
             }
             else
             {
-                /* prefer right because it is closer to pivot_point */
-
-                if (( right_width > top_height )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
-                {
-                    take_right = true;
-                }
-                else if ( top_height > GEOMETRY_RECTANGLE_ZERO )
-                {
-                    take_top = true;
-                }
-                else
-                {
-                    /* none of the close-by sections exists */
-
-                    if (( left_distance < bottom_distance )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
-                    {
-                        take_left = true;
-                    }
-                    else
-                    {
-                        take_bottom = true;
-                    }
-                }
+                keep = GEOMETRY_DIRECTION_LEFT;
+            }
+        }
+        else if ( geometry_point_get_x( pivot_point ) >= shadow_right )
+        {
+            if ( geometry_point_get_y( pivot_point ) <= shadow_top )
+            {
+                keep = ( right_width > top_height ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_UP;
+            }
+            else if ( geometry_point_get_y( pivot_point ) >= shadow_bottom )
+            {
+                keep = ( right_width > bottom_height ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_DOWN;
+            }
+            else
+            {
+                keep = GEOMETRY_DIRECTION_RIGHT;
             }
         }
         else
         {
-            /* prefer bottom because it is closer to pivot_point */
-
-            if ( left_distance < right_distance )
+            if ( geometry_point_get_y( pivot_point ) <= shadow_top )
             {
-                /* prefer left because it is closer to pivot_point */
-
-                if (( left_width > bottom_height )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
-                {
-                    take_left = true;
-                }
-                else if ( bottom_height > GEOMETRY_RECTANGLE_ZERO )
-                {
-                    take_bottom = true;
-                }
-                else
-                {
-                    /* none of the close-by sections exists */
-
-                    if (( right_distance < top_distance )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
-                    {
-                        take_right = true;
-                    }
-                    else
-                    {
-                        take_top = true;
-                    }
-                }
+                keep = GEOMETRY_DIRECTION_UP;
+            }
+            else if ( geometry_point_get_y( pivot_point ) >= shadow_bottom )
+            {
+                keep = GEOMETRY_DIRECTION_DOWN;
             }
             else
             {
-                /* prefer right because it is closer to pivot_point */
-
-                if (( right_width > bottom_height )&&( right_width > GEOMETRY_RECTANGLE_ZERO ))
+                if ( geometry_point_get_x( pivot_point ) < geometry_rectangle_get_center_x( &shadow_intersect ) )
                 {
-                    take_right = true;
-                }
-                else if ( bottom_height > GEOMETRY_RECTANGLE_ZERO )
-                {
-                    take_bottom = true;
-                }
-                else
-                {
-                    /* none of the close-by sections exists */
-
-                    if (( left_distance < top_distance )&&( left_width > GEOMETRY_RECTANGLE_ZERO ))
+                    if ( geometry_point_get_y( pivot_point ) < geometry_rectangle_get_center_y( &shadow_intersect ) )
                     {
-                        take_left = true;
+                        keep = ( left_width > top_height ) ? GEOMETRY_DIRECTION_LEFT : GEOMETRY_DIRECTION_UP;
                     }
                     else
                     {
-                        take_top = true;
+                        keep = ( left_width > bottom_height ) ? GEOMETRY_DIRECTION_LEFT : GEOMETRY_DIRECTION_DOWN;
+                    }
+                }
+                else
+                {
+                    if ( geometry_point_get_y( pivot_point ) < geometry_rectangle_get_center_y( &shadow_intersect ) )
+                    {
+                        keep = ( right_width > top_height ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_UP;
+                    }
+                    else
+                    {
+                        keep = ( right_width > bottom_height ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_DOWN;
                     }
                 }
             }
         }
 
-        if ( take_left )
+        if ( keep == GEOMETRY_DIRECTION_LEFT )
         {
             /* take left side of shadow_intersect */
             geometry_rectangle_init( this_, moon_left, moon_top, shadow_left - moon_left, moon_height );
-            U8_TRACE_INFO("left");
+            U8_TRACE_INFO_INT_INT( "left: w*h", left_width, moon_height );
         }
-        else if ( take_right )
+        else if ( keep == GEOMETRY_DIRECTION_RIGHT )
         {
             /* take right side of shadow_intersect */
             geometry_rectangle_init( this_, shadow_right, moon_top, moon_right - shadow_right, moon_height );
-            U8_TRACE_INFO("right");
+            U8_TRACE_INFO_INT_INT( "right: w*h", right_width, moon_height);
         }
-        else if ( take_bottom )
+        else if ( keep == GEOMETRY_DIRECTION_DOWN )
         {
             /* take bottom side of shadow_intersect */
             geometry_rectangle_init( this_, moon_left, shadow_bottom, moon_width, moon_bottom - shadow_bottom );
-            U8_TRACE_INFO("bottom");
+            U8_TRACE_INFO_INT_INT( "bottom: w*h", moon_width, bottom_height);
         }
         else
         {
-            assert( take_top );
-            (void) take_top;
             /* take top side of shadow_intersect */
             geometry_rectangle_init( this_, moon_left, moon_top, moon_width, shadow_top - moon_top );
-            U8_TRACE_INFO("top");
+            U8_TRACE_INFO_INT_INT( "top: w*h", moon_width, top_height);
         }
     }
     else
     {
         *this_ = *moon;
-        U8_TRACE_INFO("no intersect");
+        U8_TRACE_INFO_INT_INT( "no intersect: w*h", moon_width, moon_height );
     }
 
     U8_TRACE_END_ERR( result );

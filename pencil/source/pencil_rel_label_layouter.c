@@ -169,7 +169,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
     {
         /* determine label dimensions */
         const geometry_dimensions_t label_dim_proposal = {
-            .width = 15.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
+            .width = 30.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
             .height = pencil_size_get_standard_font_size( (*this_).pencil_size )
         };
         geometry_dimensions_t preferred_label_dim;

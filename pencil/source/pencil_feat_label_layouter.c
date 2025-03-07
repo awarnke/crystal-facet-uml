@@ -189,86 +189,184 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
             .width = 25.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
             .height = pencil_size_get_standard_font_size( (*this_).pencil_size )
         };
-        geometry_dimensions_t label_dim;
+        geometry_dimensions_t preferred_label_dim;
         draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
                                                          feature_data,
                                                          (*this_).profile,
                                                          &label_dim_proposal,
                                                          (*this_).pencil_size,
                                                          font_layout,
-                                                         &label_dim
+                                                         &preferred_label_dim
                                                        );
-        const double text_width = geometry_dimensions_get_width( &label_dim );
-        const double text_height = geometry_dimensions_get_height( &label_dim );
-        const double half_width = text_width/2.0;
-        const double half_height = text_height/2.0;
 
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
         const geometry_rectangle_t *const  bounds = layout_feature_get_symbol_box_const ( current_feature );
         const double left = geometry_rectangle_get_left( bounds );
         const double top = geometry_rectangle_get_top( bounds );
-        const double center_x = geometry_rectangle_get_center_x( bounds );
-        const double center_y = geometry_rectangle_get_center_y( bounds );
         const double bottom = geometry_rectangle_get_bottom( bounds );
         const double right = geometry_rectangle_get_right( bounds );
 
         assert( solutions_max >= 8 );
-        /* top */
-        geometry_rectangle_init( &(out_solutions[0]),
-                                 center_x - half_width,
-                                 top - text_height - gap,
-                                 text_width,
-                                 text_height
-                               );
-        /* bottom */
-        geometry_rectangle_init( &(out_solutions[1]),
-                                 center_x - half_width,
-                                 bottom + gap,
-                                 text_width,
-                                 text_height
-                               );
-        /* left */
-        geometry_rectangle_init( &(out_solutions[2]),
-                                 left - text_width - gap,
-                                 center_y - half_height,
-                                 text_width,
-                                 text_height
-                               );
-        /* right */
-        geometry_rectangle_init( &(out_solutions[3]),
-                                 right + gap,
-                                 center_y - half_height,
-                                 text_width,
-                                 text_height
-                               );
         /* top-left */
-        geometry_rectangle_init( &(out_solutions[4]),
-                                 left - text_width,
-                                 top - text_height,
-                                 text_width,
-                                 text_height
-                               );
+        {
+            geometry_anchor_t anchor_0;
+            geometry_anchor_t anchor_1;
+
+            geometry_anchor_init( &anchor_0,
+                                  left - gap,
+                                  top - gap,
+                                  GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
+                                  GEOMETRY_V_ALIGN_CENTER
+                                );
+            geometry_anchor_init( &anchor_1,
+                                  left - gap,
+                                  top - gap,
+                                  GEOMETRY_H_ALIGN_CENTER,
+                                  GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom side of the label */
+                                );
+
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_0,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[0])
+                                                                );
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_1,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[1])
+                                                                );
+        }
+
         /* top-right */
-        geometry_rectangle_init( &(out_solutions[5]),
-                                 right,
-                                 top - text_height,
-                                 text_width,
-                                 text_height
-                               );
+        {
+            geometry_anchor_t anchor_2;
+            geometry_anchor_t anchor_3;
+
+            geometry_anchor_init( &anchor_2,
+                                  right + gap,
+                                  top - gap,
+                                  GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
+                                  GEOMETRY_V_ALIGN_CENTER
+                                );
+            geometry_anchor_init( &anchor_3,
+                                  right + gap,
+                                  top - gap,
+                                  GEOMETRY_H_ALIGN_CENTER,
+                                  GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom side of the label */
+                                );
+
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_2,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[2])
+                                                                );
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_3,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[3])
+                                                                );
+        }
+
         /* bottom-left */
-        geometry_rectangle_init( &(out_solutions[6]),
-                                 left - text_width,
-                                 bottom,
-                                 text_width,
-                                 text_height
-                               );
+        {
+            geometry_anchor_t anchor_4;
+            geometry_anchor_t anchor_5;
+
+            geometry_anchor_init( &anchor_4,
+                                  left - gap,
+                                  bottom + gap,
+                                  GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
+                                  GEOMETRY_V_ALIGN_CENTER
+                                );
+            geometry_anchor_init( &anchor_5,
+                                  left - gap,
+                                  bottom + gap,
+                                  GEOMETRY_H_ALIGN_CENTER,
+                                  GEOMETRY_V_ALIGN_TOP  /* the reference point is the top side of the label */
+                                );
+
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_4,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[4])
+                                                                );
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_5,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[5])
+                                                                );
+        }
+
         /* bottom-right */
-        geometry_rectangle_init( &(out_solutions[7]),
-                                 right,
-                                 bottom,
-                                 text_width,
-                                 text_height
-                               );
+        {
+            geometry_anchor_t anchor_6;
+            geometry_anchor_t anchor_7;
+
+            geometry_anchor_init( &anchor_6,
+                                  right + gap,
+                                  bottom + gap,
+                                  GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
+                                  GEOMETRY_V_ALIGN_CENTER
+                                );
+            geometry_anchor_init( &anchor_7,
+                                  right + gap,
+                                  bottom + gap,
+                                  GEOMETRY_H_ALIGN_CENTER,
+                                  GEOMETRY_V_ALIGN_TOP  /* the reference point is the top side of the label */
+                                );
+
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_6,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[6])
+                                                                );
+            pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_layout_helper),
+                                                                  (*this_).layout_data,
+                                                                  &anchor_7,
+                                                                  &preferred_label_dim,
+                                                                  &((*this_).draw_feature_label),
+                                                                  feature_data,
+                                                                  (*this_).profile,
+                                                                  font_layout,
+                                                                  &(out_solutions[7])
+                                                                );
+        }
+
         *out_solutions_count = 8;
     }
 
