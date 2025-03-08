@@ -183,7 +183,8 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                             );
 
         /* get layout data */
-        const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+        //const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+        const double gap = 0.5 * pencil_size_get_standard_line_width( (*this_).pencil_size );
         const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
         /* get connector data */

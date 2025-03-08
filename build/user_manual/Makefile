@@ -10,6 +10,7 @@ crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery
 
 html: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.png ${SOURCE}/*.png ${SOURCE}/*.svg ${SOURCE}/4_stereotypes/*.*
 	echo "PLEASE UPDATE DIAGRAMS IN ${SOURCE}/2_feature_gallery_export/ MANUALLY" &&\
+	echo "PLEASE UPDATE DIAGRAMS IN ${SOURCE}/5_modeling_hints_export/ MANUALLY" &&\
 	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml ${SOURCE}/crystal-facet-uml_documentation.xml &&\
 	echo relocate image files &&\
 	cat ${SOURCE}/*.xml | grep -e 'fileref.*png' | sed -e 's#^[^"]*"\([^"]*\)".*#${SOURCE}/\1#' | xargs cp --target-directory=./html &&\
