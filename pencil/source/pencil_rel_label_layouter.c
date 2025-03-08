@@ -183,8 +183,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                             );
 
         /* get layout data */
-        //const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-        const double gap = 0.5 * pencil_size_get_standard_line_width( (*this_).pencil_size );
+        const double line_w = 0.5 * pencil_size_get_standard_line_width( (*this_).pencil_size );
         const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
         /* get connector data */
@@ -227,7 +226,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
             {
                 /* right */
                 geometry_anchor_init( &anchor_1,
-                                      main_line_source_x + gap,
+                                      main_line_source_x + line_w,
                                       (source_end_y + main_line_source_y) / 2.0,
                                       GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
                                       GEOMETRY_V_ALIGN_CENTER
@@ -235,7 +234,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
 
                 /* left */
                 geometry_anchor_init( &anchor_2,
-                                      main_line_source_x - gap,
+                                      main_line_source_x - line_w,
                                       (source_end_y + main_line_source_y) / 2.0,
                                       GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
                                       GEOMETRY_V_ALIGN_CENTER
@@ -243,12 +242,12 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                 /* at bend to main line */
                 geometry_anchor_init( &anchor_3,
                                       main_line_source_x,
-                                      main_line_source_y + (( src_dir == GEOMETRY_DIRECTION_UP ) ? (-gap) : gap ),
+                                      main_line_source_y + (( src_dir == GEOMETRY_DIRECTION_UP ) ? (-line_w) : line_w ),
                                       GEOMETRY_H_ALIGN_CENTER,
                                       ( src_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_BOTTOM : GEOMETRY_V_ALIGN_TOP
                                     );
                 geometry_anchor_init( &anchor_4,
-                                      main_line_source_x + (( main_dir == GEOMETRY_DIRECTION_LEFT ) ? gap : (-gap) ),
+                                      main_line_source_x + (( main_dir == GEOMETRY_DIRECTION_LEFT ) ? line_w : (-line_w) ),
                                       main_line_source_y,
                                       ( main_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_LEFT : GEOMETRY_H_ALIGN_RIGHT,
                                       GEOMETRY_V_ALIGN_CENTER
@@ -259,7 +258,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                 /* down */
                 geometry_anchor_init( &anchor_1,
                                       (source_end_x + main_line_source_x) / 2.0,
-                                      main_line_source_y + gap,
+                                      main_line_source_y + line_w,
                                       GEOMETRY_H_ALIGN_CENTER,
                                       GEOMETRY_V_ALIGN_TOP  /* the reference point is the top of the label */
                                     );
@@ -267,20 +266,20 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                 /* up */
                 geometry_anchor_init( &anchor_2,
                                       (source_end_x + main_line_source_x) / 2.0,
-                                      main_line_source_y - gap,
+                                      main_line_source_y - line_w,
                                       GEOMETRY_H_ALIGN_CENTER,
                                       GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom of the label */
                                     );
                 /* at bend to main line */
                 geometry_anchor_init( &anchor_3,
-                                      main_line_source_x + (( src_dir == GEOMETRY_DIRECTION_LEFT ) ? (-gap) : gap ),
+                                      main_line_source_x + (( src_dir == GEOMETRY_DIRECTION_LEFT ) ? (-line_w) : line_w ),
                                       main_line_source_y,
                                       ( src_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_RIGHT : GEOMETRY_H_ALIGN_LEFT,
                                       GEOMETRY_V_ALIGN_CENTER
                                     );
                 geometry_anchor_init( &anchor_4,
                                       main_line_source_x,
-                                      main_line_source_y + (( main_dir == GEOMETRY_DIRECTION_UP ) ? gap : (-gap) ),
+                                      main_line_source_y + (( main_dir == GEOMETRY_DIRECTION_UP ) ? line_w : (-line_w) ),
                                       GEOMETRY_H_ALIGN_CENTER,
                                       ( main_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_TOP : GEOMETRY_V_ALIGN_BOTTOM
                                     );
@@ -343,13 +342,13 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
             if ( ( main_dir == GEOMETRY_DIRECTION_UP ) || ( main_dir == GEOMETRY_DIRECTION_DOWN ) )
             {
                 geometry_anchor_init( &anchor_5,
-                                      main_line_source_x + gap,
+                                      main_line_source_x + line_w,
                                       (main_line_source_y + main_line_destination_y) / 2.0,
                                       GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
                                       GEOMETRY_V_ALIGN_CENTER
                                     );
                 geometry_anchor_init( &anchor_6,
-                                      main_line_source_x - gap,
+                                      main_line_source_x - line_w,
                                       (main_line_source_y + main_line_destination_y) / 2.0,
                                       GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
                                       GEOMETRY_V_ALIGN_CENTER
@@ -359,13 +358,13 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
             {
                 geometry_anchor_init( &anchor_5,
                                       (main_line_source_x + main_line_destination_x) / 2.0,
-                                      main_line_source_y + gap,
+                                      main_line_source_y + line_w,
                                       GEOMETRY_H_ALIGN_CENTER,
                                       GEOMETRY_V_ALIGN_TOP  /* the reference point is the top of the label */
                                     );
                 geometry_anchor_init( &anchor_6,
                                       (main_line_source_x + main_line_destination_x) / 2.0,
-                                      main_line_source_y - gap,
+                                      main_line_source_y - line_w,
                                       GEOMETRY_H_ALIGN_CENTER,
                                       GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom of the label */
                                     );
@@ -409,27 +408,27 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
             {
                 /* at bend to main line */
                 geometry_anchor_init( &anchor_7,
-                                      main_line_destination_x + (( main_dir == GEOMETRY_DIRECTION_LEFT ) ? (-gap) : gap ),
+                                      main_line_destination_x + (( main_dir == GEOMETRY_DIRECTION_LEFT ) ? (-line_w) : line_w ),
                                       main_line_destination_y,
                                       ( main_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_RIGHT : GEOMETRY_H_ALIGN_LEFT,
                                       GEOMETRY_V_ALIGN_CENTER
                                     );
                 geometry_anchor_init( &anchor_8,
                                       main_line_destination_x,
-                                      main_line_destination_y + (( dst_dir == GEOMETRY_DIRECTION_UP ) ? gap : (-gap) ),
+                                      main_line_destination_y + (( dst_dir == GEOMETRY_DIRECTION_UP ) ? line_w : (-line_w) ),
                                       GEOMETRY_H_ALIGN_CENTER,
                                       ( dst_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_TOP : GEOMETRY_V_ALIGN_BOTTOM
                                     );
                 /* right */
                 geometry_anchor_init( &anchor_9,
-                                      main_line_destination_x + gap,
+                                      main_line_destination_x + line_w,
                                       (destination_end_y + main_line_destination_y) / 2.0,
                                       GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
                                       GEOMETRY_V_ALIGN_CENTER
                                     );
                 /* left */
                 geometry_anchor_init( &anchor_10,
-                                      main_line_destination_x - gap,
+                                      main_line_destination_x - line_w,
                                       (destination_end_y + main_line_destination_y) / 2.0,
                                       GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
                                       GEOMETRY_V_ALIGN_CENTER
@@ -440,12 +439,12 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                 /* at bend to main line */
                 geometry_anchor_init( &anchor_7,
                                       main_line_destination_x,
-                                      main_line_destination_y + (( main_dir == GEOMETRY_DIRECTION_UP ) ? (-gap) : gap ),
+                                      main_line_destination_y + (( main_dir == GEOMETRY_DIRECTION_UP ) ? (-line_w) : line_w ),
                                       GEOMETRY_H_ALIGN_CENTER,
                                       ( main_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_BOTTOM : GEOMETRY_V_ALIGN_TOP
                                     );
                 geometry_anchor_init( &anchor_8,
-                                      main_line_destination_x + (( dst_dir == GEOMETRY_DIRECTION_LEFT ) ? gap : (-gap) ),
+                                      main_line_destination_x + (( dst_dir == GEOMETRY_DIRECTION_LEFT ) ? line_w : (-line_w) ),
                                       main_line_destination_y,
                                       ( dst_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_LEFT : GEOMETRY_H_ALIGN_RIGHT,
                                       GEOMETRY_V_ALIGN_CENTER
@@ -453,7 +452,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                 /* down */
                 geometry_anchor_init( &anchor_9,
                                       (destination_end_x + main_line_destination_x) / 2.0,
-                                      main_line_destination_y + gap,
+                                      main_line_destination_y + line_w,
                                       GEOMETRY_H_ALIGN_CENTER,
                                       GEOMETRY_V_ALIGN_TOP  /* the reference point is the top of the label */
                                     );
@@ -461,7 +460,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                 /* up */
                 geometry_anchor_init( &anchor_10,
                                       (destination_end_x + main_line_destination_x) / 2.0,
-                                      main_line_destination_y - gap,
+                                      main_line_destination_y - line_w,
                                       GEOMETRY_H_ALIGN_CENTER,
                                       GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom of the label */
                                     );

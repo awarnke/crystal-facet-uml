@@ -199,7 +199,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                                          &preferred_label_dim
                                                        );
 
-        const double gap = 0.000000001; // pencil_size_get_standard_object_border( (*this_).pencil_size );
+        const double small_gap = 0.000000001;
         const geometry_rectangle_t *const  bounds = layout_feature_get_symbol_box_const ( current_feature );
         const double left = geometry_rectangle_get_left( bounds );
         const double top = geometry_rectangle_get_top( bounds );
@@ -213,14 +213,14 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
             geometry_anchor_t anchor_1;
 
             geometry_anchor_init( &anchor_0,
-                                  left - gap,
-                                  top - gap,
+                                  left - small_gap,
+                                  top - small_gap,
                                   GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
                                   GEOMETRY_V_ALIGN_CENTER
                                 );
             geometry_anchor_init( &anchor_1,
-                                  left - gap,
-                                  top - gap,
+                                  left - small_gap,
+                                  top - small_gap,
                                   GEOMETRY_H_ALIGN_CENTER,
                                   GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom side of the label */
                                 );
@@ -253,14 +253,14 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
             geometry_anchor_t anchor_3;
 
             geometry_anchor_init( &anchor_2,
-                                  right + gap,
-                                  top - gap,
+                                  right + small_gap,
+                                  top - small_gap,
                                   GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
                                   GEOMETRY_V_ALIGN_CENTER
                                 );
             geometry_anchor_init( &anchor_3,
-                                  right + gap,
-                                  top - gap,
+                                  right + small_gap,
+                                  top - small_gap,
                                   GEOMETRY_H_ALIGN_CENTER,
                                   GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom side of the label */
                                 );
@@ -293,14 +293,14 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
             geometry_anchor_t anchor_5;
 
             geometry_anchor_init( &anchor_4,
-                                  left - gap,
-                                  bottom + gap,
+                                  left - small_gap,
+                                  bottom + small_gap,
                                   GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
                                   GEOMETRY_V_ALIGN_CENTER
                                 );
             geometry_anchor_init( &anchor_5,
-                                  left - gap,
-                                  bottom + gap,
+                                  left - small_gap,
+                                  bottom + small_gap,
                                   GEOMETRY_H_ALIGN_CENTER,
                                   GEOMETRY_V_ALIGN_TOP  /* the reference point is the top side of the label */
                                 );
@@ -333,14 +333,14 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
             geometry_anchor_t anchor_7;
 
             geometry_anchor_init( &anchor_6,
-                                  right + gap,
-                                  bottom + gap,
+                                  right + small_gap,
+                                  bottom + small_gap,
                                   GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
                                   GEOMETRY_V_ALIGN_CENTER
                                 );
             geometry_anchor_init( &anchor_7,
-                                  right + gap,
-                                  bottom + gap,
+                                  right + small_gap,
+                                  bottom + small_gap,
                                   GEOMETRY_H_ALIGN_CENTER,
                                   GEOMETRY_V_ALIGN_TOP  /* the reference point is the top side of the label */
                                 );

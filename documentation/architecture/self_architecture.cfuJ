@@ -18850,8 +18850,8 @@
     {
       "classifier": {
         "id": 524,
-        "main_type": 139,
-        "type": "Stereotype",
+        "main_type": 138,
+        "type": "Image",
         "stereotype": "cfu",
         "name": "cfu-img",
         "description": [
@@ -20644,7 +20644,7 @@
         "description": [
                 ""
         ],
-        "list_order": -580532937,
+        "list_order": -682108919,
         "from_classifier_name": "ctrl",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -20663,7 +20663,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1127870264,
+        "list_order": 1168905118,
         "from_classifier_name": "ctrl",
         "from_feature_key": "",
         "to_classifier_name": "gui_clipboard",
@@ -20852,7 +20852,7 @@
         "description": [
                 ""
         ],
-        "list_order": 307132103,
+        "list_order": 465383178,
         "from_classifier_name": "gtk4",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -20871,7 +20871,7 @@
         "description": [
                 ""
         ],
-        "list_order": 911853911,
+        "list_order": 1100602017,
         "from_classifier_name": "gtk4",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -22751,7 +22751,7 @@
         "description": [
                 ""
         ],
-        "list_order": -565220752,
+        "list_order": -361084345,
         "from_classifier_name": "SW Architect",
         "from_feature_key": "",
         "to_classifier_name": "search_entry",
@@ -22770,7 +22770,7 @@
         "description": [
                 ""
         ],
-        "list_order": -1040569288,
+        "list_order": -1037285045,
         "from_classifier_name": "SW Architect",
         "from_feature_key": "",
         "to_classifier_name": "search_entry",
@@ -22845,7 +22845,7 @@
         "description": [
                 ""
         ],
-        "list_order": -1191796776,
+        "list_order": -1085097215,
         "from_classifier_name": "SW Architect",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -25140,7 +25140,7 @@
         "description": [
                 ""
         ],
-        "list_order": -680395254,
+        "list_order": -1009963804,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "ctrl",
@@ -25178,7 +25178,7 @@
         "description": [
                 ""
         ],
-        "list_order": 118503282,
+        "list_order": -26399150,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gtk4",
@@ -25197,7 +25197,7 @@
         "description": [
                 ""
         ],
-        "list_order": 656650212,
+        "list_order": 882032094,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gtk4",
@@ -25216,7 +25216,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1549863158,
+        "list_order": 1776802717,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -25271,7 +25271,7 @@
         "description": [
                 ""
         ],
-        "list_order": -686102310,
+        "list_order": -600145198,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "SW Architect",
@@ -25309,7 +25309,7 @@
         "description": [
                 ""
         ],
-        "list_order": 238822588,
+        "list_order": 294625425,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "SW Architect",
@@ -25328,7 +25328,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1430808466,
+        "list_order": 1551402484,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gui_clipboard",
@@ -25348,7 +25348,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1340275210,
+        "list_order": 1401135662,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "sketch",
@@ -25367,7 +25367,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1121372545,
+        "list_order": 1298681010,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gui_marked_set",
@@ -25387,7 +25387,7 @@
         "description": [
                 ""
         ],
-        "list_order": 462473485,
+        "list_order": 677122791,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "sketch",
@@ -33861,7 +33861,7 @@
         "description": [
                 ""
         ],
-        "list_order": -790810789,
+        "list_order": -668448299,
         "from_classifier_name": "gui_clipboard",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -33899,7 +33899,7 @@
         "description": [
                 ""
         ],
-        "list_order": 129751256,
+        "list_order": 185340464,
         "from_classifier_name": "gui_clipboard",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -33918,7 +33918,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1047783153,
+        "list_order": 970826125,
         "from_classifier_name": "gui_clipboard",
         "from_feature_key": "",
         "to_classifier_name": "ctrl",
@@ -33937,7 +33937,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1528305818,
+        "list_order": 1769972407,
         "from_classifier_name": "gui_clipboard",
         "from_feature_key": "",
         "to_classifier_name": "gtk4",
@@ -34013,7 +34013,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1206138028,
+        "list_order": 1435287212,
         "from_classifier_name": "gui_marked_set",
         "from_feature_key": "",
         "to_classifier_name": "sketch",
@@ -34032,7 +34032,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1370682789,
+        "list_order": 1558232794,
         "from_classifier_name": "gui_marked_set",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",

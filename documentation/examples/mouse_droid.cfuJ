@@ -4422,7 +4422,7 @@
             "description": [
                 ""
             ],
-            "list_order": -1301296947,
+            "list_order": -1167501825,
             "uuid": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2"
           }
         ]
@@ -4451,7 +4451,7 @@
             "description": [
                 ""
             ],
-            "list_order": 220508072,
+            "list_order": -560987335,
             "uuid": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b"
           },
           {
@@ -5661,7 +5661,7 @@
         "id": 108,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "main_logic ",
+        "stereotype": "main_logic",
         "name": "Tactics Calculator",
         "description": [
                 "Calculate tactics based on given strategy and current situation model"
