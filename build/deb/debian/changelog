@@ -1,3 +1,15 @@
+crystal-facet-uml (1.63.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * scripts added to build for Windows(TM) using msys2
+  * no fancy names for new objects, only New Diagram, New Element, New Feature
+  * snapping distance increased for snapping classifiers to grid
+  * layouting of relationship labels consider the surrouding space
+    layout_good_cases         ERR=0,  W/C=8,    W/F=1,   W/L=25,   W/R=79
+    layout_challenging_cases  ERR=44, W/C=9751, W/F=509, W/L=6720, W/R=7777
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 08 Mar 2025 18:30:00 +0100
+
 crystal-facet-uml (1.62.3-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

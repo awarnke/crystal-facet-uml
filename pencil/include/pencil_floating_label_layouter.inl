@@ -141,7 +141,7 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     if ( preferred_fits )
     {
         /* no need to re-calculate, just shift */
-        *out_solution = geometry_anchor_align_dim( anchor, preferred_dim );
+        *out_solution = geometry_anchor_align_biased_dim( anchor, preferred_dim, &available );
     }
     else if ( available_width > pencil_size_get_standard_font_size( (*this_).pencil_size ) )
     {

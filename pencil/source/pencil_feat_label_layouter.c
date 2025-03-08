@@ -199,7 +199,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                                          &preferred_label_dim
                                                        );
 
-        const double gap = 0.0; // pencil_size_get_standard_object_border( (*this_).pencil_size );
+        const double gap = 0.000000001; // pencil_size_get_standard_object_border( (*this_).pencil_size );
         const geometry_rectangle_t *const  bounds = layout_feature_get_symbol_box_const ( current_feature );
         const double left = geometry_rectangle_get_left( bounds );
         const double top = geometry_rectangle_get_top( bounds );

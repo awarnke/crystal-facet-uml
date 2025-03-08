@@ -320,17 +320,17 @@
 <path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 890.210938 885.691406 L 912.710938 885.691406 L 912.710938 908.191406 L 890.210938 908.191406 Z M 890.210938 885.691406 "/>
 <path fill="none" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 907.085938 896.941406 L 895.835938 896.941406 M 895.835938 891.316406 L 907.085938 896.941406 L 895.835938 902.566406 "/>
 <g fill="rgb(0%, 0%, 0%)" fill-opacity="1">
-<use xlink:href="#glyph-0-9" x="913" y="897.070312"/>
-<use xlink:href="#glyph-0-10" x="931" y="897.070312"/>
-<use xlink:href="#glyph-0-5" x="946" y="897.070312"/>
-<use xlink:href="#glyph-0-3" x="957" y="897.070312"/>
-<use xlink:href="#glyph-0-11" x="974" y="897.070312"/>
-<use xlink:href="#glyph-0-8" x="987" y="897.070312"/>
-<use xlink:href="#glyph-0-5" x="1001" y="897.070312"/>
-<use xlink:href="#glyph-0-2" x="1012" y="897.070312"/>
-<use xlink:href="#glyph-0-3" x="1024" y="897.070312"/>
-<use xlink:href="#glyph-0-1" x="1041" y="897.070312"/>
-<use xlink:href="#glyph-0-12" x="1058" y="897.070312"/>
+<use xlink:href="#glyph-0-9" x="913" y="876.070312"/>
+<use xlink:href="#glyph-0-10" x="931" y="876.070312"/>
+<use xlink:href="#glyph-0-5" x="946" y="876.070312"/>
+<use xlink:href="#glyph-0-3" x="957" y="876.070312"/>
+<use xlink:href="#glyph-0-11" x="974" y="876.070312"/>
+<use xlink:href="#glyph-0-8" x="987" y="876.070312"/>
+<use xlink:href="#glyph-0-5" x="1001" y="876.070312"/>
+<use xlink:href="#glyph-0-2" x="1012" y="876.070312"/>
+<use xlink:href="#glyph-0-3" x="1024" y="876.070312"/>
+<use xlink:href="#glyph-0-1" x="1041" y="876.070312"/>
+<use xlink:href="#glyph-0-12" x="1058" y="876.070312"/>
 </g>
 <path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 603.308594 783.128906 L 625.808594 783.128906 L 625.808594 805.628906 L 603.308594 805.628906 Z M 603.308594 783.128906 "/>
 <path fill="none" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 614.558594 800.003906 L 614.558594 788.753906 M 608.933594 788.753906 L 614.558594 800.003906 L 620.183594 788.753906 "/>
