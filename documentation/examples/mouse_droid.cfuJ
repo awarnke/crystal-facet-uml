@@ -23,8 +23,9 @@
                 "and software architecture for a mouse droid.\n",
                 "This is a small repair droid similar to the MSE-6 used on death star 1.\n",
                 "\n",
-                "The document follows the arc42.org template\n",
-                "proposed by Gernot Starke and Peter Hruschka,\n",
+                "This structure of the system architecture is loosely based on arc42.\n",
+                "The software architecture in chapter D0019#id follows more exactly the arc42.org template\n",
+                "proposed by Gernot Starke and Peter Hruschka.\n",
                 "\n",
                 "Copyright 2020-2025 Andreas Warnke\n",
                 "License:\n",
@@ -36,13 +37,6 @@
         "uuid": "93055a07-ed69-40c8-ba80-469e94242de3",
         "diagramelements":
         [
-          {
-            "id": 1,
-            "display_flags": 0,
-            "classifier_name": "Introduction",
-            "node": "37777305-f8d0-4f99-8a24-b7a39e022659",
-            "uuid": "7fa23aed-0e92-4f00-9fb4-9b97930d58f2"
-          },
           {
             "id": 217,
             "display_flags": 0,
@@ -56,127 +50,39 @@
             "classifier_name": "MoD5G",
             "node": "a929e73e-8f9d-40a7-81c2-f2e4da7ba93f",
             "uuid": "433c0f34-4bb1-48be-a92f-b6998a93ae7a"
+          },
+          {
+            "id": 361,
+            "display_flags": 0,
+            "classifier_name": "Purpose of MoD5G",
+            "node": "04035b9d-d9af-4918-b18b-5431dfe45525",
+            "uuid": "ff608e0a-5279-4b53-890e-64b3a67545e3"
           }
         ]
       }
     },
     {
       "diagram": {
-        "id": 2,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
-        "stereotype": "mouse-droid",
-        "name": "Requirements and Goals",
+        "id": 58,
+        "diagram_type": 1,
+        "type": "CFUBoxDiagram",
+        "name": "Goal",
         "description": [
-                "This section gives a short overview on the project goals (Problem Space, System Level L1)\n",
-                "\n",
-                "Primary purpose of the MoD5G is to autonomously repair mechanical things."
+                ""
         ],
-        "list_order": 49152,
+        "list_order": -1073700864,
         "display_flags": 0,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
-        "uuid": "eb0b6c0b-a4e4-42c3-86d5-200f51b2ed70",
+        "uuid": "2e4e7f46-b893-440e-84c3-7a893817cc67",
         "diagramelements":
         [
           {
-            "id": 4,
+            "id": 360,
             "display_flags": 0,
-            "classifier_name": "Mouse Droid MoD5G",
-            "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-            "uuid": "02af9286-df4a-4361-90fc-5d5d18ee2552"
-          },
-          {
-            "id": 5,
-            "display_flags": 0,
-            "classifier_name": "Commander",
-            "node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
-            "uuid": "d99eadcb-afcc-4a88-8c78-bd749df4c39d"
-          },
-          {
-            "id": 6,
-            "display_flags": 0,
-            "classifier_name": "Perform a 1-day mission",
-            "node": "101916e8-de57-400a-bfa9-d97e8128a011",
-            "uuid": "ac7ebe7e-e33a-4643-97f6-19a4003bc411"
-          },
-          {
-            "id": 7,
-            "display_flags": 0,
-            "classifier_name": "Drive to location",
-            "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-            "uuid": "e19fd028-4ba5-4445-a341-7aafb90e5a27"
-          },
-          {
-            "id": 8,
-            "display_flags": 0,
-            "classifier_name": "Repair using tools",
-            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-            "uuid": "6e569cfc-635a-4478-9136-130aa32ddd00"
-          },
-          {
-            "id": 298,
-            "display_flags": 0,
-            "classifier_name": "Return to base location",
-            "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
-            "uuid": "0245c91e-1903-4eee-aa30-261f93f4f539"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 44,
-        "diagram_type": 9,
-        "type": "SysMLRequirementDiagram",
-        "name": "L1 Requirements View",
-        "description": [
-                "This diagram shows examples of system level L1 requirements."
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "Requirements and Goals",
-        "parent": "eb0b6c0b-a4e4-42c3-86d5-200f51b2ed70",
-        "uuid": "41a326e6-65bd-42ba-9469-65a7e2244d51",
-        "diagramelements":
-        [
-          {
-            "id": 235,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Drive to location",
-            "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-            "uuid": "964266f7-c823-4607-af35-a7b6e3395b99"
-          },
-          {
-            "id": 236,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Repair using tools",
-            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-            "uuid": "d817f954-4887-469c-bb2f-0c52a9fb9193"
-          },
-          {
-            "id": 237,
-            "display_flags": 0,
-            "classifier_name": "L1Req: Recognize paths",
-            "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
-            "uuid": "3983afe2-adf9-4da4-8b6a-e555f6b5bdf0"
-          },
-          {
-            "id": 238,
-            "display_flags": 0,
-            "classifier_name": "L1Req: Position screw driver",
-            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
-            "uuid": "ea4fed52-d285-41a7-91c3-393eac2064f3"
-          },
-          {
-            "id": 299,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Return to base location",
-            "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
-            "uuid": "27779e91-747a-4fc4-b99e-6d4f9824cd42"
+            "classifier_name": "Introduction",
+            "node": "37777305-f8d0-4f99-8a24-b7a39e022659",
+            "uuid": "7a24369f-cd3a-48ab-8deb-2a0f222d2f6f"
           }
         ]
       }
@@ -299,8 +205,8 @@
     {
       "diagram": {
         "id": 5,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
         "name": "Solution Strategy",
         "description": [
                 "This section shows the fundamental base principle of the system design. (Solution Space, System Level L1)"
@@ -327,26 +233,234 @@
             "uuid": "d8797264-6f4c-4200-abc3-791ad5a7b360"
           },
           {
-            "id": 127,
-            "display_flags": 0,
-            "classifier_name": "Outer World",
-            "node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
-            "uuid": "8ceaf621-72c2-4b16-9bcb-28a05a62d38f"
-          },
-          {
             "id": 164,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
+            "display_flags": 0,
             "classifier_name": "Guiding Main Principles",
             "node": "1eba76f4-44e6-4eb0-ae3c-7d409912ab90",
             "uuid": "b2075928-2d4b-4bc2-8e1f-e9a35612ecf0"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 60,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "Outer World",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Solution Strategy",
+        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "uuid": "0ae3f2b4-1132-45f4-9f92-7baa215a50fd",
+        "diagramelements":
+        [
+          {
+            "id": 364,
+            "display_flags": 0,
+            "classifier_name": "Outer World",
+            "node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
+            "uuid": "28987d2a-d052-42d0-91b8-2765a19145b8"
           },
           {
-            "id": 165,
+            "id": 365,
+            "display_flags": 0,
+            "classifier_name": "Main Logic Board",
+            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+            "uuid": "56200391-950e-47ac-aca2-ffc3a53d506d"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 61,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "Inner World",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Solution Strategy",
+        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "uuid": "9cd3ef95-d1e7-48c6-b2ca-2a6b44ae92b3",
+        "diagramelements":
+        [
+          {
+            "id": 362,
             "display_flags": 0,
             "classifier_name": "Inner World",
             "node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-            "uuid": "f3033d06-ca0a-4f4b-b1e6-25e9f36f015e"
+            "uuid": "963590dc-a045-4770-bf2d-7db15fb89f06"
+          },
+          {
+            "id": 363,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "537f8926-440c-489f-ba18-56bb9bb5a8d5"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 2,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "stereotype": "mouse-droid",
+        "name": "Use Cases and Requirements",
+        "description": [
+                "This section gives a short overview on the project goals (Problem Space, System Level L1)\n",
+                "\n",
+                "Primary purpose of the MoD5G is to autonomously repair mechanical things."
+        ],
+        "list_order": 104448,
+        "display_flags": 0,
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "uuid": "eb0b6c0b-a4e4-42c3-86d5-200f51b2ed70",
+        "diagramelements":
+        [
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "Mouse Droid MoD5G",
+            "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+            "uuid": "02af9286-df4a-4361-90fc-5d5d18ee2552"
+          },
+          {
+            "id": 5,
+            "display_flags": 0,
+            "classifier_name": "Commander",
+            "node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
+            "uuid": "d99eadcb-afcc-4a88-8c78-bd749df4c39d"
+          },
+          {
+            "id": 6,
+            "display_flags": 0,
+            "classifier_name": "Perform a 1-day mission",
+            "node": "101916e8-de57-400a-bfa9-d97e8128a011",
+            "uuid": "ac7ebe7e-e33a-4643-97f6-19a4003bc411"
+          },
+          {
+            "id": 7,
+            "display_flags": 0,
+            "classifier_name": "Drive to location",
+            "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+            "uuid": "e19fd028-4ba5-4445-a341-7aafb90e5a27"
+          },
+          {
+            "id": 8,
+            "display_flags": 0,
+            "classifier_name": "Repair using tools",
+            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+            "uuid": "6e569cfc-635a-4478-9136-130aa32ddd00"
+          },
+          {
+            "id": 298,
+            "display_flags": 0,
+            "classifier_name": "Return to base location",
+            "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+            "uuid": "0245c91e-1903-4eee-aa30-261f93f4f539"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 44,
+        "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
+        "name": "L1 Requirements View",
+        "description": [
+                "This diagram shows examples of system level L1 requirements."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Use Cases and Requirements",
+        "parent": "eb0b6c0b-a4e4-42c3-86d5-200f51b2ed70",
+        "uuid": "41a326e6-65bd-42ba-9469-65a7e2244d51",
+        "diagramelements":
+        [
+          {
+            "id": 235,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Drive to location",
+            "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+            "uuid": "964266f7-c823-4607-af35-a7b6e3395b99"
+          },
+          {
+            "id": 236,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Repair using tools",
+            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+            "uuid": "d817f954-4887-469c-bb2f-0c52a9fb9193"
+          },
+          {
+            "id": 237,
+            "display_flags": 0,
+            "classifier_name": "L1Req: Recognize paths",
+            "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+            "uuid": "3983afe2-adf9-4da4-8b6a-e555f6b5bdf0"
+          },
+          {
+            "id": 238,
+            "display_flags": 0,
+            "classifier_name": "L1Req: Position screw driver",
+            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+            "uuid": "ea4fed52-d285-41a7-91c3-393eac2064f3"
+          },
+          {
+            "id": 299,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Return to base location",
+            "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+            "uuid": "27779e91-747a-4fc4-b99e-6d4f9824cd42"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 59,
+        "diagram_type": 17,
+        "type": "UMLInteractionDiagram/overview",
+        "name": "Functionalities and Operation Modes",
+        "description": [
+                "This chapter shows the functions and the operation modes.\n",
+                "Functions represent the solutions to the functional requirements.\n",
+                "Operation modes define which functions are available in which mode,\n",
+                ""
+        ],
+        "list_order": 104960,
+        "display_flags": 0,
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "uuid": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
+        "diagramelements":
+        [
+          {
+            "id": 367,
+            "display_flags": 0,
+            "classifier_name": "L1 Functional View",
+            "node": "1f058bdf-4901-4385-91f2-5d308cf4705e",
+            "uuid": "1025a5ce-b88f-4c0a-9696-773afea52583"
+          },
+          {
+            "id": 368,
+            "display_flags": 0,
+            "classifier_name": "Operation Modes",
+            "node": "cbe8b54e-ce6a-496e-82e1-50105fa61ce6",
+            "uuid": "d2ea1236-c8eb-4832-9ae6-1596ce4c0f7a"
           }
         ]
       }
@@ -362,10 +476,10 @@
                 "\n",
                 "It also shows which function produces output that is needed by another function as input."
         ],
-        "list_order": 32768,
+        "list_order": 1073794303,
         "display_flags": 0,
-        "parent_name": "Solution Strategy",
-        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "parent_name": "Functionalities and Operation Modes",
+        "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
         "uuid": "73596088-5c4a-4e29-8a51-c01db258b7ea",
         "diagramelements":
         [
@@ -479,6 +593,212 @@
     },
     {
       "diagram": {
+        "id": 53,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Operation Modes",
+        "description": [
+                "Operation modes list all modes of the system that provide an intended subset of functionality."
+        ],
+        "list_order": 1073794303,
+        "display_flags": 0,
+        "parent_name": "Functionalities and Operation Modes",
+        "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
+        "uuid": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
+        "diagramelements":
+        [
+          {
+            "id": 326,
+            "display_flags": 0,
+            "classifier_name": "Op::Modes",
+            "node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+            "uuid": "ef10ae37-5115-4b98-a844-fe153ef97307"
+          },
+          {
+            "id": 327,
+            "display_flags": 0,
+            "classifier_name": "Charging",
+            "node": "53562cf7-31db-4120-9eae-82666d6b8435",
+            "uuid": "70ed46f2-5d46-45d3-800f-9e2b7c8f3dfa"
+          },
+          {
+            "id": 328,
+            "display_flags": 0,
+            "classifier_name": "Programming",
+            "node": "baacb7c2-779d-435c-a8db-a488d079c75f",
+            "uuid": "ad48a30f-01e7-408e-9304-609c230c3a2f"
+          },
+          {
+            "id": 329,
+            "display_flags": 0,
+            "classifier_name": "Moving",
+            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+            "uuid": "8c889f92-bc40-401b-b8fa-a397e6e13714"
+          },
+          {
+            "id": 330,
+            "display_flags": 0,
+            "classifier_name": "Using Tools",
+            "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+            "uuid": "d4c4dfb6-04e4-4fdc-bbfa-a12dcb26b679"
+          },
+          {
+            "id": 331,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "84030bd7-8f9d-41de-9f0a-83783356a217"
+          },
+          {
+            "id": 333,
+            "display_flags": 0,
+            "classifier_name": "Being Repaired",
+            "node": "580f3aaa-a590-43f1-bd18-0b608951290d",
+            "uuid": "c2d1ca8d-9b9a-43bf-b8c5-a74908fbfea3"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 55,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Functionality per movement-related mode",
+        "description": [
+                "This diagram shows the functionalities that area available in the operation modes related to moving."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Operation Modes",
+        "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
+        "uuid": "c9f1778f-63e7-4bca-941f-8d71f10646ee",
+        "diagramelements":
+        [
+          {
+            "id": 346,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "uuid": "dd40536e-6df0-4903-9917-d68d3d6cb4b5"
+          },
+          {
+            "id": 347,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "uuid": "131a9353-41dd-4ccd-975a-68f2bfb70909"
+          },
+          {
+            "id": 352,
+            "display_flags": 0,
+            "classifier_name": "Moving",
+            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+            "uuid": "a9a78690-1f83-4b89-86b8-c8ed83774a8e"
+          },
+          {
+            "id": 353,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "e83dc1e5-e5fa-4333-b4ec-d66ea8fb833e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 56,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Functionality per tool-related mode",
+        "description": [
+                "This diagram shows the functionalities that area available in the operation modes related to using tools."
+        ],
+        "list_order": 1073758207,
+        "display_flags": 0,
+        "parent_name": "Operation Modes",
+        "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
+        "uuid": "91474ebb-491f-4d79-886a-47f9e0b34079",
+        "diagramelements":
+        [
+          {
+            "id": 349,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "uuid": "fb8c0326-b302-455a-8c2a-35f2f91ab26b"
+          },
+          {
+            "id": 350,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "c158b8c8-6655-470b-ac29-010d10e57c6f"
+          },
+          {
+            "id": 351,
+            "display_flags": 0,
+            "classifier_name": "Using Tools",
+            "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+            "uuid": "47db1401-cc13-4a8a-9879-e72cb6571645"
+          },
+          {
+            "id": 354,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "92359c33-2264-4a26-8235-e7f91fedf989"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 6,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "Building Block View",
+        "description": [
+                "This section shows the parts of the MoD5G system (Solution Space, System Level L1)"
+        ],
+        "list_order": 106496,
+        "display_flags": 0,
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "uuid": "63422298-86c5-4518-83ff-5198d871abc5",
+        "diagramelements":
+        [
+          {
+            "id": 23,
+            "display_flags": 0,
+            "classifier_name": "Mechanical Parts",
+            "node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+            "uuid": "1cd59345-6bdf-4039-a4b2-82469ed3e22d"
+          },
+          {
+            "id": 24,
+            "display_flags": 0,
+            "classifier_name": "Electrical Parts and Electronics",
+            "node": "c1419268-c407-4e91-a9de-386c65b7459b",
+            "uuid": "832fc35c-812f-483b-9211-19231ddb4e26"
+          },
+          {
+            "id": 25,
+            "display_flags": 0,
+            "classifier_name": "Software Parts",
+            "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+            "uuid": "f378e4e6-8b73-43fc-89c9-b8a6db09b4c5"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 51,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
@@ -487,10 +807,10 @@
                 "This view maps the functions to a form.\n",
                 ""
         ],
-        "list_order": 65536,
+        "list_order": -1610604544,
         "display_flags": 0,
-        "parent_name": "Solution Strategy",
-        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "parent_name": "Building Block View",
+        "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "0a061bdf-1c88-4f16-9a75-f73a0bc8ae42",
         "diagramelements":
         [
@@ -553,10 +873,10 @@
                 "This view maps the logical form to physical artifacts.\n",
                 ""
         ],
-        "list_order": 65536,
+        "list_order": -1073725440,
         "display_flags": 0,
-        "parent_name": "Solution Strategy",
-        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "parent_name": "Building Block View",
+        "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "61265c3f-d931-47ca-8986-0a6b52a666ab",
         "diagramelements":
         [
@@ -596,46 +916,6 @@
             "classifier_name": "Strategy planning (L1)",
             "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
             "uuid": "1a5ef1cf-8cf1-4f1f-a11d-bd8f309446da"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 6,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
-        "name": "Building Block View",
-        "description": [
-                "This section shows the parts of the MoD5G system (Solution Space, System Level L1)"
-        ],
-        "list_order": 106496,
-        "display_flags": 0,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
-        "uuid": "63422298-86c5-4518-83ff-5198d871abc5",
-        "diagramelements":
-        [
-          {
-            "id": 23,
-            "display_flags": 0,
-            "classifier_name": "Mechanical Parts",
-            "node": "2f324056-c955-4a38-9b47-b3a64b19072c",
-            "uuid": "1cd59345-6bdf-4039-a4b2-82469ed3e22d"
-          },
-          {
-            "id": 24,
-            "display_flags": 0,
-            "classifier_name": "Electrical Parts and Electronics",
-            "node": "c1419268-c407-4e91-a9de-386c65b7459b",
-            "uuid": "832fc35c-812f-483b-9211-19231ddb4e26"
-          },
-          {
-            "id": 25,
-            "display_flags": 0,
-            "classifier_name": "Software Parts",
-            "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
-            "uuid": "f378e4e6-8b73-43fc-89c9-b8a6db09b4c5"
           }
         ]
       }
@@ -2274,172 +2554,6 @@
     },
     {
       "diagram": {
-        "id": 53,
-        "diagram_type": 12,
-        "type": "UMLStateMachineDiagram",
-        "name": "Operation Modes",
-        "description": [
-                "Operation modes list all modes of the system that provide an intended subset of functionality."
-        ],
-        "list_order": -1073758208,
-        "display_flags": 0,
-        "parent_name": "Runtime View",
-        "parent": "3ad75bb7-9e06-47b2-b03b-97bf60246359",
-        "uuid": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
-        "diagramelements":
-        [
-          {
-            "id": 326,
-            "display_flags": 0,
-            "classifier_name": "Op::Modes",
-            "node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
-            "uuid": "ef10ae37-5115-4b98-a844-fe153ef97307"
-          },
-          {
-            "id": 327,
-            "display_flags": 0,
-            "classifier_name": "Charging",
-            "node": "53562cf7-31db-4120-9eae-82666d6b8435",
-            "uuid": "70ed46f2-5d46-45d3-800f-9e2b7c8f3dfa"
-          },
-          {
-            "id": 328,
-            "display_flags": 0,
-            "classifier_name": "Programming",
-            "node": "baacb7c2-779d-435c-a8db-a488d079c75f",
-            "uuid": "ad48a30f-01e7-408e-9304-609c230c3a2f"
-          },
-          {
-            "id": 329,
-            "display_flags": 0,
-            "classifier_name": "Moving",
-            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
-            "uuid": "8c889f92-bc40-401b-b8fa-a397e6e13714"
-          },
-          {
-            "id": 330,
-            "display_flags": 0,
-            "classifier_name": "Using Tools",
-            "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
-            "uuid": "d4c4dfb6-04e4-4fdc-bbfa-a12dcb26b679"
-          },
-          {
-            "id": 331,
-            "display_flags": 0,
-            "classifier_name": "Waiting",
-            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
-            "uuid": "84030bd7-8f9d-41de-9f0a-83783356a217"
-          },
-          {
-            "id": 333,
-            "display_flags": 0,
-            "classifier_name": "Being Repaired",
-            "node": "580f3aaa-a590-43f1-bd18-0b608951290d",
-            "uuid": "c2d1ca8d-9b9a-43bf-b8c5-a74908fbfea3"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 55,
-        "diagram_type": 12,
-        "type": "UMLStateMachineDiagram",
-        "name": "Functionality per movement-related mode",
-        "description": [
-                "This diagram shows the functionalities that area available in the operation modes related to moving."
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "Operation Modes",
-        "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
-        "uuid": "c9f1778f-63e7-4bca-941f-8d71f10646ee",
-        "diagramelements":
-        [
-          {
-            "id": 346,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Plan movement strategy (L1-Fct)",
-            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
-            "uuid": "dd40536e-6df0-4903-9917-d68d3d6cb4b5"
-          },
-          {
-            "id": 347,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Perform movement tactic (L1-Fct)",
-            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
-            "uuid": "131a9353-41dd-4ccd-975a-68f2bfb70909"
-          },
-          {
-            "id": 352,
-            "display_flags": 0,
-            "classifier_name": "Moving",
-            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
-            "uuid": "a9a78690-1f83-4b89-86b8-c8ed83774a8e"
-          },
-          {
-            "id": 353,
-            "display_flags": 0,
-            "classifier_name": "Waiting",
-            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
-            "uuid": "e83dc1e5-e5fa-4333-b4ec-d66ea8fb833e"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 56,
-        "diagram_type": 12,
-        "type": "UMLStateMachineDiagram",
-        "name": "Functionality per tool-related mode",
-        "description": [
-                "This diagram shows the functionalities that area available in the operation modes related to using tools."
-        ],
-        "list_order": 1073758207,
-        "display_flags": 0,
-        "parent_name": "Operation Modes",
-        "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
-        "uuid": "91474ebb-491f-4d79-886a-47f9e0b34079",
-        "diagramelements":
-        [
-          {
-            "id": 349,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Plan repair strategy (L1-Fct)",
-            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
-            "uuid": "fb8c0326-b302-455a-8c2a-35f2f91ab26b"
-          },
-          {
-            "id": 350,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Perform repair tactic (L1-Fct)",
-            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
-            "uuid": "c158b8c8-6655-470b-ac29-010d10e57c6f"
-          },
-          {
-            "id": 351,
-            "display_flags": 0,
-            "classifier_name": "Using Tools",
-            "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
-            "uuid": "47db1401-cc13-4a8a-9879-e72cb6571645"
-          },
-          {
-            "id": 354,
-            "display_flags": 0,
-            "classifier_name": "Waiting",
-            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
-            "uuid": "92359c33-2264-4a26-8235-e7f91fedf989"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
         "id": 20,
         "diagram_type": 11,
         "type": "UMLActivityDiagram",
@@ -2981,9 +3095,9 @@
         "id": 12,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
-        "name": "Risks and Technical Debts",
+        "name": "Risks",
         "description": [
-                "This section lists the risks and not-yet-addressed requirements. (Solution Space, System Level L1)"
+                "This section lists the risks caused by a) design decsisions and by b) not-yet-addressed requirements. (Solution Space, System Level L1)"
         ],
         "list_order": 360448,
         "display_flags": 0,
@@ -4422,7 +4536,7 @@
             "description": [
                 ""
             ],
-            "list_order": -1167501825,
+            "list_order": -933482872,
             "uuid": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2"
           }
         ]
@@ -5834,22 +5948,16 @@
         "stereotype": "mouse-droid",
         "name": "Guiding Main Principles",
         "description": [
-                "The functions of the MoD5G are divided\n",
-                "onto two logic boards.\n",
-                "\n",
-                "The base logic\n",
-                "gets local sensor information\n",
-                "and controls things within\n",
-                "the system boundary of the MoD5G.\n",
-                "\n",
+                "The functions of the MoD5G are divided onto two logic boards.\n",
                 "The main logic\n",
-                "gets sensor data of the environment\n",
-                "and calculates movement actions\n",
-                "to efficiently fulfill the mission\n",
-                "(that was programmed before)."
+                "gets sensor data of the environment and \n",
+                "calculates movement actions to efficiently fulfill the mission (that was programmed before).\n",
+                "The base logic\n",
+                "gets local sensor information and \n",
+                "controls things within the system boundary of the MoD5G."
         ],
-        "x_order": -1310350961,
-        "y_order": -1393110394,
+        "x_order": -908657191,
+        "y_order": -186501372,
         "list_order": 442776994,
         "uuid": "1eba76f4-44e6-4eb0-ae3c-7d409912ab90",
         "features":
@@ -5873,8 +5981,8 @@
                 "this logic board can steer the MoD5G\n",
                 "without further help of the main logic board."
         ],
-        "x_order": -790789043,
-        "y_order": -1607790014,
+        "x_order": 1135692642,
+        "y_order": -55146692,
         "list_order": 807995528,
         "uuid": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
         "features":
@@ -7640,6 +7748,17 @@
             ],
             "list_order": 0,
             "uuid": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315"
+          },
+          {
+            "id": 54,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "cbe8b54e-ce6a-496e-82e1-50105fa61ce6"
           }
         ]
       }
@@ -7816,6 +7935,55 @@
         "uuid": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
         "features":
         [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 203,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "Purpose of MoD5G",
+        "description": [
+                "The main purpose of the MoD5G droid is\n",
+                "to repair mechanical, electrical and logical elements\n",
+                "at remote locations."
+        ],
+        "x_order": -645200798,
+        "y_order": 0,
+        "list_order": -1076283586,
+        "uuid": "04035b9d-d9af-4918-b18b-5431dfe45525",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 205,
+        "main_type": 112,
+        "type": "InteractionUse",
+        "name": "L1 Functional View",
+        "description": [
+                "refers to D0050#name"
+        ],
+        "x_order": -1548859303,
+        "y_order": -808409892,
+        "list_order": -1184358865,
+        "uuid": "4a693017-a347-4fd0-a4e6-7fb173d011f8",
+        "features":
+        [
+          {
+            "id": 53,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "1f058bdf-4901-4385-91f2-5d308cf4705e"
+          }
         ]
       }
     }
