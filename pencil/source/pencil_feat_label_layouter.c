@@ -105,7 +105,6 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         else
         {
             pencil_floating_label_layouter_select_solution( &((*this_).label_floater),
-                                                            (*this_).layout_data,
                                                             feature_middle,
                                                             solutions_count,
                                                             solution,
@@ -131,12 +130,12 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
 
     /* sort the features by their label-box: the less simple, the earlier it shall be processed */
     const uint32_t count_features
-        = layout_visible_set_get_feature_count ( (*this_).layout_data );
+        = layout_visible_set_get_feature_count( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_features; index ++ )
     {
         const layout_feature_t *const current_feature
-            = layout_visible_set_get_feature_ptr ( (*this_).layout_data, index );
-        const data_feature_t *const feature_data = layout_feature_get_data_const ( current_feature );
+            = layout_visible_set_get_feature_ptr( (*this_).layout_data, index );
+        const data_feature_t *const feature_data = layout_feature_get_data_const( current_feature );
         assert( NULL != feature_data );
         const data_feature_type_t current_type = data_feature_get_main_type( feature_data );
 
@@ -236,23 +235,17 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                 );
 
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_0,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[0])
                                                                 );
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_1,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[1])
                                                                 );
         }
@@ -276,23 +269,17 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                 );
 
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_2,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[2])
                                                                 );
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_3,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[3])
                                                                 );
         }
@@ -316,23 +303,17 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                 );
 
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_4,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[4])
                                                                 );
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_5,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[5])
                                                                 );
         }
@@ -356,23 +337,17 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                 );
 
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_6,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[6])
                                                                 );
             pencil_floating_label_layouter_propose_solution_feat( &((*this_).label_floater),
-                                                                  (*this_).layout_data,
                                                                   &anchor_7,
                                                                   &preferred_label_dim,
                                                                   &((*this_).draw_feature_label),
                                                                   feature_data,
-                                                                  (*this_).profile,
-                                                                  font_layout,
                                                                   &(out_solutions[7])
                                                                 );
         }

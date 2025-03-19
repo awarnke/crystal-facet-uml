@@ -25,7 +25,7 @@
  *        For other layout_data or other canvas, the object needs to be re-initialized.
  */
 struct pencil_floating_label_layouter_struct {
-    const layout_visible_set_t *layout_data;  /*!< layout data of objects that are already (partly) layouted */
+    layout_visible_set_t *layout_data;  /*!< layout data of objects that are already (partly) layouted */
     const data_profile_part_t *profile;  /*!< profile-part that provides the stereotype definition of the element to be layouted */
     const pencil_size_t *pencil_size;  /*!< the pencil size proposes preferred distances */
     PangoLayout *font_layout;  /*!< pango layout object to determine the font metrics in the current cairo drawing context */
@@ -77,23 +77,17 @@ void pencil_floating_label_layouter_destroy( pencil_floating_label_layouter_t *t
  *  \brief proposes one solution to layout a label rectangle for a layout_feature_t
  *
  *  \param this_ pointer to own object attributes
- *  \param layout_data data that is already (partly) layouted - by which to determine a suitable space
  *  \param anchor point where the object is located to which the label belongs
  *  \param preferred_dim preferred dimension of the label in case there is enough space
  *  \param draw_estimator drawing estimator that can estimate the drawing bounds given the available width
  *  \param feature data that is already (partly) layouted - by which to select a solution
- *  \param profile profile-part that provides the stereotype definition of the element to be drawn
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param[out] out_solution a solution
  */
 void pencil_floating_label_layouter_propose_solution_feat ( const pencil_floating_label_layouter_t *this_,
-                                                            layout_visible_set_t *layout_data,
                                                             const geometry_anchor_t *anchor,
                                                             const geometry_dimensions_t *preferred_dim,
                                                             draw_feature_label_t *draw_estimator,
                                                             const data_feature_t *feature,
-                                                            const data_profile_part_t *profile,
-                                                            PangoLayout *font_layout,
                                                             geometry_rectangle_t *out_solution
                                                           );
 
@@ -101,23 +95,17 @@ void pencil_floating_label_layouter_propose_solution_feat ( const pencil_floatin
  *  \brief proposes one solution to layout a label rectangle for a layout_relationship_t
  *
  *  \param this_ pointer to own object attributes
- *  \param layout_data data that is already (partly) layouted - by which to determine a suitable space
  *  \param anchor point where the object is located to which the label belongs
  *  \param preferred_dim preferred dimension of the label in case there is enough space
  *  \param draw_estimator drawing estimator that can estimate the drawing bounds given the available width
  *  \param relation data that is already (partly) layouted - by which to select a solution
- *  \param profile profile-part that provides the stereotype definition of the element to be drawn
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param[out] out_solution a solution
  */
 void pencil_floating_label_layouter_propose_solution_rel ( const pencil_floating_label_layouter_t *this_,
-                                                           layout_visible_set_t *layout_data,
                                                            const geometry_anchor_t *anchor,
                                                            const geometry_dimensions_t *preferred_dim,
                                                            draw_relationship_label_t *draw_estimator,
                                                            const data_relationship_t *relation,
-                                                           const data_profile_part_t *profile,
-                                                           PangoLayout *font_layout,
                                                            geometry_rectangle_t *out_solution
                                                          );
 
@@ -125,27 +113,21 @@ void pencil_floating_label_layouter_propose_solution_rel ( const pencil_floating
  *  \brief proposes one solution to layout a label rectangle for a layout_feature_t or a layout_relationship_t
  *
  *  \param this_ pointer to own object attributes
- *  \param layout_data data that is already (partly) layouted - by which to determine a suitable space
  *  \param anchor point where the object is located to which the label belongs
  *  \param preferred_dim preferred dimension of the label in case there is enough space
  *  \param draw_estimator_feat drawing estimator that can estimate the drawing bounds given the available width or NULL
  *  \param feature data that is already (partly) layouted - by which to select a solution or NULL
  *  \param draw_estimator_rel drawing estimator that can estimate the drawing bounds given the available width or NULL
  *  \param relation data that is already (partly) layouted - by which to select a solution or NULL
- *  \param profile profile-part that provides the stereotype definition of the element to be drawn
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param[out] out_solution a solution
  */
 static inline void pencil_floating_label_layouter_private_propose_solution ( const pencil_floating_label_layouter_t *this_,
-                                                                             layout_visible_set_t *layout_data,
                                                                              const geometry_anchor_t *anchor,
                                                                              const geometry_dimensions_t *preferred_dim,
                                                                              draw_feature_label_t *draw_estimator_feat,
                                                                              const data_feature_t *feature,
                                                                              draw_relationship_label_t *draw_estimator_rel,
                                                                              const data_relationship_t *relation,
-                                                                             const data_profile_part_t *profile,
-                                                                             PangoLayout *font_layout,
                                                                              geometry_rectangle_t *out_solution
                                                                            );
 
@@ -153,14 +135,12 @@ static inline void pencil_floating_label_layouter_private_propose_solution ( con
  *  \brief selects one solution to layout a label rectangle
  *
  *  \param this_ pointer to own object attributes
- *  \param layout_data data that is already (partly) layouted - by which to select a solution
  *  \param target_point point where the object is located to which the label belongs
  *  \param solutions_count number of proposed solutions; at least 1 shall be provided
  *  \param solutions array of solutions
  *  \param out_index_of_best index of the best solution; must not be NULL.
  */
 void pencil_floating_label_layouter_select_solution ( pencil_floating_label_layouter_t *this_,
-                                                      layout_visible_set_t *layout_data,
                                                       geometry_point_t target_point,
                                                       uint32_t solutions_count,
                                                       const geometry_rectangle_t solutions[],

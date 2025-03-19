@@ -57,27 +57,21 @@ void pencil_floating_label_layouter_destroy( pencil_floating_label_layouter_t *t
 }
 
 void pencil_floating_label_layouter_propose_solution_feat( const pencil_floating_label_layouter_t *this_,
-                                                           layout_visible_set_t *layout_data,
                                                            const geometry_anchor_t *anchor,
                                                            const geometry_dimensions_t *preferred_dim,
                                                            draw_feature_label_t *draw_estimator,
                                                            const data_feature_t *feature,
-                                                           const data_profile_part_t *profile,
-                                                           PangoLayout *font_layout,
                                                            geometry_rectangle_t *out_solution )
 {
     U8_TRACE_BEGIN();
 
     pencil_floating_label_layouter_private_propose_solution( this_,
-                                                             layout_data,
                                                              anchor,
                                                              preferred_dim,
                                                              draw_estimator,
                                                              feature,
                                                              NULL,
                                                              NULL,
-                                                             profile,
-                                                             font_layout,
                                                              out_solution
                                                            );
 
@@ -85,27 +79,21 @@ void pencil_floating_label_layouter_propose_solution_feat( const pencil_floating
 }
 
 void pencil_floating_label_layouter_propose_solution_rel( const pencil_floating_label_layouter_t *this_,
-                                                          layout_visible_set_t *layout_data,
                                                           const geometry_anchor_t *anchor,
                                                           const geometry_dimensions_t *preferred_dim,
                                                           draw_relationship_label_t *draw_estimator,
                                                           const data_relationship_t *relation,
-                                                          const data_profile_part_t *profile,
-                                                          PangoLayout *font_layout,
                                                           geometry_rectangle_t *out_solution )
 {
     U8_TRACE_BEGIN();
 
     pencil_floating_label_layouter_private_propose_solution( this_,
-                                                             layout_data,
                                                              anchor,
                                                              preferred_dim,
                                                              NULL,
                                                              NULL,
                                                              draw_estimator,
                                                              relation,
-                                                             profile,
-                                                             font_layout,
                                                              out_solution
                                                            );
 
@@ -113,21 +101,20 @@ void pencil_floating_label_layouter_propose_solution_rel( const pencil_floating_
 }
 
 void pencil_floating_label_layouter_select_solution( pencil_floating_label_layouter_t *this_,
-                                                     layout_visible_set_t *layout_data,
                                                      geometry_point_t target_point,
                                                      uint32_t solutions_count,
                                                      const geometry_rectangle_t solutions[],
                                                      uint32_t *out_index_of_best )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != layout_data );
+    assert( NULL != (*this_).layout_data );
     assert( NULL != solutions );
     assert( solutions_count >= 1 );
     assert( NULL != out_index_of_best );
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
-        = layout_visible_set_get_diagram_ptr( layout_data );
+        = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
 
     /* define potential solution and rating */
     uint32_t index_of_best = 0;
@@ -148,34 +135,34 @@ void pencil_floating_label_layouter_select_solution( pencil_floating_label_layou
 
         /* iterate over all classifiers */
         const uint32_t count_classifiers
-            = layout_visible_set_get_visible_classifier_count ( layout_data );
+            = layout_visible_set_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
         {
             const layout_visible_classifier_t *const probe_classifier
-                = layout_visible_set_get_visible_classifier_ptr( layout_data, classifier_index );
+                = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
 
             debts_of_current += layout_quality_debts_label_class( &quality, current_solution, probe_classifier );
         }
 
         /* iterate over all features */
         const uint32_t count_features
-            = layout_visible_set_get_feature_count ( layout_data );
+            = layout_visible_set_get_feature_count( (*this_).layout_data );
         for ( uint32_t feature_index = 0; feature_index < count_features; feature_index ++ )
         {
             const layout_feature_t *const probe_feature
-                = layout_visible_set_get_feature_ptr( layout_data, feature_index );
+                = layout_visible_set_get_feature_ptr( (*this_).layout_data, feature_index );
 
             debts_of_current += layout_quality_debts_label_feat( &quality, current_solution, probe_feature );
         }
 
         /* iterate over all relationships */
         const uint32_t count_relationships
-            = layout_visible_set_get_relationship_count ( layout_data );
+            = layout_visible_set_get_relationship_count( (*this_).layout_data );
         for ( uint32_t relationship_index = 0; relationship_index < count_relationships; relationship_index ++ )
         {
             /* add debts if intersects */
             const layout_relationship_t *const probe_relationship
-                = layout_visible_set_get_relationship_ptr( layout_data, relationship_index );
+                = layout_visible_set_get_relationship_ptr( (*this_).layout_data, relationship_index );
 
             debts_of_current += layout_quality_debts_label_rel( &quality, current_solution, probe_relationship );
         }

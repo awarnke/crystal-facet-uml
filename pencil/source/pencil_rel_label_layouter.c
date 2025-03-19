@@ -105,7 +105,6 @@ void pencil_rel_label_layouter_do_layout( pencil_rel_label_layouter_t *this_, Pa
         else
         {
             pencil_floating_label_layouter_select_solution( &((*this_).label_floater),
-                                                            (*this_).layout_data,
                                                             relation_middle,
                                                             solutions_count,
                                                             solution,
@@ -296,49 +295,37 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
             }
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_1,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_2,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_3,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_4,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
@@ -381,25 +368,19 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
             }
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_5,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_6,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
@@ -478,49 +459,37 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
             }
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_7,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_8,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_9,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;
 
             pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
-                                                                 (*this_).layout_data,
                                                                  &anchor_10,
                                                                  &preferred_label_dim,
                                                                  &((*this_).draw_relationship_label),
                                                                  the_relationship,
-                                                                 (*this_).profile,
-                                                                 font_layout,
                                                                  &(out_solutions[solution_idx])
                                                                );
             solution_idx ++;

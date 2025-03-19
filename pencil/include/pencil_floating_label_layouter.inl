@@ -3,20 +3,19 @@
 #include <assert.h>
 
 static inline void pencil_floating_label_layouter_private_propose_solution( const pencil_floating_label_layouter_t *this_,
-                                                                            layout_visible_set_t *layout_data,
                                                                             const geometry_anchor_t *anchor,
                                                                             const geometry_dimensions_t *preferred_dim,
                                                                             draw_feature_label_t *draw_estimator_feat,
                                                                             const data_feature_t *feature,
                                                                             draw_relationship_label_t *draw_estimator_rel,
                                                                             const data_relationship_t *relation,
-                                                                            const data_profile_part_t *profile,
-                                                                            PangoLayout *font_layout,
                                                                             geometry_rectangle_t *out_solution )
 {
     U8_TRACE_BEGIN();
-
-    assert( layout_data != NULL );
+    assert( (*this_).pencil_size != NULL );
+    assert( (*this_).layout_data != NULL );
+    assert( (*this_).profile != NULL );
+    assert( (*this_).font_layout != NULL );
     assert( anchor != NULL );
     assert( preferred_dim != NULL );
     if ( draw_estimator_feat == NULL )
@@ -31,12 +30,10 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
         assert( draw_estimator_rel == NULL );
         assert( relation == NULL );
     }
-    assert( profile != NULL );
-    assert( font_layout != NULL );
     assert( out_solution != NULL );
 
     /* get draw area */
-    const layout_diagram_t *const diagram_layout = layout_visible_set_get_diagram_ptr( layout_data );
+    const layout_diagram_t *const diagram_layout = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_rect = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* Start shrinking the available solution space to anchor-alignment and diagram space. */
@@ -48,11 +45,11 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     geometry_rectangle_init_by_intersect( &available, &available, diagram_draw_rect );
 
     /* iterate over all classifiers */
-    const uint32_t count_classifiers = layout_visible_set_get_visible_classifier_count ( layout_data );
+    const uint32_t count_classifiers = layout_visible_set_get_visible_classifier_count( (*this_).layout_data );
     for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
     {
         const layout_visible_classifier_t *const probe_classifier
-            = layout_visible_set_get_visible_classifier_ptr( layout_data, classifier_index );
+            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
         const geometry_rectangle_t *const probe_space = layout_visible_classifier_get_space_const( probe_classifier );
         if ( geometry_rectangle_contains_point( probe_space, geometry_anchor_get_point_const( anchor ) ) )
         {
@@ -84,11 +81,11 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     }
 
     /* iterate over all features */
-    const uint32_t count_features = layout_visible_set_get_feature_count ( layout_data );
+    const uint32_t count_features = layout_visible_set_get_feature_count( (*this_).layout_data );
     for ( uint32_t feature_index = 0; feature_index < count_features; feature_index ++ )
     {
         const layout_feature_t *const probe_feature
-            = layout_visible_set_get_feature_ptr( layout_data, feature_index );
+            = layout_visible_set_get_feature_ptr( (*this_).layout_data, feature_index );
         const data_feature_t *const probe_feature_data = layout_feature_get_data_const( probe_feature );
         if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( probe_feature_data ) )
         {
@@ -106,11 +103,11 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     }
 
     /* iterate over all relationships */
-    const uint32_t count_relationships = layout_visible_set_get_relationship_count ( layout_data );
+    const uint32_t count_relationships = layout_visible_set_get_relationship_count( (*this_).layout_data );
     for ( uint32_t relationship_index = 0; relationship_index < count_relationships; relationship_index ++ )
     {
         const layout_relationship_t *const probe_relationship
-            = layout_visible_set_get_relationship_ptr( layout_data, relationship_index );
+            = layout_visible_set_get_relationship_ptr( (*this_).layout_data, relationship_index );
         const geometry_connector_t *const conn = layout_relationship_get_shape_const( probe_relationship );
         const geometry_rectangle_t source = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_SOURCE );
         const geometry_rectangle_t main = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_MAIN );
@@ -151,10 +148,10 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
         {
             draw_feature_label_get_key_and_value_dimensions( draw_estimator_feat,
                                                              feature,
-                                                             profile,
+                                                             (*this_).profile,
                                                              &available_dim,
                                                              (*this_).pencil_size,
-                                                             font_layout,
+                                                             (*this_).font_layout,
                                                              &label_dim
                                                            );
         }
@@ -162,10 +159,10 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
         {
             draw_relationship_label_get_type_and_name_dimensions( draw_estimator_rel,
                                                                   relation,
-                                                                  profile,
+                                                                  (*this_).profile,
                                                                   &available_dim,
                                                                   (*this_).pencil_size,
-                                                                  font_layout,
+                                                                  (*this_).font_layout,
                                                                   &label_dim
                                                                 );
         }
