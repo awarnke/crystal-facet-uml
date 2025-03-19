@@ -36,7 +36,7 @@ struct pencil_rel_label_layouter_struct {
     const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
     draw_relationship_label_t draw_relationship_label;  /*!< collection of draw label functions */
-    pencil_floating_label_layouter_t label_layout_helper;   /*!< collection of layout label functions */
+    pencil_floating_label_layouter_t label_floater;   /*!< collection of layout label functions */
 };
 
 typedef struct pencil_rel_label_layouter_struct pencil_rel_label_layouter_t;

@@ -21,7 +21,7 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
-    pencil_floating_label_layouter_init ( &((*this_).label_layout_helper), pencil_size );
+    pencil_floating_label_layouter_init_void( &((*this_).label_floater) );
 
     U8_TRACE_END();
 }
@@ -39,6 +39,7 @@ void pencil_rel_label_layouter_reinit( pencil_rel_label_layouter_t *this_,
     (*this_).layout_data = layout_data;
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
+    pencil_floating_label_layouter_init_void( &((*this_).label_floater) );
 
     U8_TRACE_END();
 }
@@ -47,7 +48,7 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    pencil_floating_label_layouter_destroy ( &((*this_).label_layout_helper) );
+    pencil_floating_label_layouter_destroy ( &((*this_).label_floater) );
     draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
 
     U8_TRACE_END();
@@ -58,6 +59,13 @@ void pencil_rel_label_layouter_do_layout( pencil_rel_label_layouter_t *this_, Pa
     U8_TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS );
     assert( NULL != font_layout );
+
+    pencil_floating_label_layouter_reinit( &((*this_).label_floater),
+                                           (*this_).layout_data,
+                                           (*this_).profile,
+                                           (*this_).pencil_size,
+                                           font_layout
+                                         );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -96,7 +104,7 @@ void pencil_rel_label_layouter_do_layout( pencil_rel_label_layouter_t *this_, Pa
         }
         else
         {
-            pencil_floating_label_layouter_select_solution( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_select_solution( &((*this_).label_floater),
                                                             (*this_).layout_data,
                                                             relation_middle,
                                                             solutions_count,
@@ -111,6 +119,8 @@ void pencil_rel_label_layouter_do_layout( pencil_rel_label_layouter_t *this_, Pa
 
     layout_relationship_iter_destroy( &relationship_iterator );
     universal_array_index_sorter_destroy( &sorted );
+
+    pencil_floating_label_layouter_reinit_void( &((*this_).label_floater) );
 
     U8_TRACE_END();
 }
@@ -285,7 +295,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                     );
             }
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_1,
                                                                  &preferred_label_dim,
@@ -297,7 +307,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                                );
             solution_idx ++;
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_2,
                                                                  &preferred_label_dim,
@@ -309,7 +319,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                                );
             solution_idx ++;
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_3,
                                                                  &preferred_label_dim,
@@ -321,7 +331,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                                );
             solution_idx ++;
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_4,
                                                                  &preferred_label_dim,
@@ -370,7 +380,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                     );
             }
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_5,
                                                                  &preferred_label_dim,
@@ -382,7 +392,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                                );
             solution_idx ++;
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_6,
                                                                  &preferred_label_dim,
@@ -467,7 +477,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
 
             }
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_7,
                                                                  &preferred_label_dim,
@@ -479,7 +489,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                                );
             solution_idx ++;
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_8,
                                                                  &preferred_label_dim,
@@ -491,7 +501,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                                );
             solution_idx ++;
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_9,
                                                                  &preferred_label_dim,
@@ -503,7 +513,7 @@ void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layou
                                                                );
             solution_idx ++;
 
-            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_layout_helper),
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
                                                                  (*this_).layout_data,
                                                                  &anchor_10,
                                                                  &preferred_label_dim,

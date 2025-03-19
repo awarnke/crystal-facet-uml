@@ -5,11 +5,47 @@
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 
-void pencil_floating_label_layouter_init( pencil_floating_label_layouter_t *this_, const pencil_size_t *pencil_size )
+void pencil_floating_label_layouter_init_void( pencil_floating_label_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).layout_data = NULL;
+    (*this_).profile = NULL;
+    (*this_).pencil_size = NULL;
+    (*this_).font_layout = NULL;
+
+    U8_TRACE_END();
+}
+
+void pencil_floating_label_layouter_reinit_void( pencil_floating_label_layouter_t *this_ )
+{
+    U8_TRACE_BEGIN();
+
+    (*this_).layout_data = NULL;
+    (*this_).profile = NULL;
+    (*this_).pencil_size = NULL;
+    (*this_).font_layout = NULL;
+
+    U8_TRACE_END();
+}
+
+void pencil_floating_label_layouter_reinit( pencil_floating_label_layouter_t *this_,
+                                            layout_visible_set_t *layout_data,
+                                            const data_profile_part_t *profile,
+                                            const pencil_size_t *pencil_size,
+                                            PangoLayout *font_layout )
+{
+    U8_TRACE_BEGIN();
+    assert( layout_data != NULL );
+    assert( profile != NULL );
+    assert( pencil_size != NULL );
+    assert( font_layout != NULL );
+
+    (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
+    (*this_).font_layout = font_layout;
+
     U8_TRACE_END();
 }
 

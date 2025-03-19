@@ -18,27 +18,56 @@
 #include "geometry/geometry_anchor.h"
 
 /*!
- *  \brief attributes of the label layout helper
+ *  \brief attributes of the floating label layout helper
  *
- *  \note This class is stateless.
- *        It may either be instantiated once and used many times or be instantiated per use.
+ *  \note This class is not stateless.
+ *        This object is valid to layout one or more objects of layout_data onto a canvas for which font_layout is valid.
+ *        For other layout_data or other canvas, the object needs to be re-initialized.
  */
 struct pencil_floating_label_layouter_struct {
+    const layout_visible_set_t *layout_data;  /*!< layout data of objects that are already (partly) layouted */
+    const data_profile_part_t *profile;  /*!< profile-part that provides the stereotype definition of the element to be layouted */
     const pencil_size_t *pencil_size;  /*!< the pencil size proposes preferred distances */
+    PangoLayout *font_layout;  /*!< pango layout object to determine the font metrics in the current cairo drawing context */
 };
 
 typedef struct pencil_floating_label_layouter_struct pencil_floating_label_layouter_t;
 
 /*!
- *  \brief initializes the label layout helper
+ *  \brief initializes the floating label layouter to void
  *
  *  \param this_ pointer to own object attributes
- *  \param pencil_size proposal for preferred distances
  */
-void pencil_floating_label_layouter_init( pencil_floating_label_layouter_t *this_, const pencil_size_t *pencil_size );
+void pencil_floating_label_layouter_init_void( pencil_floating_label_layouter_t *this_ );
 
 /*!
- *  \brief destroys the label layout helper
+ *  \brief re-initializes the floating label layouter to void
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_floating_label_layouter_reinit_void( pencil_floating_label_layouter_t *this_ );
+
+/*!
+ *  \brief initializes the floating label layouter
+ *
+ *  This object is valid to layout one or more objects of layout_data onto a canvas for which font_layout is valid.
+ *  For other layout_data or canvas, the object needs to be re-initialized.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layout_data data that is already (partly) layouted - by which to determine a suitable space
+ *  \param profile profile-part that provides the stereotype definition of the element to be layouted
+ *  \param pencil_size proposal for preferred distances
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ */
+void pencil_floating_label_layouter_reinit( pencil_floating_label_layouter_t *this_,
+                                            layout_visible_set_t *layout_data,
+                                            const data_profile_part_t *profile,
+                                            const pencil_size_t *pencil_size,
+                                            PangoLayout *font_layout
+                                          );
+
+/*!
+ *  \brief destroys the floating label layouter
  *
  *  \param this_ pointer to own object attributes
  */
