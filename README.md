@@ -16,12 +16,14 @@ As software architect, you create a set of diagrams describing
 use-cases, requirements, structural views, behavioral and deployment views.
 
 <!-- How does the tool solve the task? What is the data flow? Is it interoperable? input/output formats. required Environment? -->
+These views show selected elements and their relationships.
 crystal-facet-uml keeps element names and element hierarchies consistent.
-It exports diagrams in svg, pdf, ps and png formats
-to be used in text processing systems like docbook, html, latex.
-crystal-facet-uml exports the model to json and xmi format; json can also be imported.
-The json-based data file can be stored to git, branched and merged together with your source code.
-This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
+
+This tool runs on your local PC.
+It stores the model data in a json-based file
+which can be stored in git, branched and merged together with your source code.
+crystal-facet-uml exports diagrams in svg, pdf, ps and png formats
+which can be used in text processing systems like DocBook, html, LaTeX.
 
 ![ScreenShot](documentation/user_manual/screenshot_2.png)
 

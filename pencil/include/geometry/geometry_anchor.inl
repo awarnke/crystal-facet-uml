@@ -123,19 +123,48 @@ static inline geometry_rectangle_t geometry_anchor_align_biased_dim( const geome
                                              width,
                                              geometry_point_get_x( &((*this_).reference_point) ),
                                              0.0 /* reference_width is zero, the reference is a point */
-    );
+                                           );
     double top = geometry_v_align_get_top( &((*this_).y_align),
                                            height,
                                            geometry_point_get_y( &((*this_).reference_point) ),
                                            0.0 /* reference_height is zero, the reference is a point */
-    );
+                                         );
 
     /* in case of center, allow small moves */
     if ( (*this_).x_align == GEOMETRY_H_ALIGN_CENTER )
     {
-        /* center to available space and pull back to anchor */
+        /* if left/top position exceeds preferred_location, then move */
+        const double min_x = geometry_rectangle_get_left( preferred_location );
+        const double max_x = geometry_rectangle_get_right( preferred_location );
+        const double max_width = geometry_rectangle_get_width( preferred_location );
+        if ( left < min_x )
+        {
+            if ( width <= max_width )
+            {
+                /* left/top position is too far left, but can fit if moved */
+                left = min_x;
+            }
+            else
+            {
+                /* unaligned does not fit to preferred_location, simply center the result */
+                left = geometry_rectangle_get_center_x( preferred_location ) - 0.5 * width;
+            }
+        }
+        else if ( left + width > max_x )
+        {
+            if ( width <= max_width )
+            {
+                /* left/top position is too far left, but can fit if moved */
+                left = max_x - width;
+            }
+            else
+            {
+                /* unaligned does not fit to preferred_location, simply center the result */
+                left = geometry_rectangle_get_center_x( preferred_location ) - 0.5 * width;
+            }
+        }
+        /* if result moved too far, pull it back to anchor */
         const double reference_x = geometry_point_get_x( &((*this_).reference_point) );
-        left = geometry_rectangle_get_center_x( preferred_location ) - 0.5 * width;
         if ( left + width < reference_x )
         {
             left = reference_x - width;
@@ -147,9 +176,38 @@ static inline geometry_rectangle_t geometry_anchor_align_biased_dim( const geome
     }
     if ( (*this_).y_align == GEOMETRY_V_ALIGN_CENTER )
     {
-        /* center to available space and pull back to anchor */
+        /* if left/top position exceeds preferred_location, then move */
+        const double min_y = geometry_rectangle_get_top( preferred_location );
+        const double max_y = geometry_rectangle_get_bottom( preferred_location );
+        const double max_height = geometry_rectangle_get_height( preferred_location );
+        if ( top < min_y )
+        {
+            if ( height <= max_height )
+            {
+                /* left/top position is too far left, but can fit if moved */
+                top = min_y;
+            }
+            else
+            {
+                /* unaligned does not fit to preferred_location, simply center the result */
+                top = geometry_rectangle_get_center_y( preferred_location ) - 0.5 * height;
+            }
+        }
+        else if ( top + height > max_y )
+        {
+            if ( height <= max_height )
+            {
+                /* left/top position is too far left, but can fit if moved */
+                top = max_y - height;
+            }
+            else
+            {
+                /* unaligned does not fit to preferred_location, simply center the result */
+                top = geometry_rectangle_get_center_y( preferred_location ) - 0.5 * height;
+            }
+        }
+        /* if result moved too far, pull it back to anchor */
         const double reference_y = geometry_point_get_y( &((*this_).reference_point) );
-        top = geometry_rectangle_get_center_y( preferred_location ) - 0.5 * height;
         if ( top + height < reference_y )
         {
             top = reference_y - height;

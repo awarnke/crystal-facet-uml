@@ -8875,7 +8875,7 @@
         "description": [
                 ""
         ],
-        "list_order": 787843671,
+        "list_order": 750615441,
         "from_classifier_name": "power::energy_saving",
         "from_feature_key": "",
         "to_classifier_name": "power::energy_saving",
@@ -8894,7 +8894,7 @@
         "description": [
                 ""
         ],
-        "list_order": 909771858,
+        "list_order": 1009864147,
         "from_classifier_name": "power::energy_saving",
         "from_feature_key": "",
         "to_classifier_name": "power::full_operation",
@@ -10897,7 +10897,7 @@
         "description": [
                 ""
         ],
-        "list_order": -414449272,
+        "list_order": -287765768,
         "from_classifier_name": "Video Capture",
         "from_feature_key": "",
         "to_classifier_name": "Environment Model Composer",
@@ -10971,7 +10971,7 @@
         "description": [
                 ""
         ],
-        "list_order": -804097903,
+        "list_order": -640852599,
         "from_classifier_name": "Audio Capture",
         "from_feature_key": "",
         "to_classifier_name": "Environment Model Composer",
@@ -11046,7 +11046,7 @@
         "description": [
                 "For the emergency case, update the limp home action list"
         ],
-        "list_order": 1503284464,
+        "list_order": 1730554900,
         "from_classifier_name": "Tactics Calculator",
         "from_feature_key": "",
         "to_classifier_name": "Motor Controller",
@@ -11118,7 +11118,7 @@
         "description": [
                 "step count of steering and movement motors"
         ],
-        "list_order": -642947389,
+        "list_order": -512023620,
         "from_classifier_name": "Motor Controller",
         "from_feature_key": "",
         "to_classifier_name": "Environment Model Composer",
@@ -11843,7 +11843,7 @@
         "description": [
                 ""
         ],
-        "list_order": 928530041,
+        "list_order": 1043023866,
         "from_classifier_name": "max 500 msec",
         "from_feature_key": "",
         "to_classifier_name": "power::full_operation",
@@ -11862,7 +11862,7 @@
         "description": [
                 ""
         ],
-        "list_order": 717500486,
+        "list_order": 681281484,
         "from_classifier_name": "max 500 msec",
         "from_feature_key": "",
         "to_classifier_name": "power::energy_saving",

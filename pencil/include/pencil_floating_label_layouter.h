@@ -38,14 +38,14 @@ typedef struct pencil_floating_label_layouter_struct pencil_floating_label_layou
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_floating_label_layouter_init_void( pencil_floating_label_layouter_t *this_ );
+void pencil_floating_label_layouter_init_void ( pencil_floating_label_layouter_t *this_ );
 
 /*!
  *  \brief re-initializes the floating label layouter to void
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_floating_label_layouter_reinit_void( pencil_floating_label_layouter_t *this_ );
+void pencil_floating_label_layouter_reinit_void ( pencil_floating_label_layouter_t *this_ );
 
 /*!
  *  \brief initializes the floating label layouter
@@ -59,19 +59,19 @@ void pencil_floating_label_layouter_reinit_void( pencil_floating_label_layouter_
  *  \param pencil_size proposal for preferred distances
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  */
-void pencil_floating_label_layouter_reinit( pencil_floating_label_layouter_t *this_,
-                                            layout_visible_set_t *layout_data,
-                                            const data_profile_part_t *profile,
-                                            const pencil_size_t *pencil_size,
-                                            PangoLayout *font_layout
-                                          );
+void pencil_floating_label_layouter_reinit ( pencil_floating_label_layouter_t *this_,
+                                             layout_visible_set_t *layout_data,
+                                             const data_profile_part_t *profile,
+                                             const pencil_size_t *pencil_size,
+                                             PangoLayout *font_layout
+                                           );
 
 /*!
  *  \brief destroys the floating label layouter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_floating_label_layouter_destroy( pencil_floating_label_layouter_t *this_ );
+void pencil_floating_label_layouter_destroy ( pencil_floating_label_layouter_t *this_ );
 
 /*!
  *  \brief proposes one solution to layout a label rectangle for a layout_feature_t
