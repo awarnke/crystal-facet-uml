@@ -93,6 +93,14 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
 
         /* store best option to (*this_).layout_data */
         layout_relationship_set_shape( current_relationship, &(solution[index_of_best]) );
+
+        /* initialize also the label (to empty), this is updated later */
+        {
+            geometry_rectangle_t void_rect;
+            geometry_rectangle_init_empty( &void_rect );
+            layout_relationship_set_label_box( current_relationship, &void_rect );
+            geometry_rectangle_destroy( &void_rect );
+        }
     }
 
     universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );
@@ -288,8 +296,16 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         {
             const layout_visible_classifier_t *const probe_classifier
                 = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
-
-            debts_of_current += layout_quality_debts_conn_class( &quality, current_solution, probe_classifier);
+            const layout_visible_classifier_t *const from = layout_relationship_get_from_classifier_ptr( current_relation );
+            const layout_visible_classifier_t *const to = layout_relationship_get_to_classifier_ptr( current_relation );
+            const bool is_ancestor_of_from = layout_visible_set_is_ancestor( (*this_).layout_data, probe_classifier, from );
+            const bool is_ancestor_of_to = layout_visible_set_is_ancestor( (*this_).layout_data, probe_classifier, to );
+            debts_of_current += layout_quality_debts_conn_class( &quality,
+                                                                 current_solution,
+                                                                 probe_classifier,
+                                                                 is_ancestor_of_from,
+                                                                 is_ancestor_of_to
+                                                               );
         }
 
         /* iterate over all features, check symbol boxes only, label boxes are not yet initialized */

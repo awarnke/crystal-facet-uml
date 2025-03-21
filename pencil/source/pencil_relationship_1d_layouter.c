@@ -188,6 +188,14 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
             }
             layout_relationship_set_shape( the_relationship, &relationship_shape );
             geometry_connector_destroy( &relationship_shape );
+
+            /* initialize also the label (to empty), this is updated later */
+            {
+                geometry_rectangle_t void_rect;
+                geometry_rectangle_init_empty( &void_rect );
+                layout_relationship_set_label_box( the_relationship, &void_rect );
+                geometry_rectangle_destroy( &void_rect );
+            }
         }
     }
 
@@ -313,6 +321,14 @@ void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_l
             }
             layout_relationship_set_shape( the_relationship, &relationship_shape );
             geometry_connector_destroy( &relationship_shape );
+
+            /* initialize also the label (to empty), this is updated later */
+            {
+                geometry_rectangle_t void_rect;
+                geometry_rectangle_init_empty( &void_rect );
+                layout_relationship_set_label_box( the_relationship, &void_rect );
+                geometry_rectangle_destroy( &void_rect );
+            }
         }
     }
 

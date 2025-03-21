@@ -2,6 +2,7 @@ crystal-facet-uml (1.63.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * in sequence charts, labels of relationships are closer to the x-center
+  * relationships may trespass parents/ancestors of their from/to nodes
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 15 Mar 2025 18:30:00 +0100
 

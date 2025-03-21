@@ -110,11 +110,15 @@ static inline double layout_quality_debts_conn_diag ( const layout_quality_t *th
  *  \param this_ pointer to own object attributes
  *  \param probe a partly layouted relationship
  *  \param other a completely layouted visible classifier
+ *  \param is_ancestor_of_source other is an ancestor of the probe's source end (from)
+ *  \param is_ancestor_of_destination other is an ancestor of the probe's destination end (to)
  *  \return 0.0 if there are no overlaps, a positive value otherwise
  */
 static inline double layout_quality_debts_conn_class ( const layout_quality_t *this_,
                                                        const geometry_connector_t *probe,
-                                                       const layout_visible_classifier_t *other
+                                                       const layout_visible_classifier_t *other,
+                                                       const bool is_ancestor_of_source,
+                                                       const bool is_ancestor_of_destination
                                                      );
 
 /*!

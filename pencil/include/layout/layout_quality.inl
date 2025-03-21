@@ -309,7 +309,9 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
 
 static inline double layout_quality_debts_conn_class ( const layout_quality_t *this_,
                                                        const geometry_connector_t *probe,
-                                                       const layout_visible_classifier_t *other )
+                                                       const layout_visible_classifier_t *other,
+                                                       const bool is_ancestor_of_source,
+                                                       const bool is_ancestor_of_destination )
 {
     double debts = 0.0;
 
@@ -325,14 +327,18 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
 
         const geometry_rectangle_t *const classifier_symbol_box
             = layout_visible_classifier_get_symbol_box_const( other );
-        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
-            * geometry_connector_get_transit_length( probe, classifier_symbol_box ) * line_corridor;
+        if ( is_ancestor_of_source == is_ancestor_of_destination )
+        {
+            /* either probe is no ancestor or ancestor of both */
+            debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
+                * geometry_connector_get_transit_length( probe, classifier_symbol_box ) * line_corridor;
+        }
         const double same_path
             = geometry_connector_get_same_path_length_rect( probe,
                                                             classifier_symbol_box,
                                                             5.0 * line_width
                                                           );
-         /* ^ max_distance is 5x line width because the contour line of a classifier is 3x linewidth within the bounds */
+        /* ^ max_distance is 5x line width because the contour line of a classifier is drawn at 3x linewidth within the bounds */
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * same_path * line_corridor;
 
         const geometry_rectangle_t *const classifier_icon_box
