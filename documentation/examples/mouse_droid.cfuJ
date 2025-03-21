@@ -3092,27 +3092,82 @@
     },
     {
       "diagram": {
-        "id": 12,
+        "id": 62,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
         "name": "Risks",
         "description": [
-                "This section lists the risks caused by a) design decsisions and by b) not-yet-addressed requirements. (Solution Space, System Level L1)"
+                "Limp Home is a critical functionality of the system.\n",
+                "Dis diagram lists the system elements that are needed for its execution."
         ],
         "list_order": 360448,
         "display_flags": 0,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
-        "uuid": "5dc39d06-6d77-4667-bcc8-a2ceb1ce276f",
+        "uuid": "2a47061e-46d8-4357-8bb9-080ebfde511a",
         "diagramelements":
         [
           {
-            "id": 140,
+            "id": 369,
             "display_flags": 0,
-            "classifier_name": "Limp home mode may fail",
-            "node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-            "uuid": "18bd0566-7bf0-493e-aefa-e2c3c66939e9"
+            "classifier_name": "health::limp_home",
+            "node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+            "uuid": "b82dc6f9-97e7-41f6-b60a-57f13279721b"
           },
+          {
+            "id": 370,
+            "display_flags": 0,
+            "classifier_name": "Functionality: Limp Home",
+            "node": "f1edf890-12d3-4248-afac-d908287df3b7",
+            "uuid": "5a25d255-7391-485d-80fb-26b6e2468585"
+          },
+          {
+            "id": 374,
+            "display_flags": 0,
+            "classifier_name": "Energy Cell",
+            "node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+            "uuid": "11f0438d-d5cf-45d5-82be-81447ffa56f8"
+          },
+          {
+            "id": 375,
+            "display_flags": 0,
+            "classifier_name": "Motors",
+            "node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+            "uuid": "2ed095e3-9dfc-4fe6-84ec-da9bed27e187"
+          },
+          {
+            "id": 376,
+            "display_flags": 0,
+            "classifier_name": "Wheels (4)",
+            "node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
+            "uuid": "3e51afc4-bb0b-4050-8557-281192e56b48"
+          },
+          {
+            "id": 377,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "17322118-72f3-429e-a2b9-0a0b061d1273"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 12,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Failure Modes of Motors and Wheels",
+        "description": [
+                "This section lists the risks caused by a) design decsisions and by b) not-yet-addressed requirements. (Solution Space, System Level L1)"
+        ],
+        "list_order": -1,
+        "display_flags": 0,
+        "parent_name": "Risks",
+        "parent": "2a47061e-46d8-4357-8bb9-080ebfde511a",
+        "uuid": "5dc39d06-6d77-4667-bcc8-a2ceb1ce276f",
+        "diagramelements":
+        [
           {
             "id": 141,
             "display_flags": 33554432,
@@ -3122,25 +3177,105 @@
             "uuid": "b3c563c7-d3b0-4b67-9228-af129dac5ad9"
           },
           {
-            "id": 196,
-            "display_flags": 0,
-            "classifier_name": "Risk: MoD5G does not drive back (logic board)",
-            "node": "74903d54-6d51-4e5f-984a-539cb62006a6",
-            "uuid": "60c9f736-474b-4322-a872-02051f7ee964"
-          },
-          {
-            "id": 229,
-            "display_flags": 0,
-            "classifier_name": "Risk: MoD5G does not drive back (energy)",
-            "node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
-            "uuid": "4c21c060-4fd1-4a02-8080-6301841b8080"
-          },
-          {
             "id": 230,
             "display_flags": 0,
             "classifier_name": "Risk: MoD5G does not drive back (motors)",
             "node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
             "uuid": "d190913a-1a9c-4dba-8e28-320f4bd6b99c"
+          },
+          {
+            "id": 372,
+            "display_flags": 0,
+            "classifier_name": "Motors",
+            "node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+            "uuid": "f735559b-c389-4da0-8d83-fa5063dd35af"
+          },
+          {
+            "id": 373,
+            "display_flags": 0,
+            "classifier_name": "Wheels (4)",
+            "node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
+            "uuid": "b5212413-fbfe-456a-a1ec-e6061403050e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 63,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Failure Modes of Energy Cell",
+        "description": [
+                ""
+        ],
+        "list_order": 32767,
+        "display_flags": 0,
+        "parent_name": "Risks",
+        "parent": "2a47061e-46d8-4357-8bb9-080ebfde511a",
+        "uuid": "bd9e0819-dfbb-490d-abab-ccefccebc100",
+        "diagramelements":
+        [
+          {
+            "id": 386,
+            "display_flags": 0,
+            "classifier_name": "health::limp_home",
+            "node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+            "uuid": "7790ff29-0af9-4b88-a7a6-17b5b6b2393a"
+          },
+          {
+            "id": 388,
+            "display_flags": 0,
+            "classifier_name": "Energy Cell",
+            "node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+            "uuid": "2c58a8e6-e668-4bd5-9ec7-c58a1d136941"
+          },
+          {
+            "id": 389,
+            "display_flags": 0,
+            "classifier_name": "Risk: MoD5G does not drive back (energy)",
+            "node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
+            "uuid": "9b173e5d-ec82-4177-8780-7e9d3de31d64"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 64,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Failure Modes of Base Logic Board",
+        "description": [
+                ""
+        ],
+        "list_order": 65535,
+        "display_flags": 0,
+        "parent_name": "Risks",
+        "parent": "2a47061e-46d8-4357-8bb9-080ebfde511a",
+        "uuid": "e3efc76a-8c26-47c0-883d-f83870c5a1fa",
+        "diagramelements":
+        [
+          {
+            "id": 380,
+            "display_flags": 0,
+            "classifier_name": "health::limp_home",
+            "node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+            "uuid": "852f42ac-636f-425f-9d6d-43b4114213d7"
+          },
+          {
+            "id": 381,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "9a4a16cd-2a72-4e73-9315-4b7692e47fb8"
+          },
+          {
+            "id": 384,
+            "display_flags": 0,
+            "classifier_name": "Risk: MoD5G does not drive back (logic board)",
+            "node": "74903d54-6d51-4e5f-984a-539cb62006a6",
+            "uuid": "b78e5c70-e563-4b26-9914-3ae906d0684a"
           }
         ]
       }
@@ -4334,10 +4469,10 @@
         "type": "Block",
         "name": "Wheels (4)",
         "description": [
-                ""
+                "The functionality of wheels is to transform a torque force into movement of the MoD5G."
         ],
-        "x_order": -855507639,
-        "y_order": -1412570674,
+        "x_order": 645157058,
+        "y_order": -1053978658,
         "list_order": -1053905027,
         "uuid": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
         "features":
@@ -4354,7 +4489,7 @@
         "description": [
                 "A fan prevents overheating in hot environment conditions."
         ],
-        "x_order": -203135287,
+        "x_order": -855507639,
         "y_order": -1053978658,
         "list_order": -1051813110,
         "uuid": "5e00054a-23a4-4e74-8029-628d165a7c3d",
@@ -4372,7 +4507,7 @@
         "description": [
                 "There are two motors to drive and steer and further motors to control the movement of a tool-arm."
         ],
-        "x_order": 645157058,
+        "x_order": -203135287,
         "y_order": -1053978658,
         "list_order": -1053978658,
         "uuid": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
@@ -4549,7 +4684,9 @@
         "type": "Block",
         "name": "Base Logic Board",
         "description": [
-                "The base logic board consists of several electronic parts shown in D0035#name."
+                "The base logic board consists of several electronic parts shown in D0035#name.\n",
+                "\n",
+                "It provides functionality to detect health status of MoD5G components, it steers motors."
         ],
         "x_order": -790789043,
         "y_order": -1137259057,
@@ -5688,30 +5825,6 @@
     },
     {
       "classifier": {
-        "id": 105,
-        "main_type": 130,
-        "type": "Comment",
-        "name": "Limp home mode may fail",
-        "description": [
-                "In case of a single fault, the MoD5G shall return\n",
-                "to the charging station.\n",
-                "\n",
-                "The current design does not address the cases:\n",
-                "- the base logic board is damaged\n",
-                "- the energy cell is damaged\n",
-                "- the movement/steering motors are defect"
-        ],
-        "x_order": 452796978,
-        "y_order": -1722530006,
-        "list_order": -1104173096,
-        "uuid": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 106,
         "main_type": 121,
         "type": "Component",
@@ -6325,8 +6438,8 @@
                 "- cause/fault: the base logic board is damaged\n",
                 "- risk/failure: the MoD5G cannot drive anymore"
         ],
-        "x_order": 1873364013,
-        "y_order": -1494769192,
+        "x_order": -1151499283,
+        "y_order": -1647070633,
         "list_order": -1531045812,
         "uuid": "74903d54-6d51-4e5f-984a-539cb62006a6",
         "features":
@@ -6335,13 +6448,61 @@
             "id": 48,
             "main_type": 10,
             "type": "Tag",
-            "key": "cause",
-            "value": "logic board damaged",
+            "key": "Cause",
+            "value": "Programming mistake",
             "description": [
                 ""
             ],
             "list_order": 32768,
             "uuid": "d0363950-f55d-455f-8405-796df0726eb7"
+          },
+          {
+            "id": 59,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Failure Mode",
+            "value": "Logic not responsive (endless loop)",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "b098beef-5d37-45ce-b4cb-11b162c88218"
+          },
+          {
+            "id": 60,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Effect",
+            "value": "Motors are not controlled, no movement",
+            "description": [
+                ""
+            ],
+            "list_order": 16384,
+            "uuid": "af8a57fb-4b3d-4a7c-9a5f-0defe8c83de7"
+          },
+          {
+            "id": 61,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Prevent",
+            "value": "Analyse program logic",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "8c3f241f-e95b-4840-8c76-231fad767536"
+          },
+          {
+            "id": 62,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Detect",
+            "value": "Supervise logic, reset program",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "b8064aba-cf4b-42fe-91e0-ef7d34a465aa"
           }
         ]
       }
@@ -6652,8 +6813,8 @@
                 "- cause/fault: the energy cell is damaged\n",
                 "- risk/failure: the MoD5G cannot drive anymore"
         ],
-        "x_order": 1873364013,
-        "y_order": -1653337778,
+        "x_order": -1229859944,
+        "y_order": -1563008730,
         "list_order": -1653337778,
         "uuid": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
         "features":
@@ -6662,13 +6823,61 @@
             "id": 47,
             "main_type": 10,
             "type": "Tag",
-            "key": "cause",
-            "value": "energy cell damaged",
+            "key": "Cause",
+            "value": "Collision with obstacle",
             "description": [
                 ""
             ],
             "list_order": 32768,
             "uuid": "f0bf1eac-9d06-4871-ba5c-1720ce360c63"
+          },
+          {
+            "id": 63,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Failure Mode",
+            "value": "Physical damage",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "2ead8dae-0287-482b-b0f9-fb6ea1dda4cf"
+          },
+          {
+            "id": 64,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Effect",
+            "value": "No power supply",
+            "description": [
+                ""
+            ],
+            "list_order": 16384,
+            "uuid": "8c25cf1e-f377-4d32-94e1-311a05ae06de"
+          },
+          {
+            "id": 65,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Prevent",
+            "value": "Extend testing navigation system",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "b42c0b87-6fa2-4a79-9cd2-aa8a56c5db36"
+          },
+          {
+            "id": 66,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Detect",
+            "value": "-",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "364d9c1d-7a70-4bb4-b01b-b87e384ff475"
           }
         ]
       }
@@ -6684,7 +6893,7 @@
                 "- cause/fault: the ,ovement/steering motors are damaged\n",
                 "- risk/failure: the MoD5G cannot drive anymore"
         ],
-        "x_order": 1873364013,
+        "x_order": -728001713,
         "y_order": -1722530006,
         "list_order": -1722530006,
         "uuid": "7bc7017a-47a5-416e-a079-3b58bc03747c",
@@ -6694,13 +6903,61 @@
             "id": 46,
             "main_type": 10,
             "type": "Tag",
-            "key": "cause",
-            "value": "motors defect",
+            "key": "Cause",
+            "value": "Fatigue of material",
             "description": [
                 ""
             ],
             "list_order": 32768,
             "uuid": "c1af5919-c1fc-4e81-a28f-45e16ec927db"
+          },
+          {
+            "id": 55,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Failure Mode",
+            "value": "Axle twisted",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "490e1e30-6d51-464d-8a01-4e840debf3ca"
+          },
+          {
+            "id": 56,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Effect",
+            "value": "No Torque force generated",
+            "description": [
+                ""
+            ],
+            "list_order": 16384,
+            "uuid": "906eeccf-a521-4a54-a8f2-2d7c71407705"
+          },
+          {
+            "id": 57,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Prevent",
+            "value": "Perform regular service",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "d61e586b-7de0-4b92-aaf9-49dfc3c8714d"
+          },
+          {
+            "id": 58,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Detect",
+            "value": "-",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "e3781aa1-d1af-42e8-a3dd-962288802cb8"
           }
         ]
       }
@@ -7986,6 +8243,26 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 206,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "Functionality: Limp Home",
+        "description": [
+                "In case of a single fault, \n",
+                "the MoD5G shall return\n",
+                "to the maintenance booth."
+        ],
+        "x_order": -790789043,
+        "y_order": -1988378652,
+        "list_order": -1946292730,
+        "uuid": "f1edf890-12d3-4248-afac-d908287df3b7",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -9045,6 +9322,74 @@
     },
     {
       "relationship": {
+        "id": 333,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "needs",
+        "description": [
+                ""
+        ],
+        "list_order": 720896,
+        "from_classifier_name": "health::limp_home",
+        "to_classifier_name": "Energy Cell",
+        "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+        "uuid": "0ead1a51-36db-4638-a80a-b0e5aed11500"
+      }
+    },
+    {
+      "relationship": {
+        "id": 334,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "needs",
+        "description": [
+                ""
+        ],
+        "list_order": 753664,
+        "from_classifier_name": "health::limp_home",
+        "to_classifier_name": "Base Logic Board",
+        "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "uuid": "472ecb0f-29e4-4a0d-a222-94cae097f677"
+      }
+    },
+    {
+      "relationship": {
+        "id": 335,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "needs",
+        "description": [
+                ""
+        ],
+        "list_order": 786432,
+        "from_classifier_name": "health::limp_home",
+        "to_classifier_name": "Motors",
+        "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+        "uuid": "11e4e9bb-8a5f-4a1d-8f34-42b45aa25297"
+      }
+    },
+    {
+      "relationship": {
+        "id": 336,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "needs",
+        "description": [
+                ""
+        ],
+        "list_order": 819200,
+        "from_classifier_name": "health::limp_home",
+        "to_classifier_name": "Wheels (4)",
+        "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
+        "uuid": "6ea4a88f-1be2-4c97-9136-7df6ed208192"
+      }
+    },
+    {
+      "relationship": {
         "id": 206,
         "main_type": 240,
         "type": "Transition",
@@ -9469,6 +9814,23 @@
         "from_node": "848376fc-1475-4adc-b35f-200e17103025",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "f41ee18f-be0f-45d5-a16a-020aa5db430e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 332,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "Motors",
+        "to_classifier_name": "Wheels (4)",
+        "from_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+        "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
+        "uuid": "835bb768-b05d-4e75-875b-85e292230af0"
       }
     },
     {
@@ -10804,74 +11166,6 @@
     },
     {
       "relationship": {
-        "id": 136,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "comments",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "health::limp_home",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "d00e0194-ec38-4ed9-a218-99a18ded7450"
-      }
-    },
-    {
-      "relationship": {
-        "id": 179,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "explains",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "Risk: MoD5G does not drive back (logic board)",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
-        "uuid": "bd0983a1-ffd5-433f-870f-3ed72042f2d4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 229,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "explains",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "Risk: MoD5G does not drive back (motors)",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
-        "uuid": "ae57b42b-f34f-449d-a826-e7915bc8db0f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 230,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "explains",
-        "description": [
-                ""
-        ],
-        "list_order": 163840,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "Risk: MoD5G does not drive back (energy)",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
-        "uuid": "5ba64559-ff77-4489-950b-b61e777168bc"
-      }
-    },
-    {
-      "relationship": {
         "id": 155,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -11645,19 +11939,19 @@
     },
     {
       "relationship": {
-        "id": 180,
+        "id": 338,
         "main_type": 401,
         "type": "Trace",
-        "name": "fault not handled",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 98304,
+        "list_order": 786432,
         "from_classifier_name": "Risk: MoD5G does not drive back (logic board)",
-        "to_classifier_name": "health::limp_home",
+        "to_classifier_name": "Base Logic Board",
         "from_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "20a91450-fb4d-4419-8d19-7351f0919c97"
+        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "uuid": "0fe618d5-949d-4d44-b016-e823e58b2d71"
       }
     },
     {
@@ -11944,36 +12238,36 @@
     },
     {
       "relationship": {
-        "id": 232,
+        "id": 339,
         "main_type": 401,
         "type": "Trace",
-        "name": "fault not handled",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 229376,
+        "list_order": 753664,
         "from_classifier_name": "Risk: MoD5G does not drive back (energy)",
-        "to_classifier_name": "health::limp_home",
+        "to_classifier_name": "Energy Cell",
         "from_node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "1f0eeabc-5e15-435c-a24c-a08cee94adf6"
+        "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+        "uuid": "01bb0ca2-4de4-461f-8543-5fe4bef7574c"
       }
     },
     {
       "relationship": {
-        "id": 231,
+        "id": 337,
         "main_type": 401,
         "type": "Trace",
-        "name": "fault not handled",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 196608,
+        "list_order": 851968,
         "from_classifier_name": "Risk: MoD5G does not drive back (motors)",
-        "to_classifier_name": "health::limp_home",
+        "to_classifier_name": "Motors",
         "from_node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "b2260b87-d99c-462e-88ab-c0678a6e9499"
+        "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+        "uuid": "452d0800-dbb8-4736-b31c-07cfc9cd4078"
       }
     },
     {
@@ -13046,6 +13340,23 @@
         "from_node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "1eb8d183-7cf6-41cb-8257-3816471429e5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 331,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Functionality: Limp Home",
+        "to_classifier_name": "health::limp_home",
+        "from_node": "f1edf890-12d3-4248-afac-d908287df3b7",
+        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "uuid": "af285ca1-9c80-45c3-8123-4c58a5d4085f"
       }
     }
   ]
