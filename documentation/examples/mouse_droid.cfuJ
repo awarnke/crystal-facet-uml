@@ -94,7 +94,7 @@
         "type": "SysMLRequirementDiagram",
         "name": "Constraints",
         "description": [
-                "This section explains the major obstacles that need to be considered when designing a solution that addresses the project goals. (Problem Space, System Level L1)"
+                "This section explains the major obstacles that need to be considered when designing a solution that addresses the project goals. (Problem Space, System Level)"
         ],
         "list_order": -536837632,
         "display_flags": 0,
@@ -134,7 +134,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Scope and Context",
         "description": [
-                "This section shows the organizational contexts of development and operational environments. (Problem Space, System Level L1)"
+                "This section shows the organizational contexts of development and operational environments. (Problem Space, System Level)"
         ],
         "list_order": -268406016,
         "display_flags": 0,
@@ -210,7 +210,7 @@
         "stereotype": "mouse-droid",
         "name": "Use Cases and Requirements",
         "description": [
-                "This section gives a short overview on the project goals (Problem Space, System Level L1)\n",
+                "This section gives a short overview on the project goals (Problem Space, System Level)\n",
                 "\n",
                 "Primary purpose of the MoD5G is to autonomously repair mechanical things."
         ],
@@ -271,9 +271,9 @@
         "id": 44,
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
-        "name": "L1 Requirements View",
+        "name": "Requirements View",
         "description": [
-                "This diagram shows examples of system level L1 requirements."
+                "This diagram shows examples of system level requirements."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -330,7 +330,7 @@
         "type": "SysMLBlockDefinitionDiagram",
         "name": "Solution Strategy",
         "description": [
-                "This section shows the fundamental base principle of the system design. (Solution Space, System Level L1)"
+                "This section shows the fundamental base principle of the system design. (Solution Space, System Level)"
         ],
         "list_order": 102400,
         "display_flags": 0,
@@ -438,7 +438,7 @@
         "description": [
                 "This chapter shows the functions and the operation modes.\n",
                 "Functions represent the solutions to the functional requirements.\n",
-                "Operation modes define which functions are available in which mode,\n",
+                "Operation modes define which functions are available in which mode.\n",
                 ""
         ],
         "list_order": 104960,
@@ -470,7 +470,7 @@
         "id": 50,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
-        "name": "L1 Functional View",
+        "name": "Functional View",
         "description": [
                 "This view shows the functionalities of the MoD5G.\n",
                 "\n",
@@ -547,13 +547,13 @@
         "id": 57,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "L1 Requirements of Functions",
+        "name": "Requirements of Functions",
         "description": [
                 "This diagram shows which function implements/solves which requirements."
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "L1 Functional View",
+        "parent_name": "Functional View",
         "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
         "uuid": "23882e2c-436a-4283-8277-b95e9529fecd",
         "diagramelements":
@@ -764,7 +764,7 @@
         "type": "SysMLBlockDefinitionDiagram",
         "name": "Building Block View",
         "description": [
-                "This section shows the parts of the MoD5G system (Solution Space, System Level L1)"
+                "This section shows the parts of the MoD5G system (Solution Space, System Level)"
         ],
         "list_order": 159744,
         "display_flags": 0,
@@ -802,7 +802,7 @@
         "id": 51,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
-        "name": "L1 Logical View",
+        "name": "Logical View",
         "description": [
                 "This view maps the functions to a form.\n",
                 ""
@@ -849,14 +849,14 @@
           {
             "id": 322,
             "display_flags": 0,
-            "classifier_name": "Strategy planning (L1)",
+            "classifier_name": "Strategy planning",
             "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
             "uuid": "075e95b1-23fc-4a9f-9c96-01f9826e33b4"
           },
           {
             "id": 323,
             "display_flags": 0,
-            "classifier_name": "Tactic execution (L1)",
+            "classifier_name": "Tactic execution",
             "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
             "uuid": "6479c3cd-e93b-46a2-aeae-276d1364153e"
           }
@@ -868,7 +868,7 @@
         "id": 52,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
-        "name": "L1 Physical View",
+        "name": "Physical View",
         "description": [
                 "This view maps the logical form to physical artifacts.\n",
                 ""
@@ -905,7 +905,7 @@
             "id": 324,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Tactic execution (L1)",
+            "classifier_name": "Tactic execution",
             "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
             "uuid": "a3e3e8c7-9471-4344-8155-1812b7a6795e"
           },
@@ -913,7 +913,7 @@
             "id": 325,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Strategy planning (L1)",
+            "classifier_name": "Strategy planning",
             "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
             "uuid": "1a5ef1cf-8cf1-4f1f-a11d-bd8f309446da"
           }
@@ -925,9 +925,9 @@
         "id": 14,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "L2 Mechanics",
+        "name": "Phys/ Mechanics",
         "description": [
-                "This section shows the mechanical parts of the MoD5G system (Solution Space, System Level L2)"
+                "This section shows the mechanical parts of the MoD5G system (Solution Space)"
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -1072,9 +1072,9 @@
         "id": 18,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
-        "name": "L2 Electric Parts and Electronics",
+        "name": "Phys/ Electric Parts and Electronics",
         "description": [
-                "This section shows the electric parts and electronics of the MoD5G system (Solution Space, System Level L2)"
+                "This section shows the electric parts and electronics of the MoD5G system (Solution Space)"
         ],
         "list_order": 1073815550,
         "display_flags": 0,
@@ -1155,11 +1155,11 @@
         "type": "SysMLInternalBlockDiagram",
         "name": "Base Logic Board",
         "description": [
-                "This section shows the base board logic of the MoD5G system (Solution Space, System Level L3)"
+                "This section shows the base board logic of the MoD5G system (Solution Space, EE Level)"
         ],
         "list_order": 0,
         "display_flags": 0,
-        "parent_name": "L2 Electric Parts and Electronics",
+        "parent_name": "Phys/ Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "6ebd18ba-a213-47c4-8759-dad84724b329",
         "diagramelements":
@@ -1209,11 +1209,11 @@
         "type": "SysMLInternalBlockDiagram",
         "name": "Main Board Logic",
         "description": [
-                "This section shows the main board logic of the MoD5G system (Solution Space, System Level L3)"
+                "This section shows the main board logic of the MoD5G system (Solution Space, EE Level)"
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "L2 Electric Parts and Electronics",
+        "parent_name": "Phys/ Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "185ac87a-cd2a-4214-8d4e-3a619c182e59",
         "diagramelements":
@@ -1263,11 +1263,11 @@
         "type": "SysMLBlockDefinitionDiagram",
         "name": "Power Distribution",
         "description": [
-                "This section shows the electric parts and electronics of the MoD5G system (Solution Space, System Level L2)"
+                "This section shows the electric parts and electronics of the MoD5G system (Solution Space, System Level)"
         ],
         "list_order": 1073815550,
         "display_flags": 0,
-        "parent_name": "L2 Electric Parts and Electronics",
+        "parent_name": "Phys/ Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "1335970c-2ff7-42a8-b63d-8be79f317405",
         "diagramelements":
@@ -1315,9 +1315,9 @@
         "id": 19,
         "diagram_type": 30,
         "type": "UMLDeploymentDiagram",
-        "name": "L2 Software [subsystem]",
+        "name": "Phys/ Software [subsystem]",
         "description": [
-                "This diagram shows the virtual machines and specialized (non-versatile) execution environments (Solution Space, System Level L2)\n",
+                "This diagram shows the virtual machines and specialized (non-versatile) execution environments (Solution Space)\n",
                 "\n",
                 "These are deployed onto the logic boards shown in D0018#name.\n",
                 "\n",
@@ -1391,13 +1391,13 @@
         "type": "UMLUseCaseDiagram",
         "name": "Requirements and Goals",
         "description": [
-                "This section shows the goals of the software development for the MoD5G (Problem Space, Software Level L3)\n",
+                "This section shows the goals of the software development for the MoD5G (Problem Space, Software Level)\n",
                 "\n",
-                "In gray, the use cases on system level L1 are repeated from D0002#name to show the refinement to software-only use cases shown in black."
+                "In gray, the use cases on system level are repeated from D0002#name to show the refinement to software-only use cases shown in black."
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6d06f859-47df-4b97-b724-b0715cdf17db",
         "diagramelements":
@@ -1476,9 +1476,9 @@
         "id": 45,
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
-        "name": "L3 Requirements",
+        "name": "Requirements",
         "description": [
-                "This diagram shows examples of system level L3 requirements."
+                "This diagram shows examples of software level requirements."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -1575,11 +1575,11 @@
         "type": "SysMLRequirementDiagram",
         "name": "Constraints",
         "description": [
-                "This section explains the major obstacles, that need to be considered when designing a solution to reach the project goals. (Problem Space, Software Level L3)"
+                "This section explains the major obstacles, that need to be considered when designing a solution to reach the project goals. (Problem Space, Software Level)"
         ],
         "list_order": 49152,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "1ab8813b-9a68-4802-9d1b-9fd7848f1272",
         "diagramelements":
@@ -1608,11 +1608,11 @@
         "type": "UMLComponentDiagram",
         "name": "Scope and Context",
         "description": [
-                "This section shows the organizational contexts of development and operational environments. (Problem Space, Software Level L3)"
+                "This section shows the organizational contexts of development and operational environments. (Problem Space, Software Level)"
         ],
         "list_order": 98304,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "a8d88bf1-56a0-44e0-b9b2-4cd16263585d",
         "diagramelements":
@@ -1648,11 +1648,11 @@
         "type": "UMLComponentDiagram",
         "name": "Solution Strategy",
         "description": [
-                "This section shows the most fundamental principles of the software design. (Solution Space, Software Level L3)"
+                "This section shows the most fundamental principles of the software design. (Solution Space, Software Level)"
         ],
         "list_order": 131072,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "16e1db70-8751-4a21-a6b2-aadbf2affa65",
         "diagramelements":
@@ -1703,11 +1703,11 @@
         "type": "UMLComponentDiagram",
         "name": "Building Block View",
         "description": [
-                "This section shows the parts of the MoD5G software (Solution Space, Software Level L3)"
+                "This section shows the parts of the MoD5G software (Solution Space, Software Level)"
         ],
         "list_order": 163840,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b76e24bf-e4f6-4f5b-b377-54c921671283",
         "diagramelements":
@@ -1894,13 +1894,13 @@
         "type": "UMLActivityDiagram",
         "name": "Runtime View",
         "description": [
-                "This section shows the dynamic behavior of the software (Solution Space, Software Level L3)\n",
+                "This section shows the dynamic behavior of the software (Solution Space, Software Level)\n",
                 "\n",
                 "This diagram shows the software states embedded in the system states. See D0020#name."
         ],
         "list_order": 196608,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "64d98f20-0c99-4e7b-9e56-b074bc62d9e8",
         "diagramelements":
@@ -2091,11 +2091,11 @@
         "type": "UMLDeploymentDiagram",
         "name": "Deployment View",
         "description": [
-                "This section shows the deployment of the solution into the environment. (Solution Space, Software Level L3)"
+                "This section shows the deployment of the solution into the environment. (Solution Space, Software Level)"
         ],
         "list_order": 245760,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "46914369-d7f3-41d9-90f9-7fe468f556f0",
         "diagramelements":
@@ -2191,11 +2191,11 @@
         "type": "UMLComponentDiagram",
         "name": "Crosscutting Concepts",
         "description": [
-                "This section shows the recurring concepts within the the designed solution. (Solution Space, Software Level L3)"
+                "This section shows the recurring concepts within the the designed solution. (Solution Space, Software Level)"
         ],
         "list_order": 262144,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "90ccb77d-8c35-4571-a1ae-085f332c19bf",
         "diagramelements":
@@ -2233,11 +2233,11 @@
         "stereotype": "decision",
         "name": "Architecture Decisions",
         "description": [
-                "This section documents the major design decisions. (Solution Space, Software Level L3)"
+                "This section documents the major design decisions. (Solution Space, Software Level)"
         ],
         "list_order": 294912,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6870f3b2-7681-4af9-931c-97cd8597f98c",
         "diagramelements":
@@ -2267,13 +2267,13 @@
         "type": "UMLComponentDiagram",
         "name": "Quality Requirements",
         "description": [
-                "This section shows the major quality scenarios. (Problem Space, Software Level L3)\n",
+                "This section shows the major quality scenarios. (Problem Space, Software Level)\n",
                 "\n",
-                "Similar to D0011#name for system level L1, this section shows quality expectations: The WHAT shall be implemented, not the HOW."
+                "Similar to D0011#name for system level, this section shows quality expectations: The WHAT shall be implemented, not the HOW."
         ],
         "list_order": 327680,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b21e4349-6451-46c8-a44a-bf03154ba13e",
         "diagramelements":
@@ -2403,11 +2403,11 @@
         "type": "UMLComponentDiagram",
         "name": "Risks and Technical Debts",
         "description": [
-                "This section lists the risks and not-yet-addressed requirements. (Solution Space, Software Level L3)"
+                "This section lists the risks and not-yet-addressed requirements. (Solution Space, Software Level)"
         ],
         "list_order": 344064,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "2476d37a-3857-4f2a-90e5-f81511108236",
         "diagramelements":
@@ -2430,9 +2430,16 @@
           {
             "id": 197,
             "display_flags": 0,
-            "classifier_name": "Risk: Wrong tactic is calculated",
+            "classifier_name": "Wrong tactic is calculated",
             "node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
             "uuid": "e72261ec-53b9-4f2e-9638-e183feeb63bf"
+          },
+          {
+            "id": 390,
+            "display_flags": 0,
+            "classifier_name": "Tactics Calculator",
+            "node": "683c4a3d-e049-4411-9def-9d46674b3de4",
+            "uuid": "24533946-7972-49ca-bdcf-2b2d594c5e84"
           }
         ]
       }
@@ -2444,11 +2451,11 @@
         "type": "UMLClassDiagram",
         "name": "Glossary",
         "description": [
-                "This section explains the used terms. (Domain and Solution Space, Software Level L3)"
+                "This section explains the used terms. (Domain and Solution Space, Software Level)"
         ],
         "list_order": 1610649598,
         "display_flags": 0,
-        "parent_name": "L2 Software [subsystem]",
+        "parent_name": "Phys/ Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "92c7183a-bc28-40f6-a2bd-e282015dea2b",
         "diagramelements":
@@ -2505,7 +2512,7 @@
         "type": "UMLInteractionDiagram/overview",
         "name": "Runtime View",
         "description": [
-                "This section shows the dynamic behavior of the system (Solution Space, System Level L1)"
+                "This section shows the dynamic behavior of the system (Solution Space, System Level)"
         ],
         "list_order": 212992,
         "display_flags": 0,
@@ -2765,7 +2772,7 @@
         "type": "UMLDeploymentDiagram",
         "name": "Deployment View",
         "description": [
-                "This section shows the deployment of the solution into the environment. (Solution Space, System Level L1)"
+                "This section shows the deployment of the solution into the environment. (Solution Space, System Level)"
         ],
         "list_order": 253952,
         "display_flags": 0,
@@ -2819,7 +2826,7 @@
         "type": "CFUBoxDiagram",
         "name": "Crosscutting Concepts",
         "description": [
-                "This section shows the recurring concepts within the the designed solution. (Solution Space, System Level L1)"
+                "This section shows the recurring concepts within the the designed solution. (Solution Space, System Level)"
         ],
         "list_order": 262144,
         "display_flags": 0,
@@ -2846,7 +2853,7 @@
         "stereotype": "decision",
         "name": "Architecture Decisions",
         "description": [
-                "This section documents the major design decisions. (Solution Space, System Level L1)"
+                "This section documents the major design decisions. (Solution Space, System Level)"
         ],
         "list_order": 294912,
         "display_flags": 0,
@@ -2901,7 +2908,7 @@
         "type": "UMLComponentDiagram",
         "name": "Quality Requirements",
         "description": [
-                "This section shows the major quality requrements and scenarios. (Problem Space, System Level L1)\n",
+                "This section shows the major quality requrements and scenarios. (Problem Space, System Level)\n",
                 "\n",
                 "In the following, requirements and scenarios are selected that show the quality expectations: The WHAT shall be implemented, not the HOW.\n",
                 ""
@@ -3117,34 +3124,38 @@
           {
             "id": 370,
             "display_flags": 0,
-            "classifier_name": "Functionality: Limp Home",
+            "classifier_name": "Limp Home",
             "node": "f1edf890-12d3-4248-afac-d908287df3b7",
             "uuid": "5a25d255-7391-485d-80fb-26b6e2468585"
           },
           {
             "id": 374,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "Energy Cell",
             "node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
             "uuid": "11f0438d-d5cf-45d5-82be-81447ffa56f8"
           },
           {
             "id": 375,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "Motors",
             "node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
             "uuid": "2ed095e3-9dfc-4fe6-84ec-da9bed27e187"
           },
           {
             "id": 376,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "Wheels (4)",
             "node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
             "uuid": "3e51afc4-bb0b-4050-8557-281192e56b48"
           },
           {
             "id": 377,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "Base Logic Board",
             "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
             "uuid": "17322118-72f3-429e-a2b9-0a0b061d1273"
@@ -3159,7 +3170,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Failure Modes of Motors and Wheels",
         "description": [
-                "This section lists the risks caused by a) design decsisions and by b) not-yet-addressed requirements. (Solution Space, System Level L1)"
+                "This section lists the risks caused by a) design decsisions and by b) not-yet-addressed requirements. (Solution Space, System Level)"
         ],
         "list_order": -1,
         "display_flags": 0,
@@ -3287,7 +3298,7 @@
         "type": "CFUListDiagram",
         "name": "Glossary",
         "description": [
-                "This section explains the used terms. (Domain and Solution Space, System Level L1)\n",
+                "This section explains the used terms. (Domain and Solution Space, System Level)\n",
                 "\n",
                 "See also D0034#name for software terms."
         ],
@@ -5180,7 +5191,7 @@
         "type": "Activity",
         "name": "sw::boot_base_board",
         "description": [
-                ""
+                "The software on the base board is initializing, not yet fully functional."
         ],
         "x_order": 1487364668,
         "y_order": -1623759391,
@@ -5198,7 +5209,7 @@
         "type": "Activity",
         "name": "sw::boot_main_board",
         "description": [
-                ""
+                "The software on the main board is initializing, not yet fully functional."
         ],
         "x_order": 1318597102,
         "y_order": -1627205359,
@@ -5252,7 +5263,7 @@
         "type": "Activity",
         "name": "sw::run_main",
         "description": [
-                ""
+                "The software on the main board is initialized and running."
         ],
         "x_order": -384419243,
         "y_order": -1627205359,
@@ -5270,7 +5281,7 @@
         "type": "Activity",
         "name": "sw::run_base",
         "description": [
-                ""
+                "The software on the base board is initialized and running."
         ],
         "x_order": 805953490,
         "y_order": -1623759391,
@@ -5288,7 +5299,7 @@
         "type": "Activity",
         "name": "sw::run_base_only",
         "description": [
-                ""
+                "The software on the base board is initialized and running."
         ],
         "x_order": 1139012495,
         "y_order": -230588372,
@@ -5893,8 +5904,8 @@
         "description": [
                 "Calculate tactics based on given strategy and current situation model"
         ],
-        "x_order": -1319632463,
-        "y_order": -1212883541,
+        "x_order": -1335010474,
+        "y_order": -1229662522,
         "list_order": 470202357,
         "uuid": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "features":
@@ -6310,10 +6321,12 @@
                 "on the Main Logic Board\n",
                 "shall check processed data\n",
                 "and report its health to the SW Watchdog\n",
-                "as well as passed checkpoints in the logic."
+                "as well as passed checkpoints in the logic.\n",
+                "\n",
+                "see D0010#name"
         ],
-        "x_order": -1554062173,
-        "y_order": -915331974,
+        "x_order": -1894895201,
+        "y_order": -1229662522,
         "list_order": -1227993822,
         "uuid": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
         "features":
@@ -6512,7 +6525,8 @@
         "id": 134,
         "main_type": 99,
         "type": "Requirement",
-        "name": "Risk: Wrong tactic is calculated",
+        "stereotype": "Risk",
+        "name": "Wrong tactic is calculated",
         "description": [
                 "- cause/fault: Due to cosmic rays, \n",
                 "  the main logic board performs a miscalculation\n",
@@ -6520,12 +6534,72 @@
                 "- risk/failure: the MoD5G calculates a tactic that\n",
                 "  results in falling off a cliff"
         ],
-        "x_order": -1942098437,
-        "y_order": -1227993822,
+        "x_order": -1446174285,
+        "y_order": -1496980883,
         "list_order": -1240623024,
         "uuid": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
         "features":
         [
+          {
+            "id": 67,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Failure Mode",
+            "value": "An unsuitable tactical plan is executed",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "5b8efc42-fd95-4b61-8f6e-e2d6b23a6814"
+          },
+          {
+            "id": 68,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Effect",
+            "value": "The MoD5G does not reach the target location",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "28f4c706-dab0-45d9-8a65-18d737178c6e"
+          },
+          {
+            "id": 69,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Cause",
+            "value": "The memory was disturbed by environmental effects",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "70ec4662-498a-489b-b51a-b27230327ffe"
+          },
+          {
+            "id": 70,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Prevent",
+            "value": "-",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "01ac8137-b3ee-44a4-9528-62588dac4ee0"
+          },
+          {
+            "id": 71,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "Detect",
+            "value": "Supervise correct order of control/checkpoints",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "2edcd3dc-d79b-4be6-83b0-97bccc9cc73a"
+          }
         ]
       }
     },
@@ -7840,12 +7914,12 @@
         "id": 186,
         "main_type": 90,
         "type": "Block",
-        "name": "Strategy planning (L1)",
+        "name": "Strategy planning",
         "description": [
                 "This system element aggregates functions that have high demands on computation power but less demands on realtime-reactions.\n",
                 "These even may be turned off from time to time."
         ],
-        "x_order": 1835627669,
+        "x_order": -870192362,
         "y_order": -1886953723,
         "list_order": -1886953723,
         "uuid": "189778eb-1c9f-41ec-807d-610fa6566b20",
@@ -7859,7 +7933,7 @@
         "id": 187,
         "main_type": 90,
         "type": "Block",
-        "name": "Tactic execution (L1)",
+        "name": "Tactic execution",
         "description": [
                 "This system element aggregates functions that have high demands on realtime observations and reactions; also high demands on availability."
         ],
@@ -8249,7 +8323,8 @@
         "id": 206,
         "main_type": 130,
         "type": "Comment",
-        "name": "Functionality: Limp Home",
+        "stereotype": "Functionality",
+        "name": "Limp Home",
         "description": [
                 "In case of a single fault, \n",
                 "the MoD5G shall return\n",
@@ -10063,15 +10138,15 @@
     {
       "relationship": {
         "id": 296,
-        "main_type": 300,
-        "type": "Association",
+        "main_type": 211,
+        "type": "Realization",
         "name": "",
         "description": [
                 ""
         ],
         "list_order": 524288,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "Strategy planning (L1)",
+        "to_classifier_name": "Strategy planning",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
         "uuid": "97b05956-73ad-470a-8f9a-659b48d88f91"
@@ -10201,15 +10276,15 @@
     {
       "relationship": {
         "id": 297,
-        "main_type": 300,
-        "type": "Association",
+        "main_type": 211,
+        "type": "Realization",
         "name": "",
         "description": [
                 ""
         ],
         "list_order": 557056,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "Tactic execution (L1)",
+        "to_classifier_name": "Tactic execution",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "uuid": "2048e4be-3705-4899-86ac-b566f2391b62"
@@ -11871,19 +11946,20 @@
     },
     {
       "relationship": {
-        "id": 199,
+        "id": 341,
         "main_type": 0,
         "type": "Dependency",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 98304,
+        "list_order": 163840,
         "from_classifier_name": "Fault Detection (main logic)",
-        "to_classifier_name": "Risk: Wrong tactic is calculated",
+        "to_classifier_name": "Wrong tactic is calculated",
+        "to_feature_key": "Detect",
         "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
-        "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
-        "uuid": "3b211fa8-4936-4270-8b45-49d6a9befa2d"
+        "to_node": "2edcd3dc-d79b-4be6-83b0-97bccc9cc73a",
+        "uuid": "4782f74a-8461-4f80-b48b-2f7c97850609"
       }
     },
     {
@@ -11914,7 +11990,7 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Fault Detection Strategy may fail",
-        "to_classifier_name": "Risk: Wrong tactic is calculated",
+        "to_classifier_name": "Wrong tactic is calculated",
         "from_node": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
         "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
         "uuid": "b41b769a-acb5-4088-98bb-a9eca232f154"
@@ -11952,6 +12028,23 @@
         "from_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "0fe618d5-949d-4d44-b016-e823e58b2d71"
+      }
+    },
+    {
+      "relationship": {
+        "id": 340,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Wrong tactic is calculated",
+        "to_classifier_name": "Tactics Calculator",
+        "from_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
+        "to_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
+        "uuid": "11988a12-22d5-4a2b-8479-ec4722cb75fb"
       }
     },
     {
@@ -12891,7 +12984,7 @@
                 ""
         ],
         "list_order": 163840,
-        "from_classifier_name": "Strategy planning (L1)",
+        "from_classifier_name": "Strategy planning",
         "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
@@ -12908,7 +13001,7 @@
                 ""
         ],
         "list_order": 196608,
-        "from_classifier_name": "Strategy planning (L1)",
+        "from_classifier_name": "Strategy planning",
         "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
@@ -12925,7 +13018,7 @@
                 ""
         ],
         "list_order": 229376,
-        "from_classifier_name": "Tactic execution (L1)",
+        "from_classifier_name": "Tactic execution",
         "to_classifier_name": "Perform movement tactic (L1-Fct)",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
@@ -12942,7 +13035,7 @@
                 ""
         ],
         "list_order": 262144,
-        "from_classifier_name": "Tactic execution (L1)",
+        "from_classifier_name": "Tactic execution",
         "to_classifier_name": "Perform repair tactic (L1-Fct)",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
@@ -13352,7 +13445,7 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_name": "Functionality: Limp Home",
+        "from_classifier_name": "Limp Home",
         "to_classifier_name": "health::limp_home",
         "from_node": "f1edf890-12d3-4248-afac-d908287df3b7",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",

@@ -27,6 +27,9 @@
     <section>
         <title>Tool Bar</title>
         <para>
+            The top row of a window provides buttons to select files, change the view and modify model elements.
+        </para>
+        <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_1.svg" width="4cm"/></imageobject>
             </mediaobject>
@@ -400,7 +403,9 @@
     <section>
         <title>Drawing Area</title>
         <para>
-
+            The center area of a window allows to view and change diagrams and model elements.
+        </para>
+        <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_2.svg" width="4cm"/></imageobject>
             </mediaobject>
@@ -572,6 +577,9 @@
     <section>
         <title>Element Configuration Area</title>
         <para>
+            The right side of a window shows the properties of the focused model element.
+        </para>
+        <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_3.svg" width="4cm"/></imageobject>
             </mediaobject>
@@ -613,7 +621,9 @@
     <section>
         <title>Notification Bar</title>
         <para>
-
+            The bottom row of a window, if shown, displays the result of the last user interaction.
+        </para>
+        <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_4.svg" width="4cm"/></imageobject>
             </mediaobject>
