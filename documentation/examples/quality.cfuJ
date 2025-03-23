@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.61.2"
+    "generator_version": "1.63.1"
   }
   ,
   "views":
@@ -2724,6 +2724,142 @@
             "classifier_name": "incident management",
             "node": "2af7f9cb-aa19-4188-abe9-86808a626be5",
             "uuid": "6f6e270e-317e-4c2a-af90-e127c05e5cc0"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 36,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "FMEA",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "display_flags": 0,
+        "parent_name": "Standard Methods",
+        "parent": "85fd634f-20cc-4db0-b17c-ebec3bacb9d5",
+        "uuid": "459ca4f5-4cda-42ec-94c2-d21fb947234d",
+        "diagramelements":
+        [
+          {
+            "id": 391,
+            "display_flags": 0,
+            "classifier_name": "List all system elements (hierarchical)",
+            "node": "f64dc48f-3110-4fdf-8bb7-a86262c06486",
+            "uuid": "36279c4c-dccb-4c6f-bdc2-9320a217eb50"
+          },
+          {
+            "id": 392,
+            "display_flags": 0,
+            "classifier_name": "List the functions of each system element",
+            "node": "c3fe1182-84f4-462d-8115-6422815c4b10",
+            "uuid": "9d0f9475-db04-479d-aa38-8f79eb937688"
+          },
+          {
+            "id": 393,
+            "display_flags": 0,
+            "classifier_name": "List system functions and severities of failure",
+            "node": "b8ff1bd6-aa00-4784-be4a-33e0319f64ae",
+            "uuid": "d30e47e2-680a-46a3-b1b2-11a4039f65e6"
+          },
+          {
+            "id": 394,
+            "display_flags": 0,
+            "classifier_name": "Analyze all failures of system elements",
+            "node": "6872f0e5-22f4-4582-8421-e58c8d884d12",
+            "uuid": "fe2ad4d1-7e7c-46c7-8157-a020caf43861"
+          },
+          {
+            "id": 395,
+            "display_flags": 0,
+            "classifier_name": "Define effects on system and severity",
+            "node": "f1ea0f8d-da26-4661-8971-7de852e0aa1a",
+            "uuid": "5869e725-9539-43c4-845b-2e7ada47ddfe"
+          },
+          {
+            "id": 396,
+            "display_flags": 0,
+            "classifier_name": "Define mitigations",
+            "node": "9c6e403e-db31-425f-8b0b-69dee9b1e265",
+            "uuid": "392087f5-3fda-498f-92b9-469f988bee4b"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 37,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "Structure of FMEA",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "FMEA",
+        "parent": "459ca4f5-4cda-42ec-94c2-d21fb947234d",
+        "uuid": "d07d2656-a100-47e8-9477-f85c993f4bf7",
+        "diagramelements":
+        [
+          {
+            "id": 383,
+            "display_flags": 0,
+            "classifier_name": "Function of System",
+            "node": "e967c335-fccb-4800-8830-7db03d1c1c7c",
+            "uuid": "367efb24-535a-47cc-b20f-55c1becdd5a0"
+          },
+          {
+            "id": 384,
+            "display_flags": 0,
+            "classifier_name": "Logical Block",
+            "node": "fcf37b6d-ae7e-46db-af27-a74d966d3c40",
+            "uuid": "7c3d8d11-00a2-47f2-95d0-d55d50986796"
+          },
+          {
+            "id": 385,
+            "display_flags": 0,
+            "classifier_name": "Port",
+            "node": "4e68de88-4bde-42d9-a282-d33d2a9d0ccd",
+            "uuid": "57221fdb-102d-4662-8e46-60f865648d62"
+          },
+          {
+            "id": 386,
+            "display_flags": 0,
+            "classifier_name": "Physical Element",
+            "node": "a9f80ca9-db9f-4744-a38a-b2da0cc94d26",
+            "uuid": "01fcee09-94d7-42f0-80ec-b5a826366505"
+          },
+          {
+            "id": 387,
+            "display_flags": 0,
+            "classifier_name": "Function of Element",
+            "node": "c79d7436-12af-4a85-8b95-959f5d457913",
+            "uuid": "46c45fd7-44f3-47a3-a295-e3174329cca9"
+          },
+          {
+            "id": 388,
+            "display_flags": 0,
+            "classifier_name": "Risk",
+            "node": "569ebe54-c86c-4ed9-a49e-6bf1f9c8032a",
+            "uuid": "a647f54e-5e48-45c0-a8d3-5eaa783ce519"
+          },
+          {
+            "id": 389,
+            "display_flags": 0,
+            "classifier_name": "Cause",
+            "node": "67cf9f24-5b5b-46a1-9475-3c2fbd73b048",
+            "uuid": "1370c71c-c06d-49bc-90ab-2757baa27017"
+          },
+          {
+            "id": 390,
+            "display_flags": 0,
+            "classifier_name": "Mitigation",
+            "node": "9f832f2b-a1bf-4f99-8328-68feee797f02",
+            "uuid": "b5c8e2d6-6917-44a8-85a3-acb12fa717c9"
           }
         ]
       }
@@ -8680,6 +8816,330 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 262,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "abstract",
+        "name": "Function of System",
+        "description": [
+                "A functionality of the system"
+        ],
+        "x_order": -1036286279,
+        "y_order": -1637036496,
+        "list_order": -1637036496,
+        "uuid": "e967c335-fccb-4800-8830-7db03d1c1c7c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 263,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "abstract",
+        "name": "Logical Block",
+        "description": [
+                "An abstract system element that organizes functionalities.\n",
+                "This is the result of the \"form follows function\" principle."
+        ],
+        "x_order": -701934271,
+        "y_order": -1637036496,
+        "list_order": -822891840,
+        "uuid": "fcf37b6d-ae7e-46db-af27-a74d966d3c40",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 264,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "abstract",
+        "name": "Port",
+        "description": [
+                "A port/connector/pin of an abstract system element."
+        ],
+        "x_order": -701934271,
+        "y_order": -822891840,
+        "list_order": -1148900024,
+        "uuid": "4e68de88-4bde-42d9-a282-d33d2a9d0ccd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 265,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Physical Element",
+        "description": [
+                "Any concrete system element like hardware, configuration data or software."
+        ],
+        "x_order": 756956954,
+        "y_order": -1637036496,
+        "list_order": -1138023486,
+        "uuid": "a9f80ca9-db9f-4744-a38a-b2da0cc94d26",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 266,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Function of Element",
+        "description": [
+                "A functionality of a concrete physical system element."
+        ],
+        "x_order": 756956954,
+        "y_order": -822891840,
+        "list_order": -822891840,
+        "uuid": "c79d7436-12af-4a85-8b95-959f5d457913",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 267,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Risk",
+        "description": [
+                "A risk describes a situation that "
+        ],
+        "x_order": -701934271,
+        "y_order": 216530019,
+        "list_order": -822891840,
+        "uuid": "569ebe54-c86c-4ed9-a49e-6bf1f9c8032a",
+        "features":
+        [
+          {
+            "id": 93,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Severity",
+            "description": [
+                "How severe is the effect for the system"
+            ],
+            "list_order": 131072,
+            "uuid": "51d5d4e0-920c-4737-933f-5215ed73da69"
+          },
+          {
+            "id": 94,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Failure Mode",
+            "description": [
+                "What happend and what is wrong"
+            ],
+            "list_order": 65536,
+            "uuid": "2b7316cf-202a-4881-b12b-499845f759f9"
+          },
+          {
+            "id": 95,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Effect",
+            "description": [
+                "What is the consequence"
+            ],
+            "list_order": 98304,
+            "uuid": "0757576a-dc52-4380-8bb0-bb9227619ac1"
+          },
+          {
+            "id": 97,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Occurrence",
+            "description": [
+                "How likely/how often does the failure mode occur"
+            ],
+            "list_order": 81920,
+            "uuid": "bcf49a25-6eb2-4128-a069-36baa55caa57"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 268,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Cause",
+        "description": [
+                "The fault or failure mechanism that caused the failure mode."
+        ],
+        "x_order": 1643191640,
+        "y_order": 216530019,
+        "list_order": 1007469997,
+        "uuid": "67cf9f24-5b5b-46a1-9475-3c2fbd73b048",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 269,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Mitigation",
+        "description": [
+                "An action to mitigate or to reduce a risk."
+        ],
+        "x_order": 1643191640,
+        "y_order": 1007469997,
+        "list_order": 216530019,
+        "uuid": "9f832f2b-a1bf-4f99-8328-68feee797f02",
+        "features":
+        [
+          {
+            "id": 3,
+            "main_type": 0,
+            "type": "Property",
+            "key": "preventive",
+            "description": [
+                "A preventive action is a solution in the design that mitigates or reduces the risk."
+            ],
+            "list_order": 32768,
+            "uuid": "699e8b5a-97ac-4999-a42e-ff6aeddce28b"
+          },
+          {
+            "id": 96,
+            "main_type": 0,
+            "type": "Property",
+            "key": "detection",
+            "description": [
+                "Mitigation of a risk by detection is possible if \n",
+                "a) the risk is sporadic and \n",
+                "b) a system reaction for detecting a failure is defined."
+            ],
+            "list_order": 65536,
+            "uuid": "73738b52-03ed-48b0-9fd6-2f4877739a7b"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 270,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "List all system elements (hierarchical)",
+        "description": [
+                ""
+        ],
+        "x_order": -1385649995,
+        "y_order": -1106856620,
+        "list_order": -1106856620,
+        "uuid": "f64dc48f-3110-4fdf-8bb7-a86262c06486",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 271,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "List the functions of each system element",
+        "description": [
+                ""
+        ],
+        "x_order": 551671435,
+        "y_order": -1106856620,
+        "list_order": -1106856620,
+        "uuid": "c3fe1182-84f4-462d-8115-6422815c4b10",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 272,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "List system functions and severities of failure",
+        "description": [
+                ""
+        ],
+        "x_order": -1823689774,
+        "y_order": -1106856620,
+        "list_order": -1106856620,
+        "uuid": "b8ff1bd6-aa00-4784-be4a-33e0319f64ae",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 273,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Analyze all failures of system elements",
+        "description": [
+                ""
+        ],
+        "x_order": 551671435,
+        "y_order": 842074025,
+        "list_order": 842074025,
+        "uuid": "6872f0e5-22f4-4582-8421-e58c8d884d12",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 274,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Define effects on system and severity",
+        "description": [
+                ""
+        ],
+        "x_order": -1385649995,
+        "y_order": 842074025,
+        "list_order": 842074025,
+        "uuid": "f1ea0f8d-da26-4661-8971-7de852e0aa1a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 275,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Define mitigations",
+        "description": [
+                ""
+        ],
+        "x_order": -1823689774,
+        "y_order": 842074025,
+        "list_order": 842074025,
+        "uuid": "9c6e403e-db31-425f-8b0b-69dee9b1e265",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -13088,6 +13548,227 @@
         "from_node": "c6a53466-e8ab-445d-b1da-d17c6840b871",
         "to_node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
         "uuid": "87fadb68-6c35-4be4-a3dc-c92b00178c06"
+      }
+    },
+    {
+      "relationship": {
+        "id": 14,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Logical Block",
+        "to_classifier_name": "Function of System",
+        "from_node": "fcf37b6d-ae7e-46db-af27-a74d966d3c40",
+        "to_node": "e967c335-fccb-4800-8830-7db03d1c1c7c",
+        "uuid": "685c84bc-be19-4285-b2c4-b0fdc122a359"
+      }
+    },
+    {
+      "relationship": {
+        "id": 13,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Port",
+        "to_classifier_name": "Logical Block",
+        "from_node": "4e68de88-4bde-42d9-a282-d33d2a9d0ccd",
+        "to_node": "fcf37b6d-ae7e-46db-af27-a74d966d3c40",
+        "uuid": "edcf4b4c-fd46-4601-a370-6aff90d818cc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 15,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Physical Element",
+        "to_classifier_name": "Logical Block",
+        "from_node": "a9f80ca9-db9f-4744-a38a-b2da0cc94d26",
+        "to_node": "fcf37b6d-ae7e-46db-af27-a74d966d3c40",
+        "uuid": "789328a4-a731-4082-835e-86531e8e33f0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 18,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Physical Element",
+        "to_classifier_name": "Function of Element",
+        "from_node": "a9f80ca9-db9f-4744-a38a-b2da0cc94d26",
+        "to_node": "c79d7436-12af-4a85-8b95-959f5d457913",
+        "uuid": "efe5ad60-760b-4111-9864-79672b674e44"
+      }
+    },
+    {
+      "relationship": {
+        "id": 19,
+        "main_type": 200,
+        "type": "Association",
+        "name": "occurs at",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Risk",
+        "to_classifier_name": "Function of Element",
+        "from_node": "569ebe54-c86c-4ed9-a49e-6bf1f9c8032a",
+        "to_node": "c79d7436-12af-4a85-8b95-959f5d457913",
+        "uuid": "791ce958-4096-42c6-b953-d88216d03839"
+      }
+    },
+    {
+      "relationship": {
+        "id": 20,
+        "main_type": 200,
+        "type": "Association",
+        "name": "effects",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "Risk",
+        "to_classifier_name": "Function of System",
+        "from_node": "569ebe54-c86c-4ed9-a49e-6bf1f9c8032a",
+        "to_node": "e967c335-fccb-4800-8830-7db03d1c1c7c",
+        "uuid": "bb9079e8-9604-49dc-94b1-bad060326dc3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 22,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "Risk",
+        "to_classifier_name": "Cause",
+        "from_node": "569ebe54-c86c-4ed9-a49e-6bf1f9c8032a",
+        "to_node": "67cf9f24-5b5b-46a1-9475-3c2fbd73b048",
+        "uuid": "313565b8-030a-41a9-9d7b-6f28bca58c67"
+      }
+    },
+    {
+      "relationship": {
+        "id": 21,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "Cause",
+        "to_classifier_name": "Mitigation",
+        "from_node": "67cf9f24-5b5b-46a1-9475-3c2fbd73b048",
+        "to_node": "9f832f2b-a1bf-4f99-8328-68feee797f02",
+        "uuid": "00db0a1a-46b6-4b15-b6ea-4790c8983e74"
+      }
+    },
+    {
+      "relationship": {
+        "id": 324,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "List all system elements (hierarchical)",
+        "to_classifier_name": "List the functions of each system element",
+        "from_node": "f64dc48f-3110-4fdf-8bb7-a86262c06486",
+        "to_node": "c3fe1182-84f4-462d-8115-6422815c4b10",
+        "uuid": "aa08f62f-e6d6-4916-b3d7-67d54b67e8c3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 325,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "List the functions of each system element",
+        "to_classifier_name": "Analyze all failures of system elements",
+        "from_node": "c3fe1182-84f4-462d-8115-6422815c4b10",
+        "to_node": "6872f0e5-22f4-4582-8421-e58c8d884d12",
+        "uuid": "0ac9bb04-5102-41dd-975b-d3a3e32f92e3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 323,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "List system functions and severities of failure",
+        "to_classifier_name": "List all system elements (hierarchical)",
+        "from_node": "b8ff1bd6-aa00-4784-be4a-33e0319f64ae",
+        "to_node": "f64dc48f-3110-4fdf-8bb7-a86262c06486",
+        "uuid": "f427b5af-4a11-4827-b827-f6ae9aac4358"
+      }
+    },
+    {
+      "relationship": {
+        "id": 326,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Analyze all failures of system elements",
+        "to_classifier_name": "Define effects on system and severity",
+        "from_node": "6872f0e5-22f4-4582-8421-e58c8d884d12",
+        "to_node": "f1ea0f8d-da26-4661-8971-7de852e0aa1a",
+        "uuid": "c9f8354f-b408-4f8f-bdd1-22386ea23dac"
+      }
+    },
+    {
+      "relationship": {
+        "id": 327,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Define effects on system and severity",
+        "to_classifier_name": "Define mitigations",
+        "from_node": "f1ea0f8d-da26-4661-8971-7de852e0aa1a",
+        "to_node": "9c6e403e-db31-425f-8b0b-69dee9b1e265",
+        "uuid": "73cbeb78-58fd-4372-9cc9-bec47c087b1d"
       }
     }
   ]

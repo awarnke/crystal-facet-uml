@@ -802,6 +802,7 @@
         "id": 51,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
+        "stereotype": "locigal_form",
         "name": "Logical View",
         "description": [
                 "This view maps the functions to a form.\n",
@@ -925,6 +926,7 @@
         "id": 14,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
+        "stereotype": "HW",
         "name": "Phys/ Mechanics",
         "description": [
                 "This section shows the mechanical parts of the MoD5G system (Solution Space)"
@@ -1072,6 +1074,7 @@
         "id": 18,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
+        "stereotype": "EE",
         "name": "Phys/ Electric Parts and Electronics",
         "description": [
                 "This section shows the electric parts and electronics of the MoD5G system (Solution Space)"
@@ -1315,6 +1318,7 @@
         "id": 19,
         "diagram_type": 30,
         "type": "UMLDeploymentDiagram",
+        "stereotype": "SW",
         "name": "Phys/ Software [subsystem]",
         "description": [
                 "This diagram shows the virtual machines and specialized (non-versatile) execution environments (Solution Space)\n",
@@ -3558,6 +3562,20 @@
             "classifier_name": "EE-img",
             "node": "9046bd5b-70c4-45e4-b894-36e31a67de97",
             "uuid": "f3834ca7-df8a-4c4f-9fc2-81414c56a396"
+          },
+          {
+            "id": 391,
+            "display_flags": 0,
+            "classifier_name": "locigal_form",
+            "node": "dd089494-8ef7-413e-8634-1718be66330e",
+            "uuid": "4280f2bb-1c0e-4de5-98e9-c9b5aa8260c0"
+          },
+          {
+            "id": 392,
+            "display_flags": 0,
+            "classifier_name": "Logcal-img",
+            "node": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
+            "uuid": "826faedc-2d55-4419-a718-c5ddcd2237f3"
           }
         ]
       }
@@ -7914,6 +7932,7 @@
         "id": 186,
         "main_type": 90,
         "type": "Block",
+        "stereotype": "locigal_form",
         "name": "Strategy planning",
         "description": [
                 "This system element aggregates functions that have high demands on computation power but less demands on realtime-reactions.\n",
@@ -7933,6 +7952,7 @@
         "id": 187,
         "main_type": 90,
         "type": "Block",
+        "stereotype": "locigal_form",
         "name": "Tactic execution",
         "description": [
                 "This system element aggregates functions that have high demands on realtime observations and reactions; also high demands on availability."
@@ -8334,6 +8354,59 @@
         "y_order": -1988378652,
         "list_order": -1946292730,
         "uuid": "f1edf890-12d3-4248-afac-d908287df3b7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 207,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "locigal_form",
+        "description": [
+                "<path d=\"\n",
+                "M 0,5.5\n",
+                "c 0,0.5 1,0.5 3,0.5\n",
+                "L 4,8\n",
+                "5.5,8\n",
+                "5,6\n",
+                "c 2,0 2,-0.5 3.5,-1 \n",
+                "L 9,4\n",
+                "8,4\n",
+                "7.5,5\n",
+                "5.25,5\n",
+                "5.5,4\n",
+                "4,4\n",
+                "3,5\n",
+                "c -1,0 -3,0 -3,0.5\n",
+                "\">\n",
+                "</path>"
+        ],
+        "x_order": 905551310,
+        "y_order": -1924522237,
+        "list_order": -1924522237,
+        "uuid": "dd089494-8ef7-413e-8634-1718be66330e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 208,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "locigal_form",
+        "name": "Logcal-img",
+        "description": [
+                ""
+        ],
+        "x_order": 585891664,
+        "y_order": -1924522237,
+        "list_order": -1924522237,
+        "uuid": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
         "features":
         [
         ]
@@ -11340,7 +11413,7 @@
         "description": [
                 ""
         ],
-        "list_order": -709905138,
+        "list_order": -606459065,
         "from_classifier_name": "Audio Capture",
         "from_feature_key": "",
         "to_classifier_name": "Environment Model Composer",
@@ -11487,7 +11560,7 @@
         "description": [
                 "step count of steering and movement motors"
         ],
-        "list_order": -512023620,
+        "list_order": -399951781,
         "from_classifier_name": "Motor Controller",
         "from_feature_key": "",
         "to_classifier_name": "Environment Model Composer",
@@ -13450,6 +13523,23 @@
         "from_node": "f1edf890-12d3-4248-afac-d908287df3b7",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "af285ca1-9c80-45c3-8123-4c58a5d4085f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 342,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "locigal_form",
+        "to_classifier_name": "Logcal-img",
+        "from_node": "dd089494-8ef7-413e-8634-1718be66330e",
+        "to_node": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
+        "uuid": "245d83fe-07b0-4f52-8444-b5abd2740b36"
       }
     }
   ]
