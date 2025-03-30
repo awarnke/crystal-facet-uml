@@ -325,106 +325,196 @@
     },
     {
       "diagram": {
-        "id": 5,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
-        "name": "Solution Strategy",
+        "id": 11,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Quality Requirements",
         "description": [
-                "This section shows the fundamental base principle of the system design. (Solution Space, System Level)"
+                "This section shows the major quality requrements and scenarios. (Problem Space, System Level)\n",
+                "\n",
+                "In the following, requirements and scenarios are selected that show the quality expectations: The WHAT shall be implemented, not the HOW.\n",
+                ""
         ],
-        "list_order": 102400,
+        "list_order": 1073754623,
         "display_flags": 0,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
-        "uuid": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "parent_name": "Use Cases and Requirements",
+        "parent": "eb0b6c0b-a4e4-42c3-86d5-200f51b2ed70",
+        "uuid": "b7b1473f-c8f8-4278-bc8c-5bf44edeec19",
         "diagramelements":
         [
           {
-            "id": 125,
+            "id": 9,
             "display_flags": 0,
-            "classifier_name": "Base Logic Board",
-            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
-            "uuid": "30bb5297-96a9-461c-a21e-0fa6c9157541"
+            "classifier_name": "Usability",
+            "node": "83c22cf0-38a3-44c4-a571-4a02946dbf1d",
+            "uuid": "4e2cf866-93e4-4856-a541-6555480b7e95"
           },
           {
-            "id": 126,
+            "id": 10,
             "display_flags": 0,
-            "classifier_name": "Main Logic Board",
-            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
-            "uuid": "d8797264-6f4c-4200-abc3-791ad5a7b360"
+            "classifier_name": "Maintainability",
+            "node": "4aab7076-f6db-449d-af55-9f4d56114445",
+            "uuid": "1485c336-0c70-4f13-867f-9e68f01acd9d"
           },
           {
-            "id": 164,
+            "id": 11,
             "display_flags": 0,
-            "classifier_name": "Guiding Main Principles",
-            "node": "1eba76f4-44e6-4eb0-ae3c-7d409912ab90",
-            "uuid": "b2075928-2d4b-4bc2-8e1f-e9a35612ecf0"
+            "classifier_name": "Reliability",
+            "node": "802a326b-4b45-459b-b546-961536597017",
+            "uuid": "5ee5a792-45bf-4c4b-b631-78f2d2691290"
+          },
+          {
+            "id": 195,
+            "display_flags": 0,
+            "classifier_name": "Compatibility",
+            "node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
+            "uuid": "eff0290a-6302-426c-aa08-dcdee5a2a78c"
           }
         ]
       }
     },
     {
       "diagram": {
-        "id": 60,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
-        "name": "Outer World",
+        "id": 39,
+        "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
+        "name": "Quality Tree",
         "description": [
-                ""
+                "This section shows the quality requirements ordered by quality characteristics."
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Solution Strategy",
-        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
-        "uuid": "0ae3f2b4-1132-45f4-9f92-7baa215a50fd",
+        "parent_name": "Quality Requirements",
+        "parent": "b7b1473f-c8f8-4278-bc8c-5bf44edeec19",
+        "uuid": "4158eebf-6eaa-4f8a-b8fd-45618293b1c4",
         "diagramelements":
         [
           {
-            "id": 364,
+            "id": 198,
             "display_flags": 0,
-            "classifier_name": "Outer World",
-            "node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
-            "uuid": "28987d2a-d052-42d0-91b8-2765a19145b8"
+            "classifier_name": "Maintainability",
+            "node": "4aab7076-f6db-449d-af55-9f4d56114445",
+            "uuid": "49022e11-1b02-4f91-9558-d40fafe972df"
           },
           {
-            "id": 365,
+            "id": 199,
             "display_flags": 0,
-            "classifier_name": "Main Logic Board",
-            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
-            "uuid": "56200391-950e-47ac-aca2-ffc3a53d506d"
+            "classifier_name": "Analyzability",
+            "node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
+            "uuid": "b3cdbc7f-2b64-4a86-a603-9154b6ebec6a"
+          },
+          {
+            "id": 200,
+            "display_flags": 0,
+            "classifier_name": "Repairability",
+            "node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
+            "uuid": "da2423cc-384a-4837-9d81-5dd5d6c6c947"
           }
         ]
       }
     },
     {
       "diagram": {
-        "id": 61,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
-        "name": "Inner World",
+        "id": 15,
+        "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
+        "name": "Maintainability",
         "description": [
-                ""
+                "This diagram shows the quality requirements related to the characteristic \"Maintainability\"."
         ],
-        "list_order": 65536,
+        "list_order": 0,
         "display_flags": 0,
-        "parent_name": "Solution Strategy",
-        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
-        "uuid": "9cd3ef95-d1e7-48c6-b2ca-2a6b44ae92b3",
+        "parent_name": "Quality Tree",
+        "parent": "4158eebf-6eaa-4f8a-b8fd-45618293b1c4",
+        "uuid": "bd2d5410-9b61-4cf7-bf42-65220b101c46",
         "diagramelements":
         [
           {
-            "id": 362,
-            "display_flags": 0,
-            "classifier_name": "Inner World",
-            "node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-            "uuid": "963590dc-a045-4770-bf2d-7db15fb89f06"
+            "id": 12,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Maintainability",
+            "node": "4aab7076-f6db-449d-af55-9f4d56114445",
+            "uuid": "fbbc288b-828d-4630-9ffe-d51ab2d57b42"
           },
           {
-            "id": 363,
+            "id": 13,
             "display_flags": 0,
-            "classifier_name": "Base Logic Board",
-            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
-            "uuid": "537f8926-440c-489f-ba18-56bb9bb5a8d5"
+            "classifier_name": "Repairability",
+            "node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
+            "uuid": "1d995c08-8163-4cd6-bac3-71063c09ed60"
+          },
+          {
+            "id": 14,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "30 years spare-parts supply",
+            "node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
+            "uuid": "9bc8090e-b71a-4a19-9178-49332d298cec"
+          },
+          {
+            "id": 15,
+            "display_flags": 0,
+            "classifier_name": "Analyzability",
+            "node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
+            "uuid": "ae7489dd-d68f-4034-bfbe-b075b49cd8ad"
+          },
+          {
+            "id": 16,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "Self-Diagnosis",
+            "node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
+            "uuid": "b0c5b46c-c5cc-46b4-8d74-6016c21785be"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 40,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Quality Scenarios",
+        "description": [
+                "This section shows the quality-related scenarios in which the quality requirements shown in D0039#name are of special importance."
+        ],
+        "list_order": 122880,
+        "display_flags": 0,
+        "parent_name": "Quality Requirements",
+        "parent": "b7b1473f-c8f8-4278-bc8c-5bf44edeec19",
+        "uuid": "624065ea-5b98-4b00-ad3e-41f497b01bd8",
+        "diagramelements":
+        [
+          {
+            "id": 201,
+            "display_flags": 0,
+            "classifier_name": "Spare Parts Supply",
+            "node": "9d4af7da-01ca-4f39-a1e8-4bb44062f07d",
+            "uuid": "a8b89d0a-4fa2-42ea-9738-62eda77bf178"
+          },
+          {
+            "id": 202,
+            "display_flags": 0,
+            "classifier_name": "Motor defect",
+            "node": "789c1a7d-692b-498f-aae4-f22a7209ab56",
+            "uuid": "5a2f429b-71ec-4bff-981e-a5bacc732c7b"
+          },
+          {
+            "id": 207,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Repairability",
+            "node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
+            "uuid": "2619d6e8-fc62-4368-9b71-0b08b0a40b78"
+          },
+          {
+            "id": 208,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Analyzability",
+            "node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
+            "uuid": "d1fe4abf-e988-4d63-8e51-ba43da520afb"
           }
         ]
       }
@@ -476,7 +566,7 @@
                 "\n",
                 "It also shows which function produces output that is needed by another function as input."
         ],
-        "list_order": 1073794303,
+        "list_order": -1744823904,
         "display_flags": 0,
         "parent_name": "Functionalities and Operation Modes",
         "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
@@ -547,7 +637,7 @@
         "id": 57,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "Requirements of Functions",
+        "name": "Functions covering Requirements",
         "description": [
                 "This diagram shows which function implements/solves which requirements."
         ],
@@ -600,7 +690,7 @@
         "description": [
                 "Operation modes list all modes of the system that provide an intended subset of functionality."
         ],
-        "list_order": 1073794303,
+        "list_order": -1342164160,
         "display_flags": 0,
         "parent_name": "Functionalities and Operation Modes",
         "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
@@ -753,6 +843,115 @@
             "classifier_name": "Waiting",
             "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
             "uuid": "92359c33-2264-4a26-8235-e7f91fedf989"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 5,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "stereotype": "locigal_form",
+        "name": "Solution Strategy",
+        "description": [
+                "This section shows the fundamental base principle of the system design. (Solution Space, System Level)"
+        ],
+        "list_order": 1073794303,
+        "display_flags": 0,
+        "parent_name": "Functionalities and Operation Modes",
+        "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
+        "uuid": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "diagramelements":
+        [
+          {
+            "id": 125,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "30bb5297-96a9-461c-a21e-0fa6c9157541"
+          },
+          {
+            "id": 126,
+            "display_flags": 0,
+            "classifier_name": "Main Logic Board",
+            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+            "uuid": "d8797264-6f4c-4200-abc3-791ad5a7b360"
+          },
+          {
+            "id": 164,
+            "display_flags": 0,
+            "classifier_name": "Guiding Main Principles",
+            "node": "1eba76f4-44e6-4eb0-ae3c-7d409912ab90",
+            "uuid": "b2075928-2d4b-4bc2-8e1f-e9a35612ecf0"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 60,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "stereotype": "locigal_form",
+        "name": "Outer World",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Solution Strategy",
+        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "uuid": "0ae3f2b4-1132-45f4-9f92-7baa215a50fd",
+        "diagramelements":
+        [
+          {
+            "id": 364,
+            "display_flags": 0,
+            "classifier_name": "Outer World",
+            "node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
+            "uuid": "28987d2a-d052-42d0-91b8-2765a19145b8"
+          },
+          {
+            "id": 365,
+            "display_flags": 0,
+            "classifier_name": "Main Logic Board",
+            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+            "uuid": "56200391-950e-47ac-aca2-ffc3a53d506d"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 61,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "stereotype": "locigal_form",
+        "name": "Inner World",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Solution Strategy",
+        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "uuid": "9cd3ef95-d1e7-48c6-b2ca-2a6b44ae92b3",
+        "diagramelements":
+        [
+          {
+            "id": 362,
+            "display_flags": 0,
+            "classifier_name": "Inner World",
+            "node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
+            "uuid": "963590dc-a045-4770-bf2d-7db15fb89f06"
+          },
+          {
+            "id": 363,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "537f8926-440c-489f-ba18-56bb9bb5a8d5"
           }
         ]
       }
@@ -2907,202 +3106,6 @@
     },
     {
       "diagram": {
-        "id": 11,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "Quality Requirements",
-        "description": [
-                "This section shows the major quality requrements and scenarios. (Problem Space, System Level)\n",
-                "\n",
-                "In the following, requirements and scenarios are selected that show the quality expectations: The WHAT shall be implemented, not the HOW.\n",
-                ""
-        ],
-        "list_order": 327680,
-        "display_flags": 0,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
-        "uuid": "b7b1473f-c8f8-4278-bc8c-5bf44edeec19",
-        "diagramelements":
-        [
-          {
-            "id": 9,
-            "display_flags": 0,
-            "classifier_name": "Usability",
-            "node": "83c22cf0-38a3-44c4-a571-4a02946dbf1d",
-            "uuid": "4e2cf866-93e4-4856-a541-6555480b7e95"
-          },
-          {
-            "id": 10,
-            "display_flags": 0,
-            "classifier_name": "Maintainability",
-            "node": "4aab7076-f6db-449d-af55-9f4d56114445",
-            "uuid": "1485c336-0c70-4f13-867f-9e68f01acd9d"
-          },
-          {
-            "id": 11,
-            "display_flags": 0,
-            "classifier_name": "Reliability",
-            "node": "802a326b-4b45-459b-b546-961536597017",
-            "uuid": "5ee5a792-45bf-4c4b-b631-78f2d2691290"
-          },
-          {
-            "id": 195,
-            "display_flags": 0,
-            "classifier_name": "Compatibility",
-            "node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
-            "uuid": "eff0290a-6302-426c-aa08-dcdee5a2a78c"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 39,
-        "diagram_type": 9,
-        "type": "SysMLRequirementDiagram",
-        "name": "Quality Tree",
-        "description": [
-                "This section shows the quality requirements ordered by quality characteristics."
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "Quality Requirements",
-        "parent": "b7b1473f-c8f8-4278-bc8c-5bf44edeec19",
-        "uuid": "4158eebf-6eaa-4f8a-b8fd-45618293b1c4",
-        "diagramelements":
-        [
-          {
-            "id": 198,
-            "display_flags": 0,
-            "classifier_name": "Maintainability",
-            "node": "4aab7076-f6db-449d-af55-9f4d56114445",
-            "uuid": "49022e11-1b02-4f91-9558-d40fafe972df"
-          },
-          {
-            "id": 199,
-            "display_flags": 0,
-            "classifier_name": "Analyzability",
-            "node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
-            "uuid": "b3cdbc7f-2b64-4a86-a603-9154b6ebec6a"
-          },
-          {
-            "id": 200,
-            "display_flags": 0,
-            "classifier_name": "Repairability",
-            "node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
-            "uuid": "da2423cc-384a-4837-9d81-5dd5d6c6c947"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 15,
-        "diagram_type": 9,
-        "type": "SysMLRequirementDiagram",
-        "name": "Maintainability",
-        "description": [
-                "This diagram shows the quality requirements related to the characteristic \"Maintainability\"."
-        ],
-        "list_order": 0,
-        "display_flags": 0,
-        "parent_name": "Quality Tree",
-        "parent": "4158eebf-6eaa-4f8a-b8fd-45618293b1c4",
-        "uuid": "bd2d5410-9b61-4cf7-bf42-65220b101c46",
-        "diagramelements":
-        [
-          {
-            "id": 12,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Maintainability",
-            "node": "4aab7076-f6db-449d-af55-9f4d56114445",
-            "uuid": "fbbc288b-828d-4630-9ffe-d51ab2d57b42"
-          },
-          {
-            "id": 13,
-            "display_flags": 0,
-            "classifier_name": "Repairability",
-            "node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
-            "uuid": "1d995c08-8163-4cd6-bac3-71063c09ed60"
-          },
-          {
-            "id": 14,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
-            "classifier_name": "30 years spare-parts supply",
-            "node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
-            "uuid": "9bc8090e-b71a-4a19-9178-49332d298cec"
-          },
-          {
-            "id": 15,
-            "display_flags": 0,
-            "classifier_name": "Analyzability",
-            "node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
-            "uuid": "ae7489dd-d68f-4034-bfbe-b075b49cd8ad"
-          },
-          {
-            "id": 16,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
-            "classifier_name": "Self-Diagnosis",
-            "node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
-            "uuid": "b0c5b46c-c5cc-46b4-8d74-6016c21785be"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 40,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
-        "name": "Quality Scenarios",
-        "description": [
-                "This section shows the quality-related scenarios in which the quality requirements shown in D0039#name are of special importance."
-        ],
-        "list_order": 122880,
-        "display_flags": 0,
-        "parent_name": "Quality Requirements",
-        "parent": "b7b1473f-c8f8-4278-bc8c-5bf44edeec19",
-        "uuid": "624065ea-5b98-4b00-ad3e-41f497b01bd8",
-        "diagramelements":
-        [
-          {
-            "id": 201,
-            "display_flags": 0,
-            "classifier_name": "Spare Parts Supply",
-            "node": "9d4af7da-01ca-4f39-a1e8-4bb44062f07d",
-            "uuid": "a8b89d0a-4fa2-42ea-9738-62eda77bf178"
-          },
-          {
-            "id": 202,
-            "display_flags": 0,
-            "classifier_name": "Motor defect",
-            "node": "789c1a7d-692b-498f-aae4-f22a7209ab56",
-            "uuid": "5a2f429b-71ec-4bff-981e-a5bacc732c7b"
-          },
-          {
-            "id": 207,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Repairability",
-            "node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
-            "uuid": "2619d6e8-fc62-4368-9b71-0b08b0a40b78"
-          },
-          {
-            "id": 208,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Analyzability",
-            "node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
-            "uuid": "d1fe4abf-e988-4d63-8e51-ba43da520afb"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
         "id": 62,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
@@ -3573,9 +3576,17 @@
           {
             "id": 392,
             "display_flags": 0,
-            "classifier_name": "Logcal-img",
+            "classifier_name": "Logical-img",
             "node": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
             "uuid": "826faedc-2d55-4419-a718-c5ddcd2237f3"
+          },
+          {
+            "id": 393,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "SysML:block",
+            "node": "39d2649c-f238-4622-99e3-d532e043d1d2",
+            "uuid": "67125cc6-00a7-4489-be96-e248afe05dc7"
           }
         ]
       }
@@ -5611,7 +5622,7 @@
         "id": 94,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "env-perception",
+        "stereotype": "locigal_form",
         "name": "Outer World",
         "description": [
                 "The main logic\n",
@@ -6112,6 +6123,7 @@
         "id": 117,
         "main_type": 130,
         "type": "Comment",
+        "stereotype": "locigal_form",
         "name": "Inner World",
         "description": [
                 "The base logic addresses the following tasks:\n",
@@ -8385,7 +8397,7 @@
                 "</path>"
         ],
         "x_order": 905551310,
-        "y_order": -1924522237,
+        "y_order": -2039976797,
         "list_order": -1924522237,
         "uuid": "dd089494-8ef7-413e-8634-1718be66330e",
         "features":
@@ -8399,14 +8411,33 @@
         "main_type": 138,
         "type": "Image",
         "stereotype": "locigal_form",
-        "name": "Logcal-img",
+        "name": "Logical-img",
         "description": [
                 ""
         ],
         "x_order": 585891664,
-        "y_order": -1924522237,
+        "y_order": -2039976797,
         "list_order": -1924522237,
         "uuid": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 209,
+        "main_type": 139,
+        "type": "Stereotype",
+        "stereotype": "Metaclass",
+        "name": "SysML:block",
+        "description": [
+                ""
+        ],
+        "x_order": 949280726,
+        "y_order": -2039976797,
+        "list_order": -2039976797,
+        "uuid": "39d2649c-f238-4622-99e3-d532e043d1d2",
         "features":
         [
         ]
@@ -13459,6 +13490,23 @@
     },
     {
       "relationship": {
+        "id": 346,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 655360,
+        "from_classifier_name": "SW",
+        "to_classifier_name": "SysML:block",
+        "from_node": "c46afe48-7549-42c9-8992-e90e63c8613e",
+        "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
+        "uuid": "1003a9e6-0a05-4582-8929-338557e7f6da"
+      }
+    },
+    {
+      "relationship": {
         "id": 307,
         "main_type": 202,
         "type": "Association",
@@ -13476,6 +13524,23 @@
     },
     {
       "relationship": {
+        "id": 345,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 622592,
+        "from_classifier_name": "HW",
+        "to_classifier_name": "SysML:block",
+        "from_node": "66cc5d17-4a3f-4756-9fda-5094bbbb6034",
+        "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
+        "uuid": "8a6d9ec1-f0e2-48d3-9660-2187b8bf4ab1"
+      }
+    },
+    {
+      "relationship": {
         "id": 308,
         "main_type": 202,
         "type": "Association",
@@ -13489,6 +13554,23 @@
         "from_node": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
         "to_node": "9046bd5b-70c4-45e4-b894-36e31a67de97",
         "uuid": "76c83dc1-4828-4d26-800e-5a15ee45d4d2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 344,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 589824,
+        "from_classifier_name": "EE",
+        "to_classifier_name": "SysML:block",
+        "from_node": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
+        "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
+        "uuid": "ef31ba50-f11b-410e-87e6-a98ddd076d76"
       }
     },
     {
@@ -13536,10 +13618,27 @@
         ],
         "list_order": 524288,
         "from_classifier_name": "locigal_form",
-        "to_classifier_name": "Logcal-img",
+        "to_classifier_name": "Logical-img",
         "from_node": "dd089494-8ef7-413e-8634-1718be66330e",
         "to_node": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
         "uuid": "245d83fe-07b0-4f52-8444-b5abd2740b36"
+      }
+    },
+    {
+      "relationship": {
+        "id": 343,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "locigal_form",
+        "to_classifier_name": "SysML:block",
+        "from_node": "dd089494-8ef7-413e-8634-1718be66330e",
+        "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
+        "uuid": "835082e0-31a1-4f7a-84b6-1838cd9a0053"
       }
     }
   ]

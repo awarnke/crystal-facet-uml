@@ -6,11 +6,6 @@
     <itemizedlist>
         <listitem>
             <para>
-                Note that this feature requires at least version 1.39.0 to work smoothly.
-            </para>
-        </listitem>
-        <listitem>
-            <para>
                 Do not synchronize the file with your vcs while you modify it at the same time;
                 save your changes first, close the application and re-open the json file afterwards.
             </para>
@@ -30,6 +25,11 @@
                 To see the changes between versions of the json file, consider to use the following option:
                 <command>git diff --patience</command>
                 The result may better explain the changes.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Note that these merge and diff features require at least version 1.39.0 to work smoothly.
             </para>
         </listitem>
     </itemizedlist>

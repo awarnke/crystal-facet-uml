@@ -75,6 +75,6 @@ openSuSE:
 >
 > sudo make install
 
-wine:
+windows:
 
-> see  [./win/README.md](win)
+> see  [./msys2/README.md](win)
