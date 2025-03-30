@@ -47,10 +47,6 @@ In case of testing this program remotely, you may want to forward the X11 displa
 To forward X11 via ssh, the client needs the -X parameter passed to the ssh command,
 the server needs X11Forwarding yes specified in /etc/ssh/sshd_config .
 
-wine:
-
-> see  [win/README.md](../win/README.md)
-
 automated tests:
 
-> see  [run_q_test.sh](./run_q_test.sh)
+>       [run_q_test.sh](./run_q_test.sh)

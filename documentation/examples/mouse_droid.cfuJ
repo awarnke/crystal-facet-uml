@@ -521,179 +521,18 @@
     },
     {
       "diagram": {
-        "id": 59,
-        "diagram_type": 17,
-        "type": "UMLInteractionDiagram/overview",
-        "name": "Functionalities and Operation Modes",
-        "description": [
-                "This chapter shows the functions and the operation modes.\n",
-                "Functions represent the solutions to the functional requirements.\n",
-                "Operation modes define which functions are available in which mode.\n",
-                ""
-        ],
-        "list_order": 104960,
-        "display_flags": 0,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
-        "uuid": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
-        "diagramelements":
-        [
-          {
-            "id": 367,
-            "display_flags": 0,
-            "classifier_name": "L1 Functional View",
-            "node": "1f058bdf-4901-4385-91f2-5d308cf4705e",
-            "uuid": "1025a5ce-b88f-4c0a-9696-773afea52583"
-          },
-          {
-            "id": 368,
-            "display_flags": 0,
-            "classifier_name": "Operation Modes",
-            "node": "cbe8b54e-ce6a-496e-82e1-50105fa61ce6",
-            "uuid": "d2ea1236-c8eb-4832-9ae6-1596ce4c0f7a"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 50,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
-        "name": "Functional View",
-        "description": [
-                "This view shows the functionalities of the MoD5G.\n",
-                "\n",
-                "It also shows which function produces output that is needed by another function as input."
-        ],
-        "list_order": -1744823904,
-        "display_flags": 0,
-        "parent_name": "Functionalities and Operation Modes",
-        "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
-        "uuid": "73596088-5c4a-4e29-8a51-c01db258b7ea",
-        "diagramelements":
-        [
-          {
-            "id": 300,
-            "display_flags": 0,
-            "classifier_name": "Motors to move the MoD5G (L1-Fct)",
-            "node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
-            "uuid": "b753ed1c-e88e-447b-ae17-96d1786046e2"
-          },
-          {
-            "id": 301,
-            "display_flags": 0,
-            "classifier_name": "Recognize environment (L1-Fkt)",
-            "node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
-            "uuid": "e781cc4a-d3f1-4bdb-bee5-f6cb9ed72a82"
-          },
-          {
-            "id": 302,
-            "display_flags": 0,
-            "classifier_name": "Recognize objects to repair (L1-Fct)",
-            "node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
-            "uuid": "d7cd1f97-b1d9-4d16-ac3e-a1429043a6bf"
-          },
-          {
-            "id": 303,
-            "display_flags": 0,
-            "classifier_name": "Plan movement strategy (L1-Fct)",
-            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
-            "uuid": "ffc2fdd9-066a-4ee2-87e2-490e661c9e62"
-          },
-          {
-            "id": 304,
-            "display_flags": 0,
-            "classifier_name": "Plan repair strategy (L1-Fct)",
-            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
-            "uuid": "1dc993e5-f5bb-412e-83cb-7d89cbf77b06"
-          },
-          {
-            "id": 305,
-            "display_flags": 0,
-            "classifier_name": "Perform movement tactic (L1-Fct)",
-            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
-            "uuid": "eab23e26-1e9f-4266-8e3b-108451e07bc8"
-          },
-          {
-            "id": 306,
-            "display_flags": 0,
-            "classifier_name": "Perform repair tactic (L1-Fct)",
-            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
-            "uuid": "6726cbab-e20a-478e-bf6d-2ac496a389e0"
-          },
-          {
-            "id": 307,
-            "display_flags": 0,
-            "classifier_name": "Tools to repair",
-            "node": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
-            "uuid": "2e7980ed-64ae-4865-bc6e-21bd04d66b27"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 57,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "Functions covering Requirements",
-        "description": [
-                "This diagram shows which function implements/solves which requirements."
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "Functional View",
-        "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
-        "uuid": "23882e2c-436a-4283-8277-b95e9529fecd",
-        "diagramelements":
-        [
-          {
-            "id": 356,
-            "display_flags": 0,
-            "classifier_name": "Plan movement strategy (L1-Fct)",
-            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
-            "uuid": "d9acf045-2523-4fdf-8051-1e1db40e4761"
-          },
-          {
-            "id": 357,
-            "display_flags": 0,
-            "classifier_name": "Perform repair tactic (L1-Fct)",
-            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
-            "uuid": "3c65860f-87d6-47bb-a61d-6d48dcc4d61f"
-          },
-          {
-            "id": 358,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "L1Req: Position screw driver",
-            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
-            "uuid": "3ed1c20f-14f5-4fd5-9075-8c440453b416"
-          },
-          {
-            "id": 359,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "L1Req: Recognize paths",
-            "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
-            "uuid": "cf44065e-107b-4162-96bd-b5bf0d5dfa18"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
         "id": 53,
         "diagram_type": 12,
         "type": "UMLStateMachineDiagram",
         "name": "Operation Modes",
         "description": [
-                "Operation modes list all modes of the system that provide an intended subset of functionality."
+                "Operation modes list all modes of the system that provide an intended subset of functionality.\n",
+                ""
         ],
-        "list_order": -1342164160,
+        "list_order": 65280,
         "display_flags": 0,
-        "parent_name": "Functionalities and Operation Modes",
-        "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
         "uuid": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
         "diagramelements":
         [
@@ -857,10 +696,10 @@
         "description": [
                 "This section shows the fundamental base principle of the system design. (Solution Space, System Level)"
         ],
-        "list_order": 1073794303,
+        "list_order": 85120,
         "display_flags": 0,
-        "parent_name": "Functionalities and Operation Modes",
-        "parent": "b8fe7204-9e5e-4a65-98d3-6d5476e1ba88",
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
         "uuid": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
         "diagramelements":
         [
@@ -952,6 +791,134 @@
             "classifier_name": "Base Logic Board",
             "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
             "uuid": "537f8926-440c-489f-ba18-56bb9bb5a8d5"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 50,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "Functional View",
+        "description": [
+                "This view shows the functionalities of the MoD5G.\n",
+                "\n",
+                "Functions represent the solutions to the functional requirements.\n",
+                "\n",
+                "It also shows which function produces output that is needed by another function as input."
+        ],
+        "list_order": 95040,
+        "display_flags": 0,
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "uuid": "73596088-5c4a-4e29-8a51-c01db258b7ea",
+        "diagramelements":
+        [
+          {
+            "id": 300,
+            "display_flags": 0,
+            "classifier_name": "Motors to move the MoD5G (L1-Fct)",
+            "node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
+            "uuid": "b753ed1c-e88e-447b-ae17-96d1786046e2"
+          },
+          {
+            "id": 301,
+            "display_flags": 0,
+            "classifier_name": "Recognize environment (L1-Fkt)",
+            "node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
+            "uuid": "e781cc4a-d3f1-4bdb-bee5-f6cb9ed72a82"
+          },
+          {
+            "id": 302,
+            "display_flags": 0,
+            "classifier_name": "Recognize objects to repair (L1-Fct)",
+            "node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
+            "uuid": "d7cd1f97-b1d9-4d16-ac3e-a1429043a6bf"
+          },
+          {
+            "id": 303,
+            "display_flags": 0,
+            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "uuid": "ffc2fdd9-066a-4ee2-87e2-490e661c9e62"
+          },
+          {
+            "id": 304,
+            "display_flags": 0,
+            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "uuid": "1dc993e5-f5bb-412e-83cb-7d89cbf77b06"
+          },
+          {
+            "id": 305,
+            "display_flags": 0,
+            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "uuid": "eab23e26-1e9f-4266-8e3b-108451e07bc8"
+          },
+          {
+            "id": 306,
+            "display_flags": 0,
+            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "6726cbab-e20a-478e-bf6d-2ac496a389e0"
+          },
+          {
+            "id": 307,
+            "display_flags": 0,
+            "classifier_name": "Tools to repair",
+            "node": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
+            "uuid": "2e7980ed-64ae-4865-bc6e-21bd04d66b27"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 57,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Functions covering Requirements",
+        "description": [
+                "This diagram shows which function implements/solves which requirements."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Functional View",
+        "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
+        "uuid": "23882e2c-436a-4283-8277-b95e9529fecd",
+        "diagramelements":
+        [
+          {
+            "id": 356,
+            "display_flags": 0,
+            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "uuid": "d9acf045-2523-4fdf-8051-1e1db40e4761"
+          },
+          {
+            "id": 357,
+            "display_flags": 0,
+            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "3c65860f-87d6-47bb-a61d-6d48dcc4d61f"
+          },
+          {
+            "id": 358,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "L1Req: Position screw driver",
+            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+            "uuid": "3ed1c20f-14f5-4fd5-9075-8c440453b416"
+          },
+          {
+            "id": 359,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "L1Req: Recognize paths",
+            "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+            "uuid": "cf44065e-107b-4162-96bd-b5bf0d5dfa18"
           }
         ]
       }
@@ -4711,7 +4678,7 @@
             "description": [
                 ""
             ],
-            "list_order": -933482872,
+            "list_order": -1505737656,
             "uuid": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2"
           }
         ]
@@ -4742,7 +4709,7 @@
             "description": [
                 ""
             ],
-            "list_order": -560987335,
+            "list_order": 268225099,
             "uuid": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b"
           },
           {
@@ -8111,17 +8078,6 @@
             ],
             "list_order": 0,
             "uuid": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315"
-          },
-          {
-            "id": 54,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "cbe8b54e-ce6a-496e-82e1-50105fa61ce6"
           }
         ]
       }
@@ -8318,35 +8274,6 @@
         "uuid": "04035b9d-d9af-4918-b18b-5431dfe45525",
         "features":
         [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 205,
-        "main_type": 112,
-        "type": "InteractionUse",
-        "name": "L1 Functional View",
-        "description": [
-                "refers to D0050#name"
-        ],
-        "x_order": -1548859303,
-        "y_order": -808409892,
-        "list_order": -1184358865,
-        "uuid": "4a693017-a347-4fd0-a4e6-7fb173d011f8",
-        "features":
-        [
-          {
-            "id": 53,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "1f058bdf-4901-4385-91f2-5d308cf4705e"
-          }
         ]
       }
     },
