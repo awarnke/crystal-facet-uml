@@ -578,14 +578,6 @@
             "uuid": "79e6741b-4977-443c-9cff-d1c23ed2c279"
           },
           {
-            "id": 22,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
-            "classifier_name": "Compatibility",
-            "node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
-            "uuid": "d5346f9e-b460-4a97-aed9-54bd98a30379"
-          },
-          {
             "id": 23,
             "display_flags": 16777216,
             "display_tags": "Emphasis",
@@ -613,20 +605,6 @@
             "classifier_name": "Capacity",
             "node": "21a09838-b909-4906-b648-d2085d67ba08",
             "uuid": "9b5cb565-eef8-428e-a0df-5a808b1718d7"
-          },
-          {
-            "id": 27,
-            "display_flags": 0,
-            "classifier_name": "Co-existence",
-            "node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
-            "uuid": "26505bcd-75d9-4b02-8132-8eb81fb983ee"
-          },
-          {
-            "id": 28,
-            "display_flags": 0,
-            "classifier_name": "Inter-operability",
-            "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
-            "uuid": "b166ebe0-f322-4862-a1f2-48cf8bd6a2e6"
           },
           {
             "id": 29,
@@ -1104,7 +1082,7 @@
     },
     {
       "diagram": {
-        "id": 20,
+        "id": 38,
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
         "name": "Quality Subcharacteristics II",
@@ -1112,163 +1090,106 @@
                 "Subcharactersitics II of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
-        "list_order": 32768,
+        "list_order": 0,
         "display_flags": 0,
         "parent_name": "Quality Characteristics",
         "parent": "45fc4dee-2999-4742-9caa-997404191457",
-        "uuid": "280222f5-37aa-43fa-8909-506f958f9cfc",
+        "uuid": "9d1a7a9e-b4b8-4097-a913-ca06d0ef44f2",
         "diagramelements":
         [
           {
-            "id": 205,
+            "id": 397,
             "display_flags": 16777216,
             "display_tags": "Emphasis",
-            "classifier_name": "Reliability",
-            "node": "3469bf40-881d-4466-b93a-43158b1e4fec",
-            "uuid": "1bb846f2-5755-4eba-ae0e-49b764602b2e"
+            "classifier_name": "Compatibility",
+            "node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
+            "uuid": "6ba6267b-8a8b-41cb-9492-adf38634cb23"
           },
           {
-            "id": 206,
+            "id": 398,
             "display_flags": 0,
-            "classifier_name": "Fault Tolerance",
-            "node": "8066b80c-2170-4243-a1be-e8b0246701d7",
-            "uuid": "2f2b1ee6-ca45-4b09-9734-384f678b40ef"
+            "classifier_name": "Inter-operability",
+            "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
+            "uuid": "c9538c40-e198-4ac1-bd2e-b327ec7a7907"
           },
           {
-            "id": 207,
+            "id": 399,
             "display_flags": 0,
-            "classifier_name": "Maturity",
-            "node": "370d9b4a-221e-4965-8038-486df8fbe2a3",
-            "uuid": "e84f89d1-2dec-4a76-9b72-3e6ab1f77859"
+            "classifier_name": "Co-existence",
+            "node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
+            "uuid": "429b719e-6a3e-4b6e-88f2-51089fb97416"
           },
           {
-            "id": 208,
-            "display_flags": 0,
-            "classifier_name": "Availability",
-            "node": "434e57ae-2dd0-4d37-a8af-c4044307974b",
-            "uuid": "20d05a8b-5c3f-4c38-bece-7666fe14c6da"
-          },
-          {
-            "id": 209,
-            "display_flags": 0,
-            "classifier_name": "Recover-ability",
-            "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
-            "uuid": "a183f7b4-4210-4ffd-9948-4661d56f70f1"
-          },
-          {
-            "id": 210,
+            "id": 400,
             "display_flags": 16777216,
             "display_tags": "Emphasis",
             "classifier_name": "Portability",
             "node": "1f993412-c4bc-4a80-883b-a34eaf4397fa",
-            "uuid": "3900cd1c-c7cb-4a76-9c51-4ce85ce26ca0"
+            "uuid": "bcaa2cac-a3b8-40a8-b1d0-34740806917d"
           },
           {
-            "id": 211,
-            "display_flags": 0,
-            "classifier_name": "Adaptability",
-            "node": "24ef8550-935f-4806-bbde-1a2bff8a0356",
-            "uuid": "ec127138-0a61-48cd-b36d-88ce328d8993"
-          },
-          {
-            "id": 212,
-            "display_flags": 0,
-            "classifier_name": "Replace-ability",
-            "node": "90277e08-7cd6-4299-bac6-6ebb4c75333e",
-            "uuid": "368d2e3f-5ab1-4aa1-b7f4-15db9ccbc811"
-          },
-          {
-            "id": 213,
+            "id": 401,
             "display_flags": 0,
             "classifier_name": "Installability",
             "node": "aec51b22-c57f-4694-a1ed-6b719fc1e0be",
-            "uuid": "94cc5c85-acae-4e9c-908d-b75782f96efb"
+            "uuid": "17148c05-f68f-472b-a14e-7bfc0fe38b0b"
           },
           {
-            "id": 214,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
-            "classifier_name": "Security",
-            "node": "0201be50-600f-44c8-aad8-6083621db401",
-            "uuid": "df423cdb-1cb3-4740-b235-1b693c9d6e4c"
-          },
-          {
-            "id": 215,
+            "id": 402,
             "display_flags": 0,
-            "classifier_name": "Confidentiality",
-            "node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
-            "uuid": "9b1126b9-b277-4c9e-93f0-81df4ce2996e"
+            "classifier_name": "Adaptability",
+            "node": "24ef8550-935f-4806-bbde-1a2bff8a0356",
+            "uuid": "c69c699d-3a19-4f6d-9c78-1eed359af052"
           },
           {
-            "id": 216,
+            "id": 403,
             "display_flags": 0,
-            "classifier_name": "Integrity",
-            "node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
-            "uuid": "d19f59f0-cb15-447f-801d-7c023d795556"
+            "classifier_name": "Replace-ability",
+            "node": "90277e08-7cd6-4299-bac6-6ebb4c75333e",
+            "uuid": "e156fa56-023f-4c8f-b819-b32d589c9813"
           },
           {
-            "id": 217,
-            "display_flags": 0,
-            "classifier_name": "Accountability",
-            "node": "03692939-1bd3-4b25-8328-9c09e2220b17",
-            "uuid": "b82c0efb-92c8-4502-ad47-6019a4e69395"
-          },
-          {
-            "id": 218,
-            "display_flags": 0,
-            "classifier_name": "Authenticity",
-            "node": "a46db944-f3fb-40c0-872f-d02a03409e6a",
-            "uuid": "fa7037cb-5d28-431f-b8c4-60ecaa7a6467"
-          },
-          {
-            "id": 219,
-            "display_flags": 0,
-            "classifier_name": "Non-Repudiation",
-            "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
-            "uuid": "2d418718-d6a2-4c54-b428-fa7ddfa96a48"
-          },
-          {
-            "id": 220,
+            "id": 404,
             "display_flags": 16777216,
             "display_tags": "Emphasis",
             "classifier_name": "Maintainability",
             "node": "9288b6b6-64a9-4157-88b7-8e1226fed939",
-            "uuid": "25c52962-2e7e-45b0-b902-4220af132e59"
+            "uuid": "05bc0b51-232a-4efd-96a8-326bbfef3d97"
           },
           {
-            "id": 221,
-            "display_flags": 0,
-            "classifier_name": "Analyzability",
-            "node": "8e9683a3-d412-428d-a68c-374aa6ad703c",
-            "uuid": "cc88dc32-c005-46d4-8e8e-a9701e76947f"
-          },
-          {
-            "id": 222,
+            "id": 405,
             "display_flags": 0,
             "classifier_name": "Reusability",
             "node": "b56e8134-a6da-4fa8-bb27-617964b34c14",
-            "uuid": "7c61ebda-9169-4812-9716-f8f2b42eabaa"
+            "uuid": "22b4f471-72e9-474c-8dbc-115159b3bbf3"
           },
           {
-            "id": 223,
+            "id": 406,
             "display_flags": 0,
             "classifier_name": "Testability",
             "node": "c478e381-c500-4b3e-9305-57822f04e064",
-            "uuid": "68a98d41-267b-4df7-99b0-1fe0d8f72ef3"
+            "uuid": "770beff2-198b-40dc-8fd0-75f364a087fa"
           },
           {
-            "id": 224,
+            "id": 407,
             "display_flags": 0,
-            "classifier_name": "Modifyability",
-            "node": "aa863c2c-3274-4ec3-a028-5468d2c10f3e",
-            "uuid": "7837c2eb-7f90-4956-b0f0-9b618ceef03c"
+            "classifier_name": "Analyzability",
+            "node": "8e9683a3-d412-428d-a68c-374aa6ad703c",
+            "uuid": "60592956-2e8f-4f63-9d3e-241ed987a2ce"
           },
           {
-            "id": 225,
+            "id": 408,
             "display_flags": 0,
             "classifier_name": "Modularity",
             "node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
-            "uuid": "1bd5cc4a-dd36-42a4-9deb-32641741e801"
+            "uuid": "23888b0f-9b27-40de-a9eb-2bd608ef69cf"
+          },
+          {
+            "id": 409,
+            "display_flags": 0,
+            "classifier_name": "Modifyability",
+            "node": "aa863c2c-3274-4ec3-a028-5468d2c10f3e",
+            "uuid": "bf6768f1-b312-4a3f-9b34-e5c734942c06"
           }
         ]
       }
@@ -1282,10 +1203,10 @@
         "description": [
                 "This diagram shows examples - not aiming for completeness."
         ],
-        "list_order": 0,
+        "list_order": -1,
         "display_flags": 0,
         "parent_name": "Quality Subcharacteristics II",
-        "parent": "280222f5-37aa-43fa-8909-506f958f9cfc",
+        "parent": "9d1a7a9e-b4b8-4097-a913-ca06d0ef44f2",
         "uuid": "f05046bc-aaa3-4403-a40f-1f2dee29bc6a",
         "diagramelements":
         [
@@ -1491,6 +1412,105 @@
     },
     {
       "diagram": {
+        "id": 20,
+        "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
+        "name": "Quality Subcharacteristics III",
+        "description": [
+                "Subcharactersitics III of Ext/Int Product Quality \n",
+                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Quality Characteristics",
+        "parent": "45fc4dee-2999-4742-9caa-997404191457",
+        "uuid": "280222f5-37aa-43fa-8909-506f958f9cfc",
+        "diagramelements":
+        [
+          {
+            "id": 205,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "Reliability",
+            "node": "3469bf40-881d-4466-b93a-43158b1e4fec",
+            "uuid": "1bb846f2-5755-4eba-ae0e-49b764602b2e"
+          },
+          {
+            "id": 206,
+            "display_flags": 0,
+            "classifier_name": "Fault Tolerance",
+            "node": "8066b80c-2170-4243-a1be-e8b0246701d7",
+            "uuid": "2f2b1ee6-ca45-4b09-9734-384f678b40ef"
+          },
+          {
+            "id": 207,
+            "display_flags": 0,
+            "classifier_name": "Maturity",
+            "node": "370d9b4a-221e-4965-8038-486df8fbe2a3",
+            "uuid": "e84f89d1-2dec-4a76-9b72-3e6ab1f77859"
+          },
+          {
+            "id": 208,
+            "display_flags": 0,
+            "classifier_name": "Availability",
+            "node": "434e57ae-2dd0-4d37-a8af-c4044307974b",
+            "uuid": "20d05a8b-5c3f-4c38-bece-7666fe14c6da"
+          },
+          {
+            "id": 209,
+            "display_flags": 0,
+            "classifier_name": "Recover-ability",
+            "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
+            "uuid": "a183f7b4-4210-4ffd-9948-4661d56f70f1"
+          },
+          {
+            "id": 214,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "Security",
+            "node": "0201be50-600f-44c8-aad8-6083621db401",
+            "uuid": "df423cdb-1cb3-4740-b235-1b693c9d6e4c"
+          },
+          {
+            "id": 215,
+            "display_flags": 0,
+            "classifier_name": "Confidentiality",
+            "node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
+            "uuid": "9b1126b9-b277-4c9e-93f0-81df4ce2996e"
+          },
+          {
+            "id": 216,
+            "display_flags": 0,
+            "classifier_name": "Integrity",
+            "node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
+            "uuid": "d19f59f0-cb15-447f-801d-7c023d795556"
+          },
+          {
+            "id": 217,
+            "display_flags": 0,
+            "classifier_name": "Accountability",
+            "node": "03692939-1bd3-4b25-8328-9c09e2220b17",
+            "uuid": "b82c0efb-92c8-4502-ad47-6019a4e69395"
+          },
+          {
+            "id": 218,
+            "display_flags": 0,
+            "classifier_name": "Authenticity",
+            "node": "a46db944-f3fb-40c0-872f-d02a03409e6a",
+            "uuid": "fa7037cb-5d28-431f-b8c4-60ecaa7a6467"
+          },
+          {
+            "id": 219,
+            "display_flags": 0,
+            "classifier_name": "Non-Repudiation",
+            "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
+            "uuid": "2d418718-d6a2-4c54-b428-fa7ddfa96a48"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 8,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
@@ -1500,7 +1520,7 @@
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Quality Subcharacteristics II",
+        "parent_name": "Quality Subcharacteristics III",
         "parent": "280222f5-37aa-43fa-8909-506f958f9cfc",
         "uuid": "5ef858cf-9370-41a7-acbe-8b61aa3d2a99",
         "diagramelements":
@@ -1760,7 +1780,7 @@
         ],
         "list_order": 65536,
         "display_flags": 0,
-        "parent_name": "Quality Subcharacteristics II",
+        "parent_name": "Quality Subcharacteristics III",
         "parent": "280222f5-37aa-43fa-8909-506f958f9cfc",
         "uuid": "c4191860-edc2-47a0-8f58-943d55dbb8a4",
         "diagramelements":
@@ -2000,7 +2020,7 @@
         "id": 27,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "Quality Subcharacteristics III",
+        "name": "Quality Subcharacteristics IV",
         "description": [
                 "Subcharactersitics of quality in use according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
@@ -2128,7 +2148,7 @@
         ],
         "list_order": 0,
         "display_flags": 0,
-        "parent_name": "Quality Subcharacteristics III",
+        "parent_name": "Quality Subcharacteristics IV",
         "parent": "b03046e4-9489-444b-b3a3-b4b0a4a1dd91",
         "uuid": "7a2c1c6e-8f4b-46a5-9a5b-5f1a4348df08",
         "diagramelements":
@@ -3073,6 +3093,14 @@
             "classifier_name": "Adaptive AUTOSAR Coding Guidelines",
             "node": "5d0934b9-fca0-4f9f-be18-79c79ec7d63c",
             "uuid": "afc2905c-db68-4039-8840-5a742cafbf33"
+          },
+          {
+            "id": 410,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Systems Engineering Handbook",
+            "node": "f7a34b7c-1c88-4a27-ba76-0c85a34e013d",
+            "uuid": "db93abc7-4891-49ae-89c7-a7366b960af8"
           }
         ]
       }
@@ -3120,8 +3148,8 @@
     {
       "diagram": {
         "id": 34,
-        "diagram_type": 34,
-        "type": "UMLClassDiagram",
+        "diagram_type": 1,
+        "type": "CFUBoxDiagram",
         "name": "Internet Articles",
         "description": [
                 ""
@@ -3601,7 +3629,7 @@
                 ""
         ],
         "x_order": -615086240,
-        "y_order": -2141219072,
+        "y_order": -2133626947,
         "list_order": 0,
         "uuid": "5816fc48-eb17-4876-a0c9-fafd9aec11ba",
         "features":
@@ -3636,7 +3664,7 @@
         "description": [
                 ""
         ],
-        "x_order": 2042689424,
+        "x_order": 1842702999,
         "y_order": -2082453547,
         "list_order": 0,
         "uuid": "0201be50-600f-44c8-aad8-6083621db401",
@@ -3690,7 +3718,7 @@
         "description": [
                 ""
         ],
-        "x_order": 2042689424,
+        "x_order": 1842702999,
         "y_order": -2145874996,
         "list_order": 0,
         "uuid": "3469bf40-881d-4466-b93a-43158b1e4fec",
@@ -3799,7 +3827,7 @@
                 ""
         ],
         "x_order": 1708630526,
-        "y_order": -2082235199,
+        "y_order": -2082256020,
         "list_order": 0,
         "uuid": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
         "features":
@@ -3816,8 +3844,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1017473300,
-        "y_order": -2082235199,
+        "x_order": 1708630526,
+        "y_order": -2082043851,
         "list_order": 0,
         "uuid": "237779b9-5980-48c3-91dd-8e55562cac2e",
         "features":
@@ -6625,8 +6653,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1421381224,
-        "y_order": -2130994995,
+        "x_order": 1708630526,
+        "y_order": -2139190401,
         "list_order": 0,
         "uuid": "90277e08-7cd6-4299-bac6-6ebb4c75333e",
         "features":
@@ -8335,8 +8363,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1781433583,
-        "y_order": -1163520015,
+        "x_order": 321461009,
+        "y_order": -1136833321,
         "list_order": -1084429126,
         "uuid": "242b827a-2608-4c7b-9216-dba1e4fffdda",
         "features":
@@ -9136,6 +9164,27 @@
         "y_order": 842074025,
         "list_order": 842074025,
         "uuid": "9c6e403e-db31-425f-8b0b-69dee9b1e265",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 276,
+        "main_type": 126,
+        "type": "Class",
+        "name": "Systems Engineering Handbook",
+        "description": [
+                "Systems Engineering Handbook, 5th Edition\n",
+                "by INCOSE\n",
+                "Wiley, 2023\n",
+                "ISBN: 978-1-119-81429-0"
+        ],
+        "x_order": 2111031286,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "f7a34b7c-1c88-4a27-ba76-0c85a34e013d",
         "features":
         [
         ]

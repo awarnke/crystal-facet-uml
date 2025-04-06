@@ -13,7 +13,7 @@ ideas for future versions:
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] scrolling through search list missing if result list is too long
       (workaround hint already added to user manual)
-  [?] store edited text fields before performing undo/redo operations
+  [?] store edited text fields before performing undo/redo operations [useless...]
   [ ] auto-save when losing focus; Check gui_main_window_activated callback
   [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
   [ ] do not auto-save when there are no changes
@@ -33,6 +33,7 @@ ideas for future versions:
       check data_visible_set.c data_visible_set_private_update_containment_cache()
   [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] relationships to contained elements shall start from inner border, not from outside
+  [ ] relationship ends at packages or use-cases are sometimes unluckily positioned
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

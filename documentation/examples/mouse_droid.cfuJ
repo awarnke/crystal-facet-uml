@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.63.1"
+    "generator_version": "1.63.2"
   }
   ,
   "views":
@@ -925,46 +925,6 @@
     },
     {
       "diagram": {
-        "id": 6,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
-        "name": "Building Block View",
-        "description": [
-                "This section shows the parts of the MoD5G system (Solution Space, System Level)"
-        ],
-        "list_order": 159744,
-        "display_flags": 0,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
-        "uuid": "63422298-86c5-4518-83ff-5198d871abc5",
-        "diagramelements":
-        [
-          {
-            "id": 23,
-            "display_flags": 0,
-            "classifier_name": "Mechanical Parts",
-            "node": "2f324056-c955-4a38-9b47-b3a64b19072c",
-            "uuid": "1cd59345-6bdf-4039-a4b2-82469ed3e22d"
-          },
-          {
-            "id": 24,
-            "display_flags": 0,
-            "classifier_name": "Electrical Parts and Electronics",
-            "node": "c1419268-c407-4e91-a9de-386c65b7459b",
-            "uuid": "832fc35c-812f-483b-9211-19231ddb4e26"
-          },
-          {
-            "id": 25,
-            "display_flags": 0,
-            "classifier_name": "Software Parts",
-            "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
-            "uuid": "f378e4e6-8b73-43fc-89c9-b8a6db09b4c5"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
         "id": 51,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
@@ -974,10 +934,10 @@
                 "This view maps the functions to a form.\n",
                 ""
         ],
-        "list_order": -1610604544,
+        "list_order": 127392,
         "display_flags": 0,
-        "parent_name": "Building Block View",
-        "parent": "63422298-86c5-4518-83ff-5198d871abc5",
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
         "uuid": "0a061bdf-1c88-4f16-9a75-f73a0bc8ae42",
         "diagramelements":
         [
@@ -1032,57 +992,71 @@
     },
     {
       "diagram": {
-        "id": 52,
+        "id": 6,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
         "name": "Physical View",
         "description": [
                 "This view maps the logical form to physical artifacts.\n",
-                ""
+                "(Solution Space, System Level)"
         ],
-        "list_order": -1073725440,
+        "list_order": 159744,
         "display_flags": 0,
-        "parent_name": "Building Block View",
-        "parent": "63422298-86c5-4518-83ff-5198d871abc5",
-        "uuid": "61265c3f-d931-47ca-8986-0a6b52a666ab",
+        "parent_name": "Mouse Droid",
+        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "uuid": "63422298-86c5-4518-83ff-5198d871abc5",
         "diagramelements":
         [
           {
-            "id": 315,
+            "id": 23,
+            "display_flags": 0,
+            "classifier_name": "Mechanical Parts",
+            "node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+            "uuid": "1cd59345-6bdf-4039-a4b2-82469ed3e22d"
+          },
+          {
+            "id": 24,
             "display_flags": 0,
             "classifier_name": "Electrical Parts and Electronics",
             "node": "c1419268-c407-4e91-a9de-386c65b7459b",
-            "uuid": "83555e5f-5a30-4b74-974a-aec1ef69fad0"
+            "uuid": "832fc35c-812f-483b-9211-19231ddb4e26"
           },
           {
-            "id": 320,
+            "id": 25,
             "display_flags": 0,
-            "classifier_name": "Base Logic Board",
-            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
-            "uuid": "a7ef67f8-7d70-44e0-bd3d-d8c77a2780c2"
+            "classifier_name": "Software Parts",
+            "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+            "uuid": "f378e4e6-8b73-43fc-89c9-b8a6db09b4c5"
           },
           {
-            "id": 321,
+            "id": 396,
             "display_flags": 0,
             "classifier_name": "Main Logic Board",
             "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
-            "uuid": "8b2a00ce-cb47-44c5-8361-95f65e0170e4"
+            "uuid": "921fdb58-1baf-4acc-bec0-b164a25e7614"
           },
           {
-            "id": 324,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Tactic execution",
-            "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
-            "uuid": "a3e3e8c7-9471-4344-8155-1812b7a6795e"
+            "id": 397,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "1b63bb5e-095f-4c94-ba72-1a796a4c5164"
           },
           {
-            "id": 325,
+            "id": 398,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
             "classifier_name": "Strategy planning",
             "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
-            "uuid": "1a5ef1cf-8cf1-4f1f-a11d-bd8f309446da"
+            "uuid": "7df34312-8747-45b9-8605-08a522ca6981"
+          },
+          {
+            "id": 399,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Tactic execution",
+            "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+            "uuid": "da7d6a09-87ed-437f-b4f9-9e4fcf054d92"
           }
         ]
       }
@@ -1093,13 +1067,13 @@
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
         "stereotype": "HW",
-        "name": "Phys/ Mechanics",
+        "name": "Mechanics",
         "description": [
                 "This section shows the mechanical parts of the MoD5G system (Solution Space)"
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Building Block View",
+        "parent_name": "Physical View",
         "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "7a791ba0-d626-4233-91aa-e7a0358155e9",
         "diagramelements":
@@ -1241,13 +1215,13 @@
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
         "stereotype": "EE",
-        "name": "Phys/ Electric Parts and Electronics",
+        "name": "Electric Parts and Electronics",
         "description": [
                 "This section shows the electric parts and electronics of the MoD5G system (Solution Space)"
         ],
         "list_order": 1073815550,
         "display_flags": 0,
-        "parent_name": "Building Block View",
+        "parent_name": "Physical View",
         "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "72834205-268a-4b3d-9720-c30d79cc089c",
         "diagramelements":
@@ -1328,7 +1302,7 @@
         ],
         "list_order": 0,
         "display_flags": 0,
-        "parent_name": "Phys/ Electric Parts and Electronics",
+        "parent_name": "Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "6ebd18ba-a213-47c4-8759-dad84724b329",
         "diagramelements":
@@ -1382,7 +1356,7 @@
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Phys/ Electric Parts and Electronics",
+        "parent_name": "Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "185ac87a-cd2a-4214-8d4e-3a619c182e59",
         "diagramelements":
@@ -1436,7 +1410,7 @@
         ],
         "list_order": 1073815550,
         "display_flags": 0,
-        "parent_name": "Phys/ Electric Parts and Electronics",
+        "parent_name": "Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "1335970c-2ff7-42a8-b63d-8be79f317405",
         "diagramelements":
@@ -1485,7 +1459,7 @@
         "diagram_type": 30,
         "type": "UMLDeploymentDiagram",
         "stereotype": "SW",
-        "name": "Phys/ Software [subsystem]",
+        "name": "Software [subsystem]",
         "description": [
                 "This diagram shows the virtual machines and specialized (non-versatile) execution environments (Solution Space)\n",
                 "\n",
@@ -1495,7 +1469,7 @@
         ],
         "list_order": 1073815551,
         "display_flags": 0,
-        "parent_name": "Building Block View",
+        "parent_name": "Physical View",
         "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "diagramelements":
@@ -1567,7 +1541,7 @@
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6d06f859-47df-4b97-b724-b0715cdf17db",
         "diagramelements":
@@ -1749,7 +1723,7 @@
         ],
         "list_order": 49152,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "1ab8813b-9a68-4802-9d1b-9fd7848f1272",
         "diagramelements":
@@ -1782,7 +1756,7 @@
         ],
         "list_order": 98304,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "a8d88bf1-56a0-44e0-b9b2-4cd16263585d",
         "diagramelements":
@@ -1822,7 +1796,7 @@
         ],
         "list_order": 131072,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "16e1db70-8751-4a21-a6b2-aadbf2affa65",
         "diagramelements":
@@ -1877,7 +1851,7 @@
         ],
         "list_order": 163840,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b76e24bf-e4f6-4f5b-b377-54c921671283",
         "diagramelements":
@@ -2070,7 +2044,7 @@
         ],
         "list_order": 196608,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "64d98f20-0c99-4e7b-9e56-b074bc62d9e8",
         "diagramelements":
@@ -2265,7 +2239,7 @@
         ],
         "list_order": 245760,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "46914369-d7f3-41d9-90f9-7fe468f556f0",
         "diagramelements":
@@ -2365,7 +2339,7 @@
         ],
         "list_order": 262144,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "90ccb77d-8c35-4571-a1ae-085f332c19bf",
         "diagramelements":
@@ -2407,7 +2381,7 @@
         ],
         "list_order": 294912,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6870f3b2-7681-4af9-931c-97cd8597f98c",
         "diagramelements":
@@ -2443,7 +2417,7 @@
         ],
         "list_order": 327680,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b21e4349-6451-46c8-a44a-bf03154ba13e",
         "diagramelements":
@@ -2577,7 +2551,7 @@
         ],
         "list_order": 344064,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "2476d37a-3857-4f2a-90e5-f81511108236",
         "diagramelements":
@@ -2625,7 +2599,7 @@
         ],
         "list_order": 1610649598,
         "display_flags": 0,
-        "parent_name": "Phys/ Software [subsystem]",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "92c7183a-bc28-40f6-a2bd-e282015dea2b",
         "diagramelements":
@@ -4054,8 +4028,8 @@
                 "\n",
                 "These software items are split over two logical boards and subdivided into independent execution partitions."
         ],
-        "x_order": 588348355,
-        "y_order": -1220148885,
+        "x_order": -809580878,
+        "y_order": -1886953723,
         "list_order": -1157712888,
         "uuid": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "features":
@@ -7917,7 +7891,7 @@
                 "This system element aggregates functions that have high demands on computation power but less demands on realtime-reactions.\n",
                 "These even may be turned off from time to time."
         ],
-        "x_order": -870192362,
+        "x_order": -901501342,
         "y_order": -1886953723,
         "list_order": -1886953723,
         "uuid": "189778eb-1c9f-41ec-807d-610fa6566b20",

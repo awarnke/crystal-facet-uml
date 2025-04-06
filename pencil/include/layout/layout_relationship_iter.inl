@@ -7,21 +7,47 @@ static inline void layout_relationship_iter_init( layout_relationship_iter_t *th
                                                   layout_visible_set_t *items,
                                                   const universal_array_index_sorter_t *order )
 {
+    assert( items != NULL );
+    assert( order != NULL );
     (*this_).next_idx = 0;
+    (*this_).length = universal_array_index_sorter_get_count( order );
     (*this_).items = items;
     (*this_).order = order;
+}
+
+static inline void layout_relationship_iter_init_from_processed( layout_relationship_iter_t *this_,
+                                                                 const layout_relationship_iter_t *that_ )
+{
+    (*this_).next_idx = 0;
+    (*this_).length = (*that_).next_idx;
+    (*this_).items = (*that_).items;
+    (*this_).order = (*that_).order;
+}
+
+static inline void layout_relationship_iter_copy( layout_relationship_iter_t *this_,
+                                                  const layout_relationship_iter_t *original )
+{
+    (*this_).next_idx = (*original).next_idx;
+    (*this_).length = (*original).length;
+    (*this_).items = (*original).items;
+    (*this_).order = (*original).order;
 }
 
 static inline void layout_relationship_iter_destroy( layout_relationship_iter_t *this_ )
 {
     (*this_).next_idx = 0;
+    (*this_).length = 0;
     (*this_).items = NULL;
     (*this_).order = NULL;
 }
 
 static inline bool layout_relationship_iter_has_next( const layout_relationship_iter_t *this_ )
 {
-    return ( (*this_).next_idx < universal_array_index_sorter_get_count( (*this_).order ) );
+    /* check that the size of the array has not shrinked */
+    /* It should not have changed at all, but this cannot be checked here. */
+    assert( (*this_).length <= universal_array_index_sorter_get_count( (*this_).order ) );
+
+    return ( (*this_).next_idx < (*this_).length );
 }
 
 static inline layout_relationship_t *layout_relationship_iter_next_ptr( layout_relationship_iter_t *this_ )

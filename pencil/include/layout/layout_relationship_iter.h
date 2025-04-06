@@ -20,6 +20,7 @@
  */
 struct layout_relationship_iter_struct {
     uint32_t next_idx;  /*!< next index on the order index_sorter, not the index in items */
+    uint32_t length;  /*!< maximum entries to iterate over in index_sorter */
     layout_visible_set_t *items;
     const universal_array_index_sorter_t *order;
 };
@@ -36,6 +37,30 @@ typedef struct layout_relationship_iter_struct layout_relationship_iter_t;
 static inline void layout_relationship_iter_init( layout_relationship_iter_t *this_,
                                                   layout_visible_set_t *items,
                                                   const universal_array_index_sorter_t *order
+                                                );
+
+/*!
+ *  \brief initializes the layout_relationship_iter_t to re-process the already processed items
+ *
+ *  it ignored the already processed items and iterates only over the not-yet-proxessed items
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to layout_relationship_iter_t iterator, of which only the processed elements shall be re-processed
+ */
+static inline void layout_relationship_iter_init_from_processed( layout_relationship_iter_t *this_,
+                                                                 const layout_relationship_iter_t *that_
+                                                               );
+
+/*!
+ *  \brief clones the layout_relationship_iter_t
+ *
+ *  it ignores the already processed items and iterates only over the not-yet-processed items
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to original object attributes
+ */
+static inline void layout_relationship_iter_copy( layout_relationship_iter_t *this_,
+                                                  const layout_relationship_iter_t *original
                                                 );
 
 /*!
