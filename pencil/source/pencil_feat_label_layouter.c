@@ -1,6 +1,7 @@
 /* File: pencil_feat_label_layouter.c; Copyright and License: see below */
 
 #include "pencil_feat_label_layouter.h"
+#include "layout/layout_feature_iter.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 
@@ -71,15 +72,12 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
     pencil_feat_label_layouter_private_propose_processing_order ( this_, &sorted );
 
     /* layout the features label-boxes */
-    const uint32_t count_sorted
-        = universal_array_index_sorter_get_count( &sorted );
-    for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
+    layout_feature_iter_t feature_iterator;
+    layout_feature_iter_init( &feature_iterator, (*this_).layout_data, &sorted );
+    while ( layout_feature_iter_has_next( &feature_iterator ) )
     {
         /* determine pointer to feature */
-        const uint32_t index
-            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-        layout_feature_t *current_feature;
-        current_feature = layout_visible_set_get_feature_ptr( (*this_).layout_data, index );
+        layout_feature_t *const current_feature = layout_feature_iter_next_ptr( &feature_iterator );
         geometry_point_t feature_middle = layout_feature_get_symbol_middle ( current_feature );
 
         /* declaration of list of options */
@@ -116,6 +114,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         layout_feature_set_label_box( current_feature, &(solution[index_of_best]) );
     }
 
+    layout_feature_iter_destroy( &feature_iterator );
     universal_array_index_sorter_destroy( &sorted );
 
     pencil_floating_label_layouter_reinit_void( &((*this_).label_floater) );
