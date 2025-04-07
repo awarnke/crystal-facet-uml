@@ -63,6 +63,14 @@ static inline bool layout_visible_classifier_iter_has_next( const layout_visible
  */
 static inline layout_visible_classifier_t *layout_visible_classifier_iter_next_ptr( layout_visible_classifier_iter_t *this_ );
 
+/*!
+ *  \brief gets the number of already processed elements
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return number of successful layout_visible_classifier_iter_next_ptr() calls.
+ */
+static inline uint32_t layout_visible_classifier_iter_count_processed( const layout_visible_classifier_iter_t *this_ );
+
 #include "layout_visible_classifier_iter.inl"
 
 #endif  /* LAYOUT_VISIBLE_CLASSIFIER_ITER_H */

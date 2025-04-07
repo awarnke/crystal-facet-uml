@@ -37,6 +37,11 @@ static inline layout_visible_classifier_t *layout_visible_classifier_iter_next_p
     return result;
 }
 
+static inline uint32_t layout_visible_classifier_iter_count_processed( const layout_visible_classifier_iter_t *this_ )
+{
+    return (*this_).next_idx;
+}
+
 
 /*
 Copyright 2025-2025 Andreas Warnke
