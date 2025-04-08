@@ -20,6 +20,7 @@
  */
 struct layout_visible_classifier_iter_struct {
     uint32_t next_idx;  /*!< next index on the order index_sorter, not the index in items */
+    uint32_t length;  /*!< maximum entries to iterate over in index_sorter */
     layout_visible_set_t *items;
     const universal_array_index_sorter_t *order;
 };
@@ -37,6 +38,18 @@ static inline void layout_visible_classifier_iter_init( layout_visible_classifie
                                                         layout_visible_set_t *items,
                                                         const universal_array_index_sorter_t *order
                                                       );
+
+/*!
+ *  \brief initializes the layout_visible_classifier_iter_t to re-process the already processed items
+ *
+ *  it ignores the not-yet-processed items and iterates only over the already processed items
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to layout_visible_classifier_iter_t iterator, of which only the processed elements shall be re-processed
+ */
+static inline void layout_visible_classifier_iter_init_from_processed( layout_visible_classifier_iter_t *this_,
+                                                                       const layout_visible_classifier_iter_t *that_
+                                                                     );
 
 /*!
  *  \brief destroys the layout_visible_classifier_iter_t

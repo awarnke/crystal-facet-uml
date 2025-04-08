@@ -23,10 +23,13 @@ enum universal_array_index_sorter_max_enum {
 /*!
  *  \brief attributes of the universal_array_index_sorter_t
  *
- *  This universal_array_index_sorter_t assumes that some data is stored in an array.
- *  These data entries are not moved or modified.
+ *  This universal_array_index_sorter_t assumes that the data to sort is stored in an array.
+ *  These data entries are not moved.
  *  Instead, the universal_array_index_sorter_t keeps a list of indices into that array of data elements.
  *  The list of indices is sorted accorting to a weight criteria.
+ *
+ *  To facilitate the usage of this class, consider to implement a type-specific wrapper
+ *  around this class, \see layout_feature_iter_t .
  */
 struct universal_array_index_sorter_struct {
     uint32_t entries_count;  /*!< number of all contained array indices */

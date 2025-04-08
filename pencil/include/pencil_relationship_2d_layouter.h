@@ -28,8 +28,7 @@
 /*!
  *  \brief attributes of the relationship layouter
  *
- *  \note This class is stateless. Only the layout_data, pencil_size and profile objects are stateful.
- *        It may either be instantiated once and used many times or be instantiated per use.
+ *  \note It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_relationship_2d_layouter_struct {
     layout_visible_set_t *layout_data;  /*!< pointer to an instance of layout data */
@@ -40,7 +39,7 @@ struct pencil_relationship_2d_layouter_struct {
     layout_relationship_iter_t already_processed;  /*!< already processed relationships of the sorted list of relationships */
 
     const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, */
-                                 /*!< font sizes and colors */
+                                       /*!< font sizes and colors */
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
 

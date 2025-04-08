@@ -537,20 +537,20 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         double delta_angle= 0.0;
                         const u8_error_t arc_err
                             = draw_svg_path_data_private_get_arc_center( this_,
-                                                                            command_start_x,
-                                                                            command_start_y,
-                                                                            command_end_x,
-                                                                            command_end_y,
-                                                                            arc_large_arc,
-                                                                            arc_sweep_positive,
-                                                                            arc_r_x,
-                                                                            arc_r_y,
-                                                                            arc_phi,
-                                                                            &center_x,
-                                                                            &center_y,
-                                                                            &start_angle,
-                                                                            &delta_angle
-                                                                          );
+                                                                         command_start_x,
+                                                                         command_start_y,
+                                                                         command_end_x,
+                                                                         command_end_y,
+                                                                         arc_large_arc,
+                                                                         arc_sweep_positive,
+                                                                         arc_r_x,
+                                                                         arc_r_y,
+                                                                         arc_phi,
+                                                                         &center_x,
+                                                                         &center_y,
+                                                                         &start_angle,
+                                                                         &delta_angle
+                                                                       );
 
                         /* draw */
                         if ( draw )

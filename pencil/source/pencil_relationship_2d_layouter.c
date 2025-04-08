@@ -107,6 +107,7 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
         }
 
     }
+    layout_relationship_iter_destroy( &relationship_iterator );
 
     /* clear the array and iterator of processed relationships */
     universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );

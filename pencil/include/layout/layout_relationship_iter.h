@@ -42,7 +42,7 @@ static inline void layout_relationship_iter_init( layout_relationship_iter_t *th
 /*!
  *  \brief initializes the layout_relationship_iter_t to re-process the already processed items
  *
- *  it ignored the already processed items and iterates only over the not-yet-proxessed items
+ *  it ignores the not-yet-processed items and iterates only over the already processed items
  *
  *  \param this_ pointer to own object attributes
  *  \param that pointer to layout_relationship_iter_t iterator, of which only the processed elements shall be re-processed
