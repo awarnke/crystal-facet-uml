@@ -32,7 +32,6 @@ ideas for future versions:
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
   [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
-  [ ] relationships to contained elements shall start from inner border, not from outside
   [ ] relationship ends at packages or use-cases are sometimes unluckily positioned
   @io
   [ ] export formats: enhance xmi standard compliance

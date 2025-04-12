@@ -1,12 +1,13 @@
 crystal-facet-uml (1.63.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * ...
+  * relationships to contained elements start from inner border, not outside
+
     test suite: pencil_layouter_test_get_suite
     test case: layout_good_cases
-    #Diag=432, total=1634 |  ERR=0, W/C=8, W/F=1, W/L=25, W/R=82
+    #Diag=432, total=1634 |  ERR=0, W/C=8, W/F=1, W/L=25, W/R=76
     test case: layout_challenging_cases
-    #Diag=432, total=12440 |  ERR=43, W/C=9751, W/F=506, W/L=6720, W/R=7775
+    #Diag=432, total=12440 |  ERR=43, W/C=9751, W/F=506, W/L=6720, W/R=7759
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 29 Mar 2025 08:00:00 +0100
 
