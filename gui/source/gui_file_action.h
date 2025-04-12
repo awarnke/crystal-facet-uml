@@ -13,7 +13,7 @@
 #include "wrap/gui_button.h"
 #include "io_data_file.h"
 #include "ctrl_controller.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief attributes of the file manager

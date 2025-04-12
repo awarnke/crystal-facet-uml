@@ -3,7 +3,7 @@
 #include "gui_type_resource_list.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <assert.h>
 
 void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_resources_t *resources )

@@ -33,7 +33,7 @@
 #include "entity/data_feature_type.h"
 #include "entity/data_relationship_type.h"
 #include "observer/observer.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief attributes of the main window

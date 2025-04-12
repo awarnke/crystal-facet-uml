@@ -3,7 +3,7 @@
 #include "gui_window_manager.h"
 #include "ctrl_controller.h"
 #include "u8/u8_trace.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdio.h>
 #include <stdbool.h>
 

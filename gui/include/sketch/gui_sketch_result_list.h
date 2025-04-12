@@ -21,7 +21,7 @@
 #include "set/data_search_result_list.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 #include <stdint.h>
 

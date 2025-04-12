@@ -14,7 +14,7 @@
 #include "gui_simple_message_to_user.h"
 #include "gui_file_action.h"
 #include "io_data_file.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief attributes of the use database file dialog

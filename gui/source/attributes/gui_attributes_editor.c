@@ -11,7 +11,7 @@
 #include "entity/data_table.h"
 #include "entity/data_id.h"
 #include "utf8stringbuf/utf8string.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 
 void gui_attributes_editor_init ( gui_attributes_editor_t *this_,

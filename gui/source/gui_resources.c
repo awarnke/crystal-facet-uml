@@ -2,7 +2,7 @@
 
 #include "gui_resources.h"
 #include "u8/u8_trace.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 
 /* including resource files */

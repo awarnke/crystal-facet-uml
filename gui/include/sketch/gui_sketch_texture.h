@@ -11,7 +11,7 @@
  */
 
 #include "u8/u8_error.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief constants of gui_sketch_texture_t

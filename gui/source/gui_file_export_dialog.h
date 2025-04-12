@@ -12,7 +12,7 @@
 #include "gui_simple_message_to_user.h"
 #include "io_exporter.h"
 #include "storage/data_database.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief attributes of the file export dialog

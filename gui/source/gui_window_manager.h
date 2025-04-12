@@ -15,7 +15,7 @@
 #include "observer/observer.h"
 #include "io_data_file.h"
 #include "storage/data_database_reader.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 
 /*!

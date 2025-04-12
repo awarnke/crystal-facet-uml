@@ -7,7 +7,7 @@
 #include "u8stream/universal_stream_output_stream.h"
 #include "utf8stream/utf8stream_writer.h"
 #endif  /* not NDEBUG */
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>

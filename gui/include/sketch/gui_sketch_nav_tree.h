@@ -24,7 +24,7 @@
 #include "layout/layout_order.h"
 #include <pango/pangocairo.h>
 #include <cairo.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 #include <stdint.h>
 

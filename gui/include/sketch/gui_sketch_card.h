@@ -24,7 +24,7 @@
 #include "set/data_visible_set.h"
 #include "set/data_full_id.h"
 #include "set/data_profile_part.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 #include <stdint.h>
 

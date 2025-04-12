@@ -15,7 +15,7 @@
 #include "sketch/gui_sketch_style.h"
 #include "gui_tool.h"
 #include "layout/layout_subelement_kind.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief attributes of the sketch overlay

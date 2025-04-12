@@ -2,7 +2,7 @@
 
 #include "sketch/gui_sketch_card_painter.h"
 #include "u8/u8_trace.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <assert.h>
 
 void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_ )

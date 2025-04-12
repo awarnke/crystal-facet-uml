@@ -6,7 +6,7 @@
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8string.h"
 #include <assert.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 
 static bool gui_toolbox_glib_signal_initialized = false;

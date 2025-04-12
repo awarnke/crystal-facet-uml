@@ -15,7 +15,7 @@
 #include "set/data_stat.h"
 #include "ctrl_controller.h"
 #include "utf8stringbuf/utf8stringbuf.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief attributes of the sketch tools object
