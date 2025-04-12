@@ -291,7 +291,7 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, cons
 #endif
         }
         else {
-            const size_t appPartLen = ((*this_).size-start)-1;
+            const size_t appPartLen = ((*this_).size-start)-1;  /* cannot be negative */
             if (( appPartLen > 0 )&&( appPartLen <= PTRDIFF_MAX ))  /* check to suppress compiler warning */
             {
                 memcpy( &((*this_).buf[start]), appendix, appPartLen );

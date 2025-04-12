@@ -16,7 +16,7 @@
 #include "entity/data_classifier_type.h"
 #include "entity/data_diagram_type.h"
 #include "entity/data_type.h"
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 #include <glib-object.h>
 #include <stdint.h>
 

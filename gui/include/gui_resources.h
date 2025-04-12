@@ -9,7 +9,7 @@
  *  \brief Provides bitmap resources to the gui module
  */
 
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 /*!

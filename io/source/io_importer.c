@@ -9,7 +9,7 @@
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
 #include <assert.h>
-#include <gtk/gtk.h>
+#include "io_gtk.h"
 #include <stdbool.h>
 
 void io_importer_init ( io_importer_t *this_,

@@ -110,7 +110,7 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
             = layout_visible_set_get_relationship_ptr( (*this_).layout_data, relationship_index );
         const geometry_connector_t *const conn = layout_relationship_get_shape_const( probe_relationship );
         const geometry_rectangle_t source = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_SOURCE );
-        const geometry_rectangle_t main = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_MAIN );
+        const geometry_rectangle_t middle = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_MAIN );
         const geometry_rectangle_t dest = geometry_connector_get_segment_bounds( conn, GEOMETRY_CONNECTOR_SEGMENT_DESTINATION );
         geometry_rectangle_init_by_difference_at_pivot( &available,
                                                         &available,
@@ -119,7 +119,7 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
                                                       );
         geometry_rectangle_init_by_difference_at_pivot( &available,
                                                         &available,
-                                                        &main,
+                                                        &middle,
                                                         geometry_anchor_get_point_const( anchor )
                                                       );
         geometry_rectangle_init_by_difference_at_pivot( &available,

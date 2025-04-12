@@ -6,7 +6,7 @@
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include "u8/u8_i32.h"
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 
 static const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
 static const int GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH = -1;

@@ -211,9 +211,8 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
 
         /* propose options of moving left/right/up/down */
         pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( this_,
-                                                                           &sorted_classifiers,
-                                                                           already_processed,  /* copy */
                                                                            layouted_classifier,
+                                                                           already_processed,  /* copy */
                                                                            SOLUTION_MAX-1,
                                                                            &solution,
                                                                            &solution_count
@@ -221,9 +220,8 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
         assert( solution_count < SOLUTION_MAX );
         /* propose options of moving close at origin-area */
         pencil_classifier_2d_layouter_private_propose_anchored_solution( this_,
-                                                                         &sorted_classifiers,
-                                                                         already_processed,  /* copy */
                                                                          layouted_classifier,
+                                                                         already_processed,  /* copy */
                                                                          &(solution[solution_count])
                                                                        );
         solution_count ++;
@@ -237,8 +235,8 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
         else
         {
             pencil_classifier_2d_layouter_private_select_move_solution( this_,
-                                                                        &sorted_classifiers,
                                                                         layouted_classifier,
+                                                                        &sorted_classifiers,
                                                                         solution_count,
                                                                         &solution,
                                                                         &index_of_best
@@ -358,15 +356,13 @@ enum pencil_classifier_2d_layouter_private_move_enum {
 };
 
 void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_classifier_2d_layouter_t *this_,
-                                                                        const universal_array_index_sorter_t *sorted,
-                                                                        layout_visible_classifier_iter_t already_processed,
                                                                         const layout_visible_classifier_t *the_classifier,
+                                                                        layout_visible_classifier_iter_t already_processed,
                                                                         uint32_t solutions_max,
                                                                         geometry_offset_t (*out_solution)[],
                                                                         uint32_t *out_solution_count )
 {
     U8_TRACE_BEGIN();
-    assert ( NULL != sorted );
     assert ( NULL != the_classifier );
     assert ( NULL != out_solution );
     assert ( NULL != out_solution_count );
@@ -509,13 +505,11 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
 }
 
 void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_classifier_2d_layouter_t *this_,
-                                                                      const universal_array_index_sorter_t *sorted,
-                                                                      layout_visible_classifier_iter_t already_processed,
                                                                       const layout_visible_classifier_t *the_classifier,
+                                                                      layout_visible_classifier_iter_t already_processed,
                                                                       geometry_offset_t *out_solution )
 {
     U8_TRACE_BEGIN();
-    assert ( NULL != sorted );
     assert ( NULL != the_classifier );
     assert ( NULL != out_solution );
 
@@ -616,8 +610,8 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
 }
 
 void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifier_2d_layouter_t *this_,
-                                                                 const universal_array_index_sorter_t *sorted,
                                                                  const layout_visible_classifier_t *the_classifier,
+                                                                 const universal_array_index_sorter_t *sorted,
                                                                  uint32_t solution_count,
                                                                  geometry_offset_t (*solution)[],
                                                                  uint32_t *out_index_of_best )
@@ -662,8 +656,8 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
 
             if ( the_probe != the_classifier )  /* skip self */
             {
-                /* already processed classifiers have higher severity because these do not move anymore */
-                const double severity = ( self_passed ) ? 0.25 : 1.0;
+                /* already processed classifiers have 4x higher severity because these do not move anymore */
+                const double severity = self_passed ? 0.25 : 1.0;
 
                 debts_of_current += severity * layout_quality_debts_class_class( &quality, &moved_solution, the_probe, (*this_).layout_data );
             }

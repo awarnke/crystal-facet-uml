@@ -590,98 +590,61 @@
     },
     {
       "diagram": {
-        "id": 55,
-        "diagram_type": 12,
-        "type": "UMLStateMachineDiagram",
-        "name": "Functionality per movement-related mode",
+        "id": 65,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "Functionality per Mode",
         "description": [
-                "This diagram shows the functionalities that area available in the operation modes related to moving."
+                ""
         ],
-        "list_order": 32768,
+        "list_order": 1073790975,
         "display_flags": 0,
         "parent_name": "Operation Modes",
         "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
-        "uuid": "c9f1778f-63e7-4bca-941f-8d71f10646ee",
+        "uuid": "1627a79d-3bf8-44e1-8729-e68eb4ab6426",
         "diagramelements":
         [
           {
-            "id": 346,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Plan movement strategy (L1-Fct)",
-            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
-            "uuid": "dd40536e-6df0-4903-9917-d68d3d6cb4b5"
-          },
-          {
-            "id": 347,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Perform movement tactic (L1-Fct)",
-            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
-            "uuid": "131a9353-41dd-4ccd-975a-68f2bfb70909"
-          },
-          {
-            "id": 352,
+            "id": 401,
             "display_flags": 0,
-            "classifier_name": "Moving",
-            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
-            "uuid": "a9a78690-1f83-4b89-86b8-c8ed83774a8e"
+            "classifier_name": "Return to base location",
+            "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+            "uuid": "634d55ab-fb86-4105-8350-1c10666644a7"
           },
           {
-            "id": 353,
+            "id": 402,
             "display_flags": 0,
-            "classifier_name": "Waiting",
-            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
-            "uuid": "e83dc1e5-e5fa-4333-b4ec-d66ea8fb833e"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 56,
-        "diagram_type": 12,
-        "type": "UMLStateMachineDiagram",
-        "name": "Functionality per tool-related mode",
-        "description": [
-                "This diagram shows the functionalities that area available in the operation modes related to using tools."
-        ],
-        "list_order": 1073758207,
-        "display_flags": 0,
-        "parent_name": "Operation Modes",
-        "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
-        "uuid": "91474ebb-491f-4d79-886a-47f9e0b34079",
-        "diagramelements":
-        [
-          {
-            "id": 349,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Plan repair strategy (L1-Fct)",
-            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
-            "uuid": "fb8c0326-b302-455a-8c2a-35f2f91ab26b"
+            "classifier_name": "Repair using tools",
+            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+            "uuid": "46983c0b-18c4-494e-9915-eca7963d75f0"
           },
           {
-            "id": 350,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Perform repair tactic (L1-Fct)",
-            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
-            "uuid": "c158b8c8-6655-470b-ac29-010d10e57c6f"
+            "id": 403,
+            "display_flags": 0,
+            "classifier_name": "Drive to location",
+            "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+            "uuid": "8ce10952-15c6-4eab-8a3d-11330538f674"
           },
           {
-            "id": 351,
+            "id": 404,
             "display_flags": 0,
             "classifier_name": "Using Tools",
             "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
-            "uuid": "47db1401-cc13-4a8a-9879-e72cb6571645"
+            "uuid": "7c2fea42-9ff6-4f2d-baf7-f0599f3264d7"
           },
           {
-            "id": 354,
+            "id": 405,
+            "display_flags": 0,
+            "classifier_name": "Moving",
+            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+            "uuid": "f47a918c-ef93-4c68-9272-1503ceacc2fa"
+          },
+          {
+            "id": 406,
             "display_flags": 0,
             "classifier_name": "Waiting",
             "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
-            "uuid": "92359c33-2264-4a26-8235-e7f91fedf989"
+            "uuid": "2fb744cb-3565-4639-a64c-9d091b29b27f"
           }
         ]
       }
@@ -925,6 +888,104 @@
     },
     {
       "diagram": {
+        "id": 55,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Functionality per movement-related mode",
+        "description": [
+                "This diagram shows the functionalities that area available in the operation modes related to moving."
+        ],
+        "list_order": 536942191,
+        "display_flags": 0,
+        "parent_name": "Functional View",
+        "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
+        "uuid": "c9f1778f-63e7-4bca-941f-8d71f10646ee",
+        "diagramelements":
+        [
+          {
+            "id": 346,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "uuid": "dd40536e-6df0-4903-9917-d68d3d6cb4b5"
+          },
+          {
+            "id": 347,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "uuid": "131a9353-41dd-4ccd-975a-68f2bfb70909"
+          },
+          {
+            "id": 352,
+            "display_flags": 0,
+            "classifier_name": "Moving",
+            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+            "uuid": "a9a78690-1f83-4b89-86b8-c8ed83774a8e"
+          },
+          {
+            "id": 353,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "e83dc1e5-e5fa-4333-b4ec-d66ea8fb833e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 56,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Functionality per tool-related mode",
+        "description": [
+                "This diagram shows the functionalities that area available in the operation modes related to using tools."
+        ],
+        "list_order": 1073789343,
+        "display_flags": 0,
+        "parent_name": "Functional View",
+        "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
+        "uuid": "91474ebb-491f-4d79-886a-47f9e0b34079",
+        "diagramelements":
+        [
+          {
+            "id": 349,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "uuid": "fb8c0326-b302-455a-8c2a-35f2f91ab26b"
+          },
+          {
+            "id": 350,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "c158b8c8-6655-470b-ac29-010d10e57c6f"
+          },
+          {
+            "id": 351,
+            "display_flags": 0,
+            "classifier_name": "Using Tools",
+            "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+            "uuid": "47db1401-cc13-4a8a-9879-e72cb6571645"
+          },
+          {
+            "id": 354,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "92359c33-2264-4a26-8235-e7f91fedf989"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 51,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
@@ -1024,7 +1085,7 @@
           {
             "id": 25,
             "display_flags": 0,
-            "classifier_name": "Software Parts",
+            "classifier_name": "Main Logic Software",
             "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
             "uuid": "f378e4e6-8b73-43fc-89c9-b8a6db09b4c5"
           },
@@ -1057,6 +1118,13 @@
             "classifier_name": "Tactic execution",
             "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
             "uuid": "da7d6a09-87ed-437f-b4f9-9e4fcf054d92"
+          },
+          {
+            "id": 400,
+            "display_flags": 0,
+            "classifier_name": "System Control",
+            "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+            "uuid": "d06338fd-b9e5-4a7f-97f3-408bdf17dbb9"
           }
         ]
       }
@@ -1833,7 +1901,7 @@
             "id": 261,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Software Parts",
+            "classifier_name": "Main Logic Software",
             "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
             "uuid": "74309b27-9d68-4026-a643-66444219f40f"
           }
@@ -1916,7 +1984,7 @@
             "id": 234,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Software Parts",
+            "classifier_name": "Main Logic Software",
             "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
             "uuid": "fb0b76aa-f394-4886-8563-afb3780d6eec"
           }
@@ -4022,13 +4090,13 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "SW",
-        "name": "Software Parts",
+        "name": "Main Logic Software",
         "description": [
                 "The software consists of control logic, initial data that was integrated at the factory and learned data that is aggregated during operation.\n",
                 "\n",
                 "These software items are split over two logical boards and subdivided into independent execution partitions."
         ],
-        "x_order": -809580878,
+        "x_order": -1044323579,
         "y_order": -1886953723,
         "list_order": -1157712888,
         "uuid": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
@@ -8749,7 +8817,7 @@
                 ""
         ],
         "list_order": 1503481072,
-        "from_classifier_name": "Software Parts",
+        "from_classifier_name": "Main Logic Software",
         "to_classifier_name": "Tactics Calculator",
         "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "to_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
@@ -8766,7 +8834,7 @@
                 ""
         ],
         "list_order": 1503644912,
-        "from_classifier_name": "Software Parts",
+        "from_classifier_name": "Main Logic Software",
         "to_classifier_name": "Environment Capture",
         "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "to_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
@@ -8775,36 +8843,19 @@
     },
     {
       "relationship": {
-        "id": 242,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1503677680,
-        "from_classifier_name": "Software Parts",
-        "to_classifier_name": "System Control",
-        "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
-        "to_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
-        "uuid": "584a2e4b-ec06-455a-9a02-25b3609e2441"
-      }
-    },
-    {
-      "relationship": {
-        "id": 243,
+        "id": 348,
         "main_type": 250,
         "type": "Deployment",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 32768,
-        "from_classifier_name": "Software Parts",
-        "to_classifier_name": "Electrical Parts and Electronics",
+        "list_order": 589824,
+        "from_classifier_name": "Main Logic Software",
+        "to_classifier_name": "Main Logic Board",
         "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
-        "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
-        "uuid": "c09622ea-550f-4f06-881f-78085b596321"
+        "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "uuid": "101e4699-563e-45c7-a271-2e767ab23e71"
       }
     },
     {
@@ -11468,19 +11519,19 @@
     },
     {
       "relationship": {
-        "id": 153,
+        "id": 347,
         "main_type": 230,
         "type": "CommunicationPath",
         "name": "movement info",
         "description": [
                 ""
         ],
-        "list_order": 163840,
-        "from_classifier_name": "Motor Controller",
-        "to_classifier_name": "Environment Model Composer",
-        "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
-        "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
-        "uuid": "51cb8c43-ff4d-4d20-88dd-eedd58e31ee9"
+        "list_order": 1503677680,
+        "from_classifier_name": "Tactics Calculator",
+        "to_classifier_name": "Motor Controller",
+        "from_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
+        "to_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
+        "uuid": "b495b469-4904-4a55-8d55-7c00b70b9211"
       }
     },
     {
@@ -11756,6 +11807,23 @@
         "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
         "uuid": "355b3284-2a12-4a43-b697-7fa982b01ae5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 349,
+        "main_type": 250,
+        "type": "Deployment",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 622592,
+        "from_classifier_name": "System Control",
+        "to_classifier_name": "Base Logic Board",
+        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "uuid": "2fddddfe-e867-4b0a-8483-1a367d8f9f7b"
       }
     },
     {
@@ -13287,6 +13355,40 @@
     },
     {
       "relationship": {
+        "id": 350,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Moving",
+        "to_classifier_name": "Drive to location",
+        "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "uuid": "2db13a94-2a86-44a3-9a96-a747b2410b32"
+      }
+    },
+    {
+      "relationship": {
+        "id": 352,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Moving",
+        "to_classifier_name": "Return to base location",
+        "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+        "uuid": "cb64bff4-552d-41e1-b6fe-3668c05d6a5b"
+      }
+    },
+    {
+      "relationship": {
         "id": 309,
         "main_type": 0,
         "type": "Dependency",
@@ -13317,6 +13419,23 @@
         "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "uuid": "d1682e0e-347b-4259-a6d5-12799258d3ad"
+      }
+    },
+    {
+      "relationship": {
+        "id": 351,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Using Tools",
+        "to_classifier_name": "Repair using tools",
+        "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "uuid": "917b38c5-2107-406f-b09d-4c8a8b7126dd"
       }
     },
     {

@@ -5,8 +5,8 @@
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 #include "utf8stringbuf/utf8stringbuf.h"
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
+#include "gui_gdk.h"
 #include <stdio.h>
 #include <stdbool.h>
 

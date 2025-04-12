@@ -5,7 +5,7 @@
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
 #include <assert.h>
-#include <gtk/gtk.h>
+#include "io_gtk.h"
 #include <stdbool.h>
 
 void json_importer_init( json_importer_t *this_, io_import_elements_t *elements_importer )

@@ -5,7 +5,7 @@
 #include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 
 static bool gui_marked_set_glib_signal_initialized = false;
 static guint gui_marked_set_glib_signal_id = 0;

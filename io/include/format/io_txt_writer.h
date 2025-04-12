@@ -18,7 +18,7 @@
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8stream/universal_output_stream.h"
 #include "u8/u8_error.h"
-#include <gtk/gtk.h>
+#include "io_gtk.h"
 
 /*!
  *  \brief attributes of the txt writer

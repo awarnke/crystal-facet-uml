@@ -10,8 +10,8 @@
  *  These four gtk elements are needed to display a button and react on it.
  */
 
-#include <gtk/gtk.h>
-#include <gdk/gdk.h>
+#include "gui_gtk.h"
+#include "gui_gdk.h"
 
 /*!
  *  \brief attributes of the button

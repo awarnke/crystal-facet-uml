@@ -5,7 +5,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 
 void gui_sketch_card_init( gui_sketch_card_t *this_ )
 {

@@ -13,7 +13,7 @@
 #include "pencil_size.h"
 #include <pango/pangocairo.h>
 #include <cairo.h>
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 #include <stdint.h>
 #include <stdbool.h>
 

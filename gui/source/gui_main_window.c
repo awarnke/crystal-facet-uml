@@ -11,8 +11,8 @@
 #include "storage/data_database.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
+#include "gui_gdk.h"
 #include <stdio.h>
 #include <stdbool.h>
 

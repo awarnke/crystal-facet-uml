@@ -25,7 +25,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error.h"
-#include <gtk/gtk.h>
+#include "io_gtk.h"
 
 /*!
  *  \brief attributes of the file exporter

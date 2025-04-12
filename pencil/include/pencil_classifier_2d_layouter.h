@@ -110,17 +110,15 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
  *  \brief propose multiple solutions to move one classifier up/down/left/right
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param already_processed a copy of an iterator to process the already processed visible_classifiers again
  *  \param the_classifier the current classifier for which to propose solutions
+ *  \param already_processed a copy of an iterator to process the already processed visible_classifiers again
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solution array of solutions: proposal to move in x/y direction
  *  \param out_solution_count number of proposed solutions; 1 &lt;= out_solution_count &lt; solutions_max
  */
 void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( pencil_classifier_2d_layouter_t *this_,
-                                                                         const universal_array_index_sorter_t *sorted,
-                                                                         layout_visible_classifier_iter_t already_processed,
                                                                          const layout_visible_classifier_t *the_classifier,
+                                                                         layout_visible_classifier_iter_t already_processed,
                                                                          uint32_t solutions_max,
                                                                          geometry_offset_t (*out_solution)[],
                                                                          uint32_t *out_solution_count
@@ -130,15 +128,13 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( pencil_
  *  \brief propose another solution to move one classifier based on another algorithm
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param already_processed a copy of an iterator to process the already processed visible_classifiers again
  *  \param the_classifier the current classifier for which to propose solutions
+ *  \param already_processed a copy of an iterator to process the already processed visible_classifiers again
  *  \param out_solution proposal to move in x/y direction
  */
 void pencil_classifier_2d_layouter_private_propose_anchored_solution ( pencil_classifier_2d_layouter_t *this_,
-                                                                       const universal_array_index_sorter_t *sorted,
-                                                                       layout_visible_classifier_iter_t already_processed,
                                                                        const layout_visible_classifier_t *the_classifier,
+                                                                       layout_visible_classifier_iter_t already_processed,
                                                                        geometry_offset_t *out_solution
                                                                      );
 
@@ -146,15 +142,15 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution ( pencil_cl
  *  \brief selects one solution to move a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to move classifiers; must not be NULL.
  *  \param the_classifier the current classifier for which to select a solution
+ *  \param sorted sorting order by which to move classifiers; must not be NULL.
  *  \param out_solution_count number of proposed solutions; 1 &lt;= out_solution_count
  *  \param solution array of solutions: proposal to move in x/y direction
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_classifier_2d_layouter_private_select_move_solution ( pencil_classifier_2d_layouter_t *this_,
-                                                                  const universal_array_index_sorter_t *sorted,
                                                                   const layout_visible_classifier_t *the_classifier,
+                                                                  const universal_array_index_sorter_t *sorted,
                                                                   uint32_t out_solution_count,
                                                                   geometry_offset_t (*solution)[],
                                                                   uint32_t *out_index_of_best

@@ -9,8 +9,8 @@
 #include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
+#include "gui_gdk.h"
 #include <stdint.h>
 #include <stdbool.h>
 
