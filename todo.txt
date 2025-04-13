@@ -31,7 +31,7 @@ ideas for future versions:
   [?] activity diagrams need swimlanes/partition
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
-  [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
+  [?] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] relationship ends at packages or use-cases are sometimes unluckily positioned
   @io
   [ ] export formats: enhance xmi standard compliance

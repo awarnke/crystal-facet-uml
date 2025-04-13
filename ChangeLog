@@ -2,11 +2,11 @@ crystal-facet-uml (1.63.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * relationships to contained elements start from inner border, not outside
-  * too short relationships are weighted by additional dept (10% improvement)
+  * too short relationships are weighted by additional dept
     layout_good_cases        ERR=0,  W/C=8,    W/F=1,   W/L=25,   W/R=61
-    layout_challenging_cases ERR=39, W/C=9751, W/F=501, W/L=6720, W/R=7660
+    layout_challenging_cases ERR=39, W/C=9751, W/F=503, W/L=6720, W/R=7636
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 01 Mai 2025 08:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 01 May 2025 08:00:00 +0100
 
 crystal-facet-uml (1.63.1) UNRELEASED; urgency=medium
 

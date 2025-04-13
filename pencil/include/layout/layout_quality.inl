@@ -219,7 +219,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         {
             /* probe is a long path and right-handed */
             /* to avoid overreactions, we assume a line width of 0.1 only */
-            debts += LAYOUT_QUALITY_WEIGHT_AVOID * 0.1 * length;
+            debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * ( 0.1 * line_corridor );
         }
     }
 
