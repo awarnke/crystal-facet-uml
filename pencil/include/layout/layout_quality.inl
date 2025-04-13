@@ -141,6 +141,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     /* get information on probe */
     const geometry_rectangle_t connector_bounds
         = geometry_connector_get_bounding_rectangle( probe );
+    const double length = geometry_connector_get_length( probe );
 
     /* get information on expected source and destination */
     const double src_center_x = geometry_rectangle_get_center_x ( source_rect );
@@ -166,7 +167,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     }
 
     /* the more length, the more unwanted... */
-    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * geometry_connector_get_length( probe ) * line_corridor;
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * length * line_corridor;
 
     /* prefer _either_ no _or_ minimum-dist lengths of parts, otherwise line too close to object... */
     const double source_length = geometry_connector_get_source_length( probe );
@@ -180,11 +181,19 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     {
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( object_dist - destination_length ) * line_corridor;
     }
+    /* prefer _either_ no _or_ minimum-dist lengths of main if only one of of source and dest exists */
     const bool no_source_or_no_dest = ( source_length < 0.000001 )||( destination_length < 0.000001 );
     const double main_length = geometry_connector_get_main_length( probe );
     if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_no_dest ))
     {
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( object_dist - main_length ) * line_corridor;
+    }
+
+    /* if the object distance is too low, prefer a detour */
+    const double minimum_good_length = 3.0 * object_dist;
+    if (( length < minimum_good_length ))
+    {
+        debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( minimum_good_length - length ) * line_corridor;
     }
 
     /* prefer centered over uncentered departure and arrival */
@@ -205,12 +214,12 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
     if ( bad_pattern_h || bad_pattern_v )
     {
-        const double current_len = geometry_connector_get_length( probe );
+        const double current_len = length;
         if ( current_len > ( 4.0 * object_dist ) )
         {
             /* probe is a long path and right-handed */
             /* to avoid overreactions, we assume a line width of 0.1 only */
-            debts += LAYOUT_QUALITY_WEIGHT_AVOID * 0.1 * geometry_connector_get_length( probe );
+            debts += LAYOUT_QUALITY_WEIGHT_AVOID * 0.1 * length;
         }
     }
 
@@ -238,7 +247,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
             else
@@ -257,7 +266,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
         }
@@ -279,7 +288,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
             else
@@ -298,7 +307,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
         }

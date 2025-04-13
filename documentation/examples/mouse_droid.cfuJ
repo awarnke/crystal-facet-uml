@@ -10768,23 +10768,6 @@
     },
     {
       "relationship": {
-        "id": 255,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 38140004,
-        "from_classifier_name": "Operate tools",
-        "to_classifier_name": "Base Micro Controller",
-        "from_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
-        "to_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
-        "uuid": "76d2887a-9409-46bf-bf66-4b1b6ecf7bd2"
-      }
-    },
-    {
-      "relationship": {
         "id": 96,
         "main_type": 230,
         "type": "CommunicationPath",

@@ -195,7 +195,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( 18 <= solutions_max );  /* current implementation requires at least 14 options */
+    assert ( 18 <= solutions_max );  /* current implementation requires at least 18 options */
 
     /* propose connections between source and destination */
     {
@@ -361,6 +361,12 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             debts_of_best = debts_of_current;
         }
     }
+
+#if 0
+    static unsigned int counter = 0;
+    counter ++;
+    index_of_best = counter % solutions_count;
+#endif
 
     /* the best */
     *out_index_of_best = index_of_best;
