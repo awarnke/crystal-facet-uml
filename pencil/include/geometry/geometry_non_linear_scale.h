@@ -9,6 +9,7 @@
  *  \brief Maps order-values to locations
  */
 
+#include "u8/u8_error.h"
 #include <stdint.h>
 
 /*!
@@ -66,8 +67,9 @@ void geometry_non_linear_scale_trace ( const geometry_non_linear_scale_t *this_ 
  *
  *  \param this_ pointer to own object attributes
  *  \param order order value for which a location shall be inserted to the scale
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if buffer for points exceeded, U8_ERROR_NONE otherwise
  */
-void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, int32_t order );
+u8_error_t geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, int32_t order );
 
 /*!
  *  \brief gets a location given an order-value

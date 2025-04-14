@@ -127,7 +127,7 @@ static inline data_row_t layout_relationship_get_relationship_id ( const layout_
     return data_relationship_get_row_id( (*this_).data );
 }
 
-static inline const geometry_rectangle_t *layout_relationship_get_from_symbol_box_const ( const layout_relationship_t *this_ )
+static inline const geometry_rectangle_t *layout_relationship_get_from_box_const ( const layout_relationship_t *this_ )
 {
     const geometry_rectangle_t *result;
 
@@ -154,7 +154,7 @@ static inline const geometry_rectangle_t *layout_relationship_get_from_symbol_bo
     return result;
 }
 
-static inline const geometry_rectangle_t *layout_relationship_get_to_symbol_box_const ( const layout_relationship_t *this_ )
+static inline const geometry_rectangle_t *layout_relationship_get_to_box_const ( const layout_relationship_t *this_ )
 {
     const geometry_rectangle_t *result;
 

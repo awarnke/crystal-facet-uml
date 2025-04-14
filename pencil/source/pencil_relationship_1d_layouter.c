@@ -112,9 +112,9 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
 
             /* get source and destination rectangles */
             const geometry_rectangle_t *const source_rect
-                = layout_relationship_get_from_symbol_box_const ( the_relationship );
+                = layout_relationship_get_from_box_const ( the_relationship );
             const geometry_rectangle_t *const dest_rect
-                = layout_relationship_get_to_symbol_box_const ( the_relationship );
+                = layout_relationship_get_to_box_const ( the_relationship );
 
             /* calculate coordinates */
             const double src_left = geometry_rectangle_get_left(source_rect);
@@ -245,9 +245,9 @@ void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_l
 
             /* get source and destination rectangles */
             const geometry_rectangle_t *const source_rect
-                = layout_relationship_get_from_symbol_box_const( the_relationship );
+                = layout_relationship_get_from_box_const( the_relationship );
             const geometry_rectangle_t *const dest_rect
-                = layout_relationship_get_to_symbol_box_const( the_relationship );
+                = layout_relationship_get_to_box_const( the_relationship );
 
             /* calculate coordinates */
             const double src_left = geometry_rectangle_get_left(source_rect);

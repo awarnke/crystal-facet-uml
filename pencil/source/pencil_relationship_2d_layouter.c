@@ -162,9 +162,9 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
         /* determine simpleness by distance between source and destination */
         {
             const geometry_rectangle_t *const source_rect
-                = layout_relationship_get_from_symbol_box_const ( current_relation );
+                = layout_relationship_get_from_box_const ( current_relation );
             const geometry_rectangle_t *const dest_rect
-                = layout_relationship_get_to_symbol_box_const ( current_relation );
+                = layout_relationship_get_to_box_const ( current_relation );
 
             simpleness -= fabs ( geometry_rectangle_get_center_x(source_rect) - geometry_rectangle_get_center_x(dest_rect) );
             simpleness -= fabs ( geometry_rectangle_get_center_y(source_rect) - geometry_rectangle_get_center_y(dest_rect) );
@@ -200,9 +200,9 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
     /* propose connections between source and destination */
     {
         const geometry_rectangle_t *const source_rect
-            = layout_relationship_get_from_symbol_box_const ( current_relation );
+            = layout_relationship_get_from_box_const ( current_relation );
         const geometry_rectangle_t *const dest_rect
-            = layout_relationship_get_to_symbol_box_const ( current_relation );
+            = layout_relationship_get_to_box_const ( current_relation );
 
         uint32_t solutions_by_I;
         pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( this_,
@@ -264,9 +264,9 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
 
     /* get current relationship data */
     const geometry_rectangle_t *const source_rect
-        = layout_relationship_get_from_symbol_box_const ( current_relation );
+        = layout_relationship_get_from_box_const ( current_relation );
     const geometry_rectangle_t *const dest_rect
-        = layout_relationship_get_to_symbol_box_const ( current_relation );
+        = layout_relationship_get_to_box_const ( current_relation );
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout

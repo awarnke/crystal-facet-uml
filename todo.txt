@@ -32,7 +32,8 @@ ideas for future versions:
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
   [?] allow arbitrary compartment sequences for features, e.g. tag - operation - property
-  [ ] relationship ends at packages or use-cases are sometimes unluckily positioned
+  [ ] relationship ends at packages or use-cases or choices are sometimes unluckily positioned.
+      A simple solution is to consider the type of the classifier when determining the weight for non-centered ends.
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

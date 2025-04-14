@@ -190,7 +190,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     }
 
     /* if the object distance is too low, prefer a detour */
-    const double minimum_good_length = 3.0 * object_dist;
+    const double minimum_good_length = 2.0 * object_dist;  /* not more than 2.0 because interfaces at components are rather close... */
     if (( length < minimum_good_length ))
     {
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( minimum_good_length - length ) * line_corridor;

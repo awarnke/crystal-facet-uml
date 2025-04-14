@@ -90,6 +90,8 @@ static inline double layout_quality_debts_class_class ( const layout_quality_t *
 /*!
  *  \brief determines the quality debts for drawing the connector of a relationship to the diagram
  *
+ *  This function considers the coordinates of the diagram and the ones of the relationship.
+ *
  *  \param this_ pointer to own object attributes
  *  \param probe a partly layouted relationship
  *  \param source_rect the rectangle from which the connector shall start

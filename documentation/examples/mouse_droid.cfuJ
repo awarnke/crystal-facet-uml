@@ -904,16 +904,14 @@
         [
           {
             "id": 346,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_flags": 0,
             "classifier_name": "Plan movement strategy (L1-Fct)",
             "node": "55b579a4-2727-4027-b366-a74a871c92b9",
             "uuid": "dd40536e-6df0-4903-9917-d68d3d6cb4b5"
           },
           {
             "id": 347,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_flags": 0,
             "classifier_name": "Perform movement tactic (L1-Fct)",
             "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
             "uuid": "131a9353-41dd-4ccd-975a-68f2bfb70909"
@@ -953,16 +951,14 @@
         [
           {
             "id": 349,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_flags": 0,
             "classifier_name": "Plan repair strategy (L1-Fct)",
             "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
             "uuid": "fb8c0326-b302-455a-8c2a-35f2f91ab26b"
           },
           {
             "id": 350,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_flags": 0,
             "classifier_name": "Perform repair tactic (L1-Fct)",
             "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
             "uuid": "c158b8c8-6655-470b-ac29-010d10e57c6f"
