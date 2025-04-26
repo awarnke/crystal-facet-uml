@@ -73,7 +73,8 @@ static test_case_result_t test_geometry_3dir( test_fixture_t *fix )
 static test_case_result_t test_geometry_dimensions( test_fixture_t *fix )
 {
     geometry_dimensions_t my_dim1;
-    geometry_dimensions_init( &my_dim1, 10.0, 5.0 );
+    geometry_dimensions_init( &my_dim1, 10.99, 5.99 );
+    geometry_dimensions_reinit( &my_dim1, 10.0, 5.0 );
 
     geometry_dimensions_t my_dim2;
     geometry_dimensions_copy( &my_dim2, &my_dim1 );
@@ -92,6 +93,7 @@ static test_case_result_t test_geometry_dimensions( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( false, geometry_dimensions_is_empty( &my_dim3 ) );
     TEST_EXPECT_EQUAL_INT( true, geometry_dimensions_can_contain( &my_dim3, &my_dim1 ) );
 
+    geometry_dimensions_expand( &my_dim3, -0.01, -0.01 );
     geometry_dimensions_expand( &my_dim3, 0.1, 0.1 );
 
     TEST_EXPECT_EQUAL_INT( false, geometry_dimensions_can_contain( &my_dim1, &my_dim3 ) );
