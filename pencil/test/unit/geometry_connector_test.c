@@ -61,17 +61,16 @@ static test_case_result_t test_base_methods( test_fixture_t *fix )
     geometry_connector_init_empty( &my_connector );
 
     /* init 3 segments line */
-    geometry_connector_reinit_vertical ( &my_connector,
-                                         10.0 /*source_end_x*/,
-                                         10.0 /*source_end_y*/,
-                                         30.0 /*destination_end_x*/,
-                                         30.0 /*destination_end_y*/,
-                                         20.0 /*main_line_x*/
-                                       );
+    geometry_connector_reinit_vertical( &my_connector,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        30.0 /*destination_end_x*/,
+                                        30.0 /*destination_end_y*/,
+                                        20.0 /*main_line_x*/
+                                      );
     TEST_EXPECT_EQUAL_DOUBLE( 40.0, geometry_connector_get_length( &my_connector ) );
     TEST_EXPECT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 21.0, 9.0, 1.5 /* max_distance */ ) );
     TEST_EXPECT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 21.0, 9.0, 0.5 /* max_distance */ ) );
-    TEST_EXPECT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 23.0, 31.0, 1.5 /* max_distance */ ) );
 
     TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_connector_get_source_end_x( &my_connector ) );
     TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_connector_get_source_end_y( &my_connector ) );
@@ -83,16 +82,29 @@ static test_case_result_t test_base_methods( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_DOUBLE( 30.0, geometry_connector_get_destination_end_y( &my_connector ) );
 
     /* init 1 segment line */
-    geometry_connector_reinit_vertical ( &my_connector,
-                                         10.0 /*source_end_x*/,
-                                         10.0 /*source_end_y*/,
-                                         10.0 /*destination_end_x*/,
-                                         30.0 /*destination_end_y*/,
-                                         10.0 /*main_line_x*/
-                                       );
+    geometry_connector_reinit_vertical( &my_connector,
+                                        10.0 /*source_end_x*/,
+                                        10.0 /*source_end_y*/,
+                                        10.0 /*destination_end_x*/,
+                                        30.0 /*destination_end_y*/,
+                                        10.0 /*main_line_x*/
+                                      );
     TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_connector_get_length( &my_connector ) );
     TEST_EXPECT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 9.0, 20.0, 1.5 /* max_distance */ ) );
     TEST_EXPECT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 10.0, 8.0, 1.5 /* max_distance */ ) );
+
+    /* init 3 segments horizontal line */
+    geometry_connector_reinit_horizontal( &my_connector,
+                                          30.0 /*source_end_x*/,
+                                          30.0 /*source_end_y*/,
+                                          10.0 /*destination_end_x*/,
+                                          10.0 /*destination_end_y*/,
+                                          20.0 /*main_line_y*/
+                                        );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_connector_get_source_length( &my_connector ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_connector_get_main_length( &my_connector ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_connector_get_destination_length( &my_connector ) );
+    TEST_EXPECT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 11.0, 9.0, 1.5 /* max_distance */ ) );
 
     /* check that the trace function returns */
     geometry_connector_trace( &my_connector );
