@@ -106,7 +106,7 @@ static test_case_result_t test_geometry_anchor_align_biased( test_fixture_t *fix
     geometry_dimensions_t my_dim2;
     geometry_dimensions_init( &my_dim2, 20.0, 2.0 );
 
-    /* my_dim2 fits into my_bounds */
+    /* my_dim2 fits into my_bounds, no shift */
     geometry_rectangle_t my_bounds;
     geometry_rectangle_init( &my_bounds, 70.0, 2.0, 200.0, 80.0 );
     geometry_rectangle_t rect1 = geometry_anchor_align_biased_dim( &my_anchor, &my_dim2, &my_bounds );
@@ -131,7 +131,7 @@ static test_case_result_t test_geometry_anchor_align_biased( test_fixture_t *fix
     geometry_rectangle_destroy( &rect0 );
     geometry_rectangle_destroy( &my_bounds );
 
-    /* my_dim2 is left/top outside my_bounds */
+    /* my_dim2 is left/top outside my_bounds, it is shifted and pulled back */
     geometry_rectangle_init( &my_bounds, 150.0, 15.0, 200.0, 80.0 );
     geometry_rectangle_t rect3 = geometry_anchor_align_biased_dim( &my_anchor, &my_dim2, &my_bounds );
     TEST_EXPECT_EQUAL_FLOAT( 110.0, geometry_rectangle_get_center_x( &rect3 ) );
@@ -139,7 +139,7 @@ static test_case_result_t test_geometry_anchor_align_biased( test_fixture_t *fix
     geometry_rectangle_destroy( &rect3 );
     geometry_rectangle_destroy( &my_bounds );
 
-    /* my_dim2 is right/bottom outside my_bounds */
+    /* my_dim2 is right/bottom outside my_bounds, it is shifted and pulled back */
     geometry_rectangle_init( &my_bounds, 50.0, 3.0, 39.0, 5.0 );
     geometry_rectangle_t rect4 = geometry_anchor_align_biased_dim( &my_anchor, &my_dim2, &my_bounds );
     TEST_EXPECT_EQUAL_FLOAT( 90.0, geometry_rectangle_get_center_x( &rect4 ) );
@@ -148,10 +148,10 @@ static test_case_result_t test_geometry_anchor_align_biased( test_fixture_t *fix
     geometry_rectangle_destroy( &my_bounds );
 
     /* my_dim2 is too big for my_bounds but fits on top/left */
-    geometry_rectangle_init( &my_bounds, 89.0, 7.2, 3.0, 3.0 );
+    geometry_rectangle_init( &my_bounds, 89.0, 8.6, 3.0, 1.0 );
     geometry_rectangle_t rect5 = geometry_anchor_align_biased_dim( &my_anchor, &my_dim2, &my_bounds );
     TEST_EXPECT_EQUAL_FLOAT( 90.5, geometry_rectangle_get_center_x( &rect5 ) );
-    TEST_EXPECT_EQUAL_FLOAT( 9.2, geometry_rectangle_get_center_y( &rect5 ) );
+    TEST_EXPECT_EQUAL_FLOAT( 9.1, geometry_rectangle_get_center_y( &rect5 ) );
     geometry_rectangle_destroy( &rect5 );
     geometry_rectangle_destroy( &my_bounds );
 
