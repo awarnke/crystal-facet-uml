@@ -6,6 +6,7 @@
 
 static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_, double width, double reference_left, double reference_width )
 {
+    assert( ( *this_ == GEOMETRY_H_ALIGN_LEFT )||( *this_ == GEOMETRY_H_ALIGN_CENTER )||( *this_ == GEOMETRY_H_ALIGN_RIGHT ) );
     double left;
 
     switch ( *this_ )
@@ -22,17 +23,10 @@ static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_
         }
         break;
 
+        default:
         case GEOMETRY_H_ALIGN_RIGHT:
         {
             left = reference_left + reference_width - width;
-        }
-        break;
-
-        default:
-        {
-            U8_LOG_ERROR("unknown geometry_h_align_t in geometry_h_align_get_left()");
-            assert(0);
-            left = 0.0;
         }
         break;
     }

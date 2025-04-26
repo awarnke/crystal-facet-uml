@@ -129,7 +129,7 @@ static inline geometry_rectangle_t geometry_anchor_align_dim ( const geometry_an
                                                              );
 
 /*!
- *  \brief aligns a dimension to coordinate of geometry_anchor_t but bounded by fence
+ *  \brief aligns a dimension to coordinate of geometry_anchor_t but biased by preferred_location if centering
  *
  *  \param this_ pointer to own object attributes
  *  \param unaligned geometry_dimensions to be aligned to this_ anchor

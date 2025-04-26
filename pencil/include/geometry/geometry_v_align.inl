@@ -5,6 +5,7 @@
 
 static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_, double height, double reference_top, double reference_height )
 {
+    assert( ( *this_ == GEOMETRY_V_ALIGN_TOP )||( *this_ == GEOMETRY_V_ALIGN_CENTER )||( *this_ == GEOMETRY_V_ALIGN_BOTTOM ) );
     double top;
 
     switch ( *this_ )
@@ -21,17 +22,10 @@ static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_,
         }
         break;
 
+        default:
         case GEOMETRY_V_ALIGN_BOTTOM:
         {
             top = reference_top + reference_height - height;
-        }
-        break;
-
-        default:
-        {
-            U8_LOG_ERROR("unknown geometry_v_align_t in geometry_v_align_get_top()");
-            assert(0);
-            top = 0.0;
         }
         break;
     }

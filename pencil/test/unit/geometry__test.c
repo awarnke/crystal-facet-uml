@@ -183,22 +183,22 @@ static test_case_result_t test_geometry_point( test_fixture_t *fix )
 
 static test_case_result_t test_geometry_h_align( test_fixture_t *fix )
 {
-    const geometry_h_align_t align_left = GEOMETRY_H_ALIGN_LEFT;
+    const geometry_h_align_t align_right = GEOMETRY_H_ALIGN_RIGHT;
     const double left
-        = geometry_h_align_get_left( &align_left,
+        = geometry_h_align_get_left( &align_right,
                                      2.0 /* width */,
                                      100.0 /* reference_left */,
                                      10.0 /* reference_width */
                                    );
-    TEST_EXPECT_EQUAL_FLOAT( 100.0, left );
+    TEST_EXPECT_EQUAL_FLOAT( 108.0, left );
 
     return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t test_geometry_v_align( test_fixture_t *fix )
 {
-  const geometry_v_align_t align_top = GEOMETRY_V_ALIGN_TOP;
-  const double top
+    const geometry_v_align_t align_top = GEOMETRY_V_ALIGN_TOP;
+    const double top
         = geometry_v_align_get_top( &align_top,
                                     2.0 /*height*/,
                                     100.0 /* reference_top */,
