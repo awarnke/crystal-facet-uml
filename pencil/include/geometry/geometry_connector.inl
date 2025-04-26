@@ -879,7 +879,7 @@ static inline geometry_3dir_t geometry_connector_get_directions ( const geometry
        ? (( dst_dx > 0.0 ) ? GEOMETRY_DIRECTION_RIGHT : GEOMETRY_DIRECTION_LEFT )
        : (( dst_dy > 0.0 ) ? GEOMETRY_DIRECTION_DOWN : GEOMETRY_DIRECTION_UP );
 
-    const geometry_3dir_t result = { .first = src_dir, .second = main_dir, .third = dst_dir };
+    const geometry_3dir_t result = geometry_3dir_new( src_dir, main_dir, dst_dir );
     return result;
 }
 

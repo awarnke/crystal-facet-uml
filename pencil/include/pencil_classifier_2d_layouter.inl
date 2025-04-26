@@ -99,7 +99,7 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
             if ( ! ignore )
             {
                 const geometry_rectangle_t probe_envelope = layout_visible_classifier_get_envelope_box( the_probe );
-                geometry_rectangle_init_by_difference( &outer_space, &outer_space, &probe_envelope );
+                geometry_rectangle_init_by_difference_max( &outer_space, &outer_space, &probe_envelope );
             }
         }
     }

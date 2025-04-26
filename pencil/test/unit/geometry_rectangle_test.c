@@ -205,7 +205,7 @@ static test_case_result_t test_difference_basic( test_fixture_t *fix )
     {
         geometry_rectangle_init ( &rect_a, 9.0, 10.0, 1.0 /*width*/, 90.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, 11.0, 20.0, 10.0 /*width*/, 10.0 /*height*/ );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         TEST_EXPECT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 1.0, geometry_rectangle_get_width( &diff_rect ) );
@@ -221,7 +221,7 @@ static test_case_result_t test_difference_basic( test_fixture_t *fix )
     {
         geometry_rectangle_init ( &rect_a, 9.0, 10.0, 1.0 /*width*/, 90.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, 8.0, 11.0, 1.5 /*width*/, 1.0 /*height*/ );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         TEST_EXPECT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 12.0, geometry_rectangle_get_top( &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 1.0, geometry_rectangle_get_width( &diff_rect ) );
@@ -237,7 +237,7 @@ static test_case_result_t test_difference_basic( test_fixture_t *fix )
     {
         geometry_rectangle_init ( &rect_a, 9.0, 10.0, 1.0 /*width*/, 90.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, 8.0, 9.0, 3.0 /*width*/, 92.0 /*height*/ );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         TEST_EXPECT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &diff_rect ) );
@@ -264,7 +264,7 @@ static test_case_result_t test_difference_4_candidates( test_fixture_t *fix )
     {
         geometry_rectangle_init ( &rect_a, 0.0, 0.0, 5.0 /*width*/, 5.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], 1.0 /*width*/, 1.0 /*height*/ );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         //geometry_rectangle_trace( &rect_a );
         //geometry_rectangle_trace( &rect_b );
         //geometry_rectangle_trace( &diff_rect );
@@ -293,7 +293,7 @@ static test_case_result_t test_difference_3_candidates( test_fixture_t *fix )
     {
         geometry_rectangle_init ( &rect_a, 1.0, 1.0, 8.0 /*width*/, 8.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], in_w[case_idx], in_h[case_idx] );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 48.0, geometry_rectangle_get_area( &diff_rect ) );
@@ -330,7 +330,7 @@ static test_case_result_t test_difference_2_corner_candidates( test_fixture_t *f
     {
         geometry_rectangle_init ( &rect_a, 3.0, 3.0, 4.0 /*width*/, 4.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], 3.0, 3.0 );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 12.0, geometry_rectangle_get_area( &diff_rect ) );
@@ -356,7 +356,7 @@ static test_case_result_t test_difference_2_stripe_candidates( test_fixture_t *f
     {
         geometry_rectangle_init ( &rect_a, 3.0, 3.0, 4.0 /*width*/, 4.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], in_w[case_idx], in_h[case_idx] );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 8.0, geometry_rectangle_get_area( &diff_rect ) );
@@ -379,7 +379,7 @@ static test_case_result_t test_difference_1_candidate( test_fixture_t *fix )
     {
         geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], 4.0 /*width*/, 4.0 /*height*/ );
-        geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
+        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
         TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_area( &diff_rect ) );

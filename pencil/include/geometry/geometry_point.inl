@@ -11,6 +11,13 @@ static inline void geometry_point_init ( geometry_point_t *this_, double x, doub
     (*this_).y = y;
 }
 
+static inline geometry_point_t geometry_point_new ( double x, double y )
+{
+    geometry_point_t result;
+    geometry_point_init( &result, x, y );
+    return result;
+}
+
 static inline void geometry_point_reinit ( geometry_point_t *this_, double x, double y )
 {
     (*this_).x = x;

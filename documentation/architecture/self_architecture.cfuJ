@@ -4746,17 +4746,9 @@
           {
             "id": 339,
             "display_flags": 0,
-            "classifier_name": "test_assert",
+            "classifier_name": "test_expect",
             "node": "1c39eec8-f175-4e7b-94cb-41b8f0f34447",
             "uuid": "c7974c91-5dbd-4fe4-bbfb-9c3732bfacc8"
-          },
-          {
-            "id": 340,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "test_fixture",
-            "node": "726cc90b-050b-4a6f-8eab-c219b99baa17",
-            "uuid": "0fa22a75-7315-4d07-ab35-d55626c35595"
           },
           {
             "id": 796,
@@ -4765,6 +4757,20 @@
             "classifier_name": "u8_fault_inject",
             "node": "13c6303d-9f1b-4966-8e95-984d91e8665a",
             "uuid": "615ba897-3a96-43f1-b7f6-ebd9fa997697"
+          },
+          {
+            "id": 942,
+            "display_flags": 0,
+            "classifier_name": "test_environment_assert",
+            "node": "a8127fc4-0b70-41da-9d7c-7d5c1b5d88dd",
+            "uuid": "cc6cc632-cab6-42cf-9a54-4fa94c8cc7f3"
+          },
+          {
+            "id": 943,
+            "display_flags": 0,
+            "classifier_name": "test_fixture <T>",
+            "node": "c1f5a3a8-b04d-4fd8-bbb0-08f2750752b3",
+            "uuid": "f8e9349e-0951-4994-84a8-2abdac8bb935"
           }
         ]
       }
@@ -13015,32 +13021,14 @@
         "id": 230,
         "main_type": 125,
         "type": "Class",
-        "name": "test_assert",
+        "name": "test_expect",
         "description": [
-                ""
+                "checks a test result for an expected value"
         ],
-        "x_order": -237850281,
+        "x_order": -909230069,
         "y_order": 557446686,
         "list_order": 483553841,
         "uuid": "1c39eec8-f175-4e7b-94cb-41b8f0f34447",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 231,
-        "main_type": 130,
-        "type": "Comment",
-        "name": "test_fixture",
-        "description": [
-                "The set of preconditions and cleanup-routines"
-        ],
-        "x_order": -237850281,
-        "y_order": -555540433,
-        "list_order": 485470857,
-        "uuid": "726cc90b-050b-4a6f-8eab-c219b99baa17",
         "features":
         [
         ]
@@ -20008,6 +19996,42 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 578,
+        "main_type": 125,
+        "type": "Class",
+        "name": "test_environment_assert",
+        "description": [
+                "ensures that the test environment is sutable"
+        ],
+        "x_order": 481634964,
+        "y_order": 557446686,
+        "list_order": 525899977,
+        "uuid": "a8127fc4-0b70-41da-9d7c-7d5c1b5d88dd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 579,
+        "main_type": 125,
+        "type": "Class",
+        "name": "test_fixture <T>",
+        "description": [
+                "the execution environment for a test case"
+        ],
+        "x_order": 481634964,
+        "y_order": 479088393,
+        "list_order": 479088393,
+        "uuid": "c1f5a3a8-b04d-4fd8-bbb0-08f2750752b3",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -21222,7 +21246,7 @@
         ],
         "list_order": 483553841,
         "from_classifier_name": "test_fw",
-        "to_classifier_name": "test_assert",
+        "to_classifier_name": "test_expect",
         "from_node": "8f153cf3-6c93-4434-9ae7-891eee7af28e",
         "to_node": "1c39eec8-f175-4e7b-94cb-41b8f0f34447",
         "uuid": "1244bda2-1c09-4942-b234-1a90e0dfab70"
@@ -21230,19 +21254,36 @@
     },
     {
       "relationship": {
-        "id": 305,
+        "id": 1059,
         "main_type": 300,
         "type": "Association",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 485470857,
+        "list_order": 525899977,
         "from_classifier_name": "test_fw",
-        "to_classifier_name": "test_fixture",
+        "to_classifier_name": "test_environment_assert",
         "from_node": "8f153cf3-6c93-4434-9ae7-891eee7af28e",
-        "to_node": "726cc90b-050b-4a6f-8eab-c219b99baa17",
-        "uuid": "23ae543d-6ac8-4632-b86e-96a87588423b"
+        "to_node": "a8127fc4-0b70-41da-9d7c-7d5c1b5d88dd",
+        "uuid": "6ad77a69-9f5c-436e-8f44-2c6d8e543cdf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1061,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 479088393,
+        "from_classifier_name": "test_fw",
+        "to_classifier_name": "test_fixture <T>",
+        "from_node": "8f153cf3-6c93-4434-9ae7-891eee7af28e",
+        "to_node": "c1f5a3a8-b04d-4fd8-bbb0-08f2750752b3",
+        "uuid": "6af72208-08b2-4844-951c-1d4c360bf3de"
       }
     },
     {
@@ -27328,10 +27369,46 @@
         "list_order": 490358447,
         "from_classifier_name": "test_suite",
         "from_feature_key": "test_case",
-        "to_classifier_name": "test_assert",
+        "to_classifier_name": "test_expect",
         "from_node": "88a4a83e-147f-456e-ae35-70c59fc5593e",
         "to_node": "1c39eec8-f175-4e7b-94cb-41b8f0f34447",
         "uuid": "6fbeb592-686a-4220-b85e-5c6db896dd55"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1060,
+        "main_type": 200,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 525932745,
+        "from_classifier_name": "test_suite",
+        "from_feature_key": "setup()",
+        "to_classifier_name": "test_environment_assert",
+        "from_node": "979a25be-b1bf-46ab-a12f-431df6724c4e",
+        "to_node": "a8127fc4-0b70-41da-9d7c-7d5c1b5d88dd",
+        "uuid": "0bba6b80-a92b-4c79-8bb6-5aecb7335ecb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1062,
+        "main_type": 200,
+        "type": "Association",
+        "name": "init",
+        "description": [
+                ""
+        ],
+        "list_order": 525965513,
+        "from_classifier_name": "test_suite",
+        "from_feature_key": "setup()",
+        "to_classifier_name": "test_fixture <T>",
+        "from_node": "979a25be-b1bf-46ab-a12f-431df6724c4e",
+        "to_node": "c1f5a3a8-b04d-4fd8-bbb0-08f2750752b3",
+        "uuid": "c8aa0e4f-ada2-44e2-8ff7-669b3ec72d50"
       }
     },
     {
@@ -27366,42 +27443,6 @@
         "from_node": "5a303b63-005a-488f-a907-8c9796128838",
         "to_node": "01f7ba4f-439a-4816-a246-3c1602f875a0",
         "uuid": "3e3e82d3-a6cd-43db-ab79-eb262665a01c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 306,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 490260143,
-        "from_classifier_name": "test_fixture",
-        "to_classifier_name": "test_suite",
-        "to_feature_key": "setup()",
-        "from_node": "726cc90b-050b-4a6f-8eab-c219b99baa17",
-        "to_node": "979a25be-b1bf-46ab-a12f-431df6724c4e",
-        "uuid": "b6c1330b-8171-4f38-b4c6-fe9f2370b747"
-      }
-    },
-    {
-      "relationship": {
-        "id": 307,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 490292911,
-        "from_classifier_name": "test_fixture",
-        "to_classifier_name": "test_suite",
-        "to_feature_key": "tear_down()",
-        "from_node": "726cc90b-050b-4a6f-8eab-c219b99baa17",
-        "to_node": "40a36ae8-3b45-43dd-a150-8890a898facc",
-        "uuid": "c25d6b3f-59aa-4416-99bf-41c3f701985c"
       }
     },
     {

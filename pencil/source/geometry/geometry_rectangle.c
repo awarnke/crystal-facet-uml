@@ -6,9 +6,9 @@
 #include <assert.h>
 #include <math.h>
 
-int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
-                                            const geometry_rectangle_t *rect_a,
-                                            const geometry_rectangle_t *rect_b )
+int geometry_rectangle_init_by_difference_max( geometry_rectangle_t *this_,
+                                               const geometry_rectangle_t *rect_a,
+                                               const geometry_rectangle_t *rect_b )
 {
     U8_TRACE_BEGIN();
     assert( NULL != rect_a );

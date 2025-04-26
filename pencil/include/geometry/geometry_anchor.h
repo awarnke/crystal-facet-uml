@@ -13,6 +13,8 @@
  *  shall be aligned relative to this anchor point
  */
 
+#include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_point.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"

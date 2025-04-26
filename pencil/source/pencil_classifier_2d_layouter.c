@@ -548,10 +548,10 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
                                            layout_visible_classifier_get_envelope_box_const( the_probe )
                                          );
 
-        geometry_rectangle_init_by_difference( &classifier_solution_area,
-                                               &classifier_solution_area,
-                                               &probe_total_bounds
-                                             );
+        geometry_rectangle_init_by_difference_max( &classifier_solution_area,
+                                                   &classifier_solution_area,
+                                                   &probe_total_bounds
+                                                 );
     }
 
     /* reduce the biggest free/unoccupied box by gap */

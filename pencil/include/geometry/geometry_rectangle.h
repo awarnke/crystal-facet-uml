@@ -146,16 +146,16 @@ static inline void geometry_rectangle_init_by_corners ( geometry_rectangle_t *th
  *  \param rect_b rectangle b. Must not be NULL
  *  \return 0 in case of success (always)
  */
-int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
-                                            const geometry_rectangle_t *rect_a,
-                                            const geometry_rectangle_t *rect_b
-                                          );
+int geometry_rectangle_init_by_difference_max ( geometry_rectangle_t *this_,
+                                                const geometry_rectangle_t *rect_a,
+                                                const geometry_rectangle_t *rect_b
+                                              );
 
 /*!
  *  \brief initializes the geometry_rectangle_t struct by the difference of moon minus shadow.
  *
  *  If the difference is not a rectangle, the algorithm chooses the rectange closest to pivot_point.
- *  If the pivot-point is at the side of the shadow, the resulting rectangle may be empty.
+ *  If the pivot-point is at the shadow side of the moon, the resulting rectangle may be empty.
  *
  *  It is valid to call with identical parameters this_ and/or moon and/or shadow (same pointer).
  *

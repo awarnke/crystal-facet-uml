@@ -34,6 +34,7 @@
 #include "integration/consistency_drop_invisibles_test.h"
 #include "unit/ctrl_undo_redo_iterator_test.h"
 /* pencil */
+#include "unit/geometry__test.h"
 #include "unit/geometry_rectangle_test.h"
 #include "unit/geometry_connector_test.h"
 #include "unit/geometry_non_linear_scale_test.h"
@@ -252,6 +253,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, consistency_drop_invisibles_test_get_suite() );
 
         /* pencil */
+        test_runner_run_suite( &runner, geometry__test_get_suite() );
         test_runner_run_suite( &runner, geometry_rectangle_test_get_suite() );
         test_runner_run_suite( &runner, geometry_connector_test_get_suite() );
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_suite() );

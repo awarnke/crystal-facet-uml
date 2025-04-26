@@ -32,6 +32,15 @@ typedef struct geometry_point_struct geometry_point_t;
 static inline void geometry_point_init ( geometry_point_t *this_, double x, double y );
 
 /*!
+ *  \brief initializes the geometry_point_t struct
+ *
+ *  \param x x coordinate of the object
+ *  \param y y coordinate of the object
+ *  \return the initialized point
+ */
+static inline geometry_point_t geometry_point_new ( double x, double y );
+
+/*!
  *  \brief re-initializes the geometry_point_t struct
  *
  *  \param this_ pointer to own object attributes
