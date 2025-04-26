@@ -93,7 +93,7 @@ static test_case_result_t test_geometry_dimensions( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( false, geometry_dimensions_is_empty( &my_dim3 ) );
     TEST_EXPECT_EQUAL_INT( true, geometry_dimensions_can_contain( &my_dim3, &my_dim1 ) );
 
-    geometry_dimensions_expand( &my_dim3, -0.01, -0.01 );
+    geometry_dimensions_expand( &my_dim3, -11.0, -6.0 );
     geometry_dimensions_expand( &my_dim3, 0.1, 0.1 );
 
     TEST_EXPECT_EQUAL_INT( false, geometry_dimensions_can_contain( &my_dim1, &my_dim3 ) );
@@ -124,6 +124,13 @@ static test_case_result_t test_geometry_grid( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_PTR( y_scale2, y_scale1 );
 
     /* check that the trace function returns */
+    geometry_grid_reinit( &my_grid, GEOMETRY_GRID_KIND_0 );
+    geometry_grid_trace( &my_grid );
+    geometry_grid_reinit( &my_grid, GEOMETRY_GRID_KIND_X );
+    geometry_grid_trace( &my_grid );
+    geometry_grid_reinit( &my_grid, GEOMETRY_GRID_KIND_Y );
+    geometry_grid_trace( &my_grid );
+    geometry_grid_reinit( &my_grid, GEOMETRY_GRID_KIND_XY );
     geometry_grid_trace( &my_grid );
 
     geometry_grid_destroy ( &my_grid );
@@ -146,7 +153,25 @@ static test_case_result_t test_geometry_offset( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_FLOAT( 13.0, geometry_offset_get_dy( &my_offset1 ) );
 
     TEST_EXPECT_EQUAL_INT( true, geometry_offset_equals( &my_offset1, &my_offset3 ) );
+
+    geometry_offset_reinit( &my_offset1, 4.0, 17.0 );
     TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_DOWN_RIGHT, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, 0.0, 17.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_DOWN, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, -9.0, 17.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_DOWN_LEFT, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, -9.0, 0.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_LEFT, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, -9.0, -7.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_UP_LEFT, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, 0.0, -7.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_UP, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, 4.0, -7.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_UP_RIGHT, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, 4.0, 0.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_RIGHT, geometry_offset_get_direction( &my_offset1 ) );
+    geometry_offset_reinit( &my_offset1, 0.0, 0.0 );
+    TEST_EXPECT_EQUAL_INT( GEOMETRY_DIRECTION_CENTER, geometry_offset_get_direction( &my_offset1 ) );
 
     /* check that the trace function returns */
     geometry_offset_trace( &my_offset1 );
