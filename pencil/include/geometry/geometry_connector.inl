@@ -789,6 +789,8 @@ static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( c
 static inline geometry_rectangle_t geometry_connector_get_segment_bounds ( const geometry_connector_t *this_,
                                                                            geometry_connector_segment_t segment_id )
 {
+    assert( ( segment_id == GEOMETRY_CONNECTOR_SEGMENT_SOURCE )
+        ||( segment_id == GEOMETRY_CONNECTOR_SEGMENT_MAIN )||( segment_id == GEOMETRY_CONNECTOR_SEGMENT_DESTINATION ) );
     geometry_rectangle_t result;
 
     switch ( segment_id )
@@ -804,6 +806,7 @@ static inline geometry_rectangle_t geometry_connector_get_segment_bounds ( const
         break;
 
         case GEOMETRY_CONNECTOR_SEGMENT_MAIN:
+        default:
         {
             const double left = fmin ( (*this_).main_line_source_x, (*this_).main_line_destination_x );
             const double right = fmax ( (*this_).main_line_source_x, (*this_).main_line_destination_x );
@@ -822,12 +825,6 @@ static inline geometry_rectangle_t geometry_connector_get_segment_bounds ( const
             geometry_rectangle_init( &result, left, top, right - left, bottom - top );
         }
         break;
-
-        default:
-        {
-            assert( false );
-            geometry_rectangle_init_empty( &result );
-        }
     }
 
     return result;
