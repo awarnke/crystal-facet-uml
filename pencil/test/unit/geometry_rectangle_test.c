@@ -13,7 +13,7 @@ static test_case_result_t test_contain( test_fixture_t *fix );
 static test_case_result_t test_intersect( test_fixture_t *fix );
 static test_case_result_t test_bounds( test_fixture_t *fix );
 static test_case_result_t test_difference_basic( test_fixture_t *fix );
-static test_case_result_t test_difference_4_candidates( test_fixture_t *fix );
+static test_case_result_t test_difference_max_all_4_candidates( test_fixture_t *fix );
 static test_case_result_t test_difference_max_3_U_candidates( test_fixture_t *fix );
 static test_case_result_t test_difference_max_2_L_corner_candidates( test_fixture_t *fix );
 static test_case_result_t test_difference_max_2_stripe_candidates( test_fixture_t *fix );
@@ -37,7 +37,7 @@ test_suite_t geometry_rectangle_test_get_suite(void)
     test_suite_add_test_case( &result, "test_intersect", &test_intersect );
     test_suite_add_test_case( &result, "test_bounds", &test_bounds );
     test_suite_add_test_case( &result, "test_difference_basic", &test_difference_basic );
-    test_suite_add_test_case( &result, "test_difference_4_candidates", &test_difference_4_candidates );
+    test_suite_add_test_case( &result, "test_difference_max_all_4_candidates", &test_difference_max_all_4_candidates );
     test_suite_add_test_case( &result, "test_difference_max_3_U_candidates", &test_difference_max_3_U_candidates );
     test_suite_add_test_case( &result, "test_difference_max_2_L_corner_candidates", &test_difference_max_2_L_corner_candidates );
     test_suite_add_test_case( &result, "test_difference_max_2_stripe_candidates", &test_difference_max_2_stripe_candidates );
@@ -253,58 +253,11 @@ static test_case_result_t test_difference_basic( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_difference_4_candidates( test_fixture_t *fix )
+static test_case_result_t test_difference_max_all_4_candidates( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
     geometry_rectangle_t diff_rect;
-
-    /* no intersect */
-    double in_x[4] = { 1.0, 2.0, 3.0, 2.0 };
-    double in_y[4] = { 2.0, 3.0, 2.0, 1.0 };
-    for ( int case_idx = 0; case_idx < 4; case_idx ++ )
-    {
-        geometry_rectangle_init ( &rect_a, 0.0, 0.0, 5.0 /*width*/, 5.0 /*height*/ );
-        geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], 1.0 /*width*/, 1.0 /*height*/ );
-        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
-        //geometry_rectangle_trace( &rect_a );
-        //geometry_rectangle_trace( &rect_b );
-        //geometry_rectangle_trace( &diff_rect );
-        TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
-        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-        TEST_EXPECT_EQUAL_DOUBLE( 15.0, geometry_rectangle_get_area( &diff_rect ) );
-        geometry_rectangle_destroy ( &rect_a );
-        geometry_rectangle_destroy ( &rect_b );
-        geometry_rectangle_destroy ( &diff_rect );
-    }
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t test_difference_max_3_U_candidates( test_fixture_t *fix )
-{
-    geometry_rectangle_t rect_a;
-    geometry_rectangle_t rect_b;
-    geometry_rectangle_t diff_rect;
-
-    /* these 12 test cases test the U-shaped result sets where all 12 combinations of rotations and width/height ratios are covered */
-    /*                  from left      from bottom    from right     from top     */
-    double in_x[12] = { 0.0, 0.0, 0.0, 2.0, 4.5, 7.0, 2.0, 7.0, 2.0, 2.0, 4.5, 7.0 };
-    double in_y[12] = { 2.0, 4.5, 7.0, 2.0, 7.0, 2.0, 2.0, 4.5, 7.0, 0.0, 0.0, 0.0 };
-    double in_w[12] = { 8.0, 3.0, 8.0, 1.0, 1.0, 1.0, 8.0, 3.0, 8.0, 1.0, 1.0, 1.0 };
-    double in_h[12] = { 1.0, 1.0, 1.0, 8.0, 3.0, 8.0, 1.0, 1.0, 1.0, 8.0, 3.0, 8.0 };
-    for ( int case_idx = 0; case_idx < 12; case_idx ++ )
-    {
-        geometry_rectangle_init ( &rect_a, 1.0, 1.0, 8.0 /*width*/, 8.0 /*height*/ );
-        geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], in_w[case_idx], in_h[case_idx] );
-        geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
-        TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
-        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-        TEST_EXPECT_EQUAL_DOUBLE( 48.0, geometry_rectangle_get_area( &diff_rect ) );
-        geometry_rectangle_destroy ( &rect_a );
-        geometry_rectangle_destroy ( &rect_b );
-        geometry_rectangle_destroy ( &diff_rect );
-    }
-
 
     for ( int left_space = 0; left_space < 4; left_space ++ )
     {
@@ -334,13 +287,13 @@ static test_case_result_t test_difference_max_3_U_candidates( test_fixture_t *fi
                             {
                                 geometry_rectangle_init( &rect_a, 1.0, 1.0, 8.0 /*width*/, 8.0 /*height*/ );
                                 geometry_rectangle_init( &rect_b,
-                                                         1.0 + left_space,
-                                                         1.0 + top_space,
-                                                         8.0 - left_space - right_space,
-                                                         8.0 - top_space - bottom_space );
+                                                         1.5 + left_space,
+                                                         1.5 + top_space,
+                                                         7.0 - left_space - right_space,
+                                                         7.0 - top_space - bottom_space );
                                 geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
                                 TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-                                TEST_EXPECT_EQUAL_DOUBLE( 24.0, geometry_rectangle_get_area( &diff_rect ) );
+                                TEST_EXPECT_EQUAL_DOUBLE( 28.0, geometry_rectangle_get_area( &diff_rect ) );
                                 geometry_rectangle_destroy( &rect_a );
                                 geometry_rectangle_destroy( &rect_b );
                                 geometry_rectangle_destroy( &diff_rect );
@@ -352,6 +305,60 @@ static test_case_result_t test_difference_max_3_U_candidates( test_fixture_t *fi
         }
     }
 
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_difference_max_3_U_candidates( test_fixture_t *fix )
+{
+    geometry_rectangle_t rect_a;
+    geometry_rectangle_t rect_b;
+    geometry_rectangle_t diff_rect;
+
+    for ( int left_space = 0; left_space < 4; left_space ++ )
+    {
+        for ( int top_space = 0; top_space < 4; top_space ++ )
+        {
+            if ( top_space == left_space )
+            {
+                /* not a test case, only different widths/heights are tested */
+            }
+            else
+            {
+                for ( int right_space = 0; right_space < 4; right_space ++ )
+                {
+                    if (( right_space == left_space )||( right_space == top_space ))
+                    {
+                        /* not a test case */
+                    }
+                    else
+                    {
+                        for ( int bottom_space = 0; bottom_space < 4; bottom_space ++ )
+                        {
+                            if (( bottom_space == left_space )||( bottom_space == top_space )||( bottom_space == right_space ))
+                            {
+                                /* not a test case */
+                            }
+                            else
+                            {
+                                geometry_rectangle_init( &rect_a, 1.0, 1.0, 8.0 /*width*/, 8.0 /*height*/ );
+                                geometry_rectangle_init( &rect_b,
+                                                         0.5 + left_space,
+                                                         0.5 + top_space,
+                                                         9.0 - left_space - right_space,
+                                                         9.0 - top_space - bottom_space );
+                                geometry_rectangle_init_by_difference_max( &diff_rect, &rect_a, &rect_b );
+                                TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
+                                TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_rectangle_get_area( &diff_rect ) );
+                                geometry_rectangle_destroy( &rect_a );
+                                geometry_rectangle_destroy( &rect_b );
+                                geometry_rectangle_destroy( &diff_rect );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     return TEST_CASE_RESULT_OK;
 }
