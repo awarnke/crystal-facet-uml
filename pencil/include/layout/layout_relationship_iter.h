@@ -48,7 +48,7 @@ static inline void layout_relationship_iter_init( layout_relationship_iter_t *th
  *  \param that pointer to layout_relationship_iter_t iterator, of which only the processed elements shall be re-processed
  */
 static inline void layout_relationship_iter_init_from_processed( layout_relationship_iter_t *this_,
-                                                                 const layout_relationship_iter_t *that_
+                                                                 const layout_relationship_iter_t *that
                                                                );
 
 /*!

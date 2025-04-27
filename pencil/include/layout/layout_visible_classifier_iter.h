@@ -48,7 +48,7 @@ static inline void layout_visible_classifier_iter_init( layout_visible_classifie
  *  \param that pointer to layout_visible_classifier_iter_t iterator, of which only the processed elements shall be re-processed
  */
 static inline void layout_visible_classifier_iter_init_from_processed( layout_visible_classifier_iter_t *this_,
-                                                                       const layout_visible_classifier_iter_t *that_
+                                                                       const layout_visible_classifier_iter_t *that
                                                                      );
 
 /*!

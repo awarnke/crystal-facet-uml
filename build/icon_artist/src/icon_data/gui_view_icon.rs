@@ -1,7 +1,7 @@
 //! The module provides functions to render an icon to vector graphics.
 
-use super::icon::IconSource;
 use super::shape::get_circle_abs;
+use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective::Close;
 use crate::stream_if::geometry::DrawDirective::Curve;

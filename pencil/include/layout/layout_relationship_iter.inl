@@ -16,12 +16,12 @@ static inline void layout_relationship_iter_init( layout_relationship_iter_t *th
 }
 
 static inline void layout_relationship_iter_init_from_processed( layout_relationship_iter_t *this_,
-                                                                 const layout_relationship_iter_t *that_ )
+                                                                 const layout_relationship_iter_t *that )
 {
     (*this_).next_idx = 0;
-    (*this_).length = (*that_).next_idx;
-    (*this_).items = (*that_).items;
-    (*this_).order = (*that_).order;
+    (*this_).length = (*that).next_idx;
+    (*this_).items = (*that).items;
+    (*this_).order = (*that).order;
 }
 
 static inline void layout_relationship_iter_copy( layout_relationship_iter_t *this_,

@@ -2,15 +2,16 @@
 
 //! This crate renders svg files for the icons in icon_data.
 
+pub mod icon_data;
 pub mod model;
 pub mod render;
 pub mod stream_if;
-use model::gui_file_icon;
-use model::gui_view_icon;
+use icon_data::gui_file_icon;
+use icon_data::gui_view_icon;
+use icon_data::stereotype_icon;
+use icon_data::type_class_icon;
+use icon_data::type_diag_icon;
 use model::icon::IconSource;
-use model::stereotype_icon;
-use model::type_class_icon;
-use model::type_diag_icon;
 use render::icon_writer;
 use render::icon_writer::FileType;
 use std::env;
