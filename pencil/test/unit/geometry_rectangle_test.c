@@ -578,25 +578,25 @@ static test_case_result_t test_difference_at_pivot_corner_cases( test_fixture_t 
     /* 8  + - - - - - + */
 
     /* case: sun and moon at center, left is closest difference-area and larger width/height */
-    geometry_rectangle_reinit ( &rect_shadow, 4.0, 3.9, 2.1 /*width*/, 2.2 /*height*/ );
+    geometry_rectangle_reinit ( &rect_shadow, 4.0, 3.9, 2.1 /*width*/, 2.3 /*height*/ );
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_0 );
     TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_y( &diff_rect ) );
 
     /* case: sun and moon at center, top is closest difference-area and larger width/height */
-    geometry_rectangle_reinit ( &rect_shadow, 3.9, 4.0, 2.2 /*width*/, 2.1 /*height*/ );
+    geometry_rectangle_reinit ( &rect_shadow, 3.9, 4.0, 2.3 /*width*/, 2.1 /*height*/ );
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_0 );
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_center_y( &diff_rect ) );
 
     /* case: sun and moon at center, right is closest difference-area and larger width/height */
-    geometry_rectangle_reinit ( &rect_shadow, 3.9, 3.9, 2.1 /*width*/, 2.2 /*height*/ );
+    geometry_rectangle_reinit ( &rect_shadow, 3.9, 3.8, 2.1 /*width*/, 2.3 /*height*/ );
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_0 );
     TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_y( &diff_rect ) );
 
     /* case: sun and moon at center, bottom is closest difference-area and larger width/height */
-    geometry_rectangle_reinit ( &rect_shadow, 3.9, 3.9, 2.2 /*width*/, 2.1 /*height*/ );
+    geometry_rectangle_reinit ( &rect_shadow, 3.8, 3.9, 2.3 /*width*/, 2.1 /*height*/ );
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_0 );
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_y( &diff_rect ) );
