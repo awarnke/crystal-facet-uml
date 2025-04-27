@@ -12,7 +12,7 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_contain( test_fixture_t *fix );
 static test_case_result_t test_intersect( test_fixture_t *fix );
 static test_case_result_t test_bounds( test_fixture_t *fix );
-static test_case_result_t test_difference_basic( test_fixture_t *fix );
+static test_case_result_t test_difference_max_basic( test_fixture_t *fix );
 static test_case_result_t test_difference_max_all_4_candidates( test_fixture_t *fix );
 static test_case_result_t test_difference_max_3_U_candidates( test_fixture_t *fix );
 static test_case_result_t test_difference_max_2_L_corner_candidates( test_fixture_t *fix );
@@ -36,7 +36,7 @@ test_suite_t geometry_rectangle_test_get_suite(void)
     test_suite_add_test_case( &result, "test_contain", &test_contain );
     test_suite_add_test_case( &result, "test_intersect", &test_intersect );
     test_suite_add_test_case( &result, "test_bounds", &test_bounds );
-    test_suite_add_test_case( &result, "test_difference_basic", &test_difference_basic );
+    test_suite_add_test_case( &result, "test_difference_max_basic", &test_difference_max_basic );
     test_suite_add_test_case( &result, "test_difference_max_all_4_candidates", &test_difference_max_all_4_candidates );
     test_suite_add_test_case( &result, "test_difference_max_3_U_candidates", &test_difference_max_3_U_candidates );
     test_suite_add_test_case( &result, "test_difference_max_2_L_corner_candidates", &test_difference_max_2_L_corner_candidates );
@@ -197,7 +197,7 @@ static test_case_result_t test_bounds( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_difference_basic( test_fixture_t *fix )
+static test_case_result_t test_difference_max_basic( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -384,8 +384,8 @@ static test_case_result_t test_difference_max_2_L_corner_candidates( test_fixtur
 
     /* these 8 test cases test the L-shaped result sets where all 8 combinations of rotations and width/height ratios are covered */
     /*                 le.to.    ri.to.    ri.bo.    le.bo.  */
-    double in_x[8] = { 2.0, 1.0, 5.0, 6.0, 6.0, 5.0, 6.0, 1.0 };
-    double in_y[8] = { 1.0, 2.0, 1.0, 2.0, 5.0, 6.0, 2.0, 5.0 };
+    double in_x[8] = { 2.0, 1.0, 5.0, 6.0, 6.0, 5.0, 2.0, 1.0 };
+    double in_y[8] = { 1.0, 2.0, 1.0, 2.0, 5.0, 6.0, 6.0, 5.0 };
     for ( int case_idx = 0; case_idx < 8; case_idx ++ )
     {
         geometry_rectangle_init ( &rect_a, 3.0, 3.0, 4.0 /*width*/, 4.0 /*height*/ );
