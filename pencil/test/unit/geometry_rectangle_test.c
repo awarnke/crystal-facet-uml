@@ -21,6 +21,7 @@ static test_case_result_t test_difference_1_candidate( test_fixture_t *fix );
 static test_case_result_t test_expand_4d( test_fixture_t *fix );
 static test_case_result_t test_embrace( test_fixture_t *fix );
 static test_case_result_t test_difference_at_pivot( test_fixture_t *fix );
+static test_case_result_t test_difference_at_pivot_corner_cases( test_fixture_t *fix );
 
 
 test_suite_t geometry_rectangle_test_get_suite(void)
@@ -44,6 +45,7 @@ test_suite_t geometry_rectangle_test_get_suite(void)
     test_suite_add_test_case( &result, "test_expand_4d", &test_expand_4d );
     test_suite_add_test_case( &result, "test_embrace", &test_embrace );
     test_suite_add_test_case( &result, "test_difference_at_pivot", &test_difference_at_pivot );
+    test_suite_add_test_case( &result, "test_difference_at_pivot_corner_cases", &test_difference_at_pivot_corner_cases );
     return result;
 }
 
@@ -471,9 +473,21 @@ static test_case_result_t test_difference_at_pivot( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_center_y( &diff_rect ) );
 
+    /* pivot at left */
+    geometry_point_t sun_1b = { .x = 2.5, .y = 4.5 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_1b );
+    TEST_EXPECT_EQUAL_DOUBLE( 2.5, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.5, geometry_rectangle_get_center_y( &diff_rect ) );
+
     /* pivot at left bottom */
     geometry_point_t sun_2 = { .x = 2.5, .y = 8.5 };
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_2 );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    /* pivot at bottom */
+    geometry_point_t sun_2b = { .x = 4.0, .y = 6.0 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_2b );
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_y( &diff_rect ) );
 
@@ -483,10 +497,52 @@ static test_case_result_t test_difference_at_pivot( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_y( &diff_rect ) );
 
+    /* pivot at right */
+    geometry_point_t sun_3b = { .x = 5.5, .y = 4.5 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_3b );
+    TEST_EXPECT_EQUAL_DOUBLE( 6.5, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.5, geometry_rectangle_get_center_y( &diff_rect ) );
+
     /* pivot at right top */
     geometry_point_t sun_4 = { .x = 7.0, .y = 3.0 };
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_4 );
     TEST_EXPECT_EQUAL_DOUBLE( 6.5, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.5, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    /* pivot at top */
+    geometry_point_t sun_4b = { .x = 4.0, .y = 3.0 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_4b );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_center_y( &diff_rect ) );
+
+    geometry_rectangle_destroy ( &rect_moon );
+    geometry_rectangle_destroy ( &rect_shadow );
+    geometry_rectangle_destroy ( &diff_rect );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_difference_at_pivot_corner_cases( test_fixture_t *fix )
+{
+    geometry_rectangle_t rect_moon;
+    geometry_rectangle_t rect_shadow;
+    geometry_rectangle_t diff_rect;
+
+    geometry_rectangle_init ( &rect_moon, 2.0, 2.0, 6.0 /*width*/, 7.0 /*height*/ );
+    geometry_rectangle_init ( &rect_shadow, 9.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
+    /*    2 3 4 5 6 7 8 */
+    /* 2  + - - - - - + */
+    /* 3  I           I */
+    /* 4  I           I  + - + */
+    /* 5  I           I  I   I */
+    /* 6  I           I  + - + */
+    /* 7  I           I */
+    /* 8  I           I */
+    /* 9  + - - - - - + */
+
+    /* pivot at left top */
+    const geometry_point_t sun_1 = geometry_point_new( 1.0, 1.0 );
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_1 );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 5.5, geometry_rectangle_get_center_y( &diff_rect ) );
 
     geometry_rectangle_reinit ( &rect_shadow, 1.0, 4.0, 4.0 /*width*/, 5.0 /*height*/ );
@@ -500,12 +556,29 @@ static test_case_result_t test_difference_at_pivot( test_fixture_t *fix )
     /* 8  +       I     I */
     /* 9  + - - - + - - + */
 
-    /* pivot at left bottom */
+    /* pivot at left */
     geometry_point_t sun_5 = { .x = 2.0, .y = 5.0 };
     geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_5 );
     TEST_EXPECT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_center_x( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 5.5, geometry_rectangle_get_center_y( &diff_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &diff_rect ) );
+
+    geometry_rectangle_reinit ( &rect_shadow, 3.0, 4.0, 2.0 /*width*/, 1.0 /*height*/ );
+    /*    2 3 4 5 6 7 8 */
+    /* 2  + - - - - - + */
+    /* 3  I           I */
+    /* 4  I + - +     I */
+    /* 5  I + - +     I */
+    /* 6  I           I */
+    /* 7  I           I */
+    /* 8  I           I */
+    /* 9  + - - - - - + */
+
+    /* pivot at center */
+    geometry_point_t sun_0 = { .x = 4.0, .y = 4.5 };
+    geometry_rectangle_init_by_difference_at_pivot( &diff_rect, &rect_moon, &rect_shadow, &sun_0 );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_center_x( &diff_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 7.0, geometry_rectangle_get_center_y( &diff_rect ) );
 
     geometry_rectangle_destroy ( &rect_moon );
     geometry_rectangle_destroy ( &rect_shadow );
