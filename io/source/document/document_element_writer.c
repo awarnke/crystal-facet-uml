@@ -361,26 +361,26 @@ void document_element_writer_init ( document_element_writer_t *this_,
         case IO_FILE_FORMAT_DOCBOOK:
         {
             io_md_writer_init( &((*this_).md_writer),
-                            db_reader,
-                            DOCBOOK_DESCRIPTION_MIDDLE,
-                            DOCBOOK_DESCRIPTION_XREF_START,
-                            DOCBOOK_DESCRIPTION_XREF_MIDDLE,
-                            DOCBOOK_DESCRIPTION_XREF_END,
-                            &((*this_).xml_writer)
-                          );
+                               db_reader,
+                               DOCBOOK_DESCRIPTION_MIDDLE,
+                               DOCBOOK_DESCRIPTION_XREF_START,
+                               DOCBOOK_DESCRIPTION_XREF_MIDDLE,
+                               DOCBOOK_DESCRIPTION_XREF_END,
+                               &((*this_).xml_writer)
+                             );
         }
         break;
 
         case IO_FILE_FORMAT_HTML:
         {
             io_md_writer_init( &((*this_).md_writer),
-                            db_reader,
-                            HTML_ANY_DESCR_NEWLINE,
-                            HTML_ANY_DESCR_XREF_START,
-                            HTML_ANY_DESCR_XREF_MIDDLE,
-                            HTML_ANY_DESCR_XREF_END,
-                            &((*this_).xml_writer)
-                          );
+                               db_reader,
+                               HTML_ANY_DESCR_NEWLINE,
+                               HTML_ANY_DESCR_XREF_START,
+                               HTML_ANY_DESCR_XREF_MIDDLE,
+                               HTML_ANY_DESCR_XREF_END,
+                               &((*this_).xml_writer)
+                             );
         }
         break;
 

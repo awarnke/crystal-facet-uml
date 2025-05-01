@@ -40,20 +40,12 @@ Debian/Ubuntu/Raspbian:
 
 >       sudo apt install crystal-facet-uml
 
-or
-
->       sudo dpkg -i crystal-facet-uml_1.x.0-1_amd64.deb
-
 openSuSE:
 
 >       sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Tumbleweed devel_tools_tumble
 >       # or sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/15.5 devel_tools_15.5
 >       sudo zypper refresh
 >       sudo zypper install crystal-facet-uml
-
-or
-
->       sudo zypper install crystal-facet-uml-1.x.0-1.1.x86_64.rpm
 
 Windows/wine:
 

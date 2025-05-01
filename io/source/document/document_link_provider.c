@@ -53,7 +53,7 @@ u8_error_t document_link_provider_get_occurrences( document_link_provider_t *thi
     }
     if ( data_diagram_iterator_has_next( &diagram_iterator ) )
     {
-        /* This is not an error - rather expected - shuold only be traced...*/
+        /* This is not an error - rather expected - should only be traced...*/
         U8_TRACE_INFO_INT( "document_link_provider_get_occurrences finds too many classifier occurrences", DOCUMENT_LINK_PROVIDER_MAX_LINKS );
     }
     db_err |= data_diagram_iterator_destroy( &diagram_iterator );
