@@ -988,7 +988,7 @@
         "stereotype": "locigal_form",
         "name": "Logical View",
         "description": [
-                "This view maps the functions to a form.\n",
+                "This view maps the functions (roles) to a form.\n",
                 ""
         ],
         "list_order": 127392,

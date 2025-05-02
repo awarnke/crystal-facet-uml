@@ -101,7 +101,6 @@ static const char DOCBOOK_ELEMENT_ID_END[]
     = "</token>";
 static const char DOCBOOK_ELEMENT_SEE_START[] = "\n<emphasis>(appears in ";
 static const char DOCBOOK_ELEMENT_SEE_NEXT[] = ",\n";
-static const char DOCBOOK_ELEMENT_SEE_MORE[] = ", ...";
 static const char DOCBOOK_ELEMENT_SEE_END[] = ")\n</emphasis>";
 static const char DOCBOOK_ELEMENT_ATTRIBUTES_END[]
     = "\n</para>";
@@ -240,7 +239,6 @@ static const char HTML_CLAS_ID_END[] = "</em>";
 static const char HTML_CLAS_HEAD_END[] = "\n</p>";
 static const char HTML_CLAS_SEE_START[] = "\n<p class=\"clas-see\">\n";
 static const char HTML_CLAS_SEE_NEXT[] = ",\n";
-static const char HTML_CLAS_SEE_MORE[] = ", ...";
 static const char HTML_CLAS_SEE_END[] = "\n</p>";
 static const char HTML_CLAS_DESCR_START[] = "\n<p class=\"clas-descr\">\n";
 static const char HTML_CLAS_DESCR_END[] = "\n</p>";
@@ -350,7 +348,6 @@ void document_element_writer_init ( document_element_writer_t *this_,
 
     json_type_name_map_init( &((*this_).type_map) );
     data_rules_init( &((*this_).data_rules) );
-    document_link_provider_init( &((*this_).link_provider), db_reader );
     io_txt_icon_init( &((*this_).txt_icon) );
 
     io_txt_writer_init( &((*this_).txt_writer), output );
@@ -360,6 +357,14 @@ void document_element_writer_init ( document_element_writer_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         DOCBOOK_ELEMENT_SEE_NEXT,
+                                         DOCBOOK_DESCRIPTION_XREF_START,
+                                         DOCBOOK_DESCRIPTION_XREF_MIDDLE,
+                                         DOCBOOK_DESCRIPTION_XREF_END,
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer),
                                db_reader,
                                DOCBOOK_DESCRIPTION_MIDDLE,
@@ -373,6 +378,14 @@ void document_element_writer_init ( document_element_writer_t *this_,
 
         case IO_FILE_FORMAT_HTML:
         {
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         HTML_CLAS_SEE_NEXT,
+                                         HTML_ANY_DESCR_XREF_START,
+                                         HTML_ANY_DESCR_XREF_MIDDLE,
+                                         HTML_ANY_DESCR_XREF_END,
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer),
                                db_reader,
                                HTML_ANY_DESCR_NEWLINE,
@@ -407,11 +420,11 @@ void document_element_writer_destroy( document_element_writer_t *this_ )
     U8_TRACE_BEGIN();
 
     io_md_writer_destroy( &((*this_).md_writer) );
+    document_link_provider_destroy( &((*this_).link_provider) );
     io_xml_writer_destroy( &((*this_).xml_writer) );
     io_txt_writer_destroy( &((*this_).txt_writer) );
 
     io_txt_icon_destroy( &((*this_).txt_icon) );
-    document_link_provider_destroy( &((*this_).link_provider) );
     data_rules_destroy( &((*this_).data_rules) );
     json_type_name_map_destroy( &((*this_).type_map) );
 
@@ -803,14 +816,6 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
                                                   data_classifier_get_main_type( classifier_ptr )
                                                 );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier_ptr );
-    data_diagram_t (*appears_in_diagrams)[];
-    uint32_t appears_in_diagrams_count;
-    const u8_error_t appears_in_diagrams_err
-        = document_link_provider_get_occurrences( &((*this_).link_provider),
-                                                  classifier_id,
-                                                  &appears_in_diagrams,
-                                                  &appears_in_diagrams_count
-                                                );
 
     switch ( (*this_).export_type )
     {
@@ -834,35 +839,10 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= io_xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
-
-            if (( U8_ERROR_NONE == appears_in_diagrams_err )
-               ||( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err ))
+            /* unconditional: Every classifier shoud be contained in at least 1 diagram */
             {
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_START );
-                bool is_first = true;
-                for ( uint_fast32_t idx = 0; idx < appears_in_diagrams_count; idx ++ )
-                {
-                    const data_diagram_t *const current = &((*appears_in_diagrams)[idx]);
-                    const data_id_t diag_ref_id = data_diagram_get_data_id( current );
-                    if ( is_first )
-                    {
-                        is_first = false;
-                    }
-                    else
-                    {
-                        export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_NEXT );
-                    }
-                    const char *const diag_ref_name = data_diagram_get_name_const( current );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_START );
-                    export_err |= io_xml_writer_write_plain_id( &((*this_).xml_writer), diag_ref_id );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_MIDDLE );
-                    export_err |= io_xml_writer_write_xml_enc( &((*this_).xml_writer), diag_ref_name );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_END );
-                }
-                if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err )
-                {
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_MORE );
-                }
+                export_err |= document_link_provider_write_occurrences( &((*this_).link_provider), classifier_id );
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_END );
             }
 
@@ -883,37 +863,12 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
 
         case IO_FILE_FORMAT_HTML:
         {
-            if (( U8_ERROR_NONE == appears_in_diagrams_err )
-               ||( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err ))
+            /* unconditional: Every classifier shoud be contained in at least 1 diagram */
             {
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_START );
-                bool is_first = true;
-                for ( uint_fast32_t idx = 0; idx < appears_in_diagrams_count; idx ++ )
-                {
-                    const data_diagram_t *const current = &((*appears_in_diagrams)[idx]);
-                    const data_id_t diag_ref_id = data_diagram_get_data_id( current );
-                    if ( is_first )
-                    {
-                        is_first = false;
-                    }
-                    else
-                    {
-                        export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_NEXT );
-                    }
-                    const char *const diag_ref_name = data_diagram_get_name_const( current );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_START );
-                    export_err |= io_xml_writer_write_plain_id( &((*this_).xml_writer), diag_ref_id );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_MIDDLE );
-                    export_err |= io_xml_writer_write_xml_enc( &((*this_).xml_writer), diag_ref_name );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_END );
-                }
-                if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err )
-                {
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_MORE );
-                }
+                export_err |= document_link_provider_write_occurrences( &((*this_).link_provider), classifier_id );
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_END );
             }
-
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_HEAD_START );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_START );
             export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );

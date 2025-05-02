@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.63.3"
   }
   ,
   "views":
@@ -7006,13 +7006,6 @@
             "uuid": "5591b6a6-aeaa-49e7-a6b5-6b308e85a38b"
           },
           {
-            "id": 517,
-            "display_flags": 0,
-            "classifier_name": "Modify / Create / Delete Diagrams and Elements",
-            "node": "3d33680a-516b-4c0f-a0bc-8fd6ccb437e0",
-            "uuid": "6e3d544f-ed97-4634-9f44-ece8376ad6bc"
-          },
-          {
             "id": 518,
             "display_flags": 0,
             "classifier_name": "Undo and Redo",
@@ -7025,6 +7018,13 @@
             "classifier_name": "Check and Repair Database",
             "node": "d9c05256-16cd-4208-8acd-8b449df3d412",
             "uuid": "f1e1c79b-19ef-4d51-b8bd-ef882c68ad5f"
+          },
+          {
+            "id": 951,
+            "display_flags": 0,
+            "classifier_name": "Modify / Create / Delete Diagrams and Elements",
+            "node": "ff6ef959-86bd-4278-b913-58ce7a7f53f4",
+            "uuid": "7f72acf0-463b-4844-b29e-db8909c17836"
           }
         ]
       }
@@ -7058,6 +7058,13 @@
             "classifier_name": "When starting, if not enough memory, stop",
             "node": "26eada05-fc48-4a41-ae08-8aa42eb4f301",
             "uuid": "0ffdef0a-488f-4c1c-b18b-04d16f113f87"
+          },
+          {
+            "id": 944,
+            "display_flags": 0,
+            "classifier_name": "crystal-facet-uml application",
+            "node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+            "uuid": "d4838630-b6ef-4677-ada0-ba96e95d154e"
           }
         ]
       }
@@ -7084,6 +7091,13 @@
             "classifier_name": "Open a Model Database",
             "node": "01b9d514-5bf8-4678-8ca3-1db7f63f5781",
             "uuid": "8a469092-e8c9-4af0-a41d-798d1b8f2cab"
+          },
+          {
+            "id": 945,
+            "display_flags": 0,
+            "classifier_name": "crystal-facet-uml application",
+            "node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+            "uuid": "360f4d62-2b14-4e75-b663-9cc604fa8a14"
           }
         ]
       }
@@ -7110,6 +7124,13 @@
             "classifier_name": "Export (Model and/or Diagrams)",
             "node": "7db4676c-d805-4532-925b-9df162f9cadf",
             "uuid": "8b6375df-113a-4ab4-9fc3-2726c63968af"
+          },
+          {
+            "id": 946,
+            "display_flags": 0,
+            "classifier_name": "crystal-facet-uml application",
+            "node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+            "uuid": "e557eadc-43ab-4ae7-a967-833cbe6e0679"
           }
         ]
       }
@@ -7157,6 +7178,13 @@
             "classifier_name": "When opening a new window, if low-mem, cancel",
             "node": "dec275c2-e994-45bd-b9b9-2572ffdbf76f",
             "uuid": "3a6d72a4-fd24-43f6-a4a2-1b1b2ede6977"
+          },
+          {
+            "id": 947,
+            "display_flags": 0,
+            "classifier_name": "crystal-facet-uml application",
+            "node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+            "uuid": "e28236bd-23e1-43a8-a1ff-e16427f7fa3f"
           }
         ]
       }
@@ -7180,9 +7208,16 @@
           {
             "id": 528,
             "display_flags": 0,
-            "classifier_name": "Modify / Create / Delete Diagrams and Element",
+            "classifier_name": "Modify / Create / Delete Diagrams and Elements",
             "node": "ff6ef959-86bd-4278-b913-58ce7a7f53f4",
             "uuid": "aca15075-eab1-4239-b7fe-e260951a23e1"
+          },
+          {
+            "id": 948,
+            "display_flags": 0,
+            "classifier_name": "crystal-facet-uml application",
+            "node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+            "uuid": "ae8d2eef-5a72-4b62-b601-17b716809bdd"
           }
         ]
       }
@@ -7216,6 +7251,13 @@
             "classifier_name": "When undoing, allow at least 3 undo operations",
             "node": "2a56adb0-aa50-4a1d-b6c3-9aedcde7fd7a",
             "uuid": "38d8e588-5abc-4e6c-a8f2-5f0722ba1e51"
+          },
+          {
+            "id": 949,
+            "display_flags": 0,
+            "classifier_name": "crystal-facet-uml application",
+            "node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+            "uuid": "d9a2525b-7ffc-4339-a306-e387e8b80bed"
           }
         ]
       }
@@ -7242,6 +7284,13 @@
             "classifier_name": "Check and Repair Database",
             "node": "d9c05256-16cd-4208-8acd-8b449df3d412",
             "uuid": "fee80236-9fc3-4016-94c3-d60f70be0038"
+          },
+          {
+            "id": 950,
+            "display_flags": 0,
+            "classifier_name": "crystal-facet-uml application",
+            "node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+            "uuid": "f58eb69d-f09e-4a60-b93f-3804193b9b54"
           }
         ]
       }
@@ -15384,24 +15433,6 @@
     },
     {
       "classifier": {
-        "id": 349,
-        "main_type": 101,
-        "type": "UseCase",
-        "name": "Modify / Create / Delete Diagrams and Elements",
-        "description": [
-                ""
-        ],
-        "x_order": -1008711441,
-        "y_order": -1791446876,
-        "list_order": -1890247180,
-        "uuid": "3d33680a-516b-4c0f-a0bc-8fd6ccb437e0",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 350,
         "main_type": 101,
         "type": "UseCase",
@@ -15441,12 +15472,12 @@
         "id": 352,
         "main_type": 101,
         "type": "UseCase",
-        "name": "Modify / Create / Delete Diagrams and Element",
+        "name": "Modify / Create / Delete Diagrams and Elements",
         "description": [
                 ""
         ],
         "x_order": -1008711441,
-        "y_order": -1791446876,
+        "y_order": -360799701,
         "list_order": -1890247180,
         "uuid": "ff6ef959-86bd-4278-b913-58ce7a7f53f4",
         "features":
@@ -26083,6 +26114,108 @@
         "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
         "to_node": "6a0dda46-ab61-448d-b0d8-c00d53818789",
         "uuid": "d027b926-fa89-459a-ac3b-c61016219fcf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1063,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "crystal-facet-uml application",
+        "to_classifier_name": "Program Start and About Window",
+        "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+        "to_node": "70e8a90f-ec3c-41a1-aa56-4c504998ffd5",
+        "uuid": "b178bc94-49a6-4ae8-8b49-3c2397a91d3c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1064,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "crystal-facet-uml application",
+        "to_classifier_name": "Open a Model Database",
+        "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+        "to_node": "01b9d514-5bf8-4678-8ca3-1db7f63f5781",
+        "uuid": "b2ac452d-1ed2-4dfd-a3b5-d24a2b2f73d2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1065,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "crystal-facet-uml application",
+        "to_classifier_name": "Navigate and Search and Open multiple Windows",
+        "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+        "to_node": "6dc4f9c3-0912-4d41-9072-1e98705d7e8c",
+        "uuid": "de162f7b-b160-4293-8f78-01fdfddb3cae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1066,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "crystal-facet-uml application",
+        "to_classifier_name": "Modify / Create / Delete Diagrams and Elements",
+        "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+        "to_node": "ff6ef959-86bd-4278-b913-58ce7a7f53f4",
+        "uuid": "dbf6b5f9-4ef9-49d7-b280-745cf9190b19"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1067,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "crystal-facet-uml application",
+        "to_classifier_name": "Undo and Redo",
+        "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+        "to_node": "e8e8197f-7ce6-4e0c-8743-841e75b7b0ef",
+        "uuid": "5809e17c-5639-468b-91ca-95ecc1e570f8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1068,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "crystal-facet-uml application",
+        "to_classifier_name": "Check and Repair Database",
+        "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
+        "to_node": "d9c05256-16cd-4208-8acd-8b449df3d412",
+        "uuid": "a4cc40ff-fe3f-4da1-8a19-6e12ccde9587"
       }
     },
     {
