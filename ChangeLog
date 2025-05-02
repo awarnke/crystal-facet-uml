@@ -1,7 +1,8 @@
 crystal-facet-uml (1.64.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * tbd
+  * Improved navigation in html export
+  * All linebreaks are transformed to html and doxygen exports
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 02 May 2025 11:00:00 +0100
 

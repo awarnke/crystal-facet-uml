@@ -63,9 +63,12 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
     for ( unsigned int text_current_byte = 0; text_current_byte < text_byte_length; text_current_byte ++ )
     {
         const char current = text[text_current_byte];  /* note: only in case current<=0x7f this is a valid code point */
+#if 0
         const char peeknext = text[text_current_byte+1];  /* note: only in case current<=0x7f this is a valid code point, 0 at string end */
+#endif
         if ( current == IO_MD_WRITER_LINEBREAK )
         {
+#if 0
             if (( peeknext == IO_MD_WRITER_LINEBREAK )
                 || ( peeknext == '+' )  /* list */
                 || ( peeknext == '*' )  /* list */
@@ -85,7 +88,7 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
                 || ( peeknext == '>' )  /* citation */
                 /*|| ( peeknext == ' ' )*/  /* list continuation */
                 || ( peeknext == '|' ))  /* table */
-
+#endif
             {
                 const utf8stringview_t str_view = UTF8STRINGVIEW( &(text[text_start_byte]), text_current_byte-text_start_byte );
                 write_err |= io_xml_writer_write_xml_enc_view( (*this_).sink, &str_view );
