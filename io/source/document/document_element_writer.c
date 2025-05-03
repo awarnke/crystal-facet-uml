@@ -399,6 +399,14 @@ void document_element_writer_init ( document_element_writer_t *this_,
 
         case IO_FILE_FORMAT_TXT:
         {
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         ", ",
+                                         "",
+                                         ": ",
+                                         "",
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer), db_reader, "\n", "", ": ", "", &((*this_).xml_writer) );
         }
         break;
@@ -407,6 +415,14 @@ void document_element_writer_init ( document_element_writer_t *this_,
         {
             U8_LOG_ERROR("error: unknown_format.");
             assert(false);  /* use another io_element_writer instead */
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         ", ",
+                                         "",
+                                         ": ",
+                                         "",
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer), db_reader, "\n", "", ": ", "", &((*this_).xml_writer) );
         }
         break;

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.63.3"
   }
   ,
   "views":
@@ -68,9 +68,10 @@
         "type": "CFUBoxDiagram",
         "name": "Goal",
         "description": [
-                ""
+                "The goal states what to achieve.\n",
+                "Later, the D0004#name chapter shows the scope of this project."
         ],
-        "list_order": -1073700864,
+        "list_order": -1610592256,
         "display_flags": 0,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
@@ -94,7 +95,7 @@
         "type": "SysMLRequirementDiagram",
         "name": "Constraints",
         "description": [
-                "This section explains the major obstacles that need to be considered when designing a solution that addresses the project goals. (Problem Space, System Level)"
+                "This section explains the major obstacles that need to be considered when designing a solution to D0058#name. (Problem Space, System Level)"
         ],
         "list_order": -536837632,
         "display_flags": 0,
@@ -769,7 +770,9 @@
                 "\n",
                 "Functions represent the solutions to the functional requirements.\n",
                 "\n",
-                "It also shows which function produces output that is needed by another function as input."
+                "It also shows which function produces output that is needed by another function as input.\n",
+                "\n",
+                "Sensors (devices) produce output to controller-parts (roles). These roles send their output to other roles or to actuators (devices)."
         ],
         "list_order": 95040,
         "display_flags": 0,
@@ -7584,7 +7587,7 @@
         "stereotype": "mouse-droid",
         "name": "MoD5G",
         "description": [
-                ""
+                "A brown mouse is the symbol for the MoD5G project."
         ],
         "x_order": -1882092648,
         "y_order": 0,

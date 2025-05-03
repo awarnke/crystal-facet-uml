@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.63.1"
+    "generator_version": "1.63.3"
   }
   ,
   "views":
@@ -2886,6 +2886,67 @@
     },
     {
       "diagram": {
+        "id": 39,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "Create a System Architecture",
+        "description": [
+                "This diagram shows an approach to systems engineering, following ideas from several sources (see D0023#name)"
+        ],
+        "list_order": 131072,
+        "display_flags": 0,
+        "parent_name": "Standard Methods",
+        "parent": "85fd634f-20cc-4db0-b17c-ebec3bacb9d5",
+        "uuid": "8637e35c-01ff-48c3-b25b-42cc517f04fe",
+        "diagramelements":
+        [
+          {
+            "id": 412,
+            "display_flags": 0,
+            "classifier_name": "Understand Stakeholder Requirements",
+            "node": "dfc5b1c4-a0ca-461c-b014-25f27890bd69",
+            "uuid": "cae82f5d-d03a-4270-b733-cdcbadba8e61"
+          },
+          {
+            "id": 413,
+            "display_flags": 0,
+            "classifier_name": "Derive System Requirements",
+            "node": "7175503b-5e26-4ce2-9a34-cf7da6469742",
+            "uuid": "274ca4b6-a5e1-4a05-9604-b83d192c127e"
+          },
+          {
+            "id": 414,
+            "display_flags": 0,
+            "classifier_name": "Create functional view",
+            "node": "9121c4ab-b224-4475-b5a1-aca916e4c0cb",
+            "uuid": "f65850c9-6e47-4176-8bdf-7c5de875f56d"
+          },
+          {
+            "id": 415,
+            "display_flags": 0,
+            "classifier_name": "Create Logical View",
+            "node": "073a6151-4628-4a8e-9eff-5cf6efd18657",
+            "uuid": "feb9da82-9f0d-4896-ac26-8e374cb55231"
+          },
+          {
+            "id": 416,
+            "display_flags": 0,
+            "classifier_name": "Create Physical View",
+            "node": "126094e4-23f3-46e2-af58-7a359703f01c",
+            "uuid": "1cf19d09-c517-4a98-b3d6-71049907d1ba"
+          },
+          {
+            "id": 417,
+            "display_flags": 0,
+            "classifier_name": "Review Test Cases",
+            "node": "6fade01e-8612-42b9-8458-18d258864efa",
+            "uuid": "a0e386a3-68f2-47f4-baf2-b1c8bee8015e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 33,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
@@ -3101,6 +3162,13 @@
             "classifier_name": "Systems Engineering Handbook",
             "node": "f7a34b7c-1c88-4a27-ba76-0c85a34e013d",
             "uuid": "db93abc7-4891-49ae-89c7-a7366b960af8"
+          },
+          {
+            "id": 411,
+            "display_flags": 0,
+            "classifier_name": "SEBoK",
+            "node": "4ac68b21-af74-4bd9-aadd-60782f09aaf1",
+            "uuid": "a4c37936-4db1-4201-8086-6590bd9beeef"
           }
         ]
       }
@@ -8948,8 +9016,8 @@
         "description": [
                 "A risk describes a situation that "
         ],
-        "x_order": -701934271,
-        "y_order": 216530019,
+        "x_order": -1036286279,
+        "y_order": 1007469997,
         "list_order": -822891840,
         "uuid": "569ebe54-c86c-4ed9-a49e-6bf1f9c8032a",
         "features":
@@ -9185,6 +9253,135 @@
         "y_order": 0,
         "list_order": 0,
         "uuid": "f7a34b7c-1c88-4a27-ba76-0c85a34e013d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 277,
+        "main_type": 126,
+        "type": "Class",
+        "name": "SEBoK",
+        "description": [
+                "Guide to the Systems Engineering Body of Knowledge (SEBoK)\n",
+                "Lead Editor: Nicole Hutchison\n",
+                "SEBoK v. 2.11, released 25 November 2024\n",
+                "https://sebokwiki.org/"
+        ],
+        "x_order": 476651651,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "4ac68b21-af74-4bd9-aadd-60782f09aaf1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 278,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Understand Stakeholder Requirements",
+        "description": [
+                ""
+        ],
+        "x_order": -1522026435,
+        "y_order": -1415498083,
+        "list_order": -1415498083,
+        "uuid": "dfc5b1c4-a0ca-461c-b014-25f27890bd69",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 279,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Derive System Requirements",
+        "description": [
+                ""
+        ],
+        "x_order": 419225030,
+        "y_order": -1415498083,
+        "list_order": -1415498083,
+        "uuid": "7175503b-5e26-4ce2-9a34-cf7da6469742",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 280,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Create functional view",
+        "description": [
+                ""
+        ],
+        "x_order": -1522026435,
+        "y_order": 424723250,
+        "list_order": -1415498083,
+        "uuid": "9121c4ab-b224-4475-b5a1-aca916e4c0cb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 281,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Create Logical View",
+        "description": [
+                ""
+        ],
+        "x_order": 419225030,
+        "y_order": 424723250,
+        "list_order": 424723250,
+        "uuid": "073a6151-4628-4a8e-9eff-5cf6efd18657",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 282,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Create Physical View",
+        "description": [
+                ""
+        ],
+        "x_order": 1428910955,
+        "y_order": 424723250,
+        "list_order": 424723250,
+        "uuid": "126094e4-23f3-46e2-af58-7a359703f01c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 283,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Review Test Cases",
+        "description": [
+                ""
+        ],
+        "x_order": 1428910955,
+        "y_order": 1396877914,
+        "list_order": 1396877914,
+        "uuid": "6fade01e-8612-42b9-8458-18d258864efa",
         "features":
         [
         ]
@@ -13818,6 +14015,91 @@
         "from_node": "f1ea0f8d-da26-4661-8971-7de852e0aa1a",
         "to_node": "9c6e403e-db31-425f-8b0b-69dee9b1e265",
         "uuid": "73cbeb78-58fd-4372-9cc9-bec47c087b1d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 328,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Understand Stakeholder Requirements",
+        "to_classifier_name": "Derive System Requirements",
+        "from_node": "dfc5b1c4-a0ca-461c-b014-25f27890bd69",
+        "to_node": "7175503b-5e26-4ce2-9a34-cf7da6469742",
+        "uuid": "3181cafd-6fff-4e58-9dce-63f42309b96f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 329,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Derive System Requirements",
+        "to_classifier_name": "Create functional view",
+        "from_node": "7175503b-5e26-4ce2-9a34-cf7da6469742",
+        "to_node": "9121c4ab-b224-4475-b5a1-aca916e4c0cb",
+        "uuid": "ae62f23e-0ddf-4279-bad5-4b55a6df8923"
+      }
+    },
+    {
+      "relationship": {
+        "id": 330,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Create functional view",
+        "to_classifier_name": "Create Logical View",
+        "from_node": "9121c4ab-b224-4475-b5a1-aca916e4c0cb",
+        "to_node": "073a6151-4628-4a8e-9eff-5cf6efd18657",
+        "uuid": "ef83fc26-4c0b-483d-9644-cc6f1f64807d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 331,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Create Logical View",
+        "to_classifier_name": "Create Physical View",
+        "from_node": "073a6151-4628-4a8e-9eff-5cf6efd18657",
+        "to_node": "126094e4-23f3-46e2-af58-7a359703f01c",
+        "uuid": "d6931033-3e07-4f6e-8aa8-7833f626fdba"
+      }
+    },
+    {
+      "relationship": {
+        "id": 332,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Create Physical View",
+        "to_classifier_name": "Review Test Cases",
+        "from_node": "126094e4-23f3-46e2-af58-7a359703f01c",
+        "to_node": "6fade01e-8612-42b9-8458-18d258864efa",
+        "uuid": "03fab404-5685-46e1-b9d9-9c0de92d29ec"
       }
     }
   ]
