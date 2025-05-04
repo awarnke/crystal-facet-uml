@@ -24,8 +24,6 @@ debian/ubuntu/raspberry-os:
 >
 > sudo apt install doxygen     # for source code documentation
 >
-> sudo apt install inkscape    # for generation of pdf and png icons from svg
->
 > sudo apt install lcov        # for reporting test coverage
 >
 > sudo apt install curl        # for installing rust
@@ -50,17 +48,13 @@ openSuSE:
 >
 > sudo zypper install devscripts  # for debian build, includes build-essential
 >
-> sudo zypper install dblatex     # for user documentation
->
-> sudo zypper install xmlto       # for user documentation
+> sudo zypper install dblatex xmlto  # for user documentation
 >
 > sudo zypper install doxygen     # for source code documentation
 >
 > sudo zypper install fakeroot    # to build debian archives
 >
 > sudo zypper install debhelper   # to build debian archives
->
-> sudo zypper install inkscape    # for generation of pdf and png icons from svg
 >
 > sudo zypper install lcov        # for reporting test coverage
 >
@@ -77,4 +71,4 @@ openSuSE:
 
 windows:
 
-> see  [./msys2/README.md](win)
+> see  [./msys2/README.md](msys2)

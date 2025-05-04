@@ -69,7 +69,7 @@
         "name": "Goal",
         "description": [
                 "The goal states what to achieve.\n",
-                "Later, the D0004#name chapter shows the scope of this project."
+                "Later, the D0066#name chapter shows the scope of this project."
         ],
         "list_order": -1610592256,
         "display_flags": 0,
@@ -130,17 +130,61 @@
     },
     {
       "diagram": {
-        "id": 4,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
+        "id": 66,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
         "name": "Scope and Context",
         "description": [
-                "This section shows the organizational contexts of development and operational environments. (Problem Space, System Level)"
+                "This chapter shows\n",
+                "- the users\n",
+                "- the uses (intended, unintended, misuses)\n",
+                "- the external conditions\n",
+                ""
         ],
-        "list_order": -268406016,
+        "list_order": -402621824,
         "display_flags": 0,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "uuid": "d744d3f2-502c-464d-9f06-0e03bc42fb6b",
+        "diagramelements":
+        [
+          {
+            "id": 411,
+            "display_flags": 0,
+            "classifier_name": "Operational Context",
+            "node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+            "uuid": "d4b5a285-6a9d-4590-97a2-779655659daa"
+          },
+          {
+            "id": 412,
+            "display_flags": 0,
+            "classifier_name": "Development and Production Context",
+            "node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+            "uuid": "3cbb951d-a224-4a42-a260-075c8ee1677b"
+          },
+          {
+            "id": 413,
+            "display_flags": 0,
+            "classifier_name": "Mouse Droid MoD5G",
+            "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+            "uuid": "342d4912-8b51-42f2-a8ce-66a56a8a20bd"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 4,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Lifecycle",
+        "description": [
+                "This section shows the organizational contexts of development and operational environments. (Problem Space, System Level)"
+        ],
+        "list_order": -1,
+        "display_flags": 0,
+        "parent_name": "Scope and Context",
+        "parent": "d744d3f2-502c-464d-9f06-0e03bc42fb6b",
         "uuid": "9c12ab21-3f8c-4318-8e0d-c88f36038990",
         "diagramelements":
         [
@@ -161,7 +205,7 @@
           {
             "id": 120,
             "display_flags": 0,
-            "classifier_name": "Build Droids",
+            "classifier_name": "Build Droid",
             "node": "2fb1cd00-6d9e-4d66-bf6c-f93819adbf7b",
             "uuid": "7621994e-b67e-40b0-beff-f1bd40cf222f"
           },
@@ -199,6 +243,149 @@
             "classifier_name": "Electrical Engineering",
             "node": "a62eeadb-6d02-4d47-a22b-f78570a4019d",
             "uuid": "f8f546d3-c1aa-448a-81ea-730412923891"
+          },
+          {
+            "id": 407,
+            "display_flags": 0,
+            "classifier_name": "Disposal",
+            "node": "d0e738fb-79e3-4cb0-a6aa-e88cd3d3fb24",
+            "uuid": "9e23f2fe-8ea9-4b23-b69d-c8e24b35bb7f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 67,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Factory Context",
+        "description": [
+                ""
+        ],
+        "list_order": 32767,
+        "display_flags": 0,
+        "parent_name": "Scope and Context",
+        "parent": "d744d3f2-502c-464d-9f06-0e03bc42fb6b",
+        "uuid": "36a2688e-c9c7-4d48-84c5-e7ce0b3a985d",
+        "diagramelements":
+        [
+          {
+            "id": 417,
+            "display_flags": 0,
+            "classifier_name": "Development and Production Context",
+            "node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+            "uuid": "373ea7c1-2552-4be7-860d-4d1e84052b86"
+          },
+          {
+            "id": 418,
+            "display_flags": 0,
+            "classifier_name": "Factory Robot",
+            "node": "a1701e19-8001-4317-aedb-7557d1cc8fc4",
+            "uuid": "1ec4e403-6470-4e11-a6d3-aead604c17a5"
+          },
+          {
+            "id": 419,
+            "display_flags": 0,
+            "classifier_name": "Factory Worker",
+            "node": "f71312af-5aa2-4a5b-93ee-1f39cd762554",
+            "uuid": "f01ca4b9-b860-41d9-9526-35cce01bcdb0"
+          },
+          {
+            "id": 420,
+            "display_flags": 0,
+            "classifier_name": "Factory Test System",
+            "node": "9f3bacda-c043-4931-81fb-cfce1abf049a",
+            "uuid": "bc1eb069-2194-4678-837e-9bd7b7077051"
+          },
+          {
+            "id": 421,
+            "display_flags": 0,
+            "classifier_name": "Mouse Droid MoD5G",
+            "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+            "uuid": "29ca54ae-5611-464c-af7c-193b0faf2325"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 68,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Operational Context",
+        "description": [
+                ""
+        ],
+        "list_order": 65535,
+        "display_flags": 0,
+        "parent_name": "Scope and Context",
+        "parent": "d744d3f2-502c-464d-9f06-0e03bc42fb6b",
+        "uuid": "3ffe6eb9-b5f8-486d-8807-f53a6160aca0",
+        "diagramelements":
+        [
+          {
+            "id": 422,
+            "display_flags": 0,
+            "classifier_name": "Mouse Droid MoD5G",
+            "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+            "uuid": "a1a1d1e0-e817-48a9-9818-1e25243216e9"
+          },
+          {
+            "id": 423,
+            "display_flags": 0,
+            "classifier_name": "Operational Context",
+            "node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+            "uuid": "3dc52824-e489-4de9-a4f5-a9474412578a"
+          },
+          {
+            "id": 424,
+            "display_flags": 0,
+            "classifier_name": "Environment",
+            "node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+            "uuid": "0ac903aa-911e-41ce-8657-e04933b65511"
+          },
+          {
+            "id": 425,
+            "display_flags": 0,
+            "classifier_name": "Charging Terminal",
+            "node": "cd72d494-8752-47a5-b059-bf119e7a477b",
+            "uuid": "4e13e398-f24b-448f-9bc1-2832c95a4a57"
+          },
+          {
+            "id": 426,
+            "display_flags": 0,
+            "classifier_name": "Programming Terminal",
+            "node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
+            "uuid": "64e63200-41b6-4411-bba6-dd746e6a8707"
+          },
+          {
+            "id": 427,
+            "display_flags": 0,
+            "classifier_name": "Maintenance Booth",
+            "node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
+            "uuid": "f14a70cd-1e5a-4ca9-b42c-c069ede65e46"
+          },
+          {
+            "id": 428,
+            "display_flags": 0,
+            "classifier_name": "Malfunctioning Terminal",
+            "node": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
+            "uuid": "cca241af-63bd-47c8-8669-e56b4ae181fa"
+          },
+          {
+            "id": 429,
+            "display_flags": 0,
+            "classifier_name": "Operator",
+            "node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+            "uuid": "33d6534d-305f-4ef3-b304-71a561af1038"
+          },
+          {
+            "id": 430,
+            "display_flags": 0,
+            "classifier_name": "Service Worker",
+            "node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
+            "uuid": "6c41d581-a070-493f-9659-229bdc1b1f90"
           }
         ]
       }
@@ -1848,6 +2035,14 @@
             "classifier_name": "Mouse Droid MoD5G",
             "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
             "uuid": "3ba0947e-ba34-40f6-aa0e-8935b610961f"
+          },
+          {
+            "id": 431,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Operator",
+            "node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+            "uuid": "145cce49-a88e-4bf6-bb9f-358de11a93a8"
           }
         ]
       }
@@ -2926,7 +3121,7 @@
           {
             "id": 34,
             "display_flags": 0,
-            "classifier_name": "health::disassembly",
+            "classifier_name": "health::disposal",
             "node": "4f2dd295-be68-415b-8210-686c2d3b9125",
             "uuid": "9071ef31-e7c3-4a0a-8b1a-0ab6409f610b"
           },
@@ -3693,6 +3888,28 @@
         "uuid": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "features":
         [
+          {
+            "id": 74,
+            "main_type": 2,
+            "type": "Port",
+            "key": "charge connector",
+            "description": [
+                ""
+            ],
+            "list_order": -1689509291,
+            "uuid": "055054b6-e39b-4c72-ac46-8043cedddd82"
+          },
+          {
+            "id": 75,
+            "main_type": 2,
+            "type": "Port",
+            "key": "program connector",
+            "description": [
+                ""
+            ],
+            "list_order": 1724107938,
+            "uuid": "2fcc78fe-5d3f-442d-a0c6-847565dbc0ee"
+          }
         ]
       }
     },
@@ -4330,7 +4547,7 @@
         "id": 29,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "name": "health::disassembly",
+        "name": "health::disposal",
         "description": [
                 ""
         ],
@@ -5552,7 +5769,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "factory",
-        "name": "Build Droids",
+        "name": "Build Droid",
         "description": [
                 "At the factory, workers assemble hardware and electronic parts to mouse droids and integrate control logic and data."
         ],
@@ -5679,11 +5896,22 @@
                 "This terminal programs the next mission for the MoD5G."
         ],
         "x_order": 399546593,
-        "y_order": -474887197,
+        "y_order": 478437817,
         "list_order": -596786423,
         "uuid": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
         "features":
         [
+          {
+            "id": 73,
+            "main_type": 2,
+            "type": "Port",
+            "key": "program connector",
+            "description": [
+                ""
+            ],
+            "list_order": 1142318628,
+            "uuid": "0ae553d8-86a0-4f47-886f-e7d21871a9ed"
+          }
         ]
       }
     },
@@ -5702,6 +5930,17 @@
         "uuid": "cd72d494-8752-47a5-b059-bf119e7a477b",
         "features":
         [
+          {
+            "id": 72,
+            "main_type": 2,
+            "type": "Port",
+            "key": "charge connector",
+            "description": [
+                ""
+            ],
+            "list_order": 736858111,
+            "uuid": "d19c9719-423c-435d-a8c9-281dd9695bf3"
+          }
         ]
       }
     },
@@ -8410,6 +8649,150 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 210,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "Disposal",
+        "description": [
+                "The empty space is a good location for damaged droids (see flow in D0021#name)."
+        ],
+        "x_order": 1173058080,
+        "y_order": 1713391668,
+        "list_order": -1086922698,
+        "uuid": "d0e738fb-79e3-4cb0-a6aa-e88cd3d3fb24",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 211,
+        "main_type": 100,
+        "type": "Actor",
+        "name": "Factory Worker",
+        "description": [
+                ""
+        ],
+        "x_order": -1595848213,
+        "y_order": 59770936,
+        "list_order": -947899389,
+        "uuid": "f71312af-5aa2-4a5b-93ee-1f39cd762554",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 212,
+        "main_type": 100,
+        "type": "Actor",
+        "name": "Factory Robot",
+        "description": [
+                ""
+        ],
+        "x_order": -1595848213,
+        "y_order": -598347299,
+        "list_order": -712770999,
+        "uuid": "a1701e19-8001-4317-aedb-7557d1cc8fc4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 213,
+        "main_type": 100,
+        "type": "Actor",
+        "name": "Factory Test System",
+        "description": [
+                ""
+        ],
+        "x_order": -1595848213,
+        "y_order": -525697330,
+        "list_order": -525697330,
+        "uuid": "9f3bacda-c043-4931-81fb-cfce1abf049a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 214,
+        "main_type": 102,
+        "type": "Component",
+        "name": "Environment",
+        "description": [
+                ""
+        ],
+        "x_order": 399546593,
+        "y_order": -1118328092,
+        "list_order": -1118328092,
+        "uuid": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 215,
+        "main_type": 120,
+        "type": "Node",
+        "name": "Malfunctioning Terminal",
+        "description": [
+                ""
+        ],
+        "x_order": 334525572,
+        "y_order": -539740535,
+        "list_order": -503850824,
+        "uuid": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 216,
+        "main_type": 100,
+        "type": "Actor",
+        "name": "Operator",
+        "description": [
+                ""
+        ],
+        "x_order": 399546593,
+        "y_order": -474887197,
+        "list_order": -486463803,
+        "uuid": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 217,
+        "main_type": 100,
+        "type": "Actor",
+        "name": "Service Worker",
+        "description": [
+                ""
+        ],
+        "x_order": 334525572,
+        "y_order": -474887197,
+        "list_order": -96285833,
+        "uuid": "4bcddee7-ec53-4fbd-a706-e58c97047233",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -8481,6 +8864,44 @@
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "uuid": "db6c2a7c-bdb3-491d-aa87-2cb79180bff9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 378,
+        "main_type": 200,
+        "type": "Association",
+        "name": "retrieve mission",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "Mouse Droid MoD5G",
+        "from_feature_key": "program connector",
+        "to_classifier_name": "Programming Terminal",
+        "to_feature_key": "program connector",
+        "from_node": "2fcc78fe-5d3f-442d-a0c6-847565dbc0ee",
+        "to_node": "0ae553d8-86a0-4f47-886f-e7d21871a9ed",
+        "uuid": "8d48401d-39bb-4203-833a-f20f6caccbf6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 379,
+        "main_type": 200,
+        "type": "Association",
+        "name": "charge",
+        "description": [
+                ""
+        ],
+        "list_order": 589824,
+        "from_classifier_name": "Mouse Droid MoD5G",
+        "from_feature_key": "charge connector",
+        "to_classifier_name": "Charging Terminal",
+        "to_feature_key": "charge connector",
+        "from_node": "055054b6-e39b-4c72-ac46-8043cedddd82",
+        "to_node": "d19c9719-423c-435d-a8c9-281dd9695bf3",
+        "uuid": "393d039d-3b15-437a-ba8a-dd68f6350d60"
       }
     },
     {
@@ -9616,7 +10037,7 @@
         "list_order": 524288,
         "from_classifier_name": "health::operation",
         "from_feature_key": "no_op",
-        "to_classifier_name": "health::disassembly",
+        "to_classifier_name": "health::disposal",
         "from_node": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d",
         "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
         "uuid": "cfcdb1b0-22c2-48b1-9897-03e0b2abf3db"
@@ -10938,6 +11359,23 @@
     },
     {
       "relationship": {
+        "id": 389,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Imperial Operator",
+        "to_classifier_name": "Operator",
+        "from_node": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
+        "to_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "uuid": "bc21ead6-d190-44b5-90d0-5e5141c6dfa2"
+      }
+    },
+    {
+      "relationship": {
         "id": 112,
         "main_type": 200,
         "type": "Association",
@@ -10951,6 +11389,23 @@
         "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "765e3ec8-f4af-4f1d-a86a-8d6860089f57"
+      }
+    },
+    {
+      "relationship": {
+        "id": 388,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Operator of the old republic",
+        "to_classifier_name": "Operator",
+        "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
+        "to_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "uuid": "94f4faaa-57c3-4c4a-84b4-4c29e36b06b8"
       }
     },
     {
@@ -11032,7 +11487,7 @@
         ],
         "list_order": -949056703,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Build Droids",
+        "to_classifier_name": "Build Droid",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_node": "2fb1cd00-6d9e-4d66-bf6c-f93819adbf7b",
         "uuid": "afd97b20-892a-427f-8dcf-70aafb8fd4e6"
@@ -11091,6 +11546,57 @@
     },
     {
       "relationship": {
+        "id": 364,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -947899389,
+        "from_classifier_name": "Development and Production Context",
+        "to_classifier_name": "Factory Worker",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_node": "f71312af-5aa2-4a5b-93ee-1f39cd762554",
+        "uuid": "9717a97a-03f5-4358-992c-40f7d66d5f4b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 365,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -712770999,
+        "from_classifier_name": "Development and Production Context",
+        "to_classifier_name": "Factory Robot",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_node": "a1701e19-8001-4317-aedb-7557d1cc8fc4",
+        "uuid": "baf13393-9e66-4ae2-8fe1-043515f94e15"
+      }
+    },
+    {
+      "relationship": {
+        "id": 366,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -525697330,
+        "from_classifier_name": "Development and Production Context",
+        "to_classifier_name": "Factory Test System",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_node": "9f3bacda-c043-4931-81fb-cfce1abf049a",
+        "uuid": "cda7bb9c-8a1e-44f1-9736-49fa2ed38cad"
+      }
+    },
+    {
+      "relationship": {
         "id": 126,
         "main_type": 300,
         "type": "Association",
@@ -11121,6 +11627,142 @@
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
         "to_node": "f737a6a7-13f7-42a4-9b2a-1c805cd2a628",
         "uuid": "2c59bc66-7333-4725-a91e-d8c7e4c3ec32"
+      }
+    },
+    {
+      "relationship": {
+        "id": 353,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Disposal",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "d0e738fb-79e3-4cb0-a6aa-e88cd3d3fb24",
+        "uuid": "55dc87c5-470c-4997-92f6-768ce85caaec"
+      }
+    },
+    {
+      "relationship": {
+        "id": 370,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1118328092,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Environment",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "uuid": "6dc47c15-f8e7-478f-81fa-a1f2d39e98cc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 374,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Charging Terminal",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
+        "uuid": "53618f34-c27b-4894-9c80-62209ebca5a8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 375,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Programming Terminal",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
+        "uuid": "1204e24e-c417-4a36-b6ff-c303454df725"
+      }
+    },
+    {
+      "relationship": {
+        "id": 376,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Maintenance Booth",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
+        "uuid": "41e952e8-5c10-416a-b1aa-f9804d633a1a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 381,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -503850824,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Malfunctioning Terminal",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
+        "uuid": "ce100cf7-7731-4753-9c13-8d13a674f288"
+      }
+    },
+    {
+      "relationship": {
+        "id": 384,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -486463803,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Operator",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "uuid": "e1f5b5d3-22ba-4923-b70a-5f2b7ceb5e63"
+      }
+    },
+    {
+      "relationship": {
+        "id": 385,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -96285833,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Service Worker",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
+        "uuid": "da68d793-fca6-4143-b04e-509b3e0fb17c"
       }
     },
     {
@@ -11206,6 +11848,23 @@
         "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
         "uuid": "bd7cf063-5e1d-4917-b24f-51e03e9c0230"
+      }
+    },
+    {
+      "relationship": {
+        "id": 386,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 720896,
+        "from_classifier_name": "Maintenance Booth",
+        "to_classifier_name": "Service Worker",
+        "from_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
+        "to_node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
+        "uuid": "cd913284-70fc-4722-bd04-ed63552ee3ed"
       }
     },
     {
@@ -12147,7 +12806,7 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "health::all",
-        "to_classifier_name": "health::disassembly",
+        "to_classifier_name": "health::disposal",
         "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
         "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
         "uuid": "6a8d21c4-845b-4fd8-b05d-f1221620b211"
@@ -13641,6 +14300,179 @@
         "from_node": "dd089494-8ef7-413e-8634-1718be66330e",
         "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
         "uuid": "835082e0-31a1-4f7a-84b6-1838cd9a0053"
+      }
+    },
+    {
+      "relationship": {
+        "id": 367,
+        "main_type": 200,
+        "type": "Association",
+        "name": "rework in case of errors",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "Factory Worker",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "f71312af-5aa2-4a5b-93ee-1f39cd762554",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "282de731-0fb6-4fa9-a100-f5bfac2ad827"
+      }
+    },
+    {
+      "relationship": {
+        "id": 368,
+        "main_type": 200,
+        "type": "Association",
+        "name": "assemble",
+        "description": [
+                "A robot assembles HW and EE parts.\n",
+                "It integrates the program logic and configures the MoD5G."
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "Factory Robot",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "a1701e19-8001-4317-aedb-7557d1cc8fc4",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "91b35e08-f640-40cf-b424-2b9ca5e9a592"
+      }
+    },
+    {
+      "relationship": {
+        "id": 369,
+        "main_type": 200,
+        "type": "Association",
+        "name": "test correct assembly",
+        "description": [
+                "A test system\n",
+                "- checks that  parts are working\n",
+                "- checks communication between the parts"
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "Factory Test System",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "9f3bacda-c043-4931-81fb-cfce1abf049a",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "847e4bea-8b65-4819-afc4-c6f372969834"
+      }
+    },
+    {
+      "relationship": {
+        "id": 371,
+        "main_type": 200,
+        "type": "Association",
+        "name": "cosmic ray exposedness",
+        "description": [
+                "In thin atmospheres, cosmic rays are not completely absorbed and may interfere with the program logic and with stored data on the MoD5G."
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "Environment",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "927b8b07-d189-43a7-b2b3-5b5590fe3051"
+      }
+    },
+    {
+      "relationship": {
+        "id": 372,
+        "main_type": 200,
+        "type": "Association",
+        "name": "mechanical stress",
+        "description": [
+                "The MoD5G has to cope with constant vibrations while moving, but also with sudden strokes."
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "Environment",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "8b8558ed-a039-48ff-8a9e-350157fa882f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 373,
+        "main_type": 200,
+        "type": "Association",
+        "name": "temperature",
+        "description": [
+                "The MoD5G has to cope with extreme high and low temperatures."
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "Environment",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "0642f2f2-0fbb-4e13-8f34-d6cb31c1bff1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 382,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 655360,
+        "from_classifier_name": "Malfunctioning Terminal",
+        "to_classifier_name": "Charging Terminal",
+        "from_node": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
+        "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
+        "uuid": "9df1549a-fb72-4317-8338-33f1b9465e31"
+      }
+    },
+    {
+      "relationship": {
+        "id": 383,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "over/undervoltage when charging",
+        "description": [
+                ""
+        ],
+        "list_order": 688128,
+        "from_classifier_name": "Malfunctioning Terminal",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "fdc5943f-4172-4eff-8a21-dbc51a88aaea"
+      }
+    },
+    {
+      "relationship": {
+        "id": 387,
+        "main_type": 200,
+        "type": "Association",
+        "name": "instruct",
+        "description": [
+                ""
+        ],
+        "list_order": 753664,
+        "from_classifier_name": "Operator",
+        "to_classifier_name": "Programming Terminal",
+        "from_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
+        "uuid": "3fc6f892-92f7-40e2-8775-76925530aeee"
+      }
+    },
+    {
+      "relationship": {
+        "id": 390,
+        "main_type": 200,
+        "type": "Association",
+        "name": "diagnose",
+        "description": [
+                "A service mechanic analyses the MoD5G for health state and damages."
+        ],
+        "list_order": 786432,
+        "from_classifier_name": "Service Worker",
+        "to_classifier_name": "Mouse Droid MoD5G",
+        "from_node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "f1bb00c1-28ae-4d41-b0b7-d70a2fd36dbf"
       }
     }
   ]

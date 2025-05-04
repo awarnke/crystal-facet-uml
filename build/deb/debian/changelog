@@ -1,3 +1,12 @@
+crystal-facet-uml (1.63.3-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Improved navigation in html export
+  * All linebreaks are transformed to html and doxygen exports
+  * removed limitation on maximum 10 appearance-links in html export
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 04 May 2025 10:30:00 +0100
+
 crystal-facet-uml (1.63.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

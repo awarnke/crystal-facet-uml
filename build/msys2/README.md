@@ -50,5 +50,5 @@ see also https://www.gtk.org/docs/installations/windows
 
 run:
 
-> append 'C:/msys64/mingw64/share' to XDG_DATA_HOME and XDG_DATA_DIRS
+> append 'C:/msys64/mingw64/share' to XDG_DATA_HOME and XDG_DATA_DIRS if needed
 
