@@ -86,3 +86,4 @@ ideas for a version 2
   - drop backwards-compatibility for old cfu1 storage formats (use cfuJ only)
   - support rust in application code
 
+
