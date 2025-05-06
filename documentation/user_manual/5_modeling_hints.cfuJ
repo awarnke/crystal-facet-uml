@@ -726,7 +726,7 @@
         "id": 16,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "risk mediates cause to mitigation",
+        "name": "risk",
         "description": [
                 ""
         ],
