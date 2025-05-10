@@ -41,7 +41,7 @@
                 This is what crystal-facet-uml is good at: it keeps the model in sync.
             </para>
         </section>
-        <section>
+        <section id="decoupling_mechanisms">
             <title>Use Abstractions and Hierarchies</title>
             <para>
                 When distributing different aspects to different diagrams,
@@ -152,9 +152,16 @@
             </para>
         </section>
         <section>
-            <title>Layout</title>
+            <title>Layout of Classifiers and Features</title>
             <para>
-                To change the positions of classifiers anf features, drag these to other locations.
+                To change the positions of classifiers and features, drag these to the target location.
+                Note that the relative position of classifiers towards each other affects
+                the layout of other diagrams also.
+            </para>
+        </section>
+        <section>
+            <title>Layout of Relationships</title>
+            <para>
                 Relationships can only be dragged in sequence and timing diagrams.
                 Relationships in other diagrams are auto-layouted.
                 crystal-facet-uml prevents to cross/overlay these two types of relationships:

@@ -554,7 +554,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
     gui_button_init( &((*this_).edit_highlight),
                      GDK_PAINTABLE( gui_resources_get_edit_highlight( res ) ),
                      "mark",
-                     "Highlight"
+                     "Mark"
                    );
 
     gui_button_init( &((*this_).edit_reset),

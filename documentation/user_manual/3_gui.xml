@@ -350,7 +350,7 @@
 
         </section>
         <section>
-            <title>Highlight</title>
+            <title>Mark</title>
             <para>
 
                 <inlinemediaobject>
@@ -411,9 +411,12 @@
             </mediaobject>
 
             Diagrams are layouted automatically. You can influence the locations of classifiers only.
-            When adding too many classifiers or relations, auto layouting may not achieve the expected results.
+        </para>
+        <para>
+            When adding too many classifiers or relationships, auto layouting may not achieve the expected results.
             In many cases, splitting the diagram into two or more diagrams solves the layouting issues and
             at the same time improves understandability by focusing on one aspect/topic per diagram.
+            For examples, see <xref linkend="decoupling_mechanisms"/>.
         </para>
 
         <section id="draw_search">

@@ -39,7 +39,7 @@
         <para>
             This tool runs on your local PC.
             It stores the model data in a json-based file
-            which can be stored in git, branched and merged together with your source code.
+            which can be versioned in git, branched and merged together with your source code.
             crystal-facet-uml exports diagrams in svg, pdf, ps and png formats
             which can be used in text processing systems like DocBook, html, LaTeX.
         </para>
