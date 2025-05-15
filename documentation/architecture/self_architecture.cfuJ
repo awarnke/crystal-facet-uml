@@ -5989,7 +5989,7 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on data structure of UML-Model",
         "description": [
-                "crystal-facet--uml uses a rather simple data structure to store te elements of the model.\n",
+                "crystal-facet-uml uses a rather simple data structure to store te elements of the model.\n",
                 "Alternatives have been considered; this diagram shows the rationale for this decision."
         ],
         "list_order": -1073741824,

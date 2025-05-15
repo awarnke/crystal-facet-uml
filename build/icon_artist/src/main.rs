@@ -7,6 +7,7 @@ pub mod model;
 pub mod render;
 pub mod stream_if;
 use icon_data::gui_file_icon;
+use icon_data::gui_sketch_icon;
 use icon_data::gui_view_icon;
 use icon_data::stereotype_icon;
 use icon_data::type_class_icon;
@@ -55,13 +56,23 @@ fn main() {
             icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREO);
             println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
         }
+        if arg == "-g" {
+            let stereo_icons: &'static [IconSource<'static>] = gui_sketch_icon::get_icons();
+            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(stereo_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
         if arg == "-h" {
             println!("options are");
             println!("-f file icons");
+            println!("-e edit icons");
             println!("-v view icons");
+            println!("-g gui sketch icons");
             println!("-d diagram icons");
             println!("-c classifier icons");
-            println!("-s stereotype");
+            println!("-s stereotype icons");
+            println!("-x feature icons");
+            println!("-r relationship icons");
         }
     }
 }

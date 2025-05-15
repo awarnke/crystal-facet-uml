@@ -52,9 +52,9 @@
                     <tbody>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_block.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Block</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry>
@@ -68,9 +68,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_constraint.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Constraint Block</para></entry>
                             <entry>
                                 <para>SysML<!--spec 1.5 chapter 10.2.2--></para>
@@ -82,9 +82,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_node.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Node</para></entry>
                             <entry>
                                 <para>UML</para>
@@ -94,9 +94,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_subsystem.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Subsystem/Boundary</para></entry>
                             <entry>
                                 <para>UML</para>
@@ -108,45 +108,45 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_component.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Component</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_part.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Part</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_interface.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Interface</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_package.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Package</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_class.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Class</para></entry>
                             <entry><para>UML<!--spec 2.5 chapter 11.4--></para></entry>
                             <entry>
@@ -155,36 +155,36 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_object.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Object</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_artifact.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Artifact</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_comment.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Comment</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_image.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Image
                                 </para>
                             </entry>
@@ -200,9 +200,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Stereotype</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry>
@@ -226,18 +226,18 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Requirement</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 16.2--></para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_actor.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Actor</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 14.2--></para>
@@ -247,9 +247,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_usecase.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Use Case</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 14.2--></para>
@@ -261,9 +261,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Interaction Diagram Reference (Interaction Use)</para></entry>
                             <entry><para>UML / Interaction Overview</para></entry>
                             <entry>
@@ -277,9 +277,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_activity.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Activity/Action
                                 </para>
                             </entry>
@@ -291,9 +291,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_region.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Interruptable Region
                                 </para>
                             </entry>
@@ -310,9 +310,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_fork.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Fork</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para>
@@ -327,9 +327,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_join.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Join</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para>
@@ -343,9 +343,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_accept.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Accept Event</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para>
@@ -359,9 +359,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_time.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Accept Time Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para>
                                 <para>/ Activity</para></entry>
@@ -373,9 +373,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_send.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Send Signal</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para>
@@ -390,9 +390,9 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_decision.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Decision/Choice
                                 </para>
                             </entry>
@@ -413,9 +413,9 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_initial.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Initial Node
                                 </para>
                             </entry>
@@ -436,9 +436,9 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_final.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Final Node
                                 </para>
                             </entry>
@@ -460,9 +460,9 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 State
                                 </para>
                             </entry>
@@ -480,9 +480,9 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_history.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Shallow History
                                 </para>
                             </entry>
@@ -497,9 +497,9 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_deephistory.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Deep History
                                 </para>
                             </entry>
@@ -515,10 +515,10 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Value Type
                                 </para>
                             </entry>
@@ -532,10 +532,10 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Enumeration</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry>
@@ -545,10 +545,10 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 ActivityParameterNode</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry>
@@ -558,10 +558,10 @@
                         <row>
                             <entry>
                                 <para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 MergeNode/Junction
                                 </para>
                             </entry>
@@ -576,10 +576,10 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 ActivityPartition</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para>
@@ -630,9 +630,9 @@
                     <tbody>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_property.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Property
                                 </para>
                             </entry>
@@ -643,9 +643,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_operation.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Operation
                                 </para>
                             </entry>
@@ -654,9 +654,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_provide.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Provided Interface
                                 </para>
                             </entry>
@@ -665,9 +665,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_require.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Required Interface
                                 </para>
                             </entry>
@@ -676,9 +676,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Port
                                 </para>
                             </entry>
@@ -692,9 +692,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_rx.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Input Port/Pin
                                 </para>
                             </entry>
@@ -705,9 +705,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_tx.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Output Port/Pin
                                 </para>
                             </entry>
@@ -718,9 +718,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_entry.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     State Entry
                                 </para>
                             </entry>
@@ -731,9 +731,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_exit.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     State Exit
                                 </para>
                             </entry>
@@ -744,9 +744,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_tag.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Tagged Value
                                 </para>
                             </entry>
@@ -757,9 +757,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_feat_life.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     Lifeline
                                 </para>
                             </entry>
@@ -802,18 +802,18 @@
                     <tbody>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_depend.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Dependency</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1, 8.2.2--></para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_contain.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Containment</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para>
@@ -823,9 +823,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_deploy.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Deploy</para></entry>
                             <entry>
                                 <para>UML</para>
@@ -835,9 +835,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_manifest.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Manifest</para></entry>
                             <entry>
                                 <para>UML</para>
@@ -847,9 +847,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_communication_path.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Communication Path</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 14.2--></para>
@@ -859,9 +859,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Association</para></entry>
                             <entry>
                                 <para>UML<!--spec 2.5 chapter 11.5-->, SysML<!--spec 1.5 chapter 8.2.1--></para>
@@ -877,9 +877,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_aggregate.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Aggregation</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para>
@@ -891,9 +891,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_compose.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Composition</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para>
@@ -905,9 +905,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_generalize.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Generalization</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 8.2.1, 14.2--></para>
@@ -917,9 +917,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_realize.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Realization</para></entry>
                             <entry>
                                 <para>UML</para>
@@ -930,9 +930,9 @@
 
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_trace.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Trace</para></entry>
                             <entry>
                                 <para>SysML<!-- see also https://re-magazine.ireb.org/articles/modeling-requirements-with-sysml --></para>
@@ -942,9 +942,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_refine.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Refine</para></entry>
                             <entry>
                                 <para>SysML</para>
@@ -954,9 +954,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_extend.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Extend</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 14.2--></para>
@@ -966,9 +966,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_include.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Include</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 14.2--></para>
@@ -978,9 +978,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_control_flow.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Control Flow/Transition</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 11.2.1, 14.5.11--></para>
@@ -992,9 +992,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_object_flow.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Object Flow</para></entry>
                             <entry>
                                 <para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para>
@@ -1004,9 +1004,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_async.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Async. Call
                                 </para>
                             </entry>
@@ -1018,9 +1018,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_sync.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Sync. Call
                                 </para>
                             </entry>
@@ -1032,9 +1032,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_rel_return.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Return Call
                                 </para>
                             </entry>
@@ -1046,10 +1046,10 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Connector
                                 </para>
                             </entry>
@@ -1066,10 +1066,10 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Item Flow
                                 </para>
                             </entry>
@@ -1084,10 +1084,10 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Exception Flow
                                 </para>
                             </entry>
@@ -1129,9 +1129,9 @@
                     <tbody>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_list.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                     List Diagram</para></entry>
                             <entry><para>-</para></entry>
                             <entry>
@@ -1141,9 +1141,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_box.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Box Diagram</para></entry>
                             <entry><para>-</para></entry>
                             <entry>
@@ -1153,108 +1153,108 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_block.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Block Definition Diagram</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_internal.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Internal Block Diagram</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_parametric.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Parametric Diagram</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_deployment.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Deployment Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_component.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Component Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_composite.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Composite Structure Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_package.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Package Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_class.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Class Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_profile.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Profile Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_requirement.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Requirements Diagram</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_usecase.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Use Case Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_overview.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Interaction Overview Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry>
@@ -1266,27 +1266,27 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_activity.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Activity Diagram</para></entry>
                             <entry><para>UML 2.5 (ch15.2), SysML</para></entry>
                             <entry><para>Limitations: Swimlanes not supported</para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_state.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 State Machine Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_communication.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Communication Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry>
@@ -1297,9 +1297,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_sequence.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry>
@@ -1309,9 +1309,9 @@
                         </row>
                         <row>
                             <entry><para>
-                                <mediaobject>
+                                <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_timing.svg" width="1cm"/></imageobject>
-                                </mediaobject>
+                                </inlinemediaobject>
                                 Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry>

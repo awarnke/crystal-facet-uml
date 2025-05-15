@@ -141,7 +141,7 @@
                 "- the external conditions\n",
                 ""
         ],
-        "list_order": -402621824,
+        "list_order": -201298112,
         "display_flags": 0,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
@@ -179,7 +179,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Lifecycle",
         "description": [
-                "This section shows the organizational contexts of development and operational environments. (Problem Space, System Level)"
+                "This chapter shows the organizational contexts of development and operational environments. (Problem Space, System Level)"
         ],
         "list_order": -1,
         "display_flags": 0,
@@ -261,7 +261,7 @@
         "type": "UMLComponentDiagram",
         "name": "Factory Context",
         "description": [
-                ""
+                "This chapter shows the actors in the production environment. (Problem Space, System Level)"
         ],
         "list_order": 32767,
         "display_flags": 0,
@@ -315,7 +315,7 @@
         "type": "UMLComponentDiagram",
         "name": "Operational Context",
         "description": [
-                ""
+                "This chapter shows the actors in the operational context. (Problem Space, System Level)"
         ],
         "list_order": 65535,
         "display_flags": 0,
@@ -402,7 +402,7 @@
                 "\n",
                 "Primary purpose of the MoD5G is to autonomously repair mechanical things."
         ],
-        "list_order": 25600,
+        "list_order": -50285488,
         "display_flags": 0,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
@@ -415,13 +415,6 @@
             "classifier_name": "Mouse Droid MoD5G",
             "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
             "uuid": "02af9286-df4a-4361-90fc-5d5d18ee2552"
-          },
-          {
-            "id": 5,
-            "display_flags": 0,
-            "classifier_name": "Commander",
-            "node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
-            "uuid": "d99eadcb-afcc-4a88-8c78-bd749df4c39d"
           },
           {
             "id": 6,
@@ -450,6 +443,13 @@
             "classifier_name": "Return to base location",
             "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
             "uuid": "0245c91e-1903-4eee-aa30-261f93f4f539"
+          },
+          {
+            "id": 432,
+            "display_flags": 0,
+            "classifier_name": "Operator",
+            "node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+            "uuid": "2ab43d88-281c-4439-a963-35d5e7799882"
           }
         ]
       }
@@ -3315,7 +3315,7 @@
         "name": "Risks",
         "description": [
                 "Limp Home is a critical functionality of the system.\n",
-                "Dis diagram lists the system elements that are needed for its execution."
+                "This diagram lists the system elements that are needed for its execution."
         ],
         "list_order": 360448,
         "display_flags": 0,
@@ -3380,7 +3380,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Failure Modes of Motors and Wheels",
         "description": [
-                "This section lists the risks caused by a) design decsisions and by b) not-yet-addressed requirements. (Solution Space, System Level)"
+                "This section lists the failure modes of motors and wheels and their effects."
         ],
         "list_order": -1,
         "display_flags": 0,
@@ -3428,7 +3428,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Failure Modes of Energy Cell",
         "description": [
-                ""
+                "This section lists the failure modes of the energy cell and their effects."
         ],
         "list_order": 32767,
         "display_flags": 0,
@@ -3468,7 +3468,7 @@
         "type": "UMLUseCaseDiagram",
         "name": "Failure Modes of Base Logic Board",
         "description": [
-                ""
+                "This section lists the failure modes of the base logic board and their effects."
         ],
         "list_order": 65535,
         "display_flags": 0,
@@ -3915,24 +3915,6 @@
     },
     {
       "classifier": {
-        "id": 5,
-        "main_type": 100,
-        "type": "Actor",
-        "name": "Commander",
-        "description": [
-                "The commander instructs the MoD5G on the mission to perform."
-        ],
-        "x_order": 6528480,
-        "y_order": -2102324848,
-        "list_order": -474887197,
-        "uuid": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 6,
         "main_type": 101,
         "type": "UseCase",
@@ -3941,15 +3923,15 @@
         "description": [
                 "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for one terrestrial day.\n",
                 "\n",
-                "- The commander programs a mission\n",
+                "- The operator programs a mission\n",
                 "- The mouse droid drives to the first location\n",
                 "- The mouse droid uses tools to remove a defective part\n",
                 "- The mouse droid installs a spare part\n",
                 "- Above steps are repeated for further mission objectives\n",
                 "- The mouse droid returns to its base location (see D0013#name)"
         ],
-        "x_order": -953711403,
-        "y_order": -2060243458,
+        "x_order": -976122123,
+        "y_order": 344363537,
         "list_order": 24715831,
         "uuid": "101916e8-de57-400a-bfa9-d97e8128a011",
         "features":
@@ -3985,8 +3967,8 @@
                 "- The mouse droid re-caclulates the route in case of new environment data\n",
                 "- The mouse droid reaches the target location"
         ],
-        "x_order": -953711403,
-        "y_order": -2029985588,
+        "x_order": -976122123,
+        "y_order": 533882926,
         "list_order": 34386514,
         "uuid": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "features":
@@ -4034,8 +4016,8 @@
                 "\n",
                 "(see D0014#name)"
         ],
-        "x_order": 676128467,
-        "y_order": -2029985588,
+        "x_order": 613340685,
+        "y_order": 533882926,
         "list_order": 34386514,
         "uuid": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "features":
@@ -4880,7 +4862,7 @@
         "type": "Block",
         "name": "Energy Cell",
         "description": [
-                "An energy cell provides power sufficient for one 1-day mission."
+                "An energy cell provides power sufficient for a 1-day mission."
         ],
         "x_order": -1044323579,
         "y_order": -1053978658,
@@ -5809,7 +5791,7 @@
         "stereotype": "usage",
         "name": "Operate Droid",
         "description": [
-                "An operator/commander instructs the mouse droid which mission to perform.\n",
+                "An operator instructs the mouse droid which mission to perform.\n",
                 "The logic of the mouse droid translates this mission into driving maneuvers and actions of the integrated tools."
         ],
         "x_order": 1173058080,
@@ -5895,8 +5877,8 @@
         "description": [
                 "This terminal programs the next mission for the MoD5G."
         ],
-        "x_order": 399546593,
-        "y_order": 478437817,
+        "x_order": 396257535,
+        "y_order": -474887197,
         "list_order": -596786423,
         "uuid": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
         "features":
@@ -5924,8 +5906,8 @@
         "description": [
                 "This terminal charges the energy cell of the MoD5G."
         ],
-        "x_order": 399546593,
-        "y_order": -539740535,
+        "x_order": 396257535,
+        "y_order": -2123063698,
         "list_order": -539740535,
         "uuid": "cd72d494-8752-47a5-b059-bf119e7a477b",
         "features":
@@ -5938,7 +5920,7 @@
             "description": [
                 ""
             ],
-            "list_order": 736858111,
+            "list_order": 295446375,
             "uuid": "d19c9719-423c-435d-a8c9-281dd9695bf3"
           }
         ]
@@ -5953,7 +5935,7 @@
         "description": [
                 "A thie booth, a mechanic analyzes the health of the MoD5G and replaces parts if damaged."
         ],
-        "x_order": 399546593,
+        "x_order": 396257535,
         "y_order": 514857488,
         "list_order": -501102168,
         "uuid": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
@@ -7926,8 +7908,8 @@
                 "\n",
                 "Note: Base location is defined at D0013#name."
         ],
-        "x_order": 676128467,
-        "y_order": -2060243458,
+        "x_order": 613340685,
+        "y_order": 344363537,
         "list_order": 30149766,
         "uuid": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "features":
@@ -8731,8 +8713,8 @@
         "description": [
                 ""
         ],
-        "x_order": 399546593,
-        "y_order": -1118328092,
+        "x_order": 396257535,
+        "y_order": -2125763320,
         "list_order": -1118328092,
         "uuid": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
         "features":
@@ -8749,8 +8731,8 @@
         "description": [
                 ""
         ],
-        "x_order": 334525572,
-        "y_order": -539740535,
+        "x_order": 321040564,
+        "y_order": -2123632307,
         "list_order": -503850824,
         "uuid": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
         "features":
@@ -8767,8 +8749,8 @@
         "description": [
                 ""
         ],
-        "x_order": 399546593,
-        "y_order": -474887197,
+        "x_order": 321040564,
+        "y_order": 334992964,
         "list_order": -486463803,
         "uuid": "dec68b5e-64ac-457b-ae00-53bba7645d85",
         "features":
@@ -8785,8 +8767,8 @@
         "description": [
                 ""
         ],
-        "x_order": 334525572,
-        "y_order": -474887197,
+        "x_order": 321040564,
+        "y_order": -2122468723,
         "list_order": -96285833,
         "uuid": "4bcddee7-ec53-4fbd-a706-e58c97047233",
         "features":
@@ -8902,23 +8884,6 @@
         "from_node": "055054b6-e39b-4c72-ac46-8043cedddd82",
         "to_node": "d19c9719-423c-435d-a8c9-281dd9695bf3",
         "uuid": "393d039d-3b15-437a-ba8a-dd68f6350d60"
-      }
-    },
-    {
-      "relationship": {
-        "id": 2,
-        "main_type": 200,
-        "type": "Association",
-        "name": "plan mission",
-        "description": [
-                "provide mission goals and high-level strategy"
-        ],
-        "list_order": 24748599,
-        "from_classifier_name": "Commander",
-        "to_classifier_name": "Perform a 1-day mission",
-        "from_node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
-        "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
-        "uuid": "028fa4b9-5001-4b0b-8a80-2b68b2a865ab"
       }
     },
     {
@@ -14456,6 +14421,23 @@
         "from_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
         "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
         "uuid": "3fc6f892-92f7-40e2-8775-76925530aeee"
+      }
+    },
+    {
+      "relationship": {
+        "id": 391,
+        "main_type": 200,
+        "type": "Association",
+        "name": "plan mission",
+        "description": [
+                ""
+        ],
+        "list_order": 34517586,
+        "from_classifier_name": "Operator",
+        "to_classifier_name": "Perform a 1-day mission",
+        "from_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "uuid": "990b368d-8155-489e-a02b-148227cb2fe4"
       }
     },
     {

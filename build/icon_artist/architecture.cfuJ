@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.47.0"
+    "generator_version": "1.63.3"
   }
   ,
   "views":
@@ -185,16 +185,44 @@
           {
             "id": 21,
             "display_flags": 0,
-            "classifier_name": "gui_icon",
+            "classifier_name": "gui_*_icon",
             "node": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
             "uuid": "fe009fe1-7162-48be-adef-ab5c12b448b5"
           },
           {
             "id": 22,
             "display_flags": 0,
-            "classifier_name": "icon",
+            "classifier_name": "icon/IconSource",
             "node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
             "uuid": "b24eab9d-1910-4347-90a3-2fec239828d0"
+          },
+          {
+            "id": 25,
+            "display_flags": 0,
+            "classifier_name": "stream_if",
+            "node": "82c36003-6122-4fa3-ade6-019d6c8dd456",
+            "uuid": "d11079f0-8b00-4d01-bf49-d4def4e98020"
+          },
+          {
+            "id": 26,
+            "display_flags": 0,
+            "classifier_name": "path_renderer",
+            "node": "c15582be-3da6-456e-9bf2-04fb341ebdd9",
+            "uuid": "c993d155-597c-4bbf-9470-1fd969ea940c"
+          },
+          {
+            "id": 27,
+            "display_flags": 0,
+            "classifier_name": "render_c",
+            "node": "4d6f4158-0049-4810-bb65-7e2ffeaea998",
+            "uuid": "1388f1b8-bf3c-498b-8be0-f277c77a866e"
+          },
+          {
+            "id": 28,
+            "display_flags": 0,
+            "classifier_name": "type_*_icon",
+            "node": "cb916bd3-7768-4a82-a3d9-04dcc3d47283",
+            "uuid": "66a8c3f1-8e7c-4aad-a91e-9060275dbfc9"
           }
         ]
       }
@@ -247,7 +275,7 @@
             "id": 23,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "gui_icon",
+            "classifier_name": "gui_*_icon",
             "node": "4488908d-db57-479c-882d-af210f5b2c01",
             "uuid": "77fa724a-8bb2-4750-8c08-1bf9308e47ed"
           }
@@ -424,8 +452,8 @@
     {
       "classifier": {
         "id": 7,
-        "main_type": 121,
-        "type": "Component",
+        "main_type": 124,
+        "type": "Package",
         "name": "render",
         "description": [
                 ""
@@ -442,8 +470,8 @@
     {
       "classifier": {
         "id": 8,
-        "main_type": 121,
-        "type": "Component",
+        "main_type": 124,
+        "type": "Package",
         "name": "model",
         "description": [
                 ""
@@ -489,14 +517,14 @@
     {
       "classifier": {
         "id": 10,
-        "main_type": 125,
-        "type": "Class",
+        "main_type": 124,
+        "type": "Package",
         "name": "icon_data",
         "description": [
                 "A set of icons, each can draw itself into a VecRenderer"
         ],
-        "x_order": 129583284,
-        "y_order": -8454772,
+        "x_order": 592300588,
+        "y_order": -783273135,
         "list_order": -623707360,
         "uuid": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
         "features":
@@ -607,12 +635,12 @@
         "id": 14,
         "main_type": 125,
         "type": "Class",
-        "name": "gui_icon",
+        "name": "gui_*_icon",
         "description": [
                 ""
         ],
-        "x_order": 129583284,
-        "y_order": -1301637532,
+        "x_order": 782050949,
+        "y_order": -403888540,
         "list_order": 31265024,
         "uuid": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
         "features":
@@ -636,12 +664,12 @@
         "id": 15,
         "main_type": 125,
         "type": "Class",
-        "name": "icon",
+        "name": "icon/IconSource",
         "description": [
                 ""
         ],
-        "x_order": 639870090,
-        "y_order": 124360990,
+        "x_order": 129583284,
+        "y_order": -1301637532,
         "list_order": 50186937,
         "uuid": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
         "features":
@@ -662,6 +690,78 @@
         "y_order": -755233055,
         "list_order": -755233055,
         "uuid": "7853ef51-4d9e-4ecc-9c64-31f73676c0a3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 17,
+        "main_type": 124,
+        "type": "Package",
+        "name": "stream_if",
+        "description": [
+                ""
+        ],
+        "x_order": -1038514097,
+        "y_order": -1712880322,
+        "list_order": -1712880322,
+        "uuid": "82c36003-6122-4fa3-ade6-019d6c8dd456",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 18,
+        "main_type": 125,
+        "type": "Class",
+        "name": "path_renderer",
+        "description": [
+                ""
+        ],
+        "x_order": 129583284,
+        "y_order": -8454772,
+        "list_order": 124360990,
+        "uuid": "c15582be-3da6-456e-9bf2-04fb341ebdd9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 19,
+        "main_type": 125,
+        "type": "Class",
+        "name": "render_c",
+        "description": [
+                ""
+        ],
+        "x_order": -1093589987,
+        "y_order": 124360990,
+        "list_order": 68454316,
+        "uuid": "4d6f4158-0049-4810-bb65-7e2ffeaea998",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 20,
+        "main_type": 125,
+        "type": "Class",
+        "name": "type_*_icon",
+        "description": [
+                ""
+        ],
+        "x_order": 782050949,
+        "y_order": -8454772,
+        "list_order": -142086207,
+        "uuid": "cb916bd3-7768-4a82-a3d9-04dcc3d47283",
         "features":
         [
         ]
@@ -799,7 +899,7 @@
         "id": 25,
         "main_type": 200,
         "type": "Association",
-        "name": "",
+        "name": "call",
         "description": [
                 ""
         ],
@@ -828,6 +928,40 @@
         "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
         "to_node": "7853ef51-4d9e-4ecc-9c64-31f73676c0a3",
         "uuid": "f7e89b0f-c851-47f5-b647-b34f6e8ee065"
+      }
+    },
+    {
+      "relationship": {
+        "id": 32,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1712880322,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "stream_if",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "82c36003-6122-4fa3-ade6-019d6c8dd456",
+        "uuid": "f466f060-28cf-4537-a9d5-5df6be0850f1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 34,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1248534434,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "icon_data",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
+        "uuid": "f7856cdb-bb6a-47cd-ba9f-242b01f930e7"
       }
     },
     {
@@ -936,53 +1070,19 @@
     },
     {
       "relationship": {
-        "id": 11,
+        "id": 36,
         "main_type": 300,
         "type": "Association",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": -623707360,
-        "from_classifier_name": "model",
-        "to_classifier_name": "icon_data",
-        "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
-        "to_node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
-        "uuid": "06443332-f08d-49c4-ac28-73fc2d41b608"
-      }
-    },
-    {
-      "relationship": {
-        "id": 14,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -542227524,
-        "from_classifier_name": "model",
-        "to_classifier_name": "geometry",
-        "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
-        "to_node": "18040e78-ed42-4c92-9742-e89b147cd8d5",
-        "uuid": "ff2b6781-e558-43b0-ae8f-e92314f45b16"
-      }
-    },
-    {
-      "relationship": {
-        "id": 26,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 31265024,
-        "from_classifier_name": "model",
-        "to_classifier_name": "gui_icon",
-        "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
-        "to_node": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
-        "uuid": "37216886-61b3-4ee5-a1b8-027154c7af96"
+        "list_order": 68454316,
+        "from_classifier_name": "render",
+        "to_classifier_name": "render_c",
+        "from_node": "ec0de729-88f4-429f-9b10-f0762a4183c7",
+        "to_node": "4d6f4158-0049-4810-bb65-7e2ffeaea998",
+        "uuid": "ef506241-a361-4643-8ae0-0a39ba600bcd"
       }
     },
     {
@@ -996,7 +1096,7 @@
         ],
         "list_order": 50186937,
         "from_classifier_name": "model",
-        "to_classifier_name": "icon",
+        "to_classifier_name": "icon/IconSource",
         "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
         "to_node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
         "uuid": "843f5c85-4c9d-455e-821e-bb1956e5dd11"
@@ -1080,19 +1180,53 @@
     },
     {
       "relationship": {
-        "id": 28,
+        "id": 37,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1248567202,
+        "from_classifier_name": "icon_data",
+        "to_classifier_name": "gui_*_icon",
+        "from_node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
+        "to_node": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
+        "uuid": "13505a02-9f0e-4fe4-afce-4758de704854"
+      }
+    },
+    {
+      "relationship": {
+        "id": 41,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -142086207,
+        "from_classifier_name": "icon_data",
+        "to_classifier_name": "type_*_icon",
+        "from_node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
+        "to_node": "cb916bd3-7768-4a82-a3d9-04dcc3d47283",
+        "uuid": "6ac86c8e-e14e-4cd8-85bb-9ec74c7b25d9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 39,
         "main_type": 211,
         "type": "Realization",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1248436130,
-        "from_classifier_name": "icon_data",
-        "to_classifier_name": "icon",
-        "from_node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
-        "to_node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
-        "uuid": "845156dc-3951-4898-bb7a-90228fb600a4"
+        "list_order": 1248632738,
+        "from_classifier_name": "render_svg",
+        "to_classifier_name": "path_renderer",
+        "from_node": "0da9c5cf-40ea-410c-8c08-845c2a08df79",
+        "to_node": "c15582be-3da6-456e-9bf2-04fb341ebdd9",
+        "uuid": "7fb20925-b060-412b-a520-11583b3f5287"
       }
     },
     {
@@ -1143,11 +1277,79 @@
                 ""
         ],
         "list_order": 1248468898,
-        "from_classifier_name": "gui_icon",
-        "to_classifier_name": "icon",
+        "from_classifier_name": "gui_*_icon",
+        "to_classifier_name": "icon/IconSource",
         "from_node": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
         "to_node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
         "uuid": "b97d26d1-0ad9-4acc-8304-df615179f009"
+      }
+    },
+    {
+      "relationship": {
+        "id": 33,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1248501666,
+        "from_classifier_name": "stream_if",
+        "to_classifier_name": "geometry",
+        "from_node": "82c36003-6122-4fa3-ade6-019d6c8dd456",
+        "to_node": "18040e78-ed42-4c92-9742-e89b147cd8d5",
+        "uuid": "de087f2f-7454-481f-9bc5-b203327197a2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 35,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 124360990,
+        "from_classifier_name": "stream_if",
+        "to_classifier_name": "path_renderer",
+        "from_node": "82c36003-6122-4fa3-ade6-019d6c8dd456",
+        "to_node": "c15582be-3da6-456e-9bf2-04fb341ebdd9",
+        "uuid": "e1d31f37-7617-413b-9554-8af819fad26d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 38,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1248599970,
+        "from_classifier_name": "render_c",
+        "to_classifier_name": "path_renderer",
+        "from_node": "4d6f4158-0049-4810-bb65-7e2ffeaea998",
+        "to_node": "c15582be-3da6-456e-9bf2-04fb341ebdd9",
+        "uuid": "caa448bb-b00e-4638-9d59-0ccb9f45a6c1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 42,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1248698274,
+        "from_classifier_name": "type_*_icon",
+        "to_classifier_name": "icon/IconSource",
+        "from_node": "cb916bd3-7768-4a82-a3d9-04dcc3d47283",
+        "to_node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
+        "uuid": "29bcdd15-3dfc-4ffc-a21a-583f32f5bd6a"
       }
     }
   ]

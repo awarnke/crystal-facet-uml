@@ -1,6 +1,7 @@
 //! This module provides a static data model to be rendered.
 
 pub mod gui_file_icon;
+pub mod gui_sketch_icon;
 pub mod gui_view_icon;
 pub mod shape;
 pub mod stereotype_icon;
