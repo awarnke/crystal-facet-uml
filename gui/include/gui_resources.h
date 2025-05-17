@@ -60,6 +60,13 @@ struct gui_resources_struct {
 
     GdkPixbuf *background_column;
 
+    GdkPixbuf *sketch_create;
+    GdkPixbuf *sketch_refine;
+    GdkPixbuf *sketch_relate;
+    GdkPixbuf *sketch_move_h;
+    GdkPixbuf *sketch_move_v;
+    GdkPixbuf *sketch_move_2d;
+
     GdkTexture *type_undef;
 
     GdkTexture *type_diag_activity;
@@ -414,6 +421,48 @@ static inline GdkTexture *gui_resources_get_search_search ( const gui_resources_
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_create as GdkPixbuf
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_sketch_create ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_refine as GdkPixbuf
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_sketch_refine ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_relate as GdkPixbuf
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_sketch_relate ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_move_h as GdkPixbuf
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_sketch_move_h ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_move_v as GdkPixbuf
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_sketch_move_v ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_move_2d as GdkPixbuf
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_sketch_move_2d ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_undef
