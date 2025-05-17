@@ -180,32 +180,32 @@ static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resourc
     return (*this_).background_column;
 }
 
-static inline GdkPixbuf *gui_resources_get_sketch_create ( const gui_resources_t *this_ )
+static inline GdkTexture *gui_resources_get_sketch_create ( const gui_resources_t *this_ )
 {
     return (*this_).sketch_create;
 }
 
-static inline GdkPixbuf *gui_resources_get_sketch_refine ( const gui_resources_t *this_ )
+static inline GdkTexture *gui_resources_get_sketch_refine ( const gui_resources_t *this_ )
 {
     return (*this_).sketch_refine;
 }
 
-static inline GdkPixbuf *gui_resources_get_sketch_relate ( const gui_resources_t *this_ )
+static inline GdkTexture *gui_resources_get_sketch_relate ( const gui_resources_t *this_ )
 {
     return (*this_).sketch_relate;
 }
 
-static inline GdkPixbuf *gui_resources_get_sketch_move_h ( const gui_resources_t *this_ )
+static inline GdkTexture *gui_resources_get_sketch_move_h ( const gui_resources_t *this_ )
 {
     return (*this_).sketch_move_h;
 }
 
-static inline GdkPixbuf *gui_resources_get_sketch_move_v ( const gui_resources_t *this_ )
+static inline GdkTexture *gui_resources_get_sketch_move_v ( const gui_resources_t *this_ )
 {
     return (*this_).sketch_move_v;
 }
 
-static inline GdkPixbuf *gui_resources_get_sketch_move_2d ( const gui_resources_t *this_ )
+static inline GdkTexture *gui_resources_get_sketch_move_2d ( const gui_resources_t *this_ )
 {
     return (*this_).sketch_move_2d;
 }

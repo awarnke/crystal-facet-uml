@@ -50,7 +50,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     gui_sketch_nav_tree_init( &((*this_).nav_tree), resources, &((*this_).texture_downloader) );
     gui_sketch_result_list_init( &((*this_).result_list), resources, &((*this_).texture_downloader) );
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
-    gui_sketch_card_painter_init( &((*this_).card_overlay) );
+    gui_sketch_card_painter_init( &((*this_).card_overlay), resources, &((*this_).texture_downloader) );
     gui_sketch_background_init( &((*this_).background), resources, &((*this_).texture_downloader) );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
 

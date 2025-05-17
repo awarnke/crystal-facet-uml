@@ -5,11 +5,17 @@
 #include "gui_gtk.h"
 #include <assert.h>
 
-void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_ )
+void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_,
+                                   gui_resources_t *resources,
+                                   gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();
+    assert( resources != NULL );
+    assert( texture_downloader != NULL );
 
     gui_sketch_style_init( &((*this_).sketch_style) );
+    (*this_).resources = resources;
+    (*this_).texture_downloader = texture_downloader;
 
     U8_TRACE_END();
 }
@@ -18,6 +24,8 @@ void gui_sketch_card_painter_destroy( gui_sketch_card_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).resources = NULL;
+    (*this_).texture_downloader = NULL;
     gui_sketch_style_destroy( &((*this_).sketch_style) );
 
     U8_TRACE_END();
@@ -176,17 +184,24 @@ void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t
             }
 
             /* draw boxes and arrow icons */
-            if ( draw_new_classifier )
-            {
-                gui_sketch_card_painter_private_draw_new_classifier( this_, to_x, to_y, cr );
-            }
             if ( draw_new_feature )
             {
-                gui_sketch_card_painter_private_draw_new_feature( this_, to_x, to_y, cr );
+                GdkTexture *icon = gui_resources_get_sketch_refine( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
             }
-            if ( draw_new_relationship )
+            else if ( draw_new_relationship )
             {
-                gui_sketch_card_painter_private_draw_new_relationship( this_, to_x, to_y, cr );
+                GdkTexture *icon = gui_resources_get_sketch_relate( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+            }
+            else if ( draw_new_classifier )
+            {
+                GdkTexture *icon = gui_resources_get_sketch_create( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+            }
+            else
+            {
+                /* draw nothing */
             }
         }
     }
@@ -274,100 +289,6 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
     cairo_move_to ( cr, to_x + DX[clock_direction][0], to_y + DY[clock_direction][0] );
     cairo_line_to ( cr, to_x, to_y );
     cairo_line_to ( cr, to_x + DX[clock_direction][1], to_y + DY[clock_direction][1] );
-    cairo_stroke (cr);
-
-    U8_TRACE_END();
-}
-
-void gui_sketch_card_painter_private_draw_new_classifier( gui_sketch_card_painter_t *this_,
-                                                          int32_t x,
-                                                         int32_t y,
-                                                         cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-    static const int32_t ICON_UNIT = 2;
-    static const int32_t DIST = 12;
-
-    /* star */
-    const int32_t star_center_x = x+(1)*ICON_UNIT;
-    const int32_t star_center_y = y-DIST-6*ICON_UNIT;
-    cairo_move_to ( cr, star_center_x, star_center_y-2*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x, star_center_y+2*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-
-    /* big box */
-    cairo_move_to ( cr, x-1*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST+3*ICON_UNIT );
-    cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST+3*ICON_UNIT );
-    cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST-2*ICON_UNIT );
-
-    cairo_stroke (cr);
-
-    U8_TRACE_END();
-}
-
-void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t *this_,
-                                                       int32_t x,
-                                                       int32_t y,
-                                                       cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-    static const int32_t ICON_UNIT = 2;
-    static const int32_t DIST = 12;
-
-    /* star */
-    const int32_t star_center_x = x+(-2)*ICON_UNIT;
-    const int32_t star_center_y = y-DIST-6*ICON_UNIT;
-    cairo_move_to ( cr, star_center_x, star_center_y-2*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x, star_center_y+2*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-
-    /* small box */
-    cairo_move_to ( cr, x-4*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-2*ICON_UNIT );
-    cairo_line_to ( cr, x-2*ICON_UNIT, y-DIST-2*ICON_UNIT );
-
-    cairo_stroke (cr);
-
-    U8_TRACE_END();
-}
-
-void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_painter_t *this_,
-                                                            int32_t x,
-                                                            int32_t y,
-                                                            cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-    static const int32_t ICON_UNIT = 2;
-    static const int32_t DIST = 12;
-
-    /* arrow */
-    cairo_move_to ( cr, x+2*ICON_UNIT, y-DIST-0*ICON_UNIT );
-    cairo_line_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x+5*ICON_UNIT, y-DIST-5*ICON_UNIT );
-    cairo_move_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x+7*ICON_UNIT, y-DIST-3*ICON_UNIT );
-
     cairo_stroke (cr);
 
     U8_TRACE_END();

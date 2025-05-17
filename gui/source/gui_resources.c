@@ -222,12 +222,12 @@ void gui_resources_init ( gui_resources_t *this_ )
 
     (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
 
-    (*this_).sketch_create = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_create ) );
-    (*this_).sketch_refine = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_refine ) );
-    (*this_).sketch_relate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_relate ) );
-    (*this_).sketch_move_h = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_move_h ) );
-    (*this_).sketch_move_v = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_move_v ) );
-    (*this_).sketch_move_2d = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_move_2d ) );
+    (*this_).sketch_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_create ) );
+    (*this_).sketch_refine = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_refine ) );
+    (*this_).sketch_relate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_relate ) );
+    (*this_).sketch_move_h = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_h ) );
+    (*this_).sketch_move_v = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_v ) );
+    (*this_).sketch_move_2d = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_2d ) );
 
     (*this_).type_undef = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_undef ) );
 

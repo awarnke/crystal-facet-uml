@@ -22,6 +22,9 @@
  */
 struct gui_sketch_card_painter_struct {
     gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing and calculating distances */
+
+    gui_resources_t *resources;  /*!< pointer to external resources */
+    gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
 
 typedef struct gui_sketch_card_painter_struct gui_sketch_card_painter_t;
@@ -30,8 +33,12 @@ typedef struct gui_sketch_card_painter_struct gui_sketch_card_painter_t;
  *  \brief initializes the sketch overlay
  *
  *  \param this_ pointer to own object attributes
+ *  \param resources pointer to a graphics resource provider
+ *  \param texture_downloader pointer to a gui_sketch_texture_t that can draw a texture onto a cairo drawing context
  */
-void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_ );
+void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_,
+                                   gui_resources_t *resources,
+                                   gui_sketch_texture_t *texture_downloader );
 
 /*!
  *  \brief destroys the sketch overlay
@@ -107,48 +114,6 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
                                                  int32_t to_y,
                                                  cairo_t *cr
                                                );
-
-/*!
- *  \brief draws an classifier icon as overlay for GUI_TOOL_CREATE mode to the cairo context
- *
- *  \param this_ pointer to own object attributes
- *  \param x x coordinate of the mouse pointer
- *  \param y y coordinate of the mouse pointer
- *  \param cr cairo drawing context
- */
-void gui_sketch_card_painter_private_draw_new_classifier( gui_sketch_card_painter_t *this_,
-                                                          int32_t x,
-                                                          int32_t y,
-                                                          cairo_t *cr
-                                                        );
-
-/*!
- *  \brief draws an feature icon as overlay for GUI_TOOL_CREATE mode to the cairo context
- *
- *  \param this_ pointer to own object attributes
- *  \param x x coordinate of the mouse pointer
- *  \param y y coordinate of the mouse pointer
- *  \param cr cairo drawing context
- */
-void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t *this_,
-                                                       int32_t x,
-                                                       int32_t y,
-                                                       cairo_t *cr
-                                                     );
-
-/*!
- *  \brief draws an relationship icon as overlay for GUI_TOOL_CREATE mode to the cairo context
- *
- *  \param this_ pointer to own object attributes
- *  \param x x coordinate of the mouse pointer
- *  \param y y coordinate of the mouse pointer
- *  \param cr cairo drawing context
- */
-void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_painter_t *this_,
-                                                            int32_t x,
-                                                            int32_t y,
-                                                            cairo_t *cr
-                                                          );
 
 /*!
  *  \brief draws overlay graphics to visualize the grid to the cairo context
