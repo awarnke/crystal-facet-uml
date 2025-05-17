@@ -209,7 +209,7 @@ static inline GdkPixbuf *gui_resources_get_sketch_move_2d ( const gui_resources_
 {
     return (*this_).sketch_move_2d;
 }
-git
+
 static inline GdkTexture *gui_resources_get_type_undef ( const gui_resources_t *this_ )
 {
     return (*this_).type_undef;
