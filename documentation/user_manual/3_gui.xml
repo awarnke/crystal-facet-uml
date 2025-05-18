@@ -440,15 +440,14 @@
                             to find diagrams containing elements without description.
                         </para>
                     </listitem>
-                </itemizedlist>
-            </para>
-            <para>
-
-                <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/search_search.svg" width="1cm"/></imageobject>
-                </inlinemediaobject>
-                <itemizedlist>
-                    <listitem><para>Starts a search and displays the results</para></listitem>
+                    <listitem>
+                        <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/search_search.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
+                            Starts a search and displays the results
+                        </para>
+                    </listitem>
                     <listitem>
                         <para>
                             In case the list of search results is too long, consider to export the model
@@ -543,9 +542,12 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/view_create.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
 
-                <orderedlist>
+                <itemizedlist>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_create.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To create a classifier, click at an empty space in the diagram.
                         </para>
                     </listitem>
@@ -557,20 +559,22 @@
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_refine.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To create a feature, click onto a classifier border (not on the classifier name).
                         </para>
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_relate.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To create a relationship, press on the source classifier or feature
                             and drag it to the destination classifier or feature.
                         </para>
                     </listitem>
-                </orderedlist>
-
-                <mediaobject>
-                    <imageobject><imagedata fileref="3_main_window_sketch_2_create.svg" width="10cm"/></imageobject>
-                </mediaobject>
+                </itemizedlist>
 
                 To modify existing elements, switch back to edit mode: <xref linkend="draw_edit"/>.
             </para>

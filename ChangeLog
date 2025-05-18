@@ -1,3 +1,10 @@
+crystal-facet-uml (1.64.0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * mouse cursor indicates options for creating objects with nicer icons
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 May 2025 10:30:00 +0100
+
 crystal-facet-uml (1.63.3) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

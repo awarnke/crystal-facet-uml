@@ -22,11 +22,18 @@ const ICON_VIEW_RECT: Rect = Rect {
     height: 16.0,
 };
 
-/// gray color
+/// white color
 static WHITE: geometry::Color = geometry::Color {
     red: 0xff,
     green: 0xff,
     blue: 0xff,
+};
+
+/// green color
+static GREEN: geometry::Color = geometry::Color {
+    red: 0xbf,
+    green: 0xff,
+    blue: 0xbf,
 };
 
 /// black color
@@ -50,53 +57,51 @@ static BLACK_PEN: geometry::Pen = geometry::Pen {
 ///
 pub fn generate_sketch_relate(out: &mut dyn PathRenderer) -> () {
     /* background */
-    let icon_segs: [geometry::DrawDirective; 14] = [
-        Move(Point { x: 18.0, y: 16.0 }),
-        Line(Point { x: 18.0, y: 6.5 }),
+    let icon_segs: [geometry::DrawDirective; 12] = [
+        Move(Point { x: 17.0, y: 16.0 }),
+        Line(Point { x: 17.0, y: 10.5 }),
         Curve(
-            Point { x: 18.0, y: 4.5 },
-            Point { x: 20.5, y: 2.0 },
-            Point { x: 22.5, y: 2.0 },
+            Point { x: 17.0, y: 7.5 },
+            Point { x: 19.5, y: 5.0 },
+            Point { x: 22.5, y: 5.0 },
         ),
-        Line(Point { x: 26.0, y: 2.0 }),
-        Line(Point { x: 26.0, y: 0.0 }),
-        Line(Point { x: 27.0, y: 0.0 }),
-        Line(Point { x: 32.0, y: 3.5 }),
-        Line(Point { x: 27.0, y: 7.0 }),
-        Line(Point { x: 26.0, y: 7.0 }),
-        Line(Point { x: 26.0, y: 5.0 }),
-        Line(Point { x: 23.5, y: 5.0 }),
+        Line(Point { x: 25.0, y: 5.0 }),
+        Line(Point { x: 25.0, y: 1.0 }),
+        Line(Point { x: 32.0, y: 6.5 }),
+        Line(Point { x: 25.0, y: 12.0 }),
+        Line(Point { x: 25.0, y: 8.0 }),
+        Line(Point { x: 23.5, y: 8.0 }),
         Curve(
-            Point { x: 22.0, y: 5.0 },
-            Point { x: 21.0, y: 6.5 },
-            Point { x: 21.0, y: 8.5 },
+            Point { x: 21.5, y: 8.0 },
+            Point { x: 20.0, y: 9.5 },
+            Point { x: 20.0, y: 12.5 },
         ),
-        Line(Point { x: 21.0, y: 16.0 }),
+        Line(Point { x: 20.0, y: 16.0 }),
         Close,
     ];
-    out.render_path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(GREEN));
 
     /* arrow */
     let icon_segs: [geometry::DrawDirective; 12] = [
-        Move(Point { x: 19.0, y: 15.0 }),
-        Line(Point { x: 19.0, y: 7.0 }),
+        Move(Point { x: 18.0, y: 15.0 }),
+        Line(Point { x: 18.0, y: 11.0 }),
         Curve(
-            Point { x: 19.0, y: 5.0 },
-            Point { x: 21.0, y: 3.0 },
-            Point { x: 23.0, y: 3.0 },
+            Point { x: 18.0, y: 8.0 },
+            Point { x: 20.0, y: 6.0 },
+            Point { x: 23.0, y: 6.0 },
         ),
-        Line(Point { x: 27.0, y: 3.0 }),
-        Line(Point { x: 27.0, y: 1.0 }),
-        Line(Point { x: 30.5, y: 3.5 }),
-        Line(Point { x: 27.0, y: 6.0 }),
-        Line(Point { x: 27.0, y: 4.0 }),
-        Line(Point { x: 23.5, y: 4.0 }),
+        Line(Point { x: 26.0, y: 6.0 }),
+        Line(Point { x: 26.0, y: 3.0 }),
+        Line(Point { x: 30.5, y: 6.5 }),
+        Line(Point { x: 26.0, y: 10.0 }),
+        Line(Point { x: 26.0, y: 7.0 }),
+        Line(Point { x: 23.5, y: 7.0 }),
         Curve(
-            Point { x: 21.5, y: 4.0 },
-            Point { x: 20.0, y: 5.5 },
-            Point { x: 20.0, y: 7.5 },
+            Point { x: 21.5, y: 7.0 },
+            Point { x: 19.0, y: 8.5 },
+            Point { x: 19.0, y: 11.5 },
         ),
-        Line(Point { x: 20.0, y: 15.0 }),
+        Line(Point { x: 19.0, y: 15.0 }),
         Close,
     ];
     out.render_path(&icon_segs, &None, &Some(BLACK));
@@ -113,26 +118,38 @@ pub fn generate_sketch_refine(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
         left: 0.0,
         top: 0.0,
-        width: 15.0,
+        width: 6.0,
         height: 16.0,
     });
-    out.render_path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(GREEN));
+
+    let icon_segs: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 6.0,
+        top: 7.0,
+        width: 9.0,
+        height: 9.0,
+    });
+    out.render_path(&icon_segs, &None, &Some(GREEN));
 
     /* item list and plus sign */
-    let icon_segs: [geometry::DrawDirective; 16] = [
-        Move(Point { x: 1.0, y: 1.5 }),
-        LineRel(Offset { dx: 2.0, dy: 0.0 }),
-        MoveRel(Offset { dx: 2.0, dy: 0.0 }),
-        LineRel(Offset { dx: 9.0, dy: 0.0 }),
-        Move(Point { x: 1.0, y: 3.5 }),
-        LineRel(Offset { dx: 2.0, dy: 0.0 }),
-        MoveRel(Offset { dx: 2.0, dy: 0.0 }),
-        LineRel(Offset { dx: 9.0, dy: 0.0 }),
-        Move(Point { x: 1.0, y: 5.5 }),
-        LineRel(Offset { dx: 2.0, dy: 0.0 }),
-        MoveRel(Offset { dx: 2.0, dy: 0.0 }),
-        LineRel(Offset { dx: 9.0, dy: 0.0 }),
-        Move(Point { x: 4.0, y: 11.5 }),
+    let icon_segs: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 1.5,
+        top: 1.5,
+        width: 3.0,
+        height: 3.0,
+    });
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+
+    let icon_segs: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 1.5,
+        top: 7.5,
+        width: 3.0,
+        height: 3.0,
+    });
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+
+    let icon_segs: [geometry::DrawDirective; 4] = [
+        Move(Point { x: 7.0, y: 11.5 }),
         LineRel(Offset { dx: 7.0, dy: 0.0 }),
         MoveRel(Offset { dx: -3.5, dy: -3.5 }),
         LineRel(Offset { dx: 0.0, dy: 7.0 }),
@@ -156,7 +173,7 @@ pub fn generate_sketch_create(out: &mut dyn PathRenderer) -> () {
         width: 15.0,
         height: 15.0,
     });
-    out.render_path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(GREEN));
 
     /* item list and plus sign */
     let icon_segs: [geometry::DrawDirective; 4] = [
