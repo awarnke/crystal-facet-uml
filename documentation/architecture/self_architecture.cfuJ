@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.63.3"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -7372,6 +7372,13 @@
             "classifier_name": "Database Terms",
             "node": "1a2e06a6-cb74-4a6c-9310-255ad0ce28f9",
             "uuid": "a05d2cff-5b88-4174-a9d8-1c142d197cf2"
+          },
+          {
+            "id": 952,
+            "display_flags": 0,
+            "classifier_name": "Model Terms",
+            "node": "5bff8630-031a-452d-beef-87410f1d7355",
+            "uuid": "a9ead8c6-9f14-4945-b964-a0afe051bc3f"
           }
         ]
       }
@@ -20059,6 +20066,24 @@
         "y_order": 479088393,
         "list_order": 479088393,
         "uuid": "c1f5a3a8-b04d-4fd8-bbb0-08f2750752b3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 580,
+        "main_type": 112,
+        "type": "InteractionUse",
+        "name": "Model Terms",
+        "description": [
+                "see D0117#name."
+        ],
+        "x_order": -699888703,
+        "y_order": 906949387,
+        "list_order": 906949387,
+        "uuid": "5bff8630-031a-452d-beef-87410f1d7355",
         "features":
         [
         ]

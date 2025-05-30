@@ -484,6 +484,9 @@
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_move_v.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To restructure the diagram tree, drag a diagram name to the new location.
                         </para>
                     </listitem>
@@ -519,6 +522,9 @@
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_move_2d.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.
                         </para>
                         <para>
@@ -553,8 +559,8 @@
                     </listitem>
                     <listitem>
                         <para>
-                            To create a child classifier, click into the white space of a classifier.
-                            (Alternatively, create a classifier (see 1) and a containment relationship (see 4).)
+                            To create a child classifier, click into the white space of the parent classifier.
+                            (Alternatively, create a classifier and a containment relationship.)
                         </para>
                     </listitem>
                     <listitem>

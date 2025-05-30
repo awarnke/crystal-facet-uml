@@ -186,11 +186,14 @@ void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t
             /* draw boxes and arrow icons */
             if ( draw_new_feature )
             {
+                assert( draw_new_relationship );
+                assert( ! draw_new_classifier );
                 GdkTexture *icon = gui_resources_get_sketch_refine( (*this_).resources );
                 gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
             }
             else if ( draw_new_relationship )
             {
+                assert( ! draw_new_classifier );
                 GdkTexture *icon = gui_resources_get_sketch_relate( (*this_).resources );
                 gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
             }
