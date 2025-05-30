@@ -74,6 +74,7 @@
 #include "unit/utf8stringview_test.h"
 #include "unit/utf8stringviewiterator_test.h"
 #include "unit/utf8stringviewtokenizer_test.h"
+#include "unit/utf8stringlines_test.h"
 #include "unit/utf8stream_writer_test.h"
 #include "integration/u8dir_file_test.h"
 #include "integration/universal_file_input_stream_test.h"
@@ -214,6 +215,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, utf8stringview_test_get_suite() );
         test_runner_run_suite( &runner, utf8stringviewiterator_test_get_suite() );
         test_runner_run_suite( &runner, utf8stringviewtokenizer_test_get_suite() );
+        test_runner_run_suite( &runner, utf8stringlines_test_get_suite() );
         test_runner_run_suite( &runner, utf8stream_writer_test_get_suite() );
 
         /* data */

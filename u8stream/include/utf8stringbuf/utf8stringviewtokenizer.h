@@ -109,7 +109,7 @@ static inline void utf8stringviewtokenizer_set_mode ( utf8stringviewtokenizer_t 
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param this_ pointer to own object attributes
  *  \param ascii an ascii character, which is an utf8 character in range 0x00..0x7f
- *  \return true if the character is a space and therefor not (part of) a token.
+ *  \return true if the character is a space and therefore not (part of) a token.
  */
 static inline bool utf8stringviewtokenizer_private_is_space( utf8stringviewtokenizer_t *this_, char ascii );
 

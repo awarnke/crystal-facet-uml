@@ -82,6 +82,16 @@ static inline utf8stringview_t utf8stringlines_next ( utf8stringlines_t *this_ )
  */
 static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *this_ );
 
+/*!
+ *  \brief checks if the provideed ascii code point is a space or a control character, this includes 0x7f
+ *
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ pointer to own object attributes
+ *  \param ascii an ascii character, which is an utf8 character in range 0x00..0x7f
+ *  \return true if the character is a space, including linebreak symbols.
+ */
+static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, char ascii );
+
 #ifdef __cplusplus
 }
 #endif
