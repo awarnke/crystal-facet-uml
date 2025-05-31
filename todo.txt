@@ -53,7 +53,6 @@ ideas for future versions:
   [ ] json export: determining if statemachine_context - is a good guess but not 100% correct
   [ ] add test case for opening non-cfuJ files
   [ ] in json format, types shall be unique and self-explaining instead of uml/sysml compliant
-  [ ] json import: add more linebreaks to descriptions
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"

@@ -2,6 +2,7 @@
 
 #include "json/json_writer.h"
 #include "entity/data_id.h"
+#include "utf8stringbuf/utf8stringlines.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <stdio.h>
@@ -11,17 +12,6 @@
 static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS[][2] = {
     { "\x09", "\\t" },  /* tab */
     { "\x0a", "\\n" },  /* newline */
-    { "\x0d", "\\r" },  /* return */
-    { "\x08", "\\b" },  /* backspace */
-    { "\x0c", "\\f" },  /* form feed */
-    { "\"", "\\\"" },  /* double quote */
-    { "\\", "\\\\" },  /* backslash*/
-    { NULL, NULL }  /* for JSON, see rfc7159 */
-};
-
-static const char * const JSON_WRITER_PRIVATE_ENCODE_JSON_STRING_ARRAYS[][2] = {
-    { "\x09", "\\t" },  /* tab */
-    { "\x0a", "\\n\",\n                \"" },  /* newline */
     { "\x0d", "\\r" },  /* return */
     { "\x08", "\\b" },  /* backspace */
     { "\x0c", "\\f" },  /* form feed */
@@ -48,7 +38,6 @@ void json_writer_init( json_writer_t *this_,
     universal_escaping_output_stream_init( &((*this_).esc_output), &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS, output );
 
     (*this_).json_string_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRINGS;
-    (*this_).json_stringlist_encode_table = &JSON_WRITER_PRIVATE_ENCODE_JSON_STRING_ARRAYS;
 
     U8_TRACE_END();
 }
@@ -98,6 +87,79 @@ u8_error_t json_writer_write_int ( json_writer_t *this_, int64_t number )
 
     U8_TRACE_END_ERR( result );
     return result;
+}
+
+u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
+                                                   unsigned int indent,
+                                                   utf8string_t *enc_name,
+                                                   utf8string_t *unenc_value,
+                                                   bool next_follows )
+{
+    U8_TRACE_BEGIN();
+    assert( 7 == JSON_WRITER_MAX_INDENT );
+    assert( indent <= JSON_WRITER_MAX_INDENT );
+    assert( NULL != enc_name );
+    assert( NULL != unenc_value );
+    u8_error_t write_err;
+
+    utf8stringview_t line_list;
+    utf8stringview_init_str( &line_list, unenc_value );
+    utf8stringlines_t line_iter;
+    utf8stringlines_init( &line_iter,
+                          &line_list,
+                          80 /*line_length*/
+                        );
+
+    write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT_QUOTE[2*(JSON_WRITER_MAX_INDENT-indent)]) );
+    write_err |= json_writer_write_plain( this_, enc_name );
+    write_err |= json_writer_write_plain( this_,
+                                          JSON_CONSTANTS_QUOTE
+                                          JSON_CONSTANTS_DEF
+                                          JSON_CONSTANTS_BEGIN_ARRAY
+                                          JSON_CONSTANTS_NL
+    );
+    while ( utf8stringlines_has_next( &line_iter ) )
+    {
+        utf8stringview_t line = utf8stringlines_next( &line_iter );
+        write_err |= json_writer_write_plain( this_,
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_TAB
+                                              JSON_CONSTANTS_QUOTE
+                                            );
+        write_err |= json_writer_write_string_view_enc( this_, &line );
+        if ( utf8stringlines_has_next( &line_iter ) )
+        {
+            write_err |= json_writer_write_plain( this_,
+                                                  JSON_CONSTANTS_QUOTE
+                                                  JSON_CONSTANTS_NEXT_NL
+                                                );
+        }
+        else
+        {
+            write_err |= json_writer_write_plain( this_,
+                                                  JSON_CONSTANTS_QUOTE
+                                                  JSON_CONSTANTS_NL
+                                                );
+        }
+    }
+    write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT[2*(JSON_WRITER_MAX_INDENT-indent)]) );
+    write_err |= json_writer_write_plain( this_,
+                                          next_follows
+                                          ? JSON_CONSTANTS_END_ARRAY JSON_CONSTANTS_NEXT_NL
+                                          : JSON_CONSTANTS_END_ARRAY JSON_CONSTANTS_NL
+                                        );
+
+    utf8stringlines_destroy( &line_iter );
+    utf8stringview_destroy( &line_list );
+
+    U8_TRACE_END_ERR( write_err );
+    return write_err;
 }
 
 
