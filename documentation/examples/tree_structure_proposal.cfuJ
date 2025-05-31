@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.62.1"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -1480,7 +1480,8 @@
                 "In the context of this project, system encompasses hardware and software:\n",
                 "The metal case of the product box, connectors, PCB, PMIC, SoC, RAM, Flash.\n",
                 "Included is also the software stored and running on this hardware.\n",
-                "    Excluded are  Power Cables, Cables to network, Peripherals, Monitor and Keyboard, Development Tools\n",
+                "    Excluded are  Power Cables, Cables to network, Peripherals, Monitor and ",
+                "Keyboard, Development Tools\n",
                 ""
         ],
         "x_order": -1373570481,
@@ -1500,7 +1501,8 @@
         "stereotype": "EXAMPLE",
         "name": "Software",
         "description": [
-                "In the context of this project, software refers to the program code running on the operation-hardware.\n",
+                "In the context of this project, software refers to the program code running on ",
+                "the operation-hardware.\n",
                 "    Excluded are build-tools, test-tools, version control system,\n",
                 "requirements-trace-tools, reporting tools, bug-tracking tools."
         ],
@@ -1521,10 +1523,12 @@
         "stereotype": "EXAMPLE",
         "name": "SW-Component",
         "description": [
-                "In the context of this project, a software component is a part of the software that\n",
+                "In the context of this project, a software component is a part of the software ",
+                "that\n",
                 "addresses a set of semantic coherent, functional requirements.\n",
                 "    It may address additional, cross-cutting, non-functional requirements.\n",
-                "Software components may be a part of other software components, but they cannot partly overlap.\n",
+                "Software components may be a part of other software components, but they cannot ",
+                "partly overlap.\n",
                 "\n",
                 ""
         ],
@@ -1548,7 +1552,8 @@
                 "In the context of this project, a software unit is a small piece of software:\n",
                 "It provides max 2 different interfaces to the outside. \n",
                 "It uses max 10 interfaces provided by other SW units.\n",
-                "    A SW unit can be fully tested by only using/mocking above mentioned interfaces."
+                "    A SW unit can be fully tested by only using/mocking above mentioned ",
+                "interfaces."
         ],
         "x_order": 2083436420,
         "y_order": 0,
@@ -1593,7 +1598,8 @@
                 "Scenario: Due to a power loss, the system clock is reset to an old date.\n",
                 "Risk: Due to the reset time, old security certificates are valid again\n",
                 "Effect: An attacker can authenicate using the old, unsecure certificate\n",
-                "Mitigation: The system persists the current date and does not allow to reset the clock to older dates."
+                "Mitigation: The system persists the current date and does not allow to reset ",
+                "the clock to older dates."
         ],
         "x_order": 2050606079,
         "y_order": 0,
@@ -1614,7 +1620,8 @@
         "description": [
                 "Background: Interface of module XZ was changed from pull to push mechanism.\n",
                 "The new interface is used by only 70% of clients, 30% use the old interface.\n",
-                "Effect on Maintenance: 1) Difficult to understand by developers, 2) Both interfaces need to be maintained"
+                "Effect on Maintenance: 1) Difficult to understand by developers, 2) Both ",
+                "interfaces need to be maintained"
         ],
         "x_order": 2086877861,
         "y_order": 0,
@@ -1657,7 +1664,8 @@
         "description": [
                 "Assumptions:\t\t- Format changes between SW versions are expected\n",
                 "Influencing Factors:\t- Persisted data shall be stored to git\n",
-                "Decision:\t\t\t- A-4 (Rationale: Fits for use case even if stored data exceeds RAM)"
+                "Decision:\t\t\t- A-4 (Rationale: Fits for use case even if stored data exceeds ",
+                "RAM)"
         ],
         "x_order": -337211247,
         "y_order": 0,
@@ -1677,7 +1685,8 @@
         "name": "A-1: XML",
         "description": [
                 "Pro:    - Human-Readable, Machine-Readable\n",
-                "Con:   - Complex error handling in SW: What to do if e.g. an entitiy is not defined?"
+                "Con:   - Complex error handling in SW: What to do if e.g. an entitiy is not ",
+                "defined?"
         ],
         "x_order": 2046055527,
         "y_order": 0,
@@ -1736,8 +1745,10 @@
         "stereotype": "EXAMPLE",
         "name": "A-4: SQLITE DB",
         "description": [
-                "Pro:    - Flexible, Searchable, RAM-efficient (no need to copy everything to RAM)\n",
-                "Con:   - not human-readable, Dependance on SQLITE, binary format is less suited for git-storage"
+                "Pro:    - Flexible, Searchable, RAM-efficient (no need to copy everything to ",
+                "RAM)\n",
+                "Con:   - not human-readable, Dependance on SQLITE, binary format is less suited ",
+                "for git-storage"
         ],
         "x_order": 2033674920,
         "y_order": 0,

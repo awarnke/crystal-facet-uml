@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.63.3"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -80,9 +80,12 @@
         "type": "UMLComponentDiagram",
         "name": "Product Quality",
         "description": [
-                "Some attributes of a product can be measured when analyzing the artifacts produced during development or when analyzing the finally created product. For example the existance of a firewall for security or the startup-time.\n",
+                "Some attributes of a product can be measured when analyzing the artifacts ",
+                "produced during development or when analyzing the finally created product. For ",
+                "example the existance of a firewall for security or the startup-time.\n",
                 "\n",
-                "Some attributes can only be measured when the product is operated - by analyzing e.g. user-feedback or maintenance-duration."
+                "Some attributes can only be measured when the product is operated - by ",
+                "analyzing e.g. user-feedback or maintenance-duration."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -290,7 +293,8 @@
                 "and their relationships.\n",
                 "(Domain Model)\n",
                 "\n",
-                "This picture is composed of ideas from 1) Software Architecture in Practice (C0165), 2) ISO/IEC 9126 (C0166), 3) arc42 (C0168), see D0023#name."
+                "This picture is composed of ideas from 1) Software Architecture in Practice ",
+                "(C0165), 2) ISO/IEC 9126 (C0166), 3) arc42 (C0168), see D0023#name."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -2022,7 +2026,8 @@
         "type": "UMLComponentDiagram",
         "name": "Quality Subcharacteristics IV",
         "description": [
-                "Subcharactersitics of quality in use according to ISO/IEC 25010:2011 (C0167), see D0023#name."
+                "Subcharactersitics of quality in use according to ISO/IEC 25010:2011 (C0167), ",
+                "see D0023#name."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -2534,7 +2539,9 @@
         "description": [
                 "This diagram lists methods to ensure quality.\n",
                 "\n",
-                "Outcome of these methods is either a list of requirements/actions that needs to be implemented or a risk list that needs to be assessed and mitigations defined.\n",
+                "Outcome of these methods is either a list of requirements/actions that needs to ",
+                "be implemented or a risk list that needs to be assessed and mitigations ",
+                "defined.\n",
                 ""
         ],
         "list_order": 32768,
@@ -2891,7 +2898,8 @@
         "type": "UMLActivityDiagram",
         "name": "Create a System Architecture",
         "description": [
-                "This diagram shows an approach to systems engineering, following ideas from several sources (see D0023#name)"
+                "This diagram shows an approach to systems engineering, following ideas from ",
+                "several sources (see D0023#name)"
         ],
         "list_order": 131072,
         "display_flags": 0,
@@ -3251,7 +3259,8 @@
         "name": "Process Quality",
         "description": [
                 "Process quality can be measured by analyzing the reports and other workproducts\n",
-                "that have  been created during different phases at engineering and during operation."
+                "that have  been created during different phases at engineering and during ",
+                "operation."
         ],
         "x_order": -142879108,
         "y_order": -2065596882,
@@ -4499,7 +4508,8 @@
                 "- Java solves this by prohibiting pointers,\n",
                 "- In C, check pointers and array indices before usage,\n",
                 "- In C++, use std::shared_ptr and std::vector,\n",
-                "- Kotlin even distinguishes between nullable references and non-null references."
+                "- Kotlin even distinguishes between nullable references and non-null ",
+                "references."
             ],
             "list_order": 133856,
             "uuid": "0ec22870-b1ca-4405-9a40-228c6fabdc0f"
@@ -4658,8 +4668,10 @@
         "description": [
                 "Software Requirements Refinement\n",
                 "\n",
-                "- refines system requirements so that only the parts that shall be implemented in software are addressed\n",
-                "- states requirements in a form that these are testable by software/qualification tests\n",
+                "- refines system requirements so that only the parts that shall be implemented ",
+                "in software are addressed\n",
+                "- states requirements in a form that these are testable by ",
+                "software/qualification tests\n",
                 "- distinguishes functional requirements\n",
                 "- quality/non-functional requirements\n",
                 "- non-requirements (what must not happen)\n",
@@ -4856,7 +4868,8 @@
             "type": "Property",
             "key": "duo-duplex",
             "description": [
-                "duo-duplex is a concept that consists of 4 independant parts: Two functions (F1 and F2) and two monitors (M1 and M2).\n",
+                "duo-duplex is a concept that consists of 4 independant parts: Two functions (F1 ",
+                "and F2) and two monitors (M1 and M2).\n",
                 "\n",
                 "- M1 supervises F1.\n",
                 "  In case F1 fails, M1 ensures that F1 has no effect.\n",
@@ -5447,7 +5460,8 @@
         "stereotype": "principle",
         "name": "Dependency Inversion",
         "description": [
-                "A software component shall depend on abstractions, not on concrete implementations"
+                "A software component shall depend on abstractions, not on concrete ",
+                "implementations"
         ],
         "x_order": -1759479307,
         "y_order": 355052341,
@@ -5534,7 +5548,8 @@
         "stereotype": "principle",
         "name": "Occam's razor",
         "description": [
-                "Among competing hypotheses, the one with the fewest assumptions should be selected"
+                "Among competing hypotheses, the one with the fewest assumptions should be ",
+                "selected"
         ],
         "x_order": -1759148316,
         "y_order": -2082043851,
@@ -6217,7 +6232,9 @@
         "type": "Class",
         "name": "FMEA (Technical Risk Management)",
         "description": [
-                "Failure Mode and Effects Analysis is performed later during project development and checks if the requirements defined by the HARA are met during the development process.\n",
+                "Failure Mode and Effects Analysis is performed later during project development ",
+                "and checks if the requirements defined by the HARA are met during the ",
+                "development process.\n",
                 "\n",
                 "see https://en.wikipedia.org/wiki/Failure_mode_and_effects_analysis"
         ],
@@ -6255,7 +6272,9 @@
         "type": "Class",
         "name": "Safety Case (Goal Structured Notation)",
         "description": [
-                "A safety case is an argument within a concrete project to provide evidence that a safety requirement is met in scope of the project context. This argument may be visualized using the Goal Structured Notation (GSN)"
+                "A safety case is an argument within a concrete project to provide evidence that ",
+                "a safety requirement is met in scope of the project context. This argument may ",
+                "be visualized using the Goal Structured Notation (GSN)"
         ],
         "x_order": -1695420068,
         "y_order": 0,
@@ -6279,7 +6298,8 @@
                 "\n",
                 "Examples: \n",
                 "1) Internet - DMZ - Intranet\n",
-                "2) OS-Process (user), root-acess, OS(kernel-space), Hypervisor, Trusted Execution Environment of SoC"
+                "2) OS-Process (user), root-acess, OS(kernel-space), Hypervisor, Trusted ",
+                "Execution Environment of SoC"
         ],
         "x_order": 2053615047,
         "y_order": -152206737,
@@ -6446,7 +6466,8 @@
         "type": "Activity",
         "name": "Define Attack Vectors",
         "description": [
-                "Define attack vectors, likelihoods and impacts. Based on this criticality, the mitigations are defined."
+                "Define attack vectors, likelihoods and impacts. Based on this criticality, the ",
+                "mitigations are defined."
         ],
         "x_order": 177477714,
         "y_order": -1785461819,
@@ -6879,7 +6900,8 @@
         "stereotype": "problem space",
         "name": "Quality Scenario",
         "description": [
-                "Scenarios as linking elements between a quality tree and requirements are described in arc42 (C0168), see D0023#name."
+                "Scenarios as linking elements between a quality tree and requirements are ",
+                "described in arc42 (C0168), see D0023#name."
         ],
         "x_order": -1163427608,
         "y_order": 493629064,
@@ -6915,9 +6937,11 @@
         "type": "Class",
         "name": "Topic/Group (Quality tree)",
         "description": [
-                "A quality tree starts at the quality characteristics as the main branches and ends at detailed quality requirements as the leaves.\n",
+                "A quality tree starts at the quality characteristics as the main branches and ",
+                "ends at detailed quality requirements as the leaves.\n",
                 "\n",
-                "The detailed quality requirements then may refer to quality scenarios where these are of significance."
+                "The detailed quality requirements then may refer to quality scenarios where ",
+                "these are of significance."
         ],
         "x_order": -1163427608,
         "y_order": -1616804599,
@@ -7384,7 +7408,8 @@
                 "\n",
                 "E.g. A list of search results may be truncated,\n",
                 "an undo-history may have limited size,\n",
-                "the number of simultaneously open windows may be limited by the available memory."
+                "the number of simultaneously open windows may be limited by the available ",
+                "memory."
         ],
         "x_order": -623799169,
         "y_order": -2115709988,
@@ -7403,7 +7428,8 @@
         "stereotype": "problem space",
         "name": "Reliable-Fkt Use-Case",
         "description": [
-                "This use case is a proxy for use cases that shall always work (available and reliable)."
+                "This use case is a proxy for use cases that shall always work (available and ",
+                "reliable)."
         ],
         "x_order": -2145848552,
         "y_order": -462859021,
@@ -7509,7 +7535,8 @@
         "stereotype": "verification",
         "name": "Quality Measure",
         "description": [
-                "A quality measure is a metric based on a set of observed values indicating the qualiity of an entity."
+                "A quality measure is a metric based on a set of observed values indicating the ",
+                "qualiity of an entity."
         ],
         "x_order": 1731455158,
         "y_order": -1628615434,
@@ -7651,7 +7678,8 @@
         "stereotype": "concept",
         "name": "Stacks",
         "description": [
-                "A stack deallocates memory only in the reverse order as it was allocated before.\n",
+                "A stack deallocates memory only in the reverse order as it was allocated ",
+                "before.\n",
                 "\n",
                 "Variant:\n",
                 "monotonic_buffer_resource(C++17)"
@@ -7716,7 +7744,8 @@
         "type": "Requirement",
         "name": "Access Memory immediately",
         "description": [
-                "For dedicated use cases and functions, the software shall access required memory within 1 usec."
+                "For dedicated use cases and functions, the software shall access required ",
+                "memory within 1 usec."
         ],
         "x_order": -2144790616,
         "y_order": -1642926881,
@@ -7734,7 +7763,8 @@
         "type": "Requirement",
         "name": "Sufficient Memory",
         "description": [
-                "For dedicated use cases and functions, the software shall be able to access sufficient memory."
+                "For dedicated use cases and functions, the software shall be able to access ",
+                "sufficient memory."
         ],
         "x_order": 1551085054,
         "y_order": -1642926881,
@@ -7752,7 +7782,8 @@
         "type": "Requirement",
         "name": "Delay Function",
         "description": [
-                "For dedicated use cases and functions, the software shall delay processing till enough memory is available."
+                "For dedicated use cases and functions, the software shall delay processing till ",
+                "enough memory is available."
         ],
         "x_order": -2144790616,
         "y_order": -2086842489,
@@ -7770,7 +7801,8 @@
         "type": "Requirement",
         "name": "Degrade Result",
         "description": [
-                "For dedicated use cases and functions, the software shall calculate a result where accuracy may degrade if memory is sparse."
+                "For dedicated use cases and functions, the software shall calculate a result ",
+                "where accuracy may degrade if memory is sparse."
         ],
         "x_order": 1551085054,
         "y_order": -2082237921,
@@ -7788,7 +7820,8 @@
         "type": "Requirement",
         "name": "Stop and Restart Later",
         "description": [
-                "In case of insufficient amount of memory, the software shall stop operating and be started again at a later point in time."
+                "In case of insufficient amount of memory, the software shall stop operating and ",
+                "be started again at a later point in time."
         ],
         "x_order": -2144790616,
         "y_order": -2082237921,
@@ -7825,7 +7858,9 @@
         "stereotype": "solution space",
         "name": "Design Pattern",
         "description": [
-                "Design patterns are design parts that are recurring in multiple different software designs. These typically answer one or more design questions and realize a couple of tactics to achieve product quality.\n",
+                "Design patterns are design parts that are recurring in multiple different ",
+                "software designs. These typically answer one or more design questions and ",
+                "realize a couple of tactics to achieve product quality.\n",
                 "\n",
                 "See: Software Architecture in Practice (C0165) in D0023#name."
         ],
@@ -8125,7 +8160,8 @@
         "type": "Component",
         "name": "TOCTOU",
         "description": [
-                "Design and use interfaces in a way that time of check (TOC) (e.g. access rights, existance, ...) is not different from the time of use (TOU)"
+                "Design and use interfaces in a way that time of check (TOC) (e.g. access ",
+                "rights, existance, ...) is not different from the time of use (TOU)"
         ],
         "x_order": -943496486,
         "y_order": -1125682583,
@@ -8705,7 +8741,8 @@
         "type": "Class",
         "name": "Plan of Artifacts",
         "description": [
-                "A plan document that defines workflow, tools, needed skills, review and approval processes."
+                "A plan document that defines workflow, tools, needed skills, review and ",
+                "approval processes."
         ],
         "x_order": -729493205,
         "y_order": 1373784640,
@@ -8842,7 +8879,8 @@
         "type": "Class",
         "name": "HARA (Hazard and Risk Analysis)",
         "description": [
-                "A HARA is performed at project start, classifies the risks and defines the requirements towards the development process."
+                "A HARA is performed at project start, classifies the risks and defines the ",
+                "requirements towards the development process."
         ],
         "x_order": 977816062,
         "y_order": 0,
@@ -8900,9 +8938,11 @@
         "type": "Component",
         "name": "ECC on memory",
         "description": [
-                "Error correction codes on volatile or persistant storages allow to correct one or two bitflips and to detect if more bitflips occurred.\n",
+                "Error correction codes on volatile or persistant storages allow to correct one ",
+                "or two bitflips and to detect if more bitflips occurred.\n",
                 "\n",
-                "Main causes for bitflips may be x-rays and cosmic rays; also reading nearby cells may cause bitflips in physically-close cells."
+                "Main causes for bitflips may be x-rays and cosmic rays; also reading nearby ",
+                "cells may cause bitflips in physically-close cells."
         ],
         "x_order": 2107520219,
         "y_order": -2137811601,
@@ -9108,7 +9148,8 @@
             "type": "Property",
             "key": "preventive",
             "description": [
-                "A preventive action is a solution in the design that mitigates or reduces the risk."
+                "A preventive action is a solution in the design that mitigates or reduces the ",
+                "risk."
             ],
             "list_order": 32768,
             "uuid": "699e8b5a-97ac-4999-a42e-ff6aeddce28b"

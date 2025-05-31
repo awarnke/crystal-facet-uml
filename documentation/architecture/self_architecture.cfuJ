@@ -54,7 +54,8 @@
         "type": "UMLUseCaseDiagram",
         "name": "Introduction and Goals",
         "description": [
-                "crystal-facet-uml creates sysml/uml diagrams to document system and software architecture.\n",
+                "crystal-facet-uml creates sysml/uml diagrams to document system and software ",
+                "architecture.\n",
                 "\n",
                 "As software architect, you create a set of diagrams describing \n",
                 "use-cases, requirements, structural views, behavioral and deployment views.\n",
@@ -1381,7 +1382,8 @@
         "type": "UMLActivityDiagram",
         "name": "Development View: Tools",
         "description": [
-                "This diagram shows the tools for designing, implementing, documenting, configuring and building the software."
+                "This diagram shows the tools for designing, implementing, documenting, ",
+                "configuring and building the software."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -3221,7 +3223,8 @@
         "type": "UMLActivityDiagram",
         "name": "pencil: Runtime View",
         "description": [
-                "This diagram shows the different entry points for layouting and rendering a diagram."
+                "This diagram shows the different entry points for layouting and rendering a ",
+                "diagram."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -3591,7 +3594,8 @@
         "type": "UMLInteractionDiagram/sequence",
         "name": "Layouting interaction",
         "description": [
-                "This diagram shows the responsability split between different sub-packages of pencil."
+                "This diagram shows the responsability split between different sub-packages of ",
+                "pencil."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -3652,9 +3656,11 @@
         "type": "UMLActivityDiagram",
         "name": "pencil: Crosscutting Concepts",
         "description": [
-                "Whenever one of several layouting solutions shall be selected, the following algorithm applies.\n",
+                "Whenever one of several layouting solutions shall be selected, the following ",
+                "algorithm applies.\n",
                 "\n",
-                "This algorithm is a greedy algorithm which is efficient and finds a local maximum but may miss the overall optimum layout solution."
+                "This algorithm is a greedy algorithm which is efficient and finds a local ",
+                "maximum but may miss the overall optimum layout solution."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -3725,7 +3731,9 @@
                 "The io module imports and exports data and diagrams.\n",
                 "Either the filesystem or the clipboard are source and destination.\n",
                 "\n",
-                "With the io_data_file_t class, this module provides a wrapper around a database of the data module that can import/export json files when opening/closing the database."
+                "With the io_data_file_t class, this module provides a wrapper around a database ",
+                "of the data module that can import/export json files when opening/closing the ",
+                "database."
         ],
         "list_order": 28160,
         "display_flags": 0,
@@ -4902,14 +4910,17 @@
                 "In general, all modules shall work in a multithreaded environment.\n",
                 "\n",
                 "- The gui module requires own data structures in order to be thread-safe\n",
-                "  and relies on the base libraries gtk, gdk which need to support multi-threading,\n",
+                "  and relies on the base libraries gtk, gdk which need to support ",
+                "multi-threading,\n",
                 "- The pencil module requires own data structures in order to be thread safe\n",
-                "  and relies on the base libraries pango and cairo which need to support multi-threading.\n",
+                "  and relies on the base libraries pango and cairo which need to support ",
+                "multi-threading.\n",
                 "- The data module does not need own data structures, \n",
                 "  it comes with a module-wide lock in the database_t structure.\n",
                 "- The ctrl module requires own data structures in order to be thread safe.\n",
                 "  This limitation would need to be changed if a multi-threaded gui\n",
-                "  should access a single ctrl and data instance. (Currently, the software is single-threaded)"
+                "  should access a single ctrl and data instance. (Currently, the software is ",
+                "single-threaded)"
         ],
         "list_order": 1073741823,
         "display_flags": 0,
@@ -5152,8 +5163,10 @@
         "type": "UMLActivityDiagram",
         "name": "Database File Recovery",
         "description": [
-                "crystal-facet-uml stores the data model in a json based file. While working on the model, it is kept in a temporary database.\n",
-                "These two locations can run out of sync. This diagram lists the causes and the mitigations."
+                "crystal-facet-uml stores the data model in a json based file. While working on ",
+                "the model, it is kept in a temporary database.\n",
+                "These two locations can run out of sync. This diagram lists the causes and the ",
+                "mitigations."
         ],
         "list_order": 1610612734,
         "display_flags": 0,
@@ -5918,7 +5931,8 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on persistent Data Storage",
         "description": [
-                "This diagram shows the design decision on the storage format of crystal-facet-uml."
+                "This diagram shows the design decision on the storage format of ",
+                "crystal-facet-uml."
         ],
         "list_order": -1610612736,
         "display_flags": 0,
@@ -5989,8 +6003,10 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on data structure of UML-Model",
         "description": [
-                "crystal-facet-uml uses a rather simple data structure to store te elements of the model.\n",
-                "Alternatives have been considered; this diagram shows the rationale for this decision."
+                "crystal-facet-uml uses a rather simple data structure to store te elements of ",
+                "the model.\n",
+                "Alternatives have been considered; this diagram shows the rationale for this ",
+                "decision."
         ],
         "list_order": -1073741824,
         "display_flags": 0,
@@ -6038,7 +6054,8 @@
         "type": "UMLClassDiagram",
         "name": "Details on simple data structure",
         "description": [
-                "This diagram shows the data structure of the 'Simple data structure' alternative."
+                "This diagram shows the data structure of the 'Simple data structure' ",
+                "alternative."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -6086,10 +6103,13 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on UML-Model selection for Diagram",
         "description": [
-                "crystal-facet-uml automatically and invisibly manages a lifeline object for each element in an interaction diagram.\n",
-                "Note: interaction diagrams are timing, sequence, collaboration and interaction overview diagrams.\n",
+                "crystal-facet-uml automatically and invisibly manages a lifeline object for ",
+                "each element in an interaction diagram.\n",
+                "Note: interaction diagrams are timing, sequence, collaboration and interaction ",
+                "overview diagrams.\n",
                 "\n",
-                "There are many alternatives to this approach; this diagram shows the rational for this decision."
+                "There are many alternatives to this approach; this diagram shows the rational ",
+                "for this decision."
         ],
         "list_order": 1073872895,
         "display_flags": 0,
@@ -6162,7 +6182,8 @@
         "stereotype": "reason_rejected",
         "name": "Details on Classifier or Relationship Sel.",
         "description": [
-                "Depending on the diagram type, selection of contents is done on classifiers or relationships."
+                "Depending on the diagram type, selection of contents is done on classifiers or ",
+                "relationships."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -6525,7 +6546,8 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on XMI export/model traverse",
         "description": [
-                "In order to export the data model to xmi format, all model elements in the database need to be processed - one after the other.\n",
+                "In order to export the data model to xmi format, all model elements in the ",
+                "database need to be processed - one after the other.\n",
                 "\n",
                 "This diagram shows the considered alternatives on the traversal order."
         ],
@@ -6968,7 +6990,8 @@
         "type": "UMLComponentDiagram",
         "name": "Quality Scenarios",
         "description": [
-                "This section shows scenarios which are of special importance for the quallity requirements stated in D0076#name."
+                "This section shows scenarios which are of special importance for the quallity ",
+                "requirements stated in D0076#name."
         ],
         "list_order": 1073889279,
         "display_flags": 0,
@@ -7335,7 +7358,8 @@
         "type": "CFUBoxDiagram",
         "name": "Glossary",
         "description": [
-                "The glossary explains used terms, abbreviations, and defines used stereotype icons."
+                "The glossary explains used terms, abbreviations, and defines used stereotype ",
+                "icons."
         ],
         "list_order": 360448,
         "display_flags": 0,
@@ -8085,7 +8109,8 @@
         "name": "ctrl",
         "description": [
                 "- provides write access to the database\n",
-                "- ensures consistency of the uml-model, e.g. no circular contains-relations, no lifelines if no corresponding diagramelement exists"
+                "- ensures consistency of the uml-model, e.g. no circular contains-relations, no ",
+                "lifelines if no corresponding diagramelement exists"
         ],
         "x_order": -387980182,
         "y_order": 1211078883,
@@ -8206,8 +8231,10 @@
         "type": "UseCase",
         "name": "Design consistent architecture diagrams",
         "description": [
-                "The main goal of crystal facet uml is to create a set of consistent uml diagrams.\n",
-                "Diagrams help in desinging a system that satisfies a set of requirements and decomposes the system into smaller entities.\n",
+                "The main goal of crystal facet uml is to create a set of consistent uml ",
+                "diagrams.\n",
+                "Diagrams help in desinging a system that satisfies a set of requirements and ",
+                "decomposes the system into smaller entities.\n",
                 "\n",
                 "Consistency encompasses:\n",
                 "- Consistent relations between objects\n",
@@ -8251,7 +8278,8 @@
         "stereotype": "req",
         "name": "Classifier is contained (child)",
         "description": [
-                "A Classifier can either exist stand-alone or be a sub-element of another classifier."
+                "A Classifier can either exist stand-alone or be a sub-element of another ",
+                "classifier."
         ],
         "x_order": 1792744286,
         "y_order": 1169441629,
@@ -8270,7 +8298,8 @@
         "stereotype": "req",
         "name": "Show multiple instances in same diagram",
         "description": [
-                "One and the same classifier can be shown in a diagram multiple times (either as class/type or as instance)"
+                "One and the same classifier can be shown in a diagram multiple times (either as ",
+                "class/type or as instance)"
         ],
         "x_order": -653388467,
         "y_order": 1169441629,
@@ -8289,7 +8318,8 @@
         "stereotype": "req",
         "name": "Classifier has relations",
         "description": [
-                "A classifier can have zero, one or many relations; these may be of one or of differnet types.\n",
+                "A classifier can have zero, one or many relations; these may be of one or of ",
+                "differnet types.\n",
                 "Circular dependencies may be forbidden if semantics undefined."
         ],
         "x_order": -534869157,
@@ -8310,7 +8340,8 @@
         "name": "Mark Classifiers",
         "description": [
                 "A classifier can be highlighted in one or several diagrams.\n",
-                "The highlighting may be different in different diagrams where the classifier is shown."
+                "The highlighting may be different in different diagrams where the classifier is ",
+                "shown."
         ],
         "x_order": -631194148,
         "y_order": 1169441629,
@@ -8370,7 +8401,8 @@
         "stereotype": "req",
         "name": "Classifier is implicit instance",
         "description": [
-                "A classifier can represent an anonymous (implicit) instance without defining an explicit instance relation"
+                "A classifier can represent an anonymous (implicit) instance without defining an ",
+                "explicit instance relation"
         ],
         "x_order": -534869157,
         "y_order": -269597515,
@@ -8427,7 +8459,8 @@
         "type": "Component",
         "name": "main/test",
         "description": [
-                "Each SW-moldule may have a subfolder named unittest which contains a set of tests; these\n",
+                "Each SW-moldule may have a subfolder named unittest which contains a set of ",
+                "tests; these\n",
                 "- test the SW-module"
         ],
         "x_order": -1024257705,
@@ -8447,7 +8480,8 @@
         "name": "u8log",
         "description": [
                 "- provides macros for event-logging and error-logging\n",
-                "- macros are typesafe (ts) so that e.g. integers are not acidentially passed to char* parameters\n",
+                "- macros are typesafe (ts) so that e.g. integers are not acidentially passed to ",
+                "char* parameters\n",
                 "\n",
                 "Logging functionality may be enabled even in RELEASE/NDEBUG code.\n",
                 "Logs must not contain confidential data:\n",
@@ -8535,7 +8569,8 @@
         "stereotype": "build",
         "name": "cmake",
         "description": [
-                "cmake and cpack are meta-build files which generate e.g. make files, rpm and deb package files."
+                "cmake and cpack are meta-build files which generate e.g. make files, rpm and ",
+                "deb package files."
         ],
         "x_order": 1150902738,
         "y_order": 158039922,
@@ -8597,7 +8632,8 @@
         "stereotype": "design",
         "name": "crystal facet uml",
         "description": [
-                "- drafts the software design (using this crystal facet uml tool which is under construction)"
+                "- drafts the software design (using this crystal facet uml tool which is under ",
+                "construction)"
         ],
         "x_order": -951234368,
         "y_order": -1092644639,
@@ -8725,7 +8761,8 @@
         "name": "pencil_diagram_maker",
         "description": [
                 "- coordinates layouting and drawing of a diagram\n",
-                "- implements a front controller pattern: all requests from gui to pencil are addressed to the pencil_diagram_maker"
+                "- implements a front controller pattern: all requests from gui to pencil are ",
+                "addressed to the pencil_diagram_maker"
         ],
         "x_order": -1429582248,
         "y_order": -1300007225,
@@ -8939,7 +8976,8 @@
             "description": [
                 "a revision identifier allows to check if the database contents has changed.\n",
                 "\n",
-                "This is interesting e.g. to decide if the current database contents is already stored to disk or not - or to decide if a cache is still up to date or not."
+                "This is interesting e.g. to decide if the current database contents is already ",
+                "stored to disk or not - or to decide if a cache is still up to date or not."
             ],
             "list_order": 81920,
             "uuid": "859a4a9e-2bea-4241-a6c8-d21ba5c811ae"
@@ -8985,7 +9023,8 @@
         "name": "data_database _writer",
         "description": [
                 "- writes changes to the database\n",
-                "- ensures low-level consistency of the database, e.g. all foreign keys point to existing rows (referential integrity)\n",
+                "- ensures low-level consistency of the database, e.g. all foreign keys point to ",
+                "existing rows (referential integrity)\n",
                 "- retrieves the old, changed values for the undo/redo list"
         ],
         "x_order": 151621692,
@@ -9243,7 +9282,8 @@
         "type": "Actor",
         "name": "SW Developer",
         "description": [
-                "A software developer understands the requirements and architecture; creates the software parts and performs reviews and unit-tests."
+                "A software developer understands the requirements and architecture; creates the ",
+                "software parts and performs reviews and unit-tests."
         ],
         "x_order": -2087357624,
         "y_order": 855965240,
@@ -9333,9 +9373,12 @@
         "type": "Class",
         "name": "Anomaly",
         "description": [
-                "An anomaly is a condition that is expected to not cause a malfunction but that should be logged to easier analyze issues.\n",
+                "An anomaly is a condition that is expected to not cause a malfunction but that ",
+                "should be logged to easier analyze issues.\n",
                 "\n",
-                "E.g. an unknown classifier type in the database may be caused by opening a database file that was created by a newer program version. This could lead to unexpected behavior but should not cause a malfunctioning of the program."
+                "E.g. an unknown classifier type in the database may be caused by opening a ",
+                "database file that was created by a newer program version. This could lead to ",
+                "unexpected behavior but should not cause a malfunctioning of the program."
         ],
         "x_order": -10181582,
         "y_order": -105165869,
@@ -9665,7 +9708,8 @@
                 "    pro: text based, fits to svn and git repositories\n",
                 "\n",
                 "    con: all data needs to fit to RAM\n",
-                "            (or complex data handling), difficult to read for humans, especially for relations between data entries."
+                "            (or complex data handling), difficult to read for humans, ",
+                "especially for relations between data entries."
         ],
         "x_order": -2026887226,
         "y_order": 1485726902,
@@ -9757,7 +9801,8 @@
                 "    pro: allows automatic merges by git and svn\n",
                 "\n",
                 "    con: all data needs to fit to RAM (or complex data handling), \n",
-                "             difficult to express complex data entries or relations between these"
+                "             difficult to express complex data entries or relations between ",
+                "these"
         ],
         "x_order": -1521538446,
         "y_order": 1485726902,
@@ -9939,7 +9984,9 @@
         "type": "Class",
         "name": "diagramelements",
         "description": [
-                "A diagramelement defined which classifier shall be shown in a diagram. In case that a lifeline (special type of feature) shall be shown, the focused_feature selects the right lifeline."
+                "A diagramelement defined which classifier shall be shown in a diagram. In case ",
+                "that a lifeline (special type of feature) shall be shown, the focused_feature ",
+                "selects the right lifeline."
         ],
         "x_order": -550118132,
         "y_order": 1294305851,
@@ -9982,7 +10029,8 @@
         "description": [
                 "Features describe properties or operations or ports of a classifier.\n",
                 "\n",
-                "A special type of feature is the lifeline which is represents the classifiers lifetime in a special interaction scenario."
+                "A special type of feature is the lifeline which is represents the classifiers ",
+                "lifetime in a special interaction scenario."
         ],
         "x_order": 1003370173,
         "y_order": 1398930124,
@@ -10057,7 +10105,8 @@
         "type": "Class",
         "name": "diagrams",
         "description": [
-                "Diagrams are the views onto the model. Each view shows a part of the model from a selected viewpoint (aspect to show)"
+                "Diagrams are the views onto the model. Each view shows a part of the model from ",
+                "a selected viewpoint (aspect to show)"
         ],
         "x_order": -550118132,
         "y_order": 1248221140,
@@ -10207,13 +10256,15 @@
         "stereotype": "reason_rejected",
         "name": "Copy of the OMG UML Defintion Model",
         "description": [
-                "The data is structured according to the UML meta model defined by OMG (see D0025#name).\n",
+                "The data is structured according to the UML meta model defined by OMG (see ",
+                "D0025#name).\n",
                 "\n",
                 "    pro: allows to model all UML elements\n",
                 "         easy conversion to XMI and back\n",
                 "\n",
                 "    con: the UML meta model is complex.\n",
-                "         Not suitable for a small diagram-drawing application like crystal-facet-uml."
+                "         Not suitable for a small diagram-drawing application like ",
+                "crystal-facet-uml."
         ],
         "x_order": 223452528,
         "y_order": 1884271437,
@@ -10238,9 +10289,11 @@
                 "\n",
                 "    pro: simple selection rule\n",
                 "\n",
-                "    con: Problematic for diagrams that show possible scenarios and alternatives (e.g sequences).\n",
+                "    con: Problematic for diagrams that show possible scenarios and alternatives ",
+                "(e.g sequences).\n",
                 "         This solution assumes that the model is invariant for all diagrams,\n",
-                "        therefore all diagrams showing examples/scenarios have to show own instances of classes,\n",
+                "        therefore all diagrams showing examples/scenarios have to show own ",
+                "instances of classes,\n",
                 "        not generic classes that are used in other diagrams."
         ],
         "x_order": -1428489671,
@@ -10282,9 +10335,12 @@
         "name": "Classifier or Relationship selection def. view",
         "description": [
                 "Diagram element records define what is shown in a diagram.\n",
-                "Depending on the diagram type, these select either classifiers or relationships and thereby determine what is visible.\n",
+                "Depending on the diagram type, these select either classifiers or relationships ",
+                "and thereby determine what is visible.\n",
                 "\n",
-                "    pro: similar concept for diagrams that show options/alternatives/scenarios (as the 4 types of interaction diagrams) to diagrams that show invariants (that are all other diagrams).\n",
+                "    pro: similar concept for diagrams that show options/alternatives/scenarios ",
+                "(as the 4 types of interaction diagrams) to diagrams that show invariants (that ",
+                "are all other diagrams).\n",
                 "\n",
                 "    con: Bigger extension to existing structure. \n",
                 "         Algorithm to distinguish used from unused elements gets complicated"
@@ -10326,12 +10382,15 @@
         "name": "Diagrams have filters",
         "description": [
                 "Either diagrams filter ranges of x-order/y-order/list-order\n",
-                "or diagrams filter by use-case (which requires that all relations belong to a use-case)\n",
+                "or diagrams filter by use-case (which requires that all relations belong to a ",
+                "use-case)\n",
                 "\n",
                 "    pro: small changes to existing database structure only\n",
                 "\n",
-                "    con: Unclear gui concept: How to make this filtering transparent to the user?\n",
-                "         How to copy/paste between diagrams? How to make invisible relationships visible?\n",
+                "    con: Unclear gui concept: How to make this filtering transparent to the ",
+                "user?\n",
+                "         How to copy/paste between diagrams? How to make invisible ",
+                "relationships visible?\n",
                 ""
         ],
         "x_order": -1428489671,
@@ -10373,7 +10432,8 @@
         "description": [
                 "- layouts multiple elements within the bounds of a diagram\n",
                 "- layouting is implemented in two steps:\n",
-                "    1) defining a grid which associates abstract ordering data to diagram coordinates and \n",
+                "    1) defining a grid which associates abstract ordering data to diagram ",
+                "coordinates and \n",
                 "    2) assigning elements to coordinates"
         ],
         "x_order": -1979281892,
@@ -11265,7 +11325,9 @@
         "description": [
                 "manages a list of actions to be undone or/and redone.\n",
                 "\n",
-                "When performing undo or redo operations, this is done directly to the data_database_writer_t, not to the ctrl_controller which could start an endless-recursion."
+                "When performing undo or redo operations, this is done directly to the ",
+                "data_database_writer_t, not to the ctrl_controller which could start an ",
+                "endless-recursion."
         ],
         "x_order": -327894016,
         "y_order": -398606019,
@@ -11305,7 +11367,8 @@
         "type": "Class",
         "name": "ctrl_ diagram_ trigger",
         "description": [
-                "ensures that application level policies on the model are adhered whenever diagrams are modified."
+                "ensures that application level policies on the model are adhered whenever ",
+                "diagrams are modified."
         ],
         "x_order": -394858420,
         "y_order": 1216656999,
@@ -11425,7 +11488,8 @@
         "type": "Class",
         "name": "ctrl_ classifier_ trigger",
         "description": [
-                "ensures that application level policies on the model are adhered whenever classifiers are modified."
+                "ensures that application level policies on the model are adhered whenever ",
+                "classifiers are modified."
         ],
         "x_order": -327894016,
         "y_order": 1216656999,
@@ -11439,7 +11503,8 @@
             "type": "Operation",
             "key": "post_delete_feature",
             "description": [
-                "after deleting a lifeline, all references from diagramelements have to be removed."
+                "after deleting a lifeline, all references from diagramelements have to be ",
+                "removed."
             ],
             "list_order": 32768,
             "uuid": "b16b1262-78f5-4344-aedf-a82e0ff2e43e"
@@ -11673,7 +11738,8 @@
         "stereotype": "context",
         "name": "Standards: UML, SysML",
         "description": [
-                "crystal-facet-uml shall draw diagrams that are compliant (subset) to UML or SysML."
+                "crystal-facet-uml shall draw diagrams that are compliant (subset) to UML or ",
+                "SysML."
         ],
         "x_order": -382272100,
         "y_order": 0,
@@ -11691,7 +11757,8 @@
         "type": "Requirement",
         "name": "Output: png, svg, pdf, ps, txt / db, html, xmi",
         "description": [
-                "crystal-facet-uml shall produce output suitable to be processed by text layout engines:\n",
+                "crystal-facet-uml shall produce output suitable to be processed by text layout ",
+                "engines:\n",
                 "- latex\n",
                 "- docbook\n",
                 "- doxygen\n",
@@ -11962,7 +12029,8 @@
         "name": "focused element (yellow corners)",
         "description": [
                 "a focused element is the one element to which input is directed:\n",
-                "- changing name, stereotype, type or description is done on the focused element."
+                "- changing name, stereotype, type or description is done on the focused ",
+                "element."
         ],
         "x_order": -968347466,
         "y_order": 0,
@@ -12017,9 +12085,12 @@
         "type": "Comment",
         "name": "logging",
         "description": [
-                "In RELEASE/NDEBUG mode, the program logs only important events, anomalies, warnings and errors.\n",
-                "These shall be as sparse as possible to not slow down performance or consume too much memory.\n",
-                "Goal of logging is to be able to help analyze or reproduce a bug that occurred during operation."
+                "In RELEASE/NDEBUG mode, the program logs only important events, anomalies, ",
+                "warnings and errors.\n",
+                "These shall be as sparse as possible to not slow down performance or consume ",
+                "too much memory.\n",
+                "Goal of logging is to be able to help analyze or reproduce a bug that occurred ",
+                "during operation."
         ],
         "x_order": 2045539668,
         "y_order": 0,
@@ -12038,7 +12109,8 @@
         "name": "tracing",
         "description": [
                 "In DEBUG mode, the program writes abundant information to a trace channel.\n",
-                "Goal of tracing is to follow the program flow as well as to visualize the data changes."
+                "Goal of tracing is to follow the program flow as well as to visualize the data ",
+                "changes."
         ],
         "x_order": 2050689097,
         "y_order": 0,
@@ -12056,9 +12128,12 @@
         "type": "Comment",
         "name": "assertions",
         "description": [
-                "- assert() from assert.h checks during runtime (in DEBUG-mode) if assumptions on the code are valid.\n",
-                "- TEST_ASSERT() checks during and after a test case execution if the test result fits the expectations.\n",
-                "- PROG_ASSERT() checks during a test case for errors in the testing environment."
+                "- assert() from assert.h checks during runtime (in DEBUG-mode) if assumptions ",
+                "on the code are valid.\n",
+                "- TEST_ASSERT() checks during and after a test case execution if the test ",
+                "result fits the expectations.\n",
+                "- PROG_ASSERT() checks during a test case for errors in the testing ",
+                "environment."
         ],
         "x_order": 2063930485,
         "y_order": 0,
@@ -12142,10 +12217,12 @@
         "type": "Comment",
         "name": "Static Memory Allocation",
         "description": [
-                "Except for the libraries gtk and sqlite (sqlite is configured for dynamic allocations),\n",
+                "Except for the libraries gtk and sqlite (sqlite is configured for dynamic ",
+                "allocations),\n",
                 "crystal-facet-uml uses fixed-size arrays and strings for all displayed data.\n",
                 "\n",
-                "One could change this - but for most use cases, valid upper memory limits can be stated."
+                "One could change this - but for most use cases, valid upper memory limits can ",
+                "be stated."
         ],
         "x_order": 792757196,
         "y_order": 0,
@@ -12489,7 +12566,8 @@
             "description": [
                 "symbol_box defines the location of the symbol.\n",
                 "\n",
-                "Symbol is either the icon above the label or the outer border if the label is contained with the outer border line."
+                "Symbol is either the icon above the label or the outer border if the label is ",
+                "contained with the outer border line."
             ],
             "list_order": 163840,
             "uuid": "7d042899-fe73-48d4-8fdc-fb19af86a0d5"
@@ -13495,7 +13573,8 @@
                 "that the bits define the error cause/type,\n",
                 "that two errors can be merged into one error code\n",
                 "using a bitwise or.\n",
-                "Error codes are not netative because this makes evaluation of the bitmask difficult to understand."
+                "Error codes are not netative because this makes evaluation of the bitmask ",
+                "difficult to understand."
         ],
         "x_order": -1326332541,
         "y_order": -1910474192,
@@ -14576,9 +14655,11 @@
         "type": "Component",
         "name": "io_export_xxx_traversal",
         "description": [
-                "io_export_xxx_traversal implements several strategies to traverse the model and diagram trees.\n",
+                "io_export_xxx_traversal implements several strategies to traverse the model and ",
+                "diagram trees.\n",
                 "\n",
-                "For each found element during the model or diagram traversal, an io_element_writer is called."
+                "For each found element during the model or diagram traversal, an ",
+                "io_element_writer is called."
         ],
         "x_order": -1202184480,
         "y_order": -1937690613,
@@ -14795,7 +14876,8 @@
         "name": "Create an new \"Interaction\" Classifier",
         "description": [
                 "This solution is in line with the UML specification:\n",
-                "An interaction classifier encapsulates all messages belonging to this interaction.\n",
+                "An interaction classifier encapsulates all messages belonging to this ",
+                "interaction.\n",
                 "The interaction classifier can be referenced from multiple diagrams."
         ],
         "x_order": 1535531803,
@@ -14817,7 +14899,8 @@
         "description": [
                 "Traverse the corresponding diagram\n",
                 "when encountering lifelines.\n",
-                "This solution sticks to what the current gui can manage in an understandable way for the user."
+                "This solution sticks to what the current gui can manage in an understandable ",
+                "way for the user."
         ],
         "x_order": 1535531803,
         "y_order": 660548671,
@@ -15730,7 +15813,8 @@
         "name": "human readable foreign keys",
         "description": [
                 "Foreign keys shall be human readable.\n",
-                "Therefore not only uuids but also the classifier names are stated in the json files."
+                "Therefore not only uuids but also the classifier names are stated in the json ",
+                "files."
         ],
         "x_order": -1156768670,
         "y_order": -2069399419,
@@ -15970,7 +16054,8 @@
         "type": "Artifact",
         "name": "Database File",
         "description": [
-                "Data models of crystal-facet-uml are stored to and read from sqlite database files."
+                "Data models of crystal-facet-uml are stored to and read from sqlite database ",
+                "files."
         ],
         "x_order": 592378170,
         "y_order": -1973868655,
@@ -16024,7 +16109,8 @@
         "type": "Artifact",
         "name": "Other export formats",
         "description": [
-                "Data models of crystal-facet-uml are exported as rendered images and/or text-based data files."
+                "Data models of crystal-facet-uml are exported as rendered images and/or ",
+                "text-based data files."
         ],
         "x_order": -550118132,
         "y_order": -872428942,
@@ -16525,7 +16611,9 @@
                 "  delete missing elements\n",
                 "- 3-Way merge\n",
                 "\n",
-                "The unsupported use cases have to be solved by external scripts if needed. A possible solution may be to a) export all elements, b) modify the export, c) import all elements to a new, empty database.\n",
+                "The unsupported use cases have to be solved by external scripts if needed. A ",
+                "possible solution may be to a) export all elements, b) modify the export, c) ",
+                "import all elements to a new, empty database.\n",
                 ""
         ],
         "x_order": -1169967405,
@@ -16544,7 +16632,8 @@
         "type": "Package",
         "name": "u8arena",
         "description": [
-                "This package provides functions to provide dynamic-sized data structures which are allocated within a fixed-size memory region."
+                "This package provides functions to provide dynamic-sized data structures which ",
+                "are allocated within a fixed-size memory region."
         ],
         "x_order": -1477389701,
         "y_order": -811146257,
@@ -16580,7 +16669,8 @@
         "type": "Package",
         "name": "u8list",
         "description": [
-                "This package is a collection of functinos to handle variable-length lists in statically allocated fixed-sized buffers."
+                "This package is a collection of functinos to handle variable-length lists in ",
+                "statically allocated fixed-sized buffers."
         ],
         "x_order": -1477389701,
         "y_order": -1546677314,
@@ -16598,7 +16688,8 @@
         "type": "Package",
         "name": "utf8stream",
         "description": [
-                "This package provides readers and writers that stream unicode code points instead of bytes.\n",
+                "This package provides readers and writers that stream unicode code points ",
+                "instead of bytes.\n",
                 "\n",
                 "Also conversion functions are provides to write decimals and hexadecimals."
         ],
@@ -16733,7 +16824,9 @@
         "type": "Requirement",
         "name": "Constant order for unchanged parts",
         "description": [
-                "When merging two text files that have parts in common (the unchanged parts), then it is important that these unchanged parts occur in the same order in both files."
+                "When merging two text files that have parts in common (the unchanged parts), ",
+                "then it is important that these unchanged parts occur in the same order in both ",
+                "files."
         ],
         "x_order": -696112420,
         "y_order": -2069399419,
@@ -16913,7 +17006,8 @@
         "stereotype": "pointer_t",
         "name": "utf8:stringbuf",
         "description": [
-                "The methods of this stringbuf take an instance as parameter, which is kind of a pointer to the underlying character array."
+                "The methods of this stringbuf take an instance as parameter, which is kind of a ",
+                "pointer to the underlying character array."
         ],
         "x_order": -639141166,
         "y_order": -1632637303,
@@ -17372,7 +17466,8 @@
         "type": "Stereotype",
         "name": "reason_decision",
         "description": [
-                "<path d=\"m 8,12 l -4,7 1,1 6,0 1,-1 -4,-7 l 8,-4 9,0 l -4,7 1,1 6,0 1,-1 -4,-7 \" /><path d=\"m 15,5 l 1,3 m 0,2 l 0,17 \" />"
+                "<path d=\"m 8,12 l -4,7 1,1 6,0 1,-1 -4,-7 l 8,-4 9,0 l -4,7 1,1 6,0 1,-1 -4,-7 ",
+                "\" /><path d=\"m 15,5 l 1,3 m 0,2 l 0,17 \" />"
         ],
         "x_order": -1266402339,
         "y_order": 1634615090,
@@ -17409,8 +17504,10 @@
         "type": "Stereotype",
         "name": "reason_chosen",
         "description": [
-                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#00aa00\" d=\"m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s\n",
-                "-3.5625,8 -8,8 s -8,-3.5625 -8,-8 \" /><path stroke=\"#00aa00\" d=\"m 11,17 l 10,0 m -5,-5 l 0,10 \" />"
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#00aa00\" d=\"m 8,17 c 0,-4.4375 ",
+                "3.5625,-8 8,-8 s 8,3.5625 8,8 s\n",
+                "-3.5625,8 -8,8 s -8,-3.5625 -8,-8 \" /><path stroke=\"#00aa00\" d=\"m 11,17 l 10,0 ",
+                "m -5,-5 l 0,10 \" />"
         ],
         "x_order": -1266402339,
         "y_order": 1639960664,
@@ -17466,8 +17563,10 @@
         "type": "Stereotype",
         "name": "reason_rejected",
         "description": [
-                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#cc0000\" d=\"m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s\n",
-                "-3.5625,8 -8,8 s -8,-3.5625 -8,-8 \" /><path stroke=\"#cc0000\" d=\"m 11,17 l 10,0 \" />"
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#cc0000\" d=\"m 8,17 c 0,-4.4375 ",
+                "3.5625,-8 8,-8 s 8,3.5625 8,8 s\n",
+                "-3.5625,8 -8,8 s -8,-3.5625 -8,-8 \" /><path stroke=\"#cc0000\" d=\"m 11,17 l 10,0 ",
+                "\" />"
         ],
         "x_order": -1266402339,
         "y_order": 1639979556,
@@ -17489,14 +17588,17 @@
                 "Diagramelements define which classifiers are visible in which diagram.\n",
                 "All features of a visible classifier are shown.\n",
                 "All relationships are shown that have visible classifiers at both ends.\n",
-                "In contrast to D0024#name, this solution links lifelines (which are  features) to both: their classifier and also to their interaction.\n",
+                "In contrast to D0024#name, this solution links lifelines (which are  features) ",
+                "to both: their classifier and also to their interaction.\n",
                 "\n",
                 "    pro: similar simplicity as D0024#name.\n",
                 "         The model encodes all information even when ignoring the view classes.\n",
                 "         The solution is closer to the UML proposal\n",
-                "         The xmi export would not require exceptional handlings for interactions\n",
+                "         The xmi export would not require exceptional handlings for ",
+                "interactions\n",
                 "\n",
-                "    con: Idea for this solution popped up after D0024#name was already implemented.\n",
+                "    con: Idea for this solution popped up after D0024#name was already ",
+                "implemented.\n",
                 "         There would be 1 more implicit object to manage automatically\n",
                 "         More error cases have to be handled"
         ],
@@ -17705,11 +17807,14 @@
         "stereotype": "reason_argument",
         "name": "To Realize",
         "description": [
-                "Todays solution D0024#name stores interaction information in diagramelements (as focused feature).\n",
+                "Todays solution D0024#name stores interaction information in diagramelements ",
+                "(as focused feature).\n",
                 "\n",
-                "It would be cleaner if the model would be fully specified without diagrams and diagramelements.\n",
+                "It would be cleaner if the model would be fully specified without diagrams and ",
+                "diagramelements.\n",
                 "\n",
-                "But the user interaction use-case requires todays database fields to be present anyhow."
+                "But the user interaction use-case requires todays database fields to be present ",
+                "anyhow."
         ],
         "x_order": -149149852,
         "y_order": 627781871,
@@ -17861,7 +17966,8 @@
         "type": "Class",
         "name": "consis tency_ lifeline",
         "description": [
-                "This class cares about creating and deleting lifelines depending on the surrounding diagram type."
+                "This class cares about creating and deleting lifelines depending on the ",
+                "surrounding diagram type."
         ],
         "x_order": 250096395,
         "y_order": 1216656999,
@@ -18011,8 +18117,10 @@
                 "Lifelines shall not exist for any element in non-interaction diagrams.\n",
                 "\n",
                 "Rationale:\n",
-                "Lifelines shall be managed (created/deleted) by crystal-facet-uml automatically.\n",
-                "Lifelines are visible only in interaction diagrams, so they have to be deleted in non-interaction diagrams.\n",
+                "Lifelines shall be managed (created/deleted) by crystal-facet-uml ",
+                "automatically.\n",
+                "Lifelines are visible only in interaction diagrams, so they have to be deleted ",
+                "in non-interaction diagrams.\n",
                 ""
         ],
         "x_order": 759784271,
@@ -18051,7 +18159,8 @@
         "stereotype": "spec",
         "name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
         "description": [
-                "When there is no diagram showing a relationship, this relationship shall not exist."
+                "When there is no diagram showing a relationship, this relationship shall not ",
+                "exist."
         ],
         "x_order": 759784271,
         "y_order": -1882340401,
@@ -18155,7 +18264,8 @@
         "type": "Class",
         "name": "u8_fault_inject",
         "description": [
-                "Provides some macros that allow test cases to inject faults into the code under test."
+                "Provides some macros that allow test cases to inject faults into the code under ",
+                "test."
         ],
         "x_order": -237850281,
         "y_order": 764130239,
@@ -18592,7 +18702,8 @@
             "type": "Operation",
             "key": "warn-on-overwite()",
             "description": [
-                "If the data file to be written changed while having the focus, the user shall be warned on overwriting."
+                "If the data file to be written changed while having the focus, the user shall ",
+                "be warned on overwriting."
             ],
             "list_order": 802343181,
             "uuid": "5dce57e1-3f7b-427c-8140-cfbaac559b01"
@@ -18626,7 +18737,8 @@
         "stereotype": "not-yet-implemented",
         "name": "newer?",
         "description": [
-                "If the .tmp-cfu file has the right checksum of the data file stored, then the .tmp-cfu file is more actual (newer).\n",
+                "If the .tmp-cfu file has the right checksum of the data file stored, then the ",
+                ".tmp-cfu file is more actual (newer).\n",
                 "Otherwise the .cfuJ file is modified and shall not be overwritten."
         ],
         "x_order": -1381270029,
@@ -18718,7 +18830,8 @@
         "stereotype": "not-yet-implemented",
         "name": "checksum",
         "description": [
-                "If the checksum of the data file changed during focus lost, the data file shall be reloaded."
+                "If the checksum of the data file changed during focus lost, the data file shall ",
+                "be reloaded."
         ],
         "x_order": -773287769,
         "y_order": -1154323452,
@@ -18831,38 +18944,49 @@
         "name": "cfu",
         "description": [
                 "    <path\n",
-                "       d=\"m 21.351332,1051.6633 4.69059,-25.2011 -5.371482,-5.0705 -5.749755,-0.6812 -5.9767186,1.665 -3.9340424,3.6326 -1.5130934,7.1138 z\" />\n",
+                "       d=\"m 21.351332,1051.6633 4.69059,-25.2011 -5.371482,-5.0705 ",
+                "-5.749755,-0.6812 -5.9767186,1.665 -3.9340424,3.6326 -1.5130934,7.1138 z\" />\n",
                 "    <path\n",
-                "       d=\"m 3.4823316,1033.0901 17.8703884,18.5152 4.701708,-25.1648 -5.307278,-4.9458 -5.79026,-0.7744 -6.0397606,1.6505 -3.9057674,3.5625 z\" />\n",
+                "       d=\"m 3.4823316,1033.0901 17.8703884,18.5152 4.701708,-25.1648 ",
+                "-5.307278,-4.9458 -5.79026,-0.7744 -6.0397606,1.6505 -3.9057674,3.5625 z\" />\n",
                 "    <path\n",
-                "       d=\"m 20.943668,1021.5214 -2.971832,3.9903 -7.58974,2.2221 -5.3602594,-1.731\"/>\n",
+                "       d=\"m 20.943668,1021.5214 -2.971832,3.9903 -7.58974,2.2221 ",
+                "-5.3602594,-1.731\"/>\n",
                 "    <path\n",
-                "       d=\"m 3.4182675,1033.1062 7.1708205,3.1688 11.315614,-3.1943 4.048696,-6.6135\" />\n",
+                "       d=\"m 3.4182675,1033.1062 7.1708205,3.1688 11.315614,-3.1943 ",
+                "4.048696,-6.6135\" />\n",
                 "    <path\n",
                 "       d=\"m 10.260116,1027.7444 0.424461,8.4823 10.737141,15.4642\" />\n",
                 "    <path\n",
                 "       d=\"m 17.764844,1025.3728 4.155874,7.783 -0.567998,18.3962\"/>\n",
                 "    <path\n",
                 "       fill=\"#00ac7e\" stroke=\"none\"\n",
-                "       d=\"m 3.9583316,1032.8667 1.2752037,-6.3742 3.2730231,1.0695 -1.530244,3.1657 0.680109,1.8395 -1.147684,1.4546 z\" />\n",
+                "       d=\"m 3.9583316,1032.8667 1.2752037,-6.3742 3.2730231,1.0695 ",
+                "-1.530244,3.1657 0.680109,1.8395 -1.147684,1.4546 z\" />\n",
                 "    <path\n",
                 "       fill=\"#00ac7e\" stroke=\"none\"\n",
-                "       d=\"m 10.674406,1028.0326 0.371574,7.7321 2.603902,-0.7162 0.25504,-2.0107 -1.275204,-2.3528 0.807629,-3.4803 z\" />\n",
+                "       d=\"m 10.674406,1028.0326 0.371574,7.7321 2.603902,-0.7162 ",
+                "0.25504,-2.0107 -1.275204,-2.3528 0.807629,-3.4803 z\" />\n",
                 "    <path\n",
                 "       fill=\"#00ac7e\" stroke=\"none\"\n",
-                "       d=\"m 18.368136,1025.6797 3.570571,6.7164 0.595095,-1.0267 -0.637602,-2.3956 -1.530244,-1.1979 -1.020164,-3.5507 z\"/>\n",
+                "       d=\"m 18.368136,1025.6797 3.570571,6.7164 0.595095,-1.0267 ",
+                "-0.637602,-2.3956 -1.530244,-1.1979 -1.020164,-3.5507 z\"/>\n",
                 "    <path\n",
                 "       fill=\"#00ac7e\" stroke=\"none\"\n",
-                "       d=\"m 8.3790384,1026.6637 0.850136,-2.0963 5.6108976,-1.8823 1.19019,-1.4545 -1.105177,-0.1283 -5.7809236,1.5828 -3.485558,3.1657 z\" />\n",
+                "       d=\"m 8.3790384,1026.6637 0.850136,-2.0963 5.6108976,-1.8823 ",
+                "1.19019,-1.4545 -1.105177,-0.1283 -5.7809236,1.5828 -3.485558,3.1657 z\" />\n",
                 "    <path\n",
                 "       fill=\"#00ac7e\" stroke=\"none\"\n",
-                "       d=\"m 22.278762,1033.1234 -0.595096,15.6146 0.93515,-7.2298 -0.297547,-3.9357 0.935149,-6.0748 z\"/>\n",
+                "       d=\"m 22.278762,1033.1234 -0.595096,15.6146 0.93515,-7.2298 ",
+                "-0.297547,-3.9357 0.935149,-6.0748 z\"/>\n",
                 "    <path\n",
                 "       fill=\"#00ac7e\" stroke=\"none\"\n",
-                "       d=\"m 11.269501,1036.4174 9.81907,14.374 -2.12534,-6.4169 -3.273023,-3.5935 -0.977657,-5.3047 z\"/>\n",
+                "       d=\"m 11.269501,1036.4174 9.81907,14.374 -2.12534,-6.4169 ",
+                "-3.273023,-3.5935 -0.977657,-5.3047 z\"/>\n",
                 "    <path\n",
                 "       fill=\"#00ac7e\" stroke=\"none\"\n",
-                "       d=\"m 4.9359881,1034.1501 14.5798319,15.2296 -4.463214,-5.6469 -3.698091,-4.1496 -2.0403266,-3.508 z\" />"
+                "       d=\"m 4.9359881,1034.1501 14.5798319,15.2296 -4.463214,-5.6469 ",
+                "-3.698091,-4.1496 -2.0403266,-3.508 z\" />"
         ],
         "x_order": 1406900157,
         "y_order": 1634615090,
@@ -18918,9 +19042,11 @@
         "type": "Comment",
         "name": "full_id",
         "description": [
-                "A data_full_id identifies one or two objects, which are called primary and secondary.\n",
+                "A data_full_id identifies one or two objects, which are called primary and ",
+                "secondary.\n",
                 "The secondary object is void for relationships, classifiers and diagrams.\n",
-                "In case of a diagramelement or a feature, the secondary object refers to the associated classifier."
+                "In case of a diagramelement or a feature, the secondary object refers to the ",
+                "associated classifier."
         ],
         "x_order": 461612593,
         "y_order": 0,
@@ -19155,7 +19281,8 @@
         "type": "Package",
         "name": "data/entity",
         "description": [
-                "A package that contains the data entities that can be stored, searched, modified in the database.\n",
+                "A package that contains the data entities that can be stored, searched, ",
+                "modified in the database.\n",
                 "Also types of their attributes ar edeclared here."
         ],
         "x_order": -550118132,
@@ -19174,7 +19301,8 @@
         "type": "Class",
         "name": "data_rules",
         "description": [
-                "a set of methods that state what combination of attributes in related entities is allowed"
+                "a set of methods that state what combination of attributes in related entities ",
+                "is allowed"
         ],
         "x_order": 281023785,
         "y_order": 1524545040,
@@ -19231,33 +19359,51 @@
         "name": "Maximum string lengths",
         "description": [
                 "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_NAME_SIZE = 48,\r\n",
-                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_NAME_LENGTH = 47,\r\n",
-                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE = 48,\r\n",
-                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH = 47,\r\n",
-                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_DESCRIPTION_SIZE = 4096,\r\n",
-                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH = 4095,\r\n",
+                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_NAME_LENGTH = 47,\r",
+                "\n",
+                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE = ",
+                "48,\r\n",
+                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH ",
+                "= 47,\r\n",
+                "data/include/entity/data_classifier.h:    DATA_CLASSIFIER_MAX_DESCRIPTION_SIZE ",
+                "= 4096,\r\n",
+                "data/include/entity/data_classifier.h:    ",
+                "DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH = 4095,\r\n",
                 "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_NAME_SIZE = 48,\r\n",
                 "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_NAME_LENGTH = 47,\r\n",
                 "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_STEREOTYPE_SIZE = 48,\r\n",
-                "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH = 47,\r\n",
-                "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_DESCRIPTION_SIZE = 8192,\r\n",
-                "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH = 8191,\r\n",
+                "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH = 47,\r",
+                "\n",
+                "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_DESCRIPTION_SIZE = ",
+                "8192,\r\n",
+                "data/include/entity/data_diagram.h:    DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH = ",
+                "8191,\r\n",
                 "data/include/entity/data_head.h:    DATA_HEAD_MAX_KEY_SIZE = 48,  /* name */\r\n",
                 "data/include/entity/data_head.h:    DATA_HEAD_MAX_KEY_LENGTH = 47,\r\n",
                 "data/include/entity/data_head.h:    DATA_HEAD_MAX_VALUE_SIZE = 1024,\r\n",
                 "data/include/entity/data_head.h:    DATA_HEAD_MAX_VALUE_LENGTH = 1023,\r\n",
-                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_NAME_SIZE = 48,\r\n",
-                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_NAME_LENGTH = 47,\r\n",
-                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_STEREOTYPE_SIZE = 48,\r\n",
-                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH = 47,\r\n",
-                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE = 1024,\r\n",
-                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH = 1023,\r\n",
-                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_KEY_SIZE = 48,  /* name */\r\n",
+                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_NAME_SIZE = ",
+                "48,\r\n",
+                "data/include/entity/data_relationship.h:    DATA_RELATIONSHIP_MAX_NAME_LENGTH = ",
+                "47,\r\n",
+                "data/include/entity/data_relationship.h:    ",
+                "DATA_RELATIONSHIP_MAX_STEREOTYPE_SIZE = 48,\r\n",
+                "data/include/entity/data_relationship.h:    ",
+                "DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH = 47,\r\n",
+                "data/include/entity/data_relationship.h:    ",
+                "DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE = 1024,\r\n",
+                "data/include/entity/data_relationship.h:    ",
+                "DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH = 1023,\r\n",
+                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_KEY_SIZE = 48,  /* name ",
+                "*/\r\n",
                 "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_KEY_LENGTH = 47,\r\n",
-                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_VALUE_SIZE = 256,  /* type */\r\n",
+                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_VALUE_SIZE = 256,  /* ",
+                "type */\r\n",
                 "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_VALUE_LENGTH = 255,\r\n",
-                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_DESCRIPTION_SIZE = 1024,\r\n",
-                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_DESCRIPTION_LENGTH = 1023,"
+                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_DESCRIPTION_SIZE = ",
+                "1024,\r\n",
+                "data/include/entity/data_feature.h:    DATA_FEATURE_MAX_DESCRIPTION_LENGTH = ",
+                "1023,"
         ],
         "x_order": 1744754955,
         "y_order": 224813340,
@@ -19276,20 +19422,26 @@
         "stereotype": "reason_chosen",
         "name": "Maximum elements per diagram",
         "description": [
-                "data/include/set/data_profile_part.h:    DATA_PROFILE_PART_MAX_STEREOTYPES = 24,\n",
+                "data/include/set/data_profile_part.h:    DATA_PROFILE_PART_MAX_STEREOTYPES = ",
+                "24,\n",
                 "  /*!< maximum number of stereotypes to be used in one single diagram */\r\n",
                 "data/include/set/data_small_set.h:    DATA_SMALL_SET_MAX_SET_SIZE = 128,\n",
                 "  /*!< maximum number of object ids in this set */\r\n",
                 "data/include/set/data_node_set.h:    DATA_NODE_SET_MAX_FEATURES = 64,\n",
-                "  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */\r\n",
+                "  /*!< maximum number of features linked to all visible classifiers, even ",
+                "invisible lifelines */\r\n",
                 "data/include/set/data_node_set.h:    DATA_NODE_SET_MAX_RELATIONSHIPS = 256,\n",
-                "  /*!< maximum number of relationships linked to all visible classifiers, even these of other diagrams */\r\n",
+                "  /*!< maximum number of relationships linked to all visible classifiers, even ",
+                "these of other diagrams */\r\n",
                 "data/include/set/data_visible_set.h:    DATA_VISIBLE_SET_MAX_CLASSIFIERS = 128,\n",
                 "  /*!< maximum number of classifiers to be shown in one single diagram */\r\n",
                 "data/include/set/data_visible_set.h:    DATA_VISIBLE_SET_MAX_FEATURES = 256,\n",
-                "  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */\r\n",
-                "data/include/set/data_visible_set.h:    DATA_VISIBLE_SET_MAX_RELATIONSHIPS = 1024,\n",
-                "  /*!< maximum number of relationships linked to all visible classifiers, even some of other diagrams */"
+                "  /*!< maximum number of features linked to all visible classifiers, even ",
+                "invisible lifelines */\r\n",
+                "data/include/set/data_visible_set.h:    DATA_VISIBLE_SET_MAX_RELATIONSHIPS = ",
+                "1024,\n",
+                "  /*!< maximum number of relationships linked to all visible classifiers, even ",
+                "some of other diagrams */"
         ],
         "x_order": 1744754955,
         "y_order": 644083333,
@@ -19308,18 +19460,26 @@
         "stereotype": "reason_chosen",
         "name": "Maximum diagrams in tree structure",
         "description": [
-                "gui/include/sketch/gui_sketch_result_list.h:    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 128,\n",
+                "gui/include/sketch/gui_sketch_result_list.h:    ",
+                "GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 128,\n",
                 "  /*!< maximum number of total search results */\r\n",
-                "gui/include/sketch/gui_sketch_result_list.h:    GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS = 128,\n",
+                "gui/include/sketch/gui_sketch_result_list.h:    ",
+                "GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS = 128,\n",
                 "  /*!< maximum number of displayed search results on current page */\r\n",
-                "gui/include/sketch/gui_sketch_nav_tree.h:    GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS = 16,\n",
+                "gui/include/sketch/gui_sketch_nav_tree.h:    ",
+                "GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS = 16,\n",
                 "  /*!< maximum number of parents/grand-parents/grand-grand-parents */\r\n",
-                "gui/include/sketch/gui_sketch_nav_tree.h:    GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS = 96,\n",
+                "gui/include/sketch/gui_sketch_nav_tree.h:    ",
+                "GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS = 96,\n",
                 "  /*!< maximum number of sisters/brothers */\r\n",
-                "gui/include/sketch/gui_sketch_nav_tree.h:    GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN = 96,\n",
+                "gui/include/sketch/gui_sketch_nav_tree.h:    ",
+                "GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN = 96,\n",
                 "  /*!< maximum number of daughters/sons */\r\n",
-                "gui/include/sketch/gui_sketch_nav_tree.h:    GUI_SKETCH_NAV_TREE_CONST_MAX_NODES = ( GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS\r\n",
-                "gui/include/sketch/gui_sketch_nav_tree.h:    GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS = GUI_SKETCH_NAV_TREE_CONST_MAX_NODES,\n",
+                "gui/include/sketch/gui_sketch_nav_tree.h:    ",
+                "GUI_SKETCH_NAV_TREE_CONST_MAX_NODES = ( GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS\r",
+                "\n",
+                "gui/include/sketch/gui_sketch_nav_tree.h:    GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS ",
+                "= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES,\n",
                 "  /* same as nodes, see do_layout */"
         ],
         "x_order": 1321225413,
@@ -19376,8 +19536,10 @@
         "type": "Class",
         "name": "data_database_borrowed_stmt",
         "description": [
-                "synchronizes acces to a database sql statement. As long as an iterator uses the statement, no other iterator can be initialized on this statement. \n",
-                "When an iterator is finished, it must call destroy in order to release the borrow_flag."
+                "synchronizes acces to a database sql statement. As long as an iterator uses the ",
+                "statement, no other iterator can be initialized on this statement. \n",
+                "When an iterator is finished, it must call destroy in order to release the ",
+                "borrow_flag."
         ],
         "x_order": -569639076,
         "y_order": -1168904229,
@@ -19826,7 +19988,8 @@
         "type": "Activity",
         "name": "propose_4dir_move",
         "description": [
-                "This function proposes 4 solutions for moving the current classifier to one of left, right, top, bottom."
+                "This function proposes 4 solutions for moving the current classifier to one of ",
+                "left, right, top, bottom."
         ],
         "x_order": -71014443,
         "y_order": 76242957,

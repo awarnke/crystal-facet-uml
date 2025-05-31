@@ -24,7 +24,8 @@
                 "This is a small repair droid similar to the MSE-6 used on death star 1.\n",
                 "\n",
                 "This structure of the system architecture is loosely based on arc42.\n",
-                "The software architecture in chapter D0019#id follows more exactly the arc42.org template\n",
+                "The software architecture in chapter D0019#id follows more exactly the ",
+                "arc42.org template\n",
                 "proposed by Gernot Starke and Peter Hruschka.\n",
                 "\n",
                 "Copyright 2020-2025 Andreas Warnke\n",
@@ -95,7 +96,8 @@
         "type": "SysMLRequirementDiagram",
         "name": "Constraints",
         "description": [
-                "This section explains the major obstacles that need to be considered when designing a solution to D0058#name. (Problem Space, System Level)"
+                "This section explains the major obstacles that need to be considered when ",
+                "designing a solution to D0058#name. (Problem Space, System Level)"
         ],
         "list_order": -536837632,
         "display_flags": 0,
@@ -179,7 +181,8 @@
         "type": "UMLUseCaseDiagram",
         "name": "Lifecycle",
         "description": [
-                "This chapter shows the organizational contexts of development and operational environments. (Problem Space, System Level)"
+                "This chapter shows the organizational contexts of development and operational ",
+                "environments. (Problem Space, System Level)"
         ],
         "list_order": -1,
         "display_flags": 0,
@@ -261,7 +264,8 @@
         "type": "UMLComponentDiagram",
         "name": "Factory Context",
         "description": [
-                "This chapter shows the actors in the production environment. (Problem Space, System Level)"
+                "This chapter shows the actors in the production environment. (Problem Space, ",
+                "System Level)"
         ],
         "list_order": 32767,
         "display_flags": 0,
@@ -315,7 +319,8 @@
         "type": "UMLComponentDiagram",
         "name": "Operational Context",
         "description": [
-                "This chapter shows the actors in the operational context. (Problem Space, System Level)"
+                "This chapter shows the actors in the operational context. (Problem Space, ",
+                "System Level)"
         ],
         "list_order": 65535,
         "display_flags": 0,
@@ -398,7 +403,8 @@
         "stereotype": "mouse-droid",
         "name": "Use Cases and Requirements",
         "description": [
-                "This section gives a short overview on the project goals (Problem Space, System Level)\n",
+                "This section gives a short overview on the project goals (Problem Space, System ",
+                "Level)\n",
                 "\n",
                 "Primary purpose of the MoD5G is to autonomously repair mechanical things."
         ],
@@ -518,9 +524,11 @@
         "type": "UMLComponentDiagram",
         "name": "Quality Requirements",
         "description": [
-                "This section shows the major quality requrements and scenarios. (Problem Space, System Level)\n",
+                "This section shows the major quality requrements and scenarios. (Problem Space, ",
+                "System Level)\n",
                 "\n",
-                "In the following, requirements and scenarios are selected that show the quality expectations: The WHAT shall be implemented, not the HOW.\n",
+                "In the following, requirements and scenarios are selected that show the quality ",
+                "expectations: The WHAT shall be implemented, not the HOW.\n",
                 ""
         ],
         "list_order": 1073754623,
@@ -608,7 +616,8 @@
         "type": "SysMLRequirementDiagram",
         "name": "Maintainability",
         "description": [
-                "This diagram shows the quality requirements related to the characteristic \"Maintainability\"."
+                "This diagram shows the quality requirements related to the characteristic ",
+                "\"Maintainability\"."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -665,7 +674,8 @@
         "type": "UMLUseCaseDiagram",
         "name": "Quality Scenarios",
         "description": [
-                "This section shows the quality-related scenarios in which the quality requirements shown in D0039#name are of special importance."
+                "This section shows the quality-related scenarios in which the quality ",
+                "requirements shown in D0039#name are of special importance."
         ],
         "list_order": 122880,
         "display_flags": 0,
@@ -714,7 +724,8 @@
         "type": "UMLStateMachineDiagram",
         "name": "Operation Modes",
         "description": [
-                "Operation modes list all modes of the system that provide an intended subset of functionality.\n",
+                "Operation modes list all modes of the system that provide an intended subset of ",
+                "functionality.\n",
                 ""
         ],
         "list_order": 65280,
@@ -845,7 +856,8 @@
         "stereotype": "locigal_form",
         "name": "Solution Strategy",
         "description": [
-                "This section shows the fundamental base principle of the system design. (Solution Space, System Level)"
+                "This section shows the fundamental base principle of the system design. ",
+                "(Solution Space, System Level)"
         ],
         "list_order": 85120,
         "display_flags": 0,
@@ -957,9 +969,11 @@
                 "\n",
                 "Functions represent the solutions to the functional requirements.\n",
                 "\n",
-                "It also shows which function produces output that is needed by another function as input.\n",
+                "It also shows which function produces output that is needed by another function ",
+                "as input.\n",
                 "\n",
-                "Sensors (devices) produce output to controller-parts (roles). These roles send their output to other roles or to actuators (devices)."
+                "Sensors (devices) produce output to controller-parts (roles). These roles send ",
+                "their output to other roles or to actuators (devices)."
         ],
         "list_order": 95040,
         "display_flags": 0,
@@ -1083,7 +1097,8 @@
         "type": "UMLStateMachineDiagram",
         "name": "Functionality per movement-related mode",
         "description": [
-                "This diagram shows the functionalities that area available in the operation modes related to moving."
+                "This diagram shows the functionalities that area available in the operation ",
+                "modes related to moving."
         ],
         "list_order": 536942191,
         "display_flags": 0,
@@ -1130,7 +1145,8 @@
         "type": "UMLStateMachineDiagram",
         "name": "Functionality per tool-related mode",
         "description": [
-                "This diagram shows the functionalities that area available in the operation modes related to using tools."
+                "This diagram shows the functionalities that area available in the operation ",
+                "modes related to using tools."
         ],
         "list_order": 1073789343,
         "display_flags": 0,
@@ -1471,7 +1487,8 @@
         "stereotype": "EE",
         "name": "Electric Parts and Electronics",
         "description": [
-                "This section shows the electric parts and electronics of the MoD5G system (Solution Space)"
+                "This section shows the electric parts and electronics of the MoD5G system ",
+                "(Solution Space)"
         ],
         "list_order": 1073815550,
         "display_flags": 0,
@@ -1552,7 +1569,8 @@
         "type": "SysMLInternalBlockDiagram",
         "name": "Base Logic Board",
         "description": [
-                "This section shows the base board logic of the MoD5G system (Solution Space, EE Level)"
+                "This section shows the base board logic of the MoD5G system (Solution Space, EE ",
+                "Level)"
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -1606,7 +1624,8 @@
         "type": "SysMLInternalBlockDiagram",
         "name": "Main Board Logic",
         "description": [
-                "This section shows the main board logic of the MoD5G system (Solution Space, EE Level)"
+                "This section shows the main board logic of the MoD5G system (Solution Space, EE ",
+                "Level)"
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -1660,7 +1679,8 @@
         "type": "SysMLBlockDefinitionDiagram",
         "name": "Power Distribution",
         "description": [
-                "This section shows the electric parts and electronics of the MoD5G system (Solution Space, System Level)"
+                "This section shows the electric parts and electronics of the MoD5G system ",
+                "(Solution Space, System Level)"
         ],
         "list_order": 1073815550,
         "display_flags": 0,
@@ -1715,11 +1735,13 @@
         "stereotype": "SW",
         "name": "Software [subsystem]",
         "description": [
-                "This diagram shows the virtual machines and specialized (non-versatile) execution environments (Solution Space)\n",
+                "This diagram shows the virtual machines and specialized (non-versatile) ",
+                "execution environments (Solution Space)\n",
                 "\n",
                 "These are deployed onto the logic boards shown in D0018#name.\n",
                 "\n",
-                "In this section, this view is further detailed to software elements, their relations and interactions."
+                "In this section, this view is further detailed to software elements, their ",
+                "relations and interactions."
         ],
         "list_order": 1073815551,
         "display_flags": 0,
@@ -1789,9 +1811,11 @@
         "type": "UMLUseCaseDiagram",
         "name": "Requirements and Goals",
         "description": [
-                "This section shows the goals of the software development for the MoD5G (Problem Space, Software Level)\n",
+                "This section shows the goals of the software development for the MoD5G (Problem ",
+                "Space, Software Level)\n",
                 "\n",
-                "In gray, the use cases on system level are repeated from D0002#name to show the refinement to software-only use cases shown in black."
+                "In gray, the use cases on system level are repeated from D0002#name to show the ",
+                "refinement to software-only use cases shown in black."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -1973,7 +1997,9 @@
         "type": "SysMLRequirementDiagram",
         "name": "Constraints",
         "description": [
-                "This section explains the major obstacles, that need to be considered when designing a solution to reach the project goals. (Problem Space, Software Level)"
+                "This section explains the major obstacles, that need to be considered when ",
+                "designing a solution to reach the project goals. (Problem Space, Software ",
+                "Level)"
         ],
         "list_order": 49152,
         "display_flags": 0,
@@ -2006,7 +2032,8 @@
         "type": "UMLComponentDiagram",
         "name": "Scope and Context",
         "description": [
-                "This section shows the organizational contexts of development and operational environments. (Problem Space, Software Level)"
+                "This section shows the organizational contexts of development and operational ",
+                "environments. (Problem Space, Software Level)"
         ],
         "list_order": 98304,
         "display_flags": 0,
@@ -2054,7 +2081,8 @@
         "type": "UMLComponentDiagram",
         "name": "Solution Strategy",
         "description": [
-                "This section shows the most fundamental principles of the software design. (Solution Space, Software Level)"
+                "This section shows the most fundamental principles of the software design. ",
+                "(Solution Space, Software Level)"
         ],
         "list_order": 131072,
         "display_flags": 0,
@@ -2109,7 +2137,8 @@
         "type": "UMLComponentDiagram",
         "name": "Building Block View",
         "description": [
-                "This section shows the parts of the MoD5G software (Solution Space, Software Level)"
+                "This section shows the parts of the MoD5G software (Solution Space, Software ",
+                "Level)"
         ],
         "list_order": 163840,
         "display_flags": 0,
@@ -2192,7 +2221,8 @@
         "type": "UMLComponentDiagram",
         "name": "Environment Capture",
         "description": [
-                "This diagram shows the software components that perceive the the outer environment and create a model from this data."
+                "This diagram shows the software components that perceive the the outer ",
+                "environment and create a model from this data."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -2253,7 +2283,8 @@
         "type": "UMLComponentDiagram",
         "name": "System Control",
         "description": [
-                "This diagram shows the software components that perceive MoD5G internal sensor data and steer the actuators of the MoD5G."
+                "This diagram shows the software components that perceive MoD5G internal sensor ",
+                "data and steer the actuators of the MoD5G."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -2300,9 +2331,11 @@
         "type": "UMLActivityDiagram",
         "name": "Runtime View",
         "description": [
-                "This section shows the dynamic behavior of the software (Solution Space, Software Level)\n",
+                "This section shows the dynamic behavior of the software (Solution Space, ",
+                "Software Level)\n",
                 "\n",
-                "This diagram shows the software states embedded in the system states. See D0020#name."
+                "This diagram shows the software states embedded in the system states. See ",
+                "D0020#name."
         ],
         "list_order": 196608,
         "display_flags": 0,
@@ -2436,7 +2469,8 @@
         "type": "UMLInteractionDiagram/sequence",
         "name": "Environment Model Composer Sequence",
         "description": [
-                "This diagram shows the typical communication sequence to compose the environment model."
+                "This diagram shows the typical communication sequence to compose the ",
+                "environment model."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -2497,7 +2531,8 @@
         "type": "UMLDeploymentDiagram",
         "name": "Deployment View",
         "description": [
-                "This section shows the deployment of the solution into the environment. (Solution Space, Software Level)"
+                "This section shows the deployment of the solution into the environment. ",
+                "(Solution Space, Software Level)"
         ],
         "list_order": 245760,
         "display_flags": 0,
@@ -2597,7 +2632,8 @@
         "type": "UMLComponentDiagram",
         "name": "Crosscutting Concepts",
         "description": [
-                "This section shows the recurring concepts within the the designed solution. (Solution Space, Software Level)"
+                "This section shows the recurring concepts within the the designed solution. ",
+                "(Solution Space, Software Level)"
         ],
         "list_order": 262144,
         "display_flags": 0,
@@ -2639,7 +2675,8 @@
         "stereotype": "decision",
         "name": "Architecture Decisions",
         "description": [
-                "This section documents the major design decisions. (Solution Space, Software Level)"
+                "This section documents the major design decisions. (Solution Space, Software ",
+                "Level)"
         ],
         "list_order": 294912,
         "display_flags": 0,
@@ -2675,7 +2712,8 @@
         "description": [
                 "This section shows the major quality scenarios. (Problem Space, Software Level)\n",
                 "\n",
-                "Similar to D0011#name for system level, this section shows quality expectations: The WHAT shall be implemented, not the HOW."
+                "Similar to D0011#name for system level, this section shows quality ",
+                "expectations: The WHAT shall be implemented, not the HOW."
         ],
         "list_order": 327680,
         "display_flags": 0,
@@ -2715,7 +2753,8 @@
                 "\n",
                 "2) Which use case do they serve\n",
                 "\n",
-                "Thich chapter lists the quality requirements ordered by their main characteristic."
+                "Thich chapter lists the quality requirements ordered by their main ",
+                "characteristic."
         ],
         "list_order": -1073709056,
         "display_flags": 0,
@@ -2776,7 +2815,8 @@
                 "\n",
                 "2) Which use case do they serve\n",
                 "\n",
-                "Thich chapter lists the use cases which have special importance for quality requirements."
+                "Thich chapter lists the use cases which have special importance for quality ",
+                "requirements."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -2809,7 +2849,8 @@
         "type": "UMLComponentDiagram",
         "name": "Risks and Technical Debts",
         "description": [
-                "This section lists the risks and not-yet-addressed requirements. (Solution Space, Software Level)"
+                "This section lists the risks and not-yet-addressed requirements. (Solution ",
+                "Space, Software Level)"
         ],
         "list_order": 344064,
         "display_flags": 0,
@@ -2857,7 +2898,8 @@
         "type": "UMLClassDiagram",
         "name": "Glossary",
         "description": [
-                "This section explains the used terms. (Domain and Solution Space, Software Level)"
+                "This section explains the used terms. (Domain and Solution Space, Software ",
+                "Level)"
         ],
         "list_order": 1610649598,
         "display_flags": 0,
@@ -2918,7 +2960,8 @@
         "type": "UMLInteractionDiagram/overview",
         "name": "Runtime View",
         "description": [
-                "This section shows the dynamic behavior of the system (Solution Space, System Level)"
+                "This section shows the dynamic behavior of the system (Solution Space, System ",
+                "Level)"
         ],
         "list_order": 212992,
         "display_flags": 0,
@@ -2972,7 +3015,8 @@
         "type": "UMLActivityDiagram",
         "name": "Power States",
         "description": [
-                "This diagram shows the power states that are globally valid synchronized to all parts of the system."
+                "This diagram shows the power states that are globally valid synchronized to all ",
+                "parts of the system."
         ],
         "list_order": -32768,
         "display_flags": 0,
@@ -3178,7 +3222,8 @@
         "type": "UMLDeploymentDiagram",
         "name": "Deployment View",
         "description": [
-                "This section shows the deployment of the solution into the environment. (Solution Space, System Level)"
+                "This section shows the deployment of the solution into the environment. ",
+                "(Solution Space, System Level)"
         ],
         "list_order": 253952,
         "display_flags": 0,
@@ -3232,7 +3277,8 @@
         "type": "CFUBoxDiagram",
         "name": "Crosscutting Concepts",
         "description": [
-                "This section shows the recurring concepts within the the designed solution. (Solution Space, System Level)"
+                "This section shows the recurring concepts within the the designed solution. ",
+                "(Solution Space, System Level)"
         ],
         "list_order": 262144,
         "display_flags": 0,
@@ -3259,7 +3305,8 @@
         "stereotype": "decision",
         "name": "Architecture Decisions",
         "description": [
-                "This section documents the major design decisions. (Solution Space, System Level)"
+                "This section documents the major design decisions. (Solution Space, System ",
+                "Level)"
         ],
         "list_order": 294912,
         "display_flags": 0,
@@ -3543,9 +3590,11 @@
         "type": "UMLProfileDiagram",
         "name": "Stereotypes on \"What to build\"",
         "description": [
-                "Stereotypes allow a classification of elements into project-specific categories.\n",
+                "Stereotypes allow a classification of elements into project-specific ",
+                "categories.\n",
                 "\n",
-                "This diagram defines stereotypes and their images with focus on the problem space. "
+                "This diagram defines stereotypes and their images with focus on the problem ",
+                "space. "
         ],
         "list_order": -1073725440,
         "display_flags": 0,
@@ -3630,9 +3679,11 @@
         "type": "UMLProfileDiagram",
         "name": "Stereotypes on \"How to achieve the goal\"",
         "description": [
-                "Stereotypes allow a classification of elements into project-specific categories.\n",
+                "Stereotypes allow a classification of elements into project-specific ",
+                "categories.\n",
                 "\n",
-                "This diagram defines stereotypes and their images with focus on the solution space."
+                "This diagram defines stereotypes and their images with focus on the solution ",
+                "space."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -3839,7 +3890,8 @@
         "description": [
                 "The droid shall ensure data and program integrity.\n",
                 "\n",
-                "It shall continue operation after cosmic rays have interfered with data storage or program execution.\n",
+                "It shall continue operation after cosmic rays have interfered with data storage ",
+                "or program execution.\n",
                 "\n",
                 "Corrupted data must not be stored permanently."
         ],
@@ -3880,7 +3932,9 @@
         "stereotype": "mouse-droid",
         "name": "Mouse Droid MoD5G",
         "description": [
-                "The Mouse Droid (MoD5G) is a repair droid that can be instructed to perform a mission and which then autonomously selects tactics to achieve the mission goals."
+                "The Mouse Droid (MoD5G) is a repair droid that can be instructed to perform a ",
+                "mission and which then autonomously selects tactics to achieve the mission ",
+                "goals."
         ],
         "x_order": 147603683,
         "y_order": -474887197,
@@ -3921,7 +3975,8 @@
         "stereotype": "goal",
         "name": "Perform a 1-day mission",
         "description": [
-                "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for one terrestrial day.\n",
+                "The mouse droid is able to perform a mission that takes several hours. The ",
+                "energy resources of the MoD5G last for one terrestrial day.\n",
                 "\n",
                 "- The operator programs a mission\n",
                 "- The mouse droid drives to the first location\n",
@@ -3958,7 +4013,8 @@
         "stereotype": "goal",
         "name": "Drive to location",
         "description": [
-                "The mouse droid can explore its environment and calculate a route from its actual position to the target location.\n",
+                "The mouse droid can explore its environment and calculate a route from its ",
+                "actual position to the target location.\n",
                 "\n",
                 "- The mouse droid explores its environment\n",
                 "- The mouse droid enriches an internally memorized map\n",
@@ -4010,9 +4066,11 @@
                 "\n",
                 "- The mouse droid uses a screw diver to untighten damaged parts\n",
                 "- The mouse droid uses a gripper to move the damaged part out of the way\n",
-                "- The mouse droid uses a gripper to put a spare part from its internal cargo bin to the target place\n",
+                "- The mouse droid uses a gripper to put a spare part from its internal cargo ",
+                "bin to the target place\n",
                 "- The mouse droid uses a screw diver to tighten replaced parts\n",
-                "- The mouse droid uses a gripper to move the damaged part into its internal cargo bin.\n",
+                "- The mouse droid uses a gripper to move the damaged part into its internal ",
+                "cargo bin.\n",
                 "\n",
                 "(see D0014#name)"
         ],
@@ -4044,7 +4102,8 @@
         "stereotype": "quality_characteristic",
         "name": "Usability",
         "description": [
-                "Usability defines a set of attributes that measures how easy to learn and use the program is."
+                "Usability defines a set of attributes that measures how easy to learn and use ",
+                "the program is."
         ],
         "x_order": -416937143,
         "y_order": -1440268883,
@@ -4063,7 +4122,8 @@
         "stereotype": "quality_characteristic",
         "name": "Maintainability",
         "description": [
-                "Maintainability defines a set of attributes that influence how to analyze and mitigate defects that occur during operation."
+                "Maintainability defines a set of attributes that influence how to analyze and ",
+                "mitigate defects that occur during operation."
         ],
         "x_order": 1210000491,
         "y_order": -1440268883,
@@ -4082,7 +4142,8 @@
         "stereotype": "quality_characteristic",
         "name": "Reliability",
         "description": [
-                "Reliability defines a set of attributes that measures how mature and fault-tolerant the software is."
+                "Reliability defines a set of attributes that measures how mature and ",
+                "fault-tolerant the software is."
         ],
         "x_order": 1210000491,
         "y_order": -1394625593,
@@ -4224,7 +4285,8 @@
                 "\n",
                 "scenario:\n",
                 "- a service mechanic orders a batch of parts\n",
-                "- a factory creates the parts that fit in form, function and quality to the MoD5G\n",
+                "- a factory creates the parts that fit in form, function and quality to the ",
+                "MoD5G\n",
                 "- spare parts are delivered"
         ],
         "x_order": 1829101533,
@@ -4248,7 +4310,8 @@
                 "From outside, the chassis and wheels are the most obvious parts.\n",
                 "Inside, a skeleton frame provides stability of the assembly.\n",
                 "\n",
-                "Important charactereistics are weight, operating temperature range, durability, stability."
+                "Important charactereistics are weight, operating temperature range, durability, ",
+                "stability."
         ],
         "x_order": -498449590,
         "y_order": -1721520797,
@@ -4290,9 +4353,11 @@
         "stereotype": "SW",
         "name": "Main Logic Software",
         "description": [
-                "The software consists of control logic, initial data that was integrated at the factory and learned data that is aggregated during operation.\n",
+                "The software consists of control logic, initial data that was integrated at the ",
+                "factory and learned data that is aggregated during operation.\n",
                 "\n",
-                "These software items are split over two logical boards and subdivided into independent execution partitions."
+                "These software items are split over two logical boards and subdivided into ",
+                "independent execution partitions."
         ],
         "x_order": -1044323579,
         "y_order": -1886953723,
@@ -4397,7 +4462,8 @@
         "type": "Activity",
         "name": "power::booting",
         "description": [
-                "While the MoD5G is in booting state, the MoD5G can not yet react on input data; input signals from sensors are queued for later processing."
+                "While the MoD5G is in booting state, the MoD5G can not yet react on input data; ",
+                "input signals from sensors are queued for later processing."
         ],
         "x_order": 1513277740,
         "y_order": -1659012173,
@@ -4426,7 +4492,8 @@
         "type": "Activity",
         "name": "power::full_operation",
         "description": [
-                "While the MoD5G is in full_operation state, all software parts are running and able to react on input data."
+                "While the MoD5G is in full_operation state, all software parts are running and ",
+                "able to react on input data."
         ],
         "x_order": 805953490,
         "y_order": -1583691534,
@@ -4455,7 +4522,8 @@
         "type": "Activity",
         "name": "power::energy_saving",
         "description": [
-                "While the MoD5G is in energy saving state, the MoD5G does not react on input data. Only few wakeup mechanisms can caus a transition to full operation."
+                "While the MoD5G is in energy saving state, the MoD5G does not react on input ",
+                "data. Only few wakeup mechanisms can caus a transition to full operation."
         ],
         "x_order": 1139012495,
         "y_order": -1194731099,
@@ -4484,7 +4552,8 @@
         "type": "ActivityFinalNode",
         "name": "power::off",
         "description": [
-                "The off pseudo-state indicates where the transition logic ends when powered off."
+                "The off pseudo-state indicates where the transition logic ends when powered ",
+                "off."
         ],
         "x_order": -1435114084,
         "y_order": -1194731099,
@@ -4585,7 +4654,8 @@
         "type": "StateMachine",
         "name": "health::limp_home",
         "description": [
-                "In case the full operation is not possible anymore, the MoD5G shall drive back to the home charging station."
+                "In case the full operation is not possible anymore, the MoD5G shall drive back ",
+                "to the home charging station."
         ],
         "x_order": 452796978,
         "y_order": -1494769192,
@@ -4698,7 +4768,8 @@
         "type": "Block",
         "name": "Screw Driver",
         "description": [
-                "A screw driver can rotate screws. It is one of several tools fixed on top of the Tool-Arm."
+                "A screw driver can rotate screws. It is one of several tools fixed on top of ",
+                "the Tool-Arm."
         ],
         "x_order": 645157058,
         "y_order": -1412570674,
@@ -4716,7 +4787,8 @@
         "type": "Block",
         "name": "Wheels (4)",
         "description": [
-                "The functionality of wheels is to transform a torque force into movement of the MoD5G."
+                "The functionality of wheels is to transform a torque force into movement of the ",
+                "MoD5G."
         ],
         "x_order": 645157058,
         "y_order": -1053978658,
@@ -4752,7 +4824,8 @@
         "type": "Block",
         "name": "Motors",
         "description": [
-                "There are two motors to drive and steer and further motors to control the movement of a tool-arm."
+                "There are two motors to drive and steer and further motors to control the ",
+                "movement of a tool-arm."
         ],
         "x_order": -203135287,
         "y_order": -1053978658,
@@ -4826,7 +4899,8 @@
         "type": "Block",
         "name": "Programming and Diagnostic Connector",
         "description": [
-                "A connector allows to attach a cable. Via this cable, self diagnosis and re-programming can be performed."
+                "A connector allows to attach a cable. Via this cable, self diagnosis and ",
+                "re-programming can be performed."
         ],
         "x_order": -1130653626,
         "y_order": -1080714627,
@@ -4844,7 +4918,8 @@
         "type": "Block",
         "name": "Charging Connector",
         "description": [
-                "A connector allows to attach a cable. Via this cable, the energy cell can be re-charged."
+                "A connector allows to attach a cable. Via this cable, the energy cell can be ",
+                "re-charged."
         ],
         "x_order": -858822106,
         "y_order": -1053978658,
@@ -4933,7 +5008,8 @@
         "description": [
                 "The base logic board consists of several electronic parts shown in D0035#name.\n",
                 "\n",
-                "It provides functionality to detect health status of MoD5G components, it steers motors."
+                "It provides functionality to detect health status of MoD5G components, it ",
+                "steers motors."
         ],
         "x_order": -790789043,
         "y_order": -1137259057,
@@ -5023,7 +5099,8 @@
                 "- temperature sensor\n",
                 "- io ports\n",
                 "\n",
-                "This block is optimized for providing a reliable execution of algorithms, see D0011#name."
+                "This block is optimized for providing a reliable execution of algorithms, see ",
+                "D0011#name."
         ],
         "x_order": -858822106,
         "y_order": -1137259057,
@@ -5136,7 +5213,8 @@
         "type": "Block",
         "name": "Gripper",
         "description": [
-                "A tool that allows to grab objects and move them. It is one of several tools fixed on top of the Tool-Arm."
+                "A tool that allows to grab objects and move them. It is one of several tools ",
+                "fixed on top of the Tool-Arm."
         ],
         "x_order": 645157058,
         "y_order": -1168769568,
@@ -5154,7 +5232,8 @@
         "type": "Block",
         "name": "Tool-Window (2)",
         "description": [
-                "A tool window is a flap in the chassis that protects screw driver, gripper and cargo bin when unused.\n",
+                "A tool window is a flap in the chassis that protects screw driver, gripper and ",
+                "cargo bin when unused.\n",
                 "It can be opened and closed by a motor."
         ],
         "x_order": -203135287,
@@ -5173,7 +5252,8 @@
         "type": "Block",
         "name": "Main Performance Controller",
         "description": [
-                "This block provides an execution environment for algorithms that is optimized for high performance."
+                "This block provides an execution environment for algorithms that is optimized ",
+                "for high performance."
         ],
         "x_order": -1600853608,
         "y_order": -1137259057,
@@ -5336,7 +5416,8 @@
         "stereotype": "env-perception",
         "name": "Explore environment",
         "description": [
-                "When the mouse droid is missing relevant data on the environment, it plans a list of actions that suits the purpose of gaining the missing knowledge."
+                "When the mouse droid is missing relevant data on the environment, it plans a ",
+                "list of actions that suits the purpose of gaining the missing knowledge."
         ],
         "x_order": -953711403,
         "y_order": -1921124555,
@@ -5391,7 +5472,8 @@
         "name": "Plan tasks",
         "description": [
                 "The mouse droid creates a list of actions to fulfill the given mission.\n",
-                "If data on the environment is missing, it plans an explortion task and re-plans the action list later."
+                "If data on the environment is missing, it plans an explortion task and re-plans ",
+                "the action list later."
         ],
         "x_order": 147603683,
         "y_order": -1921124555,
@@ -5716,7 +5798,8 @@
         "type": "Component",
         "name": "Development and Production Context",
         "description": [
-                "This boundary encompasses the topics that are in scope during development and production."
+                "This boundary encompasses the topics that are in scope during development and ",
+                "production."
         ],
         "x_order": -1509201331,
         "y_order": -1114260632,
@@ -5734,7 +5817,8 @@
         "type": "Component",
         "name": "Operational Context",
         "description": [
-                "This boundary encompasses the topics that are in scope during operation and maintenance."
+                "This boundary encompasses the topics that are in scope during operation and ",
+                "maintenance."
         ],
         "x_order": 1173058080,
         "y_order": -1153233278,
@@ -5753,7 +5837,8 @@
         "stereotype": "factory",
         "name": "Build Droid",
         "description": [
-                "At the factory, workers assemble hardware and electronic parts to mouse droids and integrate control logic and data."
+                "At the factory, workers assemble hardware and electronic parts to mouse droids ",
+                "and integrate control logic and data."
         ],
         "x_order": -1509201331,
         "y_order": -1066896765,
@@ -5772,7 +5857,8 @@
         "stereotype": "SW",
         "name": "Develop Software",
         "description": [
-                "A team of engineers designs, produces and tests the control logic and factory data of the droids."
+                "A team of engineers designs, produces and tests the control logic and factory ",
+                "data of the droids."
         ],
         "x_order": -1609427724,
         "y_order": -1111229670,
@@ -5792,7 +5878,8 @@
         "name": "Operate Droid",
         "description": [
                 "An operator instructs the mouse droid which mission to perform.\n",
-                "The logic of the mouse droid translates this mission into driving maneuvers and actions of the integrated tools."
+                "The logic of the mouse droid translates this mission into driving maneuvers and ",
+                "actions of the integrated tools."
         ],
         "x_order": 1173058080,
         "y_order": -1111229670,
@@ -5812,7 +5899,8 @@
         "name": "Repair Droid",
         "description": [
                 "A service mechanic analyzes the health state of a mouse droid.\n",
-                "Depending on the outcome, oil is refilled, logic is updated, parts are exchanged or the whole droid is disintegrated.\n",
+                "Depending on the outcome, oil is refilled, logic is updated, parts are ",
+                "exchanged or the whole droid is disintegrated.\n",
                 ""
         ],
         "x_order": 1173058080,
@@ -5856,7 +5944,8 @@
         "name": "Space Station",
         "description": [
                 "A station allows persons and goods to arrive, stay, leave or transit.\n",
-                "This station is engineered for that purpose; it is not attached to a natural asteroid or planet.\n",
+                "This station is engineered for that purpose; it is not attached to a natural ",
+                "asteroid or planet.\n",
                 ""
         ],
         "x_order": -383445618,
@@ -5933,7 +6022,8 @@
         "type": "Node",
         "name": "Maintenance Booth",
         "description": [
-                "A thie booth, a mechanic analyzes the health of the MoD5G and replaces parts if damaged."
+                "A thie booth, a mechanic analyzes the health of the MoD5G and replaces parts if ",
+                "damaged."
         ],
         "x_order": 396257535,
         "y_order": 514857488,
@@ -5980,7 +6070,8 @@
         "stereotype": "rejected_alternative",
         "name": "2 of 3 Voter",
         "description": [
-                "In order to support integrity of the system, the logic boards and the data storages are deployed three times as three identical parts.\n",
+                "In order to support integrity of the system, the logic boards and the data ",
+                "storages are deployed three times as three identical parts.\n",
                 "\n",
                 "All three parts shall produce the same outcomes given the same input.\n",
                 "\n",
@@ -6056,7 +6147,8 @@
                 "Arguments:\n",
                 "\n",
                 "- The 2 of 3 voter is easier to implement but causes higher hardware costs.\n",
-                "- The watchdog supervision requires higher engineering efforts but is cheaper in production.\n",
+                "- The watchdog supervision requires higher engineering efforts but is cheaper ",
+                "in production.\n",
                 "\n",
                 "The watchdog supervision shall be implemented."
         ],
@@ -6219,7 +6311,8 @@
         "stereotype": "data",
         "name": "Situation Model",
         "description": [
-                "The situation model refers to the (limited/erroneous) knowledge of the software on environment and status."
+                "The situation model refers to the (limited/erroneous) knowledge of the software ",
+                "on environment and status."
         ],
         "x_order": -730047271,
         "y_order": -1529639812,
@@ -6238,7 +6331,8 @@
         "stereotype": "data",
         "name": "Environment Model",
         "description": [
-                "The enironment model refers to the (limited) knowledge of the software on the real environment."
+                "The enironment model refers to the (limited) knowledge of the software on the ",
+                "real environment."
         ],
         "x_order": 1163634552,
         "y_order": -1289206389,
@@ -6257,7 +6351,8 @@
         "stereotype": "data",
         "name": "MoD5G-Status Model",
         "description": [
-                "The status model refers to the (limited) knowledge of the software on the real status."
+                "The status model refers to the (limited) knowledge of the software on the real ",
+                "status."
         ],
         "x_order": -474535909,
         "y_order": 1055531420,
@@ -6311,7 +6406,8 @@
         "type": "Class",
         "name": "MoD5G Real Status",
         "description": [
-                "The real status refers to the real system status of the MoD5G. This may differ from what the sensors report."
+                "The real status refers to the real system status of the MoD5G. This may differ ",
+                "from what the sensors report."
         ],
         "x_order": 1564903573,
         "y_order": 1055531420,
@@ -6333,7 +6429,8 @@
                 "The functions of the MoD5G are divided onto two logic boards.\n",
                 "The main logic\n",
                 "gets sensor data of the environment and \n",
-                "calculates movement actions to efficiently fulfill the mission (that was programmed before).\n",
+                "calculates movement actions to efficiently fulfill the mission (that was ",
+                "programmed before).\n",
                 "The base logic\n",
                 "gets local sensor information and \n",
                 "controls things within the system boundary of the MoD5G."
@@ -6470,7 +6567,8 @@
         "stereotype": "quality_characteristic",
         "name": "Compatibility",
         "description": [
-                "Compatibility defines a set of attributes that measures how well data and messages can be exchanged with other programs and/or versions."
+                "Compatibility defines a set of attributes that measures how well data and ",
+                "messages can be exchanged with other programs and/or versions."
         ],
         "x_order": -416937143,
         "y_order": -1394625593,
@@ -6870,7 +6968,8 @@
         "stereotype": "HW",
         "name": "Design Hardware",
         "description": [
-                "A team of engineers designs, produces and tests the mechanical hardware parts of the droids."
+                "A team of engineers designs, produces and tests the mechanical hardware parts ",
+                "of the droids."
         ],
         "x_order": -1609427724,
         "y_order": -1066896765,
@@ -6889,7 +6988,8 @@
         "stereotype": "EE",
         "name": "Electrical Engineering",
         "description": [
-                "A team of engineers designs, produces and tests the electrical and electronic parts of the droids."
+                "A team of engineers designs, produces and tests the electrical and electronic ",
+                "parts of the droids."
         ],
         "x_order": -1509201331,
         "y_order": -1111229670,
@@ -6925,7 +7025,8 @@
         "type": "Activity",
         "name": "power::all",
         "description": [
-                "The statemachine of power states shows the triggers and transitions between states that enable or disable hardware parts."
+                "The statemachine of power states shows the triggers and transitions between ",
+                "states that enable or disable hardware parts."
         ],
         "x_order": 1139012495,
         "y_order": -1583691534,
@@ -7076,7 +7177,8 @@
         "stereotype": "environment",
         "name": "Environmental Constraints",
         "description": [
-                "This package lists technical/physical constraints imposed by the environment in which to operate."
+                "This package lists technical/physical constraints imposed by the environment in ",
+                "which to operate."
         ],
         "x_order": 1611711995,
         "y_order": 189151822,
@@ -7303,7 +7405,8 @@
         "stereotype": "env-perception",
         "name": "L1Req: Recognize paths",
         "description": [
-                "The MoDG5 shall use redundant sensor data to calculate paths that it can drive along."
+                "The MoDG5 shall use redundant sensor data to calculate paths that it can drive ",
+                "along."
         ],
         "x_order": -1130653626,
         "y_order": -1921124555,
@@ -7340,7 +7443,8 @@
         "stereotype": "env-perception",
         "name": "L3Req: Calc 3D scene from 2 cameras",
         "description": [
-                "The Main Logic Board shall create a 3D model of the environment based on 2 camera images."
+                "The Main Logic Board shall create a 3D model of the environment based on 2 ",
+                "camera images."
         ],
         "x_order": -1044323579,
         "y_order": -1412570674,
@@ -7358,7 +7462,8 @@
         "type": "Requirement",
         "name": "L3Req: Operate motors of tool-arm",
         "description": [
-                "The Base Logic Board shall steer the motors of the tool-arm to a given 3D position."
+                "The Base Logic Board shall steer the motors of the tool-arm to a given 3D ",
+                "position."
         ],
         "x_order": -790789043,
         "y_order": -1412570674,
@@ -7405,7 +7510,8 @@
         "type": "ForkNode",
         "name": "orthogonal",
         "description": [
-                "operation mode, power states and heath states are three distinct statemachines that handle their state-transitions independantly."
+                "operation mode, power states and heath states are three distinct statemachines ",
+                "that handle their state-transitions independantly."
         ],
         "x_order": -601749482,
         "y_order": -914544445,
@@ -7530,7 +7636,8 @@
         "type": "Stereotype",
         "name": "decision",
         "description": [
-                "<path d=\"m 8,12 l -4,7 1,1 6,0 1,-1 -4,-7 l 8,-4 9,0 l -4,7 1,1 6,0 1,-1 -4,-7 \" /><path d=\"m 15,5 l 1,3 m 0,2 l 0,17 \" />"
+                "<path d=\"m 8,12 l -4,7 1,1 6,0 1,-1 -4,-7 l 8,-4 9,0 l -4,7 1,1 6,0 1,-1 -4,-7 ",
+                "\" /><path d=\"m 15,5 l 1,3 m 0,2 l 0,17 \" />"
         ],
         "x_order": 1103928885,
         "y_order": -1541016509,
@@ -7567,7 +7674,8 @@
         "type": "Stereotype",
         "name": "data",
         "description": [
-                "<path d=\"m 4,5 l 0,22 c 0,2.25 5.25,4 12,4 s 12,-1.75 12,-4 l 0,-22 \" /><path d=\"m 4,5 c 0,-2.25 5.25,-4 12,-4 s 12,1.75\n",
+                "<path d=\"m 4,5 l 0,22 c 0,2.25 5.25,4 12,4 s 12,-1.75 12,-4 l 0,-22 \" /><path ",
+                "d=\"m 4,5 c 0,-2.25 5.25,-4 12,-4 s 12,1.75\n",
                 "12,4 s -5.25,4 -12,4 s -12,-1.75 -12,-4 \" />"
         ],
         "x_order": 905551310,
@@ -7671,7 +7779,8 @@
         "type": "Stereotype",
         "name": "rejected_alternative",
         "description": [
-                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#cc0000\" d=\"m 8,17 c 0,-4.4 3.6,-8 8,-8 s 8,3.6 8,8 s -3.6,8 -8,8 s\n",
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#cc0000\" d=\"m 8,17 c 0,-4.4 ",
+                "3.6,-8 8,-8 s 8,3.6 8,8 s -3.6,8 -8,8 s\n",
                 "-8,-3.6 -8,-8 \" /><path stroke=\"#cc0000\" d=\"m 11,17 l 10,0 \" />"
         ],
         "x_order": 1103928885,
@@ -7709,7 +7818,8 @@
         "type": "Stereotype",
         "name": "chosen_alternative",
         "description": [
-                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#00aa00\" d=\"m 8,17 c 0,-4.4 3.6,-8 8,-8 s 8,3.6 8,8 s -3.6,8 -8,8 s\n",
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#00aa00\" d=\"m 8,17 c 0,-4.4 ",
+                "3.6,-8 8,-8 s 8,3.6 8,8 s -3.6,8 -8,8 s\n",
                 "-8,-3.6 -8,-8 \" /><path stroke=\"#00aa00\" d=\"m 11,17 l 10,0 m -5,-5 l 0,10 \" />"
         ],
         "x_order": 905551310,
@@ -8176,7 +8286,8 @@
         "stereotype": "locigal_form",
         "name": "Strategy planning",
         "description": [
-                "This system element aggregates functions that have high demands on computation power but less demands on realtime-reactions.\n",
+                "This system element aggregates functions that have high demands on computation ",
+                "power but less demands on realtime-reactions.\n",
                 "These even may be turned off from time to time."
         ],
         "x_order": -901501342,
@@ -8196,7 +8307,8 @@
         "stereotype": "locigal_form",
         "name": "Tactic execution",
         "description": [
-                "This system element aggregates functions that have high demands on realtime observations and reactions; also high demands on availability."
+                "This system element aggregates functions that have high demands on realtime ",
+                "observations and reactions; also high demands on availability."
         ],
         "x_order": 2001393748,
         "y_order": -1886953723,
@@ -8214,7 +8326,8 @@
         "type": "StateMachine",
         "name": "Op::Modes",
         "description": [
-                "The operation modes list all modes in which different, intended subsets of functionality are available."
+                "The operation modes list all modes in which different, intended subsets of ",
+                "functionality are available."
         ],
         "x_order": 108823998,
         "y_order": -804409521,
@@ -8286,7 +8399,8 @@
         "type": "StateMachine",
         "name": "Using Tools",
         "description": [
-                "The using tools mode allows to repair or clean an object at the target location of the programmed mission."
+                "The using tools mode allows to repair or clean an object at the target location ",
+                "of the programmed mission."
         ],
         "x_order": 542369004,
         "y_order": -688698802,
@@ -8304,7 +8418,8 @@
         "type": "StateMachine",
         "name": "Waiting",
         "description": [
-                "The waiting mode allows to perform nothing till an outside trigger changes the mode."
+                "The waiting mode allows to perform nothing till an outside trigger changes the ",
+                "mode."
         ],
         "x_order": 542369004,
         "y_order": -1090115455,
@@ -8351,7 +8466,8 @@
         "type": "StateMachine",
         "name": "Being Repaired",
         "description": [
-                "The being repaired mode allows an mechanic to read out log data and to replace hardware parts."
+                "The being repaired mode allows an mechanic to read out log data and to replace ",
+                "hardware parts."
         ],
         "x_order": -248945384,
         "y_order": -688698802,
@@ -8508,7 +8624,8 @@
         "name": "Tool-Arm",
         "description": [
                 "An arm consisting of two segments.\n",
-                "The angle between the segments provides 1 degree of movement freedom, both ends provide 2 degrees of movement freedom each."
+                "The angle between the segments provides 1 degree of movement freedom, both ends ",
+                "provide 2 degrees of movement freedom each."
         ],
         "x_order": -203135287,
         "y_order": -1412570674,
@@ -12252,7 +12369,10 @@
         "type": "Dependency",
         "name": "observe",
         "description": [
-                "Sensor data is the basis for assuming a status model. The algorithm for deriving a status model shall take into account that a sensor may be defect and/or a measured value may indicate a defect (which again may have several causes)."
+                "Sensor data is the basis for assuming a status model. The algorithm for ",
+                "deriving a status model shall take into account that a sensor may be defect ",
+                "and/or a measured value may indicate a defect (which again may have several ",
+                "causes)."
         ],
         "list_order": 196608,
         "from_classifier_name": "MoD5G-Status Model",
@@ -14328,7 +14448,8 @@
         "type": "Association",
         "name": "cosmic ray exposedness",
         "description": [
-                "In thin atmospheres, cosmic rays are not completely absorbed and may interfere with the program logic and with stored data on the MoD5G."
+                "In thin atmospheres, cosmic rays are not completely absorbed and may interfere ",
+                "with the program logic and with stored data on the MoD5G."
         ],
         "list_order": 327680,
         "from_classifier_name": "Environment",
@@ -14345,7 +14466,8 @@
         "type": "Association",
         "name": "mechanical stress",
         "description": [
-                "The MoD5G has to cope with constant vibrations while moving, but also with sudden strokes."
+                "The MoD5G has to cope with constant vibrations while moving, but also with ",
+                "sudden strokes."
         ],
         "list_order": 360448,
         "from_classifier_name": "Environment",
