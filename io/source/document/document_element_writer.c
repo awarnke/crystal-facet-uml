@@ -280,7 +280,7 @@ static const char HTML_REL_END[] = "\n</div>";
 
 /* IO_FILE_FORMAT_TXT */
 
-static const int TXT_ID_INDENT_COLUMN = 48;
+static const int TXT_ID_ALIGN_COLUMN = 80;  /* the alignment column of the id in export mode txt */
 static const char TXT_NEWLINE[] = "\n";
 static const char TXT_SINGLE_INDENT[] = "| ";
 static const char TXT_DOUBLE_INDENT[] = "  | ";
@@ -918,10 +918,10 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), classifier_name );
             const utf8stringview_t classifier_name_view = UTF8STRINGVIEW_STR( classifier_name );
             const size_t clas_codepoint = utf8stringview_count_codepoints( &classifier_name_view );
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         TXT_ID_INDENT_COLUMN - clas_codepoint,
-                                                         classifier_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          TXT_ID_ALIGN_COLUMN - clas_codepoint,
+                                                          classifier_id
+                                                        );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
                                                                        TXT_SINGLE_INDENT,
@@ -1136,12 +1136,12 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
             const utf8stringview_t feature_value_view = UTF8STRINGVIEW_STR( feature_value );
             const size_t feat_key_codepoint = utf8stringview_count_codepoints( &feature_key_view );
             const size_t feat_value_codepoint = utf8stringview_count_codepoints( &feature_value_view );
-            int id_indent_width = TXT_ID_INDENT_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - feat_key_codepoint
+            int id_indent_width = TXT_ID_ALIGN_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - feat_key_codepoint
                 - ((feature_value_len==0)?0:(feat_value_codepoint+utf8string_get_length(TXT_COLON_SPACE)));
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         id_indent_width,
-                                                         feature_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          id_indent_width,
+                                                          feature_id
+                                                        );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
                                                                        TXT_DOUBLE_INDENT,
@@ -1372,16 +1372,16 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             const size_t rel_icon_codepoint = utf8stringview_count_codepoints( &relation_txticon_view );
             const size_t rel_dest_codepoint = utf8stringview_count_codepoints( &dest_classifier_name_view );
             int id_indent_width
-                = TXT_ID_INDENT_COLUMN
+                = TXT_ID_ALIGN_COLUMN
                 - utf8string_get_length(TXT_SPACE_INDENT)
                 - ((relation_name_len==0)?0:(rel_name_codepoint+utf8string_get_length(TXT_SPACE)))
                 - rel_icon_codepoint
                 - utf8string_get_length(TXT_SPACE)
                 - rel_dest_codepoint;
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         id_indent_width,
-                                                         relation_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          id_indent_width,
+                                                          relation_id
+                                                        );
 
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
@@ -1608,10 +1608,10 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), diag_name );
             const utf8stringview_t diag_name_view = UTF8STRINGVIEW_STR( diag_name );
             const size_t diag_name_codepoint = utf8stringview_count_codepoints( &diag_name_view );
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         TXT_ID_INDENT_COLUMN - diag_name_codepoint,
-                                                         diag_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          TXT_ID_ALIGN_COLUMN - diag_name_codepoint,
+                                                          diag_id
+                                                        );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
                                                                        TXT_SINGLE_INDENT,

@@ -15,7 +15,7 @@
 #include "entity/data_classifier.h"
 #include "set/data_visible_set.h"
 #include "geometry/geometry_rectangle.h"
-#include "utf8stringbuf/utf8stringbuf.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include "u8stream/universal_output_stream.h"
 #include "u8/u8_error.h"
 #include "io_gtk.h"
@@ -77,19 +77,20 @@ u8_error_t io_txt_writer_write_indent_multiline_string ( io_txt_writer_t *this_,
  *  if the id is invalid, nothing is printed.
  *
  *  \param this_ pointer to own object attributes
- *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
+ *  \param right_align_to right alignment position, by which the number of space-characters to insert is determined.
  *  \param id identifier
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t io_txt_writer_write_indent_id ( io_txt_writer_t *this_,
-                                           int indent_width,
-                                           data_id_t id
-                                         );
+u8_error_t io_txt_writer_write_aligned_id ( io_txt_writer_t *this_,
+                                            int right_align_to,
+                                            data_id_t id
+                                          );
 
 /*!
  *  \brief prints an id
  *
- *  if the id is invalid, nothing is printed.
+ *  In case the id is invalid, nothing is printed.
+ *  The id is printed 10 char wide, right-aligned.
  *
  *  \param this_ pointer to own object attributes
  *  \param id identifier

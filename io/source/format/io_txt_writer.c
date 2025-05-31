@@ -1,6 +1,7 @@
 /* File: io_txt_writer.c; Copyright and License: see below */
 
 #include "format/io_txt_writer.h"
+#include "utf8stringbuf/utf8stringlines.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <stdio.h>
@@ -8,10 +9,12 @@
 #include <assert.h>
 
 enum io_txt_writer_indent_enum {
-    TXT_WRITER_INDENT_COLUMN = 48,  /*!< the text column in which the id starts */
+    TXT_WRITER_INDENT_COLUMN = 80,  /*!< the text column in which the id shal end */
+    TXT_WRITER_MAX_COLUMN = 80,  /*!< the number of max columns the text shall be layouted - if possible */
 };
 
-static const char TXT_ID_INDENT_SPACES[TXT_WRITER_INDENT_COLUMN+1] = "                                                ";
+static const char TXT_ID_INDENT_SPACES[TXT_WRITER_INDENT_COLUMN+1]
+    = "                                                                                ";
 static const char TXT_NEWLINE[] = "\n";
 
 void io_txt_writer_init ( io_txt_writer_t *this_,
@@ -42,70 +45,56 @@ u8_error_t io_txt_writer_write_indent_multiline_string ( io_txt_writer_t *this_,
     assert( NULL != indent );
     assert( NULL != (*this_).output );
     u8_error_t result = U8_ERROR_NONE;
-    const size_t indent_length = strlen( indent );
+    utf8stringview_t indent_view;
+    utf8stringview_init_str( &indent_view, indent );
 
     if ( NULL != multiline_string )
     {
-        const char *line_start = multiline_string;
-        size_t line_length = 0;
-        bool ignore_newline = false;  /* newlines after returns are ignored */
+        utf8stringview_t line_list;
+        utf8stringview_init_str( &line_list, multiline_string );
+        utf8stringlines_t line_iter;
+        utf8stringlines_init( &line_iter,
+                              &line_list,
+                              TXT_WRITER_MAX_COLUMN - utf8stringview_get_length( &indent_view ) /*line_length*/
+                            );
 
-        size_t length = strlen( multiline_string );
-        for ( size_t index = 0; index < length; index ++ )
+        while ( utf8stringlines_has_next( &line_iter ) )
         {
-            bool end_of_line = false;
-
-            char current = multiline_string[index];
-            if ( '\r' == current )
-            {
-                ignore_newline = true;
-                end_of_line = true;
-            }
-            else if ( '\n' == current )
-            {
-                if ( ignore_newline )
-                {
-                    line_start = &(multiline_string[index+1]);
-                }
-                else
-                {
-                    end_of_line = true;
-                }
-                ignore_newline = false;
-            }
-            else
-            {
-                ignore_newline = false;
-                line_length ++;
-                if ( index+1 == length )
-                {
-                    end_of_line = true;
-                }
-            }
-
-            if ( end_of_line )
+            utf8stringview_t line = utf8stringlines_next( &line_iter );
+            const bool is_empty_last_line
+                = ( ! utf8stringlines_has_next( &line_iter ) )&&( 0 == utf8stringview_get_length( &line ) );
+            if ( ! is_empty_last_line )
             {
                 /* print indent pattern */
-                result |= universal_output_stream_write ( (*this_).output, indent, indent_length );
+                result |= universal_output_stream_write( (*this_).output,
+                                                        utf8stringview_get_start( &indent_view ),
+                                                        utf8stringview_get_length( &indent_view )
+                                                    );
 
                 /* print next line */
-                result |= universal_output_stream_write ( (*this_).output, line_start, line_length );
+                result |= universal_output_stream_write( (*this_).output,
+                                                        utf8stringview_get_start( &line ),
+                                                        utf8stringview_get_length( &line )
+                                                    );
 
-                /* print newline */
-                result |= universal_output_stream_write ( (*this_).output, TXT_NEWLINE, strlen(TXT_NEWLINE) );
-
-                /* reset line indices */
-                line_start = &(multiline_string[index+1]);
-                line_length = 0;
+                if ( ! utf8stringview_ends_with_str( &line, TXT_NEWLINE ) )
+                {
+                    /* print newline */
+                    result |= universal_output_stream_write( (*this_).output, TXT_NEWLINE, strlen(TXT_NEWLINE) );
+                }
             }
         }
+        utf8stringlines_destroy( &line_iter );
+        utf8stringview_destroy( &line_list );
     }
+
+    utf8stringview_destroy( &indent_view );
 
     U8_TRACE_END_ERR( result );
     return result;
 }
 
-u8_error_t io_txt_writer_write_indent_id ( io_txt_writer_t *this_, int indent_width, data_id_t id )
+u8_error_t io_txt_writer_write_aligned_id ( io_txt_writer_t *this_, int right_align_to, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
@@ -115,14 +104,10 @@ u8_error_t io_txt_writer_write_indent_id ( io_txt_writer_t *this_, int indent_wi
     u8_error_t result = U8_ERROR_NONE;
 
     /* indent */
-    if ( indent_width > TXT_WRITER_INDENT_COLUMN )
+    if ( right_align_to > TXT_WRITER_INDENT_COLUMN )
     {
-        U8_LOG_ERROR_INT( "more spaces requested than available. missing:", indent_width - TXT_WRITER_INDENT_COLUMN );
-        indent_width = TXT_WRITER_INDENT_COLUMN;
-    }
-    if ( indent_width > 0 )
-    {
-        result |= universal_output_stream_write( (*this_).output, &TXT_ID_INDENT_SPACES, indent_width );
+        U8_LOG_ERROR_INT( "more spaces requested than available. missing:", right_align_to - TXT_WRITER_INDENT_COLUMN );
+        right_align_to = TXT_WRITER_INDENT_COLUMN;
     }
 
     /* print id */
@@ -130,11 +115,18 @@ u8_error_t io_txt_writer_write_indent_id ( io_txt_writer_t *this_, int indent_wi
         char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+2];
         utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
         utf8stringbuf_clear( &id_str );
-        utf8stringbuf_append_str( &id_str, " [" );
+        utf8stringbuf_append_str( &id_str, "[" );
         data_id_to_utf8stringbuf( &id, id_str );
         utf8stringbuf_append_str( &id_str, "]" );
-
         const unsigned int len = utf8stringbuf_get_length( &id_str );
+
+        /* do indentation: */
+        int remaining_indent = right_align_to - len;
+        if ( remaining_indent > 0 )
+        {
+            result |= universal_output_stream_write( (*this_).output, &TXT_ID_INDENT_SPACES, remaining_indent );
+        }
+
         result |= universal_output_stream_write( (*this_).output, utf8stringbuf_get_string( &id_str ), len );
     }
 

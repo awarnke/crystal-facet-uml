@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.63.3"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
