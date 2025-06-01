@@ -15,6 +15,30 @@ static inline u8_error_t io_txt_writer_write_plain ( io_txt_writer_t *this_, con
     return ( write_err );
 }
 
+static inline u8_error_t io_txt_writer_fill ( io_txt_writer_t *this_, char pattern, unsigned int count )
+{
+    assert ( NULL != (*this_).output );
+    u8_error_t write_err;
+
+    /* prepare a buffer for optimized output */
+    char buf[16];
+    for ( unsigned int index = 0; index < 16; index++ )
+    {
+        buf[index] = pattern;
+    }
+
+    /* do write the buffer  */
+    unsigned int buf_count = count / 16;
+    for ( unsigned int loop_count = 0; loop_count < buf_count; loop_count++ )
+    {
+        write_err = universal_output_stream_write ( (*this_).output, &buf, sizeof(buf) );
+    }
+    unsigned int buf_remain = count % 16;
+    write_err = universal_output_stream_write ( (*this_).output, &buf, buf_remain );
+
+    return ( write_err );
+}
+
 
 /*
 Copyright 2019-2025 Andreas Warnke

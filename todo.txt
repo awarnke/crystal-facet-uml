@@ -41,6 +41,7 @@ ideas for future versions:
   [ ] A comment should only show the first paragraph. Or - like an svg-path - define other delimiters
   [ ] An image should allow to show an svg-<path> without a stereotype
   [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
+  [ ] A stereotype could define a pattern and a color - additionally to the icon based on svg paths
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

@@ -4,6 +4,7 @@ crystal-facet-uml (1.64.0) UNRELEASED; urgency=medium
   * mouse cursor indicates options for creating objects with nicer icons
   * the plain txt export performs linebreaks at 80 chars
   * it omits empty descriptions
+  * the plain txt export uses markdown headings, code, lists
   * the json storage and export adds linebreaks at 80 chars of contents
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 May 2025 10:30:00 +0100

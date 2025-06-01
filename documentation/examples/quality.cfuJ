@@ -1463,7 +1463,7 @@
           {
             "id": 209,
             "display_flags": 0,
-            "classifier_name": "Recover-ability",
+            "classifier_name": "Recoverability",
             "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
             "uuid": "a183f7b4-4210-4ffd-9948-4661d56f70f1"
           },
@@ -1533,7 +1533,7 @@
             "id": 66,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Recover-ability",
+            "classifier_name": "Recoverability",
             "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
             "uuid": "37914ebb-1dce-4b8c-b571-a422e862639d"
           },
@@ -1717,7 +1717,7 @@
             "id": 339,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Recover-ability",
+            "classifier_name": "Recoverability",
             "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
             "uuid": "0f596db0-4dc4-4ea6-98bc-09b0caa0ce6a"
           },
@@ -4079,7 +4079,7 @@
         "id": 37,
         "main_type": 90,
         "type": "Block",
-        "name": "Recover-ability",
+        "name": "Recoverability",
         "description": [
                 ""
         ],
@@ -10293,7 +10293,7 @@
         ],
         "list_order": 750032,
         "from_classifier_name": "Reliability",
-        "to_classifier_name": "Recover-ability",
+        "to_classifier_name": "Recoverability",
         "from_node": "3469bf40-881d-4466-b93a-43158b1e4fec",
         "to_node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
         "uuid": "f0486645-96ab-44a4-8354-e7885e79ff5c"
@@ -10754,7 +10754,7 @@
         ],
         "list_order": 797136,
         "from_classifier_name": "Partitioning",
-        "to_classifier_name": "Recover-ability",
+        "to_classifier_name": "Recoverability",
         "from_node": "152cb739-2190-47bc-9579-a24389e1fb5e",
         "to_node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
         "uuid": "761b2778-d62e-4702-be8e-62b7d8af750b"
@@ -13168,7 +13168,7 @@
         ],
         "list_order": 918992,
         "from_classifier_name": "Error Handling Concept",
-        "to_classifier_name": "Recover-ability",
+        "to_classifier_name": "Recoverability",
         "from_node": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
         "to_node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
         "uuid": "2d5a6cdf-a14c-4f12-8713-199528b3defe"

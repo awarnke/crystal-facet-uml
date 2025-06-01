@@ -98,6 +98,16 @@ u8_error_t io_txt_writer_write_aligned_id ( io_txt_writer_t *this_,
  */
 u8_error_t io_txt_writer_write_plain_id ( io_txt_writer_t *this_, data_id_t id );
 
+/*!
+ *  \brief writes a string multiple times to a file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param pattern a single byte to write
+ *  \param count number of times the pattern shall be written
+ *  \return U8_ERROR_NONE in case of success
+ */
+static inline u8_error_t io_txt_writer_fill ( io_txt_writer_t *this_, char pattern, unsigned int count );
+
 #include "io_txt_writer.inl"
 
 #endif  /* IO_TXT_WRITER_H */
