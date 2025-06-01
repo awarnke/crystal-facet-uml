@@ -6,6 +6,7 @@ crystal-facet-uml (1.64.0) UNRELEASED; urgency=medium
   * it omits empty descriptions
   * the plain txt export uses markdown headings, code, lists
   * the json storage and export adds linebreaks at 80 chars of contents
+  * exported json schema shows enum values of display_tags
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 May 2025 10:30:00 +0100
 

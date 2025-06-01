@@ -192,6 +192,7 @@ void json_schema_writer_init ( json_schema_writer_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != output );
 
+    json_type_name_map_init( &((*this_).enum_map) );
     utf8stream_writer_init( &((*this_).writer), output );
     (*this_).indent = 7;
 
@@ -203,6 +204,7 @@ void json_schema_writer_destroy( json_schema_writer_t *this_ )
     U8_TRACE_BEGIN();
 
     utf8stream_writer_destroy( &((*this_).writer) );
+    json_type_name_map_destroy( &((*this_).enum_map) );
 
     U8_TRACE_END();
 }
@@ -244,8 +246,18 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS, D_FLAGS );
     static const char *const D_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
-    /* TODO: generate an enum listing all options */
-    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES, D_FLAG_NAME );
+    /* generate an enum listing all options */
+    const char * D_FLAG_VALUES[] = {
+        json_type_name_map_get_diagram_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_NONE ),
+        json_type_name_map_get_diagram_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS ),
+        json_type_name_map_get_diagram_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT ),
+        NULL
+    };
+    export_err |= json_schema_writer_private_declare_enum( this_,
+                                                           JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
+                                                           D_FLAG_NAME,
+                                                           D_FLAG_VALUES
+                                                         );
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, true /*elements follow*/ );
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_ELEMENTS_HEADER );
@@ -263,7 +275,24 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     static const char *const E_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
     /* TODO: generate an enum listing all options */
-    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES, E_FLAG_NAME );
+    const char * E_FLAG_VALUES[] = {
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_NONE ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT | DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ),
+        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT | DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ),
+        NULL
+    };
+    export_err |= json_schema_writer_private_declare_enum( this_,
+                                                           JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
+                                                           E_FLAG_NAME,
+                                                           E_FLAG_VALUES
+                                                         );
+    //export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES, E_FLAG_NAME );
     static const char *const E_NODE = "the uuid of either the classifier or the feature (type lifeline only)";
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE, E_NODE, true );
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, false );
@@ -464,6 +493,58 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "},\n");
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
+                                                    const char* name,
+                                                    const char* description,
+                                                    const char** value_list )
+{
+    U8_TRACE_BEGIN();
+    assert( name != NULL );
+    assert( description != NULL );
+    assert( value_list != NULL );
+    u8_error_t export_err = U8_ERROR_NONE;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), name );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "\":\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "{\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"description\": \"" );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), description );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"enum\":\n" );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  [\n" );
+
+    unsigned int index = 0;
+    while ( value_list[index] != NULL )
+    {
+        const bool has_next = ( value_list[ index + 1 ] != NULL );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), "    \"" );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), value_list[index] );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), has_next ? "\",\n": "\"\n" );
+
+        index ++;
+    }
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  ]\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "},\n" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;

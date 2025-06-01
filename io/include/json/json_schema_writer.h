@@ -11,11 +11,13 @@
 
 #include "u8stream/universal_output_stream.h"
 #include "utf8stream/utf8stream_writer.h"
+#include "json/json_type_name_map.h"
 
 /*!
  *  \brief attributes of the json schema writer
  */
 struct json_schema_writer_struct {
+    json_type_name_map_t enum_map;  /*!< an own provider of typenames to declare enumerations */
     utf8stream_writer_t writer;  /*!< an own universal_output_stream_t, wrapping the *output */
     unsigned int indent;  /*!< indentation level: 7 and 10 are supported */
 };
@@ -85,6 +87,21 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
                                                                const char* description,
                                                                const char* element_description
                                                              );
+
+/*!
+ *  \brief writes a json member declaration of type enum (of strings)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param name name of the member to declare
+ *  \param description description of the member
+ *  \param value_list names of the allowed enum values, terminated by NULL
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
+                                                    const char* name,
+                                                    const char* description,
+                                                    const char** value_list
+                                                  );
 
 /*!
  *  \brief writes a json member declaration of type uuid (which converts to string)
