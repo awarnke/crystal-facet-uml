@@ -236,8 +236,13 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE, D_DIAGTYPE_ID );
     static const char *const D_DIAGTYPE_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE " as string, exported for reviews by humans, ignored at import";
-    /* TODO: generate an enum listing all options */
-    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME, D_DIAGTYPE_NAME );
+    /* generate an enum listing all options */
+    const char *const * D_TYPE_VALUES = json_type_name_map_get_diagram_types_list( &((*this_).enum_map) );
+    export_err |= json_schema_writer_private_declare_enum( this_,
+                                                           JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME,
+                                                           D_DIAGTYPE_NAME,
+                                                           D_TYPE_VALUES
+                                                         );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE, ANY_STEREO );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_NAME, "" );
     export_err |= json_schema_writer_private_declare_array_of_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION, "", ANY_DESCR );
@@ -247,12 +252,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     static const char *const D_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
     /* generate an enum listing all options */
-    const char * D_FLAG_VALUES[] = {
-        json_type_name_map_get_diagram_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_NONE ),
-        json_type_name_map_get_diagram_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS ),
-        json_type_name_map_get_diagram_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT ),
-        NULL
-    };
+    const char *const * D_FLAG_VALUES = json_type_name_map_get_diagram_tags_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
                                                            D_FLAG_NAME,
@@ -274,19 +274,8 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS, E_FLAGS );
     static const char *const E_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
-    /* TODO: generate an enum listing all options */
-    const char * E_FLAG_VALUES[] = {
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_NONE ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT | DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ),
-        json_type_name_map_get_diagramelement_tags( &((*this_).enum_map), DATA_DIAGRAM_FLAG_GRAY_OUT | DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ),
-        NULL
-    };
+    /* generate an enum listing all options */
+    const char *const * E_FLAG_VALUES = json_type_name_map_get_diagramelement_tags_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
                                                            E_FLAG_NAME,
@@ -308,8 +297,13 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE, C_TYPE_ID );
     static const char *const C_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ", exported for reviews by humans, ignored at import";
-    /* TODO: generate an enum listing all options */
-    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME, C_TYPE_NAME );
+    /* generate an enum listing all options */
+    const char *const * C_TYPE_VALUES = json_type_name_map_get_classifier_types_list( &((*this_).enum_map) );
+    export_err |= json_schema_writer_private_declare_enum( this_,
+                                                           JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME,
+                                                           C_TYPE_NAME,
+                                                           C_TYPE_VALUES
+                                                         );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE, "" );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_NAME, "" );
     export_err |= json_schema_writer_private_declare_array_of_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION, "", ANY_DESCR );
@@ -326,8 +320,13 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE, F_TYPE_ID );
     static const char *const F_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ", exported for reviews by humans, ignored at import";
-    /* TODO: generate an enum listing all options */
-    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME, F_TYPE_NAME );
+    /* generate an enum listing all options */
+    const char *const * F_TYPE_VALUES = json_type_name_map_get_feature_types_list( &((*this_).enum_map) );
+    export_err |= json_schema_writer_private_declare_enum( this_,
+                                                           JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME,
+                                                           F_TYPE_NAME,
+                                                           F_TYPE_VALUES
+                                                         );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_FEATURE_KEY, "name" );
     static const char *const F_VALUE = "valuetype in case of properties, value in case of tagges values, stereotype otherwise";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_FEATURE_VALUE, F_VALUE );
@@ -346,8 +345,13 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE, R_TYPE_ID );
     static const char *const R_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ", exported for reviews by humans, ignored at import";
-    /* TODO: generate an enum listing all options */
-    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME, R_TYPE_NAME );
+    /* generate an enum listing all options */
+    const char *const * R_TYPE_VALUES = json_type_name_map_get_relationship_types_list( &((*this_).enum_map) );
+    export_err |= json_schema_writer_private_declare_enum( this_,
+                                                           JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME,
+                                                           R_TYPE_NAME,
+                                                           R_TYPE_VALUES
+                                                         );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE, ANY_STEREO );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME, "" );
     export_err |= json_schema_writer_private_declare_array_of_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION, "", ANY_DESCR );
@@ -501,7 +505,7 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
 u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
                                                     const char* name,
                                                     const char* description,
-                                                    const char** value_list )
+                                                    const char *const * value_list )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );

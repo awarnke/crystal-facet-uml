@@ -112,11 +112,11 @@ extern const xmi_element_info_map_t xmi_element_info_map_standard;
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
-static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
-                                                        data_classifier_type_t parent_type,
-                                                        data_classifier_type_t classifier_type,
-                                                        const xmi_element_info_t **out_element_info
-                                                      );
+static inline u8_error_t xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
+                                                               data_classifier_type_t parent_type,
+                                                               data_classifier_type_t classifier_type,
+                                                               const xmi_element_info_t **out_element_info
+                                                             );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by feat_type.
@@ -127,11 +127,11 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
-static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                     data_classifier_type_t parent_type,
-                                                     data_feature_type_t feature_type,
-                                                     const xmi_element_info_t **out_element_info
-                                                   );
+static inline u8_error_t xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
+                                                            data_classifier_type_t parent_type,
+                                                            data_feature_type_t feature_type,
+                                                            const xmi_element_info_t **out_element_info
+                                                          );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by rel_type.
@@ -142,11 +142,11 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
-static inline int xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
-                                                          bool statemachine_context,
-                                                          data_relationship_type_t rel_type,
-                                                          const xmi_element_info_t **out_element_info
-                                                        );
+static inline u8_error_t xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
+                                                                 bool statemachine_context,
+                                                                 data_relationship_type_t rel_type,
+                                                                 const xmi_element_info_t **out_element_info
+                                                               );
 
 #include "xmi_element_info_map.inl"
 

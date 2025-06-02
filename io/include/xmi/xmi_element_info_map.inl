@@ -8,10 +8,10 @@
 extern const xmi_element_info_t xmi_element_info_map_unknown_type;
 extern const xmi_element_info_t xmi_element_info_map_unknown_rel_type;
 
-static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
-                                                        data_classifier_type_t parent_type,
-                                                        data_classifier_type_t classifier_type,
-                                                        const xmi_element_info_t **out_element_info )
+static inline u8_error_t xmi_element_info_map_get_classifier( const xmi_element_info_map_t *this_,
+                                                              data_classifier_type_t parent_type,
+                                                              data_classifier_type_t classifier_type,
+                                                              const xmi_element_info_t **out_element_info )
 {
     assert( NULL != out_element_info );
     const xmi_element_info_t * result = NULL;
@@ -308,10 +308,10 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
     return (result==NULL) ? U8_ERROR_NOT_FOUND : U8_ERROR_NONE;
 }
 
-static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                     data_classifier_type_t parent_type,
-                                                     data_feature_type_t feature_type,
-                                                     const xmi_element_info_t **out_element_info )
+static inline u8_error_t xmi_element_info_map_get_feature( const xmi_element_info_map_t *this_,
+                                                           data_classifier_type_t parent_type,
+                                                           data_feature_type_t feature_type,
+                                                           const xmi_element_info_t **out_element_info )
 {
     assert( NULL != out_element_info );
     const xmi_element_info_t * result = NULL;
@@ -426,10 +426,10 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
     return (result==NULL) ? U8_ERROR_NOT_FOUND : U8_ERROR_NONE;
 }
 
-static inline int xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
-                                                          bool statemachine_context,
-                                                          data_relationship_type_t rel_type,
-                                                          const xmi_element_info_t **out_element_info )
+static inline u8_error_t xmi_element_info_map_get_relationship( const xmi_element_info_map_t *this_,
+                                                                bool statemachine_context,
+                                                                data_relationship_type_t rel_type,
+                                                                const xmi_element_info_t **out_element_info )
 {
     assert( NULL != out_element_info );
     const xmi_element_info_t * result = NULL;

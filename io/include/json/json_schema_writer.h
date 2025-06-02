@@ -100,7 +100,7 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
 u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
                                                     const char* name,
                                                     const char* description,
-                                                    const char** value_list
+                                                    const char *const * value_list
                                                   );
 
 /*!
