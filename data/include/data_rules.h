@@ -191,7 +191,7 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
  *          or DATA_CLASSIFIER_TYPE_COMMENT
  *          or DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE
  *          or ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
- *          and ( DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )).
+ *          and ( DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_INTERACTION_USE )).
  */
 static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_,
                                                                   data_diagram_type_t diagram_type,

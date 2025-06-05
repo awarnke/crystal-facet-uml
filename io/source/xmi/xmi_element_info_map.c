@@ -131,7 +131,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION_USE] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 17.12.16 */
-        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE,
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_INTERACTION_USE,
         .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
         .profile_name             = NULL,
         .base_name                = "InteractionUse",

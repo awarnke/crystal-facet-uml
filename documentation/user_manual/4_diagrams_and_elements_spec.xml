@@ -264,10 +264,10 @@
                                 <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
-                                Interaction Diagram Reference (Interaction Use)</para></entry>
+                                Interaction Use</para></entry>
                             <entry><para>UML / Interaction Overview</para></entry>
                             <entry>
-                                <para>Hint: To easily find the referenced diagram, name the reference identical to the diagram.</para>
+                                <para>Hint: To easily find the referenced diagram, name the interaction use identical to the diagram.</para>
                                 <para>
                                     XMI-Export: For xmi export,
                                     this object may only occur in interaction diagrams: interaction overview,

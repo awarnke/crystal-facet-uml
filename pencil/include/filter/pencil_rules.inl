@@ -18,7 +18,7 @@ static inline bool pencil_rules_feature_is_implicit_proxy ( const pencil_rules_t
         = ! (( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE ));
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE ));
     const bool diagram_can_show_lifeline
         = ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
         || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM );

@@ -142,7 +142,7 @@ void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_re
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_USE_CASE, "Use Case", icon_clas_usecase );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_clas_diagram = gui_resources_get_type_clas_diagram( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE, "Interaction Use (diagram ref)", icon_clas_diagram );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_INTERACTION_USE, "Interaction Use", icon_clas_diagram );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_clas_activity = gui_resources_get_type_clas_activity( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ACTIVITY, "Activity/Action", icon_clas_activity );

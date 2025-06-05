@@ -6,7 +6,7 @@ static inline bool data_classifier_type_is_behavioral( data_classifier_type_t th
         = ( this_ == DATA_CLASSIFIER_TYPE_USE_CASE )
         ||( this_ == DATA_CLASSIFIER_TYPE_ACTIVITY )
         ||( this_ == DATA_CLASSIFIER_TYPE_STATE )
-        ||( this_ == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )
+        ||( this_ == DATA_CLASSIFIER_TYPE_INTERACTION_USE )
         ||( this_ == DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION )
         ||( this_ == DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE )
         ||( this_ == DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE )

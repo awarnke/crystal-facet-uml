@@ -391,7 +391,7 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
+            case DATA_CLASSIFIER_TYPE_INTERACTION_USE:
             {
                 draw_classifier_contour_draw_diagram_ref ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
             }

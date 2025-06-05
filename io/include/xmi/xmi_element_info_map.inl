@@ -94,10 +94,10 @@ static inline u8_error_t xmi_element_info_map_get_classifier( const xmi_element_
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_INTERACTION_USE:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION_USE]);
-            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE );
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_INTERACTION_USE );
         }
         break;
 

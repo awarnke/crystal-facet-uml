@@ -179,7 +179,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
                                                                 DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
                                                                 c1_type
                                                               );
-            if ( c1_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )
+            if ( c1_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )
             {
                 insert_err = universal_array_index_sorter_insert( &sorted_diag_refs, plain_idx, weight );
             }
@@ -200,7 +200,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
             geometry_rectangle_t envelope_box;
-            if ( c1_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )
+            if ( c1_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )
             {
                 geometry_rectangle_init( &envelope_box, 0.0, 0.0, (diag_w-half_minor_width), (minor_minor_height/2.0) );
             }
