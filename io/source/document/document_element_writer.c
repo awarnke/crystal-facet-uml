@@ -833,7 +833,6 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const char *const classifier_type_name
         = json_type_name_map_get_classifier_type( &((*this_).type_map),
-                                                  host_type,
                                                   data_classifier_get_main_type( classifier_ptr )
                                                 );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier_ptr );
@@ -1038,13 +1037,9 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
     const char *const feature_descr = data_feature_get_description_const( feature_ptr );
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
-    const data_classifier_type_t parent_type = data_classifier_get_main_type( parent );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const char *const feature_type_name
-        = json_type_name_map_get_feature_type( &((*this_).type_map),
-                                               parent_type,
-                                               feature_type
-                                             );
+        = json_type_name_map_get_feature_type( &((*this_).type_map), feature_type );
     const bool has_stereotype = data_rules_feature_value_is_stereotype( &((*this_).data_rules), feature_type );
 
     switch ( (*this_).export_type )
@@ -1252,22 +1247,8 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         = (NULL != to_c)
         ? data_classifier_get_name_const( to_c )
         : "";
-    const bool from_c_valid = ( from_c == NULL ) ? false : data_classifier_is_valid( from_c );
-    const bool to_c_valid = ( to_c == NULL ) ? false : data_classifier_is_valid( to_c );
-    const bool statemachine_context
-        = (from_c_valid
-        && ((data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_STATE)
-        || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
-        || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)))
-        || (to_c_valid
-        && (( data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_STATE)
-        || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
-        || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)));
     const char *const relation_type_name
-        = json_type_name_map_get_relationship_type( &((*this_).type_map),
-                                                    statemachine_context,
-                                                    relation_type
-                                                  );
+        = json_type_name_map_get_relationship_type( &((*this_).type_map), relation_type );
     const char*const relation_txticon = io_txt_icon_get_relationship ( &((*this_).txt_icon), relation_type );
 
     const char *const relation_stereotype = data_relationship_get_stereotype_const( relation_ptr );

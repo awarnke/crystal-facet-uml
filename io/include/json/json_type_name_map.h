@@ -54,13 +54,10 @@ void json_type_name_map_destroy( json_type_name_map_t *this_ );
  *  \brief gets the type name of the data_classifier_type_t id.
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type for some classifiers, the result depends on the used context,
- *                     therefore the parent type is needed to select the xmi_element_info_t
  *  \param classifier_type id for which to select the name
  *  \return type name of classifier_type id; empty string if the id is unknown
  */
 const char * json_type_name_map_get_classifier_type ( const json_type_name_map_t *this_,
-                                                      data_classifier_type_t parent_type,
                                                       data_classifier_type_t classifier_type
                                                     );
 
@@ -76,12 +73,10 @@ const char *const * json_type_name_map_get_classifier_types_list ( const json_ty
  *  \brief gets the type name of the data_feature_type_t id.
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the feature type shall be determined
  *  \param feature_type id for which to select the name
  *  \return type name of feature_type id; empty string if the id is unknown
  */
 const char * json_type_name_map_get_feature_type ( const json_type_name_map_t *this_,
-                                                   data_classifier_type_t parent_type,
                                                    data_feature_type_t feature_type
                                                  );
 
@@ -97,13 +92,10 @@ const char *const * json_type_name_map_get_feature_types_list ( const json_type_
  *  \brief gets the type name of the data_relationship_type_t id.
  *
  *  \param this_ pointer to own object attributes
- *  \param statemachine_context for some relationships, the result depends on the used context,
- *                              e.g. transition in statemachine or control flow in activities
  *  \param rel_type id for which to select the name
  *  \return type name of rel_type id; empty string if the id is unknown
  */
 const char * json_type_name_map_get_relationship_type ( const json_type_name_map_t *this_,
-                                                        bool statemachine_context,
                                                         data_relationship_type_t rel_type
                                                       );
 

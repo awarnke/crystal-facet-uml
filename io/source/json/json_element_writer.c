@@ -318,7 +318,6 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
         /* main type name */
         const char *const type_name
             = json_type_name_map_get_classifier_type( &((*this_).type_map),
-                                                      host_type,
                                                       data_classifier_get_main_type( classifier_ptr )
                                                     );
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -513,8 +512,6 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
     assert( parent != NULL );
     u8_error_t out_err = U8_ERROR_NONE;
 
-    const data_classifier_type_t parent_type = data_classifier_get_main_type( parent );
-
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
         assert( (*this_).in_outer_array == true );
@@ -551,7 +548,6 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
         /* type name */
         const char *const type_name
             = json_type_name_map_get_feature_type( &((*this_).type_map),
-                                                   parent_type,
                                                    data_feature_get_main_type( feature_ptr )
                                                  );
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -742,18 +738,8 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                           );
 
         /* main type name */
-        const bool statemachine_context
-            = (from_c_valid
-            && ((data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_STATE)
-            || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
-            || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)))
-            || (to_c_valid
-            && (( data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_STATE)
-            || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
-            || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)));
         const char *const type_name
             = json_type_name_map_get_relationship_type( &((*this_).type_map),
-                                                        statemachine_context,
                                                         data_relationship_get_main_type( relation_ptr )
                                                       );
         out_err |= json_writer_write_member_string( &((*this_).json_writer),

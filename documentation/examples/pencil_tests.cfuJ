@@ -4120,7 +4120,7 @@
       "classifier": {
         "id": 24,
         "main_type": 112,
-        "type": "Diagram Reference",
+        "type": "Interaction Use",
         "name": "Diagram Reference",
         "description": [
                 ""
@@ -4352,7 +4352,7 @@
       "classifier": {
         "id": 32,
         "main_type": 157,
-        "type": "Choice",
+        "type": "Decision",
         "name": "Decision",
         "description": [
                 ""
@@ -6145,7 +6145,7 @@
       "classifier": {
         "id": 78,
         "main_type": 157,
-        "type": "Choice",
+        "type": "Decision",
         "name": "New Background Scan-18",
         "description": [
                 ""
@@ -10527,7 +10527,7 @@
       "relationship": {
         "id": 11,
         "main_type": 230,
-        "type": "",
+        "type": "Communication Path",
         "name": "",
         "description": [
                 ""

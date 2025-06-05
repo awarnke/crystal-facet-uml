@@ -1,10 +1,6 @@
 /* File: json_type_name_map.inl; Copyright and License: see below */
 
 #include "json/json_type_name_map.h"
-#include "xmi/xmi_element_info_map.h"
-#include "xmi/xmi_element_info.h"
-#include "xmi/xmi_diagram_info_map.h"
-#include "xmi/xmi_diagram_info.h"
 #include "u8/u8_trace.h"
 #include <stdint.h>
 #include <assert.h>
@@ -16,39 +12,28 @@ void json_type_name_map_init( json_type_name_map_t *this_ )
     for ( unsigned int c_idx = 0; c_idx < DATA_CLASSIFIER_TYPE_COUNT; c_idx ++ )
     {
         (*this_).classifier_types[c_idx]
-            = json_type_name_map_get_classifier_type( this_,
-                                                      DATA_CLASSIFIER_TYPE_VOID,
-                                                      DATA_CLASSIFIER_TYPE_ARRAY[c_idx]
-                                                    );
+            = json_type_name_map_get_classifier_type( this_, DATA_CLASSIFIER_TYPE_ARRAY[c_idx] );
     }
     (*this_).classifier_types[ DATA_CLASSIFIER_TYPE_COUNT ] = NULL;
 
     for ( unsigned int f_idx = 0; f_idx < DATA_FEATURE_TYPE_COUNT; f_idx ++ )
     {
         (*this_).feature_types[f_idx]
-            = json_type_name_map_get_feature_type( this_,
-                                                   DATA_FEATURE_TYPE_VOID,
-                                                   DATA_FEATURE_TYPE_ARRAY[f_idx]
-                                                 );
+            = json_type_name_map_get_feature_type( this_, DATA_FEATURE_TYPE_ARRAY[f_idx] );
     }
     (*this_).feature_types[ DATA_FEATURE_TYPE_COUNT ] = NULL;
 
     for ( unsigned int r_idx = 0; r_idx < DATA_RELATIONSHIP_TYPE_COUNT; r_idx ++ )
     {
         (*this_).relationship_types[r_idx]
-            = json_type_name_map_get_relationship_type( this_,
-                                                        false,
-                                                        DATA_RELATIONSHIP_TYPE_ARRAY[r_idx]
-                                                      );
+            = json_type_name_map_get_relationship_type( this_, DATA_RELATIONSHIP_TYPE_ARRAY[r_idx] );
     }
     (*this_).relationship_types[ DATA_RELATIONSHIP_TYPE_COUNT ] = NULL;
 
     for ( unsigned int d_idx = 0; d_idx < DATA_DIAGRAM_TYPE_COUNT; d_idx ++ )
     {
         (*this_).diagram_types[d_idx]
-            = json_type_name_map_get_diagram_type( this_,
-                                                   DATA_DIAGRAM_TYPE_ARRAY[d_idx]
-                                                 );
+            = json_type_name_map_get_diagram_type( this_, DATA_DIAGRAM_TYPE_ARRAY[d_idx] );
     }
     (*this_).diagram_types[ DATA_DIAGRAM_TYPE_COUNT ] = NULL;
 
@@ -94,21 +79,9 @@ void json_type_name_map_destroy( json_type_name_map_t *this_ )
 }
 
 const char * json_type_name_map_get_classifier_type( const json_type_name_map_t *this_,
-                                                     data_classifier_type_t parent_type,
                                                      data_classifier_type_t classifier_type )
 {
     U8_TRACE_BEGIN();
-
-    /*
-    const xmi_element_info_t *element_info;
-    const u8_error_t err
-        = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                               parent_type,
-                                               classifier_type,
-                                               &element_info
-                                             );
-    const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_element_info_get_name( element_info );
-    */
 
     const char *const type_name = data_classifier_type_get_name( classifier_type );
 
@@ -122,21 +95,9 @@ const char *const * json_type_name_map_get_classifier_types_list ( const json_ty
 }
 
 const char * json_type_name_map_get_feature_type( const json_type_name_map_t *this_,
-                                                  data_classifier_type_t parent_type,
                                                   data_feature_type_t feature_type )
 {
     U8_TRACE_BEGIN();
-
-    /*
-    const xmi_element_info_t *element_info;
-    const u8_error_t err
-        = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
-                                            parent_type,
-                                            feature_type,
-                                            &element_info
-                                          );
-    const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_element_info_get_name( element_info );
-    */
 
     const char *const type_name = data_feature_type_get_name( feature_type );
 
@@ -150,21 +111,9 @@ const char *const * json_type_name_map_get_feature_types_list ( const json_type_
 }
 
 const char * json_type_name_map_get_relationship_type( const json_type_name_map_t *this_,
-                                                       bool statemachine_context,
                                                        data_relationship_type_t rel_type )
 {
     U8_TRACE_BEGIN();
-
-    /*
-    const xmi_element_info_t *element_info;
-    const u8_error_t err
-        = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                 statemachine_context,
-                                                 rel_type,
-                                                 &element_info
-                                               );
-    const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_element_info_get_name( element_info );
-    */
 
     const char *const type_name = data_relationship_type_get_name( rel_type );
 
@@ -181,16 +130,6 @@ const char * json_type_name_map_get_diagram_type( const json_type_name_map_t *th
                                                   data_diagram_type_t diagram_type )
 {
     U8_TRACE_BEGIN();
-
-    /*
-    const xmi_diagram_info_t *diagram_info;
-    const u8_error_t err
-        = xmi_diagram_info_map_get_diagram( &xmi_diagram_info_map_standard,
-                                            diagram_type,
-                                            &diagram_info
-                                          );
-    const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_diagram_info_get_name( diagram_info );
-    */
 
     const char *const type_name = data_diagram_type_get_name( diagram_type );
 
