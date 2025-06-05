@@ -1,14 +1,18 @@
 /* File: json_type_name_map.inl; Copyright and License: see below */
 
+#include "json/json_type_name_map.h"
 #include "xmi/xmi_element_info_map.h"
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_diagram_info_map.h"
 #include "xmi/xmi_diagram_info.h"
+#include "u8/u8_trace.h"
 #include <stdint.h>
 #include <assert.h>
 
-static inline void json_type_name_map_init( json_type_name_map_t *this_ )
+void json_type_name_map_init( json_type_name_map_t *this_ )
 {
+    U8_TRACE_BEGIN();
+
     for ( unsigned int c_idx = 0; c_idx < DATA_CLASSIFIER_TYPE_COUNT; c_idx ++ )
     {
         (*this_).classifier_types[c_idx]
@@ -79,16 +83,23 @@ static inline void json_type_name_map_init( json_type_name_map_t *this_ )
             = json_type_name_map_get_diagramelement_tags( this_, diagele_flags[def_idx] );
     }
     (*this_).diagramelement_tags[ JSON_TYPE_NAME_MAP_DEF_CNT ] = NULL;
+
+    U8_TRACE_END();
 }
 
-static inline void json_type_name_map_destroy( json_type_name_map_t *this_ )
+void json_type_name_map_destroy( json_type_name_map_t *this_ )
 {
+    U8_TRACE_BEGIN();
+    U8_TRACE_END();
 }
 
-static inline const char * json_type_name_map_get_classifier_type( const json_type_name_map_t *this_,
-                                                                   data_classifier_type_t parent_type,
-                                                                   data_classifier_type_t classifier_type )
+const char * json_type_name_map_get_classifier_type( const json_type_name_map_t *this_,
+                                                     data_classifier_type_t parent_type,
+                                                     data_classifier_type_t classifier_type )
 {
+    U8_TRACE_BEGIN();
+
+    /*
     const xmi_element_info_t *element_info;
     const u8_error_t err
         = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
@@ -97,18 +108,26 @@ static inline const char * json_type_name_map_get_classifier_type( const json_ty
                                                &element_info
                                              );
     const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_element_info_get_name( element_info );
+    */
+
+    const char *const type_name = data_classifier_type_get_name( classifier_type );
+
+    U8_TRACE_END();
     return type_name;
 }
 
-static inline const char *const * json_type_name_map_get_classifier_types_list ( const json_type_name_map_t *this_ )
+const char *const * json_type_name_map_get_classifier_types_list ( const json_type_name_map_t *this_ )
 {
     return (const char *const *) &((*this_).classifier_types);
 }
 
-static inline const char * json_type_name_map_get_feature_type( const json_type_name_map_t *this_,
-                                                                data_classifier_type_t parent_type,
-                                                                data_feature_type_t feature_type )
+const char * json_type_name_map_get_feature_type( const json_type_name_map_t *this_,
+                                                  data_classifier_type_t parent_type,
+                                                  data_feature_type_t feature_type )
 {
+    U8_TRACE_BEGIN();
+
+    /*
     const xmi_element_info_t *element_info;
     const u8_error_t err
         = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
@@ -117,18 +136,26 @@ static inline const char * json_type_name_map_get_feature_type( const json_type_
                                             &element_info
                                           );
     const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_element_info_get_name( element_info );
+    */
+
+    const char *const type_name = data_feature_type_get_name( feature_type );
+
+    U8_TRACE_END();
     return type_name;
 }
 
-static inline const char *const * json_type_name_map_get_feature_types_list ( const json_type_name_map_t *this_ )
+const char *const * json_type_name_map_get_feature_types_list ( const json_type_name_map_t *this_ )
 {
     return (const char *const *) &((*this_).feature_types);
 }
 
-static inline const char * json_type_name_map_get_relationship_type( const json_type_name_map_t *this_,
-                                                                     bool statemachine_context,
-                                                                     data_relationship_type_t rel_type )
+const char * json_type_name_map_get_relationship_type( const json_type_name_map_t *this_,
+                                                       bool statemachine_context,
+                                                       data_relationship_type_t rel_type )
 {
+    U8_TRACE_BEGIN();
+
+    /*
     const xmi_element_info_t *element_info;
     const u8_error_t err
         = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
@@ -137,17 +164,25 @@ static inline const char * json_type_name_map_get_relationship_type( const json_
                                                  &element_info
                                                );
     const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_element_info_get_name( element_info );
+    */
+
+    const char *const type_name = data_relationship_type_get_name( rel_type );
+
+    U8_TRACE_END();
     return type_name;
 }
 
-static inline const char *const * json_type_name_map_get_relationship_types_list ( const json_type_name_map_t *this_ )
+const char *const * json_type_name_map_get_relationship_types_list ( const json_type_name_map_t *this_ )
 {
     return (const char *const *) &((*this_).relationship_types);
 }
 
-static inline const char * json_type_name_map_get_diagram_type( const json_type_name_map_t *this_,
-                                                                data_diagram_type_t diagram_type )
+const char * json_type_name_map_get_diagram_type( const json_type_name_map_t *this_,
+                                                  data_diagram_type_t diagram_type )
 {
+    U8_TRACE_BEGIN();
+
+    /*
     const xmi_diagram_info_t *diagram_info;
     const u8_error_t err
         = xmi_diagram_info_map_get_diagram( &xmi_diagram_info_map_standard,
@@ -155,17 +190,23 @@ static inline const char * json_type_name_map_get_diagram_type( const json_type_
                                             &diagram_info
                                           );
     const char *const type_name = ( err != U8_ERROR_NONE ) ? "" : xmi_diagram_info_get_name( diagram_info );
+    */
+
+    const char *const type_name = data_diagram_type_get_name( diagram_type );
+
+    U8_TRACE_END();
     return type_name;
 }
 
-static inline const char *const * json_type_name_map_get_diagram_types_list ( const json_type_name_map_t *this_ )
+const char *const * json_type_name_map_get_diagram_types_list ( const json_type_name_map_t *this_ )
 {
     return (const char *const *) &((*this_).diagram_types);
 }
 
-static inline const char * json_type_name_map_get_diagram_tags( const json_type_name_map_t *this_,
-                                                                data_diagram_flag_t diagram_flag )
+const char * json_type_name_map_get_diagram_tags( const json_type_name_map_t *this_,
+                                                  data_diagram_flag_t diagram_flag )
 {
+    U8_TRACE_BEGIN();
     const char * tag_names = "";
 
     switch( diagram_flag )
@@ -178,7 +219,7 @@ static inline const char * json_type_name_map_get_diagram_tags( const json_type_
 
         case DATA_DIAGRAM_FLAG_GRAY_OUT:
         {
-            tag_names = "GrayOut";
+            tag_names = "Gray";
         }
         break;
 
@@ -189,17 +230,19 @@ static inline const char * json_type_name_map_get_diagram_tags( const json_type_
         break;
     }
 
+    U8_TRACE_END();
     return tag_names;
 }
 
-static inline const char *const * json_type_name_map_get_diagram_tags_list ( const json_type_name_map_t *this_ )
+const char *const * json_type_name_map_get_diagram_tags_list ( const json_type_name_map_t *this_ )
 {
     return (const char *const *) &((*this_).diagram_tags);
 }
 
-static inline const char * json_type_name_map_get_diagramelement_tags( const json_type_name_map_t *this_,
-                                                                       data_diagramelement_flag_t diagramelement_flag )
+const char * json_type_name_map_get_diagramelement_tags( const json_type_name_map_t *this_,
+                                                         data_diagramelement_flag_t diagramelement_flag )
 {
+    U8_TRACE_BEGIN();
     const char * tag_names = "";
 
     switch( (int_fast32_t) diagramelement_flag )
@@ -212,43 +255,43 @@ static inline const char * json_type_name_map_get_diagramelement_tags( const jso
 
         case DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT:
         {
-            tag_names = "GrayOut";
+            tag_names = "Gray";
         }
         break;
 
         case DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE:
         {
-            tag_names = "NamedInstance";
+            tag_names = "Named Instance";
         }
         break;
 
         case DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS:
         {
-            tag_names = "NamedInstance, Emphasis";
+            tag_names = "Named Instance, Emphasis";
         }
         break;
 
         case DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT:
         {
-            tag_names = "NamedInstance, GrayOut";
+            tag_names = "Named Instance, Gray";
         }
         break;
 
         case DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE:
         {
-            tag_names = "AnonymousInstance";
+            tag_names = "Anonymous Instance";
         }
         break;
 
         case DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS:
         {
-            tag_names = "AnonymousInstance, Emphasis";
+            tag_names = "Anonymous Instance, Emphasis";
         }
         break;
 
         case DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT:
         {
-            tag_names = "AnonymousInstance, GrayOut";
+            tag_names = "Anonymous Instance, Gray";
         }
         break;
 
@@ -259,10 +302,11 @@ static inline const char * json_type_name_map_get_diagramelement_tags( const jso
         break;
     }
 
+    U8_TRACE_END();
     return tag_names;
 }
 
-static inline const char *const * json_type_name_map_get_diagramelement_tags_list ( const json_type_name_map_t *this_ )
+const char *const * json_type_name_map_get_diagramelement_tags_list ( const json_type_name_map_t *this_ )
 {
     return (const char *const *) &((*this_).diagramelement_tags);
 }

@@ -45,6 +45,11 @@ typedef enum data_diagram_type_enum data_diagram_type_t;
 #define DATA_DIAGRAM_TYPE_COUNT (19)
 
 /*!
+ *  \brief a modulo for a hash function for unique hashing
+ */
+#define DATA_DIAGRAM_TYPE_HASH_MOD (40)
+
+/*!
  *  \brief lists all values of data_diagram_type_t, excluding DATA_DIAGRAM_TYPE_VOID
  */
 extern data_diagram_type_t const DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT];
@@ -57,6 +62,14 @@ extern data_diagram_type_t const DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUN
  *          false otherwise
  */
 static inline bool data_diagram_type_is_interaction( data_diagram_type_t this_ );
+
+/*!
+ *  \brief returns a short name for the diagram type
+ *
+ *  \param this_ enumeration value
+ *  \return name of the type, "" if unknown or void type
+ */
+const char * data_diagram_type_get_name( data_diagram_type_t this_ );
 
 #include "entity/data_diagram_type.inl"
 

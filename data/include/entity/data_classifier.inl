@@ -180,13 +180,13 @@ static inline void data_classifier_trace ( const data_classifier_t *this_ )
 {
     U8_TRACE_INFO( "data_classifier_t" );
     U8_TRACE_INFO_INT( "- id:", (*this_).id );
-    U8_TRACE_INFO_INT( "- main_type:", (*this_).main_type );
+    U8_TRACE_INFO_INT_STR( "- main_type:", (*this_).main_type, data_classifier_type_get_name( (*this_).main_type ) );
     U8_TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string( &((*this_).stereotype)) );
     U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string( &((*this_).name)) );
     U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string( &((*this_).description)) );
     U8_TRACE_INFO_INT( "- x_order:", (*this_).x_order );
     U8_TRACE_INFO_INT( "- y_order:", (*this_).y_order );
-    U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );s
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 

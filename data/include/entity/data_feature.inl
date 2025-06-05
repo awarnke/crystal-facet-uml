@@ -308,7 +308,7 @@ static inline void data_feature_trace ( const data_feature_t *this_ )
 {
     U8_TRACE_INFO( "data_feature_t" );
     U8_TRACE_INFO_INT( "- id:", (*this_).id );
-    U8_TRACE_INFO_INT( "- main_type:", (*this_).main_type );
+    U8_TRACE_INFO_INT_STR( "- main_type:", (*this_).main_type, data_feature_type_get_name( (*this_).main_type )  );
     U8_TRACE_INFO_INT( "- classifier_id:", (*this_).classifier_id );
     U8_TRACE_INFO_STR( "- key:", utf8stringbuf_get_string( &((*this_).key)) );
     U8_TRACE_INFO_STR( "- value:", utf8stringbuf_get_string( &((*this_).value)) );

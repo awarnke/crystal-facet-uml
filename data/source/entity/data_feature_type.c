@@ -1,6 +1,8 @@
 /* File: data_feature_type.c; Copyright and License: see below */
 
 #include "entity/data_feature_type.h"
+#include <stddef.h>
+#include <assert.h>
 
 const data_feature_type_t DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT]
     = {
@@ -16,6 +18,30 @@ const data_feature_type_t DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT]
         DATA_FEATURE_TYPE_EXIT,
         DATA_FEATURE_TYPE_TAGGED_VALUE
     };
+
+static const char *const DATA_FEATURE_TYPE_NAME_ARRAY [DATA_FEATURE_TYPE_HASH_MOD]
+    = {
+        [ DATA_FEATURE_TYPE_PROPERTY ] = "Property",
+        [ DATA_FEATURE_TYPE_OPERATION ] = "Operation",
+        [ DATA_FEATURE_TYPE_PORT ] = "Port",
+        [ DATA_FEATURE_TYPE_LIFELINE ] = "Lifeline",
+        [ DATA_FEATURE_TYPE_PROVIDED_INTERFACE ] = "Provided Interface",
+        [ DATA_FEATURE_TYPE_REQUIRED_INTERFACE ] = "Required Interface",
+        [ DATA_FEATURE_TYPE_IN_PORT_PIN ] = "Input Port",
+        [ DATA_FEATURE_TYPE_OUT_PORT_PIN ] = "Output Port",
+        [ DATA_FEATURE_TYPE_ENTRY ] = "Entry",
+        [ DATA_FEATURE_TYPE_EXIT ] = "Exit",
+        [ DATA_FEATURE_TYPE_TAGGED_VALUE ] = "Tagged Value",
+        [11] = "",
+    };
+
+const char * data_feature_type_get_name( data_feature_type_t this_ )
+{
+    const char * result
+        = ( this_ == DATA_FEATURE_TYPE_VOID ) ? "" : DATA_FEATURE_TYPE_NAME_ARRAY[ this_ % DATA_FEATURE_TYPE_HASH_MOD ];
+    assert( result != NULL );
+    return ( result == NULL ) ? "" : result;
+}
 
 
 /*

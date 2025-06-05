@@ -66,6 +66,11 @@ typedef enum data_classifier_type_enum data_classifier_type_t;
 #define DATA_CLASSIFIER_TYPE_COUNT (32)
 
 /*!
+ *  \brief a modulo for a hash function for unique hashing
+ */
+#define DATA_CLASSIFIER_TYPE_HASH_MOD (75)
+
+/*!
  *  \brief lists all values of data_classifier_type_t, excluding DATA_CLASSIFIER_TYPE_VOID
  */
 extern data_classifier_type_t const DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_TYPE_COUNT];
@@ -78,6 +83,14 @@ extern data_classifier_type_t const DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_
  *          false otherwise, especially excluded are requirements, actors, constraint-blocks, comments
  */
 static inline bool data_classifier_type_is_behavioral( data_classifier_type_t this_ );
+
+/*!
+ *  \brief returns a short name for the classifier type
+ *
+ *  \param this_ enumeration value
+ *  \return name of the type, "" if unknown or void type
+ */
+const char * data_classifier_type_get_name( data_classifier_type_t this_ );
 
 #include "entity/data_classifier_type.inl"
 

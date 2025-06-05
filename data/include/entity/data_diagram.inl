@@ -166,7 +166,7 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     U8_TRACE_INFO( "data_diagram_t" );
     U8_TRACE_INFO_INT( "- id:", (*this_).id );
     U8_TRACE_INFO_INT( "- parent_id:", (*this_).parent_id );
-    U8_TRACE_INFO_INT( "- diagram_type:", (*this_).diagram_type );
+    U8_TRACE_INFO_INT_STR( "- diagram_type:", (*this_).diagram_type, data_diagram_type_get_name( (*this_).diagram_type ) );
     U8_TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string( &((*this_).stereotype)) );
     U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string( &((*this_).name)) );
     U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string( &((*this_).description)) );

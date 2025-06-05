@@ -35,6 +35,11 @@ typedef enum data_feature_type_enum data_feature_type_t;
 #define DATA_FEATURE_TYPE_COUNT (11)
 
 /*!
+ *  \brief a modulo for a hash function for unique hashing
+ */
+#define DATA_FEATURE_TYPE_HASH_MOD (12)
+
+/*!
  *  \brief lists all values of data_feature_type_t, excluding DATA_FEATURE_TYPE_VOID
  */
 extern data_feature_type_t const DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT];
@@ -56,6 +61,14 @@ static inline bool data_feature_type_outside_compartment( data_feature_type_t th
  *          true otherwise (or if the feature type is unknown)
  */
 static inline bool data_feature_type_inside_compartment( data_feature_type_t this_ );
+
+/*!
+ *  \brief returns a short name for the feature type
+ *
+ *  \param this_ enumeration value
+ *  \return name of the type, "" if unknown or void type
+ */
+const char * data_feature_type_get_name( data_feature_type_t this_ );
 
 #include "entity/data_feature_type.inl"
 
