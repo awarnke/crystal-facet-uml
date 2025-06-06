@@ -177,6 +177,27 @@ u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
                                                    bool next_follows
                                                  );
 
+/*!
+ *  \brief writes a member name, a string, another member name and an int; the string value string is being json encoded
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent indentation level: number of tabs, 0 <= indent <= JSON_WRITER_MAX_INDENT
+ *  \param enc_name_1 name of the object member, json encoded string
+ *  \param unenc_value_1 string to write, being json encoded (a texual representation of an enum)
+ *  \param enc_name_2 name of the object member, json encoded string
+ *  \param number_value_2 the integer to print (a decimal representation of an enum)
+ *  \param next_follows true if another member follows (a comma will be printed)
+ *  \return U8_ERROR_NONE in case of success
+ */
+static inline u8_error_t json_writer_write_member_enum ( json_writer_t *this_,
+                                                         unsigned int indent,
+                                                         utf8string_t *enc_name_1,
+                                                         utf8string_t *unenc_value_1,
+                                                         utf8string_t *enc_name_2,
+                                                         int64_t number_value_2,
+                                                         bool next_follows
+                                                       );
+
 #include "json_writer.inl"
 
 #endif  /* JSON_WRITER_H */

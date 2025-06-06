@@ -133,7 +133,7 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "cfu-json", true );
     /* version 1.1 stores stereotypes for diagrams and relationships */
     out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 1, true );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 1, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 2, true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_name", META_INFO_PROGRAM_ID_STR, true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_version", META_VERSION_STR, false );
 
@@ -297,35 +297,19 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
                                                  true
                                                );
 
-        /* main type */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_classifier_get_main_type( classifier_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-
-        /* main type name */
+        /* type */
         const char *const type_name
             = json_type_name_map_get_classifier_type( &((*this_).type_map),
                                                       data_classifier_get_main_type( classifier_ptr )
                                                     );
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-                                                    JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME,
-                                                    type_name,
-                                                    true
-                                                  );
+        out_err |= json_writer_write_member_enum( &((*this_).json_writer),
+                                                  4,
+                                                  JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME,
+                                                  type_name,
+                                                  JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE,
+                                                  data_classifier_get_main_type( classifier_ptr ),
+                                                  true
+                                                );
 
         /* stereotype */
         if ( data_classifier_has_stereotype( classifier_ptr ) )
@@ -525,37 +509,19 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                  true
                                                );
 
-        /* main_type */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_feature_get_main_type( feature_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-
-        /* type name */
+        /* type */
         const char *const type_name
             = json_type_name_map_get_feature_type( &((*this_).type_map),
                                                    data_feature_get_main_type( feature_ptr )
                                                  );
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    6,
-                                                    JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME,
-                                                    type_name,
-                                                    true
-                                                  );
+        out_err |= json_writer_write_member_enum( &((*this_).json_writer),
+                                                  6,
+                                                  JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME,
+                                                  type_name,
+                                                  JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE,
+                                                  data_feature_get_main_type( feature_ptr ),
+                                                  true
+                                                );
 
         /* key */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -719,35 +685,19 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                  true
                                                );
 
-        /* main type */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_relationship_get_main_type( relation_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-
-        /* main type name */
+        /* type */
         const char *const type_name
             = json_type_name_map_get_relationship_type( &((*this_).type_map),
                                                         data_relationship_get_main_type( relation_ptr )
                                                       );
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME,
-                                                    type_name,
-                                                    true
-                                                  );
+        out_err |= json_writer_write_member_enum( &((*this_).json_writer),
+                                                  4,
+                                                  JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME,
+                                                  type_name,
+                                                  JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE,
+                                                  data_relationship_get_main_type( relation_ptr ),
+                                                  true
+                                                );
 
         /* stereotype */
         if ( data_relationship_has_stereotype( relation_ptr ) )
@@ -1010,34 +960,18 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                );
 
         /* diagram type */
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                          );
-        out_err |= json_writer_write_int( &((*this_).json_writer),
-                                          data_diagram_get_diagram_type( diag_ptr )
-                                        );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-
-        /* diagram type name */
         const char *const type_name
             = json_type_name_map_get_diagram_type( &((*this_).type_map),
                                                    data_diagram_get_diagram_type( diag_ptr )
                                                  );
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-                                                    JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME,
-                                                    type_name,
-                                                    true
-                                                  );
+        out_err |= json_writer_write_member_enum( &((*this_).json_writer),
+                                                  4,
+                                                  JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME,
+                                                  type_name,
+                                                  JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE,
+                                                  data_diagram_get_diagram_type( diag_ptr ),
+                                                  true
+                                                );
 
         /* stereotype */
         if ( data_diagram_has_stereotype( diag_ptr ) )
@@ -1074,27 +1008,22 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                  true
                                                );
 
-        /* display_flags */
-        out_err |= json_writer_write_member_int( &((*this_).json_writer),
-                                                 4,
-                                                 JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS,
-                                                 data_diagram_get_display_flags( diag_ptr ),
-                                                 true
-                                               );
-
-        /* display_tags - flag names */
+        /* display_tags (flag names) + display_flags */
         if ( data_diagram_get_display_flags( diag_ptr ) != DATA_DIAGRAM_FLAG_NONE )
         {
             const char *const tag_names
                 = json_type_name_map_get_diagram_tags( &((*this_).type_map),
                                                        data_diagram_get_display_flags( diag_ptr )
                                                      );
-            out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                        4,
-                                                        JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
-                                                        tag_names,
-                                                        true
-                                                      );
+
+            out_err |= json_writer_write_member_enum( &((*this_).json_writer),
+                                                      4,
+                                                      JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
+                                                      tag_names,
+                                                      JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS,
+                                                      data_diagram_get_display_flags( diag_ptr ),
+                                                      true
+                                                    );
         }
 
         const bool parent_valid = ( parent == NULL ) ? false : data_diagram_is_valid( parent );
@@ -1281,27 +1210,21 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
                                                  true
                                                );
 
-        /* display_flags */
-        out_err |= json_writer_write_member_int( &((*this_).json_writer),
-                                                 6,
-                                                 JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS,
-                                                 data_diagramelement_get_display_flags( diagramelement_ptr ),
-                                                 true
-                                               );
-
-        /* display_tags -- flag names */
+        /* display_tags (flag names) + display_flags */
         if ( data_diagramelement_get_display_flags( diagramelement_ptr ) != DATA_DIAGRAMELEMENT_FLAG_NONE )
         {
             const char *const tag_names
                 = json_type_name_map_get_diagramelement_tags( &((*this_).type_map),
                                                               data_diagramelement_get_display_flags( diagramelement_ptr )
                                                             );
-            out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                        6,
-                                                        JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
-                                                        tag_names,
-                                                        true
-                                                      );
+            out_err |= json_writer_write_member_enum( &((*this_).json_writer),
+                                                      6,
+                                                      JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
+                                                      tag_names,
+                                                      JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS,
+                                                      data_diagramelement_get_display_flags( diagramelement_ptr ),
+                                                      true
+                                                    );
         }
 
         /* classifier_name */

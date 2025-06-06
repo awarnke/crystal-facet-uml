@@ -33,6 +33,10 @@ static const char *const DATA_FEATURE_TYPE_NAME_ARRAY [DATA_FEATURE_TYPE_HASH_MO
         [ DATA_FEATURE_TYPE_EXIT ] = "Exit",
         [ DATA_FEATURE_TYPE_TAGGED_VALUE ] = "Tagged Value",
         [11] = "",
+        [12] = "",
+        [13] = "",
+        [14] = "",
+        [15] = "",
     };
 
 const char * data_feature_type_get_name( data_feature_type_t this_ )

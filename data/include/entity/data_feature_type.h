@@ -37,7 +37,7 @@ typedef enum data_feature_type_enum data_feature_type_t;
 /*!
  *  \brief a modulo for a hash function for unique hashing
  */
-#define DATA_FEATURE_TYPE_HASH_MOD (12)
+#define DATA_FEATURE_TYPE_HASH_MOD (16)
 
 /*!
  *  \brief lists all values of data_feature_type_t, excluding DATA_FEATURE_TYPE_VOID
