@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 1,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.48.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,42 +14,36 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 39,
-        "type": "UMLProfileDiagram",
+        "type": "Profile Diagram", "diagram_type": 39,
         "name": "Database-Profile",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "b4ecb19f-61eb-4c15-ad72-514da9d02e8c",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "Component",
             "node": "1abe459d-2d6d-4ed2-9202-2eee0b5d02e4",
             "uuid": "1ffce329-315e-4e68-9c6a-a860891d5b95"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "database",
             "node": "20587e28-788f-4817-a25a-f0be7af7c098",
             "uuid": "839e8d7e-7607-45c3-b4ba-8a35097d704d"
           },
           {
             "id": 3,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Example-DB",
             "node": "ab6d7b53-3170-4703-b97f-8700f5792938",
             "uuid": "1717a422-520f-4883-93ac-9e9bbf980aab"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "DB-img",
             "node": "b6cb3c24-3ff6-43f3-9693-2588bcc95962",
             "uuid": "7ea75103-3a12-409f-ade3-dd9b54041965"
@@ -64,8 +58,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "stereotype": "Metaclass",
         "name": "Component",
         "description": [
@@ -83,12 +76,13 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 139,
-        "type": "Stereotype",
+        "type": "Stereotype", "main_type": 139,
         "stereotype": "stereotype",
         "name": "database",
         "description": [
-                "<path d=\"m 0,1 c 0,-0.55 1.35,-1 3,-1 c 1.65,0 3,0.45 3,1 c 0,0.55, -1.35,1 -3,1 c -1.65,0 -3,-0.45, -3,-1 l 0,5 c 0,0.55 1.35,1 3,1 c 1.65,0 3,-0.45 3,-1 l 0,-5\"/>"
+                "<path d=\"m 0,1 c 0,-0.55 1.35,-1 3,-1 c 1.65,0 3,0.45 3,1 c 0,0.55, -1.35,1 ",
+                "-3,1 c -1.65,0 -3,-0.45, -3,-1 l 0,5 c 0,0.55 1.35,1 3,1 c 1.65,0 3,-0.45 3,-1 ",
+                "l 0,-5\"/>"
         ],
         "x_order": -274984128,
         "y_order": 705318536,
@@ -98,8 +92,7 @@
         [
           {
             "id": 2,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "impl",
             "value": "string",
             "description": [
@@ -114,8 +107,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "stereotype": "database",
         "name": "Example-DB",
         "description": [
@@ -129,8 +121,7 @@
         [
           {
             "id": 1,
-            "main_type": 10,
-            "type": "Tag",
+            "type": "Tagged Value", "main_type": 10,
             "key": "impl",
             "value": "sqlite3",
             "description": [
@@ -145,8 +136,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 138,
-        "type": "Image",
+        "type": "Image", "main_type": 138,
         "stereotype": "database",
         "name": "DB-img",
         "description": [
@@ -168,8 +158,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 210,
-        "type": "Generalization",
+        "type": "Generalization", "main_type": 210,
         "name": "",
         "description": [
                 ""
@@ -185,8 +174,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 202,
-        "type": "Association",
+        "type": "Composition", "main_type": 202,
         "name": "",
         "description": [
                 ""

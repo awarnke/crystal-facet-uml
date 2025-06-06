@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,58 +14,50 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
+        "type": "Block Definition Diagram", "diagram_type": 4,
         "name": "Block",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "3ddde57e-5999-4b2c-b0e8-50b0363b5303",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "New Perform Transaction-1",
             "node": "79be54d9-59ae-4d52-8687-e9a72ade24f9",
             "uuid": "b5524b82-b925-4723-9cd6-8e9b4275b17e"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "Dial Pad",
             "node": "30caa9ee-f046-444b-904b-1d868bf6896d",
             "uuid": "5f45543f-15cd-4251-865b-a79df0e766be"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "Microcontroller",
             "node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
             "uuid": "37ed53e0-2e0f-4cd2-addf-632a9df30924"
           },
           {
             "id": 4,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Flash Memory",
             "node": "a15c0338-a4c5-4456-82fd-df51942b9099",
             "uuid": "ab82864f-0d5b-4dbf-9d88-372090c27f89"
           },
           {
             "id": 5,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "CPU",
             "node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
             "uuid": "d8e79c48-cf68-4bf0-8671-79f2e0cd6874"
           },
           {
             "id": 6,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "RAM",
             "node": "d57992a4-64bd-4e5a-b936-c12f682939f8",
             "uuid": "d4948363-1cc1-4cd5-8c8b-393bc70f1311"
@@ -80,9 +72,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
+        "type": "Block", "main_type": 90,
         "name": "New Perform Transaction-1",
         "description": [
                 ""
@@ -95,8 +85,7 @@
         [
           {
             "id": 1,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "video_in",
             "value": "stream",
             "description": [
@@ -111,9 +100,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
+        "type": "Block", "main_type": 90,
         "name": "Dial Pad",
         "description": [
                 ""
@@ -126,8 +113,7 @@
         [
           {
             "id": 4,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "keypress_out",
             "value": "signal",
             "description": [
@@ -142,9 +128,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
+        "type": "Block", "main_type": 90,
         "name": "Microcontroller",
         "description": [
                 ""
@@ -157,8 +141,7 @@
         [
           {
             "id": 2,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "video_out",
             "value": "stream",
             "description": [
@@ -169,8 +152,7 @@
           },
           {
             "id": 3,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "keypress_in",
             "value": "signal",
             "description": [
@@ -185,9 +167,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
+        "type": "Block", "main_type": 90,
         "name": "Flash Memory",
         "description": [
                 ""
@@ -204,9 +184,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
+        "type": "Block", "main_type": 90,
         "name": "CPU",
         "description": [
                 ""
@@ -223,9 +201,7 @@
     {
       "classifier": {
         "id": 6,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
+        "type": "Block", "main_type": 90,
         "name": "RAM",
         "description": [
                 ""
@@ -246,8 +222,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -265,8 +240,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -282,8 +256,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -299,8 +272,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -316,8 +288,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -335,8 +306,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -352,8 +322,7 @@
     {
       "relationship": {
         "id": 7,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""

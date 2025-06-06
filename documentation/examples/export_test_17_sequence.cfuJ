@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,45 +14,39 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 13,
-        "type": "UMLInteractionDiagram/sequence",
+        "type": "Sequence Diagram", "diagram_type": 13,
         "name": "The Sequence",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "d6f2b796-173f-4ccd-af0e-85fa4ef87cc4",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "User",
             "node": "e351bb52-f59d-476b-977b-ebcbb8acff5b",
             "uuid": "643f90f2-dc20-48b9-b696-66a07812b7f7"
           },
           {
             "id": 2,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "GUI",
             "node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
             "uuid": "dbbbe1b5-bd08-4e9b-8ff3-80fcc695d0f4"
           },
           {
             "id": 3,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Logic",
             "node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
             "uuid": "7cb83cd3-2c80-45c6-9f12-4e73752c2f56"
           },
           {
             "id": 4,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Database",
             "node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
             "uuid": "717cf0ef-9892-4da2-a513-8e4e35aa428e"
@@ -67,9 +61,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 100,
-        "type": "Actor",
-        "stereotype": "",
+        "type": "Actor", "main_type": 100,
         "name": "User",
         "description": [
                 ""
@@ -82,10 +74,8 @@
         [
           {
             "id": 1,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -98,9 +88,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
+        "type": "Class", "main_type": 125,
         "name": "GUI",
         "description": [
                 ""
@@ -113,10 +101,8 @@
         [
           {
             "id": 2,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -129,9 +115,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
+        "type": "Class", "main_type": 125,
         "name": "Logic",
         "description": [
                 ""
@@ -144,10 +128,8 @@
         [
           {
             "id": 3,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -160,9 +142,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
+        "type": "Class", "main_type": 125,
         "name": "Database",
         "description": [
                 ""
@@ -175,10 +155,8 @@
         [
           {
             "id": 4,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -195,8 +173,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "move",
         "description": [
                 ""
@@ -214,8 +191,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 221,
-        "type": "Message",
+        "type": "Synchronous Call", "main_type": 221,
         "name": "update position",
         "description": [
                 ""
@@ -233,8 +209,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 221,
-        "type": "Message",
+        "type": "Synchronous Call", "main_type": 221,
         "name": "update attributes",
         "description": [
                 ""
@@ -252,8 +227,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 222,
-        "type": "Message",
+        "type": "Return", "main_type": 222,
         "name": "ack",
         "description": [
                 ""
@@ -271,8 +245,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 222,
-        "type": "Message",
+        "type": "Return", "main_type": 222,
         "name": "SUCCESS",
         "description": [
                 ""

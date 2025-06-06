@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,56 +14,48 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 9,
-        "type": "SysMLRequirementDiagram",
+        "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Requirements",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "1d6636e6-5568-4fdf-81c6-bdb42c270fbf",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "Startup Time",
             "node": "5df05f98-1f74-4b78-931b-aa23e8e033f0",
             "uuid": "47a01682-c354-4f4a-91d6-0f3743053de5"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "HW-PowerUp Time",
             "node": "c05616e0-ceb1-4557-b95a-20cd835f8fe2",
             "uuid": "45d0a71a-3415-4e27-bbb0-525b4a97bbce"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "Reboot Time",
             "node": "f631c756-b24d-4ab2-a7f0-333c31dec29f",
             "uuid": "066ca35d-86d5-4c8b-b933-b5ba807a00f6"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "OS: Boot Time",
             "node": "014ec639-99e6-4d3a-a714-c9431f12d7da",
             "uuid": "d86147ab-7e7a-4961-9a13-b6ec2436aea1"
           },
           {
             "id": 5,
-            "display_flags": 0,
             "classifier_name": "App: Startup Time",
             "node": "213bca19-b0f8-4827-9409-f36421ad9f5c",
             "uuid": "69e0c43e-5ccd-4c0a-b550-b113a0120310"
           },
           {
             "id": 6,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "details",
             "node": "3d675664-95dd-4567-aa92-314f67d292cd",
             "uuid": "489b25af-6ced-4c10-9850-0c3a2319de70"
@@ -78,9 +70,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
+        "type": "Requirement", "main_type": 99,
         "name": "Startup Time",
         "description": [
                 "The system shall start up in 3 seconds"
@@ -97,9 +87,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
+        "type": "Requirement", "main_type": 99,
         "name": "HW-PowerUp Time",
         "description": [
                 "The controller-hardware shall initialize in 1 second"
@@ -116,9 +104,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
+        "type": "Requirement", "main_type": 99,
         "name": "Reboot Time",
         "description": [
                 "The system shall reboot in 4 seconds"
@@ -135,9 +121,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
+        "type": "Requirement", "main_type": 99,
         "name": "OS: Boot Time",
         "description": [
                 "The operating system shall boot in 1 second"
@@ -154,9 +138,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
+        "type": "Requirement", "main_type": 99,
         "name": "App: Startup Time",
         "description": [
                 "The application shall start up in 1 second"
@@ -173,9 +155,7 @@
     {
       "classifier": {
         "id": 6,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
+        "type": "Package", "main_type": 124,
         "name": "details",
         "description": [
                 ""
@@ -196,8 +176,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 400,
-        "type": "Refine",
+        "type": "Refinement", "main_type": 400,
         "name": "",
         "description": [
                 ""
@@ -213,8 +192,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 401,
-        "type": "Trace",
+        "type": "Trace", "main_type": 401,
         "name": "",
         "description": [
                 ""
@@ -230,8 +208,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 400,
-        "type": "Refine",
+        "type": "Refinement", "main_type": 400,
         "name": "",
         "description": [
                 ""
@@ -247,8 +224,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 400,
-        "type": "Refine",
+        "type": "Refinement", "main_type": 400,
         "name": "",
         "description": [
                 ""
@@ -264,8 +240,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -281,8 +256,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -298,8 +272,7 @@
     {
       "relationship": {
         "id": 7,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""

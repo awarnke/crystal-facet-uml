@@ -39,7 +39,7 @@ static const char *const DATA_DIAGRAM_TYPE_NAME_ARRAY [DATA_DIAGRAM_TYPE_HASH_MO
         [6] = "",
         [ DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM ] = "Parametric Diagram",
         [8] = "",
-        [ DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM ] = "Requirements Diagram",
+        [ DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM ] = "Requirement Diagram",
         [ DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM ] = "Use Case Diagram",
         [ DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM ] = "Activity Diagram",
         [ DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM ] = "State Diagram",

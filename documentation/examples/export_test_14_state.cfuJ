@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 1,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.47.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,42 +14,36 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 12,
-        "type": "UMLStateMachineDiagram",
+        "type": "State Diagram", "diagram_type": 12,
         "name": "Statemachine",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "47ef61f4-e821-429b-8b36-8b18505a39f6",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Event Queue States",
             "node": "0798ed6a-e59c-4e9f-aa9d-a0c235dcb550",
             "uuid": "e0dba5c3-a31b-4354-8077-2bb75e5ad74e"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "queue::idle",
             "node": "72e7170a-7c42-4def-a3fb-00e314f93bac",
             "uuid": "407dd1f9-0875-4c09-8113-c7d0ef938c9f"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "queue::init",
             "node": "3817cad2-26de-48d6-8f5b-bed1c54e6dce",
             "uuid": "a742ca32-e0fd-4962-b6ae-f634a21bf2fd"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "queue::end",
             "node": "4ba2152a-93f7-4bd5-994d-d6c7efa4c937",
             "uuid": "43d4b82b-83e0-4440-ac8e-02d5737b0cbd"
@@ -64,8 +58,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "Event Queue States",
         "description": [
                 ""
@@ -82,8 +75,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "queue::idle",
         "description": [
                 ""
@@ -100,8 +92,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 151,
-        "type": "InitialNode",
+        "type": "Initial Node", "main_type": 151,
         "name": "queue::init",
         "description": [
                 ""
@@ -118,8 +109,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 152,
-        "type": "ActivityFinalNode",
+        "type": "Final Node", "main_type": 152,
         "name": "queue::end",
         "description": [
                 ""
@@ -140,8 +130,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -157,8 +146,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -174,8 +162,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -191,8 +178,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -208,8 +194,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
