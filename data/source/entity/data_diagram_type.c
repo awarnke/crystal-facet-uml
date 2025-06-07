@@ -31,7 +31,7 @@ const data_diagram_type_t DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT]
 static const char *const DATA_DIAGRAM_TYPE_NAME_ARRAY [DATA_DIAGRAM_TYPE_HASH_MOD]
     = {
         [ DATA_DIAGRAM_TYPE_LIST ] = "List",
-        [ DATA_DIAGRAM_TYPE_BOX_DIAGRAM ] = "Boxes",
+        [ DATA_DIAGRAM_TYPE_BOX_DIAGRAM ] = "Box Overview",
         [2] = "",
         [3] = "",
         [ DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM ] = "Block Definition Diagram",

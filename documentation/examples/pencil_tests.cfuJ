@@ -495,7 +495,7 @@
     {
       "diagram": {
         "id": 12,
-        "type": "Boxes", "diagram_type": 1,
+        "type": "Box Overview", "diagram_type": 1,
         "name": "Static-View Classifiers in Box Diagram",
         "description": [
                 ""
@@ -610,7 +610,7 @@
     {
       "diagram": {
         "id": 13,
-        "type": "Boxes", "diagram_type": 1,
+        "type": "Box Overview", "diagram_type": 1,
         "name": "Dynamic-View Classifiers in Box Diagram",
         "description": [
                 ""
@@ -1487,7 +1487,7 @@
     {
       "diagram": {
         "id": 16,
-        "type": "Boxes", "diagram_type": 1,
+        "type": "Box Overview", "diagram_type": 1,
         "name": "Features in Box Diagram",
         "description": [
                 ""
@@ -2132,7 +2132,7 @@
     {
       "diagram": {
         "id": 25,
-        "type": "Boxes", "diagram_type": 1,
+        "type": "Box Overview", "diagram_type": 1,
         "name": "Box Diagram (Hidden Relations)",
         "description": [
                 ""

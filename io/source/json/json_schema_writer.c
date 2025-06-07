@@ -232,32 +232,32 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_PARENT_NAME, D_PARENT_NAME );
     static const char *const D_PARENT_ID = "uuid of the parent diagram, omitted by the root diagram";
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_DIAGRAM_PARENT, D_PARENT_ID, true );
-    static const char *const D_DIAGTYPE_ID = "id of diagram type, see source file data/include/entity/data_diagram_type.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE, D_DIAGTYPE_ID );
+    /* generate an enum listing all options */
     static const char *const D_DIAGTYPE_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE " as string, exported for reviews by humans, ignored at import";
-    /* generate an enum listing all options */
     const char *const * D_TYPE_VALUES = json_type_name_map_get_diagram_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME,
                                                            D_DIAGTYPE_NAME,
                                                            D_TYPE_VALUES
                                                          );
+    static const char *const D_DIAGTYPE_ID = "id of diagram type, see source file data/include/entity/data_diagram_type.h";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE, D_DIAGTYPE_ID );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE, ANY_STEREO );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_NAME, "" );
     export_err |= json_schema_writer_private_declare_array_of_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION, "", ANY_DESCR );
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER, ANY_ORDER );
-    static const char *const D_FLAGS = "set of flags, see source file data/include/entity/data_diagram_flag.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS, D_FLAGS );
+    /* generate an enum listing all options */
     static const char *const D_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
-    /* generate an enum listing all options */
     const char *const * D_FLAG_VALUES = json_type_name_map_get_diagram_tags_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
                                                            D_FLAG_NAME,
                                                            D_FLAG_VALUES
                                                          );
+    static const char *const D_FLAGS = "set of flags, see source file data/include/entity/data_diagram_flag.h";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS, D_FLAGS );
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, true /*elements follow*/ );
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_ELEMENTS_HEADER );
@@ -270,18 +270,17 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     static const char *const E_NODE_F_NAME
         = "name of " JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE "/feature (if lifeline), optional, exported for reviews by humans, ignored at import";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME, E_NODE_F_NAME );
-    static const char *const E_FLAGS = "set of flags, see source file data/include/entity/data_diagramelement_flag.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS, E_FLAGS );
+    /* generate an enum listing all options */
     static const char *const E_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
-    /* generate an enum listing all options */
     const char *const * E_FLAG_VALUES = json_type_name_map_get_diagramelement_tags_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
                                                            E_FLAG_NAME,
                                                            E_FLAG_VALUES
                                                          );
-    //export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES, E_FLAG_NAME );
+    static const char *const E_FLAGS = "set of flags, see source file data/include/entity/data_diagramelement_flag.h";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS, E_FLAGS );
     static const char *const E_NODE = "the uuid of either the classifier or the feature (type lifeline only)";
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE, E_NODE, true );
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, false );
@@ -293,17 +292,17 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     (*this_).indent = 7;
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_ID, ANY_ID );
-    static const char *const C_TYPE_ID = "id of classifier type, see source file data/include/entity/data_classifier_type.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE, C_TYPE_ID );
+    /* generate an enum listing all options */
     static const char *const C_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ", exported for reviews by humans, ignored at import";
-    /* generate an enum listing all options */
     const char *const * C_TYPE_VALUES = json_type_name_map_get_classifier_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME,
                                                            C_TYPE_NAME,
                                                            C_TYPE_VALUES
                                                          );
+    static const char *const C_TYPE_ID = "id of classifier type, see source file data/include/entity/data_classifier_type.h";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE, C_TYPE_ID );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE, "" );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_NAME, "" );
     export_err |= json_schema_writer_private_declare_array_of_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION, "", ANY_DESCR );
@@ -316,17 +315,17 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     (*this_).indent = 10;
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_ID, ANY_ID );
-    static const char *const F_TYPE_ID = "id of feature type, see source file data/include/entity/data_feature_type.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE, F_TYPE_ID );
+    /* generate an enum listing all options */
     static const char *const F_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ", exported for reviews by humans, ignored at import";
-    /* generate an enum listing all options */
     const char *const * F_TYPE_VALUES = json_type_name_map_get_feature_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME,
                                                            F_TYPE_NAME,
                                                            F_TYPE_VALUES
                                                          );
+    static const char *const F_TYPE_ID = "id of feature type, see source file data/include/entity/data_feature_type.h";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE, F_TYPE_ID );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_FEATURE_KEY, "name" );
     static const char *const F_VALUE = "valuetype in case of properties, value in case of tagges values, stereotype otherwise";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_FEATURE_VALUE, F_VALUE );
@@ -341,17 +340,17 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     (*this_).indent = 7;
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_ID, ANY_ID );
-    static const char *const R_TYPE_ID = "id of relationship type, see source file data/include/entity/data_relationship_type.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE, R_TYPE_ID );
+    /* generate an enum listing all options */
     static const char *const R_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ", exported for reviews by humans, ignored at import";
-    /* generate an enum listing all options */
     const char *const * R_TYPE_VALUES = json_type_name_map_get_relationship_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
                                                            JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME,
                                                            R_TYPE_NAME,
                                                            R_TYPE_VALUES
                                                          );
+    static const char *const R_TYPE_ID = "id of relationship type, see source file data/include/entity/data_relationship_type.h";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE, R_TYPE_ID );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE, ANY_STEREO );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME, "" );
     export_err |= json_schema_writer_private_declare_array_of_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION, "", ANY_DESCR );
