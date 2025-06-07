@@ -698,7 +698,8 @@
         "type": "Block Definition Diagram", "diagram_type": 4,
         "name": "Functionality per Mode",
         "description": [
-                ""
+                "This diagram shows the intended subset of functionality for some operation ",
+                "modes."
         ],
         "list_order": 1073790975,
         "parent_name": "Operation Modes",
@@ -752,7 +753,7 @@
         "stereotype": "locigal_form",
         "name": "Solution Strategy",
         "description": [
-                "This section shows the fundamental base principle of the system design. ",
+                "This section shows the fundamental base principles of the system design. ",
                 "(Solution Space, System Level)"
         ],
         "list_order": 85120,
@@ -789,7 +790,9 @@
         "stereotype": "locigal_form",
         "name": "Outer World",
         "description": [
-                ""
+                "This diagram explains the separation of responsabilities between base logic ",
+                "board and main logic board. Focus is on the main logic board, for base logic ",
+                "board see D0061#name."
         ],
         "list_order": 32768,
         "parent_name": "Solution Strategy",
@@ -819,7 +822,9 @@
         "stereotype": "locigal_form",
         "name": "Inner World",
         "description": [
-                ""
+                "This diagram explains the separation of responsabilities between base logic ",
+                "board and main logic board. Focus is on the base logic board, for main logic ",
+                "board see D0060#name."
         ],
         "list_order": 65536,
         "parent_name": "Solution Strategy",
@@ -1107,7 +1112,8 @@
         "type": "Block Definition Diagram", "diagram_type": 4,
         "name": "Physical View",
         "description": [
-                "This view maps the logical form to physical artifacts.\n",
+                "This view maps the logical form to physical artifacts. These are mechanical, ",
+                "electronic or software parts.\n",
                 "(Solution Space, System Level)"
         ],
         "list_order": 159744,

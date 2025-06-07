@@ -1144,7 +1144,7 @@
                                 <inlinemediaobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_diag_box.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
-                                Box Diagram</para></entry>
+                                Box Overview Diagram</para></entry>
                             <entry><para>-</para></entry>
                             <entry>
                                 <para>This is an overview diagram showing only 2-dimension-layouted classifiers.</para>

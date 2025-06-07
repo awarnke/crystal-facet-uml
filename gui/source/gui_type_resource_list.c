@@ -23,7 +23,7 @@ void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_re
         gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_LIST, "List Diagram", icon_diag_list );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_diag_box = gui_resources_get_type_diag_box ( (*this_).resources );
-        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, "Box Diagram", icon_diag_box );
+        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, "Box Overview Diagram", icon_diag_box );
 
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_diag_block = gui_resources_get_type_diag_block ( (*this_).resources );

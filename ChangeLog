@@ -3,14 +3,15 @@ crystal-facet-uml (1.64.0) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * mouse cursor indicates options for creating objects with nicer icons
   * the plain txt export performs linebreaks at 80 chars
-  * it omits empty descriptions
+    and omits empty descriptions
   * the plain txt export uses markdown headings, code, lists
-  * the json storage and export adds linebreaks at 80 chars of contents
+  * the json storage and export files add linebreaks at 80 chars of contents
   * exported json schema shows enum values of display_tags and element types
   * exported json and html show simplified element type names
   * in json export, enums are written as string and int value in the same line
+  * json format changed to version 1.2, this is downwards compatible
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 08 Jun 2025 10:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 07 Jun 2025 08:00:00 +0100
 
 crystal-facet-uml (1.63.3) UNRELEASED; urgency=medium
 
