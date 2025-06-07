@@ -157,7 +157,7 @@ static test_case_result_t test_write_indent_multiline_string_cr( test_fixture_t 
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
-    printf("%s",(char*)&((*fix).out_buffer));
+    /*printf("%s",(char*)&((*fix).out_buffer));*/
     static const char* LONG_LINE_RESULT
         = "123_56789\r123456789\r123456789\r123456789\r123456789\r123456789\r123456789\r123456789\r\n123_567\r\n[";
     TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), LONG_LINE_RESULT, strlen(LONG_LINE_RESULT) ) );

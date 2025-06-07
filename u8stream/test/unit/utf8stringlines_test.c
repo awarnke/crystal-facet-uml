@@ -49,59 +49,59 @@ static test_case_result_t testStandardUseCase( test_fixture_t *fix )
     static const char *const my_list = "ab \ncd ef ghijklmn\to";
 
     /* init */
-    utf8stringlines_t it;
-    utf8stringlines_init( &it, &UTF8STRINGVIEW_STR( my_list ), 5 );
+    utf8stringlines_t iterator;
+    utf8stringlines_init( &iterator, &UTF8STRINGVIEW_STR( my_list ), 5 );
 
     /* test break before line length */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 'a', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 'a', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &next ) );
 
     /* test space before line length and space after line length */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 'c', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 'c', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &next ) );
 
     /* test space before line length and text after line length */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 'e', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 'e', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &next ) );
 
     /* test text longer than line length */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 'g', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 'g', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 9, utf8stringview_get_length( &next ) );
 
     /* test last character */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 'o', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 'o', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( &next ) );
 
     /* test no more lines */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
-    next = utf8stringlines_next( &it );
+    next = utf8stringlines_next( &iterator );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( &next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
-    utf8stringlines_destroy( &it );
+    utf8stringlines_destroy( &iterator );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -112,43 +112,43 @@ static test_case_result_t testMultiByteUseCase( test_fixture_t *fix )
     static const char *const my_list = "\xe0\xbc\x82 \xc9\xb6 a\xe0\xbc\x82\xe0\xbc\x82\xe0\xbc\x82  ";
 
     /* init */
-    utf8stringlines_t it;
-    utf8stringlines_init( &it, &UTF8STRINGVIEW_STR( my_list ), 5 );
+    utf8stringlines_t iterator;
+    utf8stringlines_init( &iterator, &UTF8STRINGVIEW_STR( my_list ), 5 );
 
     /* test line length checks code points, not bytes */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 0xe0, *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 0xe0, (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 7, utf8stringview_get_length( &next ) );
 
     /* test line length is exact 5 code points */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 'a', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 'a', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 11, utf8stringview_get_length( &next ) );
 
-    /* test line with only a space */
-    has_next = utf8stringlines_has_next( &it );
+    /* test line witeratorh only a space */
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( ' ', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( ' ', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( &next ) );
 
     /* test no more lines */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
-    next = utf8stringlines_next( &it );
+    next = utf8stringlines_next( &iterator );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( &next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
-    utf8stringlines_destroy( &it );
+    utf8stringlines_destroy( &iterator );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -159,26 +159,26 @@ static test_case_result_t testNoSeparatorUseCase( test_fixture_t *fix )
     static const char *const my_list = "abcdefghij";
 
     /* init */
-    utf8stringlines_t it;
-    utf8stringlines_init( &it, &UTF8STRINGVIEW_STR( my_list ), 5 );
+    utf8stringlines_t iterator;
+    utf8stringlines_init( &iterator, &UTF8STRINGVIEW_STR( my_list ), 5 );
 
-    /* test line with no space */
-    has_next = utf8stringlines_has_next( &it );
+    /* test line witeratorh no space */
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
-    TEST_EXPECT_EQUAL_INT( 'a', *(utf8stringview_get_start( &next )) );
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 'a', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 10, utf8stringview_get_length( &next ) );
 
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
-    next = utf8stringlines_next( &it );
+    next = utf8stringlines_next( &iterator );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( &next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
-    utf8stringlines_destroy( &it );
+    utf8stringlines_destroy( &iterator );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -189,25 +189,25 @@ static test_case_result_t testEmptyUseCase( test_fixture_t *fix )
     static const char *const my_list = "";
 
     /* init */
-    utf8stringlines_t it;
-    utf8stringlines_init( &it, &UTF8STRINGVIEW_STR( my_list ), 5 );
+    utf8stringlines_t iterator;
+    utf8stringlines_init( &iterator, &UTF8STRINGVIEW_STR( my_list ), 5 );
 
     /* test no characters at all */
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
-    next = utf8stringlines_next( &it );
+    next = utf8stringlines_next( &iterator );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
-    has_next = utf8stringlines_has_next( &it );
+    has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
-    next = utf8stringlines_next( &it );
+    next = utf8stringlines_next( &iterator );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( &next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
-    utf8stringlines_destroy( &it );
+    utf8stringlines_destroy( &iterator );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -216,14 +216,14 @@ static test_case_result_t testEmptyUseCase( test_fixture_t *fix )
  * Copyright 2025-2025 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except in compliance witeratorh the License.
  * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by applicable law or agreed to in writeratoring, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, eiteratorher express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limiteratorations under the License.
  */
