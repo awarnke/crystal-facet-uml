@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.64.1"
   }
   ,
   "views":
@@ -860,8 +860,8 @@
                 "It also shows which function produces output that is needed by another function ",
                 "as input.\n",
                 "\n",
-                "Sensors (devices) produce output to controller-parts (roles). These roles send ",
-                "their output to other roles or to actuators (devices)."
+                "Sensors (devices) produce output to controller-parts (functions). These ",
+                "functions send their output to other functions or to actuators (devices)."
         ],
         "list_order": 95040,
         "parent_name": "Mouse Droid",
@@ -1011,7 +1011,7 @@
         "type": "State Diagram", "diagram_type": 12,
         "name": "Functionality per tool-related mode",
         "description": [
-                "This diagram shows the functionalities that area available in the operation ",
+                "This diagram shows the functionalities that are available in the operation ",
                 "modes related to using tools."
         ],
         "list_order": 1073789343,
@@ -3816,7 +3816,7 @@
                 "From outside, the chassis and wheels are the most obvious parts.\n",
                 "Inside, a skeleton frame provides stability of the assembly.\n",
                 "\n",
-                "Important charactereistics are weight, operating temperature range, durability, ",
+                "Important characteristics are weight, operating temperature range, durability, ",
                 "stability."
         ],
         "x_order": -498449590,
@@ -7339,7 +7339,7 @@
       "classifier": {
         "id": 178,
         "type": "Block", "main_type": 90,
-        "stereotype": "device",
+        "stereotype": "actuator",
         "name": "Motors to move the MoD5G (L1-Fct)",
         "description": [
                 ""
@@ -7357,7 +7357,7 @@
             "description": [
                 ""
             ],
-            "list_order": -886950565,
+            "list_order": -1335841919,
             "uuid": "ce62d2c3-c8b1-4018-8daf-916c64a1d085"
           }
         ]
@@ -7367,7 +7367,7 @@
       "classifier": {
         "id": 179,
         "type": "Block", "main_type": 90,
-        "stereotype": "device",
+        "stereotype": "sensor",
         "name": "Recognize environment (L1-Fkt)",
         "description": [
                 ""
@@ -7395,7 +7395,7 @@
       "classifier": {
         "id": 180,
         "type": "Block", "main_type": 90,
-        "stereotype": "device",
+        "stereotype": "sensor",
         "name": "Recognize objects to repair (L1-Fct)",
         "description": [
                 ""
@@ -7423,7 +7423,7 @@
       "classifier": {
         "id": 181,
         "type": "Block", "main_type": 90,
-        "stereotype": "role",
+        "stereotype": "function",
         "name": "Plan movement strategy (L1-Fct)",
         "description": [
                 ""
@@ -7443,6 +7443,16 @@
             ],
             "list_order": -131333138,
             "uuid": "0217c6e6-45af-4fd6-8178-aa2ec084ac4e"
+          },
+          {
+            "id": 78,
+            "type": "Output Port", "main_type": 7,
+            "key": "list of way-points",
+            "description": [
+                ""
+            ],
+            "list_order": 730252461,
+            "uuid": "814486ff-f48e-4a3e-b89a-f6bbd8914c49"
           }
         ]
       }
@@ -7451,7 +7461,7 @@
       "classifier": {
         "id": 182,
         "type": "Block", "main_type": 90,
-        "stereotype": "role",
+        "stereotype": "function",
         "name": "Plan repair strategy (L1-Fct)",
         "description": [
                 ""
@@ -7471,6 +7481,16 @@
             ],
             "list_order": -906922788,
             "uuid": "932c6170-d7be-4029-a51d-4026d3520ecc"
+          },
+          {
+            "id": 76,
+            "type": "Output Port", "main_type": 7,
+            "key": "list of tool move-ments",
+            "description": [
+                ""
+            ],
+            "list_order": -1857831741,
+            "uuid": "3af43353-62e7-4daa-9b1b-06f5d5df69f9"
           }
         ]
       }
@@ -7479,7 +7499,7 @@
       "classifier": {
         "id": 183,
         "type": "Block", "main_type": 90,
-        "stereotype": "role",
+        "stereotype": "function",
         "name": "Perform movement tactic (L1-Fct)",
         "description": [
                 ""
@@ -7499,6 +7519,16 @@
             ],
             "list_order": 948220085,
             "uuid": "465e8534-ba80-467d-838e-bfc598b8b192"
+          },
+          {
+            "id": 79,
+            "type": "Input Port", "main_type": 6,
+            "key": "list of waypoints",
+            "description": [
+                ""
+            ],
+            "list_order": 133175395,
+            "uuid": "90d2f43c-8ff4-4ade-b0b5-1a24cf2b484a"
           }
         ]
       }
@@ -7507,7 +7537,7 @@
       "classifier": {
         "id": 184,
         "type": "Block", "main_type": 90,
-        "stereotype": "role",
+        "stereotype": "function",
         "name": "Perform repair tactic (L1-Fct)",
         "description": [
                 ""
@@ -7527,6 +7557,16 @@
             ],
             "list_order": -2062057862,
             "uuid": "412eae12-077c-4483-b1e9-d63e73d4985a"
+          },
+          {
+            "id": 77,
+            "type": "Input Port", "main_type": 6,
+            "key": "list of tool movements",
+            "description": [
+                ""
+            ],
+            "list_order": -1262328442,
+            "uuid": "047dcc96-a59b-46ba-a14d-8a39b6b738d2"
           }
         ]
       }
@@ -7535,7 +7575,7 @@
       "classifier": {
         "id": 185,
         "type": "Block", "main_type": 90,
-        "stereotype": "device",
+        "stereotype": "actuator",
         "name": "Tools to repair",
         "description": [
                 ""
@@ -7553,7 +7593,7 @@
             "description": [
                 ""
             ],
-            "list_order": -265100040,
+            "list_order": 192244687,
             "uuid": "9ca8de70-0834-4e53-a7c6-08dd5ac2e0eb"
           }
         ]
@@ -12644,22 +12684,6 @@
     },
     {
       "relationship": {
-        "id": 288,
-        "type": "Communication Path", "main_type": 230,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Plan movement strategy (L1-Fct)",
-        "to_classifier_name": "Perform movement tactic (L1-Fct)",
-        "from_node": "55b579a4-2727-4027-b366-a74a871c92b9",
-        "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
-        "uuid": "5c7beb9a-1554-46ab-8cf7-ac0fe0011a2c"
-      }
-    },
-    {
-      "relationship": {
         "id": 329,
         "type": "Trace", "main_type": 401,
         "name": "",
@@ -12676,18 +12700,38 @@
     },
     {
       "relationship": {
-        "id": 289,
+        "id": 393,
         "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 131072,
+        "list_order": 262144,
+        "from_classifier_name": "Plan movement strategy (L1-Fct)",
+        "from_feature_key": "list of way-points",
+        "to_classifier_name": "Perform movement tactic (L1-Fct)",
+        "to_feature_key": "list of waypoints",
+        "from_node": "814486ff-f48e-4a3e-b89a-f6bbd8914c49",
+        "to_node": "90d2f43c-8ff4-4ade-b0b5-1a24cf2b484a",
+        "uuid": "e5eb9ca5-12e3-4af8-91ef-a56fa3cfae42"
+      }
+    },
+    {
+      "relationship": {
+        "id": 392,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
         "from_classifier_name": "Plan repair strategy (L1-Fct)",
+        "from_feature_key": "list of tool move-ments",
         "to_classifier_name": "Perform repair tactic (L1-Fct)",
-        "from_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
-        "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
-        "uuid": "daf7aeb8-d527-4933-81b3-2200c256d98d"
+        "to_feature_key": "list of tool movements",
+        "from_node": "3af43353-62e7-4daa-9b1b-06f5d5df69f9",
+        "to_node": "047dcc96-a59b-46ba-a14d-8a39b6b738d2",
+        "uuid": "c3b5807f-d0ae-454f-b322-c5d37bfa9fcf"
       }
     },
     {
