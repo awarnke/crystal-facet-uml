@@ -66,6 +66,20 @@ void gui_sketch_card_painter_draw_overlay( gui_sketch_card_painter_t *this_,
                                          );
 
 /*!
+ *  \brief draws overlay graphics for GUI_TOOL_NAVIGATE mode to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param drag_state current dragging status
+ *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_card_painter_private_draw_nav_mode( gui_sketch_card_painter_t *this_,
+                                                    const gui_sketch_drag_state_t *drag_state,
+                                                    const gui_sketch_card_t *card_under_mouse,
+                                                    cairo_t *cr
+                                                  );
+
+/*!
  *  \brief draws overlay graphics for GUI_TOOL_EDIT mode to the cairo context
  *
  *  \param this_ pointer to own object attributes

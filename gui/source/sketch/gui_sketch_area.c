@@ -878,6 +878,9 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 data_full_id_t dragged_object;
                 data_full_id_init_solo ( &dragged_object, &clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
+
+                /* if a diagram was clicked (not a button) then redraw to show the hint-to-drag */
+                gtk_widget_queue_draw( (*this_).drawing_area );
             }
             else
             {

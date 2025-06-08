@@ -46,6 +46,7 @@ void gui_sketch_card_painter_draw_overlay( gui_sketch_card_painter_t *this_,
     {
         case GUI_TOOL_NAVIGATE:
         {
+            gui_sketch_card_painter_private_draw_nav_mode( this_, drag_state, card_under_mouse, cr );
         }
         break;
 
@@ -84,6 +85,31 @@ void gui_sketch_card_painter_draw_overlay( gui_sketch_card_painter_t *this_,
     U8_TRACE_END();
 }
 
+void gui_sketch_card_painter_private_draw_nav_mode( gui_sketch_card_painter_t *this_,
+                                                    const gui_sketch_drag_state_t *drag_state,
+                                                    const gui_sketch_card_t *card_under_mouse,
+                                                    cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != drag_state );
+    assert( NULL != cr );
+
+    if ( gui_sketch_drag_state_is_waiting_for_move ( drag_state ) )
+    {
+        const data_full_id_t *const dragged_object = gui_sketch_drag_state_get_dragged_object_const( drag_state );
+        const data_id_t *const dragged_primary = data_full_id_get_primary_id_const( dragged_object );
+        const bool dragging_diagram = ( DATA_TABLE_DIAGRAM == data_id_get_table( dragged_primary ) );
+        if ( dragging_diagram )
+        {
+            const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+            const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+            GdkTexture *icon = gui_resources_get_sketch_move_v( (*this_).resources );
+            gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+        }
+    }
+
+    U8_TRACE_END();
+}
 
 void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *this_,
                                                      const gui_sketch_drag_state_t *drag_state,
@@ -96,8 +122,7 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
 
     if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
     {
-        const data_full_id_t *const dragged_object
-            = gui_sketch_drag_state_get_dragged_object_const( drag_state );
+        const data_full_id_t *const dragged_object = gui_sketch_drag_state_get_dragged_object_const( drag_state );
         const data_id_t *const dragged_primary = data_full_id_get_primary_id_const( dragged_object );
         const bool dragging_classifier = ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( dragged_primary ) );
 
@@ -119,6 +144,40 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
                 const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
                 const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
                 gui_sketch_card_painter_private_visualize_order( this_, card_under_mouse, to_x, to_y, cr );
+            }
+        }
+    }
+
+    if ( gui_sketch_drag_state_is_waiting_for_move ( drag_state ) )
+    {
+        const data_full_id_t *const dragged_object = gui_sketch_drag_state_get_dragged_object_const( drag_state );
+        const data_id_t *const dragged_primary = data_full_id_get_primary_id_const( dragged_object );
+        const bool dragging_classifier = ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( dragged_primary ) );
+        const bool dragging_feature = ( DATA_TABLE_FEATURE == data_id_get_table( dragged_primary ) );
+        const bool dragging_relationship = ( DATA_TABLE_RELATIONSHIP == data_id_get_table( dragged_primary ) );
+        const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+        const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+        if ( dragging_classifier || dragging_feature )
+        {
+            GdkTexture *icon = gui_resources_get_sketch_move_2d( (*this_).resources );
+            gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+        }
+        else if ( dragging_relationship )
+        {
+            const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
+            if ( NULL != card_under_mouse )
+            {
+                const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag );
+                if ( diag_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+                {
+                    GdkTexture *icon = gui_resources_get_sketch_move_v( (*this_).resources );
+                    gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+                }
+                else if ( diag_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+                {
+                    GdkTexture *icon = gui_resources_get_sketch_move_h( (*this_).resources );
+                    gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+                }
             }
         }
     }

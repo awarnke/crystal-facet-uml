@@ -22,7 +22,7 @@
                 "and software architecture for a mouse droid.\n",
                 "This is a small repair droid similar to the MSE-6 used on death star 1.\n",
                 "\n",
-                "This structure of the system architecture is loosely based on arc42.\n",
+                "The structure of the system architecture is loosely based on arc42.\n",
                 "The software architecture in chapter D0019#id follows more exactly the ",
                 "arc42.org template\n",
                 "proposed by Gernot Starke and Peter Hruschka.\n",
@@ -162,7 +162,7 @@
         "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Lifecycle",
         "description": [
-                "This chapter shows the organizational contexts of development and operational ",
+                "This diagram shows the organizational contexts of development and operational ",
                 "environments. (Problem Space, System Level)"
         ],
         "list_order": -1,
@@ -234,7 +234,7 @@
         "type": "Component Diagram", "diagram_type": 31,
         "name": "Factory Context",
         "description": [
-                "This chapter shows the actors in the production environment. (Problem Space, ",
+                "This diagram shows the actors in the production environment. (Problem Space, ",
                 "System Level)"
         ],
         "list_order": 32767,
@@ -282,7 +282,7 @@
         "type": "Component Diagram", "diagram_type": 31,
         "name": "Operational Context",
         "description": [
-                "This chapter shows the actors in the operational context. (Problem Space, ",
+                "This diagram shows the actors in the operational context. (Problem Space, ",
                 "System Level)"
         ],
         "list_order": 65535,
@@ -2419,7 +2419,7 @@
                 "\n",
                 "2) Which use case do they serve\n",
                 "\n",
-                "Thich chapter lists the quality requirements ordered by their main ",
+                "Thich diagram lists the quality requirements ordered by their main ",
                 "characteristic."
         ],
         "list_order": -1073709056,
@@ -2474,7 +2474,7 @@
                 "\n",
                 "2) Which use case do they serve\n",
                 "\n",
-                "Thich chapter lists the use cases which have special importance for quality ",
+                "Thich diagram lists the use cases which have special importance for quality ",
                 "requirements."
         ],
         "list_order": 65536,
@@ -7523,7 +7523,7 @@
           {
             "id": 79,
             "type": "Input Port", "main_type": 6,
-            "key": "list of waypoints",
+            "key": "list of way-points",
             "description": [
                 ""
             ],
@@ -7561,7 +7561,7 @@
           {
             "id": 77,
             "type": "Input Port", "main_type": 6,
-            "key": "list of tool movements",
+            "key": "list of tool move-ments",
             "description": [
                 ""
             ],
@@ -12710,7 +12710,7 @@
         "from_classifier_name": "Plan movement strategy (L1-Fct)",
         "from_feature_key": "list of way-points",
         "to_classifier_name": "Perform movement tactic (L1-Fct)",
-        "to_feature_key": "list of waypoints",
+        "to_feature_key": "list of way-points",
         "from_node": "814486ff-f48e-4a3e-b89a-f6bbd8914c49",
         "to_node": "90d2f43c-8ff4-4ade-b0b5-1a24cf2b484a",
         "uuid": "e5eb9ca5-12e3-4af8-91ef-a56fa3cfae42"
@@ -12728,7 +12728,7 @@
         "from_classifier_name": "Plan repair strategy (L1-Fct)",
         "from_feature_key": "list of tool move-ments",
         "to_classifier_name": "Perform repair tactic (L1-Fct)",
-        "to_feature_key": "list of tool movements",
+        "to_feature_key": "list of tool move-ments",
         "from_node": "3af43353-62e7-4daa-9b1b-06f5d5df69f9",
         "to_node": "047dcc96-a59b-46ba-a14d-8a39b6b738d2",
         "uuid": "c3b5807f-d0ae-454f-b322-c5d37bfa9fcf"
