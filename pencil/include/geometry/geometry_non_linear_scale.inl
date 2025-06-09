@@ -145,6 +145,37 @@ static inline double geometry_non_linear_scale_get_closest_fix_location ( const 
     return result;
 }
 
+static inline bool geometry_non_linear_scale_is_order_on_grid ( const geometry_non_linear_scale_t *this_, int32_t order )
+{
+    U8_TRACE_BEGIN();
+    assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    bool found = false;
+    bool result = false;
+
+    found = false;
+    if ( order <= (*this_).order[0] )
+    {
+        found = true;
+        result = false;
+    }
+    for ( uint32_t pos = 1; ( pos < (*this_).num_points ) && ( ! found ) ; pos ++ )
+    {
+        if ( order < (*this_).order[pos] )
+        {
+            found = true;
+            result = false;
+        }
+        else if ( order == (*this_).order[pos] )
+        {
+            found = true;
+            result = true;
+        }
+    }
+
+    U8_TRACE_END();
+    return result;
+}
+
 static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( const geometry_non_linear_scale_t *this_ )
 {
     assert( (*this_).num_points >= 2 );

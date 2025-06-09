@@ -2,6 +2,7 @@ crystal-facet-uml (1.64.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * When clicking, an arrow is shown to indicate that dragging is possible
+  * when dragging or creating, the grid indicator is a solid line when snapped
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 07 Jun 2025 14:00:00 +0100
 

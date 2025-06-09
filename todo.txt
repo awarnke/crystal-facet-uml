@@ -75,6 +75,7 @@ ideas for future versions:
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?
+      To fix, start with following environment variable set: GTK_A11Y=none ./crystal-facet-uml
   [ ] in debug mode, on WSL, the program does not quit when the main function returns.
   @test_fw
   @documentation

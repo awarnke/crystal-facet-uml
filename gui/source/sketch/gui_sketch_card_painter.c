@@ -562,6 +562,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, current_pos_x, bottom );
+        if ( ! geometry_non_linear_scale_is_order_on_grid( x_scale, order_at_x ) )
         {
             double dashes[2];
             dashes[0] = 2.0 * gap;  /* on segment */
@@ -705,6 +706,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, right, current_pos_y );
+        if ( ! geometry_non_linear_scale_is_order_on_grid( y_scale, order_at_y ) )
         {
             double dashes[2];
             dashes[0] = 2.0 * gap;  /* on segment */

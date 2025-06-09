@@ -97,6 +97,15 @@ static inline int32_t geometry_non_linear_scale_get_order ( const geometry_non_l
 static inline double geometry_non_linear_scale_get_closest_fix_location ( const geometry_non_linear_scale_t *this_, double location );
 
 /*!
+ *  \brief checks if the given order is on grid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param order order value
+ *  \return true if order is on grid
+ */
+static inline bool geometry_non_linear_scale_is_order_on_grid ( const geometry_non_linear_scale_t *this_, int32_t order );
+
+/*!
  *  \brief gets the interval count between the points.
  *
  *  \param this_ pointer to own object attributes

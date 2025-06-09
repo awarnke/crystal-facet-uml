@@ -27,7 +27,7 @@ cd cmake_build
 # Only in debug mode, fault injectsions and assert statements have effect.
 cmake -DCMAKE_BUILD_TYPE=Debug -DCFU_ADD_GCOV_TARGET=ON ..
 # start up to 4 parallel processes to make use of quad-core processors:
-make -j4 gcov_crystal-facet-uml
+make -j gcov_crystal-facet-uml
 cd ../..
 
 echo "initializing lcov for COVERAGE tests"

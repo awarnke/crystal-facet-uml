@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.1"
+    "generator_version": "1.64.2"
   }
   ,
   "views":
@@ -4825,7 +4825,7 @@
         "description": [
                 ""
         ],
-        "list_order": 131072,
+        "list_order": 1073856511,
         "parent_name": "Crosscutting Concepts",
         "parent": "6dd1a3b5-f259-4db7-bd9d-c5685f15712c",
         "uuid": "1585cfe2-15e5-4a7e-ab71-ca5b20be6b82",
@@ -6694,7 +6694,8 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Model Terms",
         "description": [
-                ""
+                "This diagrams explains the terms \"Element\" and \"Object\" and how these relate to ",
+                "database tables."
         ],
         "list_order": 81920,
         "parent_name": "Glossary",
@@ -6734,12 +6735,14 @@
           },
           {
             "id": 866,
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "element",
             "node": "1a6ad898-da94-49fa-aeee-0ffb836993ff",
             "uuid": "dee74caa-e6d6-4b75-8191-ff0ab4a8e86d"
           },
           {
             "id": 867,
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "object",
             "node": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
             "uuid": "2536cf08-66ff-48e5-bb85-f13254f8161c"
@@ -17434,7 +17437,8 @@
         "stereotype": "abstract",
         "name": "element",
         "description": [
-                ""
+                "An element denotes entries in the database that describe the model or its ",
+                "views."
         ],
         "x_order": -507551363,
         "y_order": -1754191469,
@@ -17452,7 +17456,8 @@
         "stereotype": "abstract",
         "name": "object",
         "description": [
-                ""
+                "An object denotes entries in the database that describe the model.\n",
+                "View elements are not objects."
         ],
         "x_order": -435392186,
         "y_order": -1383056468,
