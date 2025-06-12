@@ -12,6 +12,7 @@ use icon_data::gui_view_icon;
 use icon_data::stereotype_icon;
 use icon_data::type_class_icon;
 use icon_data::type_diag_icon;
+use icon_data::type_rel_icon;
 use model::icon::IconSource;
 use render::icon_writer;
 use render::icon_writer::FileType;
@@ -48,6 +49,12 @@ fn main() {
             let type_class_icons: &'static [IconSource<'static>] = type_class_icon::get_icons();
             icon_writer::generate_files(type_class_icons, FileType::Svg, OUT_DIR_GUI);
             icon_writer::generate_files(type_class_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
+        if arg == "-r" {
+            let type_rel_icons: &'static [IconSource<'static>] = type_rel_icon::get_icons();
+            icon_writer::generate_files(type_rel_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(type_rel_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
         if arg == "-s" {
