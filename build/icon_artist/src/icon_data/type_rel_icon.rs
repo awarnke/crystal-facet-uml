@@ -1,6 +1,7 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::shape::get_circle_abs;
+use super::shape::get_rect_abs;
 use super::shape::get_rounded_rect_abs;
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
@@ -519,12 +520,12 @@ pub fn generate_type_rel_sync(out: &mut dyn PathRenderer) -> () {
     let icon_arrow_tip: [geometry::DrawDirective; 4] = [
         Move(Point {
             x: 21.0,
-             y: CY - 7.0,
+            y: CY - 7.0,
         }),
         Line(Point { x: 30.0, y: CY }),
         Line(Point {
             x: 21.0,
-             y: CY + 7.0,
+            y: CY + 7.0,
         }),
         Close,
     ];
@@ -537,11 +538,67 @@ pub fn generate_type_rel_async(out: &mut dyn PathRenderer) -> () {
     let icon_arrow: [geometry::DrawDirective; 5] = [
         Move(Point { x: 1.0, y: CY }),
         Line(Point { x: 30.0, y: CY }),
-        Line(Point { x: 21.0, y: CY - 7.0 }),
-        Move(Point { x: 24.0, y: CY + 5.0 }),
-        Line(Point { x: 21.0, y: CY + 7.0 }),
+        Line(Point {
+            x: 21.0,
+            y: CY - 7.0,
+        }),
+        Move(Point {
+            x: 24.0,
+            y: CY + 5.0,
+        }),
+        Line(Point {
+            x: 21.0,
+            y: CY + 7.0,
+        }),
     ];
     out.render_path(&icon_arrow, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_rel_control_flow
+///
+pub fn generate_type_rel_control_flow(out: &mut dyn PathRenderer) -> () {
+    let icon_arrow: [geometry::DrawDirective; 5] = [
+        Move(Point { x: 1.0, y: CY }),
+        Line(Point { x: 30.0, y: CY }),
+        Move(Point {
+            x: 21.0,
+            y: CY - 7.0,
+        }),
+        Line(Point { x: 30.0, y: CY }),
+        Line(Point {
+            x: 21.0,
+            y: CY + 7.0,
+        }),
+    ];
+    out.render_path(&icon_arrow, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_control_cycles: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: 4.0 + HALFLINE,
+            y: CY - 3.0,
+        }),
+        Line(Point {
+            x: 4.0 + HALFLINE,
+            y: CY + 3.0,
+        }),
+        Move(Point {
+            x: 11.0 + HALFLINE,
+            y: CY - 3.0,
+        }),
+        Line(Point {
+            x: 11.0 + HALFLINE,
+            y: CY + 3.0,
+        }),
+        Move(Point {
+            x: 18.0 + HALFLINE,
+            y: CY - 3.0,
+        }),
+        Line(Point {
+            x: 18.0 + HALFLINE,
+            y: CY + 3.0,
+        }),
+    ];
+    out.render_path(&icon_control_cycles, &Some(GRAY_PEN), &None);
 }
 
 /// The function generates a type_rel_associate
@@ -550,9 +607,15 @@ pub fn generate_type_rel_associate(out: &mut dyn PathRenderer) -> () {
     let icon_arrow: [geometry::DrawDirective; 5] = [
         Move(Point { x: 1.0, y: CY }),
         Line(Point { x: 30.0, y: CY }),
-        Move(Point { x: 21.0, y: CY - 7.0 }),
+        Move(Point {
+            x: 21.0,
+            y: CY - 7.0,
+        }),
         Line(Point { x: 30.0, y: CY }),
-        Line(Point { x: 21.0, y: CY + 7.0 }),
+        Line(Point {
+            x: 21.0,
+            y: CY + 7.0,
+        }),
     ];
     out.render_path(&icon_arrow, &Some(GRAY_THICK_PEN), &None);
 }
@@ -563,6 +626,88 @@ pub fn generate_type_rel_communication_path(out: &mut dyn PathRenderer) -> () {
     let icon_arrow: [geometry::DrawDirective; 2] = [
         Move(Point { x: 1.0, y: CY }),
         Line(Point { x: 31.0, y: CY }),
+    ];
+    out.render_path(&icon_arrow, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_rel_aggregate
+///
+pub fn generate_type_rel_aggregate(out: &mut dyn PathRenderer) -> () {
+    let icon_arrow: [geometry::DrawDirective; 4] = [
+        Move(Point { x: 1.0, y: CY }),
+        Line(Point { x: 3.3, y: CY }),
+        Move(Point { x: 15.1, y: CY }),
+        Line(Point { x: 31.0, y: CY }),
+    ];
+    out.render_path(&icon_arrow, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_feathers: [geometry::DrawDirective; 5] = [
+        Move(Point { x: 3.0, y: CY }),
+        Line(Point {
+            x: 7.0,
+            y: CY - 4.0 - HALFLINE,
+        }),
+        Line(Point { x: 16.0, y: CY }),
+        Line(Point {
+            x: 7.0,
+            y: CY + 4.0 + HALFLINE,
+        }),
+        Close,
+    ];
+    out.render_path(&icon_feathers, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_rel_compose
+///
+pub fn generate_type_rel_compose(out: &mut dyn PathRenderer) -> () {
+    let icon_arrow: [geometry::DrawDirective; 4] = [
+        Move(Point { x: 1.0, y: CY }),
+        Line(Point { x: 3.3, y: CY }),
+        Move(Point { x: 15.1, y: CY }),
+        Line(Point { x: 31.0, y: CY }),
+    ];
+    out.render_path(&icon_arrow, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_feathers: [geometry::DrawDirective; 5] = [
+        Move(Point { x: 3.0, y: CY }),
+        Line(Point {
+            x: 7.0,
+            y: CY - 4.0 - HALFLINE,
+        }),
+        Line(Point { x: 16.0, y: CY }),
+        Line(Point {
+            x: 7.0,
+            y: CY + 4.0 + HALFLINE,
+        }),
+        Close,
+    ];
+    out.render_path(&icon_feathers, &Some(GRAY_PEN), &Some(GRAY));
+}
+
+/// The function generates a type_rel_object_flow
+///
+pub fn generate_type_rel_object_flow(out: &mut dyn PathRenderer) -> () {
+    /* object */
+    let icon_object: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 7.0 - HALFLINE,
+        top: 2.0 - HALFLINE,
+        width: 7.0,
+        height: 6.0,
+    });
+    out.render_path(&icon_object, &Some(GRAY_PEN), &None);
+
+    let icon_arrow: [geometry::DrawDirective; 5] = [
+        Move(Point { x: 1.0, y: CY }),
+        Line(Point { x: 30.0, y: CY }),
+        Move(Point {
+            x: 21.0,
+            y: CY - 7.0,
+        }),
+        Line(Point { x: 30.0, y: CY }),
+        Line(Point {
+            x: 21.0,
+            y: CY + 7.0,
+        }),
     ];
     out.render_path(&icon_arrow, &Some(GRAY_THICK_PEN), &None);
 }
@@ -639,7 +784,7 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
         IconSource {
             name: "type_rel_control_flow",
             viewport: ICON_VIEW_RECT,
-            generate: generate_type_rel_associate, /* same arrow icon*/
+            generate: generate_type_rel_control_flow,
         },
         IconSource {
             name: "type_rel_associate",
@@ -651,14 +796,20 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             viewport: ICON_VIEW_RECT,
             generate: generate_type_rel_communication_path,
         },
-        /*
-                ../../gui/source/resources/type_rel_aggregate.c           ../../gui/source/resources/type_rel_depend.c       ../../gui/source/resources/type_rel_realize.c
-                ../../gui/source/resources/type_rel_associate.c           ../../gui/source/resources/type_rel_deploy.c       ../../gui/source/resources/type_rel_refine.c
-                ../../gui/source/resources/type_rel_async.c               ../../gui/source/resources/type_rel_extend.c       ../../gui/source/resources/type_rel_return.c
-                ../../gui/source/resources/type_rel_communication_path.c  ../../gui/source/resources/type_rel_generalize.c   ../../gui/source/resources/type_rel_sync.c
-                ../../gui/source/resources/type_rel_compose.c             ../../gui/source/resources/type_rel_include.c      ../../gui/source/resources/type_rel_trace.c
-                ../../gui/source/resources/type_rel_contain.c             ../../gui/source/resources/type_rel_manifest.c
-                ../../gui/source/resources/type_rel_control_flow.c        ../../gui/source/resources/type_rel_object_flow.c
-        */
+        IconSource {
+            name: "type_rel_aggregate",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_aggregate,
+        },
+        IconSource {
+            name: "type_rel_compose",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_compose,
+        },
+        IconSource {
+            name: "type_rel_object_flow",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_object_flow,
+        },
     ]
 }
