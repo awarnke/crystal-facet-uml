@@ -72,6 +72,8 @@ ideas for future versions:
   [ ] undo and redo shall update the revision number of the database
       - so that the save button can indicate no changes
   @u8stream
+  [ ] The line iterator (which tries to break lines at defined line lengths) should be
+      adapted to CJK languages which have no space between words or sentences.
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?

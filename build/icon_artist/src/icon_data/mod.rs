@@ -7,6 +7,7 @@ pub mod shape;
 pub mod stereotype_icon;
 pub mod type_class_icon;
 pub mod type_diag_icon;
+pub mod type_feat_icon;
 pub mod type_rel_icon;
 
 /*
