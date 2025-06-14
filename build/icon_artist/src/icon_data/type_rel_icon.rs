@@ -4,8 +4,13 @@ use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective;
 use crate::stream_if::geometry::DrawDirective::Curve;
+use crate::stream_if::geometry::DrawDirective::CurveRel;
 use crate::stream_if::geometry::DrawDirective::Line;
+use crate::stream_if::geometry::DrawDirective::LineRel;
 use crate::stream_if::geometry::DrawDirective::Move;
+use crate::stream_if::geometry::DrawDirective::MoveRel;
+use crate::stream_if::geometry::DrawDirective::CloseRel;
+use crate::stream_if::geometry::Offset;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
@@ -43,13 +48,11 @@ static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
     width: 2.0,
 };
 
-/// The function defines the path  points for a rectangle in relative offsets
+/// The function defines the path points for a print of an animal paw
 ///
 /// # Arguments
 ///
-/// * `top_left` - The relative offset of the top left corner
-/// * `width` - The width of the rectangle
-/// * `height` - The height of the rectangle
+/// * `center` - The center point of the paw
 ///
 fn get_small_paw(center: Point) -> [DrawDirective; 11] {
     [
@@ -104,33 +107,36 @@ fn get_small_paw(center: Point) -> [DrawDirective; 11] {
 ///
 pub fn generate_type_rel_refine(out: &mut dyn PathRenderer) -> () {
     let icon_segs_4_ends: [geometry::DrawDirective; 5] = [
-        Move(Point {
-            x: 20.0,
-            y: CY ,
-        }),
-        Line(Point {
-            x: 10.0,
-             y: CY ,
-        }),
+        Move(Point { x: 20.0, y: CY }),
+        Line(Point { x: 10.0, y: CY }),
         Move(Point {
             x: 1.0,
-             y: CY - 5.0 ,
+            y: CY - 5.0,
         }),
         Curve(
-            Point { x: 4.0, y: CY - 5.0  },
-            Point {
-                x: 6.0,
-                y: CY - 3.0 ,
-            },
-            Point { x: 6.0, y: CY  },
-        ),
-        Curve(
-            Point { x: 6.0, y: CY + 3.0  },
             Point {
                 x: 4.0,
-              y: CY + 5.0 ,
+                y: CY - 5.0,
             },
-            Point { x: 1.0, y: CY + 5.0  },
+            Point {
+                x: 6.0,
+                y: CY - 3.0,
+            },
+            Point { x: 6.0, y: CY },
+        ),
+        Curve(
+            Point {
+                x: 6.0,
+                y: CY + 3.0,
+            },
+            Point {
+                x: 4.0,
+                y: CY + 5.0,
+            },
+            Point {
+                x: 1.0,
+                y: CY + 5.0,
+            },
         ),
     ];
     out.render_path(&icon_segs_4_ends, &Some(GRAY_THICK_PEN), &None);
@@ -138,17 +144,13 @@ pub fn generate_type_rel_refine(out: &mut dyn PathRenderer) -> () {
     let arrot_tip: [geometry::DrawDirective; 3] = [
         Move(Point {
             x: 22.0,
-             y: CY - 9.0 ,
+            y: CY - 9.0,
         }),
-        Line(
-            Point { x: 31.0, y: CY  },
-        ),
-        Line(
-            Point {
-                x: 22.0,
-             y: CY + 9.0  ,
-            },
-        ),
+        Line(Point { x: 31.0, y: CY }),
+        Line(Point {
+            x: 22.0,
+            y: CY + 9.0,
+        }),
     ];
     out.render_path(&arrot_tip, &Some(GRAY_THICK_PEN), &None);
 }
@@ -180,19 +182,116 @@ pub fn generate_type_rel_trace(out: &mut dyn PathRenderer) -> () {
     let arrot_tip: [geometry::DrawDirective; 3] = [
         Move(Point {
             x: 22.0,
-             y: CY - 9.0 - HALFLINE,
+            y: CY - 9.0 - HALFLINE,
         }),
-        Line(
-            Point { x: 31.0, y: CY - HALFLINE },
-        ),
-        Line(
-            Point {
-                x: 22.0,
-              y: CY + 9.0  - HALFLINE,
-            },
-        ),
+        Line(Point {
+            x: 31.0,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: 22.0,
+            y: CY + 9.0 - HALFLINE,
+        }),
     ];
     out.render_path(&arrot_tip, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_rel_extend
+///
+pub fn generate_type_rel_extend(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_ellipsis: [geometry::DrawDirective; 5] = [
+        MoveRel(Offset {
+            dx: 22.0 + HALFLINE,
+            dy: 1.0 + HALFLINE,
+        }),
+        CurveRel(
+            Offset { dx: 3.9, dy: 0.0 },
+            Offset { dx: 7.0, dy: 2.2 },
+            Offset { dx: 7.0, dy: 5.0 },
+        ),
+        CurveRel(
+            Offset { dx: 0.0, dy: 2.8 },
+            Offset { dx: -3.1, dy: 5.0 },
+            Offset { dx: -7.0, dy: 5.0 },
+        ),
+        CurveRel(
+            Offset { dx: -3.9, dy: 0.0 },
+            Offset { dx: -7.0, dy: -2.2 },
+            Offset { dx: -7.0, dy: -5.0 },
+        ),
+        CurveRel(
+            Offset { dx: 0.0, dy: -2.8 },
+            Offset { dx: 3.1, dy: -5.0 },
+            Offset { dx: 7.0, dy: -5.0 },
+        ),
+    ];
+    out.render_path(&icon_segs_ellipsis, &Some(GRAY_PEN), &None);
+
+    let icon_segs_part_ellipsis: [geometry::DrawDirective; 5] = [
+        MoveRel(Offset { dx: 2.0, dy: 16.0 }),
+        CurveRel(
+            Offset { dx: 0.0, dy: -3.2 },
+            Offset { dx: 3.8, dy: -6.0 },
+            Offset { dx: 7.0, dy: -6.0 },
+        ),
+        CurveRel(
+            Offset { dx: -1.0, dy: 4.2 },
+            Offset { dx: 3.8, dy: 8.0 },
+            Offset { dx: 9.0, dy: 7.0 },
+        ),
+        CurveRel(
+            Offset { dx: 0.0, dy: 2.2 },
+            Offset { dx: -3.8, dy: 5.0 },
+            Offset { dx: -8.0, dy: 5.0 },
+        ),
+        CurveRel(
+            Offset { dx: -4.2, dy: 0.0 },
+            Offset { dx: -8.0, dy: -2.8 },
+            Offset { dx: -8.0, dy: -6.0 },
+        ),
+    ];
+    out.render_path(&icon_segs_part_ellipsis, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_rel_include
+///
+pub fn generate_type_rel_include(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_ellipsis: [geometry::DrawDirective; 4] = [
+        MoveRel(Offset {
+            dx: 19.0 + HALFLINE,
+            dy: 1.0 + HALFLINE,
+        }),
+        CurveRel(
+            Offset { dx: 6.1, dy: 0.0 },
+            Offset { dx: 11.0, dy: 3.6 },
+            Offset { dx: 11.0, dy: 8.0 },
+        ),
+        LineRel(Offset { dx: -11.0, dy: 0.0 }),
+        CloseRel,
+    ];
+    out.render_path(&icon_segs_ellipsis, &Some(GRAY_PEN), &None);
+
+    let icon_segs_part_ellipsis: [geometry::DrawDirective; 6] = [
+        MoveRel(Offset { dx: 2.0, dy: 15.0 }),
+        CurveRel(
+            Offset { dx: 0.0, dy: -3.9 },
+            Offset { dx: 4.5, dy: -7.0 },
+            Offset { dx: 10.0, dy: -7.0 },
+        ),
+        LineRel(Offset { dx: 0.0, dy: 7.0 }),
+        LineRel(Offset { dx: 10.0, dy: 0.0 }),
+        CurveRel(
+            Offset { dx: 0.0, dy: 3.9 },
+            Offset { dx: -4.5, dy: 7.0 },
+            Offset { dx: -10.0, dy: 7.0 },
+        ),
+        CurveRel(
+            Offset { dx: -5.5, dy: 0.0 },
+            Offset { dx: -10.0, dy: -3.1 },
+            Offset { dx: -10.0, dy: -7.0 },
+        ),
+    ];
+    out.render_path(&icon_segs_part_ellipsis, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function returns an array of IconSource
@@ -208,6 +307,26 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "type_rel_trace",
             viewport: ICON_VIEW_RECT,
             generate: generate_type_rel_trace,
+        },
+        IconSource {
+            name: "type_rel_include",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_include,
+        },
+        IconSource {
+            name: "type_rel_extend",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_extend,
+        },
+        IconSource {
+            name: "type_rel_deploy2",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_refine,
+        },
+        IconSource {
+            name: "type_rel_manifest2",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_refine,
         },
     ]
 }
