@@ -1,6 +1,8 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use crate::model::icon::IconSource;
+use super::shape::get_circle_abs;
+use super::shape::get_rounded_rect_abs;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective;
 use crate::stream_if::geometry::DrawDirective::Curve;
@@ -23,6 +25,8 @@ const ICON_VIEW_RECT: Rect = Rect {
     height: 24.0,
 };
 
+/// icon center x
+const CX: f32 = 16.0;
 /// icon center y
 const CY: f32 = 12.0;
 
@@ -294,6 +298,88 @@ pub fn generate_type_rel_include(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs_part_ellipsis, &Some(GRAY_THICK_PEN), &None);
 }
 
+/// The function generates a type_rel_deploy
+///
+pub fn generate_type_rel_deploy(out: &mut dyn PathRenderer) -> () {
+    /* circles */
+    let icon_rear2_wheel: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 6.0 + HALFLINE, y: 19.0 + HALFLINE }, 2.0, 2.0);
+    out.render_path(&icon_rear2_wheel, &Some(GRAY_PEN), &None);
+    let icon_rear1_wheel: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 12.0 + HALFLINE, y: 19.0 + HALFLINE }, 2.0, 2.0);
+    out.render_path(&icon_rear1_wheel, &Some(GRAY_PEN), &None);
+    let icon_front_wheel: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 26.0 + HALFLINE, y: 19.0 + HALFLINE }, 2.0, 2.0);
+    out.render_path(&icon_front_wheel, &Some(GRAY_PEN), &None);
+
+    let icon_chassis: [geometry::DrawDirective; 8] = [
+        Move(Point { x: 1.0, y: 16.0 }),
+        Line(Point { x: 3.0, y: 16.0 }),
+        Move(Point { x: 15.0, y: 16.0 }),
+        Line(Point { x: 23.0, y: 16.0 }),
+        Line(Point { x: 23.0, y: 6.0 }),
+        Line(Point { x: 28.0, y: 6.0 }),
+        Line(Point { x: 30.0, y: 11.0 }),
+        Line(Point { x: 30.0, y: 17.0 }),
+    ];
+    out.render_path(&icon_chassis, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_rel_manifest
+///
+pub fn generate_type_rel_manifest(out: &mut dyn PathRenderer) -> () {
+    /* artifact */
+    let icon_manifest: [geometry::DrawDirective; 9] = get_rounded_rect_abs(
+        Rect {
+            left: CX - 6.0 - HALFLINE,
+            top: 3.0 - HALFLINE,
+            width: 12.0,
+            height: 12.0,
+        },
+        3.0,
+    );
+    out.render_path(&icon_manifest, &Some(GRAY_PEN), &None);
+
+    let icon_chassis: [geometry::DrawDirective; 8] = [
+        Move(Point { x: 5.0, y: 18.0 }),
+        Line(Point { x: 26.0, y: 18.0 }),
+        Move(Point { x: 5.0, y: 21.0 }),
+        Line(Point { x: 8.0, y: 21.0 }),
+        Move(Point { x: 14.0, y: 21.0 }),
+        Line(Point { x: 17.0, y: 21.0 }),
+        Move(Point { x: 23.0, y: 21.0 }),
+        Line(Point { x: 26.0, y: 21.0 }),
+    ];
+    out.render_path(&icon_chassis, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_rel_contain
+///
+pub fn generate_type_rel_contain(out: &mut dyn PathRenderer) -> () {
+    /* container */
+    let icon_container: [geometry::DrawDirective; 9] = get_rounded_rect_abs(
+        Rect {
+            left: CX - 12.0 - HALFLINE,
+            top: 2.0 - HALFLINE,
+            width: 25.0,
+            height: 21.0,
+        },
+        5.0,
+    );
+    out.render_path(&icon_container, &Some(GRAY_PEN), &None);
+    let icon_contained: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX , y: CY + 3.0 }, 6.0, 6.0);
+    out.render_path(&icon_contained, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_chassis: [geometry::DrawDirective; 4] = [
+        Move(Point { x: CX, y: CY - 1.0 }),
+        Line(Point { x: CX, y: CY + 7.0 }),
+        Move(Point { x: CX - 4.0, y: CY + 3.0 }),
+        Line(Point { x: CX + 4.0, y: CY + 3.0 }),
+    ];
+    out.render_path(&icon_chassis, &Some(GRAY_THICK_PEN), &None);
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -319,14 +405,19 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             generate: generate_type_rel_extend,
         },
         IconSource {
-            name: "type_rel_deploy2",
+            name: "type_rel_deploy",
             viewport: ICON_VIEW_RECT,
-            generate: generate_type_rel_refine,
+            generate: generate_type_rel_deploy,
         },
         IconSource {
-            name: "type_rel_manifest2",
+            name: "type_rel_manifest",
             viewport: ICON_VIEW_RECT,
-            generate: generate_type_rel_refine,
+            generate: generate_type_rel_manifest,
+        },
+        IconSource {
+            name: "type_rel_contain",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_rel_contain,
         },
     ]
 }
