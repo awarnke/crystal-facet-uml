@@ -1,10 +1,13 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::shape::get_circle_abs;
+use super::shape::get_rect_abs;
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::CurveRel;
+use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::LineRel;
 use crate::stream_if::geometry::DrawDirective::Move;
 use crate::stream_if::geometry::Offset;
@@ -20,6 +23,11 @@ const ICON_VIEW_RECT: Rect = Rect {
     height: 24.0,
 };
 
+/// icon center x
+const CX: f32 = 16.0;
+/// icon center y
+const CY: f32 = 12.0;
+
 /// gray line color
 static GRAY: geometry::Color = geometry::Color {
     red: 0x7f,
@@ -27,10 +35,19 @@ static GRAY: geometry::Color = geometry::Color {
     blue: 0x7f,
 };
 
+/// half line width
+const HALFLINE: f32 = 0.5;
+
 /// gray pen
 static GRAY_PEN: geometry::Pen = geometry::Pen {
     color: GRAY,
     width: 1.0,
+};
+
+/// gray thick pen
+static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 2.0,
 };
 
 /// The function generates a gear wheel to vector graphics drawing directives
@@ -40,10 +57,8 @@ pub fn generate_type_clas_stereotype(out: &mut dyn PathRenderer) -> () {
     let r3: f32 = 11.0;
     let r2: f32 = 10.0;
     let r1: f32 = 8.5;
-    let cx: f32 = 16.0;
-    let cy: f32 = 12.0;
     let mut icon_segs: [geometry::DrawDirective; 61] = [Close; 61];
-    icon_segs[0] = Move(Point { x: cx + r2, y: cy });
+    icon_segs[0] = Move(Point { x: CX + r2, y: CY });
     for index in 0..10 {
         let alpha: f32 = std::f32::consts::PI / 5.0 * (index as f32);
         let a_dx = alpha.cos();
@@ -94,7 +109,7 @@ pub fn generate_type_clas_stereotype(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* rim of wheel */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(Point { x: cx, y: cy }, 2.0, 2.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(Point { x: CX, y: CY }, 2.0, 2.0);
     out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 }
 
@@ -109,10 +124,8 @@ pub fn generate_type_clas_image(out: &mut dyn PathRenderer) -> () {
     let r3: f32 = 11.0;
     let r2: f32 = 9.0;
     let r1: f32 = 4.25;
-    let cx: f32 = 16.0;
-    let cy: f32 = 12.0;
     let mut icon_segs: [geometry::DrawDirective; 21] = [Close; 21];
-    icon_segs[0] = Move(Point { x: cx + r1, y: cy });
+    icon_segs[0] = Move(Point { x: CX + r1, y: CY });
     for index in 0..10 {
         let alpha: f32 = std::f32::consts::PI / 5.0 * (index as f32);
         let a_dx = alpha.cos();
@@ -162,9 +175,160 @@ pub fn generate_type_clas_image(out: &mut dyn PathRenderer) -> () {
 
     /* flower center */
     let icon_segs: [geometry::DrawDirective; 5] =
-        get_circle_abs(Point { x: cx, y: cy }, 3.25, 3.25);
+        get_circle_abs(Point { x: CX, y: CY }, 3.25, 3.25);
     out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 }
+
+/// The function generates a type_clas_block
+///
+pub fn generate_type_clas_block(out: &mut dyn PathRenderer) -> () {
+    let icon_base_rect: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 8.0,
+        top: CY - 8.0,
+        width: 16.0,
+        height: 16.0,
+    });
+    out.render_path(&icon_base_rect, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_subsystem
+///
+pub fn generate_type_clas_subsystem(out: &mut dyn PathRenderer) -> () {
+    let icon_base_rect: [geometry::DrawDirective; 21] = [
+        Move(Point { x: CX-9.0, y: CY - 9.0 }),
+
+        Line(Point { x: CX-4.0, y: CY - 9.0 }),
+        Line(Point { x: CX-4.0, y: CY - 7.0 }),
+        Line(Point { x: CX+4.0, y: CY - 7.0 }),
+        Line(Point { x: CX+4.0, y: CY - 9.0 }),
+        Line(Point { x: CX+9.0, y: CY - 9.0 }),
+
+        Line(Point { x: CX+9.0, y: CY - 4.0 }),
+        Line(Point { x: CX+7.0, y: CY - 4.0 }),
+        Line(Point { x: CX+7.0, y: CY + 4.0 }),
+        Line(Point { x: CX+9.0, y: CY + 4.0 }),
+        Line(Point { x: CX+9.0, y: CY + 9.0 }),
+
+        Line(Point { x: CX+4.0, y: CY + 9.0 }),
+        Line(Point { x: CX+4.0, y: CY + 7.0 }),
+        Line(Point { x: CX-4.0, y: CY + 7.0 }),
+        Line(Point { x: CX-4.0, y: CY + 9.0 }),
+        Line(Point { x: CX-9.0, y: CY + 9.0 }),
+
+        Line(Point { x: CX-9.0, y: CY + 4.0 }),
+        Line(Point { x: CX-7.0, y: CY + 4.0 }),
+        Line(Point { x: CX-7.0, y: CY - 4.0 }),
+        Line(Point { x: CX-9.0, y: CY - 4.0 }),
+        Close,
+    ];
+    out.render_path(&icon_base_rect, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_component
+///
+pub fn generate_type_clas_component(out: &mut dyn PathRenderer) -> () {
+    let icon_base_rect: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 4.0,
+        top: CY - 8.0,
+        width: 16.0,
+        height: 16.0,
+    });
+    out.render_path(&icon_base_rect, &Some(GRAY_THICK_PEN), &None);
+
+    /* provides */
+    let icon_circle: [geometry::DrawDirective; 5] = get_circle_abs(Point { x: CX-12.5, y: CY-4.0-HALFLINE }, 2.5, 2.5);
+    out.render_path(&icon_circle, &Some(GRAY_THICK_PEN), &None);
+    let icon_conn1: [geometry::DrawDirective; 2] = [
+        Move(Point { x: CX-9.0, y: CY - 4.0 - HALFLINE }),
+        Line(Point { x: CX-5.0, y: CY - 4.0 - HALFLINE }),
+    ];
+    out.render_path(&icon_conn1, &Some(GRAY_PEN), &None);
+
+    /* requires */
+    let icon_circle: [geometry::DrawDirective; 3] = [
+        Move(Point { x: CX-12.5, y: CY + 1.5 + HALFLINE }),
+        Curve(Point { x: CX-11.0, y: CY + 1.5 + HALFLINE },Point { x: CX-10.0, y: CY + 2.5 + HALFLINE },Point { x: CX-10.0, y: CY + 4.0 + HALFLINE },),
+        Curve(Point { x: CX-10.0, y: CY + 5.5 + HALFLINE },Point { x: CX-11.0, y: CY + 6.5 + HALFLINE },Point { x: CX-12.5, y: CY + 6.5 + HALFLINE },),
+    ];
+    out.render_path(&icon_circle, &Some(GRAY_THICK_PEN), &None);
+    let icon_conn1: [geometry::DrawDirective; 2] = [
+        Move(Point { x: CX-9.0, y: CY + 4.0 + HALFLINE }),
+        Line(Point { x: CX-5.0, y: CY + 4.0 + HALFLINE }),
+    ];
+    out.render_path(&icon_conn1, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_clas_part
+///
+pub fn generate_type_clas_part(out: &mut dyn PathRenderer) -> () {
+    let icon_base_rect: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 4.0,
+        top: CY - 8.0,
+        width: 16.0,
+        height: 16.0,
+    });
+    out.render_path(&icon_base_rect, &Some(GRAY_THICK_PEN), &Some(GRAY));
+
+    /* provides */
+    let icon_circle: [geometry::DrawDirective; 5] = get_circle_abs(Point { x: CX-12.0, y: CY-5.0 }, 3.0, 3.0);
+    out.render_path(&icon_circle, &Some(GRAY_THICK_PEN), &None);
+    let icon_conn1: [geometry::DrawDirective; 2] = [
+        Move(Point { x: CX-9.0, y: CY - 4.0 - HALFLINE }),
+        Line(Point { x: CX-5.0, y: CY - 4.0 - HALFLINE }),
+    ];
+    out.render_path(&icon_conn1, &Some(GRAY_PEN), &None);
+
+    /* requires */
+    let icon_circle: [geometry::DrawDirective; 3] = [
+        Move(Point { x: CX-12.5, y: CY + 1.5 + HALFLINE }),
+        Curve(Point { x: CX-11.0, y: CY + 1.5 + HALFLINE },Point { x: CX-10.0, y: CY + 2.5 + HALFLINE },Point { x: CX-10.0, y: CY + 4.0 + HALFLINE },),
+        Curve(Point { x: CX-10.0, y: CY + 5.5 + HALFLINE },Point { x: CX-11.0, y: CY + 6.5 + HALFLINE },Point { x: CX-12.5, y: CY + 6.5 + HALFLINE },),
+    ];
+    out.render_path(&icon_circle, &Some(GRAY_THICK_PEN), &None);
+    let icon_conn1: [geometry::DrawDirective; 2] = [
+        Move(Point { x: CX-9.0, y: CY + 4.0 + HALFLINE }),
+        Line(Point { x: CX-5.0, y: CY + 4.0 + HALFLINE }),
+    ];
+    out.render_path(&icon_conn1, &Some(GRAY_PEN), &None);
+
+}
+
+
+/*
+ * STATIC ELEMENTS:
+ gui/source/resources/type_clas_actor.c  -- only for behavioral views
+ gui/source/resources/type_clas_artifact.c
+ gui/source/resources/....c
+ gui/source/resources/type_clas_class.c
+ gui/source/resources/type_clas_comment.c  -- also for behavioral views
+ gui/source/resources/....c
+ gui/source/resources/type_clas_constraint.c
+ gui/source/resources/type_clas_image.c
+ gui/source/resources/type_clas_interface.c
+ gui/source/resources/type_clas_node.c
+ gui/source/resources/type_clas_object.c
+ gui/source/resources/type_clas_package.c
+ gui/source/resources/....c
+ gui/source/resources/type_clas_requirement.c  -- also for behavioral views
+ gui/source/resources/type_clas_stereotype.c
+ gui/source/resources/....c  -- only for behavioral views
+ * DYNAMIC ARTIFACTS;
+ gui/source/resources/type_clas_accept.c
+ gui/source/resources/type_clas_activity.c
+ gui/source/resources/type_clas_decision.c
+ gui/source/resources/type_clas_deephistory.c
+ gui/source/resources/type_clas_final.c
+ gui/source/resources/type_clas_fork.c
+ gui/source/resources/type_clas_history.c
+ gui/source/resources/type_clas_initial.c
+ gui/source/resources/type_clas_interaction_use.c
+ gui/source/resources/type_clas_join.c
+ gui/source/resources/type_clas_region.c
+ gui/source/resources/type_clas_send.c
+ gui/source/resources/type_clas_state.c
+ gui/source/resources/type_clas_time.c
+ gui/source/resources/type_clas_usecase.c
+*/
 
 /// The function returns an array of IconSource
 ///
@@ -179,6 +343,26 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "type_clas_image",
             viewport: ICON_VIEW_RECT,
             generate: generate_type_clas_image,
+        },
+        IconSource {
+            name: "type_clas_block",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_block,
+        },
+        IconSource {
+            name: "type_clas_subsystem",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_subsystem,
+        },
+        IconSource {
+            name: "type_clas_component",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_component,
+        },
+        IconSource {
+            name: "type_clas_part",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_part,
         },
     ]
 }
