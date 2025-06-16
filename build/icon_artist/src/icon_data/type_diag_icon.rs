@@ -725,18 +725,31 @@ pub fn generate_type_diag_profile(out: &mut dyn PathRenderer) -> () {
 /// The function generates a type_diag_requirement
 ///
 pub fn generate_type_diag_requirement(out: &mut dyn PathRenderer) -> () {
-    let icon_segs_goal: [geometry::DrawDirective; 6] = [
-        Move(Point { x: 10.0, y: 23.0 }),
-        Line(Point { x: 10.0, y: 1.0 }),
-        Move(Point { x: 13.0, y: 3.0 }),
+    let icon_segs_goal1: [geometry::DrawDirective; 6] = [
+        Move(Point { x: 2.0, y: 23.0 }),
+        Line(Point { x: 2.0, y: 1.0 }),
+        Move(Point { x: 5.0, y: 3.0 }),
         Line(Point {
-            x: 23.0,
+            x: 15.0,
             y: 6.0 + HALFLINE,
         }),
-        Line(Point { x: 13.0, y: 10.0 }),
+        Line(Point { x: 5.0, y: 10.0 }),
         Close,
     ];
-    out.render_path(&icon_segs_goal, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_segs_goal1, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_goal2: [geometry::DrawDirective; 6] = [
+        Move(Point { x: 20.0, y: 20.0 }),
+        Line(Point { x: 20.0, y: 1.0 }),
+        Move(Point { x: 23.0, y: 3.0 }),
+        Line(Point {
+            x: 30.0,
+             y: 5.0 + HALFLINE,
+        }),
+        Line(Point { x: 23.0, y: 8.0 }),
+        Close,
+    ];
+    out.render_path(&icon_segs_goal2, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a type_diag_sequence
