@@ -262,12 +262,12 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_clas_constraint = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_constraint ) );
     (*this_).type_clas_decision = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_decision ) );
     (*this_).type_clas_deephistory = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_deephistory ) );
-    (*this_).type_clas_diagram = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_diagram ) );
     (*this_).type_clas_final = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_final ) );
     (*this_).type_clas_fork = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_fork ) );
     (*this_).type_clas_history = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_history ) );
     (*this_).type_clas_image = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_image ) );
     (*this_).type_clas_initial = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_initial ) );
+    (*this_).type_clas_interaction_use = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_interaction_use ) );
     (*this_).type_clas_interface = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_interface ) );
     (*this_).type_clas_join = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_join ) );
     (*this_).type_clas_node = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_node ) );
@@ -412,12 +412,12 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_clas_constraint);
     g_object_unref ((*this_).type_clas_decision);
     g_object_unref ((*this_).type_clas_deephistory);
-    g_object_unref ((*this_).type_clas_diagram);
     g_object_unref ((*this_).type_clas_final);
     g_object_unref ((*this_).type_clas_fork);
     g_object_unref ((*this_).type_clas_history);
     g_object_unref ((*this_).type_clas_image);
     g_object_unref ((*this_).type_clas_initial);
+    g_object_unref ((*this_).type_clas_interaction_use);
     g_object_unref ((*this_).type_clas_interface);
     g_object_unref ((*this_).type_clas_join);
     g_object_unref ((*this_).type_clas_node);

@@ -804,12 +804,155 @@ pub fn generate_type_clas_requirement(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs_goal, &Some(GRAY_THICK_PEN), &None);
 }
 
+/// The function generates a type_clas_artifact
+///
+pub fn generate_type_clas_artifact(out: &mut dyn PathRenderer) -> () {
+    let icon_paper: [geometry::DrawDirective; 7] = [
+        Move(Point { x: CX + 7.0, y: CY - 2.0 }),
+        Line(Point { x: CX + 7.0, y: CY + 10.0 }),
+        Line(Point { x: CX - 7.0, y: CY + 10.0 }),
+        Line(Point { x: CX - 7.0, y: CY - 10.0 }),
+        Line(Point { x: CX - 1.0, y: CY - 10.0 }),
+        Line(Point { x: CX + 1.0, y: CY - 4.0 }),
+        Close
+    ];
+    out.render_path(&icon_paper, &Some(GRAY_THICK_PEN), &Some(GRAY));
+
+    let icon_edge: [geometry::DrawDirective; 2] = [
+        Move(Point { x: CX - 1.0 + HALFLINE, y: CY - 10.0 - HALFLINE }),
+        Line(Point { x: CX + 7.0 + HALFLINE, y: CY - 2.0 - HALFLINE }),
+    ];
+    out.render_path(&icon_edge, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_clas_comment
+///
+pub fn generate_type_clas_comment(out: &mut dyn PathRenderer) -> () {
+    let icon_paper: [geometry::DrawDirective; 7] = [
+        Move(Point { x: CX + 7.0, y: CY - 2.0 }),
+        Line(Point { x: CX + 7.0, y: CY + 10.0 }),
+        Line(Point { x: CX - 7.0, y: CY + 10.0 }),
+        Line(Point { x: CX - 7.0, y: CY - 10.0 }),
+        Line(Point { x: CX - 1.0, y: CY - 10.0 }),
+        Line(Point { x: CX + 1.0, y: CY - 4.0 }),
+        Close
+    ];
+    out.render_path(&icon_paper, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_edge: [geometry::DrawDirective; 2] = [
+        Move(Point { x: CX - 1.0 + HALFLINE, y: CY - 10.0 - HALFLINE }),
+        Line(Point { x: CX + 7.0 + HALFLINE, y: CY - 2.0 - HALFLINE }),
+    ];
+    out.render_path(&icon_edge, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_clas_actor
+///
+pub fn generate_type_clas_actor(out: &mut dyn PathRenderer) -> () {
+
+    /* head */
+    let icon_head: [geometry::DrawDirective; 5] = get_circle_abs(
+        Point {
+            x: CX,
+            y: CY - 7.0,
+        },
+        3.0,
+        3.0,
+    );
+    out.render_path(&icon_head, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_body: [geometry::DrawDirective; 8] = [
+        Move(Point { x: CX - 5.0, y: CY + 10.0 }),
+        Line(Point { x: CX, y: CY + 1.0 }),
+        Line(Point { x: CX, y: CY - 3.0 }),
+        Move(Point { x: CX + 5.0, y: CY + 10.0 }),
+        Line(Point { x: CX, y: CY + 1.0 }),
+        Move(Point { x: CX - 6.0, y: CY + 1.0 }),
+        Line(Point { x: CX, y: CY - 2.0 }),
+        Line(Point { x: CX + 6.0, y: CY + 1.0 }),
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_interaction_use
+///
+pub fn generate_type_clas_interaction_use(out: &mut dyn PathRenderer) -> () {
+
+    /* arrows */
+    let icon_arrows: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX + 10.0,
+             y: 9.0,
+        }),
+        Line(Point {
+            x: CX - 9.0,
+             y: 12.0,
+        }),
+        Line(Point {
+            x: CX - 6.0,
+             y: 9.0,
+        }),
+        Move(Point {
+            x: CX - 10.0,
+             y: 16.0,
+        }),
+        Line(Point {
+            x: CX + 9.0,
+             y: 19.0,
+        }),
+        Line(Point {
+            x: CX + 6.0,
+             y: 16.0,
+        }),
+    ];
+    out.render_path(&icon_arrows, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_diagref: [geometry::DrawDirective; 9] = [
+        Move(Point {
+            x: CX - 14.0 - HALFLINE,
+             y: CY - 4.0,
+        }),
+        Line(
+            Point {
+                x: CX - 14.0 - HALFLINE,
+              y: CY - 8.0 - HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: CX + 14.0 + HALFLINE,
+             y: CY - 8.0 - HALFLINE,
+        }),
+        Line(
+            Point {
+                x: CX + 14.0 + HALFLINE,
+              y: CY + 10.0 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: CX - 14.0 - HALFLINE,
+             y: CY + 10.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 14.0 - HALFLINE,
+             y: CY - 5.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 8.0,
+             y: CY - 5.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 6.0 - HALFLINE,
+             y: CY - 7.0 ,
+        }),
+        Line(Point {
+            x: CX - 6.0 - HALFLINE,
+             y: CY - 8.0 ,
+        }),
+    ];
+    out.render_path(&icon_diagref, &Some(GRAY_PEN), &None);
+}
+
 /*
- * STATIC ELEMENTS:
- gui/source/resources/type_clas_actor.c  -- only for behavioral views
- gui/source/resources/type_clas_artifact.c
- gui/source/resources/type_clas_comment.c  -- also for behavioral views
- * DYNAMIC ARTIFACTS;
  gui/source/resources/type_clas_accept.c
  gui/source/resources/type_clas_activity.c
  gui/source/resources/type_clas_decision.c
@@ -818,7 +961,6 @@ pub fn generate_type_clas_requirement(out: &mut dyn PathRenderer) -> () {
  gui/source/resources/type_clas_fork.c
  gui/source/resources/type_clas_history.c
  gui/source/resources/type_clas_initial.c
- gui/source/resources/type_clas_interaction_use.c
  gui/source/resources/type_clas_join.c
  gui/source/resources/type_clas_region.c
  gui/source/resources/type_clas_send.c
@@ -895,6 +1037,26 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "type_clas_requirement",
             viewport: ICON_VIEW_RECT,
             generate: generate_type_clas_requirement,
+        },
+        IconSource {
+            name: "type_clas_artifact",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_artifact,
+        },
+        IconSource {
+            name: "type_clas_comment",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_comment,
+        },
+        IconSource {
+            name: "type_clas_actor",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_actor,
+        },
+        IconSource {
+            name: "type_clas_interaction_use",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_interaction_use,
         },
     ]
 }

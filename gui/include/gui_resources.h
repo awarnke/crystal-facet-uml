@@ -100,12 +100,12 @@ struct gui_resources_struct {
     GdkTexture *type_clas_constraint;
     GdkTexture *type_clas_decision;
     GdkTexture *type_clas_deephistory;
-    GdkTexture *type_clas_diagram;
     GdkTexture *type_clas_final;
     GdkTexture *type_clas_fork;
     GdkTexture *type_clas_history;
     GdkTexture *type_clas_image;
     GdkTexture *type_clas_initial;
+    GdkTexture *type_clas_interaction_use;
     GdkTexture *type_clas_interface;
     GdkTexture *type_clas_join;
     GdkTexture *type_clas_node;
@@ -682,13 +682,6 @@ static inline GdkTexture *gui_resources_get_type_clas_decision ( const gui_resou
 static inline GdkTexture *gui_resources_get_type_clas_deephistory ( const gui_resources_t *this_ );
 
 /*!
- *  \brief gets the type_clas_diagram
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkTexture *gui_resources_get_type_clas_diagram ( const gui_resources_t *this_ );
-
-/*!
  *  \brief gets the type_clas_final
  *
  *  \param this_ pointer to own object attributes
@@ -722,6 +715,13 @@ static inline GdkTexture *gui_resources_get_type_clas_image ( const gui_resource
  *  \param this_ pointer to own object attributes
  */
 static inline GdkTexture *gui_resources_get_type_clas_initial ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_interaction_use
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_type_clas_interaction_use ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_interface

@@ -907,11 +907,6 @@ pub fn generate_type_diag_usecase(out: &mut dyn PathRenderer) -> () {
         4.0,
     );
     out.render_path(&icon_segs_use_case, &Some(GRAY_THICK_PEN), &None);
-    /*
-    let icon_segs_use_case2: [geometry::DrawDirective; 5] =
-        get_circle_abs(Point { x: 21.0, y: CY + 6.0 }, 9.0, 4.0);
-    out.render_path(&icon_segs_use_case2, &Some(GRAY_THICK_PEN), &None);
-    */
 }
 
 /// The function returns an array of IconSource

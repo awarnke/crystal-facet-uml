@@ -365,11 +365,6 @@ static inline GdkTexture *gui_resources_get_type_clas_deephistory ( const gui_re
     return (*this_).type_clas_deephistory;
 }
 
-static inline GdkTexture *gui_resources_get_type_clas_diagram ( const gui_resources_t *this_ )
-{
-    return (*this_).type_clas_diagram;
-}
-
 static inline GdkTexture *gui_resources_get_type_clas_final ( const gui_resources_t *this_ )
 {
     return (*this_).type_clas_final;
@@ -393,6 +388,11 @@ static inline GdkTexture *gui_resources_get_type_clas_image ( const gui_resource
 static inline GdkTexture *gui_resources_get_type_clas_initial ( const gui_resources_t *this_ )
 {
     return (*this_).type_clas_initial;
+}
+
+static inline GdkTexture *gui_resources_get_type_clas_interaction_use ( const gui_resources_t *this_ )
+{
+    return (*this_).type_clas_interaction_use;
 }
 
 static inline GdkTexture *gui_resources_get_type_clas_interface ( const gui_resources_t *this_ )
