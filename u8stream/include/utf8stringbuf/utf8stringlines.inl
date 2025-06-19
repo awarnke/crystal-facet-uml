@@ -52,7 +52,14 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
             /* analyze the current character */
             if (( 0xc0 & probe ) == 0x80 )
             {
-                /* This is not a first byte of an utf8-character byte sequence; ignore... */
+                /* This is not a first byte of an utf8-character byte sequence; check for asian line break possibility */
+                if ( probe_idx >= 2 )
+                {
+                    if ( utf8stringlines_private_is_ideographic_comma( this_, start[probe_idx-2], start[probe_idx-1], probe ) )
+                    {
+                        a_good_pos = probe_idx + 1;
+                    }
+                }
             }
             else
             {
@@ -108,6 +115,17 @@ static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, c
     const unsigned char u_asc = (unsigned char) ascii;
     /* 0x0 - 0x19 are control chars like line break and tab, 0x20 is space, 0x7f is a control character */
     return ( u_asc <= 0x20 )||( u_asc == 0x7f );
+}
+
+static inline bool utf8stringlines_private_is_ideographic_comma( utf8stringlines_t *this_,
+                                                                 char utf8_first,
+                                                                 char utf8_second,
+                                                                 char utf8_third )
+{
+    const bool is_ideo_space = ( utf8_first == 0xe3 )&&( utf8_second == 0x80 )&&( utf8_third == 0x80 );
+    const bool is_ideo_comma = ( utf8_first == 0xe3 )&&( utf8_second == 0x80 )&&( utf8_third == 0x81 );
+    const bool is_ideo_fullstop = ( utf8_first == 0xe3 )&&( utf8_second == 0x80 )&&( utf8_third == 0x82 );
+    return is_ideo_space || is_ideo_comma || is_ideo_fullstop;
 }
 
 #ifdef __cplusplus

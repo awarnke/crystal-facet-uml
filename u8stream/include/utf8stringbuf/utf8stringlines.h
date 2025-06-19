@@ -92,6 +92,22 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
  */
 static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, char ascii );
 
+/*!
+ *  \brief checks if the provideed utf8 code point is an ideographic space, comma or full stop
+ *
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ pointer to own object attributes
+ *  \param utf8_first first byte of an utf8 character sequence
+ *  \param utf8_second second byte of an utf8 character sequence
+ *  \param utf8_third third byte of an utf8 character sequence
+ *  \return true if the character is a space, including linebreak symbols.
+ */
+static inline bool utf8stringlines_private_is_ideographic_comma( utf8stringlines_t *this_,
+                                                                 char utf8_first,
+                                                                 char utf8_second,
+                                                                 char utf8_third
+                                                               );
+
 #ifdef __cplusplus
 }
 #endif
