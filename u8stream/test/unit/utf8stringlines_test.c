@@ -16,6 +16,7 @@ static test_case_result_t testStandardUseCase( test_fixture_t *fix );
 static test_case_result_t testMultiByteUseCase( test_fixture_t *fix );
 static test_case_result_t testNoSeparatorUseCase( test_fixture_t *fix );
 static test_case_result_t testEmptyUseCase( test_fixture_t *fix );
+static test_case_result_t testAsianUseCase( test_fixture_t *fix );
 
 test_suite_t utf8stringlines_test_get_suite(void)
 {
@@ -30,6 +31,7 @@ test_suite_t utf8stringlines_test_get_suite(void)
     test_suite_add_test_case( &result, "testMultiByteUseCase", &testMultiByteUseCase );
     test_suite_add_test_case( &result, "testNoSeparatorUseCase", &testNoSeparatorUseCase );
     test_suite_add_test_case( &result, "testEmptyUseCase", &testEmptyUseCase );
+    test_suite_add_test_case( &result, "testAsianUseCase", &testAsianUseCase );
     return result;
 }
 
@@ -131,7 +133,7 @@ static test_case_result_t testMultiByteUseCase( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 'a', (unsigned char)*(utf8stringview_get_start( &next )) );
     TEST_EXPECT_EQUAL_INT( 11, utf8stringview_get_length( &next ) );
 
-    /* test line witeratorh only a space */
+    /* test line with only a space */
     has_next = utf8stringlines_has_next( &iterator );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
@@ -205,6 +207,57 @@ static test_case_result_t testEmptyUseCase( test_fixture_t *fix )
     next = utf8stringlines_next( &iterator );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( &next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
+
+    /* finish */
+    utf8stringlines_destroy( &iterator );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t testAsianUseCase( test_fixture_t *fix )
+{
+    bool has_next;
+    utf8stringview_t next;
+    /* 京都は綺麗で、大阪も近くにあります。東京は遠いです。 */
+    static const char *const my_list
+        = "\xe4\xba\xac\xe9\x83\xbd\xe3\x81\xaf\xe7\xb6\xba\xe9\xba\x97\xe3\x81\xa7\xe3\x80\x81"
+        "\xe5\xa4\xa7\xe9\x98\xaa\xe3\x82\x82\xe8\xbf\x91\xe3\x81\x8f\xe3\x81\xab\xe3\x81\x82\xe3\x82\x8a\xe3\x81\xbe\xe3\x81\x99\xe3\x80\x82"
+        "\xe6\x9d\xb1\xe4\xba\xac\xe3\x81\xaf\xe9\x81\xa0\xe3\x81\x84\xe3\x81\xa7\xe3\x81\x99\xe3\x80\x82";
+
+    /* init */
+    utf8stringlines_t iterator;
+    utf8stringlines_init( &iterator, &UTF8STRINGVIEW_STR( my_list ), 8 );
+
+    /* test break at comma */
+    has_next = utf8stringlines_has_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 0xe4, (unsigned char)*(utf8stringview_get_start( &next )) );
+    TEST_EXPECT_EQUAL_INT( 7, utf8stringview_count_codepoints( &next ) );
+
+    /* test break at full stop */
+    has_next = utf8stringlines_has_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 0xe5, (unsigned char)*(utf8stringview_get_start( &next )) );
+    TEST_EXPECT_EQUAL_INT( 11, utf8stringview_count_codepoints( &next ) );
+
+    /* test last line */
+    has_next = utf8stringlines_has_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( 0xe6, (unsigned char)*(utf8stringview_get_start( &next )) );
+    TEST_EXPECT_EQUAL_INT( 8, utf8stringview_count_codepoints( &next ) );
+
+    /* test no more lines */
+    has_next = utf8stringlines_has_next( &iterator );
+    TEST_EXPECT_EQUAL_INT( false, has_next );
+
+    next = utf8stringlines_next( &iterator );
+    TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( &next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_count_codepoints( &next ) );
 
     /* finish */
     utf8stringlines_destroy( &iterator );

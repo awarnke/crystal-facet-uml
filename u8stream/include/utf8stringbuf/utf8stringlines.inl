@@ -97,6 +97,7 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
             assert( err2 == UTF8ERROR_SUCCESS );
             (void) err2;  /* ok to ignore an error - should not happen */
 
+            (*this_).next_is_end = ( 0 == utf8stringview_get_length( &after ));
             (*this_).next = before;
             (*this_).remaining = after;
         }
@@ -122,10 +123,21 @@ static inline bool utf8stringlines_private_is_ideographic_comma( utf8stringlines
                                                                  char utf8_second,
                                                                  char utf8_third )
 {
+    /* note: a full coverage of unicode is more complicated, */
+    /* see https://stackoverflow.com/questions/9506869/are-there-character-collections-for-all-international-full-stop-punctuations */
+    /* this function only covers a small set of use cases: */
+    /* U+03000 IDEOGRAPHIC SPACE (maybe not needed?) */
     const bool is_ideo_space = ( utf8_first == 0xe3 )&&( utf8_second == 0x80 )&&( utf8_third == 0x80 );
+    /* U+03002 IDEOGRAPHIC FULL STOP/COMMA (both seem frequently used) */
     const bool is_ideo_comma = ( utf8_first == 0xe3 )&&( utf8_second == 0x80 )&&( utf8_third == 0x81 );
     const bool is_ideo_fullstop = ( utf8_first == 0xe3 )&&( utf8_second == 0x80 )&&( utf8_third == 0x82 );
-    return is_ideo_space || is_ideo_comma || is_ideo_fullstop;
+    /* U+0FF0E FULLWIDTH FULL STOP/COMMA (both seem frequently used) */
+    const bool is_full_comma = ( utf8_first == 0xef )&&( utf8_second == 0xbc )&&( utf8_third == 0x8c );
+    const bool is_full_fullstop = ( utf8_first == 0xef )&&( utf8_second == 0xbc )&&( utf8_third == 0x8e );
+    /* U+0FF61 HALFWIDTH IDEOGRAPHIC FULL STOP/COMMA (maybe not needed?)*/
+    const bool is_half_comma = ( utf8_first == 0xef )&&( utf8_second == 0xbd )&&( utf8_third == 0xa4 );
+    const bool is_half_fullstop = ( utf8_first == 0xef )&&( utf8_second == 0xbd )&&( utf8_third == 0xa1 );
+    return is_ideo_space || is_ideo_comma || is_ideo_fullstop || is_full_comma || is_full_fullstop || is_half_comma || is_half_fullstop;
 }
 
 #ifdef __cplusplus
