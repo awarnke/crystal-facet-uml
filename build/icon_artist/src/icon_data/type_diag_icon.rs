@@ -744,7 +744,7 @@ pub fn generate_type_diag_requirement(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 23.0, y: 3.0 }),
         Line(Point {
             x: 30.0,
-             y: 5.0 + HALFLINE,
+            y: 5.0 + HALFLINE,
         }),
         Line(Point { x: 23.0, y: 8.0 }),
         Close,

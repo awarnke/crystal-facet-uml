@@ -796,7 +796,7 @@ pub fn generate_type_clas_requirement(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 13.0, y: 3.0 }),
         Line(Point {
             x: 23.0,
-             y: 6.0 + HALFLINE,
+            y: 6.0 + HALFLINE,
         }),
         Line(Point { x: 13.0, y: 10.0 }),
         Close,
@@ -808,19 +808,43 @@ pub fn generate_type_clas_requirement(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_type_clas_artifact(out: &mut dyn PathRenderer) -> () {
     let icon_paper: [geometry::DrawDirective; 7] = [
-        Move(Point { x: CX + 7.0, y: CY - 2.0 }),
-        Line(Point { x: CX + 7.0, y: CY + 10.0 }),
-        Line(Point { x: CX - 7.0, y: CY + 10.0 }),
-        Line(Point { x: CX - 7.0, y: CY - 10.0 }),
-        Line(Point { x: CX - 1.0, y: CY - 10.0 }),
-        Line(Point { x: CX + 1.0, y: CY - 4.0 }),
-        Close
+        Move(Point {
+            x: CX + 7.0,
+            y: CY - 2.0,
+        }),
+        Line(Point {
+            x: CX + 7.0,
+            y: CY + 10.0,
+        }),
+        Line(Point {
+            x: CX - 7.0,
+            y: CY + 10.0,
+        }),
+        Line(Point {
+            x: CX - 7.0,
+            y: CY - 10.0,
+        }),
+        Line(Point {
+            x: CX - 1.0,
+            y: CY - 10.0,
+        }),
+        Line(Point {
+            x: CX + 1.0,
+            y: CY - 4.0,
+        }),
+        Close,
     ];
     out.render_path(&icon_paper, &Some(GRAY_THICK_PEN), &Some(GRAY));
 
     let icon_edge: [geometry::DrawDirective; 2] = [
-        Move(Point { x: CX - 1.0 + HALFLINE, y: CY - 10.0 - HALFLINE }),
-        Line(Point { x: CX + 7.0 + HALFLINE, y: CY - 2.0 - HALFLINE }),
+        Move(Point {
+            x: CX - 1.0 + HALFLINE,
+            y: CY - 10.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 7.0 + HALFLINE,
+            y: CY - 2.0 - HALFLINE,
+        }),
     ];
     out.render_path(&icon_edge, &Some(GRAY_PEN), &None);
 }
@@ -829,19 +853,43 @@ pub fn generate_type_clas_artifact(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_type_clas_comment(out: &mut dyn PathRenderer) -> () {
     let icon_paper: [geometry::DrawDirective; 7] = [
-        Move(Point { x: CX + 7.0, y: CY - 2.0 }),
-        Line(Point { x: CX + 7.0, y: CY + 10.0 }),
-        Line(Point { x: CX - 7.0, y: CY + 10.0 }),
-        Line(Point { x: CX - 7.0, y: CY - 10.0 }),
-        Line(Point { x: CX - 1.0, y: CY - 10.0 }),
-        Line(Point { x: CX + 1.0, y: CY - 4.0 }),
-        Close
+        Move(Point {
+            x: CX + 7.0,
+            y: CY - 2.0,
+        }),
+        Line(Point {
+            x: CX + 7.0,
+            y: CY + 10.0,
+        }),
+        Line(Point {
+            x: CX - 7.0,
+            y: CY + 10.0,
+        }),
+        Line(Point {
+            x: CX - 7.0,
+            y: CY - 10.0,
+        }),
+        Line(Point {
+            x: CX - 1.0,
+            y: CY - 10.0,
+        }),
+        Line(Point {
+            x: CX + 1.0,
+            y: CY - 4.0,
+        }),
+        Close,
     ];
     out.render_path(&icon_paper, &Some(GRAY_THICK_PEN), &None);
 
     let icon_edge: [geometry::DrawDirective; 2] = [
-        Move(Point { x: CX - 1.0 + HALFLINE, y: CY - 10.0 - HALFLINE }),
-        Line(Point { x: CX + 7.0 + HALFLINE, y: CY - 2.0 - HALFLINE }),
+        Move(Point {
+            x: CX - 1.0 + HALFLINE,
+            y: CY - 10.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 7.0 + HALFLINE,
+            y: CY - 2.0 - HALFLINE,
+        }),
     ];
     out.render_path(&icon_edge, &Some(GRAY_PEN), &None);
 }
@@ -849,27 +897,32 @@ pub fn generate_type_clas_comment(out: &mut dyn PathRenderer) -> () {
 /// The function generates a type_clas_actor
 ///
 pub fn generate_type_clas_actor(out: &mut dyn PathRenderer) -> () {
-
     /* head */
-    let icon_head: [geometry::DrawDirective; 5] = get_circle_abs(
-        Point {
-            x: CX,
-            y: CY - 7.0,
-        },
-        3.0,
-        3.0,
-    );
+    let icon_head: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX, y: CY - 7.0 }, 3.0, 3.0);
     out.render_path(&icon_head, &Some(GRAY_THICK_PEN), &None);
 
     let icon_body: [geometry::DrawDirective; 8] = [
-        Move(Point { x: CX - 5.0, y: CY + 10.0 }),
+        Move(Point {
+            x: CX - 5.0,
+            y: CY + 10.0,
+        }),
         Line(Point { x: CX, y: CY + 1.0 }),
         Line(Point { x: CX, y: CY - 3.0 }),
-        Move(Point { x: CX + 5.0, y: CY + 10.0 }),
+        Move(Point {
+            x: CX + 5.0,
+            y: CY + 10.0,
+        }),
         Line(Point { x: CX, y: CY + 1.0 }),
-        Move(Point { x: CX - 6.0, y: CY + 1.0 }),
+        Move(Point {
+            x: CX - 6.0,
+            y: CY + 1.0,
+        }),
         Line(Point { x: CX, y: CY - 2.0 }),
-        Line(Point { x: CX + 6.0, y: CY + 1.0 }),
+        Line(Point {
+            x: CX + 6.0,
+            y: CY + 1.0,
+        }),
     ];
     out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
 }
@@ -877,32 +930,31 @@ pub fn generate_type_clas_actor(out: &mut dyn PathRenderer) -> () {
 /// The function generates a type_clas_interaction_use
 ///
 pub fn generate_type_clas_interaction_use(out: &mut dyn PathRenderer) -> () {
-
     /* arrows */
     let icon_arrows: [geometry::DrawDirective; 6] = [
         Move(Point {
             x: CX + 10.0,
-             y: 9.0,
+            y: 9.0,
         }),
         Line(Point {
             x: CX - 9.0,
-             y: 12.0,
+            y: 12.0,
         }),
         Line(Point {
             x: CX - 6.0,
-             y: 9.0,
+            y: 9.0,
         }),
         Move(Point {
             x: CX - 10.0,
-             y: 16.0,
+            y: 16.0,
         }),
         Line(Point {
             x: CX + 9.0,
-             y: 19.0,
+            y: 19.0,
         }),
         Line(Point {
             x: CX + 6.0,
-             y: 16.0,
+            y: 16.0,
         }),
     ];
     out.render_path(&icon_arrows, &Some(GRAY_THICK_PEN), &None);
@@ -910,43 +962,39 @@ pub fn generate_type_clas_interaction_use(out: &mut dyn PathRenderer) -> () {
     let icon_diagref: [geometry::DrawDirective; 9] = [
         Move(Point {
             x: CX - 14.0 - HALFLINE,
-             y: CY - 4.0,
+            y: CY - 4.0,
         }),
-        Line(
-            Point {
-                x: CX - 14.0 - HALFLINE,
-              y: CY - 8.0 - HALFLINE,
-            },
-        ),
+        Line(Point {
+            x: CX - 14.0 - HALFLINE,
+            y: CY - 8.0 - HALFLINE,
+        }),
         Line(Point {
             x: CX + 14.0 + HALFLINE,
-             y: CY - 8.0 - HALFLINE,
+            y: CY - 8.0 - HALFLINE,
         }),
-        Line(
-            Point {
-                x: CX + 14.0 + HALFLINE,
-              y: CY + 10.0 + HALFLINE,
-            },
-        ),
         Line(Point {
-            x: CX - 14.0 - HALFLINE,
-             y: CY + 10.0 + HALFLINE,
+            x: CX + 14.0 + HALFLINE,
+            y: CY + 10.0 + HALFLINE,
         }),
         Line(Point {
             x: CX - 14.0 - HALFLINE,
-             y: CY - 5.0 - HALFLINE,
+            y: CY + 10.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 14.0 - HALFLINE,
+            y: CY - 5.0 - HALFLINE,
         }),
         Line(Point {
             x: CX - 8.0,
-             y: CY - 5.0 - HALFLINE,
+            y: CY - 5.0 - HALFLINE,
         }),
         Line(Point {
             x: CX - 6.0 - HALFLINE,
-             y: CY - 7.0 ,
+            y: CY - 7.0,
         }),
         Line(Point {
             x: CX - 6.0 - HALFLINE,
-             y: CY - 8.0 ,
+            y: CY - 8.0,
         }),
     ];
     out.render_path(&icon_diagref, &Some(GRAY_PEN), &None);

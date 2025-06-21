@@ -262,7 +262,7 @@
                         <row>
                             <entry><para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_interaction_use.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 Interaction Use</para></entry>
                             <entry><para>UML / Interaction Overview</para></entry>

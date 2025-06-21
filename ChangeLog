@@ -7,7 +7,7 @@ crystal-facet-uml (1.64.2) UNRELEASED; urgency=medium
   * new type icons for relationships and some classifiers and features
   * The line iterator breaks lines at ideographic space, comma and full stop
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 07 Jun 2025 14:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 21 Jun 2025 08:00:00 +0100
 
 crystal-facet-uml (1.64.1) UNRELEASED; urgency=medium
 

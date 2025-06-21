@@ -579,7 +579,7 @@ pub fn generate_type_rel_control_flow(out: &mut dyn PathRenderer) -> () {
         }),
         Line(Point {
             x: 4.0 + HALFLINE,
-            y: CY + 3.0,
+            y: CY - 1.0,
         }),
         Move(Point {
             x: 11.0 + HALFLINE,
@@ -587,7 +587,7 @@ pub fn generate_type_rel_control_flow(out: &mut dyn PathRenderer) -> () {
         }),
         Line(Point {
             x: 11.0 + HALFLINE,
-            y: CY + 3.0,
+            y: CY - 1.0,
         }),
         Move(Point {
             x: 18.0 + HALFLINE,
@@ -595,7 +595,7 @@ pub fn generate_type_rel_control_flow(out: &mut dyn PathRenderer) -> () {
         }),
         Line(Point {
             x: 18.0 + HALFLINE,
-            y: CY + 3.0,
+            y: CY - 1.0,
         }),
     ];
     out.render_path(&icon_control_cycles, &Some(GRAY_PEN), &None);
