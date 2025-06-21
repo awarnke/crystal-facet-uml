@@ -137,8 +137,10 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
 
             if ( draw_2d_diagram && dragging_classifier )
             {
+#if 0
                 /* draw grid line crossings */
                 gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
+#endif
 
                 /* draw new grid lines that visualize the order of classifiers */
                 const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
@@ -235,9 +237,10 @@ void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t
             /* draw grid */
             if (( draw_new_classifier )&&( draw_2d_diagram ))
             {
+#if 0
                 /* draw grid line crossings */
                 gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
-
+#endif
                 /* draw new grid lines that visualize the order of classifiers */
                 gui_sketch_card_painter_private_visualize_order( this_, card_under_mouse, to_x, to_y, cr );
             }
@@ -356,6 +359,7 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
     U8_TRACE_END();
 }
 
+#if 0
 void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_,
                                                 const gui_sketch_card_t *card_under_mouse,
                                                 cairo_t *cr )
@@ -394,6 +398,7 @@ void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_
 
     U8_TRACE_END();
 }
+#endif
 
 void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t *this_,
                                                       const gui_sketch_card_t *card_under_mouse,
@@ -428,6 +433,10 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
     /* fetch input data: visible set */
     const layout_visible_set_t *const layout_data = gui_sketch_card_get_visible_set( card_under_mouse );
     const uint32_t classifiers = layout_visible_set_get_visible_classifier_count( layout_data );
+
+    /* prepare draw */
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
 
     /* to draw x, follow y from top to bottom */
     if (( grid_kind == GEOMETRY_GRID_KIND_X )||( grid_kind == GEOMETRY_GRID_KIND_XY ))

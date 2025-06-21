@@ -129,6 +129,7 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
                                                  cairo_t *cr
                                                );
 
+#if 0
 /*!
  *  \brief draws overlay graphics to visualize the grid to the cairo context
  *
@@ -140,6 +141,7 @@ void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_
                                                 const gui_sketch_card_t *card_under_mouse,
                                                 cairo_t *cr
                                               );
+#endif
 
 /*!
  *  \brief draws overlay graphics to visualize the order where the mouse points at

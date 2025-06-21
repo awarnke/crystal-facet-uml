@@ -3,6 +3,7 @@ crystal-facet-uml (1.64.2) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * When clicking, an arrow is shown to indicate that dragging is possible
   * when dragging or creating, the grid indicator is a solid line when snapped
+  * when dragging or creating, crosslines at grid crossings are removed
   * new type icons for relationships and some classifiers and features
   * The line iterator breaks lines at ideographic space, comma and full stop
 
