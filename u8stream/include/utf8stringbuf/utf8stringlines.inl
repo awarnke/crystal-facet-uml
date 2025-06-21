@@ -43,11 +43,13 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
         uint_fast32_t line_end_pos = 0;
         uint_fast32_t a_good_pos = 0;
         uint_fast32_t codepoints = 0;
+        bool force_next_line = false;  /* a \n line break enforces a next line even if that is empty */
         const char *start = utf8stringview_get_start( &((*this_).remaining) );
         const size_t len = utf8stringview_get_length( &((*this_).remaining) );
         for ( uint_fast32_t probe_idx = 0; ( probe_idx < len )&&( line_end_pos == 0 ); probe_idx ++ )
         {
-            char probe = start[probe_idx];
+            /* note: char has platform dependencies, e.g.some_char==0xff has undefined results */
+            unsigned char probe = start[probe_idx] & 0xff;  /* set higher bytes to 0 */
 
             /* analyze the current character */
             if (( 0xc0 & probe ) == 0x80 )
@@ -55,7 +57,9 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
                 /* This is not a first byte of an utf8-character byte sequence; check for asian line break possibility */
                 if ( probe_idx >= 2 )
                 {
-                    if ( utf8stringlines_private_is_ideographic_comma( this_, start[probe_idx-2], start[probe_idx-1], probe ) )
+                    unsigned char prelast = start[probe_idx-2] & 0xff;  /* set higher bytes to 0 */
+                    unsigned char last = start[probe_idx-1] & 0xff;  /* set higher bytes to 0 */
+                    if ( utf8stringlines_private_is_ideographic_comma( this_, prelast, last, probe ) )
                     {
                         a_good_pos = probe_idx + 1;
                     }
@@ -75,6 +79,7 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
             if ( probe == '\n' )
             {
                 line_end_pos = probe_idx + 1;
+                force_next_line = true;
             }
             else if ( codepoints >= (*this_).line_length )
             {
@@ -97,7 +102,7 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
             assert( err2 == UTF8ERROR_SUCCESS );
             (void) err2;  /* ok to ignore an error - should not happen */
 
-            (*this_).next_is_end = ( 0 == utf8stringview_get_length( &after ));
+            (*this_).next_is_end = ( 0 == utf8stringview_get_length( &after ))&&( ! force_next_line );
             (*this_).next = before;
             (*this_).remaining = after;
         }
@@ -111,17 +116,16 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
     }
 }
 
-static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, char ascii )
+static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, unsigned char ascii )
 {
-    const unsigned char u_asc = (unsigned char) ascii;
     /* 0x0 - 0x19 are control chars like line break and tab, 0x20 is space, 0x7f is a control character */
-    return ( u_asc <= 0x20 )||( u_asc == 0x7f );
+    return ( ascii <= 0x20 )||( ascii == 0x7f );
 }
 
 static inline bool utf8stringlines_private_is_ideographic_comma( utf8stringlines_t *this_,
-                                                                 char utf8_first,
-                                                                 char utf8_second,
-                                                                 char utf8_third )
+                                                                 unsigned char utf8_first,
+                                                                 unsigned char utf8_second,
+                                                                 unsigned char utf8_third )
 {
     /* note: a full coverage of unicode is more complicated, */
     /* see https://stackoverflow.com/questions/9506869/are-there-character-collections-for-all-international-full-stop-punctuations */

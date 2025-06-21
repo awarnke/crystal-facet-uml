@@ -90,7 +90,7 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
  *  \param ascii an ascii character, which is an utf8 character in range 0x00..0x7f
  *  \return true if the character is a space, including linebreak symbols.
  */
-static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, char ascii );
+static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, unsigned char ascii );
 
 /*!
  *  \brief checks if the provideed utf8 code point is an ideographic space, comma or full stop
@@ -103,9 +103,9 @@ static inline bool utf8stringlines_private_is_space( utf8stringlines_t *this_, c
  *  \return true if the character is a space, including linebreak symbols.
  */
 static inline bool utf8stringlines_private_is_ideographic_comma( utf8stringlines_t *this_,
-                                                                 char utf8_first,
-                                                                 char utf8_second,
-                                                                 char utf8_third
+                                                                 unsigned char utf8_first,
+                                                                 unsigned char utf8_second,
+                                                                 unsigned char utf8_third
                                                                );
 
 #ifdef __cplusplus
