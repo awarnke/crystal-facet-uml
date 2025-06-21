@@ -19,6 +19,8 @@ install packages using pacman:
 >
 > pacman -S mingw-w64-ucrt-x86_64-gtk4
 >
+> pacman -S mingw-w64-x86_64-vulkan
+>
 > pacman -S mingw-w64-ucrt-x86_64-gcc
 >
 > pacman -S make
