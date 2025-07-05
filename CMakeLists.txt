@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 PROJECT(crystal-facet-uml LANGUAGES C)
 
 # pkgconfig is a helper program to find include directories and libraries:
@@ -6,12 +6,14 @@ FIND_PACKAGE(PkgConfig REQUIRED)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directory")
-SET(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
-SET(COMPILE_IN_LINKER_FLAG "" CACHE FILEPATH "Additional linker flag, e.g. win_app_icon.res")
-INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
-IF (WIN32)
+IF (MSYS)
     MESSAGE("BUILD FOR: WINDOWS")
+
+    ADD_CUSTOM_COMMAND(OUTPUT crystal-facet-uml.res
+                       COMMAND windres ${CMAKE_CURRENT_SOURCE_DIR}/build/msys2/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res )
+    SET(COMPILE_IN_LINKER_FLAG "crystal-facet-uml.res" )
+    SET(COMPILE_IN_SOURCE_FILE "crystal-facet-uml.res" )
+    SET(NO_BLACK_TERMINAL_WINDOW "-mwindows")
 ELSE()
     MESSAGE("BUILD FOR: LINUX/UNIX")
 ENDIF()
@@ -126,6 +128,7 @@ TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PA
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINK_FLAGS "${COMPILE_IN_LINKER_FLAG}")
 TARGET_COMPILE_OPTIONS(crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall)
+TARGET_LINK_OPTIONS(crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
 # ==== ==== ==== ==== ==== ==== ==== ==== test Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -141,6 +144,7 @@ TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES}
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINK_FLAGS "${COMPILE_IN_LINKER_FLAG}")
 TARGET_COMPILE_OPTIONS(test_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings)
+TARGET_LINK_OPTIONS(test_crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 
