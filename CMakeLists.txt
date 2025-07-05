@@ -90,7 +90,7 @@ FILE(GLOB commonSource gui/source/*.c
                        main/source/main_commands.c
                        main/source/main_execute.c)
 FILE(GLOB appSource    main/source/main.c)
-FILE(GLOB utestSource  main/test/*.c
+FILE(GLOB testSource   main/test/*.c
                        data/test/unit/*.c
                        data/test/integration/*.c
                        ctrl/test/unit/*.c
@@ -114,20 +114,17 @@ MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CM
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
 
-# ==== ==== ==== ==== ==== ==== ==== ==== Common Settings ==== ==== ==== ==== ==== ==== ==== ====
-
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall" )
-
 # ==== ==== ==== ==== ==== ==== ==== ==== EXE Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINK_FLAGS "${COMPILE_IN_LINKER_FLAG}")
+TARGET_COMPILE_OPTIONS(crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== test Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(test_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+ADD_EXECUTABLE(test_crystal-facet-uml ${testSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/test)
@@ -138,7 +135,7 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8stream/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINK_FLAGS "${COMPILE_IN_LINKER_FLAG}")
-SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES COMPILE_FLAGS "-Wno-overlength-strings")
+TARGET_COMPILE_OPTIONS(test_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -152,7 +149,7 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.
 
 if(CFU_ADD_GCOV_TARGET)
     if(CMAKE_COMPILER_IS_GNUCC)
-        ADD_EXECUTABLE(gcov_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+        ADD_EXECUTABLE(gcov_crystal-facet-uml ${testSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC test_fw/include)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC data/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC ctrl/test)
@@ -163,7 +160,7 @@ if(CFU_ADD_GCOV_TARGET)
         TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)
-        TARGET_COMPILE_OPTIONS(gcov_crystal-facet-uml PUBLIC -Wno-overlength-strings -fprofile-arcs -ftest-coverage -O0)
+        TARGET_COMPILE_OPTIONS(gcov_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -g -Wall -Wno-overlength-strings -fprofile-arcs -ftest-coverage -O0)
         TARGET_LINK_OPTIONS(gcov_crystal-facet-uml PUBLIC -fprofile-arcs)
     endif(CMAKE_COMPILER_IS_GNUCC)
 endif(CFU_ADD_GCOV_TARGET)
