@@ -16,14 +16,14 @@ ideas for future versions:
       (this is still the case in 1.61.2)
   [ ] a "saveAs" command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
-  [ ] scrolling through search list missing if result list is too long
+! [ ] scrolling through search list missing if result list is too long
       (workaround hint already added to user manual)
   [ ] auto-save when losing focus; Check gui_main_window_activated callback
   [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
   [ ] do not auto-save when there are no changes
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
-  [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
+  [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [ ] to pink-mark several objects - require shift key
   @pencil
@@ -39,6 +39,7 @@ ideas for future versions:
   [ ] relationship ends at packages or use-cases or choices are sometimes unluckily positioned.
       A simple solution is to consider the type of the classifier when determining the weight for non-centered ends.
   [ ] A comment should only show the first paragraph. Or - like an svg-path - define other delimiters
+  [ ] A comment should consider CJK linebreaks - like the json export
   [ ] An image should allow to show an svg-<path> without a stereotype
   [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
   [ ] A stereotype could define a pattern and a color - additionally to the icon based on svg paths
@@ -63,6 +64,7 @@ ideas for future versions:
       --> see self_architecture.cfuJ / D0018
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
+  [ ] re-introduce SysML test cases
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
@@ -76,7 +78,7 @@ ideas for future versions:
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?
       To fix, start with following environment variable set: GTK_A11Y=none ./crystal-facet-uml
-  [ ] in debug mode, on WSL, the program does not quit when the main function returns.
+  [ ] in debug mode, on WSL (WoA.2025), the program does not quit when the main function returns.
   @test_fw
   @documentation
 

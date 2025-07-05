@@ -116,8 +116,7 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Common Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings" )
-# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall" )
 
 # ==== ==== ==== ==== ==== ==== ==== ==== EXE Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -139,6 +138,7 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8stream/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINK_FLAGS "${COMPILE_IN_LINKER_FLAG}")
+SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES COMPILE_FLAGS "-Wno-overlength-strings")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 

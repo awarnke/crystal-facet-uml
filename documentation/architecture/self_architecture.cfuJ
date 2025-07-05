@@ -19123,22 +19123,6 @@
     },
     {
       "relationship": {
-        "id": 729,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1216656999,
-        "from_classifier_name": "ctrl",
-        "to_classifier_name": "consis tency_ drop_ invisibles",
-        "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
-        "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
-        "uuid": "8dce284d-561b-491c-936d-05661181a9a0"
-      }
-    },
-    {
-      "relationship": {
         "id": 732,
         "type": "Containment", "main_type": 300,
         "name": "",
@@ -23837,22 +23821,6 @@
     },
     {
       "relationship": {
-        "id": 242,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1411463621,
-        "from_classifier_name": "crystal-facet-uml application",
-        "to_classifier_name": "data/storage",
-        "from_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
-        "to_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
-        "uuid": "a3d4619e-9d82-4336-b179-6c6907b51148"
-      }
-    },
-    {
-      "relationship": {
         "id": 255,
         "type": "Containment", "main_type": 300,
         "name": "",
@@ -24649,118 +24617,6 @@
         "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
         "to_node": "b36b3631-0554-430d-ae40-aea26332ee94",
         "uuid": "99679e6a-1980-46d1-9ef9-000d416291d5"
-      }
-    },
-    {
-      "relationship": {
-        "id": 660,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1598692724,
-        "from_classifier_name": "utf8stringbuf",
-        "to_classifier_name": "utf8:codepoint",
-        "from_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
-        "to_node": "eabab2d9-d477-406b-b633-ef0c6f2c589d",
-        "uuid": "807a2d51-fad0-4dd7-b7a3-a0ded71551ab"
-      }
-    },
-    {
-      "relationship": {
-        "id": 661,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1679219848,
-        "from_classifier_name": "utf8stringbuf",
-        "to_classifier_name": "utf8:codepoint iterator",
-        "from_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
-        "to_node": "34268250-358c-4369-b581-479e8caaeeb0",
-        "uuid": "2d168ef8-f529-4810-8124-b4146824967a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 662,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1634250048,
-        "from_classifier_name": "utf8stringbuf",
-        "to_classifier_name": "utf8:string",
-        "from_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
-        "to_node": "117c2b41-5ef4-4a98-a8a6-e9d65ce176da",
-        "uuid": "df1390cf-639b-4320-82c4-e5dabd9e0446"
-      }
-    },
-    {
-      "relationship": {
-        "id": 663,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1631479284,
-        "from_classifier_name": "utf8stringbuf",
-        "to_classifier_name": "utf8:stringbuf",
-        "from_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
-        "to_node": "bd698c13-cf4e-4b84-90cc-dfa0a84fd93c",
-        "uuid": "ae648463-4b6b-4e0a-966c-16ccd3883bb7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 664,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1632637303,
-        "from_classifier_name": "utf8stringbuf",
-        "to_classifier_name": "utf8:stringview",
-        "from_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
-        "to_node": "af02efa6-245a-42db-85d9-aee3edea6d72",
-        "uuid": "fe98c2f1-d93d-412f-b574-0887302d7670"
-      }
-    },
-    {
-      "relationship": {
-        "id": 665,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1633310118,
-        "from_classifier_name": "utf8stringbuf",
-        "to_classifier_name": "uft8:stringview iterator",
-        "from_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
-        "to_node": "7b0d66ed-9e91-4c0b-b546-dc1e3efa3a95",
-        "uuid": "7bb9ba8a-a6bf-4192-b78d-c69029c3fa1b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 666,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1632355515,
-        "from_classifier_name": "utf8stringbuf",
-        "to_classifier_name": "utf8:stringview tokenizer",
-        "from_node": "cbc36e4e-9c3a-453a-931f-541ef71bdc24",
-        "to_node": "4792270a-4607-4aad-90a5-59b9a5d23731",
-        "uuid": "bc30770c-047f-44fb-abb8-a0ef434ea0e1"
       }
     },
     {

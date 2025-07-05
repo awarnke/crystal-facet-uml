@@ -9,7 +9,7 @@
 
 /* IO_FILE_FORMAT_CSS */
 
-static const char CSS_ALL[]
+static const char CSS_GENERAL[]
 ="body {\n"
 "    background-color: rgb(255,255,255);\n"
 "    font-family: Helvetica,Arial,sans-serif;\n"
@@ -31,8 +31,10 @@ static const char CSS_ALL[]
 "    overflow: auto;\n"
 "    padding: 2px;\n"
 "    margin: 0px;\n"
-"}\n"
-"a:hover {\n"
+"}\n";
+
+static const char CSS_TOC[]
+="a:hover {\n"
 "    background-color: rgb(255,255,255);\n"
 "}\n"
 ".toc {\n"
@@ -111,8 +113,10 @@ static const char CSS_ALL[]
 "    padding-left: 8px;\n"
 "    color: rgb(192,128,0);\n"
 "    font-size: xx-small;\n"
-"}\n"
-".diag-title {\n"
+"}\n";
+
+static const char CSS_DATA_LAYOUT[]
+=".diag-title {\n"
 "    color: rgb(192,128,0);\n"
 "}\n"
 ".diag-stereo::before {\n"
@@ -285,8 +289,10 @@ static const char CSS_ALL[]
 "    padding: 8px 8px;\n"
 "    margin: 2px;\n"
 "    border: 1px solid #CCCCCC;\n"
-"}\n"
-"h1 {\n"
+"}\n";
+
+static const char CSS_SECTIONS[]
+="h1 {\n"
 "    counter-reset: cnt-head-two;\n"
 "}\n"
 "h2::before {\n"
@@ -351,9 +357,21 @@ u8_error_t document_css_writer_write_stylesheet( document_css_writer_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    utf8string_t *text = CSS_ALL;
-    const size_t text_len = utf8string_get_length(text);
-    export_err |= universal_output_stream_write( (*this_).output, text, text_len);
+    utf8string_t *text_1 = CSS_GENERAL;
+    const size_t text_1_len = utf8string_get_length(text_1);
+    export_err |= universal_output_stream_write( (*this_).output, text_1, text_1_len );
+
+    utf8string_t *text_2 = CSS_TOC;
+    const size_t text_2_len = utf8string_get_length(text_2);
+    export_err |= universal_output_stream_write( (*this_).output, text_2, text_2_len );
+
+    utf8string_t *text_3 = CSS_DATA_LAYOUT;
+    const size_t text_3_len = utf8string_get_length(text_3);
+    export_err |= universal_output_stream_write( (*this_).output, text_3, text_3_len );
+
+    utf8string_t *text_4 = CSS_SECTIONS;
+    const size_t text_4_len = utf8string_get_length(text_4);
+    export_err |= universal_output_stream_write( (*this_).output, text_4, text_4_len );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;

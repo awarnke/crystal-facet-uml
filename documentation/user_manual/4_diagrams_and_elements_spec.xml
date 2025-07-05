@@ -1345,7 +1345,7 @@
             All strings (names, descriptions, stereotypes) have a maximum length.
         </para>
         <para>
-            Ascii characters require one, most other characters two bytes.
+            Ascii characters require one, most other characters two or three bytes.
             Current sizes in bytes are:
         </para>
         <para>
