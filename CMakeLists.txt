@@ -10,6 +10,11 @@ SET(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directo
 SET(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
 SET(COMPILE_IN_LINKER_FLAG "" CACHE FILEPATH "Additional linker flag, e.g. win_app_icon.res")
 INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
+IF (WIN32)
+    MESSAGE("BUILD FOR: WINDOWS")
+ELSE()
+    MESSAGE("BUILD FOR: LINUX/UNIX")
+ENDIF()
 
 # crystal-facet-uml
 
@@ -147,6 +152,7 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.
 
 # ==== ==== ==== ==== ==== ==== ==== ==== gcov Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
+# This target must not exist on debian build servers because it creates non-reproducible builds
 if(CFU_ADD_GCOV_TARGET)
     if(CMAKE_COMPILER_IS_GNUCC)
         ADD_EXECUTABLE(gcov_crystal-facet-uml ${testSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
