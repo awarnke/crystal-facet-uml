@@ -164,7 +164,7 @@ if(CFU_ADD_GCOV_TARGET)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)
         TARGET_COMPILE_OPTIONS(gcov_crystal-facet-uml PUBLIC -Wno-overlength-strings -fprofile-arcs -ftest-coverage -O0)
-        TARGET_LINK_OPTIONS(gcov_crystal-facet-uml PUBLIC -fprofile-arc)
+        TARGET_LINK_OPTIONS(gcov_crystal-facet-uml PUBLIC -fprofile-arcs)
     endif(CMAKE_COMPILER_IS_GNUCC)
 endif(CFU_ADD_GCOV_TARGET)
 
