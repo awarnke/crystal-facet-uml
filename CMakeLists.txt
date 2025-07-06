@@ -9,11 +9,13 @@ FIND_PACKAGE(PkgConfig REQUIRED)
 IF (MSYS)
     MESSAGE("BUILD FOR: WINDOWS")
 
-    ADD_CUSTOM_COMMAND(OUTPUT crystal-facet-uml.res
-                       COMMAND windres ${CMAKE_CURRENT_SOURCE_DIR}/build/msys2/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res )
-    SET(COMPILE_IN_LINKER_FLAG "crystal-facet-uml.res" )
-    SET(COMPILE_IN_SOURCE_FILE "crystal-facet-uml.res" )
+    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crystal-facet-uml.res
+                        COMMAND windres ${CMAKE_CURRENT_SOURCE_DIR}/build/msys2/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res )
+    SET(APP_ICON_RESOURCE_FILE "${CMAKE_CURRENT_BINARY_DIR}/crystal-facet-uml.res" )
     SET(NO_BLACK_TERMINAL_WINDOW "-mwindows")
+
+    MESSAGE("BUILD    : make --debug=p -j")
+    MESSAGE("DEPLOY   : make msys2_deploy")
 ELSE()
     MESSAGE("BUILD FOR: LINUX/UNIX")
 ENDIF()
@@ -43,8 +45,8 @@ MESSAGE("GLIB2:   ${GLIB2_LIBRARY_DIRS}")
 MESSAGE("GLIB2:   ${GLIB2_CFLAGS}")
 
 # for DEBUG mode, some headers may not be found automatically:
-#EXECUTE_PROCESS(COMMAND pkg-config --cflags glib-2.0
-#                OUTPUT_VARIABLE GLIB_MORE_CFLAGS)
+#EXECUTE_PROCESS( COMMAND pkg-config --cflags glib-2.0
+#                 OUTPUT_VARIABLE GLIB_MORE_CFLAGS)
 #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GLIB_MORE_CFLAGS}" )
 #MESSAGE("GLIB_MORE_CFLAGS:   ${GLIB_MORE_CFLAGS}")
 
@@ -123,16 +125,16 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 
 # ==== ==== ==== ==== ==== ==== ==== ==== EXE Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${APP_ICON_RESOURCE_FILE})
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
-SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINK_FLAGS "${COMPILE_IN_LINKER_FLAG}")
+SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINK_FLAGS "${APP_ICON_RESOURCE_FILE}")
 TARGET_COMPILE_OPTIONS(crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall)
 TARGET_LINK_OPTIONS(crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
 # ==== ==== ==== ==== ==== ==== ==== ==== test Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(test_crystal-facet-uml ${testSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+ADD_EXECUTABLE(test_crystal-facet-uml ${testSource} ${commonSource} ${APP_ICON_RESOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/test)
@@ -142,7 +144,7 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8stream/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
-SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINK_FLAGS "${COMPILE_IN_LINKER_FLAG}")
+SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINK_FLAGS "${APP_ICON_RESOURCE_FILE}")
 TARGET_COMPILE_OPTIONS(test_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings)
 TARGET_LINK_OPTIONS(test_crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
@@ -159,7 +161,7 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.
 # This target must not exist on debian build servers because it creates non-reproducible builds
 if(CFU_ADD_GCOV_TARGET)
     if(CMAKE_COMPILER_IS_GNUCC)
-        ADD_EXECUTABLE(gcov_crystal-facet-uml ${testSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+        ADD_EXECUTABLE(gcov_crystal-facet-uml ${testSource} ${commonSource} ${APP_ICON_RESOURCE_FILE})
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC test_fw/include)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC data/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC ctrl/test)
