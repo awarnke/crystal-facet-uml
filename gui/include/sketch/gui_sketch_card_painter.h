@@ -129,20 +129,6 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
                                                  cairo_t *cr
                                                );
 
-#if 0
-/*!
- *  \brief draws overlay graphics to visualize the grid to the cairo context
- *
- *  \param this_ pointer to own object attributes
- *  \param card_under_mouse the sketch card under the current mouse position, not NULL
- *  \param cr cairo drawing context
- */
-void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_,
-                                                const gui_sketch_card_t *card_under_mouse,
-                                                cairo_t *cr
-                                              );
-#endif
-
 /*!
  *  \brief draws overlay graphics to visualize the order where the mouse points at
  *

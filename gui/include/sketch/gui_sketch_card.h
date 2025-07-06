@@ -244,20 +244,6 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
                                                                );
 
 /*!
- *  \brief determines the grid lines
- *
- *  \param this_ pointer to own object attributes
- *  \param out_bounds bounding rectangle where the grid lines are distributed equal-distance
- *  \param out_x_count number of x-position grid lines (vertical lines)
- *  \param out_y_count number of y-position grid lines (horizontal lines)
- */
-static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this_,
-                                                   shape_int_rectangle_t *out_bounds,
-                                                   uint32_t *out_x_count,
-                                                   uint32_t *out_y_count
-                                                 );
-
-/*!
  *  \brief returns the geometry_grid_t
  *
  *  \param this_ pointer to own object attributes

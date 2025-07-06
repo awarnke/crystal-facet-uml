@@ -137,11 +137,6 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
 
             if ( draw_2d_diagram && dragging_classifier )
             {
-#if 0
-                /* draw grid line crossings */
-                gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
-#endif
-
                 /* draw new grid lines that visualize the order of classifiers */
                 const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
                 const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
@@ -237,10 +232,6 @@ void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t
             /* draw grid */
             if (( draw_new_classifier )&&( draw_2d_diagram ))
             {
-#if 0
-                /* draw grid line crossings */
-                gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
-#endif
                 /* draw new grid lines that visualize the order of classifiers */
                 gui_sketch_card_painter_private_visualize_order( this_, card_under_mouse, to_x, to_y, cr );
             }
@@ -358,47 +349,6 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
 
     U8_TRACE_END();
 }
-
-#if 0
-void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_,
-                                                const gui_sketch_card_t *card_under_mouse,
-                                                cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != card_under_mouse );
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-
-    /* draw grid */
-    shape_int_rectangle_t bounds;
-    uint32_t x_count;
-    uint32_t y_count;
-    gui_sketch_card_get_grid_area( card_under_mouse, &bounds, &x_count, &y_count );
-    assert( x_count >= 2 );
-    assert( y_count >= 2 );
-    const int32_t left = shape_int_rectangle_get_left(&bounds);
-    const int32_t top = shape_int_rectangle_get_top(&bounds);
-    const int32_t width = shape_int_rectangle_get_width(&bounds);
-    const int32_t height = shape_int_rectangle_get_height(&bounds);
-    for ( uint32_t x_idx = 1; (x_idx+1) < x_count; x_idx ++ )
-    {
-        for ( uint32_t y_idx = 1; (y_idx+1) < y_count; y_idx ++ )
-        {
-            const int32_t x = left + (( width * x_idx )/( x_count-1 ));
-            const int32_t y = top + (( height * y_idx )/( y_count-1 ));
-            static const int32_t HALF_LINE = 16;
-            cairo_rectangle ( cr, x, y-HALF_LINE, 1, 2*HALF_LINE );
-            cairo_fill (cr);
-            cairo_rectangle ( cr, x-HALF_LINE, y, 2*HALF_LINE, 1 );
-            cairo_fill (cr);
-        }
-    }
-
-    U8_TRACE_END();
-}
-#endif
 
 void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t *this_,
                                                       const gui_sketch_card_t *card_under_mouse,
