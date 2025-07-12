@@ -210,6 +210,26 @@ static inline GdkTexture *gui_resources_get_sketch_move_2d ( const gui_resources
     return (*this_).sketch_move_2d;
 }
 
+static inline GdkTexture *gui_resources_get_sketch_page_down_bold ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_down_bold;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_page_down_gray ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_down_gray;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_page_up_bold ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_up_bold;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_page_up_gray ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_up_gray;
+}
+
 static inline GdkTexture *gui_resources_get_type_undef ( const gui_resources_t *this_ )
 {
     return (*this_).type_undef;

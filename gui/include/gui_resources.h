@@ -66,6 +66,10 @@ struct gui_resources_struct {
     GdkTexture *sketch_move_h;
     GdkTexture *sketch_move_v;
     GdkTexture *sketch_move_2d;
+    GdkTexture *sketch_page_down_bold;
+    GdkTexture *sketch_page_down_gray;
+    GdkTexture *sketch_page_up_bold;
+    GdkTexture *sketch_page_up_gray;
 
     GdkTexture *type_undef;
 
@@ -463,6 +467,34 @@ static inline GdkTexture *gui_resources_get_sketch_move_v ( const gui_resources_
  *  \param this_ pointer to own object attributes
  */
 static inline GdkTexture *gui_resources_get_sketch_move_2d ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_down_bold as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_down_bold ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_down_gray as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_down_gray ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_up_bold as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_up_bold ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_up_gray as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_up_gray ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_undef

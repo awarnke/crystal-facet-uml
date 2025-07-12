@@ -55,12 +55,20 @@
 #include "resources/search_search.c"
 #include "resources/background_column.c"
 
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
+
 #include "resources/sketch_create.c"
 #include "resources/sketch_refine.c"
 #include "resources/sketch_relate.c"
 #include "resources/sketch_move_h.c"
 #include "resources/sketch_move_v.c"
 #include "resources/sketch_move_2d.c"
+#include "resources/sketch_page_down_bold.c"
+#include "resources/sketch_page_down_gray.c"
+#include "resources/sketch_page_up_bold.c"
+#include "resources/sketch_page_up_gray.c"
 
 #include "resources/type_undef.c"
 #include "resources/type_diag_activity.c"
@@ -147,10 +155,6 @@
 #include "resources/type_rel_sync.c"
 #include "resources/type_rel_trace.c"
 
-#if __GNUC__ >= 8
-#pragma GCC diagnostic pop
-#endif
-
 #define GIMP_PIXBUF_DATA(STRUCTNAME) &(STRUCTNAME.pixel_data[0]), GDK_COLORSPACE_RGB, true /* alpha */, 8, \
                                      STRUCTNAME.width, STRUCTNAME.height, STRUCTNAME.width * STRUCTNAME.bytes_per_pixel, \
                                      NULL, NULL
@@ -228,6 +232,10 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).sketch_move_h = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_h ) );
     (*this_).sketch_move_v = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_v ) );
     (*this_).sketch_move_2d = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_2d ) );
+    (*this_).sketch_page_down_bold = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_down_bold ) );
+    (*this_).sketch_page_down_gray = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_down_gray ) );
+    (*this_).sketch_page_up_bold = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_up_bold ) );
+    (*this_).sketch_page_up_gray = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_up_gray ) );
 
     (*this_).type_undef = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_undef ) );
 
@@ -378,6 +386,10 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).sketch_move_h);
     g_object_unref ((*this_).sketch_move_v);
     g_object_unref ((*this_).sketch_move_2d);
+    g_object_unref ((*this_).sketch_page_down_bold);
+    g_object_unref ((*this_).sketch_page_down_gray);
+    g_object_unref ((*this_).sketch_page_up_bold);
+    g_object_unref ((*this_).sketch_page_up_gray);
 
     g_object_unref ((*this_).type_undef);
 

@@ -22,6 +22,9 @@ const ICON_VIEW_RECT: Rect = Rect {
     height: 16.0,
 };
 
+/// icon center x
+const CX: f32 = 16.0;
+
 /// white color
 static WHITE: geometry::Color = geometry::Color {
     red: 0xff,
@@ -47,6 +50,19 @@ static BLACK: geometry::Color = geometry::Color {
 static BLACK_PEN: geometry::Pen = geometry::Pen {
     color: BLACK,
     width: 1.0,
+};
+
+/// gray line color
+static GRAY: geometry::Color = geometry::Color {
+    red: 0x7f,
+    green: 0x7f,
+    blue: 0x7f,
+};
+
+/// gray thick pen
+static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 2.0,
 };
 
 /// The function generates an arrow to vector graphics drawing directives
@@ -320,6 +336,94 @@ pub fn generate_sketch_move_2d(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &None, &Some(BLACK));
 }
 
+/// The function generates an arrow up icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_sketch_page_up_gray(out: &mut dyn PathRenderer) -> () {
+    /* item list and plus sign */
+    let icon_segs: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX - 15.0,
+            y: 14.0,
+        }),
+        Line(Point { x: CX, y: 2.0 }),
+        Line(Point {
+            x: CX + 15.0,
+            y: 14.0,
+        }),
+    ];
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates an arrow up icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_sketch_page_up_bold(out: &mut dyn PathRenderer) -> () {
+    /* item list and plus sign */
+    let icon_segs: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX - 15.0,
+            y: 14.0,
+        }),
+        Line(Point { x: CX, y: 2.0 }),
+        Line(Point {
+            x: CX + 15.0,
+            y: 14.0,
+        }),
+    ];
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &Some(GREEN));
+}
+
+/// The function generates an arrow down icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_sketch_page_down_gray(out: &mut dyn PathRenderer) -> () {
+    /* item list and plus sign */
+    let icon_segs: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX - 15.0,
+            y: 2.0,
+        }),
+        Line(Point { x: CX, y: 14.0 }),
+        Line(Point {
+            x: CX + 15.0,
+            y: 2.0,
+        }),
+    ];
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates an arrow down icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_sketch_page_down_bold(out: &mut dyn PathRenderer) -> () {
+    /* item list and plus sign */
+    let icon_segs: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX - 15.0,
+            y: 2.0,
+        }),
+        Line(Point { x: CX, y: 14.0 }),
+        Line(Point {
+            x: CX + 15.0,
+            y: 2.0,
+        }),
+    ];
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &Some(GREEN));
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -353,6 +457,26 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "sketch_move_2d",
             viewport: ICON_VIEW_RECT,
             generate: generate_sketch_move_2d,
+        },
+        IconSource {
+            name: "sketch_page_up_gray",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_sketch_page_up_gray,
+        },
+        IconSource {
+            name: "sketch_page_up_bold",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_sketch_page_up_bold,
+        },
+        IconSource {
+            name: "sketch_page_down_gray",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_sketch_page_down_gray,
+        },
+        IconSource {
+            name: "sketch_page_down_bold",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_sketch_page_down_bold,
         },
     ]
 }

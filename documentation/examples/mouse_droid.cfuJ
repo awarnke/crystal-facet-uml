@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.3"
+    "generator_version": "1.64.2"
   }
   ,
   "views":
@@ -1321,7 +1321,7 @@
         [
           {
             "id": 54,
-            "display_tags": "Gray", "display_flags": 33554432,
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Electrical Parts and Electronics",
             "node": "c1419268-c407-4e91-a9de-386c65b7459b",
             "uuid": "c28e7aec-d085-4a62-a5cc-145585ca16c9"
@@ -1372,6 +1372,13 @@
             "classifier_name": "Base Logic Board",
             "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
             "uuid": "2ffceefa-3844-4794-b363-b07f6f31ed2e"
+          },
+          {
+            "id": 435,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Step Motor",
+            "node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+            "uuid": "1e0db230-7976-47e9-be78-a404eca885d2"
           }
         ]
       }
@@ -2874,7 +2881,7 @@
     {
       "diagram": {
         "id": 9,
-        "type": "Box Overview", "diagram_type": 1,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Crosscutting Concepts",
         "description": [
                 "This section shows the recurring concepts within the the designed solution. ",
@@ -2891,6 +2898,18 @@
             "classifier_name": "Motor Type",
             "node": "17e88f00-df0e-4c0a-a400-a2ead53b9265",
             "uuid": "e3e19b51-2a9e-47cd-8969-dc1bb958464a"
+          },
+          {
+            "id": 433,
+            "classifier_name": "Step Motor",
+            "node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+            "uuid": "83e5e034-fa6a-4eca-89fa-d364ba204386"
+          },
+          {
+            "id": 434,
+            "classifier_name": "Caveat of Step Motor",
+            "node": "e38af5e6-79d4-4f9b-ad89-0348cdba121e",
+            "uuid": "2a1502f0-27cc-4e1d-bcc2-72f5ebec9d84"
           }
         ]
       }
@@ -5445,20 +5464,13 @@
         "type": "Comment", "main_type": 130,
         "name": "Motor Type",
         "description": [
-                "All motors are electrical step motors.\n",
-                "\n",
                 "Step motors can be controlled\n",
                 "to move a defined number of steps\n",
                 "forward or backwards.\n",
-                "\n",
-                "Note that there are conditions\n",
-                "when the actual number of steps\n",
-                "is not equal to the previously requested \n",
-                "number of steps, e.g. when accellerating\n",
-                "or slowing down too fast."
+                ""
         ],
-        "x_order": -708080557,
-        "y_order": -1267273974,
+        "x_order": -741876097,
+        "y_order": -1553947659,
         "list_order": -1267273974,
         "uuid": "17e88f00-df0e-4c0a-a400-a2ead53b9265",
         "features":
@@ -8178,6 +8190,48 @@
         "y_order": -2122468723,
         "list_order": -96285833,
         "uuid": "4bcddee7-ec53-4fbd-a706-e58c97047233",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 218,
+        "type": "Comment", "main_type": 130,
+        "name": "Step Motor",
+        "description": [
+                "All motors are electrical step motors."
+        ],
+        "x_order": -793650281,
+        "y_order": -1053978658,
+        "list_order": -1530460341,
+        "uuid": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 219,
+        "type": "Comment", "main_type": 130,
+        "name": "Caveat of Step Motor",
+        "description": [
+                "Note that there are conditions\n",
+                "when the actual number of steps\n",
+                "is not equal to the previously requested \n",
+                "number of steps, e.g. when accellerating\n",
+                "or slowing down too fast.\n",
+                "\n",
+                "To prevent this, \n",
+                "either implement smooth start and stop phases\n",
+                "or read-back the actual number of steps taken."
+        ],
+        "x_order": -741876097,
+        "y_order": -1492816058,
+        "list_order": -1630523297,
+        "uuid": "e38af5e6-79d4-4f9b-ad89-0348cdba121e",
         "features":
         [
         ]
@@ -11064,6 +11118,22 @@
     },
     {
       "relationship": {
+        "id": 395,
+        "type": "Dependency", "main_type": 0,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Motor Type",
+        "to_classifier_name": "Step Motor",
+        "from_node": "17e88f00-df0e-4c0a-a400-a2ead53b9265",
+        "to_node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+        "uuid": "9b787b3a-ca7e-417b-808e-4470d21d6f2b"
+      }
+    },
+    {
+      "relationship": {
         "id": 135,
         "type": "Trace", "main_type": 401,
         "stereotype": "could-trace",
@@ -13543,6 +13613,38 @@
         "from_node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "f1bb00c1-28ae-4d41-b0b7-d70a2fd36dbf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 396,
+        "type": "Dependency", "main_type": 0,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 720896,
+        "from_classifier_name": "Step Motor",
+        "to_classifier_name": "Motors",
+        "from_node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+        "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+        "uuid": "b915fd4f-e1a3-4f50-b22d-c7fa955065c9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 394,
+        "type": "Dependency", "main_type": 0,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Caveat of Step Motor",
+        "to_classifier_name": "Step Motor",
+        "from_node": "e38af5e6-79d4-4f9b-ad89-0348cdba121e",
+        "to_node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+        "uuid": "7e143010-390f-42df-9d46-c6527ac62cc7"
       }
     }
   ]
