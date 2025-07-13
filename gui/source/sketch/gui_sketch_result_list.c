@@ -26,6 +26,9 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_,
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
     (*this_).element_count = 0;
+    (*this_).prev_start_offset = 0;
+    (*this_).curr_start_offset = 0;
+    (*this_).next_start_offset = 0;
 
     gui_sketch_style_init( &((*this_).sketch_style) );
     gui_sketch_marker_init( &((*this_).sketch_marker), true );

@@ -14,6 +14,7 @@
 #include "storage/data_database_listener.h"
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_database.h"
+#include "storage/data_search_result_iterator.h"
 #include "entity/data_diagram.h"
 #include "u8/u8_error.h"
 #include "entity/data_classifier.h"
@@ -80,23 +81,24 @@ void data_database_text_search_db_change_callback ( data_database_text_search_t 
  */
 static inline bool data_database_text_search_is_open( data_database_text_search_t *this_ );
 
+/* ================================ SEARCH_RESULT ================================ */
+
 /*!
- *  \brief reads a set of objects from the database
+ *  \brief reads all search_results from the database.
  *
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database, plain utf8 encoded
- *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_results the object ids found in the database
- *  \param out_result_count number of objects stored in out_results
+ *  \param[in,out] io_search_result_iterator iterator over search_resultss. The caller is responsible
+ *                                           for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NO_DB if the database is not open.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
-static inline u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
-                                                                                  const char *textfragment,
-                                                                                  unsigned int max_out_results,
-                                                                                  data_search_result_t (*out_results)[],
-                                                                                  unsigned int* out_result_count
-                                                                                );
+u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_diagram_reader_t *this_,
+                                                                    const char *textfragment,
+                                                                    data_search_result_iterator_t *io_search_result_iterator
+                                                                  );
+
+/* ================================ deprecated ================================ */
 
 /*!
  *  \brief reads a set of objects from the database
@@ -111,6 +113,8 @@ u8_error_t data_database_text_search_get_objects_by_textfragment ( data_database
                                                                    const char *textfragment,
                                                                    data_search_result_list_t *io_results
                                                                  );
+
+/* ================================ private ================================ */
 
 /*!
  *  \brief reads a set of diagrams from the database

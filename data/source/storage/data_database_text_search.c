@@ -102,6 +102,21 @@ void data_database_text_search_db_change_callback( data_database_text_search_t *
     U8_TRACE_END();
 }
 
+u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_diagram_reader_t *this_,
+                                                                    const char *textfragment,
+                                                                    data_search_result_iterator_t *io_search_result_iterator )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != textfragment );
+    assert( NULL != io_search_result_iterator );
+    u8_error_t result = U8_ERROR_NONE;
+
+    /* TODO */
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_text_search_t *this_,
                                                                   const char *textfragment,
                                                                   data_search_result_list_t *io_results )

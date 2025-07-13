@@ -6814,13 +6814,13 @@
           },
           {
             "id": 752,
-            "classifier_name": "cntx-img",
+            "classifier_name": "cntx_img",
             "node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
             "uuid": "1d1bea10-8122-4222-948e-08a3f43723f4"
           },
           {
             "id": 753,
-            "classifier_name": "meta-img",
+            "classifier_name": "meta_img",
             "node": "8e602924-d557-4375-84bd-1284ca61f3fc",
             "uuid": "d45641be-f7da-430e-817e-994f61707d77"
           },
@@ -6850,7 +6850,7 @@
           },
           {
             "id": 758,
-            "classifier_name": "req-img",
+            "classifier_name": "req_img",
             "node": "4151de59-ec9b-4ca3-8b39-47fe90ce1432",
             "uuid": "34ba1dc3-4327-4b5c-8174-5ee4a5d6c2b8"
           },
@@ -6862,7 +6862,7 @@
           },
           {
             "id": 760,
-            "classifier_name": "spec-img",
+            "classifier_name": "spec_img",
             "node": "d4b9f78c-212f-40ea-a135-b1de7b9eb1c2",
             "uuid": "29d5b14d-d332-4b8f-b2da-b043cb85b0bf"
           }
@@ -6934,7 +6934,7 @@
           },
           {
             "id": 744,
-            "classifier_name": "argument",
+            "classifier_name": "argument_img",
             "node": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
             "uuid": "e6d53aef-bef0-40ff-a991-afbb0968f0f9"
           },
@@ -6946,7 +6946,7 @@
           },
           {
             "id": 857,
-            "classifier_name": "cfu-img",
+            "classifier_name": "cfu_img",
             "node": "44481660-7f04-41f2-81bb-8d94879cdbac",
             "uuid": "b8c38c98-1128-4ab8-b6fa-605c21a382e4"
           }
@@ -6975,7 +6975,7 @@
           },
           {
             "id": 877,
-            "classifier_name": "not-yet-implemented-img",
+            "classifier_name": "not-yet-implemented_img",
             "node": "17359826-5f4d-42aa-97b8-b44439c0e534",
             "uuid": "5bc0cafb-6f73-4c38-995d-de6f1f1aa753"
           }
@@ -15698,7 +15698,7 @@
         "id": 439,
         "type": "Image", "main_type": 138,
         "stereotype": "context",
-        "name": "cntx-img",
+        "name": "cntx_img",
         "description": [
                 ""
         ],
@@ -15716,7 +15716,7 @@
         "id": 440,
         "type": "Image", "main_type": 138,
         "stereotype": "metaclass",
-        "name": "meta-img",
+        "name": "meta_img",
         "description": [
                 ""
         ],
@@ -16292,7 +16292,7 @@
         "id": 465,
         "type": "Image", "main_type": 138,
         "stereotype": "reason_argument",
-        "name": "argument",
+        "name": "argument_img",
         "description": [
                 ""
         ],
@@ -16467,7 +16467,7 @@
         "id": 473,
         "type": "Image", "main_type": 138,
         "stereotype": "req",
-        "name": "req-img",
+        "name": "req_img",
         "description": [
                 ""
         ],
@@ -16514,7 +16514,7 @@
         "id": 475,
         "type": "Image", "main_type": 138,
         "stereotype": "spec",
-        "name": "spec-img",
+        "name": "spec_img",
         "description": [
                 ""
         ],
@@ -17378,7 +17378,7 @@
         "id": 524,
         "type": "Image", "main_type": 138,
         "stereotype": "cfu",
-        "name": "cfu-img",
+        "name": "cfu_img",
         "description": [
                 ""
         ],
@@ -17538,7 +17538,7 @@
         "id": 532,
         "type": "Image", "main_type": 138,
         "stereotype": "not-yet-implemented",
-        "name": "not-yet-implemented-img",
+        "name": "not-yet-implemented_img",
         "description": [
                 ""
         ],
@@ -29528,7 +29528,7 @@
         ],
         "list_order": 851144680,
         "from_classifier_name": "context",
-        "to_classifier_name": "cntx-img",
+        "to_classifier_name": "cntx_img",
         "from_node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
         "to_node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
         "uuid": "cda74219-904e-440c-9f87-9d4f889f6aee"
@@ -29544,7 +29544,7 @@
         ],
         "list_order": 851177448,
         "from_classifier_name": "metaclass",
-        "to_classifier_name": "meta-img",
+        "to_classifier_name": "meta_img",
         "from_node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
         "to_node": "8e602924-d557-4375-84bd-1284ca61f3fc",
         "uuid": "b2e7fddb-8f70-4c62-a504-216280dc00dd"
@@ -29592,7 +29592,7 @@
         ],
         "list_order": 851111912,
         "from_classifier_name": "Stereotypes on Context",
-        "to_classifier_name": "cntx-img",
+        "to_classifier_name": "cntx_img",
         "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "to_node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
         "uuid": "26bcdcd4-d04f-4dac-8566-4d6df7f78184"
@@ -29608,7 +29608,7 @@
         ],
         "list_order": 802633901,
         "from_classifier_name": "Stereotypes on Context",
-        "to_classifier_name": "meta-img",
+        "to_classifier_name": "meta_img",
         "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "to_node": "8e602924-d557-4375-84bd-1284ca61f3fc",
         "uuid": "14a2d0f8-d6c3-4b73-82f7-ae42a647b3c4"
@@ -29848,7 +29848,7 @@
         ],
         "list_order": 1635637612,
         "from_classifier_name": "Stereotypes on Decisions",
-        "to_classifier_name": "argument",
+        "to_classifier_name": "argument_img",
         "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
         "to_node": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
         "uuid": "b85030fe-c40a-4460-b794-bea77a678ce9"
@@ -30089,7 +30089,7 @@
         ],
         "list_order": 1699242603,
         "from_classifier_name": "reason_argument",
-        "to_classifier_name": "argument",
+        "to_classifier_name": "argument_img",
         "from_node": "5415345e-f50b-49a0-876b-51dd0060c708",
         "to_node": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
         "uuid": "fe3b3b6f-73c3-4295-a057-874f33b8a3b1"
@@ -30359,7 +30359,7 @@
         ],
         "list_order": 1224742290,
         "from_classifier_name": "Stereotypes on Requirements",
-        "to_classifier_name": "req-img",
+        "to_classifier_name": "req_img",
         "from_node": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
         "to_node": "4151de59-ec9b-4ca3-8b39-47fe90ce1432",
         "uuid": "a9695720-a13b-4943-94ca-e6d0eba80e79"
@@ -30391,7 +30391,7 @@
         ],
         "list_order": 1635637612,
         "from_classifier_name": "Stereotypes on Requirements",
-        "to_classifier_name": "spec-img",
+        "to_classifier_name": "spec_img",
         "from_node": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
         "to_node": "d4b9f78c-212f-40ea-a135-b1de7b9eb1c2",
         "uuid": "db4806b4-d6f8-4631-a59d-f18692fb3a17"
@@ -30407,7 +30407,7 @@
         ],
         "list_order": 1224775058,
         "from_classifier_name": "req",
-        "to_classifier_name": "req-img",
+        "to_classifier_name": "req_img",
         "from_node": "68dfe8d7-6ae2-42d0-a4da-18de59a74c88",
         "to_node": "4151de59-ec9b-4ca3-8b39-47fe90ce1432",
         "uuid": "ff6b184f-5e17-4f14-80e9-5fe314aa05b4"
@@ -30423,7 +30423,7 @@
         ],
         "list_order": 1635670380,
         "from_classifier_name": "spec",
-        "to_classifier_name": "spec-img",
+        "to_classifier_name": "spec_img",
         "from_node": "6a53a9a4-d081-4f25-9349-9c7c692d213d",
         "to_node": "d4b9f78c-212f-40ea-a135-b1de7b9eb1c2",
         "uuid": "46bfc309-dcb1-4058-83f3-59169389ccfb"
@@ -31453,7 +31453,7 @@
         ],
         "list_order": 1699275371,
         "from_classifier_name": "cfu",
-        "to_classifier_name": "cfu-img",
+        "to_classifier_name": "cfu_img",
         "from_node": "57e90687-58d4-474d-9096-14b486402cfa",
         "to_node": "44481660-7f04-41f2-81bb-8d94879cdbac",
         "uuid": "b3372421-4051-4f71-bf5f-9f5387d8bce0"
@@ -31549,7 +31549,7 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "not-yet-implemented",
-        "to_classifier_name": "not-yet-implemented-img",
+        "to_classifier_name": "not-yet-implemented_img",
         "from_node": "b0cf4c91-29fd-4d3c-b605-d3bb6813f40a",
         "to_node": "17359826-5f4d-42aa-97b8-b44439c0e534",
         "uuid": "39f07199-3216-4cb1-9b68-f56a4c135faa"
