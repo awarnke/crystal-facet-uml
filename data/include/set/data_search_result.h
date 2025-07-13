@@ -105,6 +105,13 @@ static inline void data_search_result_init_relationship ( data_search_result_t *
                                                         );
 
 /*!
+ *  \brief initializes the data_search_result_t struct to void.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_search_result_init_void ( data_search_result_t *this_ );
+
+/*!
  *  \brief initializes the data_search_result_t struct with a copy
  *
  *  \param this_ pointer to own object attributes
@@ -237,6 +244,14 @@ static inline const data_id_t *data_search_result_get_diagram_id_const ( const d
  *  \param this_ pointer to own object attributes
  */
 static inline void data_search_result_trace ( const data_search_result_t *this_ );
+
+/*!
+ *  \brief checks if match_object_id is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the id of the match_object_id is valid
+ */
+static inline bool data_search_result_is_valid ( const data_search_result_t *this_ );
 
 #include "set/data_search_result.inl"
 

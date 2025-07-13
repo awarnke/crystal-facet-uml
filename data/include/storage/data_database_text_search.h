@@ -24,7 +24,6 @@
 #include "entity/data_relationship.h"
 #include "set/data_search_result.h"
 #include "set/data_search_result_list.h"
-#include "data_rules.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -40,8 +39,11 @@ struct data_database_text_search_struct {
     sqlite3_stmt *statement_classifier_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
     sqlite3_stmt *statement_feature_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
     sqlite3_stmt *statement_relationship_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
-
-    data_rules_t data_rules;  /*!< own instance of data rules */
+    bool statement_diagram_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+    bool statement_classifier_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+    bool statement_feature_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+    bool statement_relationship_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+    data_search_result_t temp_search_result_buf;  /*!< a buffer that is passed on to data_search_result_iterator to store the next data_search_result_t */
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_text_search_db_change_callback */
 };
@@ -93,100 +95,12 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_diagram_reader_t *this_,
+u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
                                                                     const char *textfragment,
                                                                     data_search_result_iterator_t *io_search_result_iterator
                                                                   );
 
-/* ================================ deprecated ================================ */
-
-/*!
- *  \brief reads a set of objects from the database
- *
- *  \param this_ pointer to own object attributes
- *  \param textfragment text pattern for the objects which to search in the database, plain utf8 encoded
- *  \param io_results the list where to append the object ids found in the database
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NO_DB if the database is not open.
- */
-u8_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
-                                                                   const char *textfragment,
-                                                                   data_search_result_list_t *io_results
-                                                                 );
-
 /* ================================ private ================================ */
-
-/*!
- *  \brief reads a set of diagrams from the database
- *
- *  \param this_ pointer to own object attributes
- *  \param name_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param stereo_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param descr_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param io_results the list where to append the object ids found in the database
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NO_DB if the database is not open.
- */
-u8_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
-                                                                            const char *name_fragment,
-                                                                            const char *stereo_fragment,
-                                                                            const char *descr_fragment,
-                                                                            data_search_result_list_t *io_results
-                                                                          );
-
-/*!
- *  \brief reads a set of classifiers from the database
- *
- *  \param this_ pointer to own object attributes
- *  \param name_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param stereo_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param descr_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param io_results the list where to append the object ids found in the database
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NO_DB if the database is not open.
- */
-u8_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
-                                                                               const char *name_fragment,
-                                                                               const char *stereo_fragment,
-                                                                               const char *descr_fragment,
-                                                                               data_search_result_list_t *io_results
-                                                                             );
-
-/*!
- *  \brief reads a set of features from the database
- *
- *  \param this_ pointer to own object attributes
- *  \param key_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param value_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param descr_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param io_results the list where to append the object ids found in the database
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NO_DB if the database is not open.
- */
-u8_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
-                                                                            const char *key_fragment,
-                                                                            const char *value_fragment,
-                                                                            const char *descr_fragment,
-                                                                            data_search_result_list_t *io_results
-                                                                          );
-
-/*!
- *  \brief reads a set of relationships from the database
- *
- *  \param this_ pointer to own object attributes
- *  \param name_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param stereo_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param descr_fragment text pattern for the objects which to search in the database, sql encoded for like statement
- *  \param io_results the list where to append the object ids found in the database
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NO_DB if the database is not open.
- */
-u8_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
-                                                                                 const char *name_fragment,
-                                                                                 const char *stereo_fragment,
-                                                                                 const char *descr_fragment,
-                                                                                 data_search_result_list_t *io_results
-                                                                               );
 
 /*!
  *  \brief initializes the data_database_text_search_t struct and allows access to the database after the database is opened

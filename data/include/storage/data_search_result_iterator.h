@@ -13,6 +13,7 @@
 #include "storage/data_database_borrowed_stmt.h"
 #include "u8/u8_error.h"
 #include "set/data_search_result.h"
+#include "data_rules.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 
@@ -37,7 +38,11 @@ struct data_search_result_iterator_struct {
     bool is_at_diagram_end;  /*!< true if is_invalid or if at the end of the sql query result */
     bool is_at_classifier_end;  /*!< true if is_invalid or if at the end of the sql query result */
     bool is_at_feature_end;  /*!< true if is_invalid or if at the end of the sql query result */
-    bool is_at_relathiship_end;  /*!< true if is_invalid or if at the end of the sql query result */
+    bool is_at_relationship_end;  /*!< true if is_invalid or if at the end of the sql query result */
+
+    data_search_result_t *next_search_result_buf;  /*!< a buffer that was passed from data_database_text_search to store the next data_search_result_t */
+
+    data_rules_t data_rules;  /*!< own instance of data rules */
 };
 
 typedef struct data_search_result_iterator_struct data_search_result_iterator_t;
@@ -45,7 +50,22 @@ typedef struct data_search_result_iterator_struct data_search_result_iterator_t;
 /*!
  *  \brief predefined search statement to find search_results by diagram-id
  */
-extern const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_BY_DIAGRAM_ID;
+extern const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_DIAGRAM_BY_TEXTFRAGMENT;
+
+/*!
+ *  \brief predefined search statement to find search_results by diagram-id
+ */
+extern const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_CLASSIFIER_BY_TEXTFRAGMENT;
+
+/*!
+ *  \brief predefined search statement to find search_results by diagram-id
+ */
+extern const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_FEATURE_BY_TEXTFRAGMENT;
+
+/*!
+ *  \brief predefined search statement to find search_results by diagram-id
+ */
+extern const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT;
 
 /*!
  *  \brief initializes the data_search_result_iterator_t struct to an empty set
@@ -63,13 +83,15 @@ u8_error_t data_search_result_iterator_init_empty ( data_search_result_iterator_
  *  \param classifier_statement borrowed statement to access the sql query results on classifiers
  *  \param feature_statement borrowed statement to access the sql query results on features
  *  \param relationship_statement borrowed statement to access the sql query results on relationships
+ *  \param next_search_result_buf a buffer that was passed from data_database_text_search to store the next data_search_result_t
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_search_result_iterator_reinit ( data_search_result_iterator_t *this_,
                                                 data_database_borrowed_stmt_t diagram_statement,
                                                 data_database_borrowed_stmt_t classifier_statement,
                                                 data_database_borrowed_stmt_t feature_statement,
-                                                data_database_borrowed_stmt_t relationship_statement
+                                                data_database_borrowed_stmt_t relationship_statement,
+                                                data_search_result_t *next_search_result_buf
                                               );
 
 /*!
@@ -107,6 +129,48 @@ u8_error_t data_search_result_iterator_next ( data_search_result_iterator_t *thi
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result_iterator_t *this_ );
+
+/*!
+ *  \brief reads a set of diagrams from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_search_result the next search_result read from the database (in case of success)
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_search_result_iterator_private_get_diagram ( data_search_result_iterator_t *this_, data_search_result_t *out_search_result );
+
+/*!
+ *  \brief reads a set of classifiers from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_search_result the next search_result read from the database (in case of success)
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_search_result_iterator_private_get_classifier ( data_search_result_iterator_t *this_, data_search_result_t *out_search_result );
+
+/*!
+ *  \brief reads a set of features from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_search_result the next search_result read from the database (in case of success).
+ *                           If the feature is filtered from the diagram by rules, out_search_result is set to void.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_search_result_iterator_private_get_feature ( data_search_result_iterator_t *this_, data_search_result_t *out_search_result );
+
+/*!
+ *  \brief reads a set of relationships from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_search_result the next search_result read from the database (in case of success).
+ *                           If the feature is filtered from the diagram by rules, out_search_result is set to void.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_search_result_iterator_private_get_relationship ( data_search_result_iterator_t *this_, data_search_result_t *out_search_result );
 
 #endif  /* DATA_SEARCH_RESULT_ITERATOR_H */
 
