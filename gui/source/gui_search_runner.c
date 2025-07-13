@@ -226,10 +226,29 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
         }
 
         /* free text search */
-        d_err = data_database_text_search_get_objects_by_textfragment ( &((*this_).db_searcher),
-                                                                        search_string,
-                                                                        &((*this_).temp_result_list)
-                                                                      );
+        {
+            data_search_result_iterator_t data_search_result_iterator;
+            d_err |= data_search_result_iterator_init_empty( &data_search_result_iterator );
+            d_err = data_database_text_search_get_objects_by_text_fragment( &((*this_).db_searcher),
+                                                                            search_string,
+                                                                            &data_search_result_iterator
+                                                                          );
+            while ( data_search_result_iterator_has_next( &data_search_result_iterator ) )
+            {
+                data_search_result_t current_search_result;
+                d_err |= data_search_result_iterator_next( &data_search_result_iterator,
+                                                           &current_search_result
+                                                         );
+                d_err |= data_search_result_list_add( &((*this_).temp_result_list), &current_search_result );
+                if ( d_err != U8_ERROR_NONE )
+                {
+                    /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
+                    U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                }
+            }
+            d_err |= data_search_result_iterator_destroy( &data_search_result_iterator );
+        }
+
         if ( U8_ERROR_NONE != d_err )
         {
             U8_LOG_ERROR_HEX( "data_database_text_search_t could not search.", d_err );

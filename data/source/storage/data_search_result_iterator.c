@@ -124,7 +124,6 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
     assert( data_database_borrowed_stmt_is_valid( &((*this_).feature_statement) ) );
     assert( data_database_borrowed_stmt_is_valid( &((*this_).relationship_statement) ) );
     u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
 
     /* invalidate the next_search_result_buf */
     data_search_result_init_void( (*this_).next_search_result_buf );
@@ -134,8 +133,8 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
         sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).diagram_statement) );
 
         /* do one step, check if is_at_end */
-        U8_TRACE_INFO( "sqlite3_step() ad diagrams" );
-        sqlite_err = sqlite3_step( sql_statement );
+        U8_TRACE_INFO( "sqlite3_step() at diagrams" );
+        const int sqlite_err = sqlite3_step( sql_statement );
         if ( SQLITE_DONE == sqlite_err )
         {
             U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
@@ -161,7 +160,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
 
         /* do one step, check if is_at_end */
         U8_TRACE_INFO( "sqlite3_step() at classifiers" );
-        sqlite_err = sqlite3_step( sql_statement );
+        const int sqlite_err = sqlite3_step( sql_statement );
         if ( SQLITE_DONE == sqlite_err )
         {
             U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
@@ -187,7 +186,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
 
         /* do one step, check if is_at_end */
         U8_TRACE_INFO( "sqlite3_step() at features" );
-        sqlite_err = sqlite3_step( sql_statement );
+        const int sqlite_err = sqlite3_step( sql_statement );
         if ( SQLITE_DONE == sqlite_err )
         {
             U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
@@ -213,7 +212,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
 
         /* do one step, check if is_at_end */
         U8_TRACE_INFO( "sqlite3_step() at relationships" );
-        sqlite_err = sqlite3_step( sql_statement );
+        const int sqlite_err = sqlite3_step( sql_statement );
         if ( SQLITE_DONE == sqlite_err )
         {
             U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
@@ -443,7 +442,7 @@ u8_error_t data_search_result_iterator_private_get_feature( data_search_result_i
     if ( filter )
     {
         /* invalidate the out_search_result */
-        data_search_result_init_void( (*this_).next_search_result_buf );
+        data_search_result_init_void( out_search_result );
     }
 
     data_search_result_trace( out_search_result );
@@ -569,7 +568,7 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
     if ( filter )
     {
         /* invalidate the out_search_result */
-        data_search_result_init_void( (*this_).next_search_result_buf );
+        data_search_result_init_void( out_search_result );
     }
 
     data_search_result_trace( out_search_result );

@@ -188,32 +188,32 @@ u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_databas
                                                                                        search_name,
                                                                                        search_type,
                                                                                        search_descr
-                                                                                    );
+                                                                                     );
 
             data_database_borrowed_stmt_t sql_statement_diag;
             data_database_borrowed_stmt_init( &sql_statement_diag,
                                               (*this_).database,
                                               prepared_statement_diag,
                                               &((*this_).statement_diagram_borrowed)
-            );
+                                            );
             data_database_borrowed_stmt_t sql_statement_class;
             data_database_borrowed_stmt_init( &sql_statement_class,
                                               (*this_).database,
                                               prepared_statement_class,
                                               &((*this_).statement_classifier_borrowed)
-            );
+                                            );
             data_database_borrowed_stmt_t sql_statement_feat;
             data_database_borrowed_stmt_init( &sql_statement_feat,
                                               (*this_).database,
                                               prepared_statement_feat,
                                               &((*this_).statement_feature_borrowed)
-            );
+                                            );
             data_database_borrowed_stmt_t sql_statement_rel;
             data_database_borrowed_stmt_init( &sql_statement_rel,
                                               (*this_).database,
                                               prepared_statement_rel,
                                               &((*this_).statement_relationship_borrowed)
-            );
+                                            );
             result |= data_search_result_iterator_reinit( io_search_result_iterator,
                                                           sql_statement_diag,
                                                           sql_statement_class,
