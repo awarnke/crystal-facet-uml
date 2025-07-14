@@ -111,11 +111,10 @@ u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_databas
     u8_error_t result = U8_ERROR_NONE;
 
     /* escape-encode textfragment */
-    char like_search[64] = "";
     universal_memory_output_stream_t mem_out;
     universal_memory_output_stream_init( &mem_out,
-                                         like_search,
-                                         sizeof(like_search),
+                                         (*this_).temp_like_search_buf,
+                                         sizeof( (*this_).temp_like_search_buf ),
                                          UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                        );
     const bool search_empty = ( 0 == text_len );
@@ -144,7 +143,7 @@ u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_databas
     }
     result |= universal_memory_output_stream_destroy( &mem_out );
 
-    U8_TRACE_INFO_STR( "LIKE SEARCH:", like_search );
+    U8_TRACE_INFO_STR( "LIKE SEARCH:", (*this_).temp_like_search_buf );
     if ( result != U8_ERROR_NONE )
     {
         U8_LOG_WARNING_STR( "error at escaping the search string", textfragment );
@@ -152,9 +151,9 @@ u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_databas
     else
     {
         /* search for the prepared pattern. In case of empty, search for a non-existing pattern in the type fields */
-        const char *const search_name = search_empty ? "" : like_search;
-        const char *const search_type = search_empty ? "\n" : like_search;
-        const char *const search_descr = search_empty ? "" : like_search;
+        const char *const search_name = search_empty ? "" : (*this_).temp_like_search_buf;
+        const char *const search_type = search_empty ? "\n" : (*this_).temp_like_search_buf;
+        const char *const search_descr = search_empty ? "" : (*this_).temp_like_search_buf;
 
         if ( (*this_).is_open )
         {
