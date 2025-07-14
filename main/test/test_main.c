@@ -22,6 +22,7 @@
 #include "unit/data_database_listener_test.h"
 #include "unit/data_database_head_test.h"
 #include "integration/data_database_reader_test.h"
+#include "integration/data_database_text_search_test.h"
 #include "integration/data_profile_part_test.h"
 #include "integration/data_visible_set_test.h"
 /* ctrl */
@@ -241,6 +242,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, data_database_head_test_get_suite() );
 
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
+        test_runner_run_suite( &runner, data_database_text_search_test_get_suite() );
         test_runner_run_suite( &runner, data_profile_part_test_get_suite() );
         test_runner_run_suite( &runner, data_visible_set_test_get_suite() );
 
