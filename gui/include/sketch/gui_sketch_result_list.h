@@ -15,6 +15,7 @@
 #include "gui_resources.h"
 #include "gui_type_resource_list.h"
 #include "shape/shape_int_rectangle.h"
+#include "pos/pos_search_result_page.h"
 #include "pos/pos_search_result.h"
 #include "storage/data_database.h"
 #include "set/data_search_result.h"
@@ -54,11 +55,6 @@ struct gui_sketch_result_list_struct {
     /* layout information */
     pos_search_result_t element_pos[GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS];  /*!< layout positions of search results on current visible page */
     uint32_t element_count;  /*!< number of layout positions in element_pos list */
-
-    /* page flip information */
-    uint32_t prev_start_offset;  /*!< index in result iterator at which the previous page starts. 0 if none. */
-    uint32_t curr_start_offset;  /*!< index in result iterator at which the current page starts. 0 if empty. */
-    uint32_t next_start_offset;  /*!< index in result iterator at which the next page starts. 0 if none. */
 
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
