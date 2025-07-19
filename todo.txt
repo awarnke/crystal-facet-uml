@@ -68,9 +68,9 @@ ideas for future versions:
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
-      (rationale: the search+xmi+json export find them)
+      (rationale: the xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
-      (rationale: the search+xmi+json export find them)
+      (rationale: the xmi+json export find them)
   [ ] undo and redo shall update the revision number of the database
       - so that the save button can indicate no changes
   @u8stream

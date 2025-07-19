@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.2"
+    "generator_version": "1.64.3"
   }
   ,
   "views":
@@ -2337,6 +2337,12 @@
             "classifier_name": "gui_sketch_card",
             "node": "87538a0b-c268-4bfe-a436-fde819fc8469",
             "uuid": "5624a079-1ae9-4b18-968f-52db0ebba9c6"
+          },
+          {
+            "id": 953,
+            "classifier_name": "as above",
+            "node": "88df410e-99a0-4003-931c-66ab98effe58",
+            "uuid": "3cc80d3e-ebe0-4156-b7a2-c921a9257012"
           }
         ]
       }
@@ -5777,7 +5783,7 @@
           },
           {
             "id": 464,
-            "classifier_name": "Create an new \"Interaction\" Classifier",
+            "classifier_name": "Create a new \"Interaction\" Classifier",
             "node": "dec9b675-14b1-40f8-906d-f918555a47db",
             "uuid": "7c7ddc1e-b909-428f-8701-74c52e43f8e0"
           },
@@ -13461,7 +13467,7 @@
         "id": 316,
         "type": "Requirement", "main_type": 99,
         "stereotype": "reason_rejected",
-        "name": "Create an new \"Interaction\" Classifier",
+        "name": "Create a new \"Interaction\" Classifier",
         "description": [
                 "This solution is in line with the UML specification:\n",
                 "An interaction classifier encapsulates all messages belonging to this ",
@@ -18562,6 +18568,33 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 581,
+        "type": "Interaction Use", "main_type": 112,
+        "name": "as above",
+        "description": [
+                ""
+        ],
+        "x_order": 1216845228,
+        "y_order": 0,
+        "list_order": 1893426961,
+        "uuid": "4711cc50-2939-4878-91d5-539ef103e009",
+        "features":
+        [
+          {
+            "id": 159,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "88df410e-99a0-4003-931c-66ab98effe58"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -21244,6 +21277,24 @@
         "from_node": "95ca51d3-a7f9-4890-9d9d-86b135dad665",
         "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
         "uuid": "477bd0ad-a255-4baa-bfdd-3224f04ed32f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1070,
+        "type": "Asynchronous Call", "main_type": 220,
+        "name": "next/prev page",
+        "description": [
+                ""
+        ],
+        "list_order": 1184010804,
+        "from_classifier_name": "SW Architect",
+        "from_feature_key": "",
+        "to_classifier_name": "sketch",
+        "to_feature_key": "",
+        "from_node": "c506b0f9-87b9-488d-9b8b-102ea3a154ac",
+        "to_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
+        "uuid": "88bf8e08-6f3d-4dae-8bfb-3a4da087a902"
       }
     },
     {
@@ -26132,7 +26183,7 @@
         "description": [
                 ""
         ],
-        "list_order": 926642345,
+        "list_order": 369848637,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
         "to_classifier_name": "gui_sketch _result_list",
@@ -26150,7 +26201,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1298211244,
+        "list_order": 955474055,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
         "to_classifier_name": "gui_sketch_card",
@@ -26194,6 +26245,25 @@
     },
     {
       "relationship": {
+        "id": 1071,
+        "type": "Synchronous Call", "main_type": 221,
+        "stereotype": "not-yet-implemented",
+        "name": "run (skip:20)",
+        "description": [
+                ""
+        ],
+        "list_order": 1393502823,
+        "from_classifier_name": "sketch",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_search _runner",
+        "to_feature_key": "",
+        "from_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
+        "to_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
+        "uuid": "d2ff9ebe-6f2d-4661-8977-8924ec760bc9"
+      }
+    },
+    {
+      "relationship": {
         "id": 355,
         "type": "Communication Path", "main_type": 230,
         "name": "run",
@@ -26212,11 +26282,11 @@
       "relationship": {
         "id": 363,
         "type": "Synchronous Call", "main_type": 221,
-        "name": "run",
+        "name": "run (skip:0)",
         "description": [
                 ""
         ],
-        "list_order": 85641090,
+        "list_order": -111030771,
         "from_classifier_name": "search_entry",
         "from_feature_key": "",
         "to_classifier_name": "gui_search _runner",
@@ -26250,7 +26320,7 @@
         "description": [
                 ""
         ],
-        "list_order": 560989625,
+        "list_order": 60371790,
         "from_classifier_name": "gui_search _runner",
         "from_feature_key": "",
         "to_classifier_name": "sketch",
@@ -26258,6 +26328,25 @@
         "from_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
         "to_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
         "uuid": "c161fd4a-8400-411e-b9f6-915ff671cee3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1069,
+        "type": "Return", "main_type": 222,
+        "stereotype": "not-yet-implemented",
+        "name": "page length",
+        "description": [
+                ""
+        ],
+        "list_order": 641236026,
+        "from_classifier_name": "gui_sketch _result_list",
+        "from_feature_key": "",
+        "to_classifier_name": "sketch",
+        "to_feature_key": "",
+        "from_node": "4cf05fc6-ee5c-4242-b64b-6c0bfd19188f",
+        "to_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
+        "uuid": "fd6842e9-6a61-4291-abb9-91b81414d407"
       }
     },
     {
@@ -27299,7 +27388,7 @@
                 ""
         ],
         "list_order": 65536,
-        "from_classifier_name": "Create an new \"Interaction\" Classifier",
+        "from_classifier_name": "Create a new \"Interaction\" Classifier",
         "to_classifier_name": "How to generate the Interactions?",
         "from_node": "dec9b675-14b1-40f8-906d-f918555a47db",
         "to_node": "aeba770d-7997-4d8f-89df-d3394cd0ee82",

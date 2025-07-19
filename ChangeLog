@@ -1,7 +1,8 @@
 crystal-facet-uml (1.64.3) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * No warnings on no-overlength-strings at executable, only tests affected
+  * No compiler warnings on no-overlength-strings, except test code
+  * soon to come: page up/down in search results
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 21 Jun 2025 08:00:00 +0100
 

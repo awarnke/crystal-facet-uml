@@ -9,6 +9,7 @@
  */
 
 #include "sketch/gui_sketch_area.h"
+#include "pos/pos_scroll_page.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_text_search.h"
 #include "set/data_small_set.h"
@@ -74,8 +75,9 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param search_string search query, 0-terminated
+ *  \param page the page to be loaded
  */
-void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string );
+void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string, pos_scroll_page_t page );
 
 /*!
  *  \brief searches diagrams in which a given classifier is visible and adds their ids to a result set

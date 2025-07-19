@@ -47,7 +47,7 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string )
+void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string, pos_scroll_page_t page )
 {
     U8_TRACE_BEGIN();
 
@@ -288,9 +288,9 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
     data_diagram_iterator_t diagram_iterator;
     d_err |= data_diagram_iterator_init_empty( &diagram_iterator );
     d_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
-                                                                classifier_row_id,
-                                                                &diagram_iterator
-                                                              );
+                                                                 classifier_row_id,
+                                                                 &diagram_iterator
+                                                               );
 
     if ( d_err == U8_ERROR_NONE )
     {

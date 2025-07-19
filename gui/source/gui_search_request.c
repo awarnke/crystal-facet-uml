@@ -127,7 +127,7 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
 
     if ( text != NULL )
     {
-        gui_search_runner_run ( (*this_).search_runner, text );
+        gui_search_runner_run( (*this_).search_runner, text, pos_scroll_page_new( 0, false /*backwards*/ ) );
     }
     else
     {
@@ -161,7 +161,10 @@ void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_da
         {
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( GTK_ENTRY( (*this_).search_entry ) );
             gtk_entry_buffer_set_text( name_buf, utf8stringbuf_get_string( &focused_id_str ), -1 /* = n_chars */ );
-            gui_search_runner_run ( (*this_).search_runner, utf8stringbuf_get_string( &focused_id_str ) );
+            gui_search_runner_run( (*this_).search_runner,
+                                   utf8stringbuf_get_string( &focused_id_str ),
+                                   pos_scroll_page_new( 0, false /*backwards*/ )
+                                 );
         }
     }
 
