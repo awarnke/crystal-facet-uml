@@ -19,25 +19,37 @@
 #include "entity/data_feature.h"
 #include "entity/data_relationship.h"
 #include "gui_simple_message_to_user.h"
+#include "utf8stream/utf8stream_writemem.h"
 
 /*!
  *  \brief constants for maximum values of gui_search_runner_t
  */
 enum gui_search_runner_max_enum {
-    GUI_SEARCH_RUNNER_MAX_RESULTS = GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE,  /*!< maximum number of search results */
+    GUI_SEARCH_RUNNER_MAX_RESULTS = POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE,  /*!< maximum number of search results */
 };
 
 /*!
  *  \brief attributes of the gui_search_runner
  */
 struct gui_search_runner_struct {
+    /* external entities */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_database_text_search_t db_searcher;  /*!< own instance of a database freetext searcher */
     gui_sketch_area_t *result_consumer;  /*!< pointer to external gui_sketch_area_t which is informed on search results */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
-    data_search_result_t temp_result_list_buf[GUI_SEARCH_RUNNER_MAX_RESULTS];  /*!< memory for the result list */
-    data_search_result_list_t temp_result_list;
+    /* request data */
+    char search_string_buf[256];  /*!< the current search string, truncated to 255 bytes, 0-terminated */
+    utf8stream_writemem_t search_string_writer;  /*!< a writer to the current search string */
+    pos_scroll_page_t page_request;  /*!< description of the requested search page */
+
+    /* result data */
+    uint32_t result_buffer_start;  /*!< offset of start element in result_list_buffer (relative to absolute start of result list) */
+    /* uint32_t result_buffer_length; */  /*!< number of elements in result_list_buffer list page */
+    data_search_result_t result_buffer[GUI_SEARCH_RUNNER_MAX_RESULTS];  /*!< memory for the result list page */
+    data_search_result_list_t result_list;  /*!< a list of search results; storage for search results is: result_buffer */
+
+    /* temporary buffers */
     data_diagram_t temp_diagram;  /*!< memory to read a diagram */
     data_diagramelement_t temp_diagramelement;  /*!< memory to read a diagram element */
     data_feature_t temp_feature;  /*!< memory to read a feature */
@@ -78,6 +90,14 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ );
  *  \param page the page to be loaded
  */
 void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string, pos_scroll_page_t page );
+
+/*!
+ *  \brief performs a search on the same text again and informs the result_consumer of result set
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param page the page to be loaded
+ */
+void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t page );
 
 /*!
  *  \brief searches diagrams in which a given classifier is visible and adds their ids to a result set

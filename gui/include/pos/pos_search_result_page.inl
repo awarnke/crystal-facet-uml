@@ -31,7 +31,7 @@ static inline pos_search_result_t *pos_search_result_page_get_search_result_layo
 static inline u8_error_t pos_search_result_page_add_search_result ( pos_search_result_page_t *this_, const data_search_result_t *search_result )
 {
     u8_error_t result = U8_ERROR_NONE;
-    if ( (*this_).buffer_length < GUI_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE )
+    if ( (*this_).buffer_length < POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE )
     {
         data_search_result_copy( &((*this_).result_list_buf[(*this_).buffer_length]), search_result );
         pos_search_result_init( &((*this_).element_pos[(*this_).buffer_length]),

@@ -2292,6 +2292,7 @@
       "diagram": {
         "id": 63,
         "type": "Sequence Diagram", "diagram_type": 13,
+        "stereotype": "reason_chosen",
         "name": "gui search sequence",
         "description": [
                 ""
@@ -2357,8 +2358,8 @@
       "diagram": {
         "id": 129,
         "type": "Sequence Diagram", "diagram_type": 13,
-        "stereotype": "not-yet-implemented",
-        "name": "gui search sequence <new>",
+        "stereotype": "reason_rejected",
+        "name": "gui search sequence <alt>",
         "description": [
                 ""
         ],
@@ -2415,6 +2416,12 @@
             "classifier_name": "Rationale for change",
             "node": "aa201d86-bec2-47ab-8012-f766c8bc8160",
             "uuid": "2238cac6-4653-4258-81ed-0116677aecb9"
+          },
+          {
+            "id": 963,
+            "classifier_name": "Rejected solution",
+            "node": "29b2a01e-c38b-4e31-8d0a-3eddfdcbef35",
+            "uuid": "09fd4ab4-f0f3-4b40-aef2-ab5464a495df"
           }
         ]
       }
@@ -18751,7 +18758,7 @@
         ],
         "x_order": 1843589710,
         "y_order": 0,
-        "list_order": 0,
+        "list_order": -1078897765,
         "uuid": "35019aa8-0a1a-4fca-aa9c-f4ba4bd4ccdc",
         "features":
         [
@@ -18775,11 +18782,12 @@
         "name": "Challenge",
         "description": [
                 "Some entity needs to store\n",
-                "search-text"
+                "search-text\n",
+                "--> gui_search_runner"
         ],
         "x_order": 1302978283,
         "y_order": 0,
-        "list_order": -584309532,
+        "list_order": -226172428,
         "uuid": "f994f5b3-795b-4671-94d5-68de745ddd8a",
         "features":
         [
@@ -18792,6 +18800,39 @@
             ],
             "list_order": 0,
             "uuid": "65f1aff0-19ef-4528-bc83-5fe4bb83c254"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 584,
+        "type": "Comment", "main_type": 130,
+        "stereotype": "reason_rejected",
+        "name": "Rejected solution",
+        "description": [
+                "Dependencies increase.\n",
+                "The old version\n",
+                "showin in D0063#id has\n",
+                "less dependencies from\n",
+                "search functionalities\n",
+                "to ui"
+        ],
+        "x_order": 1523370669,
+        "y_order": 0,
+        "list_order": 1412452750,
+        "uuid": "f801fa14-0406-4572-9b17-aa3a6f2f4ab4",
+        "features":
+        [
+          {
+            "id": 169,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "29b2a01e-c38b-4e31-8d0a-3eddfdcbef35"
           }
         ]
       }
@@ -26503,7 +26544,7 @@
         "id": 1071,
         "type": "Synchronous Call", "main_type": 221,
         "stereotype": "not-yet-implemented",
-        "name": "run (page:20)",
+        "name": "re_run (page)",
         "description": [
                 ""
         ],
@@ -26591,7 +26632,7 @@
       "relationship": {
         "id": 363,
         "type": "Synchronous Call", "main_type": 221,
-        "name": "run (page:0)",
+        "name": "run (text,page)",
         "description": [
                 ""
         ],

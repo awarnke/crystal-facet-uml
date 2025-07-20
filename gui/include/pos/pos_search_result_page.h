@@ -17,7 +17,7 @@
  *  \brief constants for maximum values of gui_sketch_result_list_t
  */
 enum pos_search_result_page_max_enum {
-    GUI_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE = 100,  /*!< maximum number of search results on one page */
+    POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE = 100,  /*!< maximum number of search results on one page */
 };
 
 /*!
@@ -25,10 +25,10 @@ enum pos_search_result_page_max_enum {
  */
 struct pos_search_result_page_struct {
     /* search result data */
-    data_search_result_t result_list_buf[GUI_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE];  /*!< list of search results on one page */
+    data_search_result_t result_list_buf[POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE];  /*!< list of search results on one page */
 
     /* search result layout information */
-    pos_search_result_t element_pos[GUI_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE];  /*!< layout positions of search results on current visible page */
+    pos_search_result_t element_pos[POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE];  /*!< layout positions of search results on current visible page */
 
     /* data buffer information */
     uint32_t buffer_start;  /*!< offset of start element in result_list_buf and element_pos list (relative to absolute start of result list) */

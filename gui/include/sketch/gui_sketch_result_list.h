@@ -30,8 +30,8 @@
  *  \brief constants for maximum values of gui_sketch_result_list_t
  */
 enum gui_sketch_result_list_max_enum {
-    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 128,  /*!< maximum number of total search results */
-    GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS = 128,  /*!< maximum number of displayed search results on current page */
+    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE,  /*!< maximum number of total search results */
+    GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS = POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE,  /*!< maximum number of displayed search results on current page */
 };
 
 /*!
