@@ -3,6 +3,7 @@
 #include "u8/u8_log.h"
 
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
+                                                     pos_scroll_page_t requested_page,
                                                      const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader )
 {
@@ -11,6 +12,7 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
 
     /* reset page */
     pos_search_result_page_reinit( &((*this_).page), 0 /* buffer_start */ );
+    (*this_).requested_page = requested_page;
 
     /* fill page */
     u8_error_t err = U8_ERROR_NONE;
@@ -52,11 +54,37 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
     (*this_).visible = visible;
 }
 
-static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketch_result_list_t *this_,
-                                                                 int32_t x,
-                                                                 int32_t y,
-                                                                 data_id_t* out_selected_id,
-                                                                 data_id_t* out_diagram_id )
+static inline void gui_sketch_result_list_get_button_at_pos( const gui_sketch_result_list_t *this_,
+                                                             int32_t x,
+                                                             int32_t y,
+                                                             gui_sketch_action_t *out_action_id )
+{
+    assert ( NULL != out_action_id );
+
+    const shape_int_rectangle_t *const prev_box
+        = pos_search_result_page_get_button_prev_box_const( &((*this_).page) );
+    const shape_int_rectangle_t *const next_box
+       = pos_search_result_page_get_button_next_box_const( &((*this_).page) );
+
+    if ( shape_int_rectangle_contains( prev_box, x, y ) && pos_search_result_page_has_prev_page( &((*this_).page) ) )
+    {
+        *out_action_id = GUI_SKETCH_ACTION_PREVIOUS_PAGE;
+    }
+    else if ( shape_int_rectangle_contains( next_box, x, y ) && pos_search_result_page_has_next_page( &((*this_).page) ) )
+    {
+        *out_action_id = GUI_SKETCH_ACTION_NEXT_PAGE;
+    }
+    else
+    {
+        *out_action_id = GUI_SKETCH_ACTION_NONE;
+    }
+}
+
+static inline void gui_sketch_result_list_get_object_id_at_pos( const gui_sketch_result_list_t *this_,
+                                                                int32_t x,
+                                                                int32_t y,
+                                                                data_id_t* out_selected_id,
+                                                                data_id_t* out_diagram_id )
 {
     assert( out_selected_id != NULL );
     assert( out_diagram_id != NULL );

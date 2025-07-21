@@ -128,7 +128,9 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list )
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_,
+                                        pos_scroll_page_t requested_page,
+                                        const data_search_result_list_t *result_list )
 {
     U8_TRACE_BEGIN();
     assert( NULL != result_list );
@@ -164,7 +166,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
     gui_sketch_area_private_load_cards_data ( this_ );
 
     /* load new data in subwidgets */
-    gui_sketch_result_list_load_data( &((*this_).result_list), result_list, (*this_).db_reader );
+    gui_sketch_result_list_load_data( &((*this_).result_list), requested_page, result_list, (*this_).db_reader );
 
     /* notify listener */
     gui_marked_set_clear_focused( (*this_).marker );
@@ -646,6 +648,10 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                 if ( selected_tool == GUI_TOOL_NAVIGATE )
                 {
                     gui_sketch_nav_tree_get_button_at_pos( &((*this_).nav_tree), x, y, &btn_under_mouse );
+                }
+                else
+                {
+                    gui_sketch_result_list_get_button_at_pos( &((*this_).result_list), x, y, &btn_under_mouse );
                 }
 
                 const data_id_t object_highlighted

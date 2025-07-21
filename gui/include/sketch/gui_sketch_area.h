@@ -116,9 +116,12 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
  *  \brief shows the list of search results
  *
  *  \param this_ pointer to own object attributes
+ *  \param requested_page the page to be shown
  *  \param result_list list of search results including their diagram ids to be displayed
  */
-void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list );
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_,
+                                        pos_scroll_page_t requested_page,
+                                        const data_search_result_list_t *result_list );
 
 /*!
  *  \brief loads the cards, nav_tree and result_list data to be shown

@@ -17,6 +17,7 @@
 #include "shape/shape_int_rectangle.h"
 #include "pos/pos_search_result_page.h"
 #include "pos/pos_search_result.h"
+#include "pos/pos_scroll_page.h"
 #include "storage/data_database.h"
 #include "set/data_search_result.h"
 #include "set/data_search_result_list.h"
@@ -43,7 +44,8 @@ struct gui_sketch_result_list_struct {
     shape_int_rectangle_t bounds;  /*!< bounding box of the result list */
 
     /* data and layouting information of search results */
-    pos_search_result_page_t page; /*!< page constains list data elements and layouting information */
+    pos_scroll_page_t requested_page;  /*!< description of the requested page */
+    pos_search_result_page_t page;  /*!< page constains list data elements and layouting information */
 
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
@@ -78,10 +80,12 @@ void gui_sketch_result_list_destroy ( gui_sketch_result_list_t *this_ );
  *  \brief fetches the diagram data from the database
  *
  *  \param this_ pointer to own object attributes
+ *  \param requested_page the page to be shown
  *  \param result_list list of search results and their diagram ids to load
  *  \param db_reader pointer to a database reader object
  */
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
+                                                     pos_scroll_page_t requested_page,
                                                      const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader
                                                    );
@@ -146,6 +150,20 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
                                                      int32_t *io_y_pos,
                                                      PangoLayout *font_layout
                                                    );
+
+/*!
+ *  \brief gets the action-id of the button at a given position.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_action_id the action id of the button at the given location. GUI_SKETCH_ACTION_NONE if there is no button at the given location.
+ */
+static inline void gui_sketch_result_list_get_button_at_pos ( const gui_sketch_result_list_t *this_,
+                                                              int32_t x,
+                                                              int32_t y,
+                                                              gui_sketch_action_t *out_action_id
+                                                            );
 
 /*!
  *  \brief determines the object at a given position and returns its id. The object can be a diagram.

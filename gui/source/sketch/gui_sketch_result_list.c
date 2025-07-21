@@ -25,6 +25,7 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_,
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
     /* data and layouting information of search results */
+    (*this_).requested_page = pos_scroll_page_new( 0, false /* backwards */ );
     pos_search_result_page_init( &((*this_).page), 0 /* buffer_start */ );
 
     /* helper classes to perform drawing */
@@ -61,6 +62,12 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
 {
     U8_TRACE_BEGIN();
 
+    /* bounds */
+    int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    uint_fast32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
     /* create the font_layout */
     PangoLayout *font_layout;
     {
@@ -70,7 +77,38 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
         pango_layout_set_font_description( font_layout, std_font );
     }
 
-    int32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) );
+    /* measure a previous page button heights */
+    GdkTexture *prev_gray_icon = gui_resources_get_sketch_page_up_gray( (*this_).resources );
+    const uint_fast32_t prev_icon_height = gdk_texture_get_height( prev_gray_icon );
+    const uint_fast32_t prev_icon_width = gdk_texture_get_width( prev_gray_icon );
+    const shape_int_rectangle_t prev_icon_box = (shape_int_rectangle_t) {
+        .left = left + ( width - prev_icon_width ) / 2,
+        .top = top,
+        .width = prev_icon_width,
+        .height = prev_icon_height };
+    pos_search_result_page_set_button_prev_box( &((*this_).page), &prev_icon_box );
+
+    /* measure a next page button heights */
+    GdkTexture *next_gray_icon = gui_resources_get_sketch_page_down_gray( (*this_).resources );
+    const uint_fast32_t next_icon_height = gdk_texture_get_height( next_gray_icon );
+    const uint_fast32_t next_icon_width = gdk_texture_get_width( next_gray_icon );
+    const shape_int_rectangle_t next_icon_box = (shape_int_rectangle_t) {
+        .left = left + ( width - next_icon_width ) / 2,
+        .top = top + height - next_icon_height,
+        .width = next_icon_width,
+        .height = next_icon_height };
+    pos_search_result_page_set_button_next_box( &((*this_).page), &next_icon_box );
+
+    int32_t y_pos;
+    const bool backwards = pos_scroll_page_get_backwards( &((*this_).requested_page) );
+    if ( backwards )
+    {
+        y_pos = shape_int_rectangle_get_bottom( &((*this_).bounds) ) - next_icon_height - OBJ_GAP;
+    }
+    else
+    {
+        y_pos = shape_int_rectangle_get_top( &((*this_).bounds) ) + prev_icon_height + OBJ_GAP;
+    }
 
     /* each visible element, do layout */
     const uint32_t buffer_start = pos_search_result_page_get_buffer_start( &((*this_).page) );
@@ -88,6 +126,8 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
     /* update the information on the visible page (which is a sub-part of the buffer) */
     pos_search_result_page_set_page_start ( &((*this_).page), buffer_start );
     pos_search_result_page_set_page_length ( &((*this_).page), buffer_length );
+    pos_search_result_page_set_has_prev_page( &((*this_).page), true );
+    pos_search_result_page_set_has_next_page( &((*this_).page), true );
 
     U8_TRACE_END();
 }
@@ -195,7 +235,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
             const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
             const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
             GdkTexture *undef_icon = gui_resources_get_type_undef( (*this_).resources );
-            double icon_width = gdk_texture_get_width ( undef_icon );
+            const uint_fast32_t icon_width = gdk_texture_get_width ( undef_icon );
 
             /* draw text first, use the above set color and font */
             const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
@@ -206,8 +246,8 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
             pango_cairo_show_layout( cr, font_layout );
 
             /* draw the icon */
-            const int x = left+OBJ_GAP;
-            const int y = top+OBJ_GAP;
+            const int_fast32_t x = left + OBJ_GAP;
+            const int_fast32_t y = top + OBJ_GAP;
             gui_sketch_texture_draw( (*this_).texture_downloader, undef_icon, x, y, cr );
         }
         else
@@ -221,16 +261,31 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
             }
 
             /* draw prev and next page buttons */
-            const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-            const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-            const int_fast32_t bottom = shape_int_rectangle_get_bottom( &((*this_).bounds) );
-            GdkTexture *prev_bold_icon = gui_resources_get_sketch_page_up_bold( (*this_).resources );
-            GdkTexture *prev_gray_icon = gui_resources_get_sketch_page_up_gray( (*this_).resources );
-            GdkTexture *next_bold_icon = gui_resources_get_sketch_page_down_bold( (*this_).resources );
-            GdkTexture *next_gray_icon = gui_resources_get_sketch_page_down_gray( (*this_).resources );
-            double icon_height = gdk_texture_get_height ( next_gray_icon );
-            gui_sketch_texture_draw( (*this_).texture_downloader, prev_gray_icon, left+OBJ_GAP, top+OBJ_GAP, cr );
-            gui_sketch_texture_draw( (*this_).texture_downloader, next_gray_icon, left+OBJ_GAP, bottom-OBJ_GAP-icon_height, cr );
+            const shape_int_rectangle_t *const prev_box
+               = pos_search_result_page_get_button_prev_box_const( &((*this_).page) );
+            const shape_int_rectangle_t *const next_box
+                = pos_search_result_page_get_button_next_box_const( &((*this_).page) );
+            const gui_sketch_action_t btn_act = gui_marked_set_get_highlighted_button( marker );
+            GdkTexture *const prev_icon
+                = ( btn_act == GUI_SKETCH_ACTION_PREVIOUS_PAGE )
+                ? gui_resources_get_sketch_page_up_bold( (*this_).resources )
+                : gui_resources_get_sketch_page_up_gray( (*this_).resources );
+            GdkTexture *const next_icon
+                = ( btn_act == GUI_SKETCH_ACTION_NEXT_PAGE )
+                ? gui_resources_get_sketch_page_down_bold( (*this_).resources )
+                : gui_resources_get_sketch_page_down_gray( (*this_).resources );
+            gui_sketch_texture_draw( (*this_).texture_downloader,
+                                     prev_icon,
+                                     shape_int_rectangle_get_left( prev_box ),
+                                     shape_int_rectangle_get_top( prev_box ),
+                                     cr
+                                   );
+            gui_sketch_texture_draw( (*this_).texture_downloader,
+                                     next_icon,
+                                     shape_int_rectangle_get_left( next_box ),
+                                     shape_int_rectangle_get_top( next_box ),
+                                     cr
+                                   );
         }
 
         g_object_unref(font_layout);

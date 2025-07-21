@@ -17,6 +17,8 @@ enum gui_sketch_action_enum {
     GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM = 1,
     GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM = 2,
     GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM = 3,
+    GUI_SKETCH_ACTION_PREVIOUS_PAGE = 4,
+    GUI_SKETCH_ACTION_NEXT_PAGE = 5,
 };
 
 typedef enum gui_sketch_action_enum gui_sketch_action_t;

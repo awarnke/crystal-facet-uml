@@ -308,7 +308,8 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
         U8_LOG_ERROR_HEX( "data_database_text_search_t could not search.", d_err );
     }
 
-    gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).result_list) );
+    /* present the result */
+    gui_sketch_area_show_result_list ( (*this_).result_consumer, (*this_).page_request, &((*this_).result_list) );
     data_search_result_list_clear( &((*this_).result_list) );
 
     U8_TRACE_END();
