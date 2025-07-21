@@ -12,6 +12,9 @@
  *  without knowing the list size or the window size.
  */
 
+#include <stdbool.h>
+#include <stdint.h>
+
 /*!
  *  \brief parent and list order of gap between diagrams
  */

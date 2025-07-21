@@ -18,6 +18,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
                            GtkWidget *drawing_area,
                            gui_marked_set_t *marker,
                            gui_toolbox_t *toolbox,
+                           gui_search_runner_t *search_runner,
                            gui_simple_message_to_user_t *message_to_user,
                            gui_resources_t *resources,
                            ctrl_controller_t *controller,
@@ -27,6 +28,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     assert( NULL != drawing_area );
     assert( NULL != marker );
     assert( NULL != toolbox );
+    assert( NULL != search_runner );
     assert( NULL != message_to_user );
     assert( NULL != resources );
     assert( NULL != controller );
@@ -35,6 +37,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     /* init pointers to external objects */
     (*this_).drawing_area = drawing_area;
     (*this_).toolbox = toolbox;
+    (*this_).search_runner = search_runner;
     (*this_).message_to_user = message_to_user;
     (*this_).resources = resources;
     (*this_).db_reader = db_reader;
@@ -119,6 +122,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     /* unset pointers to external objects */
     (*this_).drawing_area = NULL;
     (*this_).marker = NULL;
+    (*this_).search_runner = NULL;
     (*this_).toolbox = NULL;
     (*this_).message_to_user = NULL;
     (*this_).resources = NULL;
@@ -128,12 +132,14 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_,
-                                        pos_scroll_page_t requested_page,
-                                        const data_search_result_list_t *result_list )
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_runner_t *search_runner )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != result_list );
+    assert( NULL != search_runner );
+
+    const pos_scroll_page_t *const requested_page = gui_search_runner_get_page_request( search_runner );
+    const data_search_result_list_t *const result_list = gui_search_runner_get_result_list( search_runner );
+    uint32_t result_buffer_start = gui_search_runner_get_result_buffer_start( search_runner );
 
     data_search_result_list_trace(result_list);
 
@@ -1026,6 +1032,21 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 data_full_id_t dragged_object;
                 data_full_id_init_solo ( &dragged_object, &clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
+            }
+            else
+            {
+                U8_TRACE_INFO("invalid clicked object at gui_sketch_area_button_press_callback");
+
+                gui_sketch_action_t action_button_id;
+                gui_sketch_result_list_get_button_at_pos ( &((*this_).result_list), x, y, &action_button_id );
+                if ( action_button_id == GUI_SKETCH_ACTION_PREVIOUS_PAGE )
+                {
+                    gui_search_runner_rerun( (*this_).search_runner, pos_scroll_page_new( 0, false /*backwards*/ ) );
+                }
+                else if ( action_button_id == GUI_SKETCH_ACTION_NEXT_PAGE )
+                {
+                    gui_search_runner_rerun( (*this_).search_runner, pos_scroll_page_new( 20, false /*backwards*/ ) );
+                }
             }
 
             /* which object is currently focused? */

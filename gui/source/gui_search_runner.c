@@ -11,13 +11,12 @@ void gui_search_runner_init ( gui_search_runner_t *this_,
                               gui_simple_message_to_user_t *message_to_user,
                               data_database_reader_t *db_reader,
                               data_database_t *database,
-                              gui_sketch_area_t *result_consumer )
+                              observer_t result_consumer )
 {
     U8_TRACE_BEGIN();
     assert ( message_to_user != NULL );
     assert ( db_reader != NULL );
     assert ( database != NULL );
-    assert ( result_consumer != NULL );
 
     /* external entities */
     (*this_).message_to_user = message_to_user;
@@ -56,7 +55,7 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ )
     {
         U8_LOG_WARNING_HEX( "data_database_text_search_t could not be destructed.", d_err );
     }
-    (*this_).result_consumer = NULL;
+    observer_destroy( &((*this_).result_consumer) );
 
     /* request data */
     utf8stream_writemem_destroy( &((*this_).search_string_writer) );
@@ -309,7 +308,9 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
     }
 
     /* present the result */
-    gui_sketch_area_show_result_list ( (*this_).result_consumer, (*this_).page_request, &((*this_).result_list) );
+    observer_notify( &((*this_).result_consumer), this_ );
+
+    /* clear the result */
     data_search_result_list_clear( &((*this_).result_list) );
 
     U8_TRACE_END();
@@ -394,6 +395,21 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
     d_err |= data_diagram_iterator_destroy( &diagram_iterator );
 
     U8_TRACE_END();
+}
+
+const pos_scroll_page_t* gui_search_runner_get_page_request( gui_search_runner_t *this_ )
+{
+    return &((*this_).page_request);
+}
+
+const data_search_result_list_t* gui_search_runner_get_result_list( gui_search_runner_t *this_ )
+{
+    return &((*this_).result_list);
+}
+
+uint32_t gui_search_runner_get_result_buffer_start( gui_search_runner_t *this_ )
+{
+    return (*this_).result_buffer_start;
 }
 
 

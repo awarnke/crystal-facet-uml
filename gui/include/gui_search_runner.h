@@ -8,8 +8,9 @@
  *  \brief Gets a search query string, performs the search and provides the search result.
  */
 
-#include "sketch/gui_sketch_area.h"
 #include "pos/pos_scroll_page.h"
+#include "pos/pos_search_result_page.h"
+#include "observer/observer.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_text_search.h"
 #include "set/data_small_set.h"
@@ -35,7 +36,7 @@ struct gui_search_runner_struct {
     /* external entities */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_database_text_search_t db_searcher;  /*!< own instance of a database freetext searcher */
-    gui_sketch_area_t *result_consumer;  /*!< pointer to external gui_sketch_area_t which is informed on search results */
+    observer_t result_consumer;  /*!< observer_t which is informed on search results */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
     /* request data */
@@ -66,13 +67,13 @@ typedef struct gui_search_runner_struct gui_search_runner_t;
  *  \param message_to_user pointer to external message-displayer
  *  \param db_reader pointer to external database reader
  *  \param database pointer to external database - used to create a data_database_text_search_t
- *  \param result_consumer pointer to external gui_sketch_area_t which is informed on search results
+ *  \param result_consumer pointer to external observer_t which is informed on search results
  */
 void gui_search_runner_init ( gui_search_runner_t *this_,
                               gui_simple_message_to_user_t *message_to_user,
                               data_database_reader_t *db_reader,
                               data_database_t *database,
-                              gui_sketch_area_t *result_consumer
+                              observer_t result_consumer
                             );
 
 /*!
@@ -111,6 +112,29 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                                                             data_search_result_list_t *io_list
                                                           );
 
+/*!
+ *  \brief gets the page request that was guiding the search
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return page request
+ */
+const pos_scroll_page_t* gui_search_runner_get_page_request( gui_search_runner_t *this_ );
+
+/*!
+ *  \brief gets the result_list
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return result_list
+ */
+const data_search_result_list_t* gui_search_runner_get_result_list( gui_search_runner_t *this_ );
+
+/*!
+ *  \brief gets the result_buffer_start
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return result_buffer_start indicates how many search results are skipped before result_list
+ */
+uint32_t gui_search_runner_get_result_buffer_start( gui_search_runner_t *this_ );
 
 #endif  /* GUI_SEARCH_RUNNER_H */
 

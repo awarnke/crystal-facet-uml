@@ -3,16 +3,17 @@
 #include "u8/u8_log.h"
 
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
-                                                     pos_scroll_page_t requested_page,
+                                                     const pos_scroll_page_t *requested_page,
                                                      const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader )
 {
+    assert( requested_page != NULL );
     assert( result_list != NULL );
     assert( db_reader != NULL );
 
     /* reset page */
     pos_search_result_page_reinit( &((*this_).page), 0 /* buffer_start */ );
-    (*this_).requested_page = requested_page;
+    (*this_).requested_page = *requested_page;
 
     /* fill page */
     u8_error_t err = U8_ERROR_NONE;

@@ -85,7 +85,7 @@ void gui_sketch_result_list_destroy ( gui_sketch_result_list_t *this_ );
  *  \param db_reader pointer to a database reader object
  */
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
-                                                     pos_scroll_page_t requested_page,
+                                                     const pos_scroll_page_t *requested_page,
                                                      const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader
                                                    );
