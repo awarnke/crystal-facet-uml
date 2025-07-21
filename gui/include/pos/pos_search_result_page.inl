@@ -14,11 +14,24 @@ static inline void pos_search_result_page_init ( pos_search_result_page_t *this_
     shape_int_rectangle_init_empty( &((*this_).button_next_box) );
 }
 
+static inline void pos_search_result_page_reinit ( pos_search_result_page_t *this_, uint32_t buffer_start )
+{
+    pos_search_result_page_destroy( this_ );
+    pos_search_result_page_init( this_, buffer_start );
+}
+
 static inline void pos_search_result_page_destroy ( pos_search_result_page_t *this_ )
 {
     (*this_).buffer_length = 0;
     shape_int_rectangle_destroy( &((*this_).button_prev_box) );
     shape_int_rectangle_destroy( &((*this_).button_next_box) );
+}
+
+static inline const pos_search_result_t *pos_search_result_page_get_search_result_layout_const ( const pos_search_result_page_t *this_, uint32_t index )
+{
+    assert( index >= (*this_).buffer_start );
+    assert( index < (*this_).buffer_start + (*this_).buffer_length );
+    return &((*this_).element_pos[ index - (*this_).buffer_start ]);
 }
 
 static inline pos_search_result_t *pos_search_result_page_get_search_result_layout_ptr ( pos_search_result_page_t *this_, uint32_t index )

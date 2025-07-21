@@ -27,14 +27,6 @@
 #include <stdint.h>
 
 /*!
- *  \brief constants for maximum values of gui_sketch_result_list_t
- */
-enum gui_sketch_result_list_max_enum {
-    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE,  /*!< maximum number of total search results */
-    GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS = POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE,  /*!< maximum number of displayed search results on current page */
-};
-
-/*!
  *  \brief attributes of the result list
  *
  * The result list is a subwidget to the gui_sketch_area:
@@ -46,21 +38,18 @@ enum gui_sketch_result_list_max_enum {
  * also it does not trigger events to other widgets
  */
 struct gui_sketch_result_list_struct {
+    /* layouting information */
     bool visible;  /*!< is the result list visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the result list */
 
-    data_search_result_t result_list_buf[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of all results */
-    data_search_result_list_t result_list;
-
-    /* layout information */
-    pos_search_result_t element_pos[GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS];  /*!< layout positions of search results on current visible page */
-    uint32_t element_count;  /*!< number of layout positions in element_pos list */
+    /* data and layouting information of search results */
+    pos_search_result_page_t page; /*!< page constains list data elements and layouting information */
 
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
     gui_sketch_marker_t sketch_marker;
     gui_resources_t *resources;  /*!< pointer to external resources */
-    gui_type_resource_list_t selector;  /*!< own instance of a resource selector */
+    gui_type_resource_list_t selector;  /*!< own instance of a type-icon resource selector */
     gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
 
@@ -173,25 +162,6 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                                                                  data_id_t* out_selected_id,
                                                                  data_id_t* out_diagram_id
                                                                );
-
-/*!
- * \brief gets the pos_search_result_t position object at index
- *
- *  \param this_ pointer to own object attributes
- *  \param index 0 &lt;= index &lt; element_count &lt;=  GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS
- *  \return pointer to const pos_search_result_t
- */
-static inline const pos_search_result_t *gui_sketch_result_list_get_element_pos_const ( const gui_sketch_result_list_t *this_,
-                                                                                        uint32_t index
-                                                                                      );
-
-/*!
- * \brief gets the number of position objects
- *
- *  \param this_ pointer to own object attributes
- *  \return element_count
- */
-static inline uint32_t gui_sketch_result_list_get_element_count ( const gui_sketch_result_list_t *this_ );
 
 /*!
  *  \brief draws the search result list

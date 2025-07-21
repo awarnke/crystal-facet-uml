@@ -8,21 +8,28 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
 {
     assert( result_list != NULL );
     assert( db_reader != NULL );
-    gui_sketch_result_list_invalidate_data( this_ );
-    data_search_result_list_add_all( &((*this_).result_list), result_list );
+
+    /* reset page */
+    pos_search_result_page_reinit( &((*this_).page), 0 /* buffer_start */ );
+
+    /* fill page */
+    u8_error_t err = U8_ERROR_NONE;
+    const unsigned int length = data_search_result_list_get_length( result_list );
+    for ( unsigned int index = 0; index < length; index ++ )
+    {
+        data_search_result_t const *const src_res = data_search_result_list_get_const( result_list, index );
+        err |= pos_search_result_page_add_search_result( &((*this_).page), src_res );
+    }
+    if ( err != U8_ERROR_NONE )
+    {
+        U8_LOG_ERROR( "Not all search results taken over by gui_sketch_result_list_t widget." );
+    }
 }
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )
 {
-    data_search_result_list_clear( &((*this_).result_list) );
-
-    /* clear layout infos */
-    assert( (*this_).element_count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-    for ( int ele_index = 0; ele_index < (*this_).element_count; ele_index ++ )
-    {
-        pos_search_result_destroy( &((*this_).element_pos[ele_index]) );
-    }
-    (*this_).element_count = 0;
+    /* reset page */
+    pos_search_result_page_reinit( &((*this_).page), 0 /* buffer_start */ );
 }
 
 static inline shape_int_rectangle_t gui_sketch_result_list_get_bounds( gui_sketch_result_list_t *this_ )
@@ -55,19 +62,18 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
     assert( out_diagram_id != NULL );
 
     /* default in case no object found */
-    {
-        data_id_init_void( out_selected_id );
-        data_id_init_void( out_diagram_id );
-    }
+    data_id_init_void( out_selected_id );
+    data_id_init_void( out_diagram_id );
 
     /* search object */
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
-        const unsigned int count = (*this_).element_count;
-        assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-        for ( unsigned int idx = 0; idx < count; idx ++ )
+        const uint32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
+        const uint32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
+        assert( page_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+        for ( uint32_t idx = 0; idx < page_length; idx ++ )
         {
-            const pos_search_result_t *const element = &((*this_).element_pos[idx]);
+            const pos_search_result_t *const element = pos_search_result_page_get_search_result_layout_const( &((*this_).page), page_start + idx );
             const shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_const( element );
             const shape_int_rectangle_t *label_box = pos_search_result_get_label_box_const( element );
 
@@ -80,19 +86,6 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
             }
         }
     }
-}
-
-static inline const pos_search_result_t *gui_sketch_result_list_get_element_pos_const ( const gui_sketch_result_list_t *this_,
-                                                                                        uint32_t index )
-{
-    assert( index < (*this_).element_count );
-    return &((*this_).element_pos[index]);
-}
-
-static inline uint32_t gui_sketch_result_list_get_element_count ( const gui_sketch_result_list_t *this_ )
-{
-    assert( (*this_).element_count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-    return (*this_).element_count;
 }
 
 

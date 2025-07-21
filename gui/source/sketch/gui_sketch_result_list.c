@@ -20,13 +20,14 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_,
     assert( resources != NULL );
     assert( texture_downloader != NULL );
 
-    DATA_SEARCH_RESULT_LIST_INIT( &((*this_).result_list), (*this_).result_list_buf );
-
+    /* layouting information */
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
-    (*this_).element_count = 0;
+    /* data and layouting information of search results */
+    pos_search_result_page_init( &((*this_).page), 0 /* buffer_start */ );
 
+    /* helper classes to perform drawing */
     gui_sketch_style_init( &((*this_).sketch_style) );
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
@@ -40,14 +41,17 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    /* helper classes to perform drawing */
     (*this_).texture_downloader = NULL;
     gui_type_resource_list_destroy( &((*this_).selector) );
     (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     gui_sketch_style_destroy( &((*this_).sketch_style) );
 
-    gui_sketch_result_list_invalidate_data( this_ );
+    /* data and layouting information of search results */
+    pos_search_result_page_destroy( &((*this_).page) );
 
+    /* layouting information */
     shape_int_rectangle_destroy( &((*this_).bounds) );
 
     U8_TRACE_END();
@@ -68,18 +72,22 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
 
     int32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) );
 
-    const unsigned int count = data_search_result_list_get_length( &((*this_).result_list) );
-    assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-    (*this_).element_count = count;
-    for ( unsigned int idx = 0; idx < count; idx ++ )
+    /* each visible element, do layout */
+    const uint32_t buffer_start = pos_search_result_page_get_buffer_start( &((*this_).page) );
+    const uint32_t buffer_length = pos_search_result_page_get_buffer_length( &((*this_).page) );
+    assert( buffer_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+    for ( uint32_t idx = 0; idx < buffer_length; idx ++ )
     {
-        const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
-        pos_search_result_init( &((*this_).element_pos[idx]), result );
-        gui_sketch_result_list_private_layout_element( this_, &((*this_).element_pos[idx]), &y_pos, font_layout );
+        pos_search_result_t *const src_res = pos_search_result_page_get_search_result_layout_ptr( &((*this_).page), buffer_start + idx );
+        gui_sketch_result_list_private_layout_element( this_, src_res, &y_pos, font_layout );
     }
 
     /* release the font_layout */
     g_object_unref(font_layout);
+
+    /* update the information on the visible page (which is a sub-part of the buffer) */
+    pos_search_result_page_set_page_start ( &((*this_).page), buffer_start );
+    pos_search_result_page_set_page_length ( &((*this_).page), buffer_length );
 
     U8_TRACE_END();
 }
@@ -179,9 +187,10 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
         }
 
         /* draw icons and text */
-        const unsigned int count = (*this_).element_count;
-        assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-        if ( count == 0 )
+        const uint32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
+        const uint32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
+        assert( page_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+        if ( page_length == 0 )
         {
             const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
             const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
@@ -203,11 +212,25 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
         }
         else
         {
-            for ( unsigned int idx = 0; idx < count; idx ++ )
+            /* draw search results */
+            for ( uint32_t idx = 0; idx < page_length; idx ++ )
             {
-                const pos_search_result_t *const element = &((*this_).element_pos[idx]);
+                const pos_search_result_t *const element
+                    = pos_search_result_page_get_search_result_layout_const( &((*this_).page), page_start + idx );
                 gui_sketch_result_list_private_draw_element( this_, element, marker, font_layout, cr );
             }
+
+            /* draw prev and next page buttons */
+            const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+            const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+            const int_fast32_t bottom = shape_int_rectangle_get_bottom( &((*this_).bounds) );
+            GdkTexture *prev_bold_icon = gui_resources_get_sketch_page_up_bold( (*this_).resources );
+            GdkTexture *prev_gray_icon = gui_resources_get_sketch_page_up_gray( (*this_).resources );
+            GdkTexture *next_bold_icon = gui_resources_get_sketch_page_down_bold( (*this_).resources );
+            GdkTexture *next_gray_icon = gui_resources_get_sketch_page_down_gray( (*this_).resources );
+            double icon_height = gdk_texture_get_height ( next_gray_icon );
+            gui_sketch_texture_draw( (*this_).texture_downloader, prev_gray_icon, left+OBJ_GAP, top+OBJ_GAP, cr );
+            gui_sketch_texture_draw( (*this_).texture_downloader, next_gray_icon, left+OBJ_GAP, bottom-OBJ_GAP-icon_height, cr );
         }
 
         g_object_unref(font_layout);

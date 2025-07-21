@@ -55,11 +55,28 @@ typedef struct pos_search_result_page_struct pos_search_result_page_t;
 static inline void pos_search_result_page_init ( pos_search_result_page_t *this_, uint32_t buffer_start );
 
 /*!
+ *  \brief re-initializes the pos_search_result_page_t struct to empty.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param buffer_start offset of start element in result_list_buf and element_pos list (relative to absolute start of result list)
+ */
+static inline void pos_search_result_page_reinit ( pos_search_result_page_t *this_, uint32_t buffer_start );
+
+/*!
  *  \brief destroys the pos_search_result_page_t struct
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void pos_search_result_page_destroy ( pos_search_result_page_t *this_ );
+
+/*!
+ *  \brief gets the layout object of type pos_search_result_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index offset of the search_result relative to the absolute start of the result list
+ *  \return a pointer to the corresponding data_feature_t object
+ */
+static inline const pos_search_result_t *pos_search_result_page_get_search_result_layout_const ( const pos_search_result_page_t *this_, uint32_t index );
 
 /*!
  *  \brief gets the layout object of type pos_search_result_t
