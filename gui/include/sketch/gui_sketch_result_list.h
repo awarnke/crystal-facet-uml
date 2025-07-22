@@ -100,6 +100,22 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ );
 
 /*!
+ *  \brief determines the previous scroll page
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return returns the revious scroll page
+ */
+static inline pos_scroll_page_t gui_sketch_result_list_get_prev_page( gui_sketch_result_list_t *this_ );
+
+/*!
+ *  \brief determines the next scroll page
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return returns the next scroll page
+ */
+static inline pos_scroll_page_t gui_sketch_result_list_get_next_page( gui_sketch_result_list_t *this_ );
+
+/*!
  *  \brief gets the bounds rectangle
  *
  *  \param this_ pointer to own object attributes

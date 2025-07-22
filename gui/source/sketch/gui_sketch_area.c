@@ -1046,11 +1046,13 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 gui_sketch_result_list_get_button_at_pos ( &((*this_).result_list), x, y, &action_button_id );
                 if ( action_button_id == GUI_SKETCH_ACTION_PREVIOUS_PAGE )
                 {
-                    gui_search_runner_rerun( (*this_).search_runner, pos_scroll_page_new( 0, false /*backwards*/ ) );
+                    pos_scroll_page_t prev_page = gui_sketch_result_list_get_prev_page( &((*this_).result_list) );
+                    gui_search_runner_rerun( (*this_).search_runner, prev_page );
                 }
                 else if ( action_button_id == GUI_SKETCH_ACTION_NEXT_PAGE )
                 {
-                    gui_search_runner_rerun( (*this_).search_runner, pos_scroll_page_new( 20, false /*backwards*/ ) );
+                    pos_scroll_page_t next_page = gui_sketch_result_list_get_next_page( &((*this_).result_list) );
+                    gui_search_runner_rerun( (*this_).search_runner, next_page );
                 }
             }
 

@@ -36,6 +36,18 @@ static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_lis
     pos_search_result_page_reinit( &((*this_).page), 0 /* buffer_start */ );
 }
 
+static inline pos_scroll_page_t gui_sketch_result_list_get_prev_page( gui_sketch_result_list_t *this_ )
+{
+    int_fast32_t start = pos_search_result_page_get_page_start( &((*this_).page) );
+    return pos_scroll_page_new( u8_i32_max2( 0, start - 10 ), false /*backwards*/ );
+}
+
+static inline pos_scroll_page_t gui_sketch_result_list_get_next_page( gui_sketch_result_list_t *this_ )
+{
+    int_fast32_t start = pos_search_result_page_get_page_start( &((*this_).page) );
+    return pos_scroll_page_new( start + 10, false /*backwards*/ );
+}
+
 static inline shape_int_rectangle_t gui_sketch_result_list_get_bounds( gui_sketch_result_list_t *this_ )
 {
     return (*this_).bounds;

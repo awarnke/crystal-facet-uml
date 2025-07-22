@@ -156,10 +156,10 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
         const double icon_height = gdk_texture_get_height( icon );
 
         const shape_int_rectangle_t new_icon_box = (shape_int_rectangle_t) {
-            .left=left+OBJ_GAP,
-            .top=(*io_y_pos)+OBJ_GAP,
-            .width=icon_width+0.999,
-            .height=icon_height+0.999 };
+            .left = left + OBJ_GAP,
+            .top = (*io_y_pos) + OBJ_GAP,
+            .width = icon_width + 0.999,
+            .height = icon_height + 0.999 };
         pos_search_result_set_icon_box( element, &new_icon_box );
     }
 
@@ -168,9 +168,9 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
     {
         int_fast32_t proposed_pango_width = width - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
         pango_layout_set_text( font_layout,
-                                data_search_result_get_match_name_const( result ),
-                                GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH
-                                );
+                               data_search_result_get_match_name_const( result ),
+                               GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH
+                             );
         pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
         int text_width;
         int text_height;
@@ -179,10 +179,10 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
         int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
 
         const shape_int_rectangle_t new_label_box = (shape_int_rectangle_t) {
-            .left=x_pos+OBJ_GAP,
-            .top=(*io_y_pos)+OBJ_GAP,
-            .width=text_width,
-            .height=text_height };
+            .left = x_pos + OBJ_GAP,
+            .top = (*io_y_pos) + OBJ_GAP,
+            .width = text_width,
+            .height = text_height };
         pos_search_result_set_label_box( element, &new_label_box );
     }
 
