@@ -4,6 +4,7 @@
 
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
                                                      const pos_scroll_page_t *requested_page,
+                                                     uint32_t result_buffer_start,
                                                      const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader )
 {
@@ -12,13 +13,13 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
     assert( db_reader != NULL );
 
     /* reset page */
-    pos_search_result_page_reinit( &((*this_).page), 0 /* buffer_start */ );
+    pos_search_result_page_reinit( &((*this_).page), result_buffer_start );
     (*this_).requested_page = *requested_page;
 
     /* fill page */
     u8_error_t err = U8_ERROR_NONE;
-    const unsigned int length = data_search_result_list_get_length( result_list );
-    for ( unsigned int index = 0; index < length; index ++ )
+    const uint_fast32_t length = data_search_result_list_get_length( result_list );
+    for ( uint_fast32_t index = 0; index < length; index ++ )
     {
         data_search_result_t const *const src_res = data_search_result_list_get_const( result_list, index );
         err |= pos_search_result_page_add_search_result( &((*this_).page), src_res );
@@ -97,10 +98,10 @@ static inline void gui_sketch_result_list_get_object_id_at_pos( const gui_sketch
     /* search object */
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
-        const uint32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
-        const uint32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
+        const uint_fast32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
+        const uint_fast32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
         assert( page_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
-        for ( uint32_t idx = 0; idx < page_length; idx ++ )
+        for ( uint_fast32_t idx = 0; idx < page_length; idx ++ )
         {
             const pos_search_result_t *const element = pos_search_result_page_get_search_result_layout_const( &((*this_).page), page_start + idx );
             const shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_const( element );

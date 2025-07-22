@@ -81,11 +81,13 @@ void gui_sketch_result_list_destroy ( gui_sketch_result_list_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param requested_page the page to be shown
+ *  \param result_buffer_start the start index of the result_list, 0 if no search resulsts are skipped
  *  \param result_list list of search results and their diagram ids to load
  *  \param db_reader pointer to a database reader object
  */
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
                                                      const pos_scroll_page_t *requested_page,
+                                                     uint32_t result_buffer_start,
                                                      const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader
                                                    );

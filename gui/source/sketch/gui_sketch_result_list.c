@@ -126,7 +126,7 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
     /* update the information on the visible page (which is a sub-part of the buffer) */
     pos_search_result_page_set_page_start ( &((*this_).page), buffer_start );
     pos_search_result_page_set_page_length ( &((*this_).page), buffer_length );
-    pos_search_result_page_set_has_prev_page( &((*this_).page), true );
+    pos_search_result_page_set_has_prev_page( &((*this_).page), ( buffer_start != 0 ) );
     pos_search_result_page_set_has_next_page( &((*this_).page), true );
 
     U8_TRACE_END();
@@ -230,7 +230,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
         const uint32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
         const uint32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
         assert( page_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
-        if ( page_length == 0 )
+        if ( ( page_start + page_length ) == 0 )
         {
             const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
             const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
@@ -261,31 +261,37 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
             }
 
             /* draw prev and next page buttons */
-            const shape_int_rectangle_t *const prev_box
-               = pos_search_result_page_get_button_prev_box_const( &((*this_).page) );
-            const shape_int_rectangle_t *const next_box
-                = pos_search_result_page_get_button_next_box_const( &((*this_).page) );
             const gui_sketch_action_t btn_act = gui_marked_set_get_highlighted_button( marker );
-            GdkTexture *const prev_icon
-                = ( btn_act == GUI_SKETCH_ACTION_PREVIOUS_PAGE )
-                ? gui_resources_get_sketch_page_up_bold( (*this_).resources )
-                : gui_resources_get_sketch_page_up_gray( (*this_).resources );
-            GdkTexture *const next_icon
-                = ( btn_act == GUI_SKETCH_ACTION_NEXT_PAGE )
-                ? gui_resources_get_sketch_page_down_bold( (*this_).resources )
-                : gui_resources_get_sketch_page_down_gray( (*this_).resources );
-            gui_sketch_texture_draw( (*this_).texture_downloader,
-                                     prev_icon,
-                                     shape_int_rectangle_get_left( prev_box ),
-                                     shape_int_rectangle_get_top( prev_box ),
-                                     cr
-                                   );
-            gui_sketch_texture_draw( (*this_).texture_downloader,
-                                     next_icon,
-                                     shape_int_rectangle_get_left( next_box ),
-                                     shape_int_rectangle_get_top( next_box ),
-                                     cr
-                                   );
+            if ( pos_search_result_page_has_prev_page( &((*this_).page) ) )
+            {
+                const shape_int_rectangle_t *const prev_box
+                    = pos_search_result_page_get_button_prev_box_const( &((*this_).page) );
+                GdkTexture *const prev_icon
+                    = ( btn_act == GUI_SKETCH_ACTION_PREVIOUS_PAGE )
+                    ? gui_resources_get_sketch_page_up_bold( (*this_).resources )
+                    : gui_resources_get_sketch_page_up_gray( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader,
+                                         prev_icon,
+                                         shape_int_rectangle_get_left( prev_box ),
+                                         shape_int_rectangle_get_top( prev_box ),
+                                         cr
+                                       );
+            }
+            if ( pos_search_result_page_has_next_page( &((*this_).page) ) )
+            {
+                const shape_int_rectangle_t *const next_box
+                    = pos_search_result_page_get_button_next_box_const( &((*this_).page) );
+                GdkTexture *const next_icon
+                    = ( btn_act == GUI_SKETCH_ACTION_NEXT_PAGE )
+                    ? gui_resources_get_sketch_page_down_bold( (*this_).resources )
+                    : gui_resources_get_sketch_page_down_gray( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader,
+                                         next_icon,
+                                         shape_int_rectangle_get_left( next_box ),
+                                         shape_int_rectangle_get_top( next_box ),
+                                         cr
+                                       );
+            }
         }
 
         g_object_unref(font_layout);

@@ -111,7 +111,7 @@ static inline void pos_search_result_page_set_button_prev_box ( pos_search_resul
 
 static inline bool pos_search_result_page_has_next_page ( const pos_search_result_page_t *this_ )
 {
-    return (*this_).has_prev_page;
+    return (*this_).has_next_page;
 }
 
 static inline void pos_search_result_page_set_has_next_page ( pos_search_result_page_t *this_, bool has_next_page )

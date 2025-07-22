@@ -172,7 +172,12 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_run
     gui_sketch_area_private_load_cards_data ( this_ );
 
     /* load new data in subwidgets */
-    gui_sketch_result_list_load_data( &((*this_).result_list), requested_page, result_list, (*this_).db_reader );
+    gui_sketch_result_list_load_data( &((*this_).result_list),
+                                      requested_page,
+                                      result_buffer_start,
+                                      result_list,
+                                      (*this_).db_reader
+                                    );
 
     /* notify listener */
     gui_marked_set_clear_focused( (*this_).marker );

@@ -46,7 +46,6 @@ struct gui_search_runner_struct {
 
     /* result data */
     uint32_t result_buffer_start;  /*!< offset of start element in result_list_buffer (relative to absolute start of result list) */
-    /* uint32_t result_buffer_length; */  /*!< number of elements in result_list_buffer list page */
     data_search_result_t result_buffer[GUI_SEARCH_RUNNER_MAX_RESULTS];  /*!< memory for the result list page */
     data_search_result_list_t result_list;  /*!< a list of search results; storage for search results is: result_buffer */
 
@@ -105,10 +104,12 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_template a search result template that is already half-filled, only the diagram information is missing
- *  \param io_list list to which to add an entry for each found diagram
+ *  \param[in,out] io_skip_results if non-zero, these results are skipped and added to result_buffer_start instead.
+ *  \param[in,out] io_list list to which to add an entry for each found diagram
  */
 void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
                                                             data_search_result_t *classifier_template,
+                                                            uint_fast32_t *io_skip_results,
                                                             data_search_result_list_t *io_list
                                                           );
 
@@ -118,7 +119,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
  *  \param this_ pointer to own object attributes
  *  \return page request
  */
-const pos_scroll_page_t* gui_search_runner_get_page_request( gui_search_runner_t *this_ );
+static inline const pos_scroll_page_t* gui_search_runner_get_page_request( const gui_search_runner_t *this_ );
 
 /*!
  *  \brief gets the result_list
@@ -126,7 +127,7 @@ const pos_scroll_page_t* gui_search_runner_get_page_request( gui_search_runner_t
  *  \param this_ pointer to own object attributes
  *  \return result_list
  */
-const data_search_result_list_t* gui_search_runner_get_result_list( gui_search_runner_t *this_ );
+static inline const data_search_result_list_t* gui_search_runner_get_result_list( const gui_search_runner_t *this_ );
 
 /*!
  *  \brief gets the result_buffer_start
@@ -134,7 +135,9 @@ const data_search_result_list_t* gui_search_runner_get_result_list( gui_search_r
  *  \param this_ pointer to own object attributes
  *  \return result_buffer_start indicates how many search results are skipped before result_list
  */
-uint32_t gui_search_runner_get_result_buffer_start( gui_search_runner_t *this_ );
+static inline uint32_t gui_search_runner_get_result_buffer_start( const gui_search_runner_t *this_ );
+
+#include "gui_search_runner.inl"
 
 #endif  /* GUI_SEARCH_RUNNER_H */
 
