@@ -52,6 +52,13 @@ static inline uint32_t pos_scroll_page_get_anchor_index ( const pos_scroll_page_
  */
 static inline bool pos_scroll_page_get_backwards ( const pos_scroll_page_t *this_ );
 
+/*!
+ *  \brief prints the pos_scroll_page_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pos_scroll_page_trace ( const pos_scroll_page_t *this_ );
+
 #include "pos_scroll_page.inl"
 
 #endif  /* POS_SCROLL_PAGE_H */

@@ -1,5 +1,6 @@
 /* File: pos_scroll_page.inl; Copyright and License: see below */
 
+#include <u8/u8_trace.h>
 #include <assert.h>
 
 static inline const pos_scroll_page_t pos_scroll_page_new ( uint32_t anchor_index,
@@ -16,6 +17,11 @@ static inline uint32_t pos_scroll_page_get_anchor_index ( const pos_scroll_page_
 static inline bool pos_scroll_page_get_backwards ( const pos_scroll_page_t *this_ )
 {
     return (*this_).backwards;
+}
+
+static inline void pos_scroll_page_trace ( const pos_scroll_page_t *this_ )
+{
+    U8_TRACE_INFO_INT_INT( "pos_scroll_page_t: ", (*this_).anchor_index, (*this_).backwards );
 }
 
 

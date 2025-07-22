@@ -161,11 +161,13 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
  *  \param this_ pointer to own object attributes
  *  \param element pointer to the pos_search_result_t which to position
  *  \param[in,out] io_y_pos top position of the current element to be layouted; out: pos of next element
+ *  \param upwards true if the element shall be layouted in upwards direction to lesser y-values
  *  \param font_layout the pango font rendering object for i18n suppoprt
  */
 void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
                                                      pos_search_result_t *element,
-                                                     int32_t *io_y_pos,
+                                                     int_fast32_t *io_y_pos,
+                                                     bool upwards,
                                                      PangoLayout *font_layout
                                                    );
 

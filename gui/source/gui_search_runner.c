@@ -98,11 +98,13 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
 
     /* store parameters internally */
     (*this_).page_request = page;
+    pos_scroll_page_trace( &page );
     const char *const search_string = utf8stream_writemem_get_string( &((*this_).search_string_writer) );
     uint_fast32_t skip_results
         = ( pos_scroll_page_get_backwards( &page ) )
-        ? u8_i32_max2( 0, pos_scroll_page_get_anchor_index( &page ) - GUI_SEARCH_RUNNER_MAX_RESULTS + 1 )
+        ? u8_i32_max2( 0, ((signed)( pos_scroll_page_get_anchor_index( &page ) - GUI_SEARCH_RUNNER_MAX_RESULTS + 1 )) )
         : pos_scroll_page_get_anchor_index( &page );
+    U8_TRACE_INFO_INT( "skipping", skip_results );
 
     /* reset previous errors/warnings/infos */
     gui_simple_message_to_user_hide( (*this_).message_to_user );
