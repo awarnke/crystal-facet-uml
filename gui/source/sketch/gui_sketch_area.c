@@ -154,7 +154,6 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_run
     const bool requested_backwards = pos_scroll_page_get_backwards( requested_page );
     const bool backwards = valid_anchor ? requested_backwards : false;
 
-
     /* copy non-duplicate diagram ids to request list */
     data_small_set_t* requested_diagrams = gui_sketch_request_get_search_result_diagrams_ptr( &((*this_).request) );
     data_small_set_clear( requested_diagrams );
@@ -192,20 +191,6 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_run
             {
                 dropped_too_many ++;
             }
-        }
-    }
-    for ( uint_fast32_t index = 0; index < result_buffer_length; index ++ )
-    {
-        const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
-        const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
-        const u8_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
-        if ( d_err == U8_ERROR_DUPLICATE_ID )
-        {
-            dropped_duplicates ++;
-        }
-        else if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
-        {
-            dropped_too_many ++;
         }
     }
     if ( (dropped_duplicates + dropped_too_many) > 0 )
