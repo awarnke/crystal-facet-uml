@@ -99,56 +99,72 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
         .height = next_icon_height };
     pos_search_result_page_set_button_next_box( &((*this_).page), &next_icon_box );
 
-    /* each visible element, do layout */
-    const uint32_t buffer_start = pos_search_result_page_get_buffer_start( &((*this_).page) );
+    /* initialize a possible result - in case the buffer is empty and the for loop later is not executed */
+    const int32_t buffer_start = pos_search_result_page_get_buffer_start( &((*this_).page) );
     const uint32_t buffer_length = pos_search_result_page_get_buffer_length( &((*this_).page) );
     assert( buffer_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
     pos_search_result_page_set_page_start( &((*this_).page), buffer_start );  /* default value for case of empty buffer */
     pos_search_result_page_set_page_length( &((*this_).page), buffer_length );  /* default value for case of empty buffer */
     pos_search_result_page_set_has_prev_page( &((*this_).page), ( buffer_start != 0 ) );  /* default value for case of empty buffer */
-    pos_search_result_page_set_has_next_page( &((*this_).page), true );  /* one could optimize this to avoid last page to be empty */
-    const bool backwards = pos_scroll_page_get_backwards( &((*this_).requested_page) );
+    pos_search_result_page_set_has_next_page( &((*this_).page), ( buffer_length != 0 ) );  /* one could optimize this to avoid last page to be empty */
+
+    /* do not fully trust the consistency between (*this_).requested_page and (*this_).page. */
+    /* These information come from different sources. */
+    pos_scroll_page_trace( &((*this_).requested_page) );
+    const int_fast32_t requested_anchor_idx = pos_scroll_page_get_anchor_index( &((*this_).requested_page) );
+    const bool valid_anchor
+        = (( buffer_start <= requested_anchor_idx )&&( requested_anchor_idx < ( buffer_start + buffer_length )));
+    assert( valid_anchor || ( buffer_length == 0 ) );
+    const int_fast32_t anchor_idx = valid_anchor ? requested_anchor_idx : buffer_start;
+    const bool requested_backwards = pos_scroll_page_get_backwards( &((*this_).requested_page) );
+    const bool backwards = valid_anchor ? requested_backwards : false;
+
+    /* each visible element, do layout */
     if ( backwards )
     {
+        /* y positions */
         int_fast32_t y_pos = shape_int_rectangle_get_bottom( &((*this_).bounds) ) - next_icon_height - OBJ_GAP;
         const int_fast32_t top_border = shape_int_rectangle_get_top( &((*this_).bounds) ) + prev_icon_height + OBJ_GAP;
         bool page_full = false;
-        for ( uint32_t idx = 0; ( idx < buffer_length ) && ( ! page_full ); idx ++ )
+        for ( int32_t index = anchor_idx; ( index >= buffer_start ) && ( ! page_full ); index -- )
         {
-            const int32_t buffer_idx = buffer_start + buffer_length - 1 - idx;
-            assert( buffer_idx >= 0 );
-            pos_search_result_t *const src_res = pos_search_result_page_get_search_result_layout_ptr( &((*this_).page), buffer_idx );
-            gui_sketch_result_list_private_layout_element( this_, src_res, &y_pos, backwards, font_layout );
+            pos_search_result_t *const search_result
+                = pos_search_result_page_get_search_result_layout_ptr( &((*this_).page), index );
+            gui_sketch_result_list_private_layout_element( this_, search_result, &y_pos, backwards, font_layout );
             if ( y_pos < top_border )
             {
                 page_full = true;
             }
             else
             {
-                pos_search_result_page_set_page_start( &((*this_).page), buffer_idx );
-                pos_search_result_page_set_page_length( &((*this_).page), buffer_start + buffer_length - buffer_idx );
-                pos_search_result_page_set_has_prev_page( &((*this_).page), ( buffer_idx != 0 ) );
+                /* define the range of visible elements */
+                pos_search_result_page_set_page_start( &((*this_).page), index );
+                pos_search_result_page_set_page_length( &((*this_).page), anchor_idx - index + 1 );
+                pos_search_result_page_set_has_prev_page( &((*this_).page), ( index != 0 ) );
             }
         }
     }
     else
     {
+        /* y positions */
         int_fast32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) ) + prev_icon_height + OBJ_GAP;
         const int_fast32_t bottom_border = shape_int_rectangle_get_bottom( &((*this_).bounds) ) - next_icon_height - OBJ_GAP;
         bool page_full = false;
-        for ( uint32_t idx = 0; ( idx < buffer_length ) && ( ! page_full ); idx ++ )
+        for ( uint32_t buffer_idx = 0; ( buffer_idx < buffer_length ) && ( ! page_full ); buffer_idx ++ )
         {
-            const uint32_t buffer_idx = buffer_start + idx;
-            pos_search_result_t *const src_res = pos_search_result_page_get_search_result_layout_ptr( &((*this_).page), buffer_idx );
-            gui_sketch_result_list_private_layout_element( this_, src_res, &y_pos, backwards, font_layout );
+            const uint32_t index = buffer_start + buffer_idx;
+            pos_search_result_t *const search_result
+                = pos_search_result_page_get_search_result_layout_ptr( &((*this_).page), index );
+            gui_sketch_result_list_private_layout_element( this_, search_result, &y_pos, backwards, font_layout );
             if ( y_pos > bottom_border )
             {
                 page_full = true;
             }
             else
             {
+                /* define the range of visible elements */
                 pos_search_result_page_set_page_start( &((*this_).page), buffer_start );
-                pos_search_result_page_set_page_length( &((*this_).page), buffer_idx - buffer_start + 1 );
+                pos_search_result_page_set_page_length( &((*this_).page), index - buffer_start + 1 );
             }
         }
     }
