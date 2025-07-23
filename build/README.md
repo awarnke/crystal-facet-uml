@@ -14,7 +14,7 @@ debian/ubuntu/raspberry-os:
 >
 > sudo apt install libgtk-4-dev libsqlite3-dev
 >
-> sudo apt install devscripts  # for debian build, includes build-essential
+> sudo apt install devscripts debhelper  # for debian build, includes build-essential
 >
 > sudo apt install yamllint    # for debian script checker, possibly not needed
 >

@@ -17,4 +17,4 @@ echo "%_signature gpg
 
 echo "do build"
 test -e BUILD && rm -fr BUILD
-rpmbuild --define "_topdir `pwd`" -bb SPECS/crystal-facet-uml.spec --sign
+rpmbuild --define "_topdir `pwd`" -bb SPECS/crystal-facet-uml.spec 

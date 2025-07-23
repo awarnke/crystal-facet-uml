@@ -445,13 +445,7 @@
                             <inlinemediaobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/search_search.svg" width="1cm"/></imageobject>
                             </inlinemediaobject>
-                            Starts a search and displays the results
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            In case the list of search results is too long, consider to export the model
-                            and search in the generated output instead.
+                            Start a search to displays the results.
                         </para>
                     </listitem>
                 </itemizedlist>
