@@ -140,16 +140,61 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_run
     const pos_scroll_page_t *const requested_page = gui_search_runner_get_page_request( search_runner );
     const data_search_result_list_t *const result_list = gui_search_runner_get_result_list( search_runner );
     uint32_t result_buffer_start = gui_search_runner_get_result_buffer_start( search_runner );
-
     data_search_result_list_trace(result_list);
+    const uint_fast32_t result_buffer_length = data_search_result_list_get_length( result_list );
+
+    /* do not fully trust the consistency between requested_page and result_list. */
+    /* These information come from different sources. */
+    pos_scroll_page_trace( requested_page );
+    const int_fast32_t requested_anchor_idx = pos_scroll_page_get_anchor_index( requested_page );
+    const bool valid_anchor
+        = (( result_buffer_start <= requested_anchor_idx )&&( requested_anchor_idx < ( result_buffer_start + result_buffer_length )));
+    assert( valid_anchor || ( result_buffer_length == 0 ) );
+    const int_fast32_t anchor_idx = valid_anchor ? requested_anchor_idx : result_buffer_start;
+    const bool requested_backwards = pos_scroll_page_get_backwards( requested_page );
+    const bool backwards = valid_anchor ? requested_backwards : false;
+
 
     /* copy non-duplicate diagram ids to request list */
     data_small_set_t* requested_diagrams = gui_sketch_request_get_search_result_diagrams_ptr( &((*this_).request) );
     data_small_set_clear( requested_diagrams );
     unsigned int dropped_duplicates = 0;
     unsigned int dropped_too_many = 0;
-    const uint_fast32_t d_count = data_search_result_list_get_length( result_list );
-    for ( uint_fast32_t index = 0; index < d_count; index ++ )
+    if ( backwards )
+    {
+        for ( int32_t buffer_idx = anchor_idx - result_buffer_start; buffer_idx >= 0; buffer_idx -- )
+        {
+            const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, buffer_idx );
+            const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
+            const u8_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
+            if ( d_err == U8_ERROR_DUPLICATE_ID )
+            {
+                dropped_duplicates ++;
+            }
+            else if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
+            {
+                dropped_too_many ++;
+            }
+        }
+    }
+    else
+    {
+        for ( uint32_t buffer_idx = 0; buffer_idx < result_buffer_length; buffer_idx ++ )
+        {
+            const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, buffer_idx );
+            const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
+            const u8_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
+            if ( d_err == U8_ERROR_DUPLICATE_ID )
+            {
+                dropped_duplicates ++;
+            }
+            else if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
+            {
+                dropped_too_many ++;
+            }
+        }
+    }
+    for ( uint_fast32_t index = 0; index < result_buffer_length; index ++ )
     {
         const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
         const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
