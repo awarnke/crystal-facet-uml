@@ -1,4 +1,12 @@
-crystal-facet-uml (1.64.2-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.65.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * No compiler warnings on no-overlength-strings, except test code
+  * page up/down buttons in search results
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 08 Aug 2025 08:00:00 +0100
+
+ crystal-facet-uml (1.64.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * When clicking, an arrow is shown to indicate that dragging is possible

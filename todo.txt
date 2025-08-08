@@ -72,24 +72,10 @@ ideas for future versions:
   [ ] undo and redo shall update the revision number of the database
       - so that the save button can indicate no changes
   @u8stream
-
-  Do something about
-1.65.0/u8stream/include/utf8stringbuf/utf8stringbuf.inl: In function ‘testGetEnd’:
-[  151s] /home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.0-build/crystal-facet-uml-1.65.0/u8stream/include/utf8stringbuf/utf8stringbuf.inl:288:13: warning: ‘__builtin_memcpy’ writing 3 bytes into a region of size 2 [-Wstringop-overflow=]
-[  151s]   288 |             memcpy( &((*this_).buf[start]), appendix, appLen+1 );
-[  151s]       |             ^
-[  151s] /home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.0-build/crystal-facet-uml-1.65.0/u8stream/test/unit/utf8stringbuf_test.c:880:10: note: at offset 2 into destination object ‘dynTestArr1’ of size 4
-[  151s]   880 |     char dynTestArr1[4] = "";
-[  151s]       |
-
-uml.dir/pencil/source/pencil_feat_label_layouter.c.o" "CMakeFiles/test_crystal-facet-uml.dir/pencil/source/pencil_feature_layouter.c.o" "CMakeFiles/test_crystal-facet-uml.dir/pencil/source/pencil_feature_painter.c.o" "CMakeFiles/test_crystal-facet-u/home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.0-build/crystal-facet-uml-1.65.0/u8stream/include/utf8stringbuf/utf8stringbuf.inl: In function â€˜testGetEndâ€™:
-[   95s] /home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.0-build/crystal-facet-uml-1.65.0/u8stream/include/utf8stringbuf/utf8stringbuf.inl:288:13: warning: â€˜__builtin_memcpyâ€™ writing 3 bytes into a region of size 2 [-Wstringop-overflow=]
-[   95s]   288 |             memcpy( &((*this_).buf[start]), appendix, appLen+1 );
-[   95s]       |             ^
-[   95s] /home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.0-build/crystal-facet-uml-1.65.0/u8stream/test/unit/utf8stringbuf_test.c:880:10: note: at offset 2 into destination object â€˜dynTestArr1â€™ of size 4
-[   95s]   880 |     char dynTestArr1[4] = "";
-[   95s]       |          ^
-
+  [ ] Do something about the false positive (maybe remove the inline?)
+      /u8stream/include/utf8stringbuf/utf8stringbuf.inl: In function ‘testGetEnd’:
+      /u8stream/include/utf8stringbuf/utf8stringbuf.inl:312:13: warning: ‘__builtin_memcpy’ writing 3 bytes into a region of size 2 [-Wstringop-overflow=]
+      /u8stream/test/unit/utf8stringbuf_test.c:880:10: note: at offset 2 into destination object ‘dynTestArr1’ of size 4
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?

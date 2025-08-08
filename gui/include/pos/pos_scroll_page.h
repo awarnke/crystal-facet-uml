@@ -28,9 +28,9 @@ typedef struct pos_scroll_page_struct pos_scroll_page_t;
 /*!
  *  \brief initializes a const pos_scroll_page_t struct with index and diretion.
  *
- *  \param this_ pointer to own object attributes
  *  \param anchor_index An index within the list that shall be shown
  *  \param backwards A direction starting at anchor_index where the list items shall be shown
+ *  \return an instance of a newly initilized pos_scroll_page_t
  */
 static inline const pos_scroll_page_t pos_scroll_page_new ( uint32_t anchor_index,
                                                             bool backwards

@@ -120,7 +120,7 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
  *  \brief shows the list of search results
  *
  *  \param this_ pointer to own object attributes
- *  \param result_list list of search results including their diagram ids to be displayed
+ *  \param search_runner the search_runner from which to fetch the search results to be displayed
  */
 void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_runner_t *search_runner );
 

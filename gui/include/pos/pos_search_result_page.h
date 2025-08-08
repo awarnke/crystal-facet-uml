@@ -91,6 +91,8 @@ static inline pos_search_result_t *pos_search_result_page_get_search_result_layo
  *  \brief appends a search_result to the page
  *
  *  \param this_ pointer to own object attributes
+ *  \param search_result another search result to be shown on the current page:
+ *                       this is copied to result_list_buf[] and an element_pos[] is initialized.
  *  \return U8_ERROR_NONE if success; U8_ERROR_ARRAY_BUFFER_EXCEEDED if buffer full.
  */
 static inline u8_error_t pos_search_result_page_add_search_result ( pos_search_result_page_t *this_, const data_search_result_t *search_result );
