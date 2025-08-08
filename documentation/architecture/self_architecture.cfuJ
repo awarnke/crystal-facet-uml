@@ -1405,13 +1405,13 @@
           },
           {
             "id": 38,
-            "classifier_name": "data_database _reader",
+            "classifier_name": "data_database_reader",
             "node": "2b77c382-5a04-4472-8698-5d89b844fd20",
             "uuid": "525ff47f-f41b-4767-9ac4-60658360915d"
           },
           {
             "id": 39,
-            "classifier_name": "data_database _writer",
+            "classifier_name": "data_database_writer",
             "node": "ce7afac4-eb3b-44b3-8ee0-ebd565aa11a0",
             "uuid": "6bfa9c5b-539d-41a9-9b01-6ed078b7be45"
           },
@@ -1580,7 +1580,7 @@
         [
           {
             "id": 847,
-            "classifier_name": "data_database _reader",
+            "classifier_name": "data_database_reader",
             "node": "2b77c382-5a04-4472-8698-5d89b844fd20",
             "uuid": "41779860-cb8f-45d5-bf9a-0ec92429a83c"
           },
@@ -1630,7 +1630,9 @@
         "name": "Data Iterators",
         "description": [
                 "Iterators wrap sql statements.\n",
-                "These iterate over a list of sql result."
+                "These iterate over a list of sql result.\n",
+                "\n",
+                "See D0131#name for the basic usage concept."
         ],
         "list_order": 32768,
         "parent_name": "Database Readers",
@@ -1673,6 +1675,59 @@
             "classifier_name": "data_relationship_iterator",
             "node": "b2615244-b91d-4dc7-8527-645ee30af9a0",
             "uuid": "021aa37d-b196-490a-8472-d71dd762c7e7"
+          },
+          {
+            "id": 964,
+            "classifier_name": "data_search_result_iterator",
+            "node": "b817a497-9239-4cf5-995e-9423212173be",
+            "uuid": "389f834e-1f06-4f24-a980-23c67af3fdfe"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 130,
+        "type": "Sequence Diagram", "diagram_type": 13,
+        "name": "data: Runtime View",
+        "description": [
+                "This diagram shows the simple concept of reading and writing to the database.\n",
+                "\n",
+                "Note that any module may read from the database.\n",
+                "Writing should be done via the controller"
+        ],
+        "list_order": 65536,
+        "parent_name": "data: Black Box View",
+        "parent": "7e5ba474-3f2c-4b62-88a8-7fce5f67c4d9",
+        "uuid": "c78df242-181b-49e4-8f5f-3a91f66f8658",
+        "diagramelements":
+        [
+          {
+            "id": 965,
+            "classifier_name": "thread-1",
+            "node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+            "uuid": "5fcb2b78-14b4-4886-a1a7-505e06a11849"
+          },
+          {
+            "id": 966,
+            "display_tags": "Anonymous Instance", "display_flags": 2,
+            "classifier_name": "data_database",
+            "node": "58da39b7-28ab-4850-a6d1-a5c3d1f87fd7",
+            "uuid": "8088f57d-f0ea-4262-92ee-4a5167fdfedc"
+          },
+          {
+            "id": 967,
+            "display_tags": "Anonymous Instance", "display_flags": 2,
+            "classifier_name": "data_database_writer",
+            "node": "2f026bd4-d607-474d-8d3e-8eb23afcd488",
+            "uuid": "c02b8d0c-5b4d-4aa2-8ae9-f16c1f80845d"
+          },
+          {
+            "id": 968,
+            "display_tags": "Named Instance", "display_flags": 1,
+            "classifier_name": "r1 :data_database_reader",
+            "node": "8148f589-4ae3-4a6b-8210-df4c9a06acca",
+            "uuid": "88a39499-6fc3-47e7-b158-4157d9aaa922"
           }
         ]
       }
@@ -1681,13 +1736,13 @@
       "diagram": {
         "id": 57,
         "type": "Sequence Diagram", "diagram_type": 13,
-        "name": "data: Runtime View",
+        "name": "Concurrent database access",
         "description": [
                 "For multithreading concept see D0112#name."
         ],
-        "list_order": 32768,
-        "parent_name": "data: Black Box View",
-        "parent": "7e5ba474-3f2c-4b62-88a8-7fce5f67c4d9",
+        "list_order": -1,
+        "parent_name": "data: Runtime View",
+        "parent": "c78df242-181b-49e4-8f5f-3a91f66f8658",
         "uuid": "421ef34b-ca30-41f8-a510-214266c7bdff",
         "diagramelements":
         [
@@ -1714,14 +1769,14 @@
           {
             "id": 357,
             "display_tags": "Anonymous Instance", "display_flags": 2,
-            "classifier_name": "data_database _writer",
+            "classifier_name": "data_database_writer",
             "node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
             "uuid": "50b0cb8a-37bf-4bf0-b4d0-d37b139a345c"
           },
           {
             "id": 359,
             "display_tags": "Named Instance", "display_flags": 1,
-            "classifier_name": "r1 :data_data base_reader",
+            "classifier_name": "r1 :data_database_reader",
             "node": "bf31f6da-e033-4f2c-8036-243f330bb02a",
             "uuid": "affcf6b9-2403-4c50-8826-aff3f3efaac3"
           },
@@ -1737,6 +1792,56 @@
             "classifier_name": "Locks needed here",
             "node": "93a8c233-2f67-40f5-b3d6-e66f4404522c",
             "uuid": "3858032f-f557-4cfa-a29e-597a19e4931d"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 131,
+        "type": "Sequence Diagram", "diagram_type": 13,
+        "name": "Using database iterators",
+        "description": [
+                "This diagram shows the dynamic aspects of iterators, see D0122#name."
+        ],
+        "list_order": 32767,
+        "parent_name": "data: Runtime View",
+        "parent": "c78df242-181b-49e4-8f5f-3a91f66f8658",
+        "uuid": "0d98ab6e-3e86-4352-bf42-0daea965b7c6",
+        "diagramelements":
+        [
+          {
+            "id": 969,
+            "classifier_name": "thread-1",
+            "node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+            "uuid": "46d60ee0-e851-4639-b464-9f3688e8c38b"
+          },
+          {
+            "id": 970,
+            "display_tags": "Anonymous Instance", "display_flags": 2,
+            "classifier_name": "data_database",
+            "node": "f7905a81-8dd9-4736-9361-b0d4d76d2500",
+            "uuid": "d8fd91ca-4466-4488-8b58-6febbc8255fd"
+          },
+          {
+            "id": 971,
+            "display_tags": "Named Instance", "display_flags": 1,
+            "classifier_name": "r1 :data_database_reader",
+            "node": "a8766872-97c1-4a5e-832e-7118454a505b",
+            "uuid": "529d9361-6143-43d4-aeb2-9c6107a99384"
+          },
+          {
+            "id": 972,
+            "display_tags": "Anonymous Instance", "display_flags": 2,
+            "classifier_name": "some_iterator",
+            "node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+            "uuid": "01abcda8-eb9c-43a6-9742-beeb17d8de35"
+          },
+          {
+            "id": 973,
+            "classifier_name": "repeat",
+            "node": "e40e3db1-714d-442c-b89f-366be378306c",
+            "uuid": "1121d3e6-ac21-4fff-85e0-54ba9c27df67"
           }
         ]
       }
@@ -3592,7 +3697,7 @@
           },
           {
             "id": 445,
-            "classifier_name": "data_database _reader",
+            "classifier_name": "data_database_reader",
             "node": "ef1ca5dc-361c-4ee8-a299-9c975d60610d",
             "uuid": "a31a16a4-3b08-4d38-bb6c-9114f7f3f2ce"
           },
@@ -4572,7 +4677,7 @@
           },
           {
             "id": 829,
-            "classifier_name": "data_database _reader",
+            "classifier_name": "data_database_reader",
             "node": "2b77c382-5a04-4472-8698-5d89b844fd20",
             "uuid": "dac28340-7dd3-4efe-bbf7-9ecbf1d41c7d"
           }
@@ -7990,6 +8095,26 @@
             ],
             "list_order": 81920,
             "uuid": "859a4a9e-2bea-4241-a6c8-d21ba5c811ae"
+          },
+          {
+            "id": 171,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "58da39b7-28ab-4850-a6d1-a5c3d1f87fd7"
+          },
+          {
+            "id": 175,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "f7905a81-8dd9-4736-9361-b0d4d76d2500"
           }
         ]
       }
@@ -7999,7 +8124,7 @@
         "id": 38,
         "type": "Class", "main_type": 125,
         "stereotype": "ro",
-        "name": "data_database _reader",
+        "name": "data_database_reader",
         "description": [
                 "- reads data from the database"
         ],
@@ -8026,7 +8151,7 @@
       "classifier": {
         "id": 39,
         "type": "Class", "main_type": 125,
-        "name": "data_database _writer",
+        "name": "data_database_writer",
         "description": [
                 "- writes changes to the database\n",
                 "- ensures low-level consistency of the database, e.g. all foreign keys point to ",
@@ -8048,6 +8173,16 @@
             ],
             "list_order": 0,
             "uuid": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1"
+          },
+          {
+            "id": 172,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "2f026bd4-d607-474d-8d3e-8eb23afcd488"
           }
         ]
       }
@@ -12150,6 +12285,26 @@
             ],
             "list_order": 0,
             "uuid": "50f36ca0-773e-4884-ad8b-65074c2c996d"
+          },
+          {
+            "id": 170,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "f9cec132-4805-43f8-8f7d-597a46cd367f"
+          },
+          {
+            "id": 174,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "afebf95b-3c7c-4384-85e5-349d35cf40bd"
           }
         ]
       }
@@ -12185,8 +12340,8 @@
     {
       "classifier": {
         "id": 244,
-        "type": "Class", "main_type": 125,
-        "name": "r1 :data_data base_reader",
+        "type": "Object", "main_type": 126,
+        "name": "r1 :data_database_reader",
         "description": [
                 ""
         ],
@@ -12205,6 +12360,26 @@
             ],
             "list_order": 0,
             "uuid": "bf31f6da-e033-4f2c-8036-243f330bb02a"
+          },
+          {
+            "id": 173,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "8148f589-4ae3-4a6b-8210-df4c9a06acca"
+          },
+          {
+            "id": 176,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "a8766872-97c1-4a5e-832e-7118454a505b"
           }
         ]
       }
@@ -15661,7 +15836,7 @@
         "type": "Class", "main_type": 125,
         "name": "uft8:stringview iterator",
         "description": [
-                ""
+                "given a separator token, this class iterates over a string view."
         ],
         "x_order": -585992852,
         "y_order": -1634250048,
@@ -18836,6 +19011,83 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 585,
+        "type": "Class", "main_type": 125,
+        "name": "data_search_result_iterator",
+        "description": [
+                "From a usage perspective, the data search result iterator is like the other ",
+                "iterators.\n",
+                "\n",
+                "When looking at the internal structure, one sees that it works slightly ",
+                "different:\n",
+                "- It queries multiple databases one after the other\n",
+                "- It filters the query results if returned results are not visible in a diagram"
+        ],
+        "x_order": 1726786224,
+        "y_order": 537288685,
+        "list_order": 537288685,
+        "uuid": "b817a497-9239-4cf5-995e-9423212173be",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 586,
+        "type": "Object", "main_type": 126,
+        "name": "some_iterator",
+        "description": [
+                ""
+        ],
+        "x_order": 1246310187,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "9b54d7f5-45dc-4d99-8ad5-4fb9c95a20ea",
+        "features":
+        [
+          {
+            "id": 177,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "b4dbd2eb-6566-46ea-a56c-df777e5ca551"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 587,
+        "type": "Comment", "main_type": 130,
+        "name": "repeat",
+        "description": [
+                ""
+        ],
+        "x_order": 1392219673,
+        "y_order": 0,
+        "list_order": 1273234185,
+        "uuid": "19cfa3e2-ad97-48c1-ab67-6185bdf6dde7",
+        "features":
+        [
+          {
+            "id": 178,
+            "type": "Lifeline", "main_type": 3,
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "e40e3db1-714d-442c-b89f-366be378306c"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -19457,7 +19709,7 @@
         ],
         "list_order": 723904,
         "from_classifier_name": "data/storage",
-        "to_classifier_name": "data_database _writer",
+        "to_classifier_name": "data_database_writer",
         "from_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
         "to_node": "ce7afac4-eb3b-44b3-8ee0-ebd565aa11a0",
         "uuid": "292e95b6-120a-49bc-b6f4-78d6ed431b4c"
@@ -19473,7 +19725,7 @@
         ],
         "list_order": 724928,
         "from_classifier_name": "data/storage",
-        "to_classifier_name": "data_database _reader",
+        "to_classifier_name": "data_database_reader",
         "from_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
         "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "uuid": "82cfa2ad-7ddb-4042-880b-52f9ad63bdd6"
@@ -20955,7 +21207,7 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_name": "data_database _reader",
+        "from_classifier_name": "data_database_reader",
         "to_classifier_name": "data_database",
         "from_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
@@ -20971,7 +21223,7 @@
                 ""
         ],
         "list_order": -611498314,
-        "from_classifier_name": "data_database _reader",
+        "from_classifier_name": "data_database_reader",
         "from_feature_key": "",
         "to_classifier_name": "io_exporter",
         "to_feature_key": "",
@@ -20989,7 +21241,7 @@
                 ""
         ],
         "list_order": 482691497,
-        "from_classifier_name": "data_database _reader",
+        "from_classifier_name": "data_database_reader",
         "from_feature_key": "",
         "to_classifier_name": "io_export_diagram_traversal",
         "to_feature_key": "",
@@ -21007,7 +21259,7 @@
                 ""
         ],
         "list_order": 515556676,
-        "from_classifier_name": "data_database _reader",
+        "from_classifier_name": "data_database_reader",
         "to_classifier_name": "data_database _classifier_reader",
         "from_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "to_node": "65a36ea1-3d35-4609-b058-65ee15934c98",
@@ -21023,7 +21275,7 @@
                 ""
         ],
         "list_order": 515589444,
-        "from_classifier_name": "data_database _reader",
+        "from_classifier_name": "data_database_reader",
         "to_classifier_name": "data_database _diagram_reader",
         "from_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "to_node": "4abe52d5-8947-46e5-87b7-29feecd36bb9",
@@ -21039,8 +21291,8 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_name": "data_database _writer",
-        "to_classifier_name": "data_database _reader",
+        "from_classifier_name": "data_database_writer",
+        "to_classifier_name": "data_database_reader",
         "from_node": "ce7afac4-eb3b-44b3-8ee0-ebd565aa11a0",
         "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "uuid": "0edc8c01-0085-4c66-98f7-3e8de2df4f2a"
@@ -21055,7 +21307,7 @@
                 ""
         ],
         "list_order": 3072,
-        "from_classifier_name": "data_database _writer",
+        "from_classifier_name": "data_database_writer",
         "to_classifier_name": "data_database",
         "from_node": "ce7afac4-eb3b-44b3-8ee0-ebd565aa11a0",
         "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
@@ -21071,9 +21323,9 @@
                 ""
         ],
         "list_order": 494453449,
-        "from_classifier_name": "data_database _writer",
+        "from_classifier_name": "data_database_writer",
         "from_feature_key": "",
-        "to_classifier_name": "r1 :data_data base_reader",
+        "to_classifier_name": "r1 :data_database_reader",
         "to_feature_key": "",
         "from_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
         "to_node": "bf31f6da-e033-4f2c-8036-243f330bb02a",
@@ -21089,7 +21341,7 @@
                 ""
         ],
         "list_order": 880569554,
-        "from_classifier_name": "data_database _writer",
+        "from_classifier_name": "data_database_writer",
         "from_feature_key": "",
         "to_classifier_name": "thread-1",
         "to_feature_key": "",
@@ -21107,13 +21359,31 @@
                 ""
         ],
         "list_order": 754476676,
-        "from_classifier_name": "data_database _writer",
+        "from_classifier_name": "data_database_writer",
         "from_feature_key": "",
         "to_classifier_name": "data_database",
         "to_feature_key": "",
         "from_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
         "to_node": "04f7aa39-343d-4054-9ef4-6b679740e3ca",
         "uuid": "af4c7224-ed2c-49c3-bf7a-118273525b3d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1090,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "get_feature",
+        "description": [
+                ""
+        ],
+        "list_order": 941564797,
+        "from_classifier_name": "data_database_writer",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "2f026bd4-d607-474d-8d3e-8eb23afcd488",
+        "to_node": "8148f589-4ae3-4a6b-8210-df4c9a06acca",
+        "uuid": "8888466e-0322-40c2-bade-8d3478dd9700"
       }
     },
     {
@@ -25513,7 +25783,7 @@
         "list_order": -936225612,
         "from_classifier_name": "io_exporter",
         "from_feature_key": "",
-        "to_classifier_name": "data_database _reader",
+        "to_classifier_name": "data_database_reader",
         "to_feature_key": "",
         "from_node": "46eac473-636d-490a-a4a5-102c984e3a02",
         "to_node": "ef1ca5dc-361c-4ee8-a299-9c975d60610d",
@@ -25990,7 +26260,7 @@
         "list_order": -798310240,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
-        "to_classifier_name": "data_database _writer",
+        "to_classifier_name": "data_database_writer",
         "to_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
         "to_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
@@ -26008,7 +26278,7 @@
         "list_order": 1548718293,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
-        "to_classifier_name": "data_database _writer",
+        "to_classifier_name": "data_database_writer",
         "to_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
         "to_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
@@ -26026,7 +26296,7 @@
         "list_order": -1057868555,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
-        "to_classifier_name": "r1 :data_data base_reader",
+        "to_classifier_name": "r1 :data_database_reader",
         "to_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
         "to_node": "bf31f6da-e033-4f2c-8036-243f330bb02a",
@@ -26044,7 +26314,7 @@
         "list_order": 1683491297,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
-        "to_classifier_name": "r1 :data_data base_reader",
+        "to_classifier_name": "r1 :data_database_reader",
         "to_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
         "to_node": "bf31f6da-e033-4f2c-8036-243f330bb02a",
@@ -26062,7 +26332,7 @@
         "list_order": -69611818,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
-        "to_classifier_name": "r1 :data_data base_reader",
+        "to_classifier_name": "r1 :data_database_reader",
         "to_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
         "to_node": "bf31f6da-e033-4f2c-8036-243f330bb02a",
@@ -26080,7 +26350,7 @@
         "list_order": 151985251,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
-        "to_classifier_name": "r1 :data_data base_reader",
+        "to_classifier_name": "r1 :data_database_reader",
         "to_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
         "to_node": "bf31f6da-e033-4f2c-8036-243f330bb02a",
@@ -26098,11 +26368,371 @@
         "list_order": 410515165,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
-        "to_classifier_name": "data_database _writer",
+        "to_classifier_name": "data_database_writer",
         "to_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
         "to_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
         "uuid": "231b1dad-4f12-4d88-9f1a-6cc4188185cb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1083,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "open",
+        "description": [
+                ""
+        ],
+        "list_order": -1276304685,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "58da39b7-28ab-4850-a6d1-a5c3d1f87fd7",
+        "uuid": "713f52f6-e879-4c93-a87f-3f240611f7c7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1084,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "close",
+        "description": [
+                ""
+        ],
+        "list_order": 1838826505,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "58da39b7-28ab-4850-a6d1-a5c3d1f87fd7",
+        "uuid": "dbeb890f-de26-49a1-9a90-b1c17ccbcf55"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1085,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "init (:data_database)",
+        "description": [
+                ""
+        ],
+        "list_order": -1011462622,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "8148f589-4ae3-4a6b-8210-df4c9a06acca",
+        "uuid": "2e82791b-253d-4cc4-8474-1b2628dc6cf7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1086,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "init (:data_database, r1)",
+        "description": [
+                ""
+        ],
+        "list_order": -455182367,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database_writer",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "2f026bd4-d607-474d-8d3e-8eb23afcd488",
+        "uuid": "b1a6854a-2137-4b6a-80c3-e401b8d22a27"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1087,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "get_diagram",
+        "description": [
+                ""
+        ],
+        "list_order": -50065224,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "8148f589-4ae3-4a6b-8210-df4c9a06acca",
+        "uuid": "0aa81167-2fe6-44ac-bd62-d6b8faa742db"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1088,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "get_classifier",
+        "description": [
+                ""
+        ],
+        "list_order": 409470639,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "8148f589-4ae3-4a6b-8210-df4c9a06acca",
+        "uuid": "a65f21d6-71bd-4659-8f21-fffd5cad7307"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1089,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "set_feature",
+        "description": [
+                ""
+        ],
+        "list_order": 766215586,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database_writer",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "2f026bd4-d607-474d-8d3e-8eb23afcd488",
+        "uuid": "72ccfa45-831e-41fb-b9f3-50909d86c9ce"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1091,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "destroy",
+        "description": [
+                ""
+        ],
+        "list_order": 1370868038,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database_writer",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "2f026bd4-d607-474d-8d3e-8eb23afcd488",
+        "uuid": "8221cb61-e99e-406d-9871-1050cd7cff9e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1092,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "destroy",
+        "description": [
+                ""
+        ],
+        "list_order": 1570403347,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "f9cec132-4805-43f8-8f7d-597a46cd367f",
+        "to_node": "8148f589-4ae3-4a6b-8210-df4c9a06acca",
+        "uuid": "fb0ecf82-2c19-4656-88a0-a7a39a8fe5d9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1093,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "open",
+        "description": [
+                ""
+        ],
+        "list_order": -1218324076,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "f7905a81-8dd9-4736-9361-b0d4d76d2500",
+        "uuid": "45eae73b-ef3e-4eeb-9d32-8c47e7c35087"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1094,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "close",
+        "description": [
+                ""
+        ],
+        "list_order": 1752380004,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "f7905a81-8dd9-4736-9361-b0d4d76d2500",
+        "uuid": "54acca07-a3d9-4498-b8b5-52febd046aaa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1095,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "init( :data_database)",
+        "description": [
+                ""
+        ],
+        "list_order": -935628042,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "a8766872-97c1-4a5e-832e-7118454a505b",
+        "uuid": "22b04862-d9af-4883-8f35-67d7434bd8ec"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1096,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "destroy",
+        "description": [
+                ""
+        ],
+        "list_order": 1464892512,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "a8766872-97c1-4a5e-832e-7118454a505b",
+        "uuid": "4a38002e-15df-4a97-8f4b-4c4bde192c64"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1098,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "get_classifiers( :some_iterator )",
+        "description": [
+                ""
+        ],
+        "list_order": -101914317,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "r1 :data_database_reader",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "a8766872-97c1-4a5e-832e-7118454a505b",
+        "uuid": "ef5c4419-c6a5-4ac8-947a-c5b98dba4e24"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1099,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "init",
+        "description": [
+                ""
+        ],
+        "list_order": -346278685,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "4a0812da-e9c2-4998-8150-e77da906adea"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1100,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "has_next",
+        "description": [
+                ""
+        ],
+        "list_order": 113701302,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "e509675d-f197-4f1b-9be5-87d2a38b6414"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1101,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "next",
+        "description": [
+                ""
+        ],
+        "list_order": 310151088,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "a09b3106-248f-4ec3-b8bb-3c1778e09b9c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1102,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "has_next",
+        "description": [
+                ""
+        ],
+        "list_order": 544932539,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "087a7eab-eade-4653-8749-575f3cfb342c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1103,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "next",
+        "description": [
+                ""
+        ],
+        "list_order": 789296907,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "a6f06ba5-b0e6-4974-a3d9-f8c40f92b4d7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1104,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "destroy",
+        "description": [
+                ""
+        ],
+        "list_order": 1019286900,
+        "from_classifier_name": "thread-1",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "afebf95b-3c7c-4384-85e5-349d35cf40bd",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "f3ef71c2-171d-4b2f-b68f-a04726800d38"
       }
     },
     {
@@ -26113,7 +26743,7 @@
         "description": [
                 ""
         ],
-        "list_order": -586671647,
+        "list_order": -522214674,
         "from_classifier_name": "thread-2",
         "from_feature_key": "",
         "to_classifier_name": "r2 :data_data base_reader",
@@ -26186,9 +26816,9 @@
                 ""
         ],
         "list_order": 699541645,
-        "from_classifier_name": "r1 :data_data base_reader",
+        "from_classifier_name": "r1 :data_database_reader",
         "from_feature_key": "",
-        "to_classifier_name": "data_database _writer",
+        "to_classifier_name": "data_database_writer",
         "to_feature_key": "",
         "from_node": "bf31f6da-e033-4f2c-8036-243f330bb02a",
         "to_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
@@ -26204,7 +26834,7 @@
                 ""
         ],
         "list_order": -949285032,
-        "from_classifier_name": "r1 :data_data base_reader",
+        "from_classifier_name": "r1 :data_database_reader",
         "from_feature_key": "",
         "to_classifier_name": "data_database",
         "to_feature_key": "",
@@ -26221,7 +26851,7 @@
         "description": [
                 ""
         ],
-        "list_order": -465800518,
+        "list_order": -418177484,
         "from_classifier_name": "r2 :data_data base_reader",
         "from_feature_key": "",
         "to_classifier_name": "data_database",
@@ -27484,7 +28114,7 @@
         "list_order": 101489886,
         "from_classifier_name": "io_export_diagram_traversal",
         "from_feature_key": "",
-        "to_classifier_name": "data_database _reader",
+        "to_classifier_name": "data_database_reader",
         "to_feature_key": "",
         "from_node": "1d5d8c36-04c2-40c3-a724-38bf291c9e79",
         "to_node": "ef1ca5dc-361c-4ee8-a299-9c975d60610d",
@@ -29763,7 +30393,7 @@
         "list_order": 450718269,
         "from_classifier_name": "Locks needed here",
         "from_feature_key": "",
-        "to_classifier_name": "data_database _writer",
+        "to_classifier_name": "data_database_writer",
         "to_feature_key": "",
         "from_node": "93a8c233-2f67-40f5-b3d6-e66f4404522c",
         "to_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
@@ -31433,7 +32063,7 @@
         ],
         "list_order": 754574980,
         "from_classifier_name": "db_reader_2 :data_database _reader",
-        "to_classifier_name": "data_database _reader",
+        "to_classifier_name": "data_database_reader",
         "from_node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
         "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "uuid": "1de12551-8fdc-4f09-895e-6b02724ab0cf"
@@ -31449,7 +32079,7 @@
         ],
         "list_order": 754542212,
         "from_classifier_name": "db_reader_1 :data_database _reader",
-        "to_classifier_name": "data_database _reader",
+        "to_classifier_name": "data_database_reader",
         "from_node": "38a1de76-2bb8-4703-9d41-fd44243539af",
         "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "uuid": "f8fbbef1-b9db-441b-a551-f3f932f5d49a"
@@ -33131,6 +33761,58 @@
         "from_node": "65f1aff0-19ef-4528-bc83-5fe4bb83c254",
         "to_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
         "uuid": "2e5f24a8-12e5-47d2-83b2-d0fe9c67ea2b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1082,
+        "type": "Aggregation", "main_type": 201,
+        "name": "4 statements for 4 tables",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "data_search_result_iterator",
+        "to_classifier_name": "data_database_borrowed_stmt",
+        "from_node": "b817a497-9239-4cf5-995e-9423212173be",
+        "to_node": "c3d5da3e-0227-4d08-a5e3-d1812b46bc87",
+        "uuid": "ea645b7d-97a8-49e3-850e-987ed735d4c3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1105,
+        "type": "Dependency", "main_type": 0,
+        "name": "... get_classifiers can be called again",
+        "description": [
+                ""
+        ],
+        "list_order": -624183260,
+        "from_classifier_name": "repeat",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "e40e3db1-714d-442c-b89f-366be378306c",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "06dc477f-c4e5-4bba-8571-63c5089e33cb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1106,
+        "type": "Dependency", "main_type": 0,
+        "name": "after destroy ...",
+        "description": [
+                ""
+        ],
+        "list_order": 1220528144,
+        "from_classifier_name": "repeat",
+        "from_feature_key": "",
+        "to_classifier_name": "some_iterator",
+        "to_feature_key": "",
+        "from_node": "e40e3db1-714d-442c-b89f-366be378306c",
+        "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
+        "uuid": "37abc2e6-a709-4bde-a0e2-4ef60a50854d"
       }
     }
   ]
