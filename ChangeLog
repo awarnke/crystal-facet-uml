@@ -1,7 +1,9 @@
 crystal-facet-uml (1.65.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * in search results, no empty page after the last one
+  * in search results, no empty page after the last page
+  * in search results, performance optimized by not reading database records
+    when the result buffer is already full
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 08 Aug 2025 08:00:00 +0200
 

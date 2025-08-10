@@ -24,7 +24,6 @@ ideas for future versions:
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [ ] to pink-mark several objects - require shift key
-! [ ] gui_search_runner_rerun shall stop reading database records when the result buffer is already full
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

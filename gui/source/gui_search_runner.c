@@ -110,7 +110,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
 
     /* reset previous errors/warnings/infos */
     gui_simple_message_to_user_hide( (*this_).message_to_user );
-    u8_error_t d_err = U8_ERROR_NONE;
+    u8_error_t d_err = U8_ERROR_NONE;  /* a data read or data store error */
 
     /* prepare search result */
     (*this_).result_buffer_start = 0;
@@ -142,10 +142,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                         data_classifier_get_name_const( &((*this_).temp_classifier) ),
                                                         DATA_ROW_VOID /* diagram_id */
                                                       );
-                    gui_search_runner_private_add_diagrams_of_classifier( this_,
-                                                                          &half_initialized,
-                                                                          &skip_results
-                                                                        );
+                    d_err |= gui_search_runner_private_add_diagrams_of_classifier( this_,
+                                                                                   &half_initialized,
+                                                                                   &skip_results
+                                                                                 );
 
                     data_classifier_destroy( &((*this_).temp_classifier) );
                     data_search_result_destroy( &half_initialized );
@@ -174,10 +174,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                      classifier_id,
                                                      DATA_ROW_VOID /* diagram_id */
                                                    );
-                    gui_search_runner_private_add_diagrams_of_classifier( this_,
-                                                                          &half_initialized,
-                                                                          &skip_results
-                                                                        );
+                    d_err |= gui_search_runner_private_add_diagrams_of_classifier( this_,
+                                                                                   &half_initialized,
+                                                                                   &skip_results
+                                                                                 );
 
                     data_feature_destroy( &((*this_).temp_feature) );
                     data_search_result_destroy( &half_initialized );
@@ -207,10 +207,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                           data_relationship_get_to_classifier_row_id( &((*this_).temp_relationship) ),
                                                           DATA_ROW_VOID /* diagram_id */
                                                         );
-                    gui_search_runner_private_add_diagrams_of_classifier( this_,
-                                                                          &half_initialized,
-                                                                          &skip_results
-                                                                        );
+                    d_err |= gui_search_runner_private_add_diagrams_of_classifier( this_,
+                                                                                   &half_initialized,
+                                                                                   &skip_results
+                                                                                 );
 
                     data_relationship_destroy( &((*this_).temp_relationship) );
                     data_search_result_destroy( &half_initialized );
@@ -242,8 +242,8 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                         const u8_error_t err = data_search_result_list_add( &((*this_).result_list), &half_initialized );
                         if ( err != U8_ERROR_NONE )
                         {
-                            /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                            U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                            U8_LOG_ANOMALY( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                             (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
                         }
                         data_search_result_destroy( &half_initialized );
@@ -280,8 +280,8 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                         const u8_error_t err = data_search_result_list_add( &((*this_).result_list), &half_initialized );
                         if ( err != U8_ERROR_NONE )
                         {
-                            /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                            U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                            U8_LOG_ANOMALY( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                             (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
                         }
                         data_search_result_destroy( &half_initialized );
@@ -315,6 +315,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
     }
 
     /* free text search */
+    if ( d_err == U8_ERROR_NONE )
     {
         data_search_result_iterator_t data_search_result_iterator;
         d_err |= data_search_result_iterator_init_empty( &data_search_result_iterator );
@@ -322,7 +323,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                                         search_string,
                                                                         &data_search_result_iterator
                                                                       );
-        while ( data_search_result_iterator_has_next( &data_search_result_iterator ) )
+        while (( data_search_result_iterator_has_next( &data_search_result_iterator ) )&&( d_err == U8_ERROR_NONE ))
         {
             data_search_result_t current_search_result;
             d_err |= data_search_result_iterator_next( &data_search_result_iterator,
@@ -330,11 +331,11 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                      );
             if ( skip_results == 0 )
             {
-                d_err |= data_search_result_list_add( &((*this_).result_list), &current_search_result );
-                if ( d_err != U8_ERROR_NONE )
+                const u8_error_t err = data_search_result_list_add( &((*this_).result_list), &current_search_result );
+                if ( err != U8_ERROR_NONE )
                 {
-                    /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                    U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                    d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    U8_LOG_ANOMALY( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                     (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
                 }
             }
@@ -348,7 +349,12 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
         d_err |= data_search_result_iterator_destroy( &data_search_result_iterator );
     }
 
-    if ( U8_ERROR_NONE != d_err )
+    if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
+    {
+        /* it is rather expected than a real error that the result list gets full */
+        U8_TRACE_INFO( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+    }
+    else if ( U8_ERROR_NONE != d_err )
     {
         U8_LOG_ERROR_HEX( "data_database_text_search_t could not search.", d_err );
     }
@@ -356,20 +362,20 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
     /* present the result */
     observer_notify( &((*this_).result_consumer), this_ );
 
-    /* clear the result */
+    /* clear the result (the notification above is synchronous, the search results are already processed.) */
     data_search_result_list_clear( &((*this_).result_list) );
 
     U8_TRACE_END();
 }
 
-void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
-                                                            data_search_result_t *classifier_template,
-                                                            uint_fast32_t *io_skip_results
-                                                          )
+u8_error_t gui_search_runner_private_add_diagrams_of_classifier( gui_search_runner_t *this_,
+                                                                 data_search_result_t *classifier_template,
+                                                                 uint_fast32_t *io_skip_results
+                                                               )
 {
     U8_TRACE_BEGIN();
     assert( classifier_template != NULL );
-    u8_error_t d_err = U8_ERROR_NONE;
+    u8_error_t d_err = U8_ERROR_NONE;  /* a data read or data store error */
 
     data_row_t classifier_row_id;
     if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_search_result_get_match_id_const( classifier_template )))
@@ -388,68 +394,63 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                                                                  &diagram_iterator
                                                                );
 
-    if ( d_err == U8_ERROR_NONE )
+    while (( data_diagram_iterator_has_next( &diagram_iterator ) )&&( d_err == U8_ERROR_NONE ))
     {
-        while ( data_diagram_iterator_has_next( &diagram_iterator ) )
+        d_err |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
+        const data_row_t diagram_row_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
+        data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
+
+        bool filter = false;
+        switch ( data_id_get_table( data_search_result_get_match_id_const( classifier_template ) ) )
         {
-            d_err |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
-            const data_row_t diagram_row_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
-            data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
-
-            bool filter = false;
-            switch ( data_id_get_table( data_search_result_get_match_id_const( classifier_template ) ) )
+            case DATA_TABLE_FEATURE:
             {
-                case DATA_TABLE_FEATURE:
-                {
-                    /* if a user searches explicitly for a feature-id, which feature/classifiers should be filtered? */
-                    /* and how? till here, the classifier type is not yet loaded. */
-                }
-                break;
-
-                case DATA_TABLE_RELATIONSHIP:
-                {
-                    /* if a user searches explicitly for a relationship-id, which ones should be filtered? */
-                    /* and how? till here, the classifier type is not yet loaded. */
-                }
-                break;
-
-                default:
-                {
-                    /* do not filter classifiers (or other things?) */
-                }
-                break;
+                /* if a user searches explicitly for a feature-id, which feature/classifiers should be filtered? */
+                /* and how? till here, the classifier type is not yet loaded. */
             }
+            break;
 
-            if ( ! filter )
+            case DATA_TABLE_RELATIONSHIP:
             {
-                if ( (*io_skip_results) == 0 )
-                {
-                    const u8_error_t err = data_search_result_list_add( &((*this_).result_list), classifier_template );
-                    if ( err != U8_ERROR_NONE )
-                    {
-                        /*d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                        U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
-                        (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
-                    }
-                }
-                else
-                {
-                    /* to advance to the requested search result page, skip this entry */
-                    *io_skip_results = (*io_skip_results) - 1;
-                    (*this_).result_buffer_start ++;
-                }
+                /* if a user searches explicitly for a relationship-id, which ones should be filtered? */
+                /* and how? till here, the classifier type is not yet loaded. */
             }
+            break;
 
-            data_diagram_destroy( &((*this_).temp_diagram) );
+            default:
+            {
+                /* do not filter classifiers (or other things?) */
+            }
+            break;
         }
+
+        if ( ! filter )
+        {
+            if ( (*io_skip_results) == 0 )
+            {
+                const u8_error_t err = data_search_result_list_add( &((*this_).result_list), classifier_template );
+                if ( err != U8_ERROR_NONE )
+                {
+                    d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    U8_LOG_ANOMALY( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                    (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
+                }
+            }
+            else
+            {
+                /* to advance to the requested search result page, skip this entry */
+                *io_skip_results = (*io_skip_results) - 1;
+                (*this_).result_buffer_start ++;
+            }
+        }
+
+        data_diagram_destroy( &((*this_).temp_diagram) );
     }
-    else
-    {
-        U8_TRACE_INFO( "diagram does not exist or database not open." );
-    }
+
     d_err |= data_diagram_iterator_destroy( &diagram_iterator );
 
-    U8_TRACE_END();
+    U8_TRACE_END_ERR( d_err );
+    return d_err;
 }
 
 

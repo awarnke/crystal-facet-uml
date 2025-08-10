@@ -140,7 +140,7 @@ typedef enum u8_error_enum u8_error_t;
  *  \param that object (error mask) to compare
  *  \return true if all bits of that are set in this_
  */
-static inline bool u8_error_contains ( const u8_error_t this_,  const u8_error_t that );
+static inline bool u8_error_contains ( const u8_error_t this_, const u8_error_t that );
 
 /*!
  *  \brief checks if this_ error bitmask mask contains other bits than that error to compare
@@ -152,7 +152,7 @@ static inline bool u8_error_contains ( const u8_error_t this_,  const u8_error_t
  *  \param that object (error mask) to compare
  *  \return true if this_ has bit set that are not in that
  */
-static inline bool u8_error_more_than ( const u8_error_t this_,  const u8_error_t that );
+static inline bool u8_error_more_than ( const u8_error_t this_, const u8_error_t that );
 
 #include "u8/u8_error.inl"
 

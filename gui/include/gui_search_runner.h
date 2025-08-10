@@ -21,6 +21,7 @@
 #include "entity/data_relationship.h"
 #include "gui_simple_message_to_user.h"
 #include "utf8stream/utf8stream_writemem.h"
+#include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -109,11 +110,13 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
  *  \param this_ pointer to own object attributes
  *  \param classifier_template a search result template that is already half-filled, only the diagram information is missing
  *  \param[in,out] io_skip_results if non-zero, these results are skipped and added to result_buffer_start instead.
+ *  \return error if either reading from database or writing to result_list is not possible (e.g. U8_ERROR_ARRAY_BUFFER_EXCEEDED).
+ *          U8_ERROR_NONE otherwise.
  */
-void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
-                                                            data_search_result_t *classifier_template,
-                                                            uint_fast32_t *io_skip_results
-                                                          );
+u8_error_t gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
+                                                                  data_search_result_t *classifier_template,
+                                                                  uint_fast32_t *io_skip_results
+                                                                );
 
 /*!
  *  \brief gets the page request that was guiding the search
