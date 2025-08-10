@@ -15,6 +15,11 @@ static inline uint32_t gui_search_runner_get_result_buffer_start( const gui_sear
     return (*this_).result_buffer_start;
 }
 
+static inline bool gui_search_runner_get_result_buffer_more_after( const gui_search_runner_t *this_ )
+{
+    return (*this_).result_buffer_more_after;
+}
+
 
 /*
 Copyright 2025-2025 Andreas Warnke

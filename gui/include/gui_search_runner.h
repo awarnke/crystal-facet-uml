@@ -21,6 +21,8 @@
 #include "entity/data_relationship.h"
 #include "gui_simple_message_to_user.h"
 #include "utf8stream/utf8stream_writemem.h"
+#include <stdint.h>
+#include <stdbool.h>
 
 /*!
  *  \brief constants for maximum values of gui_search_runner_t
@@ -47,7 +49,9 @@ struct gui_search_runner_struct {
     /* result data */
     uint32_t result_buffer_start;  /*!< offset of start element in result_list_buffer (relative to absolute start of result list) */
     data_search_result_t result_buffer[GUI_SEARCH_RUNNER_MAX_RESULTS];  /*!< memory for the result list page */
-    data_search_result_list_t result_list;  /*!< a list of search results; storage for search results is: result_buffer */
+    data_search_result_list_t result_list;  /*!< a list-page of search results; storage for search results is: result_buffer */
+    bool result_buffer_more_after;  /*!< This flag indicates if more results follow after the result_buffer. */
+                                    /*!< Note that an underfull result_buffer does not imply end of list, maybe page_request did not ask for more... */
 
     /* temporary buffers */
     data_diagram_t temp_diagram;  /*!< memory to read a diagram */
@@ -105,12 +109,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
  *  \param this_ pointer to own object attributes
  *  \param classifier_template a search result template that is already half-filled, only the diagram information is missing
  *  \param[in,out] io_skip_results if non-zero, these results are skipped and added to result_buffer_start instead.
- *  \param[in,out] io_list list to which to add an entry for each found diagram
  */
 void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
                                                             data_search_result_t *classifier_template,
-                                                            uint_fast32_t *io_skip_results,
-                                                            data_search_result_list_t *io_list
+                                                            uint_fast32_t *io_skip_results
                                                           );
 
 /*!
@@ -119,7 +121,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
  *  \param this_ pointer to own object attributes
  *  \return page request
  */
-static inline const pos_scroll_page_t* gui_search_runner_get_page_request( const gui_search_runner_t *this_ );
+static inline const pos_scroll_page_t* gui_search_runner_get_page_request ( const gui_search_runner_t *this_ );
 
 /*!
  *  \brief gets the result_list
@@ -127,7 +129,7 @@ static inline const pos_scroll_page_t* gui_search_runner_get_page_request( const
  *  \param this_ pointer to own object attributes
  *  \return result_list
  */
-static inline const data_search_result_list_t* gui_search_runner_get_result_list( const gui_search_runner_t *this_ );
+static inline const data_search_result_list_t* gui_search_runner_get_result_list ( const gui_search_runner_t *this_ );
 
 /*!
  *  \brief gets the result_buffer_start
@@ -135,7 +137,15 @@ static inline const data_search_result_list_t* gui_search_runner_get_result_list
  *  \param this_ pointer to own object attributes
  *  \return result_buffer_start indicates how many search results are skipped before result_list
  */
-static inline uint32_t gui_search_runner_get_result_buffer_start( const gui_search_runner_t *this_ );
+static inline uint32_t gui_search_runner_get_result_buffer_start ( const gui_search_runner_t *this_ );
+
+/*!
+ *  \brief gets the result_buffer_more which indicates if more results exist after the buffered page
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return result_buffer_more indicates if search results exist after the result_list
+ */
+static inline bool gui_search_runner_get_result_buffer_more_after ( const gui_search_runner_t *this_ );
 
 #include "gui_search_runner.inl"
 

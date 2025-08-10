@@ -39,6 +39,7 @@ void gui_search_runner_init ( gui_search_runner_t *this_,
     /* result data */
     (*this_).result_buffer_start = 0;
     DATA_SEARCH_RESULT_LIST_INIT( &((*this_).result_list), (*this_).result_buffer );
+    (*this_).result_buffer_more_after = false;
 
     U8_TRACE_END();
 }
@@ -63,6 +64,7 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ )
     /* result data */
     (*this_).result_buffer_start = 0;
     data_search_result_list_destroy( &((*this_).result_list) );
+    (*this_).result_buffer_more_after = false;
 
     U8_TRACE_END();
 }
@@ -113,6 +115,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
     /* prepare search result */
     (*this_).result_buffer_start = 0;
     data_search_result_list_clear( &((*this_).result_list) );
+    (*this_).result_buffer_more_after = false;
 
     /* check if an id is being searched */
     data_id_t search_id;
@@ -141,8 +144,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                       );
                     gui_search_runner_private_add_diagrams_of_classifier( this_,
                                                                           &half_initialized,
-                                                                          &skip_results,
-                                                                          &((*this_).result_list)
+                                                                          &skip_results
                                                                         );
 
                     data_classifier_destroy( &((*this_).temp_classifier) );
@@ -174,8 +176,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                    );
                     gui_search_runner_private_add_diagrams_of_classifier( this_,
                                                                           &half_initialized,
-                                                                          &skip_results,
-                                                                          &((*this_).result_list)
+                                                                          &skip_results
                                                                         );
 
                     data_feature_destroy( &((*this_).temp_feature) );
@@ -208,8 +209,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                         );
                     gui_search_runner_private_add_diagrams_of_classifier( this_,
                                                                           &half_initialized,
-                                                                          &skip_results,
-                                                                          &((*this_).result_list)
+                                                                          &skip_results
                                                                         );
 
                     data_relationship_destroy( &((*this_).temp_relationship) );
@@ -244,6 +244,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                         {
                             /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                             U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
                         }
                         data_search_result_destroy( &half_initialized );
                     }
@@ -281,6 +282,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                         {
                             /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                             U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
                         }
                         data_search_result_destroy( &half_initialized );
                     }
@@ -333,6 +335,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                 {
                     /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                     U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                    (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
                 }
             }
             else
@@ -361,13 +364,11 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
 
 void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
                                                             data_search_result_t *classifier_template,
-                                                            uint_fast32_t *io_skip_results,
-                                                            data_search_result_list_t *io_list
+                                                            uint_fast32_t *io_skip_results
                                                           )
 {
     U8_TRACE_BEGIN();
     assert( classifier_template != NULL );
-    assert( io_list != NULL );
     u8_error_t d_err = U8_ERROR_NONE;
 
     data_row_t classifier_row_id;
@@ -423,11 +424,12 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
             {
                 if ( (*io_skip_results) == 0 )
                 {
-                    const u8_error_t err = data_search_result_list_add( io_list, classifier_template );
+                    const u8_error_t err = data_search_result_list_add( &((*this_).result_list), classifier_template );
                     if ( err != U8_ERROR_NONE )
                     {
                         /*d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                         U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                        (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
                     }
                 }
                 else

@@ -24,6 +24,7 @@ ideas for future versions:
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [ ] to pink-mark several objects - require shift key
+! [ ] gui_search_runner_rerun shall stop reading database records when the result buffer is already full
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -49,6 +50,7 @@ ideas for future versions:
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] add test case for opening non-cfuJ files
+  [ ] in html export, do not create "appears in" links to current chapter - this is superfluous and irritating
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"

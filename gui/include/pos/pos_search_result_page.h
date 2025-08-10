@@ -33,6 +33,7 @@ struct pos_search_result_page_struct {
     /* data buffer information */
     uint32_t buffer_start;  /*!< offset of start element in result_list_buf and element_pos list (relative to absolute start of result list) */
     uint32_t buffer_length;  /*!< number of elements in result_list_buf and element_pos list */
+    bool buffer_more_after;  /*!< This flag indicates if more results follow after the result_buffer. */
 
     /* visible page information */
     uint32_t page_start;  /*!< offset of first visible element (relative to absolute start of result list) */
@@ -112,6 +113,22 @@ static inline uint32_t pos_search_result_page_get_buffer_start ( const pos_searc
  *  \return attribute buffer_length
  */
 static inline uint32_t pos_search_result_page_get_buffer_length ( const pos_search_result_page_t *this_ );
+
+/*!
+ *  \brief gets the buffer_more_after
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute buffer_more_after
+ */
+static inline bool pos_search_result_page_get_buffer_more_after ( const pos_search_result_page_t *this_ );
+
+/*!
+ *  \brief gets the buffer_more_after
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param buffer_more_after new value of attribute buffer_more_after
+ */
+static inline void pos_search_result_page_set_buffer_more_after ( pos_search_result_page_t *this_, bool buffer_more_after );
 
 /*!
  *  \brief gets the page_start

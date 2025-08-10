@@ -6,6 +6,7 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
                                                      const pos_scroll_page_t *requested_page,
                                                      uint32_t result_buffer_start,
                                                      const data_search_result_list_t *result_list,
+                                                     bool result_buffer_more_after,
                                                      data_database_reader_t *db_reader )
 {
     assert( requested_page != NULL );
@@ -28,6 +29,9 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
     {
         U8_LOG_ERROR( "Not all search results taken over by gui_sketch_result_list_t widget." );
     }
+
+    /* store if there is more list-entries after this page */
+    pos_search_result_page_set_buffer_more_after( &((*this_).page), result_buffer_more_after );
 }
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )

@@ -139,7 +139,8 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_run
 
     const pos_scroll_page_t *const requested_page = gui_search_runner_get_page_request( search_runner );
     const data_search_result_list_t *const result_list = gui_search_runner_get_result_list( search_runner );
-    uint32_t result_buffer_start = gui_search_runner_get_result_buffer_start( search_runner );
+    const uint32_t result_buffer_start = gui_search_runner_get_result_buffer_start( search_runner );
+    const bool result_buffer_more_after = gui_search_runner_get_result_buffer_more_after( search_runner );
     data_search_result_list_trace(result_list);
     const uint_fast32_t result_buffer_length = data_search_result_list_get_length( result_list );
 
@@ -206,6 +207,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_run
                                       requested_page,
                                       result_buffer_start,
                                       result_list,
+                                      result_buffer_more_after,
                                       (*this_).db_reader
                                     );
 

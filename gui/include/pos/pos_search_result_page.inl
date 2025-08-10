@@ -6,6 +6,7 @@ static inline void pos_search_result_page_init ( pos_search_result_page_t *this_
 {
     (*this_).buffer_start = buffer_start;
     (*this_).buffer_length = 0;
+    (*this_).buffer_more_after = false;
     (*this_).page_start = buffer_start;
     (*this_).page_length = 0;
     (*this_).has_prev_page = false;
@@ -67,6 +68,16 @@ static inline uint32_t pos_search_result_page_get_buffer_start ( const pos_searc
 static inline uint32_t pos_search_result_page_get_buffer_length ( const pos_search_result_page_t *this_ )
 {
     return (*this_).buffer_length;
+}
+
+static inline bool pos_search_result_page_get_buffer_more_after ( const pos_search_result_page_t *this_ )
+{
+    return (*this_).buffer_more_after;
+}
+
+static inline void pos_search_result_page_set_buffer_more_after ( pos_search_result_page_t *this_, bool buffer_more_after )
+{
+    (*this_).buffer_more_after = buffer_more_after;
 }
 
 static inline uint32_t pos_search_result_page_get_page_start ( const pos_search_result_page_t *this_ )

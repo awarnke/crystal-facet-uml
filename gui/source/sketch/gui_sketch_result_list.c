@@ -103,10 +103,10 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
     const int32_t buffer_start = pos_search_result_page_get_buffer_start( &((*this_).page) );
     const uint32_t buffer_length = pos_search_result_page_get_buffer_length( &((*this_).page) );
     assert( buffer_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+    const bool buffer_more_after = pos_search_result_page_get_buffer_more_after( &((*this_).page) );
     pos_search_result_page_set_page_start( &((*this_).page), buffer_start );  /* default value for case of empty buffer */
     pos_search_result_page_set_page_length( &((*this_).page), buffer_length );  /* default value for case of empty buffer */
     pos_search_result_page_set_has_prev_page( &((*this_).page), ( buffer_start != 0 ) );  /* default value for case of empty buffer */
-    pos_search_result_page_set_has_next_page( &((*this_).page), ( buffer_length != 0 ) );  /* one could optimize this to avoid last page to be empty */
 
     /* do not fully trust the consistency between (*this_).requested_page and (*this_).page. */
     /* These information come from different sources. */
@@ -143,6 +143,8 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
                 pos_search_result_page_set_has_prev_page( &((*this_).page), ( index != 0 ) );
             }
         }
+        const bool more_after_anchor = ( anchor_idx + 1 ) < ( buffer_start + buffer_length );
+        pos_search_result_page_set_has_next_page( &((*this_).page), buffer_more_after || more_after_anchor );
     }
     else
     {
@@ -167,6 +169,7 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
                 pos_search_result_page_set_page_length( &((*this_).page), index - buffer_start + 1 );
             }
         }
+        pos_search_result_page_set_has_next_page( &((*this_).page), buffer_more_after || page_full );
     }
 
     /* trace available buffer and visible page */
