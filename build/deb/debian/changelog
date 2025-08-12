@@ -1,3 +1,12 @@
+crystal-facet-uml (1.65.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * in search results, no empty page after the last page
+  * in search results, performance optimized by not reading database records
+    when the result buffer is already full
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 12 Aug 2025 06:00:00 +0200
+
 crystal-facet-uml (1.65.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
@@ -6,7 +15,7 @@ crystal-facet-uml (1.65.0-1) UNRELEASED; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 08 Aug 2025 08:00:00 +0200
 
- crystal-facet-uml (1.64.2-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.64.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * When clicking, an arrow is shown to indicate that dragging is possible
