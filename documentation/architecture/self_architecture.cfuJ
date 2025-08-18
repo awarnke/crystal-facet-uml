@@ -17,12 +17,16 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "crystal-facet-uml Architecture",
         "description": [
-                "About this Document:\n",
+                "This document shows the software architecture of crystal-facet-uml:\n",
                 "\n",
+                "Copyright 2022-2025 Andreas Warnke;\n",
                 "(C)\n",
                 "We acknowledge that this document uses material from the\n",
                 "arc 42 architecture template, http://www.arc42.de.\n",
-                "Created by Dr. Peter Hruschka & Dr. Gernot Starke."
+                "Created by Dr. Peter Hruschka & Dr. Gernot Starke.\n",
+                "\n",
+                "Licensed under the Apache License, Version 2.0\n",
+                ""
         ],
         "list_order": 360448,
         "uuid": "7a8e4585-27c6-413c-ae8f-fcbd4c5d7a43",
@@ -2455,78 +2459,6 @@
             "classifier_name": "Challenge",
             "node": "65f1aff0-19ef-4528-bc83-5fe4bb83c254",
             "uuid": "b221acb6-1050-4c27-8b36-6180cf9f34de"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 129,
-        "type": "Sequence Diagram", "diagram_type": 13,
-        "stereotype": "reason_rejected",
-        "name": "gui search sequence <alt>",
-        "description": [
-                ""
-        ],
-        "list_order": 49152,
-        "parent_name": "gui: Runtime View",
-        "parent": "65463912-947e-4e45-9d91-38b47fae6ae9",
-        "uuid": "8568bf5a-cb4a-4a20-8abd-3895482eccd0",
-        "diagramelements":
-        [
-          {
-            "id": 954,
-            "classifier_name": "gui_sketch _result_list",
-            "node": "286636a8-562e-492f-90c0-8634d01a42ca",
-            "uuid": "d7fef996-fa17-4830-8c82-026c5f62aa46"
-          },
-          {
-            "id": 955,
-            "classifier_name": "gui_sketch_card",
-            "node": "013f61a3-188b-42cf-9383-afa74626c758",
-            "uuid": "c38203b0-add1-49a6-baef-e0be8965e5d5"
-          },
-          {
-            "id": 956,
-            "classifier_name": "sketch",
-            "node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-            "uuid": "74928927-136d-435a-8f69-d8c3aaa33a94"
-          },
-          {
-            "id": 957,
-            "classifier_name": "gui_search _runner",
-            "node": "0e2c99b2-186d-41c4-8644-1e4febaf01d4",
-            "uuid": "71f2a061-1448-4612-b52c-26cab11eb7cd"
-          },
-          {
-            "id": 958,
-            "classifier_name": "search_entry",
-            "node": "c1555744-3745-4244-8557-fc3835b4cfd4",
-            "uuid": "8c4f633c-ae6a-4125-ac6d-aac9755b5269"
-          },
-          {
-            "id": 959,
-            "classifier_name": "SW Architect",
-            "node": "239b749a-1031-4603-8890-2e89906a7cf0",
-            "uuid": "cc328807-45c4-4e47-8ab5-234ee53c7c7d"
-          },
-          {
-            "id": 960,
-            "classifier_name": "as above",
-            "node": "7d0a0576-c884-446b-a504-311d91170274",
-            "uuid": "490d6f9b-58e2-4ad0-b76c-4219bc4ed860"
-          },
-          {
-            "id": 961,
-            "classifier_name": "Rationale for change",
-            "node": "aa201d86-bec2-47ab-8012-f766c8bc8160",
-            "uuid": "2238cac6-4653-4258-81ed-0116677aecb9"
-          },
-          {
-            "id": 963,
-            "classifier_name": "Rejected solution",
-            "node": "29b2a01e-c38b-4e31-8d0a-3eddfdcbef35",
-            "uuid": "09fd4ab4-f0f3-4b40-aef2-ab5464a495df"
           }
         ]
       }
@@ -6051,7 +5983,10 @@
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Quality Requirements",
         "description": [
-                ""
+                "Quality requirements can be presented in different ways.\n",
+                "This chapter shows the quality requirements in chapter D0076#name ordered by ",
+                "the ISO-25010 quality characteristics and in chapter D0077#name ordered by the ",
+                "use cases which are influenced by the quality requirement."
         ],
         "list_order": 294912,
         "parent_name": "crystal-facet-uml Architecture",
@@ -8316,16 +8251,6 @@
             ],
             "list_order": 0,
             "uuid": "87538a0b-c268-4bfe-a436-fde819fc8469"
-          },
-          {
-            "id": 161,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "013f61a3-188b-42cf-9383-afa74626c758"
           }
         ]
       }
@@ -8390,16 +8315,6 @@
             ],
             "list_order": 0,
             "uuid": "7ec46922-6c4d-43df-9aee-fe3b8353356b"
-          },
-          {
-            "id": 165,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "239b749a-1031-4603-8890-2e89906a7cf0"
           }
         ]
       }
@@ -11200,8 +11115,9 @@
                 "allocations),\n",
                 "crystal-facet-uml uses fixed-size arrays and strings for all displayed data.\n",
                 "\n",
-                "One could change this - but for most use cases, valid upper memory limits can ",
-                "be stated."
+                "For most use cases, valid upper memory limits can be stated;\n",
+                "for cases where no upper limit exists, iterators on database results are the ",
+                "solution."
         ],
         "x_order": 792757196,
         "y_order": 0,
@@ -12660,16 +12576,6 @@
             ],
             "list_order": 0,
             "uuid": "3ad4ca33-2c6b-45d1-b166-d35f211b5976"
-          },
-          {
-            "id": 162,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "17c554ef-a78f-4033-91da-4333cb5bb617"
           }
         ]
       }
@@ -12733,8 +12639,8 @@
         "description": [
                 ""
         ],
-        "x_order": -157642043,
-        "y_order": -653202422,
+        "x_order": -550118132,
+        "y_order": -658153891,
         "list_order": -1032715496,
         "uuid": "d1b9fa38-a6f5-4a18-9d51-ca1e21b475f7",
         "features":
@@ -12748,16 +12654,6 @@
             ],
             "list_order": 0,
             "uuid": "c2118a74-95f1-4a02-9a99-8a7d2517c1f2"
-          },
-          {
-            "id": 164,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "c1555744-3745-4244-8557-fc3835b4cfd4"
           }
         ]
       }
@@ -12785,16 +12681,6 @@
             ],
             "list_order": 0,
             "uuid": "54ba6927-a21c-42ca-9108-4d7eb1944249"
-          },
-          {
-            "id": 163,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "0e2c99b2-186d-41c4-8644-1e4febaf01d4"
           }
         ]
       }
@@ -12822,16 +12708,6 @@
             ],
             "list_order": 0,
             "uuid": "4cf05fc6-ee5c-4242-b64b-6c0bfd19188f"
-          },
-          {
-            "id": 160,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "286636a8-562e-492f-90c0-8634d01a42ca"
           }
         ]
       }
@@ -18906,46 +18782,6 @@
             ],
             "list_order": 0,
             "uuid": "88df410e-99a0-4003-931c-66ab98effe58"
-          },
-          {
-            "id": 166,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "7d0a0576-c884-446b-a504-311d91170274"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 582,
-        "type": "Comment", "main_type": 130,
-        "stereotype": "not-yet-implemented",
-        "name": "Rationale for change",
-        "description": [
-                "Selecting the page\n",
-                "is a task of sketch,\n",
-                "not of search_entry."
-        ],
-        "x_order": 1843589710,
-        "y_order": 0,
-        "list_order": -1078897765,
-        "uuid": "35019aa8-0a1a-4fca-aa9c-f4ba4bd4ccdc",
-        "features":
-        [
-          {
-            "id": 167,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "aa201d86-bec2-47ab-8012-f766c8bc8160"
           }
         ]
       }
@@ -18956,13 +18792,12 @@
         "type": "Comment", "main_type": 130,
         "name": "Challenge",
         "description": [
-                "Some entity needs to store\n",
-                "search-text\n",
-                "--> gui_search_runner"
+                "gui_search_runner stores\n",
+                "the search-text for a re-run"
         ],
         "x_order": 1302978283,
         "y_order": 0,
-        "list_order": -226172428,
+        "list_order": -819568372,
         "uuid": "f994f5b3-795b-4671-94d5-68de745ddd8a",
         "features":
         [
@@ -18975,39 +18810,6 @@
             ],
             "list_order": 0,
             "uuid": "65f1aff0-19ef-4528-bc83-5fe4bb83c254"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 584,
-        "type": "Comment", "main_type": 130,
-        "stereotype": "reason_rejected",
-        "name": "Rejected solution",
-        "description": [
-                "Dependencies increase.\n",
-                "The old version\n",
-                "showin in D0063#id has\n",
-                "less dependencies from\n",
-                "search functionalities\n",
-                "to ui"
-        ],
-        "x_order": 1523370669,
-        "y_order": 0,
-        "list_order": 1412452750,
-        "uuid": "f801fa14-0406-4572-9b17-aa3a6f2f4ab4",
-        "features":
-        [
-          {
-            "id": 169,
-            "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "29b2a01e-c38b-4e31-8d0a-3eddfdcbef35"
           }
         ]
       }
@@ -21691,7 +21493,7 @@
         "description": [
                 ""
         ],
-        "list_order": -361084345,
+        "list_order": -475926558,
         "from_classifier_name": "SW Architect",
         "from_feature_key": "",
         "to_classifier_name": "search_entry",
@@ -21806,61 +21608,6 @@
         "from_node": "c506b0f9-87b9-488d-9b8b-102ea3a154ac",
         "to_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
         "uuid": "88bf8e08-6f3d-4dae-8bfb-3a4da087a902"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1072,
-        "type": "Asynchronous Call", "main_type": 220,
-        "name": "enter search string",
-        "description": [
-                ""
-        ],
-        "list_order": -1106291503,
-        "from_classifier_name": "SW Architect",
-        "from_feature_key": "",
-        "to_classifier_name": "search_entry",
-        "to_feature_key": "",
-        "from_node": "239b749a-1031-4603-8890-2e89906a7cf0",
-        "to_node": "c1555744-3745-4244-8557-fc3835b4cfd4",
-        "uuid": "1dbdf304-6662-4066-9c35-a832bd9cd4d5"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1073,
-        "type": "Asynchronous Call", "main_type": 220,
-        "stereotype": "g_signal",
-        "name": "search_start_callback",
-        "description": [
-                ""
-        ],
-        "list_order": -460267357,
-        "from_classifier_name": "SW Architect",
-        "from_feature_key": "",
-        "to_classifier_name": "search_entry",
-        "to_feature_key": "",
-        "from_node": "239b749a-1031-4603-8890-2e89906a7cf0",
-        "to_node": "c1555744-3745-4244-8557-fc3835b4cfd4",
-        "uuid": "04f4f475-23a1-4ba0-8457-1979353ad148"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1079,
-        "type": "Asynchronous Call", "main_type": 220,
-        "name": "next_page",
-        "description": [
-                ""
-        ],
-        "list_order": 1214426004,
-        "from_classifier_name": "SW Architect",
-        "from_feature_key": "",
-        "to_classifier_name": "sketch",
-        "to_feature_key": "",
-        "from_node": "239b749a-1031-4603-8890-2e89906a7cf0",
-        "to_node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-        "uuid": "151ff555-104f-4838-84c9-5b63db31ae3c"
       }
     },
     {
@@ -23942,7 +23689,7 @@
     {
       "relationship": {
         "id": 358,
-        "type": "Communication Path", "main_type": 230,
+        "type": "Association", "main_type": 200,
         "name": "activate_callback",
         "description": [
                 ""
@@ -27109,7 +26856,7 @@
         "description": [
                 ""
         ],
-        "list_order": 369848637,
+        "list_order": 1037485876,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
         "to_classifier_name": "gui_sketch _result_list",
@@ -27127,7 +26874,7 @@
         "description": [
                 ""
         ],
-        "list_order": 955474055,
+        "list_order": 891698440,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
         "to_classifier_name": "gui_sketch_card",
@@ -27173,10 +26920,9 @@
       "relationship": {
         "id": 1071,
         "type": "Synchronous Call", "main_type": 221,
-        "stereotype": "not-yet-implemented",
-        "name": "re_run (page)",
+        "name": "re-run (page)",
         "description": [
-                ""
+                "gui_search_runner_rerun"
         ],
         "list_order": 1393502823,
         "from_classifier_name": "sketch",
@@ -27190,62 +26936,26 @@
     },
     {
       "relationship": {
-        "id": 1075,
+        "id": 1108,
         "type": "Synchronous Call", "main_type": 221,
-        "name": "run (text,page)",
+        "name": "gui_search_runner_get_result_list",
         "description": [
                 ""
         ],
-        "list_order": 51582542,
+        "list_order": 673017285,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
         "to_classifier_name": "gui_search _runner",
         "to_feature_key": "",
-        "from_node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-        "to_node": "0e2c99b2-186d-41c4-8644-1e4febaf01d4",
-        "uuid": "5a1abba1-7eb8-4099-8cf5-a0b8f32a57ae"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1077,
-        "type": "Synchronous Call", "main_type": 221,
-        "name": "load_data",
-        "description": [
-                ""
-        ],
-        "list_order": 483921778,
-        "from_classifier_name": "sketch",
-        "from_feature_key": "",
-        "to_classifier_name": "gui_sketch _result_list",
-        "to_feature_key": "",
-        "from_node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-        "to_node": "286636a8-562e-492f-90c0-8634d01a42ca",
-        "uuid": "07d1aa5a-b182-4fc9-ba59-f4d7d6e4ab2f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1078,
-        "type": "Synchronous Call", "main_type": 221,
-        "name": "load_data",
-        "description": [
-                ""
-        ],
-        "list_order": 767178519,
-        "from_classifier_name": "sketch",
-        "from_feature_key": "",
-        "to_classifier_name": "gui_sketch_card",
-        "to_feature_key": "",
-        "from_node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-        "to_node": "013f61a3-188b-42cf-9383-afa74626c758",
-        "uuid": "39d4d468-0d4d-40b5-92ad-8c7a40a5eba2"
+        "from_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
+        "to_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
+        "uuid": "b5520396-be65-4fca-9d51-9d54f9bf9f55"
       }
     },
     {
       "relationship": {
         "id": 355,
-        "type": "Communication Path", "main_type": 230,
+        "type": "Association", "main_type": 200,
         "name": "run",
         "description": [
                 ""
@@ -27264,9 +26974,9 @@
         "type": "Synchronous Call", "main_type": 221,
         "name": "run (text,page)",
         "description": [
-                ""
+                "gui_search_runner_run"
         ],
-        "list_order": -111030771,
+        "list_order": -260716533,
         "from_classifier_name": "search_entry",
         "from_feature_key": "",
         "to_classifier_name": "gui_search _runner",
@@ -27278,28 +26988,9 @@
     },
     {
       "relationship": {
-        "id": 1074,
-        "type": "Synchronous Call", "main_type": 221,
-        "stereotype": "not-yet-implemented",
-        "name": "show_result_list",
-        "description": [
-                ""
-        ],
-        "list_order": -331062528,
-        "from_classifier_name": "search_entry",
-        "from_feature_key": "",
-        "to_classifier_name": "sketch",
-        "to_feature_key": "",
-        "from_node": "c1555744-3745-4244-8557-fc3835b4cfd4",
-        "to_node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-        "uuid": "678a27a6-59ea-4823-bb3f-e69abba66530"
-      }
-    },
-    {
-      "relationship": {
         "id": 356,
-        "type": "Communication Path", "main_type": 230,
-        "name": "",
+        "type": "Dependency", "main_type": 0,
+        "name": "observer_notify",
         "description": [
                 ""
         ],
@@ -27314,12 +27005,12 @@
     {
       "relationship": {
         "id": 364,
-        "type": "Synchronous Call", "main_type": 221,
-        "name": "show_result_list",
+        "type": "Asynchronous Call", "main_type": 220,
+        "name": "observer_notify",
         "description": [
                 ""
         ],
-        "list_order": 60371790,
+        "list_order": 180116905,
         "from_classifier_name": "gui_search _runner",
         "from_feature_key": "",
         "to_classifier_name": "sketch",
@@ -27331,39 +27022,18 @@
     },
     {
       "relationship": {
-        "id": 1076,
-        "type": "Return", "main_type": 222,
-        "name": "",
+        "id": 1107,
+        "type": "Association", "main_type": 200,
+        "name": "gui_search_runner_get_result_list",
         "description": [
                 ""
         ],
-        "list_order": 354716949,
-        "from_classifier_name": "gui_search _runner",
-        "from_feature_key": "",
-        "to_classifier_name": "sketch",
-        "to_feature_key": "",
-        "from_node": "0e2c99b2-186d-41c4-8644-1e4febaf01d4",
-        "to_node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-        "uuid": "6c3d6a06-790f-4e43-81dd-4f6412a9bfae"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1069,
-        "type": "Return", "main_type": 222,
-        "stereotype": "not-yet-implemented",
-        "name": "page length",
-        "description": [
-                ""
-        ],
-        "list_order": 641236026,
+        "list_order": 1411889605,
         "from_classifier_name": "gui_sketch _result_list",
-        "from_feature_key": "",
-        "to_classifier_name": "sketch",
-        "to_feature_key": "",
-        "from_node": "4cf05fc6-ee5c-4242-b64b-6c0bfd19188f",
-        "to_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
-        "uuid": "fd6842e9-6a61-4291-abb9-91b81414d407"
+        "to_classifier_name": "gui_search _runner",
+        "from_node": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
+        "to_node": "330fd818-d38a-4267-86a1-13846247fee2",
+        "uuid": "1ee3733e-efd4-4f40-8702-47704b95d1bd"
       }
     },
     {
@@ -33729,38 +33399,20 @@
     },
     {
       "relationship": {
-        "id": 1080,
+        "id": 1109,
         "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": -13019872,
-        "from_classifier_name": "Rationale for change",
-        "from_feature_key": "",
-        "to_classifier_name": "sketch",
-        "to_feature_key": "",
-        "from_node": "aa201d86-bec2-47ab-8012-f766c8bc8160",
-        "to_node": "17c554ef-a78f-4033-91da-4333cb5bb617",
-        "uuid": "30bbecb3-1788-4201-ba9f-e2f40772c42b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1081,
-        "type": "Dependency", "main_type": 0,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1319600894,
+        "list_order": -73275543,
         "from_classifier_name": "Challenge",
         "from_feature_key": "",
-        "to_classifier_name": "sketch",
+        "to_classifier_name": "gui_search _runner",
         "to_feature_key": "",
         "from_node": "65f1aff0-19ef-4528-bc83-5fe4bb83c254",
-        "to_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
-        "uuid": "2e5f24a8-12e5-47d2-83b2-d0fe9c67ea2b"
+        "to_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
+        "uuid": "4be9fd8d-d493-4af7-8975-d1860238083c"
       }
     },
     {

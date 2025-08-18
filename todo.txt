@@ -24,6 +24,8 @@ ideas for future versions:
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [ ] to pink-mark several objects - require shift key
+  [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
+  [ ] In Search View, show e.g. the Diagram Id to better explani why classifiers are shown multiple times
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -40,7 +42,7 @@ ideas for future versions:
   [ ] A comment should consider CJK linebreaks - like the json export
   [ ] An image should allow to show an svg-<path> without a stereotype
   [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
-  [ ] A stereotype could define a pattern and a color - additionally to the icon based on svg paths
+  [ ] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -53,7 +55,7 @@ ideas for future versions:
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
-  [ ] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
+  [?] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
       show/hide relationships-of-other-diag-types
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
@@ -63,7 +65,6 @@ ideas for future versions:
       --> see self_architecture.cfuJ / D0018
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
-  [ ] re-introduce SysML test cases
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
