@@ -177,7 +177,7 @@ static inline data_row_t layout_relationship_get_relationship_id ( const layout_
  *  \param this_ pointer to own object attributes
  *  \return pointer to const geometry_rectangle_t.
  */
-static inline const geometry_rectangle_t *layout_relationship_get_from_symbol_box_const ( const layout_relationship_t *this_ );
+static inline const geometry_rectangle_t *layout_relationship_get_from_box_const ( const layout_relationship_t *this_ );
 
 /*!
  *  \brief gets the symbol_box of the destination object, the feature or the classifier
@@ -185,7 +185,7 @@ static inline const geometry_rectangle_t *layout_relationship_get_from_symbol_bo
  *  \param this_ pointer to own object attributes
  *  \return pointer to const geometry_rectangle_t.
  */
-static inline const geometry_rectangle_t *layout_relationship_get_to_symbol_box_const ( const layout_relationship_t *this_ );
+static inline const geometry_rectangle_t *layout_relationship_get_to_box_const ( const layout_relationship_t *this_ );
 
 
 #include "layout_relationship.inl"

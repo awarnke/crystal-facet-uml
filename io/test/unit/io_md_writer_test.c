@@ -153,7 +153,8 @@ static test_case_result_t test_md_plain_mixed( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "<!DTD><body>plain &amp;amp; &quot;\'&lt;&gt;D3D#name#id"
-        "ln 1a\nln 1b" TAG_BREAK "\nln 2" TAG_BREAK "- ln 3" TAG_BREAK "4" TAG_BREAK "5 ln 5" TAG_BREAK TAG_BREAK "\nln 7a\n ln 7b" TAG_BREAK "&gt; ln8\n"
+        "ln 1a" TAG_BREAK "ln 1b" TAG_BREAK TAG_BREAK "ln 2" TAG_BREAK "- ln 3" TAG_BREAK "4" TAG_BREAK "5 ln 5"
+        TAG_BREAK TAG_BREAK TAG_BREAK "ln 7a" TAG_BREAK " ln 7b" TAG_BREAK "&gt; ln8" TAG_BREAK
         "</body>";
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );

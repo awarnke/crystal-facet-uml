@@ -6,7 +6,7 @@
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include "u8/u8_i32.h"
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 
 static const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
 static const int GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH = -1;
@@ -20,13 +20,15 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_,
     assert( resources != NULL );
     assert( texture_downloader != NULL );
 
-    DATA_SEARCH_RESULT_LIST_INIT( &((*this_).result_list), (*this_).result_list_buf );
-
+    /* layouting information */
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
-    (*this_).element_count = 0;
+    /* data and layouting information of search results */
+    (*this_).requested_page = pos_scroll_page_new( 0, false /* backwards */ );
+    pos_search_result_page_init( &((*this_).page), 0 /* buffer_start */ );
 
+    /* helper classes to perform drawing */
     gui_sketch_style_init( &((*this_).sketch_style) );
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
@@ -40,14 +42,17 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    /* helper classes to perform drawing */
     (*this_).texture_downloader = NULL;
     gui_type_resource_list_destroy( &((*this_).selector) );
     (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     gui_sketch_style_destroy( &((*this_).sketch_style) );
 
-    gui_sketch_result_list_invalidate_data( this_ );
+    /* data and layouting information of search results */
+    pos_search_result_page_destroy( &((*this_).page) );
 
+    /* layouting information */
     shape_int_rectangle_destroy( &((*this_).bounds) );
 
     U8_TRACE_END();
@@ -56,6 +61,12 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
 void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t *cr )
 {
     U8_TRACE_BEGIN();
+
+    /* bounds */
+    int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    uint_fast32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
     /* create the font_layout */
     PangoLayout *font_layout;
@@ -66,17 +77,107 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
         pango_layout_set_font_description( font_layout, std_font );
     }
 
-    int32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) );
+    /* measure a previous page button heights */
+    GdkTexture *prev_gray_icon = gui_resources_get_sketch_page_up_gray( (*this_).resources );
+    const uint_fast32_t prev_icon_height = gdk_texture_get_height( prev_gray_icon );
+    const uint_fast32_t prev_icon_width = gdk_texture_get_width( prev_gray_icon );
+    const shape_int_rectangle_t prev_icon_box = (shape_int_rectangle_t) {
+        .left = left + ( width - prev_icon_width ) / 2,
+        .top = top,
+        .width = prev_icon_width,
+        .height = prev_icon_height };
+    pos_search_result_page_set_button_prev_box( &((*this_).page), &prev_icon_box );
 
-    const unsigned int count = data_search_result_list_get_length( &((*this_).result_list) );
-    assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-    (*this_).element_count = count;
-    for ( unsigned int idx = 0; idx < count; idx ++ )
+    /* measure a next page button heights */
+    GdkTexture *next_gray_icon = gui_resources_get_sketch_page_down_gray( (*this_).resources );
+    const uint_fast32_t next_icon_height = gdk_texture_get_height( next_gray_icon );
+    const uint_fast32_t next_icon_width = gdk_texture_get_width( next_gray_icon );
+    const shape_int_rectangle_t next_icon_box = (shape_int_rectangle_t) {
+        .left = left + ( width - next_icon_width ) / 2,
+        .top = top + height - next_icon_height,
+        .width = next_icon_width,
+        .height = next_icon_height };
+    pos_search_result_page_set_button_next_box( &((*this_).page), &next_icon_box );
+
+    /* initialize a possible result - in case the buffer is empty and the for loop later is not executed */
+    const int32_t buffer_start = pos_search_result_page_get_buffer_start( &((*this_).page) );
+    const uint32_t buffer_length = pos_search_result_page_get_buffer_length( &((*this_).page) );
+    assert( buffer_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+    const bool buffer_more_after = pos_search_result_page_get_buffer_more_after( &((*this_).page) );
+    pos_search_result_page_set_page_start( &((*this_).page), buffer_start );  /* default value for case of empty buffer */
+    pos_search_result_page_set_page_length( &((*this_).page), buffer_length );  /* default value for case of empty buffer */
+    pos_search_result_page_set_has_prev_page( &((*this_).page), ( buffer_start != 0 ) );  /* default value for case of empty buffer */
+
+    /* do not fully trust the consistency between (*this_).requested_page and (*this_).page. */
+    /* These information come from different sources. */
+    pos_scroll_page_trace( &((*this_).requested_page) );
+    const int_fast32_t requested_anchor_idx = pos_scroll_page_get_anchor_index( &((*this_).requested_page) );
+    const bool valid_anchor
+        = (( buffer_start <= requested_anchor_idx )&&( requested_anchor_idx < ( buffer_start + buffer_length )));
+    assert( valid_anchor || ( buffer_length == 0 ) );
+    const int_fast32_t anchor_idx = valid_anchor ? requested_anchor_idx : buffer_start;
+    const bool requested_backwards = pos_scroll_page_get_backwards( &((*this_).requested_page) );
+    const bool backwards = valid_anchor ? requested_backwards : false;
+
+    /* each visible element, do layout */
+    if ( backwards )
     {
-        const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
-        pos_search_result_init( &((*this_).element_pos[idx]), result );
-        gui_sketch_result_list_private_layout_element( this_, &((*this_).element_pos[idx]), &y_pos, font_layout );
+        /* y positions */
+        int_fast32_t y_pos = shape_int_rectangle_get_bottom( &((*this_).bounds) ) - next_icon_height - OBJ_GAP;
+        const int_fast32_t top_border = shape_int_rectangle_get_top( &((*this_).bounds) ) + prev_icon_height + OBJ_GAP;
+        bool page_full = false;
+        for ( int32_t index = anchor_idx; ( index >= buffer_start ) && ( ! page_full ); index -- )
+        {
+            pos_search_result_t *const search_result
+                = pos_search_result_page_get_search_result_layout_ptr( &((*this_).page), index );
+            gui_sketch_result_list_private_layout_element( this_, search_result, &y_pos, backwards, font_layout );
+            if ( y_pos < top_border )
+            {
+                page_full = true;
+            }
+            else
+            {
+                /* define the range of visible elements */
+                pos_search_result_page_set_page_start( &((*this_).page), index );
+                pos_search_result_page_set_page_length( &((*this_).page), anchor_idx - index + 1 );
+                pos_search_result_page_set_has_prev_page( &((*this_).page), ( index != 0 ) );
+            }
+        }
+        const bool more_after_anchor = ( anchor_idx + 1 ) < ( buffer_start + buffer_length );
+        pos_search_result_page_set_has_next_page( &((*this_).page), buffer_more_after || more_after_anchor );
     }
+    else
+    {
+        /* y positions */
+        int_fast32_t y_pos = shape_int_rectangle_get_top( &((*this_).bounds) ) + prev_icon_height + OBJ_GAP;
+        const int_fast32_t bottom_border = shape_int_rectangle_get_bottom( &((*this_).bounds) ) - next_icon_height - OBJ_GAP;
+        bool page_full = false;
+        for ( uint32_t buffer_idx = 0; ( buffer_idx < buffer_length ) && ( ! page_full ); buffer_idx ++ )
+        {
+            const uint32_t index = buffer_start + buffer_idx;
+            pos_search_result_t *const search_result
+                = pos_search_result_page_get_search_result_layout_ptr( &((*this_).page), index );
+            gui_sketch_result_list_private_layout_element( this_, search_result, &y_pos, backwards, font_layout );
+            if ( y_pos > bottom_border )
+            {
+                page_full = true;
+            }
+            else
+            {
+                /* define the range of visible elements */
+                pos_search_result_page_set_page_start( &((*this_).page), buffer_start );
+                pos_search_result_page_set_page_length( &((*this_).page), index - buffer_start + 1 );
+            }
+        }
+        pos_search_result_page_set_has_next_page( &((*this_).page), buffer_more_after || page_full );
+    }
+
+    /* trace available buffer and visible page */
+    U8_TRACE_INFO_INT_INT( "gui_sketch_result_list_do_layout: available buffer (start,len):", buffer_start, buffer_length );
+    U8_TRACE_INFO_INT_INT( "gui_sketch_result_list_do_layout: visible page     (start,len):",
+                           pos_search_result_page_get_page_start( &((*this_).page) ),
+                           pos_search_result_page_get_page_length( &((*this_).page) )
+                         );
 
     /* release the font_layout */
     g_object_unref(font_layout);
@@ -86,7 +187,8 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
 
 void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
                                                      pos_search_result_t *element,
-                                                     int32_t *io_y_pos,
+                                                     int_fast32_t *io_y_pos,
+                                                     bool upwards,
                                                      PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
@@ -99,49 +201,47 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
     const data_search_result_t *result = pos_search_result_get_data_const( element );
 
     /* determine icon dimensions */
-    {
-        const data_type_t result_type = data_search_result_get_match_type( result );
-        gui_type_resource_t *const type_data
-            = gui_type_resource_list_get_type ( &((*this_).selector), result_type );
-        GdkTexture *const icon = gui_type_resource_get_icon( type_data );
-        const double icon_width = gdk_texture_get_width( icon );
-        const double icon_height = gdk_texture_get_height( icon );
-
-        const shape_int_rectangle_t new_icon_box = (shape_int_rectangle_t) {
-            .left=left+OBJ_GAP,
-            .top=(*io_y_pos)+OBJ_GAP,
-            .width=icon_width+0.999,
-            .height=icon_height+0.999 };
-        pos_search_result_set_icon_box( element, &new_icon_box );
-    }
+    const data_type_t result_type = data_search_result_get_match_type( result );
+    gui_type_resource_t *const type_data
+        = gui_type_resource_list_get_type ( &((*this_).selector), result_type );
+    GdkTexture *const icon = gui_type_resource_get_icon( type_data );
+    const uint_fast32_t icon_width = gdk_texture_get_width( icon );
+    const uint_fast32_t icon_height = gdk_texture_get_height( icon );
 
     /* determine label dimensions */
-    const shape_int_rectangle_t *const icon_box = pos_search_result_get_icon_box_const( element );
-    {
-        int_fast32_t proposed_pango_width = width - shape_int_rectangle_get_width(icon_box) - (4*OBJ_GAP);
-        pango_layout_set_text( font_layout,
-                                data_search_result_get_match_name_const( result ),
-                                GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH
-                                );
-        pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
-        int text_width;
-        int text_height;
-        pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
+    int_fast32_t proposed_pango_width = width - icon_width - (4*OBJ_GAP);
+    pango_layout_set_text( font_layout,
+                           data_search_result_get_match_name_const( result ),
+                           GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH
+                         );
+    pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
+    int text_width;
+    int text_height;
+    pango_layout_get_pixel_size(font_layout, &text_width, &text_height);
 
-        int_fast32_t x_pos = shape_int_rectangle_get_right(icon_box);
+    /* calculate element bounds */
+    const uint_fast32_t element_height = u8_i32_max2( icon_height, text_height );
+    const int_fast32_t element_top = (*io_y_pos) - ( upwards ? ( OBJ_GAP + element_height ) : (-OBJ_GAP) );
 
-        const shape_int_rectangle_t new_label_box = (shape_int_rectangle_t) {
-            .left=x_pos+OBJ_GAP,
-            .top=(*io_y_pos)+OBJ_GAP,
-            .width=text_width,
-            .height=text_height };
-        pos_search_result_set_label_box( element, &new_label_box );
-    }
+    /* set icon dimensions */
+    const shape_int_rectangle_t icon_box = (shape_int_rectangle_t) {
+        .left = left + OBJ_GAP,
+        .top = element_top,
+        .width = icon_width,
+        .height = icon_height };
+    pos_search_result_set_icon_box( element, &icon_box );
 
-    const shape_int_rectangle_t *const label_box = pos_search_result_get_label_box_const( element );
-    *io_y_pos
-        = u8_i32_max2( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
-        + OBJ_GAP;
+    /* set label dimensions */
+    int_fast32_t x_pos = shape_int_rectangle_get_right( &icon_box );
+    const shape_int_rectangle_t label_box = (shape_int_rectangle_t) {
+        .left = x_pos + OBJ_GAP,
+        .top = element_top,
+        .width = text_width,
+        .height = text_height };
+    pos_search_result_set_label_box( element, &label_box );
+
+    /* update y_pos */
+    *io_y_pos = ( upwards ? element_top : ( element_top + element_height ) );
 
     U8_TRACE_END();
 }
@@ -179,14 +279,15 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
         }
 
         /* draw icons and text */
-        const unsigned int count = (*this_).element_count;
-        assert( count <= GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS );
-        if ( count == 0 )
+        const uint32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
+        const uint32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
+        assert( page_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+        if ( ( page_start + page_length ) == 0 )
         {
             const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
             const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
             GdkTexture *undef_icon = gui_resources_get_type_undef( (*this_).resources );
-            double icon_width = gdk_texture_get_width ( undef_icon );
+            const uint_fast32_t icon_width = gdk_texture_get_width ( undef_icon );
 
             /* draw text first, use the above set color and font */
             const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
@@ -197,16 +298,51 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
             pango_cairo_show_layout( cr, font_layout );
 
             /* draw the icon */
-            const int x = left+OBJ_GAP;
-            const int y = top+OBJ_GAP;
+            const int_fast32_t x = left + OBJ_GAP;
+            const int_fast32_t y = top + OBJ_GAP;
             gui_sketch_texture_draw( (*this_).texture_downloader, undef_icon, x, y, cr );
         }
         else
         {
-            for ( unsigned int idx = 0; idx < count; idx ++ )
+            /* draw search results */
+            for ( uint32_t idx = 0; idx < page_length; idx ++ )
             {
-                const pos_search_result_t *const element = &((*this_).element_pos[idx]);
+                const pos_search_result_t *const element
+                    = pos_search_result_page_get_search_result_layout_const( &((*this_).page), page_start + idx );
                 gui_sketch_result_list_private_draw_element( this_, element, marker, font_layout, cr );
+            }
+
+            /* draw prev and next page buttons */
+            const gui_sketch_action_t btn_act = gui_marked_set_get_highlighted_button( marker );
+            if ( pos_search_result_page_has_prev_page( &((*this_).page) ) )
+            {
+                const shape_int_rectangle_t *const prev_box
+                    = pos_search_result_page_get_button_prev_box_const( &((*this_).page) );
+                GdkTexture *const prev_icon
+                    = ( btn_act == GUI_SKETCH_ACTION_PREVIOUS_PAGE )
+                    ? gui_resources_get_sketch_page_up_bold( (*this_).resources )
+                    : gui_resources_get_sketch_page_up_gray( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader,
+                                         prev_icon,
+                                         shape_int_rectangle_get_left( prev_box ),
+                                         shape_int_rectangle_get_top( prev_box ),
+                                         cr
+                                       );
+            }
+            if ( pos_search_result_page_has_next_page( &((*this_).page) ) )
+            {
+                const shape_int_rectangle_t *const next_box
+                    = pos_search_result_page_get_button_next_box_const( &((*this_).page) );
+                GdkTexture *const next_icon
+                    = ( btn_act == GUI_SKETCH_ACTION_NEXT_PAGE )
+                    ? gui_resources_get_sketch_page_down_bold( (*this_).resources )
+                    : gui_resources_get_sketch_page_down_gray( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader,
+                                         next_icon,
+                                         shape_int_rectangle_get_left( next_box ),
+                                         shape_int_rectangle_get_top( next_box ),
+                                         cr
+                                       );
             }
         }
 

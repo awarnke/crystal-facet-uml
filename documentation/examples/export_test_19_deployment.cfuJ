@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,55 +14,47 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 30,
-        "type": "UMLDeploymentDiagram",
+        "type": "Deployment Diagram", "diagram_type": 30,
         "name": "Deployment",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "086a3267-da02-48cf-9a99-b2ae364cfb79",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "The Cloud",
             "node": "bb1cd799-8676-4612-8d74-fa83ffc6e0ad",
             "uuid": "8a2a853e-c39e-41e3-82f5-0e7a9f6dcb5d"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "Local Computer",
             "node": "197135ae-2efc-42a3-b052-35dcc523cd6d",
             "uuid": "17941a67-2be0-4b11-8ed6-cbe9164c4822"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "Web-App 1",
             "node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
             "uuid": "e97a5dbc-e499-4a0f-b539-2a93363265ed"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "User Settings",
             "node": "b4736129-f4ee-493b-ae24-4045cdfbd476",
             "uuid": "a166b41b-4c44-46ff-82fc-faf05cc24430"
           },
           {
             "id": 5,
-            "display_flags": 0,
             "classifier_name": "User-Settings App",
             "node": "619c4e53-d53b-4791-b6f3-d4476a24944d",
             "uuid": "65709eae-8223-4abb-9d30-aa762253c13f"
           },
           {
             "id": 6,
-            "display_flags": 0,
             "classifier_name": "Online Help App",
             "node": "19bb26b4-a6ff-48de-ad8d-42771d134389",
             "uuid": "ec576841-75bb-4ad9-a512-bade81e70f16"
@@ -77,9 +69,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
+        "type": "Node", "main_type": 120,
         "name": "The Cloud",
         "description": [
                 ""
@@ -96,9 +86,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
+        "type": "Node", "main_type": 120,
         "name": "Local Computer",
         "description": [
                 ""
@@ -115,9 +103,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 127,
-        "type": "Artifact",
-        "stereotype": "",
+        "type": "Artifact", "main_type": 127,
         "name": "Web-App 1",
         "description": [
                 ""
@@ -134,9 +120,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 127,
-        "type": "Artifact",
-        "stereotype": "",
+        "type": "Artifact", "main_type": 127,
         "name": "User Settings",
         "description": [
                 ""
@@ -153,9 +137,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 121,
-        "type": "Component",
-        "stereotype": "",
+        "type": "Component", "main_type": 121,
         "name": "User-Settings App",
         "description": [
                 ""
@@ -172,9 +154,7 @@
     {
       "classifier": {
         "id": 6,
-        "main_type": 121,
-        "type": "Component",
-        "stereotype": "",
+        "type": "Component", "main_type": 121,
         "name": "Online Help App",
         "description": [
                 ""
@@ -195,8 +175,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -212,8 +191,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 251,
-        "type": "Manifestation",
+        "type": "Manifestation", "main_type": 251,
         "name": "",
         "description": [
                 ""
@@ -229,8 +207,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 251,
-        "type": "Manifestation",
+        "type": "Manifestation", "main_type": 251,
         "name": "",
         "description": [
                 ""
@@ -246,8 +223,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 250,
-        "type": "Deployment",
+        "type": "Deployment", "main_type": 250,
         "name": "",
         "description": [
                 ""
@@ -263,8 +239,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 250,
-        "type": "Deployment",
+        "type": "Deployment", "main_type": 250,
         "name": "",
         "description": [
                 ""

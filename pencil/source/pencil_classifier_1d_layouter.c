@@ -1,6 +1,7 @@
 /* File: pencil_classifier_1d_layouter.c; Copyright and License: see below */
 
 #include "pencil_classifier_1d_layouter.h"
+#include "layout/layout_visible_classifier_iter.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -178,7 +179,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
                                                                 DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
                                                                 c1_type
                                                               );
-            if ( c1_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )
+            if ( c1_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )
             {
                 insert_err = universal_array_index_sorter_insert( &sorted_diag_refs, plain_idx, weight );
             }
@@ -199,7 +200,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
         /* set the preferred bounds, space and label_box of the classifier layout */
         {
             geometry_rectangle_t envelope_box;
-            if ( c1_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )
+            if ( c1_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )
             {
                 geometry_rectangle_init( &envelope_box, 0.0, 0.0, (diag_w-half_minor_width), (minor_minor_height/2.0) );
             }
@@ -389,27 +390,29 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
 
     /* calculate sum of wished envelope widths */
     double total_wish_width = 0.0;
-    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    layout_visible_classifier_iter_t classifer_iterator;
+    layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, classifier_list );
+    while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
     {
-        uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         const layout_visible_classifier_t *const visible_classifier1
-            = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, index );
+            = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
 
         /* update sum of wished envelope widths */
         const geometry_rectangle_t envelope
             = layout_visible_classifier_get_envelope_box( visible_classifier1 );
         total_wish_width += geometry_rectangle_get_width( &envelope );
     }
+    layout_visible_classifier_iter_destroy( &classifer_iterator );
+    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
     const double dx_spaces = (count_classifiers==0) ? diag_w : ((diag_w - total_wish_width)/count_classifiers);
 
     /* update the classifier coordinates */
     double current_x = diag_x;
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, classifier_list );
+    while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
     {
-        const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
 
         const geometry_rectangle_t envelope
             = layout_visible_classifier_get_envelope_box( visible_classifier2 );
@@ -440,7 +443,8 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
             /* const double wish2avail_ratio = (diag_h == 0.0) ? 1.0 : (total_wish_width/diag_h); */
             const double avail2wish_ratio = (total_wish_width == 0.0) ? 1.0 : (diag_w/total_wish_width);
             const double available_width = envelope_width * avail2wish_ratio;
-            const double x_align_ratio = (count_classifiers==1) ? 0.5 : sort_idx/(count_classifiers-1.0);
+            const uint32_t position = layout_visible_classifier_iter_count_processed( &classifer_iterator ) - 1;
+            const double x_align_ratio = (count_classifiers==1) ? 0.5 : position / ( count_classifiers - 1.0 );
             const double x_align_envelope = envelope_width * x_align_ratio;
             const double x_align_available = available_width * x_align_ratio;
 
@@ -452,6 +456,7 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
             current_x += available_width;
         }
     }
+    layout_visible_classifier_iter_destroy( &classifer_iterator );
 
     U8_TRACE_END();
 }
@@ -469,27 +474,29 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
 
     /* calculate sum of wished envelope heights */
     double total_wish_height = 0.0;
-    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    layout_visible_classifier_iter_t classifer_iterator;
+    layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, classifier_list );
+    while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
     {
-        const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         const layout_visible_classifier_t *const visible_classifier1
-            = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, index );
+            = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
 
         /* update sum of wished envelope heights */
         const geometry_rectangle_t envelope
             = layout_visible_classifier_get_envelope_box( visible_classifier1 );
         total_wish_height += geometry_rectangle_get_height( &envelope );
     }
+    layout_visible_classifier_iter_destroy( &classifer_iterator );
+    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
     const double dy_spaces = (count_classifiers==0) ? diag_h : ((diag_h - total_wish_height)/count_classifiers);
 
     /* update the classifier coordinates */
     double current_y = diag_y;
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, classifier_list );
+    while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
     {
-        const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
 
         const geometry_rectangle_t envelope
             = layout_visible_classifier_get_envelope_box( visible_classifier2 );
@@ -521,7 +528,8 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
             /* const double wish2avail_ratio = (diag_h == 0.0) ? 1.0 : (total_wish_height/diag_h); */
             const double avail2wish_ratio = (total_wish_height == 0.0) ? 1.0 : (diag_h/total_wish_height);
             const double available_height = envelope_height * avail2wish_ratio;
-            const double y_align_ratio = (count_classifiers==1) ? 0.5 : sort_idx/(count_classifiers-1.0);
+            const uint32_t position = layout_visible_classifier_iter_count_processed( &classifer_iterator ) - 1;
+            const double y_align_ratio = (count_classifiers==1) ? 0.5 : position / ( count_classifiers - 1.0 );
             const double y_align_envelope = envelope_height * y_align_ratio;
             const double y_align_available = available_height * y_align_ratio;
 
@@ -533,6 +541,7 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
             current_y += available_height;
         }
     }
+    layout_visible_classifier_iter_destroy( &classifer_iterator );
 
     U8_TRACE_END();
 }
@@ -551,12 +560,12 @@ void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_class
     const double dest_right = geometry_rectangle_get_right( dest_rect );
 
     /* update the classifier coordinates */
-    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    layout_visible_classifier_iter_t classifer_iterator;
+    layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, classifier_list );
+    while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
     {
-        uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
 
         /* get envelope */
         const geometry_rectangle_t envelope
@@ -594,6 +603,7 @@ void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_class
 
         layout_visible_classifier_shift( visible_classifier2, &offset );
     }
+    layout_visible_classifier_iter_destroy( &classifer_iterator );
 
     U8_TRACE_END();
 }
@@ -612,12 +622,12 @@ void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classif
     const double dest_bottom = geometry_rectangle_get_bottom( dest_rect );
 
     /* update the classifier coordinates */
-    const uint_fast32_t count_classifiers = universal_array_index_sorter_get_count ( classifier_list );
-    for ( uint_fast32_t sort_idx = 0; sort_idx < count_classifiers; sort_idx ++ )
+    layout_visible_classifier_iter_t classifer_iterator;
+    layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, classifier_list );
+    while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
     {
-        const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
 
         /* get envelope */
         const geometry_rectangle_t envelope
@@ -656,6 +666,7 @@ void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classif
         layout_visible_classifier_shift( visible_classifier2, &offset );
 
     }
+    layout_visible_classifier_iter_destroy( &classifer_iterator );
 
     U8_TRACE_END();
 }

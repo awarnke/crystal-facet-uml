@@ -32,28 +32,28 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_STRUCTURED_ACTIVITY_NODE,  /*!< Nested activities */
     XMI_ELEMENT_INFO_MAP_INDEX_STATEMACHINE,  /*!< The outermost state is a statemachine */
     XMI_ELEMENT_INFO_MAP_INDEX_STATE,
-    XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION_USE,  /*!< equals diagram reference */
+    XMI_ELEMENT_INFO_MAP_INDEX_INTERACTION_USE,
     XMI_ELEMENT_INFO_MAP_INDEX_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT,
+    XMI_ELEMENT_INFO_MAP_INDEX_COMPONENT,  /*!< also used for PART */
     XMI_ELEMENT_INFO_MAP_INDEX_INTERFACE,
     XMI_ELEMENT_INFO_MAP_INDEX_PACKAGE,
-    XMI_ELEMENT_INFO_MAP_INDEX_CLASS,
+    XMI_ELEMENT_INFO_MAP_INDEX_CLASS,  /*!< also used for OBJECT */
     XMI_ELEMENT_INFO_MAP_INDEX_ARTIFACT,
     XMI_ELEMENT_INFO_MAP_INDEX_COMMENT,
     XMI_ELEMENT_INFO_MAP_INDEX_IMAGE,
     XMI_ELEMENT_INFO_MAP_INDEX_STEREOTYPE,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_INITIAL_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_INITIAL_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_FINAL_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_FINAL_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_INITIAL_NODE,  /* state/activity context twin */
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_INITIAL_NODE,  /* state/activity context twin */
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_FINAL_NODE,  /* state/activity context twin */
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_FINAL_NODE,  /* state/activity context twin */
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_FORK_NODE,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_JOIN_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_DECISION_NODE,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_DECISION_NODE,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_DECISION_NODE,  /* state/activity context twin */
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_DECISION_NODE,  /* state/activity context twin */
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_SHALLOW_HISTORY,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_DEEP_HISTORY,
-    XMI_ELEMENT_INFO_MAP_INDEX_DYN_PARTITION,
+    XMI_ELEMENT_INFO_MAP_INDEX_DYN_PARTITION,  /* TODO maybe unused, maybe future use? */
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_EVENT,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACCEPT_TIME_EVENT,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_SEND_SIGNAL,
@@ -85,7 +85,7 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_COMMUNICATION_PATH,
     XMI_ELEMENT_INFO_MAP_INDEX_CONTROL_FLOW,
     XMI_ELEMENT_INFO_MAP_INDEX_OBJECT_FLOW,
-    XMI_ELEMENT_INFO_MAP_INDEX_TRANSITION,
+    XMI_ELEMENT_INFO_MAP_INDEX_TRANSITION,  /* TODO: possibly unused */
     XMI_ELEMENT_INFO_MAP_INDEX_DEPLOY,
     XMI_ELEMENT_INFO_MAP_INDEX_MANIFEST,
     XMI_ELEMENT_INFO_MAP_INDEX_EXTEND,
@@ -112,11 +112,11 @@ extern const xmi_element_info_map_t xmi_element_info_map_standard;
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
-static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
-                                                        data_classifier_type_t parent_type,
-                                                        data_classifier_type_t classifier_type,
-                                                        const xmi_element_info_t **out_element_info
-                                                      );
+static inline u8_error_t xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
+                                                               data_classifier_type_t parent_type,
+                                                               data_classifier_type_t classifier_type,
+                                                               const xmi_element_info_t **out_element_info
+                                                             );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by feat_type.
@@ -127,11 +127,11 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
-static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
-                                                     data_classifier_type_t parent_type,
-                                                     data_feature_type_t feature_type,
-                                                     const xmi_element_info_t **out_element_info
-                                                   );
+static inline u8_error_t xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
+                                                            data_classifier_type_t parent_type,
+                                                            data_feature_type_t feature_type,
+                                                            const xmi_element_info_t **out_element_info
+                                                          );
 
 /*!
  *  \brief returns a pointer to the xmi_element_info_t struct identified by rel_type.
@@ -142,11 +142,11 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
-static inline int xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
-                                                          bool statemachine_context,
-                                                          data_relationship_type_t rel_type,
-                                                          const xmi_element_info_t **out_element_info
-                                                        );
+static inline u8_error_t xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
+                                                                 bool statemachine_context,
+                                                                 data_relationship_type_t rel_type,
+                                                                 const xmi_element_info_t **out_element_info
+                                                               );
 
 #include "xmi_element_info_map.inl"
 

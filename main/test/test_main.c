@@ -22,6 +22,7 @@
 #include "unit/data_database_listener_test.h"
 #include "unit/data_database_head_test.h"
 #include "integration/data_database_reader_test.h"
+#include "integration/data_database_text_search_test.h"
 #include "integration/data_profile_part_test.h"
 #include "integration/data_visible_set_test.h"
 /* ctrl */
@@ -34,6 +35,8 @@
 #include "integration/consistency_drop_invisibles_test.h"
 #include "unit/ctrl_undo_redo_iterator_test.h"
 /* pencil */
+#include "unit/geometry__test.h"
+#include "unit/geometry_anchor_test.h"
 #include "unit/geometry_rectangle_test.h"
 #include "unit/geometry_connector_test.h"
 #include "unit/geometry_non_linear_scale_test.h"
@@ -72,6 +75,7 @@
 #include "unit/utf8stringview_test.h"
 #include "unit/utf8stringviewiterator_test.h"
 #include "unit/utf8stringviewtokenizer_test.h"
+#include "unit/utf8stringlines_test.h"
 #include "unit/utf8stream_writer_test.h"
 #include "integration/u8dir_file_test.h"
 #include "integration/universal_file_input_stream_test.h"
@@ -84,7 +88,14 @@
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "test_runner.h"
+#if __GNUC__ >= 8
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+#endif
 #include <gtk/gtk.h>
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -205,6 +216,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, utf8stringview_test_get_suite() );
         test_runner_run_suite( &runner, utf8stringviewiterator_test_get_suite() );
         test_runner_run_suite( &runner, utf8stringviewtokenizer_test_get_suite() );
+        test_runner_run_suite( &runner, utf8stringlines_test_get_suite() );
         test_runner_run_suite( &runner, utf8stream_writer_test_get_suite() );
 
         /* data */
@@ -230,6 +242,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, data_database_head_test_get_suite() );
 
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
+        test_runner_run_suite( &runner, data_database_text_search_test_get_suite() );
         test_runner_run_suite( &runner, data_profile_part_test_get_suite() );
         test_runner_run_suite( &runner, data_visible_set_test_get_suite() );
 
@@ -245,6 +258,8 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, consistency_drop_invisibles_test_get_suite() );
 
         /* pencil */
+        test_runner_run_suite( &runner, geometry__test_get_suite() );
+        test_runner_run_suite( &runner, geometry_anchor_test_get_suite() );
         test_runner_run_suite( &runner, geometry_rectangle_test_get_suite() );
         test_runner_run_suite( &runner, geometry_connector_test_get_suite() );
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_suite() );

@@ -9,6 +9,7 @@
  */
 
 #include "sketch/gui_sketch_marker.h"
+#include "sketch/gui_sketch_style.h"
 #include "sketch/gui_sketch_drag_state.h"
 #include "gui_marked_set.h"
 #include "gui_tool.h"
@@ -23,7 +24,7 @@
 #include "set/data_visible_set.h"
 #include "set/data_full_id.h"
 #include "set/data_profile_part.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -40,8 +41,7 @@ struct gui_sketch_card_struct {
 
     /* helper classes to perform drawing */
     gui_sketch_marker_t sketch_marker;
-
-    double snap_to_grid_distance;  /*!< number of pixels by which a close-to-grid position is snapped to the grid */
+    gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing and calculating distances */
 };
 
 typedef struct gui_sketch_card_struct gui_sketch_card_t;
@@ -163,16 +163,16 @@ layout_subelement_id_t gui_sketch_card_private_get_feature_at_pos ( const gui_sk
 /*!
  *  \brief gets the id and kind of the relationship-part at a given position
  *
+ *  The maximum snap distance from mouse position to relationship line is given by sketch_style.
+ *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param snap_distance maximum distance to the next connector line when to select the connector
  *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
 layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos ( const gui_sketch_card_t *this_,
                                                                          int32_t x,
-                                                                         int32_t y,
-                                                                         int32_t snap_distance
+                                                                         int32_t y
                                                                        );
 
 /*!
@@ -242,20 +242,6 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
                                                                  int32_t x,
                                                                  int32_t y
                                                                );
-
-/*!
- *  \brief determines the grid lines
- *
- *  \param this_ pointer to own object attributes
- *  \param out_bounds bounding rectangle where the grid lines are distributed equal-distance
- *  \param out_x_count number of x-position grid lines (vertical lines)
- *  \param out_y_count number of y-position grid lines (horizontal lines)
- */
-static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this_,
-                                                   shape_int_rectangle_t *out_bounds,
-                                                   uint32_t *out_x_count,
-                                                   uint32_t *out_y_count
-                                                 );
 
 /*!
  *  \brief returns the geometry_grid_t

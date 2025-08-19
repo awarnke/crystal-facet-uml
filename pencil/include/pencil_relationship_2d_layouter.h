@@ -11,6 +11,7 @@
 
 #include "pencil_size.h"
 #include "layout/layout_visible_set.h"
+#include "layout/layout_relationship_iter.h"
 #include "pencil_relationship_painter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
@@ -27,18 +28,18 @@
 /*!
  *  \brief attributes of the relationship layouter
  *
- *  \note This class is stateless. Only the layout_data, pencil_size and profile objects are stateful.
- *        It may either be instantiated once and used many times or be instantiated per use.
+ *  \note It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_relationship_2d_layouter_struct {
     layout_visible_set_t *layout_data;  /*!< pointer to an instance of layout data */
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
+
     universal_array_index_sorter_t sorted_relationships;  /*!< a sorted list of relationships, ordered by processing order, */
                                                           /*!< empty if layouting algorithm finished */
-    uint32_t sorted_rel_index;  /*!< currently processed relationship of the sorted list of relationships */
+    layout_relationship_iter_t already_processed;  /*!< already processed relationships of the sorted list of relationships */
 
     const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, */
-                                 /*!< font sizes and colors */
+                                       /*!< font sizes and colors */
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
 
@@ -85,11 +86,13 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
  *  \brief propose multiple solutions to shape one relationship
  *
  *  \param this_ pointer to own object attributes
+ *  \param current_relation current relationship for which to propose solutions
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
 void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relationship_2d_layouter_t *this_,
+                                                                 const layout_relationship_t *current_relation,
                                                                  uint32_t solutions_max,
                                                                  geometry_connector_t out_solutions[],
                                                                  uint32_t *out_solutions_count
@@ -99,11 +102,13 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
  *  \brief selects one solution to shape a relationship
  *
  *  \param this_ pointer to own object attributes
+ *  \param current_relation current relationship for which to propose solutions
  *  \param solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  *  \param solutions array of solutions
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationship_2d_layouter_t *this_,
+                                                               const layout_relationship_t *current_relation,
                                                                uint32_t solutions_count,
                                                                const geometry_connector_t solutions[],
                                                                uint32_t *out_index_of_best

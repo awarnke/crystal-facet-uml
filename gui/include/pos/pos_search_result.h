@@ -18,13 +18,13 @@
 struct pos_search_result_struct {
     shape_int_rectangle_t icon_box;  /*!< The rectangle where the icon of the search result is drawn */
     shape_int_rectangle_t label_box;  /*!< bounding box of the label of the search result. */
-    const data_search_result_t *data;  /*!< pointer to the data object of the feature */
+    const data_search_result_t *data;  /*!< pointer to the data object of the search result */
 };
 
 typedef struct pos_search_result_struct pos_search_result_t;
 
 /*!
- *  \brief initializes the pos_search_result_t struct with a pointer to feature_data.
+ *  \brief initializes the pos_search_result_t struct with a pointer to a search result.
  *
  *  \param this_ pointer to own object attributes
  *  \param search_result_data pointer to data object which is layouted

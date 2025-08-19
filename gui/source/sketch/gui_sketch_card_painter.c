@@ -2,14 +2,20 @@
 
 #include "sketch/gui_sketch_card_painter.h"
 #include "u8/u8_trace.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <assert.h>
 
-void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_ )
+void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_,
+                                   gui_resources_t *resources,
+                                   gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();
+    assert( resources != NULL );
+    assert( texture_downloader != NULL );
 
     gui_sketch_style_init( &((*this_).sketch_style) );
+    (*this_).resources = resources;
+    (*this_).texture_downloader = texture_downloader;
 
     U8_TRACE_END();
 }
@@ -18,6 +24,8 @@ void gui_sketch_card_painter_destroy( gui_sketch_card_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).resources = NULL;
+    (*this_).texture_downloader = NULL;
     gui_sketch_style_destroy( &((*this_).sketch_style) );
 
     U8_TRACE_END();
@@ -38,6 +46,7 @@ void gui_sketch_card_painter_draw_overlay( gui_sketch_card_painter_t *this_,
     {
         case GUI_TOOL_NAVIGATE:
         {
+            gui_sketch_card_painter_private_draw_nav_mode( this_, drag_state, card_under_mouse, cr );
         }
         break;
 
@@ -76,6 +85,31 @@ void gui_sketch_card_painter_draw_overlay( gui_sketch_card_painter_t *this_,
     U8_TRACE_END();
 }
 
+void gui_sketch_card_painter_private_draw_nav_mode( gui_sketch_card_painter_t *this_,
+                                                    const gui_sketch_drag_state_t *drag_state,
+                                                    const gui_sketch_card_t *card_under_mouse,
+                                                    cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != drag_state );
+    assert( NULL != cr );
+
+    if ( gui_sketch_drag_state_is_waiting_for_move ( drag_state ) )
+    {
+        const data_full_id_t *const dragged_object = gui_sketch_drag_state_get_dragged_object_const( drag_state );
+        const data_id_t *const dragged_primary = data_full_id_get_primary_id_const( dragged_object );
+        const bool dragging_diagram = ( DATA_TABLE_DIAGRAM == data_id_get_table( dragged_primary ) );
+        if ( dragging_diagram )
+        {
+            const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+            const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+            GdkTexture *icon = gui_resources_get_sketch_move_v( (*this_).resources );
+            gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+        }
+    }
+
+    U8_TRACE_END();
+}
 
 void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *this_,
                                                      const gui_sketch_drag_state_t *drag_state,
@@ -88,8 +122,7 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
 
     if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
     {
-        const data_full_id_t *const dragged_object
-            = gui_sketch_drag_state_get_dragged_object_const( drag_state );
+        const data_full_id_t *const dragged_object = gui_sketch_drag_state_get_dragged_object_const( drag_state );
         const data_id_t *const dragged_primary = data_full_id_get_primary_id_const( dragged_object );
         const bool dragging_classifier = ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( dragged_primary ) );
 
@@ -104,13 +137,44 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
 
             if ( draw_2d_diagram && dragging_classifier )
             {
-                /* draw grid line crossings */
-                gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
-
                 /* draw new grid lines that visualize the order of classifiers */
                 const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
                 const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
                 gui_sketch_card_painter_private_visualize_order( this_, card_under_mouse, to_x, to_y, cr );
+            }
+        }
+    }
+
+    if ( gui_sketch_drag_state_is_waiting_for_move ( drag_state ) )
+    {
+        const data_full_id_t *const dragged_object = gui_sketch_drag_state_get_dragged_object_const( drag_state );
+        const data_id_t *const dragged_primary = data_full_id_get_primary_id_const( dragged_object );
+        const bool dragging_classifier = ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( dragged_primary ) );
+        const bool dragging_feature = ( DATA_TABLE_FEATURE == data_id_get_table( dragged_primary ) );
+        const bool dragging_relationship = ( DATA_TABLE_RELATIONSHIP == data_id_get_table( dragged_primary ) );
+        const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+        const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+        if ( dragging_classifier || dragging_feature )
+        {
+            GdkTexture *icon = gui_resources_get_sketch_move_2d( (*this_).resources );
+            gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+        }
+        else if ( dragging_relationship )
+        {
+            const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
+            if ( NULL != card_under_mouse )
+            {
+                const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag );
+                if ( diag_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+                {
+                    GdkTexture *icon = gui_resources_get_sketch_move_v( (*this_).resources );
+                    gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+                }
+                else if ( diag_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+                {
+                    GdkTexture *icon = gui_resources_get_sketch_move_h( (*this_).resources );
+                    gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+                }
             }
         }
     }
@@ -168,25 +232,32 @@ void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t
             /* draw grid */
             if (( draw_new_classifier )&&( draw_2d_diagram ))
             {
-                /* draw grid line crossings */
-                gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
-
                 /* draw new grid lines that visualize the order of classifiers */
                 gui_sketch_card_painter_private_visualize_order( this_, card_under_mouse, to_x, to_y, cr );
             }
 
             /* draw boxes and arrow icons */
-            if ( draw_new_classifier )
-            {
-                gui_sketch_card_painter_private_draw_new_classifier( this_, to_x, to_y, cr );
-            }
             if ( draw_new_feature )
             {
-                gui_sketch_card_painter_private_draw_new_feature( this_, to_x, to_y, cr );
+                assert( draw_new_relationship );
+                assert( ! draw_new_classifier );
+                GdkTexture *icon = gui_resources_get_sketch_refine( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
             }
-            if ( draw_new_relationship )
+            else if ( draw_new_relationship )
             {
-                gui_sketch_card_painter_private_draw_new_relationship( this_, to_x, to_y, cr );
+                assert( ! draw_new_classifier );
+                GdkTexture *icon = gui_resources_get_sketch_relate( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+            }
+            else if ( draw_new_classifier )
+            {
+                GdkTexture *icon = gui_resources_get_sketch_create( (*this_).resources );
+                gui_sketch_texture_draw( (*this_).texture_downloader, icon, to_x-16, to_y-16-2, cr );  /* 2 is extra gap*/
+            }
+            else
+            {
+                /* draw nothing */
             }
         }
     }
@@ -279,139 +350,6 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
     U8_TRACE_END();
 }
 
-void gui_sketch_card_painter_private_draw_new_classifier( gui_sketch_card_painter_t *this_,
-                                                          int32_t x,
-                                                         int32_t y,
-                                                         cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-    static const int32_t ICON_UNIT = 2;
-    static const int32_t DIST = 12;
-
-    /* star */
-    const int32_t star_center_x = x+(1)*ICON_UNIT;
-    const int32_t star_center_y = y-DIST-6*ICON_UNIT;
-    cairo_move_to ( cr, star_center_x, star_center_y-2*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x, star_center_y+2*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-
-    /* big box */
-    cairo_move_to ( cr, x-1*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST+3*ICON_UNIT );
-    cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST+3*ICON_UNIT );
-    cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST-2*ICON_UNIT );
-
-    cairo_stroke (cr);
-
-    U8_TRACE_END();
-}
-
-void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t *this_,
-                                                       int32_t x,
-                                                       int32_t y,
-                                                       cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-    static const int32_t ICON_UNIT = 2;
-    static const int32_t DIST = 12;
-
-    /* star */
-    const int32_t star_center_x = x+(-2)*ICON_UNIT;
-    const int32_t star_center_y = y-DIST-6*ICON_UNIT;
-    cairo_move_to ( cr, star_center_x, star_center_y-2*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x, star_center_y+2*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y+1*ICON_UNIT );
-    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y-1*ICON_UNIT );
-
-    /* small box */
-    cairo_move_to ( cr, x-4*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-2*ICON_UNIT );
-    cairo_line_to ( cr, x-2*ICON_UNIT, y-DIST-2*ICON_UNIT );
-
-    cairo_stroke (cr);
-
-    U8_TRACE_END();
-}
-
-void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_painter_t *this_,
-                                                            int32_t x,
-                                                            int32_t y,
-                                                            cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-    static const int32_t ICON_UNIT = 2;
-    static const int32_t DIST = 12;
-
-    /* arrow */
-    cairo_move_to ( cr, x+2*ICON_UNIT, y-DIST-0*ICON_UNIT );
-    cairo_line_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x+5*ICON_UNIT, y-DIST-5*ICON_UNIT );
-    cairo_move_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-    cairo_line_to ( cr, x+7*ICON_UNIT, y-DIST-3*ICON_UNIT );
-
-    cairo_stroke (cr);
-
-    U8_TRACE_END();
-}
-
-void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_,
-                                                const gui_sketch_card_t *card_under_mouse,
-                                                cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != card_under_mouse );
-    assert( NULL != cr );
-
-    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
-    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
-
-    /* draw grid */
-    shape_int_rectangle_t bounds;
-    uint32_t x_count;
-    uint32_t y_count;
-    gui_sketch_card_get_grid_area( card_under_mouse, &bounds, &x_count, &y_count );
-    assert( x_count >= 2 );
-    assert( y_count >= 2 );
-    const int32_t left = shape_int_rectangle_get_left(&bounds);
-    const int32_t top = shape_int_rectangle_get_top(&bounds);
-    const int32_t width = shape_int_rectangle_get_width(&bounds);
-    const int32_t height = shape_int_rectangle_get_height(&bounds);
-    for ( uint32_t x_idx = 1; (x_idx+1) < x_count; x_idx ++ )
-    {
-        for ( uint32_t y_idx = 1; (y_idx+1) < y_count; y_idx ++ )
-        {
-            const int32_t x = left + (( width * x_idx )/( x_count-1 ));
-            const int32_t y = top + (( height * y_idx )/( y_count-1 ));
-            static const int32_t HALF_LINE = 16;
-            cairo_rectangle ( cr, x, y-HALF_LINE, 1, 2*HALF_LINE );
-            cairo_fill (cr);
-            cairo_rectangle ( cr, x-HALF_LINE, y, 2*HALF_LINE, 1 );
-            cairo_fill (cr);
-        }
-    }
-
-    U8_TRACE_END();
-}
-
 void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t *this_,
                                                       const gui_sketch_card_t *card_under_mouse,
                                                       int32_t x,
@@ -432,7 +370,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
     /* fetch input data: grid */
     const geometry_grid_t *const grid = gui_sketch_card_get_grid_const( card_under_mouse);
     const geometry_grid_kind_t grid_kind = geometry_grid_get_kind( grid );
-    const double snap_interval = 5.0;
+    const double snap_interval = gui_sketch_style_get_snap_to_grid( &((*this_).sketch_style) );
     const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( grid );
     const int32_t order_at_x = geometry_non_linear_scale_get_order( x_scale, (double) x, snap_interval );
     const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( grid );
@@ -445,6 +383,10 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
     /* fetch input data: visible set */
     const layout_visible_set_t *const layout_data = gui_sketch_card_get_visible_set( card_under_mouse );
     const uint32_t classifiers = layout_visible_set_get_visible_classifier_count( layout_data );
+
+    /* prepare draw */
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
 
     /* to draw x, follow y from top to bottom */
     if (( grid_kind == GEOMETRY_GRID_KIND_X )||( grid_kind == GEOMETRY_GRID_KIND_XY ))
@@ -579,6 +521,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, current_pos_x, bottom );
+        if ( ! geometry_non_linear_scale_is_order_on_grid( x_scale, order_at_x ) )
         {
             double dashes[2];
             dashes[0] = 2.0 * gap;  /* on segment */
@@ -722,6 +665,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, right, current_pos_y );
+        if ( ! geometry_non_linear_scale_is_order_on_grid( y_scale, order_at_y ) )
         {
             double dashes[2];
             dashes[0] = 2.0 * gap;  /* on segment */
@@ -744,6 +688,8 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
     assert( NULL != layouted_set );
     assert( NULL != cr );
     const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layouted_set );
+    const double label_border = 2.0;  /* additional visible border that just draws a box nicely, without effect for selecting */
+    const double connector_border = (double) gui_sketch_style_get_snap_to_relationship( &((*this_).sketch_style) );
 
     geometry_rectangle_t highlight;
     geometry_rectangle_init_empty( &highlight );
@@ -840,7 +786,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                 case LAYOUT_SUBELEMENT_KIND_LABEL:
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
-                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 * label_border, 2.0 * label_border );
                     gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
@@ -849,7 +795,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                 case LAYOUT_SUBELEMENT_KIND_OUTLINE:
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_symbol_box_const( the_feature ) );
-                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 * label_border, 2.0 * label_border );
                     gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
@@ -871,7 +817,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                 case LAYOUT_SUBELEMENT_KIND_LABEL:
                 {
                     geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
-                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 * label_border, 2.0 * label_border );
                     gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
@@ -886,7 +832,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                         segment_src = geometry_connector_get_segment_bounds( relationship_shape,
                                                                              GEOMETRY_CONNECTOR_SEGMENT_SOURCE
                                                                            );
-                        geometry_rectangle_expand_4dir( &segment_src, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        geometry_rectangle_expand_4dir( &segment_src, 2.0 * connector_border, 2.0 * connector_border );
                         gui_sketch_card_painter_private_draw_rect( this_, &segment_src, cr );
                     }
                     {
@@ -894,7 +840,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                         segment_dst = geometry_connector_get_segment_bounds( relationship_shape,
                                                                              GEOMETRY_CONNECTOR_SEGMENT_DESTINATION
                                                                            );
-                        geometry_rectangle_expand_4dir( &segment_dst, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        geometry_rectangle_expand_4dir( &segment_dst, 2.0 * connector_border, 2.0 * connector_border );
                         gui_sketch_card_painter_private_draw_rect( this_, &segment_dst, cr );
                     }
                     {
@@ -902,7 +848,7 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                         segment_main = geometry_connector_get_segment_bounds( relationship_shape,
                                                                               GEOMETRY_CONNECTOR_SEGMENT_MAIN
                                                                             );
-                        geometry_rectangle_expand_4dir( &segment_main, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        geometry_rectangle_expand_4dir( &segment_main, 2.0 * connector_border, 2.0 * connector_border );
                         gui_sketch_card_painter_private_draw_rect( this_, &segment_main, cr );
                     }
                 }

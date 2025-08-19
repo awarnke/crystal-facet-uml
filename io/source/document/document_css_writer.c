@@ -9,12 +9,45 @@
 
 /* IO_FILE_FORMAT_CSS */
 
-static const char CSS_ALL[]
+static const char CSS_GENERAL[]
 ="body {\n"
 "    background-color: rgb(255,255,255);\n"
 "    font-family: Helvetica,Arial,sans-serif;\n"
 "}\n"
+"article {\n"
+"    margin-left: 200px;\n"
+"    padding-top: 8px;\n"
+"    padding-right: 8px;\n"
+"    padding-bottom: 8px;\n"
+"    padding-left: 24px;\n"
+"}\n"
+"nav {\n"
+"    background-color: rgb(240,248,255);\n"
+"    left: 0px;\n"
+"    top: 0px;\n"
+"    width: 200px;\n"
+"    height: 100%;\n"
+"    position: fixed;\n"
+"    overflow: auto;\n"
+"    padding: 2px;\n"
+"    margin: 0px;\n"
+"}\n";
+
+static const char CSS_TOC[]
+="a:hover {\n"
+"    background-color: rgb(255,255,255);\n"
+"}\n"
+".toc {\n"
+"    list-style-type: none;\n"
+"    list-style-position: inside;\n"
+"    padding: 0px;\n"
+"    margin: 0px;\n"
+"}\n"
 ".toc1 {\n"
+"    padding-left: 0px;\n"
+"    padding-top: 3px;\n"
+"    padding-right: 0px;\n"
+"    padding-bottom: 3px;\n"
 "    color: rgb(192,128,0);\n"
 "    font-size: small;\n"
 "    counter-reset: cnt-head-two;\n"
@@ -24,6 +57,10 @@ static const char CSS_ALL[]
 "    content: counter(cnt-head-two) \"\\0000a0 \";\n"
 "}\n"
 ".toc2 {\n"
+"    padding-left: 8px;\n"
+"    padding-top: 2px;\n"
+"    padding-right: 0px;\n"
+"    padding-bottom: 2px;\n"
 "    color: rgb(192,128,0);\n"
 "    font-size: small;\n"
 "    counter-reset: cnt-head-three;\n"
@@ -33,6 +70,10 @@ static const char CSS_ALL[]
 "    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \"\\0000a0 \";\n"
 "}\n"
 ".toc3 {\n"
+"    padding-left: 8px;\n"
+"    padding-top: 2px;\n"
+"    padding-right: 0px;\n"
+"    padding-bottom: 1px;\n"
 "    color: rgb(192,128,0);\n"
 "    font-size: x-small;\n"
 "    counter-reset: cnt-head-four;\n"
@@ -42,6 +83,11 @@ static const char CSS_ALL[]
 "    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \"\\0000a0 \";\n"
 "}\n"
 ".toc4 {\n"
+"    padding-left: 8px;\n"
+"    padding-top: 1px;\n"
+"    padding-right: 0px;\n"
+"    padding-bottom: 1px;\n"
+"    border-left: 2px solid #FFFFFF;\n"
 "    color: rgb(192,128,0);\n"
 "    font-size: xx-small;\n"
 "    counter-reset: cnt-head-five;\n"
@@ -51,6 +97,10 @@ static const char CSS_ALL[]
 "    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \"\\0000a0 \";\n"
 "}\n"
 ".toc5 {\n"
+"    padding-left: 8px;\n"
+"    padding-top: 1px;\n"
+"    padding-right: 0px;\n"
+"    padding-bottom: 0px;\n"
 "    color: rgb(192,128,0);\n"
 "    font-size: xx-small;\n"
 "    counter-reset: cnt-head-six;\n"
@@ -60,10 +110,13 @@ static const char CSS_ALL[]
 "    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \".\" counter(cnt-head-six) \"\\0000a0 \";\n"
 "}\n"
 ".toc6 {\n"
+"    padding-left: 8px;\n"
 "    color: rgb(192,128,0);\n"
 "    font-size: xx-small;\n"
-"}\n"
-".diag-title {\n"
+"}\n";
+
+static const char CSS_DATA_LAYOUT[]
+=".diag-title {\n"
 "    color: rgb(192,128,0);\n"
 "}\n"
 ".diag-stereo::before {\n"
@@ -97,16 +150,18 @@ static const char CSS_ALL[]
 "    content: \"}\";\n"
 "}\n"
 ".diag-descr {\n"
-"    padding: 8px;\n"
+"    padding: 16px 8px;\n"
 "    margin-left: 2px;\n"
 "    margin-right: 2px;\n"
 "    margin-top: 2px;\n"
 "    margin-bottom: 12px;\n"
-"    border: 1px solid #CC8800;\n"
+"    border: 1px solid #DDAA88;\n"
 "}\n"
 ".clas {\n"
-"    background-color: rgb(240,240,240);\n"
 "    margin-top: 8px;\n"
+"    border-top: 1px solid #CCCCCC;\n"
+"    border-right: 1px solid #CCCCCC;\n"
+"    border-bottom: 1px solid #CCCCCC;\n"
 "}\n"
 ".clas-stereo::before {\n"
 "    content:\"\\0000a0 \\0000ab\";\n"
@@ -142,22 +197,20 @@ static const char CSS_ALL[]
 "    content:\"appears in \";\n"
 "}\n"
 ".clas-see {\n"
+"    background-color: rgb(240,240,240);\n"
 "    text-align: right;\n"
 "    font-size: x-small;\n"
 "    color: rgb(160,160,160);\n"
 "}\n"
 ".clas-descr {\n"
-"    background-color: rgb(255,255,255);\n"
-"    padding: 8px;\n"
+"    padding: 16px 8px;\n"
 "    margin: 2px;\n"
 "    border: 1px solid #CCCCCC;\n"
 "}\n"
 ".feat {\n"
-"    background-color: rgb(255,255,255);\n"
 "    font-size: small;\n"
 "    margin-left: 32px;\n"
-"    margin-right: 32px;\n"
-"    border: 1px solid #F0F0F0;\n"
+"    margin-right: 0px;\n"
 "}\n"
 ".feat-stereo::before {\n"
 "    content:\"\\0000a0 \\0000ab\";\n"
@@ -190,16 +243,14 @@ static const char CSS_ALL[]
 "    content :\"}\";\n"
 "}\n"
 ".feat-descr {\n"
-"    background-color: rgb(255,255,255);\n"
-"    padding: 8px;\n"
+"    padding: 8px 8px;\n"
 "    margin: 2px;\n"
 "    border: 1px solid #CCCCCC;\n"
 "}\n"
 ".rel {\n"
-"    background-color: rgb(255,255,255);\n"
 "    font-size: small;\n"
 "    margin-left: 32px;\n"
-"    margin-right: 32px;\n"
+"    margin-right: 0px;\n"
 "}\n"
 ".rel-stereo::before {\n"
 "    content:\"\\0000a0 \\0000ab\";\n"
@@ -235,12 +286,13 @@ static const char CSS_ALL[]
 "    content: \"}\";\n"
 "}\n"
 ".rel-descr {\n"
-"    background-color: rgb(255,255,255);\n"
-"    padding: 8px;\n"
+"    padding: 8px 8px;\n"
 "    margin: 2px;\n"
 "    border: 1px solid #CCCCCC;\n"
-"}\n"
-"h1 {\n"
+"}\n";
+
+static const char CSS_SECTIONS[]
+="h1 {\n"
 "    counter-reset: cnt-head-two;\n"
 "}\n"
 "h2::before {\n"
@@ -305,9 +357,21 @@ u8_error_t document_css_writer_write_stylesheet( document_css_writer_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    utf8string_t *text = CSS_ALL;
-    const size_t text_len = utf8string_get_length(text);
-    export_err |= universal_output_stream_write( (*this_).output, text, text_len);
+    utf8string_t *text_1 = CSS_GENERAL;
+    const size_t text_1_len = utf8string_get_length(text_1);
+    export_err |= universal_output_stream_write( (*this_).output, text_1, text_1_len );
+
+    utf8string_t *text_2 = CSS_TOC;
+    const size_t text_2_len = utf8string_get_length(text_2);
+    export_err |= universal_output_stream_write( (*this_).output, text_2, text_2_len );
+
+    utf8string_t *text_3 = CSS_DATA_LAYOUT;
+    const size_t text_3_len = utf8string_get_length(text_3);
+    export_err |= universal_output_stream_write( (*this_).output, text_3, text_3_len );
+
+    utf8string_t *text_4 = CSS_SECTIONS;
+    const size_t text_4_len = utf8string_get_length(text_4);
+    export_err |= universal_output_stream_write( (*this_).output, text_4, text_4_len );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;

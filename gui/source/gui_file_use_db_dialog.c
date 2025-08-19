@@ -2,8 +2,8 @@
 
 #include "gui_file_use_db_dialog.h"
 #include "u8/u8_trace.h"
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
+#include "gui_gdk.h"
 #include <stdio.h>
 #include <stdbool.h>
 

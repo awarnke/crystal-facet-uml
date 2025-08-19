@@ -12,7 +12,7 @@
 #include "gui_resources.h"
 #include "sketch/gui_sketch_texture.h"
 #include "shape/shape_int_rectangle.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 
 /*!

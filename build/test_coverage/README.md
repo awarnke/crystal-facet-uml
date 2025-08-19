@@ -2,3 +2,4 @@ To run the test coverage measurements, the following packages need to be install
 
 - lcov
 
+Commit your changes first, local changes are not tested.

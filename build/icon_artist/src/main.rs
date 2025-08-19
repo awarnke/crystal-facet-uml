@@ -2,15 +2,19 @@
 
 //! This crate renders svg files for the icons in icon_data.
 
+pub mod icon_data;
 pub mod model;
 pub mod render;
 pub mod stream_if;
-use model::gui_file_icon;
-use model::gui_view_icon;
+use icon_data::gui_file_icon;
+use icon_data::gui_sketch_icon;
+use icon_data::gui_view_icon;
+use icon_data::stereotype_icon;
+use icon_data::type_class_icon;
+use icon_data::type_diag_icon;
+use icon_data::type_feat_icon;
+use icon_data::type_rel_icon;
 use model::icon::IconSource;
-use model::stereotype_icon;
-use model::type_class_icon;
-use model::type_diag_icon;
 use render::icon_writer;
 use render::icon_writer::FileType;
 use std::env;
@@ -48,19 +52,41 @@ fn main() {
             icon_writer::generate_files(type_class_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
+        if arg == "-x" {
+            let type_feat_icons: &'static [IconSource<'static>] = type_feat_icon::get_icons();
+            icon_writer::generate_files(type_feat_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(type_feat_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
+        if arg == "-r" {
+            let type_rel_icons: &'static [IconSource<'static>] = type_rel_icon::get_icons();
+            icon_writer::generate_files(type_rel_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(type_rel_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
         if arg == "-s" {
             let stereo_icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
             icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_STEREO);
             icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREO);
             println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
         }
+        if arg == "-g" {
+            let stereo_icons: &'static [IconSource<'static>] = gui_sketch_icon::get_icons();
+            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(stereo_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
         if arg == "-h" {
             println!("options are");
             println!("-f file icons");
+            println!("-e edit icons");
             println!("-v view icons");
+            println!("-g gui sketch icons");
             println!("-d diagram icons");
             println!("-c classifier icons");
-            println!("-s stereotype");
+            println!("-s stereotype icons");
+            println!("-x feature icons");
+            println!("-r relationship icons");
         }
     }
 }

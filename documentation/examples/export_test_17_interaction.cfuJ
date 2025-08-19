@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,48 +14,41 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 17,
-        "type": "UMLInteractionDiagram/overview",
+        "type": "Interation Overview Diagram", "diagram_type": 17,
         "name": "Interaction Overview",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "9342f4f4-51dc-4d97-9746-f0032342ccfb",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "start",
             "node": "e6edd43d-df15-4b4c-8217-86ee2eee890d",
             "uuid": "4cd7cf5b-50d7-4419-847d-f762a9558f9e"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "Authenticate and Authorize",
             "node": "50eeb509-4dd1-49d6-9f37-da9741be6640",
             "uuid": "d58b3412-1f3f-4de3-8f50-d44f703e32d9"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "valid?",
             "node": "fbf6e8bf-2508-4792-afa4-97c0a4e87169",
             "uuid": "f3607fde-a96f-42b8-a50f-347d56aaa3f3"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "Open Door",
             "node": "9f66e8f5-6c15-44c2-b57d-6a23fddf7532",
             "uuid": "150f63a1-823d-4499-bf0a-198ed42a3a77"
           },
           {
             "id": 5,
-            "display_flags": 0,
             "classifier_name": "finish",
             "node": "71f867ec-9034-4ff3-ade2-d6b50e71b024",
             "uuid": "e36cf185-1766-4bd3-b98f-d3b53341eda3"
@@ -66,14 +59,12 @@
     {
       "diagram": {
         "id": 2,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "type": "Activity Diagram", "diagram_type": 11,
         "name": "Interaction Inventory",
         "description": [
                 ""
         ],
         "list_order": 32768,
-        "display_flags": 0,
         "parent_name": "Interaction Overview",
         "parent": "9342f4f4-51dc-4d97-9746-f0032342ccfb",
         "uuid": "a474afe3-04b4-4761-bfe6-8ad16a9b05c2",
@@ -81,43 +72,37 @@
         [
           {
             "id": 6,
-            "display_flags": 0,
             "classifier_name": "start",
             "node": "ae6247f8-5cae-4147-a243-045b77089d01",
             "uuid": "4456064e-bdaa-497c-aeb5-a813b3c2cc82"
           },
           {
             "id": 7,
-            "display_flags": 0,
             "classifier_name": "valid?",
             "node": "1b57df01-ec69-4cd3-a66e-d65bca47dd04",
             "uuid": "67400c91-f279-4cb2-adbd-a8db14c1940c"
           },
           {
             "id": 8,
-            "display_flags": 0,
             "classifier_name": "finish",
             "node": "968637dd-bfbe-4172-93a1-2eb0e9cb87f7",
             "uuid": "3edcbdd8-f47a-4b3e-ac1e-a7a1561c60c1"
           },
           {
             "id": 9,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Activity containing interaction elements",
             "node": "4f8a52a1-cd5d-4a89-a347-1bdc50398794",
             "uuid": "3698dd71-f46f-4907-8fdf-5c3fecf2f41e"
           },
           {
             "id": 10,
-            "display_flags": 0,
             "classifier_name": "Authenticate and Authorize",
             "node": "24ff2fec-4e05-46ac-a1d7-f4c6bfa2c1d4",
             "uuid": "13f34b2c-5e57-4844-ad27-a38922ba9986"
           },
           {
             "id": 11,
-            "display_flags": 0,
             "classifier_name": "Open Door",
             "node": "46119280-e420-4321-9ff5-7c0b9c314fd3",
             "uuid": "c3092f05-8b12-4c0e-8f70-bc1ef2ad637d"
@@ -132,9 +117,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 151,
-        "type": "InitialNode",
-        "stereotype": "",
+        "type": "Initial Node", "main_type": 151,
         "name": "start",
         "description": [
                 ""
@@ -147,10 +130,8 @@
         [
           {
             "id": 1,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -163,9 +144,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 112,
-        "type": "InteractionUse",
-        "stereotype": "",
+        "type": "Interaction Use", "main_type": 112,
         "name": "Authenticate and Authorize",
         "description": [
                 "By providing a smart card and a pin, the user authenticates.\n",
@@ -179,10 +158,8 @@
         [
           {
             "id": 2,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -195,9 +172,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 157,
-        "type": "DecisionNode",
-        "stereotype": "",
+        "type": "Decision", "main_type": 157,
         "name": "valid?",
         "description": [
                 ""
@@ -210,10 +185,8 @@
         [
           {
             "id": 3,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -226,9 +199,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 112,
-        "type": "InteractionUse",
-        "stereotype": "",
+        "type": "Interaction Use", "main_type": 112,
         "name": "Open Door",
         "description": [
                 ""
@@ -241,10 +212,8 @@
         [
           {
             "id": 4,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -257,9 +226,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 152,
-        "type": "ActivityFinalNode",
-        "stereotype": "",
+        "type": "Final Node", "main_type": 152,
         "name": "finish",
         "description": [
                 ""
@@ -272,10 +239,8 @@
         [
           {
             "id": 5,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -288,13 +253,12 @@
     {
       "classifier": {
         "id": 6,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "Activity containing interaction elements",
         "description": [
                 "This activity contains the elements shown in the interaction diagram D0001#id.\n",
-                "Because the interaction diagram just shows one scenario, this activity is needed to show the elements of that scenario."
+                "Because the interaction diagram just shows one scenario, this activity is ",
+                "needed to show the elements of that scenario."
         ],
         "x_order": -181012354,
         "y_order": -1550943366,
@@ -312,8 +276,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "",
         "description": [
                 ""
@@ -331,8 +294,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "",
         "description": [
                 ""
@@ -350,8 +312,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "[yes]",
         "description": [
                 ""
@@ -369,8 +330,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "[no]",
         "description": [
                 ""
@@ -388,8 +348,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "",
         "description": [
                 ""
@@ -407,8 +366,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -424,8 +382,7 @@
     {
       "relationship": {
         "id": 7,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -441,8 +398,7 @@
     {
       "relationship": {
         "id": 8,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""

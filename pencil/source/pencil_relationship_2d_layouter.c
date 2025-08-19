@@ -1,6 +1,7 @@
 /* File: pencil_relationship_2d_layouter.c; Copyright and License: see below */
 
 #include "pencil_relationship_2d_layouter.h"
+#include "layout/layout_relationship_iter.h"
 #include "layout/layout_quality.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
@@ -21,8 +22,9 @@ void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *th
 
     (*this_).layout_data = layout_data;
     (*this_).profile = profile;
+
     universal_array_index_sorter_init( &((*this_).sorted_relationships) );
-    (*this_).sorted_rel_index = 0;
+    layout_relationship_iter_init( &((*this_).already_processed), layout_data, &((*this_).sorted_relationships) );
 
     (*this_).pencil_size = pencil_size;
     pencil_relationship_painter_init( &((*this_).relationship_painter) );
@@ -34,6 +36,7 @@ void pencil_relationship_2d_layouter_destroy( pencil_relationship_2d_layouter_t 
 {
     U8_TRACE_BEGIN();
 
+    layout_relationship_iter_destroy( &((*this_).already_processed) );
     universal_array_index_sorter_destroy( &((*this_).sorted_relationships) );
 
     pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
@@ -52,17 +55,16 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
     pencil_relationship_2d_layouter_private_propose_processing_order ( this_ );
 
     /* shape the relationships */
-    const uint32_t count_sorted
-        = universal_array_index_sorter_get_count( &((*this_).sorted_relationships) );
-    for ( (*this_).sorted_rel_index = 0; (*this_).sorted_rel_index < count_sorted; (*this_).sorted_rel_index ++ )
+    layout_relationship_iter_t relationship_iterator;
+    layout_relationship_iter_init( &relationship_iterator, (*this_).layout_data, &((*this_).sorted_relationships) );
+    while ( layout_relationship_iter_has_next( &relationship_iterator ) )
     {
-        /* determine pointer to the_relationship */
-        const uint32_t index
-            = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships),
-                                                             (*this_).sorted_rel_index
-                                                           );
-        layout_relationship_t *const current_relationship
-            = layout_visible_set_get_relationship_ptr( (*this_).layout_data, index );
+        /* initialize the already processed relationship iterator - it is needed by called methods */
+        layout_relationship_iter_destroy( &((*this_).already_processed) );
+        layout_relationship_iter_init_from_processed( &((*this_).already_processed), &relationship_iterator );
+
+        /* determine pointer to relationship */
+        layout_relationship_t *const current_relationship = layout_relationship_iter_next_ptr( &relationship_iterator );
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
@@ -70,11 +72,12 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
         geometry_connector_t solution[18];
 
         /* propose options */
-        pencil_relationship_2d_layouter_private_propose_solutions ( this_,
-                                                                    SOLUTIONS_MAX,
-                                                                    solution,
-                                                                    &solutions_count
-                                                                  );
+        pencil_relationship_2d_layouter_private_propose_solutions( this_,
+                                                                   current_relationship,
+                                                                   SOLUTIONS_MAX,
+                                                                   solution,
+                                                                   &solutions_count
+                                                                 );
 
         /* select best option */
         uint32_t index_of_best;
@@ -84,18 +87,32 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
         }
         else
         {
-            pencil_relationship_2d_layouter_private_select_solution ( this_,
-                                                                      solutions_count,
-                                                                      solution,
-                                                                      &index_of_best
-                                                                    );
+            pencil_relationship_2d_layouter_private_select_solution( this_,
+                                                                     current_relationship,
+                                                                     solutions_count,
+                                                                     solution,
+                                                                     &index_of_best
+                                                                   );
         }
 
         /* store best option to (*this_).layout_data */
         layout_relationship_set_shape( current_relationship, &(solution[index_of_best]) );
-    }
 
+        /* initialize also the label (to empty), this is updated later */
+        {
+            geometry_rectangle_t void_rect;
+            geometry_rectangle_init_empty( &void_rect );
+            layout_relationship_set_label_box( current_relationship, &void_rect );
+            geometry_rectangle_destroy( &void_rect );
+        }
+
+    }
+    layout_relationship_iter_destroy( &relationship_iterator );
+
+    /* clear the array and iterator of processed relationships */
     universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );
+    layout_relationship_iter_destroy( &((*this_).already_processed) );
+    layout_relationship_iter_init( &((*this_).already_processed), (*this_).layout_data, &((*this_).sorted_relationships) );
 
     U8_TRACE_END();
 }
@@ -145,9 +162,9 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
         /* determine simpleness by distance between source and destination */
         {
             const geometry_rectangle_t *const source_rect
-                = layout_relationship_get_from_symbol_box_const ( current_relation );
+                = layout_relationship_get_from_box_const ( current_relation );
             const geometry_rectangle_t *const dest_rect
-                = layout_relationship_get_to_symbol_box_const ( current_relation );
+                = layout_relationship_get_to_box_const ( current_relation );
 
             simpleness -= fabs ( geometry_rectangle_get_center_x(source_rect) - geometry_rectangle_get_center_x(dest_rect) );
             simpleness -= fabs ( geometry_rectangle_get_center_y(source_rect) - geometry_rectangle_get_center_y(dest_rect) );
@@ -168,29 +185,24 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
 }
 
 void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relationship_2d_layouter_t *this_,
+                                                                 const layout_relationship_t *current_relation,
                                                                  uint32_t solutions_max,
                                                                  geometry_connector_t out_solutions[],
                                                                  uint32_t *out_solutions_count )
 {
     U8_TRACE_BEGIN();
-    assert ( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
+    assert ( NULL != current_relation );
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( 18 <= solutions_max );  /* current implementation requires at least 14 options */
-
-    /* get current relation */
-    const uint32_t index
-        = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
-    layout_relationship_t *const current_relation
-        = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
+    assert ( 18 <= solutions_max );  /* current implementation requires at least 18 options */
 
     /* propose connections between source and destination */
     {
         const geometry_rectangle_t *const source_rect
-            = layout_relationship_get_from_symbol_box_const ( current_relation );
+            = layout_relationship_get_from_box_const ( current_relation );
         const geometry_rectangle_t *const dest_rect
-            = layout_relationship_get_to_symbol_box_const ( current_relation );
+            = layout_relationship_get_to_box_const ( current_relation );
 
         uint32_t solutions_by_I;
         pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( this_,
@@ -239,26 +251,22 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
 }
 
 void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationship_2d_layouter_t *this_,
+                                                               const layout_relationship_t *current_relation,
                                                                uint32_t solutions_count,
                                                                const geometry_connector_t solutions[],
                                                                uint32_t *out_index_of_best )
 {
     U8_TRACE_BEGIN();
-    assert ( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
+    assert ( NULL != current_relation );
     assert ( NULL != solutions );
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
 
     /* get current relationship data */
-    const uint32_t index
-        = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
-    const layout_relationship_t *const current_relation
-        = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
     const geometry_rectangle_t *const source_rect
-        = layout_relationship_get_from_symbol_box_const ( current_relation );
+        = layout_relationship_get_from_box_const ( current_relation );
     const geometry_rectangle_t *const dest_rect
-        = layout_relationship_get_to_symbol_box_const ( current_relation );
-    U8_TRACE_INFO_INT_INT( "current list_pos -> index", (*this_).sorted_rel_index, index );
+        = layout_relationship_get_to_box_const ( current_relation );
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
@@ -288,8 +296,16 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         {
             const layout_visible_classifier_t *const probe_classifier
                 = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
-
-            debts_of_current += layout_quality_debts_conn_class( &quality, current_solution, probe_classifier);
+            const layout_visible_classifier_t *const from = layout_relationship_get_from_classifier_ptr( current_relation );
+            const layout_visible_classifier_t *const to = layout_relationship_get_to_classifier_ptr( current_relation );
+            const bool is_ancestor_of_from = layout_visible_set_is_ancestor( (*this_).layout_data, probe_classifier, from );
+            const bool is_ancestor_of_to = layout_visible_set_is_ancestor( (*this_).layout_data, probe_classifier, to );
+            debts_of_current += layout_quality_debts_conn_class( &quality,
+                                                                 current_solution,
+                                                                 probe_classifier,
+                                                                 is_ancestor_of_from,
+                                                                 is_ancestor_of_to
+                                                               );
         }
 
         /* iterate over all features, check symbol boxes only, label boxes are not yet initialized */
@@ -306,14 +322,15 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             debts_of_current += layout_quality_debts_conn_sym( &quality, current_solution, feature_symbol_box );
         }
 
-        /* iterate over the already created connectors (probe_sort_index < (*this_).sorted_rel_index) */
-        for ( uint32_t probe_sort_index = 0; probe_sort_index < (*this_).sorted_rel_index; probe_sort_index ++ )
+        /* iterate over the already created connectors */
+        layout_relationship_iter_t relationship_iterator;
+        layout_relationship_iter_copy( &relationship_iterator, &((*this_).already_processed) );
+        while ( layout_relationship_iter_has_next( &relationship_iterator ) )
         {
+            /* get pointer to relationship */
+            const layout_relationship_t *const probe_relationship = layout_relationship_iter_next_ptr( &relationship_iterator );
+
             /* add debts if intersects */
-            const uint32_t probe_index
-                = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), probe_sort_index );
-            const layout_relationship_t *const probe_relationship
-                = layout_visible_set_get_relationship_ptr( (*this_).layout_data, probe_index );
 #if 0
             const data_relationship_t *const probe_relation_data
                 = layout_relationship_get_data_const ( probe_relationship );
@@ -335,6 +352,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                 /* U8_TRACE_INFO_INT_INT( "solution[idx] vs probe[idx]", solution_idx, probe_index ); */
             }
         }
+        layout_relationship_iter_destroy( &relationship_iterator );
 
         /* update best solution */
         if ( debts_of_current < debts_of_best )
@@ -343,6 +361,12 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             debts_of_best = debts_of_current;
         }
     }
+
+#if 0
+    static unsigned int counter = 0;
+    counter ++;
+    index_of_best = counter % solutions_count;
+#endif
 
     /* the best */
     *out_index_of_best = index_of_best;
@@ -1273,7 +1297,6 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                                                                          double *io_coordinate )
 {
     U8_TRACE_BEGIN();
-    assert( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
     assert ( NULL != search_rect );
     assert ( NULL != io_coordinate );
     u8_error_t err = U8_ERROR_NONE;
@@ -1490,15 +1513,15 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
         }
 
         /* move away from already layed-out parallel relationship-segments; */
-        /* already done: exist_sort_index < (*this_).sorted_rel_index */
-        for ( uint32_t exist_sort_index = 0; ( exist_sort_index < (*this_).sorted_rel_index ); exist_sort_index ++ )
+        /* iterate over the already created connectors */
+        layout_relationship_iter_t relationship_iterator;
+        layout_relationship_iter_copy( &relationship_iterator, &((*this_).already_processed) );
+        while ( layout_relationship_iter_has_next( &relationship_iterator ) )
         {
-            const uint32_t exist_index
-                = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), exist_sort_index );
-            const layout_relationship_t *const exist_relationship
-                = layout_visible_set_get_relationship_ptr( (*this_).layout_data, exist_index );
-            /* Note: This algorithm ignores the relationship types (same_type), sources and destinations (one_same_end) */
+            /* get pointer to relationship */
+            const layout_relationship_t *const exist_relationship = layout_relationship_iter_next_ptr( &relationship_iterator );
 
+            /* Note: This algorithm ignores the relationship types (same_type), sources and destinations (one_same_end) */
             const geometry_connector_t *const exist_shape = layout_relationship_get_shape_const( exist_relationship );
             if ( geometry_connector_is_intersecting_rectangle( exist_shape, &consider_rect ) )
             {
@@ -1640,6 +1663,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                 }
             }
         }
+        layout_relationship_iter_destroy( &relationship_iterator );
     }
 
     /* check success */

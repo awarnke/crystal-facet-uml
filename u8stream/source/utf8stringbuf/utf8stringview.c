@@ -18,6 +18,8 @@ utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *ou
     char number_arr[40] = "";
     utf8stringbuf_t number_buf = UTF8STRINGBUF( number_arr );
     result |= utf8stringbuf_copy_view( &number_buf, this_ );
+    /* it is ok if not all characters could be copied, a number cannot be longer than 39 characters. */
+    result = UTF8ERROR_SUCCESS;
 
     unsigned int byte_length = 0;
     result |= utf8string_parse_int( utf8stringbuf_get_string( &number_buf ), &byte_length, out_number );
@@ -40,6 +42,8 @@ utf8error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *o
     char number_arr[80] = "";
     utf8stringbuf_t number_buf = UTF8STRINGBUF( number_arr );
     result |= utf8stringbuf_copy_view( &number_buf, this_ );
+    /* it is ok if not all characters could be copied, a float number cannot be longer than 79 characters. */
+    result = UTF8ERROR_SUCCESS;
 
     unsigned int byte_length = 0;
     result |= utf8string_parse_float( utf8stringbuf_get_string( &number_buf ), &byte_length, out_number );

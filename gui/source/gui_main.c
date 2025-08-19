@@ -7,7 +7,7 @@
 #include "meta/meta_info.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,6 +42,17 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     GtkApplication *const gtk_app
         = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_DEFAULT_FLAGS );
 
+    /* get the icon */
+    /*
+    GtkIconTheme* icon_theme = gtk_icon_theme_get_for_display( gdk_display_get_default () );
+    gtk_icon_theme_add_search_path( icon_theme, "/usr/share/pixmaps/" );
+    if( gtk_icon_theme_has_icon( icon_theme, "crystal-facet-uml" ) != 1 )
+    {
+        U8_LOG_WARNING( "app icon not found" );
+    }
+    gtk_window_set_default_icon_name("crystal-facet-uml");
+    */
+
     gui_window_manager_init( &window_manager, data_file, gtk_app );
 
     g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), &window_manager);
@@ -56,6 +67,7 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
 
     /* destroy */
     gui_window_manager_destroy( &window_manager );
+    /* g_object_unref( icon_theme ); */
     g_object_unref( gtk_app );
 
     U8_TRACE_TIMESTAMP();

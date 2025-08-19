@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.60.0"
+    "generator_version": "1.63.3"
   }
   ,
   "views":
@@ -40,7 +40,7 @@
         "id": 2,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "abstract components",
+        "name": "add abstraction level",
         "description": [
                 ""
         ],
@@ -105,10 +105,97 @@
     },
     {
       "diagram": {
+        "id": 6,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "abstract components",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "add abstraction level",
+        "parent": "94f35bca-37bf-4a89-ba75-ca39714bc72b",
+        "uuid": "aa88d27e-fc82-422a-bdc3-68a8a09f04f7",
+        "diagramelements":
+        [
+          {
+            "id": 26,
+            "display_flags": 0,
+            "classifier_name": "User",
+            "node": "b91a6190-b380-44ec-9b47-825653460dc0",
+            "uuid": "9860faf2-8403-4f03-ad50-d84bd1c1557e"
+          },
+          {
+            "id": 27,
+            "display_flags": 0,
+            "classifier_name": "Abstract Model",
+            "node": "e7318211-6617-4692-b4b4-03679af55bec",
+            "uuid": "6ec74178-814e-44b0-a97d-95a09d0b426b"
+          },
+          {
+            "id": 28,
+            "display_flags": 0,
+            "classifier_name": "Abstract View",
+            "node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+            "uuid": "6e75bb46-2d5e-44f5-b078-e648fe4a5e8e"
+          },
+          {
+            "id": 29,
+            "display_flags": 0,
+            "classifier_name": "Abstract Controller",
+            "node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+            "uuid": "11e51718-7b4b-4b7e-b33b-2465a010de14"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 7,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "concrete components",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "add abstraction level",
+        "parent": "94f35bca-37bf-4a89-ba75-ca39714bc72b",
+        "uuid": "8df3e0b0-f92e-4aed-a456-3072f17f2a3f",
+        "diagramelements":
+        [
+          {
+            "id": 30,
+            "display_flags": 0,
+            "classifier_name": "Model",
+            "node": "d37ad518-4d03-4ce6-9426-880ce18b594a",
+            "uuid": "0961d5cc-badc-4635-ab77-1c21b9f220fd"
+          },
+          {
+            "id": 31,
+            "display_flags": 0,
+            "classifier_name": "View",
+            "node": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
+            "uuid": "6c720174-9eb5-42de-b17c-68b169e5fa82"
+          },
+          {
+            "id": 32,
+            "display_flags": 0,
+            "classifier_name": "Controller",
+            "node": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
+            "uuid": "29e85bca-1e69-4ab2-81a8-571fe2d508c7"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 3,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "parent ports",
+        "name": "add parent ports",
         "description": [
                 ""
         ],
@@ -173,10 +260,90 @@
     },
     {
       "diagram": {
-        "id": 4,
+        "id": 8,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "interface list methods",
+        "name": "parents",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "add parent ports",
+        "parent": "0c121609-02b8-495e-8f97-754ceef74501",
+        "uuid": "e5ea4709-1f80-4fc2-9e78-563703631b6d",
+        "diagramelements":
+        [
+          {
+            "id": 33,
+            "display_flags": 0,
+            "classifier_name": "data exporter",
+            "node": "eaf97f94-ad89-4c29-828d-a88c94479176",
+            "uuid": "fa0bb040-5663-4847-82c7-e16b1b03e975"
+          },
+          {
+            "id": 34,
+            "display_flags": 0,
+            "classifier_name": "OS abstraction",
+            "node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
+            "uuid": "b4a4fd81-6840-47f5-bef6-12dc701707e7"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 9,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "children",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "add parent ports",
+        "parent": "0c121609-02b8-495e-8f97-754ceef74501",
+        "uuid": "01c265c9-97c8-4297-91c3-07a123828634",
+        "diagramelements":
+        [
+          {
+            "id": 35,
+            "display_flags": 0,
+            "classifier_name": "data exporter",
+            "node": "eaf97f94-ad89-4c29-828d-a88c94479176",
+            "uuid": "57288d52-168c-4267-9a8a-1525833142ba"
+          },
+          {
+            "id": 36,
+            "display_flags": 0,
+            "classifier_name": "txt writer",
+            "node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
+            "uuid": "e6311e99-a0bb-49f3-8f1c-8340e9199b14"
+          },
+          {
+            "id": 37,
+            "display_flags": 0,
+            "classifier_name": "json writer",
+            "node": "f05e1756-e939-4020-960b-699e61b35cf8",
+            "uuid": "6d405190-862c-460e-9cf4-1d86ae7662f3"
+          },
+          {
+            "id": 38,
+            "display_flags": 0,
+            "classifier_name": "xml writer",
+            "node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
+            "uuid": "95b42716-0c9f-4f3d-ab0c-fc06ef69c834"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 4,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "extract interface",
         "description": [
                 ""
         ],
@@ -200,6 +367,93 @@
             "classifier_name": "file wrapper interface",
             "node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
             "uuid": "d5098387-f06a-45e7-add8-3c311b23688b"
+          },
+          {
+            "id": 51,
+            "display_flags": 0,
+            "classifier_name": "Data Storage Class",
+            "node": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
+            "uuid": "b175ac90-b51c-4890-ae7a-e68a45e6e780"
+          },
+          {
+            "id": 52,
+            "display_flags": 0,
+            "classifier_name": "POSIX file interface",
+            "node": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
+            "uuid": "9214173b-5367-494a-b40e-ff03006db754"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 13,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "separate interface",
+        "description": [
+                ""
+        ],
+        "list_order": -1073725440,
+        "display_flags": 0,
+        "parent_name": "extract interface",
+        "parent": "e7701c86-c2a0-47b7-9062-2d22a5254337",
+        "uuid": "0ab4f9b3-f670-4291-adfe-1347bdb78ba1",
+        "diagramelements":
+        [
+          {
+            "id": 53,
+            "display_flags": 0,
+            "classifier_name": "file wrapper interface",
+            "node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
+            "uuid": "a7f2a683-de48-45af-9e89-5a029bad328e"
+          },
+          {
+            "id": 54,
+            "display_flags": 0,
+            "classifier_name": "file wrapper class",
+            "node": "040c8834-a428-43d2-8767-76ff800d017a",
+            "uuid": "6740d6a4-30e1-4e3a-8d4b-2fe42886d2d6"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 10,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "interface hidden",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "extract interface",
+        "parent": "e7701c86-c2a0-47b7-9062-2d22a5254337",
+        "uuid": "31a3fcdf-4f27-4598-9169-044e7cff4695",
+        "diagramelements":
+        [
+          {
+            "id": 39,
+            "display_flags": 0,
+            "classifier_name": "file wrapper class",
+            "node": "040c8834-a428-43d2-8767-76ff800d017a",
+            "uuid": "5494aa14-3009-4f7a-a48f-3f3bebedff55"
+          },
+          {
+            "id": 40,
+            "display_flags": 0,
+            "classifier_name": "POSIX file interface",
+            "node": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
+            "uuid": "50814297-982e-4774-b1bf-e13d0b03da60"
+          },
+          {
+            "id": 41,
+            "display_flags": 0,
+            "classifier_name": "Data Storage Class",
+            "node": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
+            "uuid": "67e7809d-5c5e-44ee-b48c-7ec982fbe6b4"
           }
         ]
       }
@@ -209,7 +463,7 @@
         "id": 5,
         "diagram_type": 12,
         "type": "UMLStateMachineDiagram",
-        "name": "add abstraction level",
+        "name": "add hierarchy level",
         "description": [
                 ""
         ],
@@ -275,6 +529,234 @@
             "classifier_name": "run",
             "node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
             "uuid": "2e20f690-42e0-49e2-b977-89dcc275a2c4"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 11,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "higher hierarchy level",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "add hierarchy level",
+        "parent": "c390f58f-5f05-44a4-9eec-596bac59fc2f",
+        "uuid": "b96a0135-e62d-4898-b060-a2de60b93624",
+        "diagramelements":
+        [
+          {
+            "id": 42,
+            "display_flags": 0,
+            "classifier_name": "power on",
+            "node": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
+            "uuid": "fd0029e1-0817-40fb-846e-003f9ec096f5"
+          },
+          {
+            "id": 43,
+            "display_flags": 0,
+            "classifier_name": "boot",
+            "node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
+            "uuid": "6ad59291-bb20-49a5-adc2-aaf93338eb8e"
+          },
+          {
+            "id": 44,
+            "display_flags": 0,
+            "classifier_name": "run",
+            "node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+            "uuid": "72998249-880e-47cc-8cf1-24fff923d395"
+          },
+          {
+            "id": 45,
+            "display_flags": 0,
+            "classifier_name": "shutdown",
+            "node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
+            "uuid": "4493b09c-b2e6-4447-9313-80e1b30bfc86"
+          },
+          {
+            "id": 46,
+            "display_flags": 0,
+            "classifier_name": "power off",
+            "node": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
+            "uuid": "bfb3b17f-43bc-438e-953b-6674796575dc"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 12,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "detailed level",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "add hierarchy level",
+        "parent": "c390f58f-5f05-44a4-9eec-596bac59fc2f",
+        "uuid": "cab61db7-c9ea-4601-9480-24ebebd1fc47",
+        "diagramelements":
+        [
+          {
+            "id": 47,
+            "display_flags": 0,
+            "classifier_name": "run normal",
+            "node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+            "uuid": "f0e90658-e192-4dbc-83b9-3f6fde2e556b"
+          },
+          {
+            "id": 48,
+            "display_flags": 0,
+            "classifier_name": "special mode?",
+            "node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+            "uuid": "90dd76a5-6d5b-454c-8e9c-68c7a40da857"
+          },
+          {
+            "id": 49,
+            "display_flags": 0,
+            "classifier_name": "run special",
+            "node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+            "uuid": "7634b5d7-596a-4c45-b195-ca099019031f"
+          },
+          {
+            "id": 50,
+            "display_flags": 0,
+            "classifier_name": "run",
+            "node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+            "uuid": "12156184-6227-4f57-85bd-54cb42e8a4b0"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 14,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "add mediator class",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "display_flags": 0,
+        "parent_name": "New Overview",
+        "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
+        "uuid": "88e6b285-c44a-459a-acb8-8d6dd89cc36a",
+        "diagramelements":
+        [
+          {
+            "id": 55,
+            "display_flags": 0,
+            "classifier_name": "Resource-hungry Application",
+            "node": "161503c1-57ef-48e7-878f-35196f630471",
+            "uuid": "946af4fd-45d5-4543-8bfc-ca3e7131b9bc"
+          },
+          {
+            "id": 56,
+            "display_flags": 0,
+            "classifier_name": "Resource Supervisor",
+            "node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+            "uuid": "1020457d-649f-406d-8ece-10b5083fa784"
+          },
+          {
+            "id": 57,
+            "display_flags": 0,
+            "classifier_name": "Risk: Out of Memory",
+            "node": "a975b649-12c7-456e-8804-151526d0c8e7",
+            "uuid": "b318321e-2be3-4497-91a9-d84b7b103dfa"
+          },
+          {
+            "id": 64,
+            "display_flags": 0,
+            "classifier_name": "Background Task Manager",
+            "node": "ecff405a-83d3-4238-9a81-783de7f987a2",
+            "uuid": "a8cd0314-dfed-4830-b025-7f8310e41aa0"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 15,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "technical solution",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "add mediator class",
+        "parent": "88e6b285-c44a-459a-acb8-8d6dd89cc36a",
+        "uuid": "a686c7d3-d73c-4946-98e6-f512f4818e55",
+        "diagramelements":
+        [
+          {
+            "id": 58,
+            "display_flags": 0,
+            "classifier_name": "Resource-hungry Application",
+            "node": "161503c1-57ef-48e7-878f-35196f630471",
+            "uuid": "0aa1eb33-fa01-4a1b-8e3a-a1cf4e82cef7"
+          },
+          {
+            "id": 59,
+            "display_flags": 0,
+            "classifier_name": "Resource Supervisor",
+            "node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+            "uuid": "a337d695-1e94-47e4-b2d7-71a4b2ec7397"
+          },
+          {
+            "id": 65,
+            "display_flags": 0,
+            "classifier_name": "Background Task Manager",
+            "node": "ecff405a-83d3-4238-9a81-783de7f987a2",
+            "uuid": "78683bec-ce00-4825-a376-c578c82d4a03"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 16,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "risk",
+        "description": [
+                ""
+        ],
+        "list_order": 1073758207,
+        "display_flags": 0,
+        "parent_name": "add mediator class",
+        "parent": "88e6b285-c44a-459a-acb8-8d6dd89cc36a",
+        "uuid": "d0d309c2-b224-45c2-8a4e-f7c616dd4e77",
+        "diagramelements":
+        [
+          {
+            "id": 62,
+            "display_flags": 0,
+            "classifier_name": "Risk: Out of Memory",
+            "node": "a975b649-12c7-456e-8804-151526d0c8e7",
+            "uuid": "e74037aa-3366-47fe-bcea-68b7bd21bb4d"
+          },
+          {
+            "id": 63,
+            "display_flags": 0,
+            "classifier_name": "Resource Supervisor",
+            "node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+            "uuid": "04b71e3f-07f7-4330-822b-97c92ae4b222"
+          },
+          {
+            "id": 67,
+            "display_flags": 0,
+            "classifier_name": "Resource-hungry Application",
+            "node": "161503c1-57ef-48e7-878f-35196f630471",
+            "uuid": "36f1faa5-611d-46ef-b7c6-b5bde025a91f"
           }
         ]
       }
@@ -394,7 +876,7 @@
             "description": [
                 ""
             ],
-            "list_order": -865597807,
+            "list_order": -399941300,
             "uuid": "acd869dc-eb98-4f05-82dc-93d71f8fbbb6"
           },
           {
@@ -434,7 +916,7 @@
             "description": [
                 ""
             ],
-            "list_order": -1219713014,
+            "list_order": -1149969953,
             "uuid": "352d8d3a-e8a5-4252-af31-c2e7350d1f59"
           },
           {
@@ -445,7 +927,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1913547265,
+            "list_order": 1690273790,
             "uuid": "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15"
           },
           {
@@ -456,7 +938,7 @@
             "description": [
                 ""
             ],
-            "list_order": -1672307321,
+            "list_order": -1747388003,
             "uuid": "25e75212-d506-442c-9f5d-c54add39f3d7"
           },
           {
@@ -478,7 +960,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1189271501,
+            "list_order": 1238492197,
             "uuid": "e3bfe8c1-45c9-40be-b6e5-e62139a2a232"
           }
         ]
@@ -507,7 +989,7 @@
             "description": [
                 ""
             ],
-            "list_order": 194998515,
+            "list_order": 81591752,
             "uuid": "2de3f74e-731f-46d3-b0ad-1f800f4bee0c"
           },
           {
@@ -518,7 +1000,7 @@
             "description": [
                 ""
             ],
-            "list_order": 562326763,
+            "list_order": 433040694,
             "uuid": "edc71d29-0136-47d3-a558-16a14101d534"
           },
           {
@@ -529,7 +1011,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1320350223,
+            "list_order": 1304638788,
             "uuid": "6ffaaf7e-eb33-4ef5-ae3e-f7997368758d"
           },
           {
@@ -551,7 +1033,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1891502556,
+            "list_order": 2053760397,
             "uuid": "66e28b3c-4cb9-4998-b7bc-4997cda9c1c7"
           }
         ]
@@ -972,7 +1454,7 @@
                 ""
         ],
         "x_order": -1646638250,
-        "y_order": -674927098,
+        "y_order": -564723830,
         "list_order": -674927098,
         "uuid": "970fb1e2-9933-4423-95e6-688674c7a9c6",
         "features":
@@ -999,6 +1481,114 @@
             "list_order": -1479300388,
             "uuid": "94d1b743-2383-4de4-8f5f-412d2f4692cc"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 26,
+        "main_type": 125,
+        "type": "Class",
+        "name": "POSIX file interface",
+        "description": [
+                ""
+        ],
+        "x_order": -575819078,
+        "y_order": 855319084,
+        "list_order": 855319084,
+        "uuid": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 27,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Data Storage Class",
+        "description": [
+                ""
+        ],
+        "x_order": -1148850062,
+        "y_order": -1496529748,
+        "list_order": -1492401430,
+        "uuid": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 28,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Resource-hungry Application",
+        "description": [
+                ""
+        ],
+        "x_order": -695821637,
+        "y_order": -552926133,
+        "list_order": -552926133,
+        "uuid": "161503c1-57ef-48e7-878f-35196f630471",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 29,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Resource Supervisor",
+        "description": [
+                ""
+        ],
+        "x_order": -695821637,
+        "y_order": 51760812,
+        "list_order": 51760812,
+        "uuid": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 30,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Risk: Out of Memory",
+        "description": [
+                ""
+        ],
+        "x_order": 1089976675,
+        "y_order": -552926133,
+        "list_order": -552926133,
+        "uuid": "a975b649-12c7-456e-8804-151526d0c8e7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 31,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Background Task Manager",
+        "description": [
+                ""
+        ],
+        "x_order": -1681186248,
+        "y_order": 664111950,
+        "list_order": 51760812,
+        "uuid": "ecff405a-83d3-4238-9a81-783de7f987a2",
+        "features":
+        [
         ]
       }
     }
@@ -1713,6 +2303,108 @@
         "from_node": "81698f78-a5ea-4020-9dbc-99541d9b4821",
         "to_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
         "uuid": "d05d50c9-16d0-4b13-a54f-613a71395a55"
+      }
+    },
+    {
+      "relationship": {
+        "id": 50,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "POSIX file interface",
+        "to_classifier_name": "file wrapper class",
+        "from_node": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
+        "to_node": "040c8834-a428-43d2-8767-76ff800d017a",
+        "uuid": "8c397ad9-90ff-4867-b99e-bf5ae00539c8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 49,
+        "main_type": 200,
+        "type": "Association",
+        "name": "use",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Data Storage Class",
+        "to_classifier_name": "file wrapper class",
+        "from_node": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
+        "to_node": "040c8834-a428-43d2-8767-76ff800d017a",
+        "uuid": "a6c67cce-92e9-4473-88d1-ccb95ba756d5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 51,
+        "main_type": 200,
+        "type": "Association",
+        "name": "monitors",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Resource Supervisor",
+        "to_classifier_name": "Resource-hungry Application",
+        "from_node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+        "to_node": "161503c1-57ef-48e7-878f-35196f630471",
+        "uuid": "f7b650cb-296e-43ec-bac7-f7ffbbcd9ac0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 53,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "detects",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Resource Supervisor",
+        "to_classifier_name": "Risk: Out of Memory",
+        "from_node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+        "to_node": "a975b649-12c7-456e-8804-151526d0c8e7",
+        "uuid": "84c24a24-302b-4000-b5c2-1cf4dfd59e92"
+      }
+    },
+    {
+      "relationship": {
+        "id": 55,
+        "main_type": 200,
+        "type": "Association",
+        "name": "ask for resources",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Resource Supervisor",
+        "to_classifier_name": "Background Task Manager",
+        "from_node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+        "to_node": "ecff405a-83d3-4238-9a81-783de7f987a2",
+        "uuid": "37e910f0-4841-4e8c-9589-50703ff63b05"
+      }
+    },
+    {
+      "relationship": {
+        "id": 54,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "caused by",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Risk: Out of Memory",
+        "to_classifier_name": "Resource-hungry Application",
+        "from_node": "a975b649-12c7-456e-8804-151526d0c8e7",
+        "to_node": "161503c1-57ef-48e7-878f-35196f630471",
+        "uuid": "e5713aba-032c-4533-947a-3a6905477c61"
       }
     }
   ]

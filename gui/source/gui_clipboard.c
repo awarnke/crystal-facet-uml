@@ -8,7 +8,7 @@
 #include "set/data_stat.h"
 #include "utf8stringbuf/utf8string.h"
 #include <assert.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 
 void gui_clipboard_init ( gui_clipboard_t *this_,

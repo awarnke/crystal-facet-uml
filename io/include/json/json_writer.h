@@ -48,7 +48,6 @@ struct json_writer_struct {
     universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the json escaping */
 
     const char *const ((*json_string_encode_table)[][2]);  /*!< table for json encode string replacements */
-    const char *const ((*json_stringlist_encode_table)[][2]);  /*!< table for json encode stringlist replacements */
 };
 
 typedef struct json_writer_struct json_writer_t;
@@ -127,24 +126,6 @@ static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, ut
 static inline u8_error_t json_writer_write_string_view_enc ( json_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
- *  \brief writes a string to a file, encoded as list of json-strings, one string per line
- *
- *  \param this_ pointer to own object attributes
- *  \param text string to write, encoded for json comments
- *  \return U8_ERROR_NONE in case of success
- */
-static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t *text );
-
-/*!
- *  \brief writes a stringview to a file, encoded as list of json-strings, one string per line
- *
- *  \param this_ pointer to own object attributes
- *  \param string_view stringview to write, not 0-terminated
- *  \return U8_ERROR_NONE in case of success
- */
-static inline u8_error_t json_writer_write_stringlist_view_enc ( json_writer_t *this_, const utf8stringview_t *string_view );
-
-/*!
  *  \brief writes a member name and a value integer
  *
  *  \param this_ pointer to own object attributes
@@ -189,12 +170,33 @@ static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
  *  \param next_follows true if another member follows (a comma will be printed)
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
-                                                                 unsigned int indent,
-                                                                 utf8string_t *enc_name,
-                                                                 utf8string_t *unenc_value,
-                                                                 bool next_follows
-                                                               );
+u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
+                                                   unsigned int indent,
+                                                   utf8string_t *enc_name,
+                                                   utf8string_t *unenc_value,
+                                                   bool next_follows
+                                                 );
+
+/*!
+ *  \brief writes a member name, a string, another member name and an int; the string value string is being json encoded
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent indentation level: number of tabs, 0 <= indent <= JSON_WRITER_MAX_INDENT
+ *  \param enc_name_1 name of the object member, json encoded string
+ *  \param unenc_value_1 string to write, being json encoded (a texual representation of an enum)
+ *  \param enc_name_2 name of the object member, json encoded string
+ *  \param number_value_2 the integer to print (a decimal representation of an enum)
+ *  \param next_follows true if another member follows (a comma will be printed)
+ *  \return U8_ERROR_NONE in case of success
+ */
+static inline u8_error_t json_writer_write_member_enum ( json_writer_t *this_,
+                                                         unsigned int indent,
+                                                         utf8string_t *enc_name_1,
+                                                         utf8string_t *unenc_value_1,
+                                                         utf8string_t *enc_name_2,
+                                                         int64_t number_value_2,
+                                                         bool next_follows
+                                                       );
 
 #include "json_writer.inl"
 

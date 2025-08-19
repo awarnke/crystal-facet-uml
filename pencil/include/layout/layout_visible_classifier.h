@@ -28,7 +28,7 @@ struct layout_visible_classifier_struct {
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier. */
                                      /*!< label_box is stated in absolute coordinates. */
     geometry_rectangle_t icon_box;  /*!< bounding box of the main_type or stereotype icon of the visible classifier. */
-                                    /*!< The icon_box is not the symbol box of actor, fork, join, start, end, history, time,... */
+                                    /*!< The icon_box equals the symbol box of actor, fork, join, start, end, history, time,... */
                                     /*!< icon_box is stated in absolute coordinates. */
     geometry_h_align_t label_h_anchor;  /*!< side of the label box that stays fix in case of expand */
     geometry_v_align_t label_v_anchor;  /*!< side of the label box that stays fix in case of expand */

@@ -23,6 +23,7 @@
 #define JSON_CONSTANTS_END_ARRAY "]"
 #define JSON_CONSTANTS_NEXT_NL ",\n"
 #define JSON_CONSTANTS_NL "\n"
+#define JSON_CONSTANTS_NEXT ", "
 #define JSON_CONSTANTS_TRUE "true"
 #define JSON_CONSTANTS_FALSE "false"
 #define JSON_CONSTANTS_NULL "null"

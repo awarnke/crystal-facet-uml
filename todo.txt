@@ -3,6 +3,11 @@
      =====     KEEP IT SIMPLE & STUPID     =====
      =====                                 =====
 
+Scope:
+  crystal-facet-uml shall draw the needed diagram types for system and software architecture.
+  Only features that are expected to be needed by many projects shall be included.
+  For missing features, the following extension mechanisms exist: tagges values, stereotypes, comments may show constraints.
+
 ideas for future versions:
   @gui
   [ ] performance optimization: redraw only when shown(=visible) items have changed;
@@ -11,16 +16,16 @@ ideas for future versions:
       (this is still the case in 1.61.2)
   [ ] a "saveAs" command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
-  [ ] scrolling through search list missing if result list is too long
-      (workaround hint already added to user manual)
-  [?] store edited text fields before performing undo/redo operations
   [ ] auto-save when losing focus; Check gui_main_window_activated callback
   [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
   [ ] do not auto-save when there are no changes
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
-  [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
+  [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
+  [ ] to pink-mark several objects - require shift key
+  [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
+  [ ] In Search View, show e.g. the Diagram Id to better explani why classifiers are shown multiple times
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -28,10 +33,16 @@ ideas for future versions:
   [?] check dot notation at opposite relationship ends
   [?] sequence diagrams need if/loop-boxes
   [?] activity diagrams need swimlanes/partition
-! [ ] reduce overlaps, analyze the overlaps in test cases by extending layout_visible_set_get_statistics()
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
-  [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
+  [?] allow arbitrary compartment sequences for features, e.g. tag - operation - property
+  [ ] relationship ends at packages or use-cases or choices are sometimes unluckily positioned.
+      A simple solution is to consider the type of the classifier when determining the weight for non-centered ends.
+  [ ] A comment should only show the first paragraph. Or - like an svg-path - define other delimiters
+  [ ] A comment should consider CJK linebreaks - like the json export
+  [ ] An image should allow to show an svg-<path> without a stereotype
+  [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
+  [ ] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -39,15 +50,12 @@ ideas for future versions:
   [?] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
-  [ ] json export declares "type": "ActivityFinalNode" even if type is state-final
-  [ ] json export declares "type": "DecisionNode" even if type is ChoiceNode (statemachine)
-  [ ] json export: determining if statemachine_context - is a good guess but not 100% correct
   [ ] add test case for opening non-cfuJ files
-  [ ] in json format, types shall be unique and self-explaining instead of uml/sysml compliant
+  [ ] in html export, do not create "appears in" links to current chapter - this is superfluous and irritating
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
-  [ ] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
+  [?] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
       show/hide relationships-of-other-diag-types
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
@@ -60,20 +68,28 @@ ideas for future versions:
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
-      (rationale: the search+xmi+json export find them)
+      (rationale: the xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
-      (rationale: the search+xmi+json export find them)
+      (rationale: the xmi+json export find them)
   [ ] undo and redo shall update the revision number of the database
       - so that the save button can indicate no changes
   @u8stream
+  [ ] Do something about the false positive (maybe remove the inline?)
+      /u8stream/include/utf8stringbuf/utf8stringbuf.inl: In function ‘testGetEnd’:
+      /u8stream/include/utf8stringbuf/utf8stringbuf.inl:312:13: warning: ‘__builtin_memcpy’ writing 3 bytes into a region of size 2 [-Wstringop-overflow=]
+      /u8stream/test/unit/utf8stringbuf_test.c:880:10: note: at offset 2 into destination object ‘dynTestArr1’ of size 4
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
-      Possibly crystal-facet-uml searches and waits for a non-existing accessability service?
-  [ ] in debug mode, on WSL, the program does not quit when the main function returns.
+      Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?
+      To fix, start with following environment variable set: GTK_A11Y=none ./crystal-facet-uml
+  [ ] in debug mode, on WSL (WoA.2025), the program does not quit when the main function returns.
   @test_fw
   @documentation
 
 ideas for a version 2
   - drop backwards-compatibility for old cfu1 storage formats (use cfuJ only)
   - support rust in application code
+
+
+
 

@@ -8,11 +8,25 @@ static const char *const GUI_SKETCH_STYLE_FONT_FAMILY = "Sans";
 static inline void gui_sketch_style_init( gui_sketch_style_t *this_ )
 {
     pencil_size_init_empty( &((*this_).pencil_size) );
+    /* the grid is snapped to rather easily, there is no risk of accidentially selecting a close-by grid position */
+    (*this_).snap_to_grid_distance = 8.000001;
+    /* a relationship must be selected rather accurately, to avoid not being able to select something close by */
+    (*this_).snap_to_relationship = 3;
 }
 
 static inline void gui_sketch_style_destroy( gui_sketch_style_t *this_ )
 {
     pencil_size_destroy( &((*this_).pencil_size) );
+}
+
+static inline double gui_sketch_style_get_snap_to_grid( const gui_sketch_style_t *this_ )
+{
+    return (*this_).snap_to_grid_distance;
+}
+
+static inline int32_t gui_sketch_style_get_snap_to_relationship( const gui_sketch_style_t *this_ )
+{
+    return (*this_).snap_to_relationship;
 }
 
 static inline double gui_sketch_style_get_footnote_font_size( const gui_sketch_style_t *this_ )

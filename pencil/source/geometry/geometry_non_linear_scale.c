@@ -37,11 +37,12 @@ void geometry_non_linear_scale_trace ( const geometry_non_linear_scale_t *this_ 
     U8_TRACE_END();
 }
 
-void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, int32_t order )
+u8_error_t geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, int32_t order )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
     assert( (*this_).num_points >= 2 );  /* prevent division by zero */
+    u8_error_t result = U8_ERROR_NONE;
 
     /* check for duplicates and for possible insert position */
     bool duplicate = false;
@@ -88,6 +89,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
         else
         {
             U8_LOG_WARNING( "geometry_non_linear_scale_t has not enough points." );
+            result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
         }
     }
 
@@ -102,7 +104,8 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
     }
 #endif
 
-    U8_TRACE_END();
+    U8_TRACE_END_ERR( result );
+    return result;
 }
 
 

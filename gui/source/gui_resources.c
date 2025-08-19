@@ -2,7 +2,7 @@
 
 #include "gui_resources.h"
 #include "u8/u8_trace.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 
 /* including resource files */
@@ -55,6 +55,21 @@
 #include "resources/search_search.c"
 #include "resources/background_column.c"
 
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
+
+#include "resources/sketch_create.c"
+#include "resources/sketch_refine.c"
+#include "resources/sketch_relate.c"
+#include "resources/sketch_move_h.c"
+#include "resources/sketch_move_v.c"
+#include "resources/sketch_move_2d.c"
+#include "resources/sketch_page_down_bold.c"
+#include "resources/sketch_page_down_gray.c"
+#include "resources/sketch_page_up_bold.c"
+#include "resources/sketch_page_up_gray.c"
+
 #include "resources/type_undef.c"
 #include "resources/type_diag_activity.c"
 #include "resources/type_diag_block.c"
@@ -87,12 +102,12 @@
 #include "resources/type_clas_constraint.c"
 #include "resources/type_clas_decision.c"
 #include "resources/type_clas_deephistory.c"
-#include "resources/type_clas_diagram.c"
 #include "resources/type_clas_final.c"
 #include "resources/type_clas_fork.c"
 #include "resources/type_clas_history.c"
 #include "resources/type_clas_image.c"
 #include "resources/type_clas_initial.c"
+#include "resources/type_clas_interaction_use.c"
 #include "resources/type_clas_interface.c"
 #include "resources/type_clas_join.c"
 #include "resources/type_clas_node.c"
@@ -139,10 +154,6 @@
 #include "resources/type_rel_return.c"
 #include "resources/type_rel_sync.c"
 #include "resources/type_rel_trace.c"
-
-#if __GNUC__ >= 8
-#pragma GCC diagnostic pop
-#endif
 
 #define GIMP_PIXBUF_DATA(STRUCTNAME) &(STRUCTNAME.pixel_data[0]), GDK_COLORSPACE_RGB, true /* alpha */, 8, \
                                      STRUCTNAME.width, STRUCTNAME.height, STRUCTNAME.width * STRUCTNAME.bytes_per_pixel, \
@@ -215,6 +226,17 @@ void gui_resources_init ( gui_resources_t *this_ )
 
     (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
 
+    (*this_).sketch_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_create ) );
+    (*this_).sketch_refine = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_refine ) );
+    (*this_).sketch_relate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_relate ) );
+    (*this_).sketch_move_h = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_h ) );
+    (*this_).sketch_move_v = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_v ) );
+    (*this_).sketch_move_2d = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_move_2d ) );
+    (*this_).sketch_page_down_bold = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_down_bold ) );
+    (*this_).sketch_page_down_gray = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_down_gray ) );
+    (*this_).sketch_page_up_bold = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_up_bold ) );
+    (*this_).sketch_page_up_gray = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_page_up_gray ) );
+
     (*this_).type_undef = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_undef ) );
 
     (*this_).type_diag_activity = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_activity ) );
@@ -248,12 +270,12 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_clas_constraint = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_constraint ) );
     (*this_).type_clas_decision = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_decision ) );
     (*this_).type_clas_deephistory = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_deephistory ) );
-    (*this_).type_clas_diagram = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_diagram ) );
     (*this_).type_clas_final = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_final ) );
     (*this_).type_clas_fork = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_fork ) );
     (*this_).type_clas_history = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_history ) );
     (*this_).type_clas_image = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_image ) );
     (*this_).type_clas_initial = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_initial ) );
+    (*this_).type_clas_interaction_use = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_interaction_use ) );
     (*this_).type_clas_interface = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_interface ) );
     (*this_).type_clas_join = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_join ) );
     (*this_).type_clas_node = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_node ) );
@@ -358,6 +380,17 @@ void gui_resources_destroy ( gui_resources_t *this_ )
 
     g_object_unref ((*this_).background_column);  /* Type: GdkPixbuf */
 
+    g_object_unref ((*this_).sketch_create);
+    g_object_unref ((*this_).sketch_refine);
+    g_object_unref ((*this_).sketch_relate);
+    g_object_unref ((*this_).sketch_move_h);
+    g_object_unref ((*this_).sketch_move_v);
+    g_object_unref ((*this_).sketch_move_2d);
+    g_object_unref ((*this_).sketch_page_down_bold);
+    g_object_unref ((*this_).sketch_page_down_gray);
+    g_object_unref ((*this_).sketch_page_up_bold);
+    g_object_unref ((*this_).sketch_page_up_gray);
+
     g_object_unref ((*this_).type_undef);
 
     g_object_unref ((*this_).type_diag_activity);
@@ -391,12 +424,12 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_clas_constraint);
     g_object_unref ((*this_).type_clas_decision);
     g_object_unref ((*this_).type_clas_deephistory);
-    g_object_unref ((*this_).type_clas_diagram);
     g_object_unref ((*this_).type_clas_final);
     g_object_unref ((*this_).type_clas_fork);
     g_object_unref ((*this_).type_clas_history);
     g_object_unref ((*this_).type_clas_image);
     g_object_unref ((*this_).type_clas_initial);
+    g_object_unref ((*this_).type_clas_interaction_use);
     g_object_unref ((*this_).type_clas_interface);
     g_object_unref ((*this_).type_clas_join);
     g_object_unref ((*this_).type_clas_node);

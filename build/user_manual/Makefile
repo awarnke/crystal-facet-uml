@@ -6,10 +6,11 @@ SOURCE=../../documentation/user_manual
 crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.pdf ${SOURCE}/*.svg ${SOURCE}/*.png ${SOURCE}/4_stereotypes/*.* ${SOURCE}/5_modeling_hints_export/*.svg
 	echo "you may need to install sudo zypper install rsvg-convert or sudo apt install librsvg2-bin" &&\
 	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
-	dblatex -c use_rsvg-convert.conf --type=pdf ${SOURCE}/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
+	dblatex -c use_rsvg-convert.conf -p xsl_params.xsl --type=pdf ${SOURCE}/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
 
 html: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.png ${SOURCE}/*.png ${SOURCE}/*.svg ${SOURCE}/4_stereotypes/*.*
 	echo "PLEASE UPDATE DIAGRAMS IN ${SOURCE}/2_feature_gallery_export/ MANUALLY" &&\
+	echo "PLEASE UPDATE DIAGRAMS IN ${SOURCE}/5_modeling_hints_export/ MANUALLY" &&\
 	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml ${SOURCE}/crystal-facet-uml_documentation.xml &&\
 	echo relocate image files &&\
 	cat ${SOURCE}/*.xml | grep -e 'fileref.*png' | sed -e 's#^[^"]*"\([^"]*\)".*#${SOURCE}/\1#' | xargs cp --target-directory=./html &&\

@@ -82,7 +82,7 @@ static inline data_classifier_type_t gui_sketch_defaults_get_classifier_type ( c
 
         case DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE;
+            result = DATA_CLASSIFIER_TYPE_INTERACTION_USE;
         }
         break;
 
@@ -188,7 +188,7 @@ static inline data_relationship_type_t gui_sketch_defaults_get_relationship_type
 
             case DATA_CLASSIFIER_TYPE_ACTIVITY:  /* and */
             case DATA_CLASSIFIER_TYPE_STATE:  /* and */
-            case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+            case DATA_CLASSIFIER_TYPE_INTERACTION_USE:  /* and */
             case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
             case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */
             case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:  /* and */
@@ -312,7 +312,7 @@ static inline data_feature_type_t gui_sketch_defaults_get_feature_type ( const g
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERACTION_USE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:  /* and */

@@ -1,33 +1,28 @@
 <!DOCTYPE para>
 <para>
-    To store a database in a version control system (vcs) like svn or git,
-    store the json file format <command>*.cfuJ</command> to your vcs.
+    The json-based data file can be stored in a version control system (vcs)
+    like svn or git.
 
     <itemizedlist>
         <listitem>
             <para>
-                Note that this feature requires at least version 1.35.0, better version 1.39.0 to work smoothly.
+                Close the crystal-facet-uml application before synchronizing a file with your vcs.
+                Do not synchronize the file with your vcs while you modify it at the same time.
             </para>
         </listitem>
         <listitem>
             <para>
-                Do not synchronize the file with your vcs while you modify it at the same time;
-                save your changes first, close the json file and re-open the json file afterwards.
-            </para>
-        </listitem>
-        <listitem>
-            <para>
-                In case of merge conflicts in <command>*.cfuJ</command> files,
+                In case of merge conflicts in the json-based data files,
                 note that uuid strings do uniquely identify all json objects.
                 Relations between objects are defined by these uuid strings.
                 In contrast to uuids, integer-id can be changed
                 as long as they are unique among all objects of same type within the file.
-                Also the names of classifiers must be unique.
+                Also the names of classifiers (nodes) must be unique.
             </para>
         </listitem>
         <listitem>
             <para>
-                To see the changes between versions of the json file, consider to use the following option:
+                To see the changes between versions of the json file, consider to use the patience option:
                 <command>git diff --patience</command>
                 The result may better explain the changes.
             </para>

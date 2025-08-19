@@ -180,6 +180,56 @@ static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resourc
     return (*this_).background_column;
 }
 
+static inline GdkTexture *gui_resources_get_sketch_create ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_create;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_refine ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_refine;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_relate ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_relate;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_move_h ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_move_h;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_move_v ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_move_v;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_move_2d ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_move_2d;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_page_down_bold ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_down_bold;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_page_down_gray ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_down_gray;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_page_up_bold ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_up_bold;
+}
+
+static inline GdkTexture *gui_resources_get_sketch_page_up_gray ( const gui_resources_t *this_ )
+{
+    return (*this_).sketch_page_up_gray;
+}
+
 static inline GdkTexture *gui_resources_get_type_undef ( const gui_resources_t *this_ )
 {
     return (*this_).type_undef;
@@ -335,11 +385,6 @@ static inline GdkTexture *gui_resources_get_type_clas_deephistory ( const gui_re
     return (*this_).type_clas_deephistory;
 }
 
-static inline GdkTexture *gui_resources_get_type_clas_diagram ( const gui_resources_t *this_ )
-{
-    return (*this_).type_clas_diagram;
-}
-
 static inline GdkTexture *gui_resources_get_type_clas_final ( const gui_resources_t *this_ )
 {
     return (*this_).type_clas_final;
@@ -363,6 +408,11 @@ static inline GdkTexture *gui_resources_get_type_clas_image ( const gui_resource
 static inline GdkTexture *gui_resources_get_type_clas_initial ( const gui_resources_t *this_ )
 {
     return (*this_).type_clas_initial;
+}
+
+static inline GdkTexture *gui_resources_get_type_clas_interaction_use ( const gui_resources_t *this_ )
+{
+    return (*this_).type_clas_interaction_use;
 }
 
 static inline GdkTexture *gui_resources_get_type_clas_interface ( const gui_resources_t *this_ )

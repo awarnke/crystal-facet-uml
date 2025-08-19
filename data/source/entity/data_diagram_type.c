@@ -1,6 +1,8 @@
 /* File: data_diagram_type.c; Copyright and License: see below */
 
 #include "entity/data_diagram_type.h"
+#include <stddef.h>
+#include <assert.h>
 
 const data_diagram_type_t DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT]
     = {
@@ -25,6 +27,58 @@ const data_diagram_type_t DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT]
         DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
         DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM
     };
+
+static const char *const DATA_DIAGRAM_TYPE_NAME_ARRAY [DATA_DIAGRAM_TYPE_HASH_MOD]
+    = {
+        [ DATA_DIAGRAM_TYPE_LIST ] = "List",
+        [ DATA_DIAGRAM_TYPE_BOX_DIAGRAM ] = "Box Overview",
+        [2] = "",
+        [3] = "",
+        [ DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM ] = "Block Definition Diagram",
+        [ DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM ] = "Internal Block Diagram",
+        [6] = "",
+        [ DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM ] = "Parametric Diagram",
+        [8] = "",
+        [ DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM ] = "Requirement Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM ] = "Use Case Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM ] = "Activity Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM ] = "State Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM ] = "Sequence Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM ] = "Communication Diagram",
+        [15] = "",
+        [ DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ] = "Timing Diagram",
+        [ DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ] = "Interation Overview Diagram",
+        [18] = "",
+        [19] = "",
+        [20] = "",
+        [21] = "",
+        [22] = "",
+        [23] = "",
+        [24] = "",
+        [25] = "",
+        [26] = "",
+        [27] = "",
+        [28] = "",
+        [29] = "",
+        [ DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM ] = "Deployment Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM ] = "Component Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM ] = "Composite Structure Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM ] = "Package Diagram",
+        [ DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM ] = "Class Diagram",
+        [35] = "",
+        [36] = "",
+        [37] = "",
+        [38] = "",
+        [ DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM ] = "Profile Diagram",
+    };
+
+const char * data_diagram_type_get_name( data_diagram_type_t this_ )
+{
+    const char * result
+        = ( this_ == DATA_DIAGRAM_TYPE_VOID ) ? "" : DATA_DIAGRAM_TYPE_NAME_ARRAY[ this_ % DATA_DIAGRAM_TYPE_HASH_MOD ];
+    assert( result != NULL );
+    return ( result == NULL ) ? "" : result;
+}
 
 
 /*

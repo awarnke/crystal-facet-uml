@@ -80,11 +80,12 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos( const gui_sketch_
     layout_order_t result;
     pencil_error_t pen_err;
 
+    const double snap_to_grid = gui_sketch_style_get_snap_to_grid( &((*this_).sketch_style) );
     pen_err = pencil_diagram_maker_get_order_at_pos ( &((*this_).painter),
                                                       obj_id,
                                                       (double) x,
                                                       (double) y,
-                                                      (*this_).snap_to_grid_distance,
+                                                      snap_to_grid,
                                                       &result
                                                     );
 
@@ -147,38 +148,6 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
     }
 
     return layout_order_get_first( &result );
-}
-
-static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this_,
-                                                   shape_int_rectangle_t *out_bounds,
-                                                   uint32_t *out_x_count,
-                                                   uint32_t *out_y_count
-                                                 )
-{
-    assert( out_bounds != NULL );
-    assert( out_x_count != NULL );
-    assert( out_y_count != NULL );
-
-    double x0,y0,dx,dy;
-
-    const geometry_grid_t *grid = pencil_diagram_maker_get_grid_const( &((*this_).painter) );
-    const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( grid );
-    const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( grid );
-
-    x0 = geometry_non_linear_scale_get_location( x_scale, /*order=*/ INT32_MIN );
-    dx = geometry_non_linear_scale_get_grid_distances( x_scale );
-    *out_x_count = geometry_non_linear_scale_get_grid_intervals( x_scale ) + 1;
-
-    y0 = geometry_non_linear_scale_get_location( y_scale, /*order=*/ INT32_MIN );
-    dy = geometry_non_linear_scale_get_grid_distances( y_scale );
-    *out_y_count = geometry_non_linear_scale_get_grid_intervals( y_scale ) + 1;
-
-    shape_int_rectangle_init( out_bounds,
-                              (int32_t) x0,
-                              (int32_t) y0,
-                              (uint32_t) ((*out_x_count>2) ? ((*out_x_count-1)*dx) : dx),
-                              (uint32_t) ((*out_y_count>2) ? ((*out_y_count-1)*dy) : dy)
-                            );
 }
 
 static inline const geometry_grid_t *gui_sketch_card_get_grid_const ( const gui_sketch_card_t *this_ )

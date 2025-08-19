@@ -12,6 +12,7 @@
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
 #include "layout/layout_visible_set.h"
+#include "layout/layout_visible_classifier_iter.h"
 #include "pencil_feature_layouter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
@@ -29,13 +30,12 @@
 /*!
  *  \brief attributes of the 2d-classifier layouter
  *
- *  \note This class is stateless. Only the layout_data, pencil_size, x_scale, y_scale,
- *        default_classifier_size and profile objects are stateful.
- *        It may either be instantiated once and used many times or be instantiated per use.
+ *  \note It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_classifier_2d_layouter_struct {
     layout_visible_set_t *layout_data;  /* pointer to external layout data */
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
+
     const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
                                        /*!< defining pen sizes, gap sizes, font sizes and colors */
     const geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an external drawing rectangle */
@@ -110,15 +110,15 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
  *  \brief propose multiple solutions to move one classifier up/down/left/right
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param sort_index index of the current classifier for which to propose solutions
+ *  \param the_classifier the current classifier for which to propose solutions
+ *  \param already_processed a copy of an iterator to process the already processed visible_classifiers again
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solution array of solutions: proposal to move in x/y direction
  *  \param out_solution_count number of proposed solutions; 1 &lt;= out_solution_count &lt; solutions_max
  */
 void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( pencil_classifier_2d_layouter_t *this_,
-                                                                         const universal_array_index_sorter_t *sorted,
-                                                                         uint32_t sort_index,
+                                                                         const layout_visible_classifier_t *the_classifier,
+                                                                         layout_visible_classifier_iter_t already_processed,
                                                                          uint32_t solutions_max,
                                                                          geometry_offset_t (*out_solution)[],
                                                                          uint32_t *out_solution_count
@@ -128,13 +128,13 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions ( pencil_
  *  \brief propose another solution to move one classifier based on another algorithm
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param sort_index index of the current classifier for which to propose solutions
+ *  \param the_classifier the current classifier for which to propose solutions
+ *  \param already_processed a copy of an iterator to process the already processed visible_classifiers again
  *  \param out_solution proposal to move in x/y direction
  */
 void pencil_classifier_2d_layouter_private_propose_anchored_solution ( pencil_classifier_2d_layouter_t *this_,
-                                                                       const universal_array_index_sorter_t *sorted,
-                                                                       uint32_t sort_index,
+                                                                       const layout_visible_classifier_t *the_classifier,
+                                                                       layout_visible_classifier_iter_t already_processed,
                                                                        geometry_offset_t *out_solution
                                                                      );
 
@@ -142,15 +142,15 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution ( pencil_cl
  *  \brief selects one solution to move a classifier
  *
  *  \param this_ pointer to own object attributes
+ *  \param the_classifier the current classifier for which to select a solution
  *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param sort_index index (in sorted classifiers) of the current classifier for which to select a solution
  *  \param out_solution_count number of proposed solutions; 1 &lt;= out_solution_count
  *  \param solution array of solutions: proposal to move in x/y direction
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_classifier_2d_layouter_private_select_move_solution ( pencil_classifier_2d_layouter_t *this_,
+                                                                  const layout_visible_classifier_t *the_classifier,
                                                                   const universal_array_index_sorter_t *sorted,
-                                                                  uint32_t sort_index,
                                                                   uint32_t out_solution_count,
                                                                   geometry_offset_t (*solution)[],
                                                                   uint32_t *out_index_of_best

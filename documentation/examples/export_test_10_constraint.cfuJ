@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,34 +14,29 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 7,
-        "type": "SysMLParametricDiagram",
+        "type": "Parametric Diagram", "diagram_type": 7,
         "name": "Parametric",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "b35836de-a14f-40d5-9c34-8c3e6cb60d59",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "Emergency Cutoff",
             "node": "ce3d0fed-ee86-4fc7-aa23-dfdf101357b3",
             "uuid": "552aa038-151d-4be6-8d7f-3b5dadae7f0f"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "config:min",
             "node": "c6f7fa07-7992-44eb-a689-60f531ab73bd",
             "uuid": "f82de4bf-12b1-4c17-8762-f861007e2959"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "config:max",
             "node": "d9880f03-4d65-4e3c-ab46-41303582bcc7",
             "uuid": "dd6be044-8ba9-4a3c-b8ad-0e027e7faac1"
@@ -56,9 +51,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 96,
-        "type": "ConstraintBlock",
-        "stereotype": "",
+        "type": "Constraint Block", "main_type": 96,
         "name": "Emergency Cutoff",
         "description": [
                 "out_emergency_off \n",
@@ -75,8 +68,7 @@
         [
           {
             "id": 1,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "in_acceleration",
             "value": "int32_t",
             "description": [
@@ -87,8 +79,7 @@
           },
           {
             "id": 2,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "config_min",
             "value": "uint16_t",
             "description": [
@@ -99,8 +90,7 @@
           },
           {
             "id": 3,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "config_max",
             "value": "uint16_t",
             "description": [
@@ -111,8 +101,7 @@
           },
           {
             "id": 4,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "in_actual_value",
             "value": "uint16_t",
             "description": [
@@ -123,10 +112,8 @@
           },
           {
             "id": 5,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "out_emergency_off",
-            "value": "",
             "description": [
                 ""
             ],
@@ -139,9 +126,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 126,
-        "type": "Class",
-        "stereotype": "",
+        "type": "Object", "main_type": 126,
         "name": "config:min",
         "description": [
                 ""
@@ -158,9 +143,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 126,
-        "type": "Class",
-        "stereotype": "",
+        "type": "Object", "main_type": 126,
         "name": "config:max",
         "description": [
                 ""
@@ -181,8 +164,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -199,8 +181,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""

@@ -19,22 +19,14 @@
             <para>
                 Diagrams are organized as a tree.
 
-                Start the root of the tree explaining the document structure.
+                The root diagram is the title page.
+                This can be used to state the project goal or
+                to explain the document structure.
 
                 At the second level of the tree, list the main areas to be shown,
                 for example based on the arc42 template <ulink url="https://arc42.org/overview/"/> :
                 <mediaobject>
                     <imageobject><imagedata fileref="5_modeling_hint_on_structure.png"/></imageobject>
-                </mediaobject>
-            </para>
-            <para>
-                In case you show several layers of abstraction, each building block may contain
-                its sub-blocks, sub-blocks may again show sub-sub-blocks.
-                In this case, structure the specification of the sub-blocks in the same way:
-                apply the proposed folder structure recursively,
-                omitting possibly empty or superfluous folders.
-                <mediaobject>
-                    <imageobject><imagedata fileref="5_modeling_hint_on_structure_rec.png"/></imageobject>
                 </mediaobject>
             </para>
         </section>
@@ -48,10 +40,13 @@
                 Do not hesitate to copy an element from one diagram to the next.
                 This is what crystal-facet-uml is good at: it keeps the model in sync.
             </para>
+        </section>
+        <section id="decoupling_mechanisms">
+            <title>Use Abstractions and Hierarchies</title>
             <para>
                 When distributing different aspects to different diagrams,
                 a remaining challenge may be that there is no filter on features and relationships.
-                If e.g. two classes are connected via a generalization arrow and an aggregation arrow,
+                If for example two classes are connected via a generalization arrow and an aggregation arrow,
                 each diagram will show both arrows even if only one is of interest for the shown aspect
                 (except for interaction diagrams).
             </para>
@@ -60,37 +55,81 @@
                 <itemizedlist>
                 <listitem>
                     <para>
-                        Add an abstraction level, show only the outer elements in one diagram,
+                        Add an hierarchy level, show only the outer elements in one diagram,
                         show only the contained elements in another diagram.
                         <mediaobject>
-                            <imageobject><imagedata fileref="5_modeling_hints_export/D0005_add_abstraction_level.svg" width="12cm"/></imageobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0005_add_hierarchy_level.svg" width="8cm"/></imageobject>
                         </mediaobject>
-                    </para>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0011_higher_hierarchy_level.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0012_detailed_level.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                        </para>
                 </listitem>
                 <listitem>
                     <para>
                         Define a port at a parent
-                        to bundle multiple communication paths of children
+                        to bundle multiple communication paths of children.
                         <mediaobject>
-                            <imageobject><imagedata fileref="5_modeling_hints_export/D0003_parent_ports.svg" width="12cm"/></imageobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0003_add_parent_ports.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0008_parents.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0009_children.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
                         Separate abstract classes/components/blocks and their specializations
-                        to hide details when showing the abstract concepts
+                        to hide details when showing the abstract concepts and vice versa.
                         <mediaobject>
-                            <imageobject><imagedata fileref="5_modeling_hints_export/D0002_abstract_components.svg" width="12cm"/></imageobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0002_add_abstraction_level.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0006_abstract_components.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0007_concrete_components.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Extract methods to an interface to hide details when using the class
+                        Extract methods to an interface to hide details when using the class.
                         <mediaobject>
-                            <imageobject><imagedata fileref="5_modeling_hints_export/D0004_interface_list_methods.svg" width="12cm"/></imageobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0004_extract_interface.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0013_separate_interface.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0010_interface_hidden.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Add a topic-specific mediator class (e.g. a risk) that is only shown in selected diagrams.
+                        <mediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0014_add_mediator_class.svg" width="8cm"/></imageobject>
+                        </mediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0015_technical_solution.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0016_risk.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        If applicable, use an interaction diagram: Interaction-Overview, Communication, Sequence or Timing.
+                        These hide features and relationships except the ones defined at the local diagram.
                     </para>
                 </listitem>
                 </itemizedlist>
@@ -113,9 +152,16 @@
             </para>
         </section>
         <section>
-            <title>Layout</title>
+            <title>Layout of Classifiers and Features</title>
             <para>
-                To change the positions of classifiers anf features, drag these to other locations.
+                To change the positions of classifiers and features, drag these to the target location.
+                Note that the relative position of classifiers towards each other affects
+                the layout of other diagrams also.
+            </para>
+        </section>
+        <section>
+            <title>Layout of Relationships</title>
+            <para>
                 Relationships can only be dragged in sequence and timing diagrams.
                 Relationships in other diagrams are auto-layouted.
                 crystal-facet-uml prevents to cross/overlay these two types of relationships:

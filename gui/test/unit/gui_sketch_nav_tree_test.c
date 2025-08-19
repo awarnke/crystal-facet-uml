@@ -129,8 +129,8 @@ static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *
     }
 
     /* get position */
-    int32_t x;
-    int32_t y;
+    int32_t x = 0;
+    int32_t y = 0;
     const test_case_result_t res = get_node_coords( &testee, 0, &x, &y );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 1, gui_sketch_nav_tree_get_node_count( &testee ) );
@@ -187,12 +187,12 @@ static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture
 
     /* node positions */
     test_case_result_t res;
-    int32_t x0;
-    int32_t y0;
+    int32_t x0 = 0;
+    int32_t y0 = 0;
     res = get_node_coords( &testee, 0, &x0, &y0 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x1;
-    int32_t y1;
+    int32_t x1 = 0;
+    int32_t y1 = 0;
     res = get_node_coords( &testee, 1, &x1, &y1 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 2, gui_sketch_nav_tree_get_node_count( &testee ) );
@@ -265,24 +265,24 @@ static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test
 
     /* node positions */
     test_case_result_t res;
-    int32_t x0;
-    int32_t y0;
+    int32_t x0 = 0;
+    int32_t y0 = 0;
     res = get_node_coords( &testee, 0, &x0, &y0 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x1;
-    int32_t y1;
+    int32_t x1 = 0;
+    int32_t y1 = 0;
     res = get_node_coords( &testee, 1, &x1, &y1 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x2;
-    int32_t y2;
+    int32_t x2 = 0;
+    int32_t y2 = 0;
     res = get_node_coords( &testee, 2, &x2, &y2 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x3;
-    int32_t y3;
+    int32_t x3 = 0;
+    int32_t y3 = 0;
     res = get_node_coords( &testee, 3, &x3, &y3 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x4;
-    int32_t y4;
+    int32_t x4 = 0;
+    int32_t y4 = 0;
     res = get_node_coords( &testee, 4, &x4, &y4 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 5, gui_sketch_nav_tree_get_node_count( &testee ) );
@@ -383,32 +383,32 @@ static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( t
 
     /* node positions */
     test_case_result_t res;
-    int32_t x0;
-    int32_t y0;
+    int32_t x0 = 0;
+    int32_t y0 = 0;
     res = get_node_coords( &testee, 0, &x0, &y0 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x1;
-    int32_t y1;
+    int32_t x1 = 0;
+    int32_t y1 = 0;
     res = get_node_coords( &testee, 1, &x1, &y1 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x2;
-    int32_t y2;
+    int32_t x2 = 0;
+    int32_t y2 = 0;
     res = get_node_coords( &testee, 2, &x2, &y2 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x3;
-    int32_t y3;
+    int32_t x3 = 0;
+    int32_t y3 = 0;
     res = get_node_coords( &testee, 3, &x3, &y3 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x4;
-    int32_t y4;
+    int32_t x4 = 0;
+    int32_t y4 = 0;
     res = get_node_coords( &testee, 4, &x4, &y4 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x5;
-    int32_t y5;
+    int32_t x5 = 0;
+    int32_t y5 = 0;
     res = get_node_coords( &testee, 5, &x5, &y5 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
-    int32_t x6;
-    int32_t y6;
+    int32_t x6 = 0;
+    int32_t y6 = 0;
     res = get_node_coords( &testee, 6, &x6, &y6 );
     TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 7, gui_sketch_nav_tree_get_node_count( &testee ) );

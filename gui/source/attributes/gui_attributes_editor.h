@@ -21,7 +21,7 @@
 #include "entity/data_relationship.h"
 #include "ctrl_controller.h"
 #include "entity/data_id.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief enumeration on tools

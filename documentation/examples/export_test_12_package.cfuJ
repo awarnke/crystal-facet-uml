@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 1,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.48.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,49 +14,42 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 33,
-        "type": "UMLPackageDiagram",
+        "type": "Package Diagram", "diagram_type": 33,
         "name": "Packages",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "28ecddda-7c7d-4bba-a313-6d17d9dd213f",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Software Layers",
             "node": "13364252-78e0-4585-9937-7be9f1a0754b",
             "uuid": "147e7c70-76b1-4926-8015-d06fc7463439"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "Applications",
             "node": "7da79819-c82f-41bd-ac77-6d3421a36514",
             "uuid": "63e341fc-f4d5-4f65-b41e-1c9dce7e8bce"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "Services",
             "node": "3ff4a91c-b111-42b2-b288-7d39dddc2d85",
             "uuid": "6360f62e-d5f1-402a-9a6f-b9a8c65aad86"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "Infrastructure",
             "node": "02d0f72b-375b-46d2-9cbc-49019fa717da",
             "uuid": "ebce0b80-7e48-4a6e-be72-6e314034a1ef"
           },
           {
             "id": 5,
-            "display_flags": 0,
             "classifier_name": "Layers may be passed-by",
             "node": "16a4b14f-a3c4-4191-a2bf-12f82f6bdb09",
             "uuid": "f7829777-2c18-420a-bb52-989f33794c6e"
@@ -71,8 +64,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Software Layers",
         "description": [
                 ""
@@ -89,8 +81,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Applications",
         "description": [
                 ""
@@ -107,8 +98,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Services",
         "description": [
                 ""
@@ -125,8 +115,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Infrastructure",
         "description": [
                 ""
@@ -143,8 +132,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "name": "Layers may be passed-by",
         "description": [
                 "Layers in this context \n",
@@ -169,8 +157,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -186,8 +173,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -203,8 +189,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -220,8 +205,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -237,8 +221,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
@@ -254,8 +237,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""

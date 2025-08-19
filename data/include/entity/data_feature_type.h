@@ -27,12 +27,17 @@ enum data_feature_type_enum {
     DATA_FEATURE_TYPE_ENTRY = 8,  /* control flow pseudostate for state entry */
     DATA_FEATURE_TYPE_EXIT = 9,  /* control flow pseudostate for state exit */
     DATA_FEATURE_TYPE_TAGGED_VALUE = 10,  /* tagged value, since 1.47.0 */
-    /* DATA_FEATURE_TYPE_DIAG_LINK = 11, */  /* link to diagram, e.g. for DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE */
+    /* DATA_FEATURE_TYPE_DIAG_LINK = 11, */  /* link to diagram, e.g. for DATA_CLASSIFIER_TYPE_INTERACTION_USE */
 };
 
 typedef enum data_feature_type_enum data_feature_type_t;
 
 #define DATA_FEATURE_TYPE_COUNT (11)
+
+/*!
+ *  \brief a modulo for a hash function for unique hashing
+ */
+#define DATA_FEATURE_TYPE_HASH_MOD (16)
 
 /*!
  *  \brief lists all values of data_feature_type_t, excluding DATA_FEATURE_TYPE_VOID
@@ -56,6 +61,14 @@ static inline bool data_feature_type_outside_compartment( data_feature_type_t th
  *          true otherwise (or if the feature type is unknown)
  */
 static inline bool data_feature_type_inside_compartment( data_feature_type_t this_ );
+
+/*!
+ *  \brief returns a short name for the feature type
+ *
+ *  \param this_ enumeration value
+ *  \return name of the type, "" if unknown or void type
+ */
+const char * data_feature_type_get_name( data_feature_type_t this_ );
 
 #include "entity/data_feature_type.inl"
 

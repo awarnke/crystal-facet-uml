@@ -16,7 +16,7 @@
  */
 enum layout_subelement_kind_enum {
     LAYOUT_SUBELEMENT_KIND_VOID,
-    LAYOUT_SUBELEMENT_KIND_OUTLINE,  /* this is the border or the connector line */
+    LAYOUT_SUBELEMENT_KIND_OUTLINE,  /* this is the border (contour) or the connector line */
     LAYOUT_SUBELEMENT_KIND_LABEL,  /* this is the name, stereotype or icon */
     LAYOUT_SUBELEMENT_KIND_SPACE,  /* the inner space of a classifier or diagram */
 };

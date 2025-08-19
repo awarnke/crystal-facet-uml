@@ -3,6 +3,18 @@
 #include <assert.h>
 #include "u8/u8_log.h"
 
+static inline void data_search_result_init_void ( data_search_result_t *this_ )
+{
+    data_id_init_void( &((*this_).match_object_id) );
+    data_type_init_void( &((*this_).match_object_type) );
+    (*this_).match_object_name = utf8stringbuf_new( (*this_).private_match_name_buffer, sizeof((*this_).private_match_name_buffer) );
+    utf8stringbuf_clear( &((*this_).match_object_name) );
+
+    data_id_init_void( &((*this_).src_classifier_id) );
+    data_id_init_void( &((*this_).dst_classifier_id) );
+    data_id_init_void( &((*this_).diagram_id) );
+}
+
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
                                                      data_row_t match_id,
                                                      data_diagram_type_t match_type,
@@ -196,6 +208,11 @@ static inline void data_search_result_trace ( const data_search_result_t *this_ 
     data_id_trace( &((*this_).src_classifier_id) );
     data_id_trace( &((*this_).dst_classifier_id) );
     data_id_trace( &((*this_).diagram_id) );
+}
+
+static inline bool data_search_result_is_valid ( const data_search_result_t *this_ )
+{
+    return data_id_is_valid( &((*this_).match_object_id) );
 }
 
 

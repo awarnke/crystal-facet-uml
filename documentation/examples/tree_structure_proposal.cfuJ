@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 1,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.62.1"
+    "generator_version": "1.64.2"
   }
   ,
   "views":
@@ -14,8 +14,7 @@
     {
       "diagram": {
         "id": 2,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
+        "type": "Use Case Diagram", "diagram_type": 10,
         "name": "About this Document",
         "description": [
                 "About this Document:\n",
@@ -26,77 +25,66 @@
                 "Created by Dr. Peter Hruschka & Dr. Gernot Starke."
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "diagramelements":
         [
           {
             "id": 9,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Template structured according to arc42 proposal",
             "node": "7f0b3a66-eecf-4acb-b451-99f5b1eecf82",
             "uuid": "112728ff-3266-48fe-bec4-1f3f9c4e604c"
           },
           {
             "id": 10,
-            "display_flags": 0,
             "classifier_name": "Stakeholder",
             "node": "dc9ef752-d463-4b54-9c93-17aea066b6f8",
             "uuid": "492949e1-ee5a-453e-b6a6-00487c9c051d"
           },
           {
             "id": 11,
-            "display_flags": 0,
             "classifier_name": "SW Architect",
             "node": "5184bb1b-a807-4b2d-9f81-7278a6e7f195",
             "uuid": "fe44f11d-dade-447b-9cb5-db1cbdf8806c"
           },
           {
             "id": 12,
-            "display_flags": 0,
             "classifier_name": "SW Architecture",
             "node": "9280a4ca-a208-41f7-bef7-90d5b0921fb5",
             "uuid": "a299953c-f3f1-4d64-9df3-c264260e299f"
           },
           {
             "id": 13,
-            "display_flags": 0,
             "classifier_name": "SW Integrator",
             "node": "8bcdca45-87fa-4f56-b0e4-63e7144032c9",
             "uuid": "999d7268-a36b-4181-87e2-9bd2535ba18e"
           },
           {
             "id": 14,
-            "display_flags": 0,
             "classifier_name": "SW Tester",
             "node": "ed8d8fd6-7d5a-45d2-8ee3-f254b5f33f3a",
             "uuid": "a4f2ef1d-5ca4-4271-8dad-d4cc21b67a25"
           },
           {
             "id": 15,
-            "display_flags": 0,
             "classifier_name": "SW Developer",
             "node": "368b7857-7a5e-44ba-ba62-88cd87c4d11a",
             "uuid": "34231235-6877-43ba-8696-a528681a7251"
           },
           {
             "id": 16,
-            "display_flags": 0,
             "classifier_name": "Understand the Problem",
             "node": "99623701-1f04-4daf-a214-c8a38c821eb9",
             "uuid": "dba295bc-a0fd-4fad-9217-1a72508f2ea6"
           },
           {
             "id": 17,
-            "display_flags": 0,
             "classifier_name": "Decide Alternatives",
             "node": "135b8885-5338-48e5-9338-8d82bfa3fff4",
             "uuid": "b1c63ec6-d8e2-4986-a9a0-10b798b54480"
           },
           {
             "id": 18,
-            "display_flags": 0,
             "classifier_name": "Explain Solution",
             "node": "ce004acc-5b21-4725-869a-a22f9e85fa27",
             "uuid": "a8ddbd17-4c64-4253-a870-1e89dc0501a4"
@@ -107,14 +95,12 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 1,
-        "type": "CFUBoxDiagram",
+        "type": "Box Overview", "diagram_type": 1,
         "name": "Introduction and Goals",
         "description": [
                 ""
         ],
         "list_order": 32768,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "c83bc101-3673-4eba-af5e-aed5d1f48bc2",
@@ -122,28 +108,24 @@
         [
           {
             "id": 61,
-            "display_flags": 0,
             "classifier_name": "The system shall be updateable",
             "node": "51eb7a03-f7d9-4765-a458-911903e54848",
             "uuid": "140fc905-c543-4c09-8800-0b7cf8209a7f"
           },
           {
             "id": 62,
-            "display_flags": 0,
             "classifier_name": "A watchdog shall supervise the software.",
             "node": "3d2f8114-3a47-479d-b3f7-aeb906ae878b",
             "uuid": "8acebd85-da4b-4508-9d7d-3c959a186f9e"
           },
           {
             "id": 63,
-            "display_flags": 0,
             "classifier_name": "Failures during operation shall be analyzable",
             "node": "3a83a5eb-282d-49c7-a95d-e4336723b05a",
             "uuid": "bb0a01d0-2878-4407-a89b-148525dc3ce6"
           },
           {
             "id": 64,
-            "display_flags": 0,
             "classifier_name": "Operation shall go on in case of single fault",
             "node": "5ca7db3e-5d1c-45ad-aa91-036b402953f3",
             "uuid": "1a996442-2746-42f1-8a3a-3869b91759b1"
@@ -154,8 +136,7 @@
     {
       "diagram": {
         "id": 3,
-        "diagram_type": 9,
-        "type": "SysMLRequirementDiagram",
+        "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Constraints",
         "description": [
                 "While goals represent the wishes of the customer,\n",
@@ -164,7 +145,6 @@
                 "ethics."
         ],
         "list_order": 65536,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "4e748ad0-6b08-4991-ab9c-7d9a23931a6d",
@@ -172,14 +152,12 @@
         [
           {
             "id": 59,
-            "display_flags": 0,
             "classifier_name": "no reliable time-base",
             "node": "3bffa13c-4034-4651-a260-fe79684d00e9",
             "uuid": "175c3af9-a434-4330-8958-8a9de45b00de"
           },
           {
             "id": 60,
-            "display_flags": 0,
             "classifier_name": "operating temperature",
             "node": "c1d06d19-169f-4515-9040-ff0c5a845355",
             "uuid": "f795e1bf-868a-4ca4-830b-60432c84d0f5"
@@ -190,14 +168,12 @@
     {
       "diagram": {
         "id": 4,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
+        "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Context and Scope",
         "description": [
                 ""
         ],
         "list_order": 98304,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "30c9cbbc-2938-4e99-a630-002518b29bff",
@@ -205,42 +181,36 @@
         [
           {
             "id": 43,
-            "display_flags": 0,
             "classifier_name": "System Boundary",
             "node": "756fed6d-09c5-4057-bd8c-810fcef38938",
             "uuid": "917d2406-f22a-4146-8287-d7f0f50b1e41"
           },
           {
             "id": 44,
-            "display_flags": 0,
             "classifier_name": "User",
             "node": "5c7e4c31-2601-48c1-b61f-fd1cd806dbe0",
             "uuid": "b07ee9e3-c2cf-4ca7-9b71-161c7ab5eedc"
           },
           {
             "id": 45,
-            "display_flags": 0,
             "classifier_name": "Use System",
             "node": "6d6b18d3-f74e-4e6d-a2fa-4c5c0bbf981c",
             "uuid": "6850f606-e915-44f6-b54a-6dbaaf065a92"
           },
           {
             "id": 46,
-            "display_flags": 0,
             "classifier_name": "Service",
             "node": "f4abcf18-9905-46a3-a199-70271bda4534",
             "uuid": "bbbea546-975b-44a1-9dd9-f5fe8a9408a6"
           },
           {
             "id": 47,
-            "display_flags": 0,
             "classifier_name": "Analyze Problem",
             "node": "56616eee-6205-4288-999b-93592c10f9b6",
             "uuid": "d665a7dc-fad5-4927-8708-f929bc6752a7"
           },
           {
             "id": 77,
-            "display_flags": 0,
             "classifier_name": "Report Problem",
             "node": "b9ecb08d-d55a-4527-8fea-a5dd0c4d5622",
             "uuid": "f60de244-2a65-459f-b8eb-a9c253a9a0a4"
@@ -251,14 +221,12 @@
     {
       "diagram": {
         "id": 5,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "type": "Activity Diagram", "diagram_type": 11,
         "name": "Solution Strategy",
         "description": [
                 "The software implements an event driven architecture."
         ],
         "list_order": 131072,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "6160f4aa-d07e-4c10-872e-51df0b3ad32c",
@@ -266,28 +234,24 @@
         [
           {
             "id": 24,
-            "display_flags": 0,
             "classifier_name": "The system starts",
             "node": "8b94df3e-857d-493f-a8b5-907847825188",
             "uuid": "5e7f8fb4-f32f-47e2-8a00-2ea7f7e69f33"
           },
           {
             "id": 25,
-            "display_flags": 0,
             "classifier_name": "The component T performs XY",
             "node": "a3574399-5d67-4c67-b5a9-5748778879f4",
             "uuid": "6066e55d-cfa1-4bb7-8338-ccd35338231b"
           },
           {
             "id": 26,
-            "display_flags": 0,
             "classifier_name": "The component T waits for event E",
             "node": "d176acd4-773c-47e6-aa9c-fb1d0a655e69",
             "uuid": "a9a73477-3dd5-4fac-88e2-44684edddf05"
           },
           {
             "id": 27,
-            "display_flags": 0,
             "classifier_name": "The system shuts down",
             "node": "b0366cfe-c2af-4cb8-9548-455a37ac9495",
             "uuid": "5bbd02ed-c146-40ba-98d9-2ebd93c4fff6"
@@ -298,14 +262,12 @@
     {
       "diagram": {
         "id": 6,
-        "diagram_type": 32,
-        "type": "UMLCompositeStructureDiagram",
+        "type": "Composite Structure Diagram", "diagram_type": 32,
         "name": "Building Block View",
         "description": [
                 ""
         ],
         "list_order": 163840,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "6d0ba2d8-e522-4e5e-80d8-9965b8aec785",
@@ -313,31 +275,27 @@
         [
           {
             "id": 28,
-            "display_flags": 0,
             "classifier_name": "The Component T",
             "node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
             "uuid": "16e11ece-69da-4eae-a194-ab92d2d8f70f"
           },
           {
             "id": 29,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Model",
             "node": "05bdba2f-48a6-4f7a-bde6-44a1b80c74d5",
             "uuid": "eab2c2ac-4f38-4552-a10e-9483eb135415"
           },
           {
             "id": 30,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "View",
             "node": "064d6ce8-9172-4de4-aac8-7a0402abd3ff",
             "uuid": "9c041e76-9525-472b-b1eb-05cc298f803d"
           },
           {
             "id": 31,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Controller",
             "node": "426cf835-28ee-405c-9ce4-6d07e2d54ed2",
             "uuid": "13bcad97-5aa7-4469-8ed1-92dca03d92c8"
@@ -348,14 +306,12 @@
     {
       "diagram": {
         "id": 15,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "<<EXAMPLE>> Model",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "parent_name": "Building Block View",
         "parent": "6d0ba2d8-e522-4e5e-80d8-9965b8aec785",
         "uuid": "6f7663d8-bb49-4a28-814b-5645a8771179",
@@ -363,7 +319,6 @@
         [
           {
             "id": 78,
-            "display_flags": 0,
             "classifier_name": "Model",
             "node": "05bdba2f-48a6-4f7a-bde6-44a1b80c74d5",
             "uuid": "0bfaaa31-9e35-4354-b3c7-3439eba68eae"
@@ -374,14 +329,12 @@
     {
       "diagram": {
         "id": 18,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Building Block View",
         "description": [
                 ""
         ],
         "list_order": 32768,
-        "display_flags": 0,
         "parent_name": "<<EXAMPLE>> Model",
         "parent": "6f7663d8-bb49-4a28-814b-5645a8771179",
         "uuid": "b9fcbc66-ba92-4b03-9b67-3fcf67618c14",
@@ -393,14 +346,12 @@
     {
       "diagram": {
         "id": 21,
-        "diagram_type": 13,
-        "type": "UMLInteractionDiagram/sequence",
+        "type": "Sequence Diagram", "diagram_type": 13,
         "name": "Runtime View",
         "description": [
                 ""
         ],
         "list_order": 65536,
-        "display_flags": 0,
         "parent_name": "<<EXAMPLE>> Model",
         "parent": "6f7663d8-bb49-4a28-814b-5645a8771179",
         "uuid": "af21d17f-95eb-49ca-a189-48a8bc188491",
@@ -412,14 +363,12 @@
     {
       "diagram": {
         "id": 14,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "<<EXAMPLE>> View",
         "description": [
                 ""
         ],
         "list_order": 32768,
-        "display_flags": 0,
         "parent_name": "Building Block View",
         "parent": "6d0ba2d8-e522-4e5e-80d8-9965b8aec785",
         "uuid": "941eb4ab-1e69-427e-bd40-03c65f220128",
@@ -427,7 +376,6 @@
         [
           {
             "id": 81,
-            "display_flags": 0,
             "classifier_name": "View",
             "node": "064d6ce8-9172-4de4-aac8-7a0402abd3ff",
             "uuid": "eac630e1-0922-4c7b-983c-05ad1db2e008"
@@ -438,14 +386,12 @@
     {
       "diagram": {
         "id": 17,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Building Block View",
         "description": [
                 ""
         ],
         "list_order": 32768,
-        "display_flags": 0,
         "parent_name": "<<EXAMPLE>> View",
         "parent": "941eb4ab-1e69-427e-bd40-03c65f220128",
         "uuid": "1c41f3ce-df2a-4dd2-9cd9-9cc71a412d9b",
@@ -457,14 +403,12 @@
     {
       "diagram": {
         "id": 20,
-        "diagram_type": 13,
-        "type": "UMLInteractionDiagram/sequence",
+        "type": "Sequence Diagram", "diagram_type": 13,
         "name": "Runtime View",
         "description": [
                 ""
         ],
         "list_order": 65536,
-        "display_flags": 0,
         "parent_name": "<<EXAMPLE>> View",
         "parent": "941eb4ab-1e69-427e-bd40-03c65f220128",
         "uuid": "673de54e-5414-40d0-abe5-072926058768",
@@ -476,14 +420,12 @@
     {
       "diagram": {
         "id": 16,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "<<EXAMPLE>> Controller",
         "description": [
                 ""
         ],
         "list_order": 98304,
-        "display_flags": 0,
         "parent_name": "Building Block View",
         "parent": "6d0ba2d8-e522-4e5e-80d8-9965b8aec785",
         "uuid": "d416b9ea-7669-4df2-afb4-efdce316d711",
@@ -491,7 +433,6 @@
         [
           {
             "id": 83,
-            "display_flags": 0,
             "classifier_name": "Controller",
             "node": "426cf835-28ee-405c-9ce4-6d07e2d54ed2",
             "uuid": "1f671533-8e32-46f4-a88d-700f47da38ce"
@@ -502,14 +443,12 @@
     {
       "diagram": {
         "id": 19,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Building Block View",
         "description": [
                 ""
         ],
         "list_order": 32768,
-        "display_flags": 0,
         "parent_name": "<<EXAMPLE>> Controller",
         "parent": "d416b9ea-7669-4df2-afb4-efdce316d711",
         "uuid": "d60570ba-182d-4a1c-bbfb-9e65cab7078a",
@@ -521,14 +460,12 @@
     {
       "diagram": {
         "id": 22,
-        "diagram_type": 13,
-        "type": "UMLInteractionDiagram/sequence",
+        "type": "Sequence Diagram", "diagram_type": 13,
         "name": "Runtime View",
         "description": [
                 ""
         ],
         "list_order": 65536,
-        "display_flags": 0,
         "parent_name": "<<EXAMPLE>> Controller",
         "parent": "d416b9ea-7669-4df2-afb4-efdce316d711",
         "uuid": "a293bc89-a9b0-4d33-b664-b2658698b5b3",
@@ -540,14 +477,12 @@
     {
       "diagram": {
         "id": 7,
-        "diagram_type": 13,
-        "type": "UMLInteractionDiagram/sequence",
+        "type": "Sequence Diagram", "diagram_type": 13,
         "name": "Runtime View",
         "description": [
                 ""
         ],
         "list_order": 196608,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "a49c9d82-6d1f-4c41-9def-c24b1d539423",
@@ -555,28 +490,24 @@
         [
           {
             "id": 32,
-            "display_flags": 0,
             "classifier_name": "View",
             "node": "2db988db-75b3-46c7-bb87-474fbf41772b",
             "uuid": "b2bfc1b3-460c-486a-92a6-dda20d0cffb1"
           },
           {
             "id": 33,
-            "display_flags": 0,
             "classifier_name": "Controller",
             "node": "4c0cf62e-2d48-4877-8a17-04884210df3b",
             "uuid": "c81a10e2-7774-4d93-baf2-f7dc05a68a08"
           },
           {
             "id": 34,
-            "display_flags": 0,
             "classifier_name": "Model",
             "node": "d098972e-a0c9-42a3-bb47-01fb9a6f448e",
             "uuid": "7de4182d-bd21-4966-b929-5425881f173f"
           },
           {
             "id": 35,
-            "display_flags": 0,
             "classifier_name": "The system starts",
             "node": "88f91539-1e10-437b-8ed0-a220f0ebe7d5",
             "uuid": "6f2d3887-9c1a-4a96-8931-d9be5b531190"
@@ -587,14 +518,12 @@
     {
       "diagram": {
         "id": 8,
-        "diagram_type": 30,
-        "type": "UMLDeploymentDiagram",
+        "type": "Deployment Diagram", "diagram_type": 30,
         "name": "Deployment View",
         "description": [
                 ""
         ],
         "list_order": 229376,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "9959527e-f433-4343-b3e1-ffac60760349",
@@ -602,29 +531,25 @@
         [
           {
             "id": 48,
-            "display_flags": 0,
             "classifier_name": "System H",
             "node": "ca6abcf5-4136-4b37-a13c-fccbdeeb54ed",
             "uuid": "a9556067-227c-4a79-9493-058bfcde8af1"
           },
           {
             "id": 49,
-            "display_flags": 1,
-            "display_tags": "NamedInstance",
+            "display_tags": "Named Instance", "display_flags": 1,
             "classifier_name": "The Component T",
             "node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
             "uuid": "504bc8e2-abaa-4cb1-a30a-2b2eda660f60"
           },
           {
             "id": 50,
-            "display_flags": 0,
             "classifier_name": "Remote System X",
             "node": "658dac9a-133b-4d0a-a224-26b73880d640",
             "uuid": "121709ea-0193-4246-bee2-7039f63347c3"
           },
           {
             "id": 51,
-            "display_flags": 0,
             "classifier_name": "Resource Requirements",
             "node": "e9049d42-91fa-464a-9672-c705036011c3",
             "uuid": "b7f3897f-e283-4f6e-b11c-5d2d73fbcd27"
@@ -635,14 +560,12 @@
     {
       "diagram": {
         "id": 9,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "type": "Activity Diagram", "diagram_type": 11,
         "name": "Crosscutting Concepts",
         "description": [
                 ""
         ],
         "list_order": 262144,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "5a848d43-fdac-4df6-8ca7-8d4be78ce0ff",
@@ -650,84 +573,72 @@
         [
           {
             "id": 65,
-            "display_flags": 0,
             "classifier_name": "IPC-Concept",
             "node": "8c3bb15a-00f6-4cff-a7e1-f87b8b124488",
             "uuid": "cc6da442-078e-4a10-a593-159b2e4bb3d8"
           },
           {
             "id": 66,
-            "display_flags": 0,
             "classifier_name": "Provide data",
             "node": "c07b06d5-7b9c-4f6e-9ff0-762dda3aefbf",
             "uuid": "37496243-3d69-4dd9-9f6c-1afbf6b16a4b"
           },
           {
             "id": 67,
-            "display_flags": 0,
             "classifier_name": "get spinlock (1)",
             "node": "8544065e-00a5-4e32-9474-5c54f8f5ca31",
             "uuid": "fe6a9e86-f692-4392-85e4-4ab0470cafca"
           },
           {
             "id": 68,
-            "display_flags": 0,
             "classifier_name": "write data",
             "node": "7a39dce3-58ed-4c59-acb0-89b5e073b009",
             "uuid": "1e77034f-75fb-434d-bdbb-009a3dd56b6c"
           },
           {
             "id": 69,
-            "display_flags": 0,
             "classifier_name": "set flags for changes",
             "node": "9b6ac433-ccd9-46b8-ab05-78206f09c927",
             "uuid": "00d4dbf4-040d-4b47-acd3-302d4297c4ae"
           },
           {
             "id": 70,
-            "display_flags": 0,
             "classifier_name": "release lock (1)",
             "node": "f32e8bb9-f9d5-4432-a732-6bdaf0b58212",
             "uuid": "38feff48-b2ae-49be-9e87-5889aad2ba84"
           },
           {
             "id": 71,
-            "display_flags": 0,
             "classifier_name": "Poll for data",
             "node": "4eb380c9-c500-4adc-98e3-8f60578e59a2",
             "uuid": "3d5df8b6-1d4b-4392-8012-05bdf8244f7d"
           },
           {
             "id": 72,
-            "display_flags": 0,
             "classifier_name": "get spinlock (2)",
             "node": "0a8760aa-b2e9-4498-be4f-8b10055fc32e",
             "uuid": "32074b1b-1ec1-4d67-98a6-40a675ab9354"
           },
           {
             "id": 73,
-            "display_flags": 0,
             "classifier_name": "read and reset changed-flags",
             "node": "0b61a010-d778-4003-b95f-0fe2cc7edc9f",
             "uuid": "2acef5cc-be4e-44df-abde-098a63441aa3"
           },
           {
             "id": 74,
-            "display_flags": 0,
             "classifier_name": "read data if changed",
             "node": "947955a6-1edb-4ce5-a795-68eaa7e12913",
             "uuid": "cbbc3427-2643-47a6-8a79-549df8bd8836"
           },
           {
             "id": 75,
-            "display_flags": 0,
             "classifier_name": "release lock (2)",
             "node": "02084515-ab2e-417f-9350-165d5d322820",
             "uuid": "0f03a727-3ae1-4e31-b44d-b8440fa4b5f8"
           },
           {
             "id": 76,
-            "display_flags": 0,
             "classifier_name": "Cache coherency",
             "node": "2161a1c9-1150-40f8-a530-01e47427dc73",
             "uuid": "7be08426-59f2-4961-88c5-f6a333ee4637"
@@ -738,14 +649,12 @@
     {
       "diagram": {
         "id": 10,
-        "diagram_type": 0,
-        "type": "CFUListDiagram",
+        "type": "List", "diagram_type": 0,
         "name": "Architectural Decisions",
         "description": [
                 ""
         ],
         "list_order": 294912,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "734356c1-8095-4e81-a6a9-1f9028551024",
@@ -753,38 +662,33 @@
         [
           {
             "id": 52,
-            "display_flags": 0,
             "classifier_name": "Q: Which format to use for persistent data?",
             "node": "1cba6dcc-3a74-454e-9599-909e30716a83",
             "uuid": "c970e13a-e56d-41c9-9572-d991e4ee0b61"
           },
           {
             "id": 53,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "A-1: XML",
             "node": "93229bca-b0f8-4aef-abb2-cdc6ded006bc",
             "uuid": "3a0bac4c-6113-4916-8f58-f2e2d9daf8e0"
           },
           {
             "id": 54,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "A-2: JSON",
             "node": "694e47ec-7b11-4494-869d-332dc49a158e",
             "uuid": "cf31a16e-2b5c-411c-99d1-6f7a169aace5"
           },
           {
             "id": 55,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "A-3: Binary BLOBs",
             "node": "5d302c54-0b51-464e-8a69-3bc189fb45ff",
             "uuid": "e25a8b39-e914-4166-9717-be281d1767f1"
           },
           {
             "id": 56,
-            "display_flags": 0,
             "classifier_name": "A-4: SQLITE DB",
             "node": "0ebb5c42-4e71-48c2-9ec2-4c841cb39ce6",
             "uuid": "faa65d9a-f3c4-4fec-8418-ccdc8d97d986"
@@ -795,14 +699,12 @@
     {
       "diagram": {
         "id": 11,
-        "diagram_type": 9,
-        "type": "SysMLRequirementDiagram",
+        "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Quality Requirements",
         "description": [
                 ""
         ],
         "list_order": 327680,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "945c13e2-4467-429f-a5be-b3f0d0b76b38",
@@ -810,14 +712,12 @@
         [
           {
             "id": 57,
-            "display_flags": 0,
             "classifier_name": "Analyzability",
             "node": "aec273c6-bad8-4e27-878c-6163d6b4f088",
             "uuid": "24c34471-ae59-44c6-9ff9-ae952cbb3b14"
           },
           {
             "id": 58,
-            "display_flags": 0,
             "classifier_name": "Usability",
             "node": "02c7305a-3046-4eb5-9f9a-a46998b685b2",
             "uuid": "18703e8c-e1d9-48e1-b34b-29a87d6b61db"
@@ -828,14 +728,12 @@
     {
       "diagram": {
         "id": 12,
-        "diagram_type": 0,
-        "type": "CFUListDiagram",
+        "type": "List", "diagram_type": 0,
         "name": "Risks and Technical Debt",
         "description": [
                 ""
         ],
         "list_order": 360448,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "d581c205-15dd-4401-9b9c-206aa27082ea",
@@ -843,21 +741,18 @@
         [
           {
             "id": 40,
-            "display_flags": 0,
             "classifier_name": "Risk: Inconsistent persistent data",
             "node": "44fb7b86-a9bf-4cf3-a4c4-41cd4488e3bb",
             "uuid": "a6eaea70-8387-4fb5-ac59-92ede6c8d0fc"
           },
           {
             "id": 41,
-            "display_flags": 0,
             "classifier_name": "Risk: Clock is reset",
             "node": "62711fd2-0ddd-4c88-a36e-8930afba58ea",
             "uuid": "baadd513-158a-4e24-8f3c-00fed954c61b"
           },
           {
             "id": 42,
-            "display_flags": 0,
             "classifier_name": "Debt: Interface change only partly implemented",
             "node": "c512e695-41a8-45e5-8f6c-a604f2234796",
             "uuid": "c9d4d11e-430a-44da-8554-96499d7d1a37"
@@ -868,14 +763,12 @@
     {
       "diagram": {
         "id": 13,
-        "diagram_type": 0,
-        "type": "CFUListDiagram",
+        "type": "List", "diagram_type": 0,
         "name": "Glossary",
         "description": [
                 ""
         ],
         "list_order": 393216,
-        "display_flags": 0,
         "parent_name": "About this Document",
         "parent": "19d14e67-4cb2-4db5-8429-1178438f7611",
         "uuid": "4f170675-4443-40f4-a832-73a0ae1542e0",
@@ -883,28 +776,24 @@
         [
           {
             "id": 36,
-            "display_flags": 0,
             "classifier_name": "System",
             "node": "9f532975-b03e-4a36-ac16-2f41f9fa4e30",
             "uuid": "37c46226-5f59-458d-aa1a-2979f7074b99"
           },
           {
             "id": 37,
-            "display_flags": 0,
             "classifier_name": "Software",
             "node": "b5e00353-5242-4716-b87d-75930bc73fbd",
             "uuid": "c1ab96c5-a51d-4e47-a141-d8633a90f375"
           },
           {
             "id": 38,
-            "display_flags": 0,
             "classifier_name": "SW-Component",
             "node": "7fbabe31-a139-471d-a1b5-29e43d345da6",
             "uuid": "69ae272e-cb63-4c0f-a6ff-994b682e8575"
           },
           {
             "id": 39,
-            "display_flags": 0,
             "classifier_name": "SW-Unit",
             "node": "a7b1d462-e58a-4dc7-b8e8-4a62f2803e47",
             "uuid": "7b26a0dd-524b-4802-9499-7faa999bf4ce"
@@ -919,8 +808,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "stereotype": "EXAMPLE",
         "name": "User",
         "description": [
@@ -938,8 +826,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "stereotype": "EXAMPLE",
         "name": "Service",
         "description": [
@@ -957,8 +844,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "stereotype": "EXAMPLE",
         "name": "Use System",
         "description": [
@@ -976,8 +862,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "stereotype": "EXAMPLE",
         "name": "Analyze Problem",
         "description": [
@@ -995,8 +880,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 102,
-        "type": "Component",
+        "type": "Subsystem", "main_type": 102,
         "stereotype": "EXAMPLE",
         "name": "System Boundary",
         "description": [
@@ -1014,8 +898,7 @@
     {
       "classifier": {
         "id": 9,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "name": "Template structured according to arc42 proposal",
         "description": [
                 "see https://arc42.org/overview/"
@@ -1032,8 +915,7 @@
     {
       "classifier": {
         "id": 10,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "Stakeholder",
         "description": [
                 ""
@@ -1050,8 +932,7 @@
     {
       "classifier": {
         "id": 11,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "SW Architect",
         "description": [
                 ""
@@ -1068,8 +949,7 @@
     {
       "classifier": {
         "id": 12,
-        "main_type": 102,
-        "type": "Component",
+        "type": "Subsystem", "main_type": 102,
         "name": "SW Architecture",
         "description": [
                 ""
@@ -1086,8 +966,7 @@
     {
       "classifier": {
         "id": 13,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "SW Integrator",
         "description": [
                 ""
@@ -1104,8 +983,7 @@
     {
       "classifier": {
         "id": 14,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "SW Tester",
         "description": [
                 ""
@@ -1122,8 +1000,7 @@
     {
       "classifier": {
         "id": 15,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "SW Developer",
         "description": [
                 ""
@@ -1140,8 +1017,7 @@
     {
       "classifier": {
         "id": 16,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "Understand the Problem",
         "description": [
                 ""
@@ -1158,8 +1034,7 @@
     {
       "classifier": {
         "id": 17,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "Decide Alternatives",
         "description": [
                 ""
@@ -1176,8 +1051,7 @@
     {
       "classifier": {
         "id": 18,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "Explain Solution",
         "description": [
                 ""
@@ -1194,8 +1068,7 @@
     {
       "classifier": {
         "id": 19,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "Analyzability",
         "description": [
@@ -1218,8 +1091,7 @@
     {
       "classifier": {
         "id": 20,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "Usability",
         "description": [
@@ -1238,8 +1110,7 @@
     {
       "classifier": {
         "id": 21,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "stereotype": "EXAMPLE",
         "name": "Remote System X",
         "description": [
@@ -1257,8 +1128,7 @@
     {
       "classifier": {
         "id": 22,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "stereotype": "EXAMPLE",
         "name": "System H",
         "description": [
@@ -1276,8 +1146,7 @@
     {
       "classifier": {
         "id": 23,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "stereotype": "EXAMPLE",
         "name": "The Component T",
         "description": [
@@ -1295,8 +1164,7 @@
     {
       "classifier": {
         "id": 24,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "The system starts",
         "description": [
@@ -1310,8 +1178,7 @@
         [
           {
             "id": 4,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -1325,8 +1192,7 @@
     {
       "classifier": {
         "id": 25,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "The component T performs XY",
         "description": [
@@ -1344,8 +1210,7 @@
     {
       "classifier": {
         "id": 26,
-        "main_type": 167,
-        "type": "AcceptEventAction",
+        "type": "Accept Event", "main_type": 167,
         "stereotype": "EXAMPLE",
         "name": "The component T waits for event E",
         "description": [
@@ -1363,8 +1228,7 @@
     {
       "classifier": {
         "id": 27,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "The system shuts down",
         "description": [
@@ -1382,8 +1246,7 @@
     {
       "classifier": {
         "id": 28,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "stereotype": "EXAMPLE",
         "name": "Model",
         "description": [
@@ -1397,8 +1260,7 @@
         [
           {
             "id": 3,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -1412,8 +1274,7 @@
     {
       "classifier": {
         "id": 29,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "stereotype": "EXAMPLE",
         "name": "View",
         "description": [
@@ -1427,8 +1288,7 @@
         [
           {
             "id": 1,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -1442,8 +1302,7 @@
     {
       "classifier": {
         "id": 30,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "stereotype": "EXAMPLE",
         "name": "Controller",
         "description": [
@@ -1457,8 +1316,7 @@
         [
           {
             "id": 2,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -1472,15 +1330,15 @@
     {
       "classifier": {
         "id": 31,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "System",
         "description": [
                 "In the context of this project, system encompasses hardware and software:\n",
                 "The metal case of the product box, connectors, PCB, PMIC, SoC, RAM, Flash.\n",
                 "Included is also the software stored and running on this hardware.\n",
-                "    Excluded are  Power Cables, Cables to network, Peripherals, Monitor and Keyboard, Development Tools\n",
+                "    Excluded are  Power Cables, Cables to network, Peripherals, Monitor and ",
+                "Keyboard, Development Tools\n",
                 ""
         ],
         "x_order": -1373570481,
@@ -1495,12 +1353,12 @@
     {
       "classifier": {
         "id": 32,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "Software",
         "description": [
-                "In the context of this project, software refers to the program code running on the operation-hardware.\n",
+                "In the context of this project, software refers to the program code running on ",
+                "the operation-hardware.\n",
                 "    Excluded are build-tools, test-tools, version control system,\n",
                 "requirements-trace-tools, reporting tools, bug-tracking tools."
         ],
@@ -1516,15 +1374,16 @@
     {
       "classifier": {
         "id": 33,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "SW-Component",
         "description": [
-                "In the context of this project, a software component is a part of the software that\n",
+                "In the context of this project, a software component is a part of the software ",
+                "that\n",
                 "addresses a set of semantic coherent, functional requirements.\n",
                 "    It may address additional, cross-cutting, non-functional requirements.\n",
-                "Software components may be a part of other software components, but they cannot partly overlap.\n",
+                "Software components may be a part of other software components, but they cannot ",
+                "partly overlap.\n",
                 "\n",
                 ""
         ],
@@ -1540,15 +1399,15 @@
     {
       "classifier": {
         "id": 34,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "SW-Unit",
         "description": [
                 "In the context of this project, a software unit is a small piece of software:\n",
                 "It provides max 2 different interfaces to the outside. \n",
                 "It uses max 10 interfaces provided by other SW units.\n",
-                "    A SW unit can be fully tested by only using/mocking above mentioned interfaces."
+                "    A SW unit can be fully tested by only using/mocking above mentioned ",
+                "interfaces."
         ],
         "x_order": 2083436420,
         "y_order": 0,
@@ -1562,8 +1421,7 @@
     {
       "classifier": {
         "id": 35,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "Risk: Inconsistent persistent data",
         "description": [
@@ -1585,15 +1443,15 @@
     {
       "classifier": {
         "id": 36,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "Risk: Clock is reset",
         "description": [
                 "Scenario: Due to a power loss, the system clock is reset to an old date.\n",
                 "Risk: Due to the reset time, old security certificates are valid again\n",
                 "Effect: An attacker can authenicate using the old, unsecure certificate\n",
-                "Mitigation: The system persists the current date and does not allow to reset the clock to older dates."
+                "Mitigation: The system persists the current date and does not allow to reset ",
+                "the clock to older dates."
         ],
         "x_order": 2050606079,
         "y_order": 0,
@@ -1607,14 +1465,14 @@
     {
       "classifier": {
         "id": 37,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "Debt: Interface change only partly implemented",
         "description": [
                 "Background: Interface of module XZ was changed from pull to push mechanism.\n",
                 "The new interface is used by only 70% of clients, 30% use the old interface.\n",
-                "Effect on Maintenance: 1) Difficult to understand by developers, 2) Both interfaces need to be maintained"
+                "Effect on Maintenance: 1) Difficult to understand by developers, 2) Both ",
+                "interfaces need to be maintained"
         ],
         "x_order": 2086877861,
         "y_order": 0,
@@ -1628,8 +1486,7 @@
     {
       "classifier": {
         "id": 38,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "Resource Requirements",
         "description": [
@@ -1650,14 +1507,14 @@
     {
       "classifier": {
         "id": 39,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "Q: Which format to use for persistent data?",
         "description": [
                 "Assumptions:\t\t- Format changes between SW versions are expected\n",
                 "Influencing Factors:\t- Persisted data shall be stored to git\n",
-                "Decision:\t\t\t- A-4 (Rationale: Fits for use case even if stored data exceeds RAM)"
+                "Decision:\t\t\t- A-4 (Rationale: Fits for use case even if stored data exceeds ",
+                "RAM)"
         ],
         "x_order": -337211247,
         "y_order": 0,
@@ -1671,13 +1528,13 @@
     {
       "classifier": {
         "id": 40,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "A-1: XML",
         "description": [
                 "Pro:    - Human-Readable, Machine-Readable\n",
-                "Con:   - Complex error handling in SW: What to do if e.g. an entitiy is not defined?"
+                "Con:   - Complex error handling in SW: What to do if e.g. an entitiy is not ",
+                "defined?"
         ],
         "x_order": 2046055527,
         "y_order": 0,
@@ -1691,8 +1548,7 @@
     {
       "classifier": {
         "id": 41,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "A-2: JSON",
         "description": [
@@ -1711,8 +1567,7 @@
     {
       "classifier": {
         "id": 42,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "A-3: Binary BLOBs",
         "description": [
@@ -1731,13 +1586,14 @@
     {
       "classifier": {
         "id": 43,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "A-4: SQLITE DB",
         "description": [
-                "Pro:    - Flexible, Searchable, RAM-efficient (no need to copy everything to RAM)\n",
-                "Con:   - not human-readable, Dependance on SQLITE, binary format is less suited for git-storage"
+                "Pro:    - Flexible, Searchable, RAM-efficient (no need to copy everything to ",
+                "RAM)\n",
+                "Con:   - not human-readable, Dependance on SQLITE, binary format is less suited ",
+                "for git-storage"
         ],
         "x_order": 2033674920,
         "y_order": 0,
@@ -1751,8 +1607,7 @@
     {
       "classifier": {
         "id": 44,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "no reliable time-base",
         "description": [
@@ -1776,8 +1631,7 @@
     {
       "classifier": {
         "id": 45,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "operating temperature",
         "description": [
@@ -1797,8 +1651,7 @@
     {
       "classifier": {
         "id": 46,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "The system shall be updateable",
         "description": [
@@ -1816,8 +1669,7 @@
     {
       "classifier": {
         "id": 47,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "A watchdog shall supervise the software.",
         "description": [
@@ -1835,8 +1687,7 @@
     {
       "classifier": {
         "id": 48,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "Failures during operation shall be analyzable",
         "description": [
@@ -1854,8 +1705,7 @@
     {
       "classifier": {
         "id": 49,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "Operation shall go on in case of single fault",
         "description": [
@@ -1873,8 +1723,7 @@
     {
       "classifier": {
         "id": 50,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "stereotype": "EXAMPLE",
         "name": "IPC-Concept",
         "description": [
@@ -1892,8 +1741,7 @@
     {
       "classifier": {
         "id": 51,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "Provide data",
         "description": [
@@ -1911,8 +1759,7 @@
     {
       "classifier": {
         "id": 52,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "get spinlock (1)",
         "description": [
@@ -1930,8 +1777,7 @@
     {
       "classifier": {
         "id": 53,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "write data",
         "description": [
@@ -1949,8 +1795,7 @@
     {
       "classifier": {
         "id": 54,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "set flags for changes",
         "description": [
@@ -1968,8 +1813,7 @@
     {
       "classifier": {
         "id": 55,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "release lock (1)",
         "description": [
@@ -1987,8 +1831,7 @@
     {
       "classifier": {
         "id": 56,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "Poll for data",
         "description": [
@@ -2006,8 +1849,7 @@
     {
       "classifier": {
         "id": 57,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "get spinlock (2)",
         "description": [
@@ -2025,8 +1867,7 @@
     {
       "classifier": {
         "id": 58,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "read and reset changed-flags",
         "description": [
@@ -2044,8 +1885,7 @@
     {
       "classifier": {
         "id": 59,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "read data if changed",
         "description": [
@@ -2063,8 +1903,7 @@
     {
       "classifier": {
         "id": 60,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "stereotype": "EXAMPLE",
         "name": "release lock (2)",
         "description": [
@@ -2082,8 +1921,7 @@
     {
       "classifier": {
         "id": 61,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "stereotype": "EXAMPLE",
         "name": "Cache coherency",
         "description": [
@@ -2102,8 +1940,7 @@
     {
       "classifier": {
         "id": 62,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "stereotype": "EXAMPLE",
         "name": "Report Problem",
         "description": [
@@ -2125,8 +1962,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2142,8 +1978,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2159,8 +1994,7 @@
     {
       "relationship": {
         "id": 51,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2176,8 +2010,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2193,8 +2026,7 @@
     {
       "relationship": {
         "id": 52,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2210,8 +2042,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2227,8 +2058,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2244,8 +2074,7 @@
     {
       "relationship": {
         "id": 7,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2261,8 +2090,7 @@
     {
       "relationship": {
         "id": 8,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2278,8 +2106,7 @@
     {
       "relationship": {
         "id": 15,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2295,8 +2122,7 @@
     {
       "relationship": {
         "id": 17,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2312,8 +2138,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2329,8 +2154,7 @@
     {
       "relationship": {
         "id": 12,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2346,8 +2170,7 @@
     {
       "relationship": {
         "id": 13,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2363,8 +2186,7 @@
     {
       "relationship": {
         "id": 9,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2380,8 +2202,7 @@
     {
       "relationship": {
         "id": 16,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2397,8 +2218,7 @@
     {
       "relationship": {
         "id": 11,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2414,8 +2234,7 @@
     {
       "relationship": {
         "id": 10,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2431,8 +2250,7 @@
     {
       "relationship": {
         "id": 14,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -2448,8 +2266,7 @@
     {
       "relationship": {
         "id": 18,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2465,8 +2282,7 @@
     {
       "relationship": {
         "id": 23,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2482,8 +2298,7 @@
     {
       "relationship": {
         "id": 24,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2499,8 +2314,7 @@
     {
       "relationship": {
         "id": 25,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2516,8 +2330,7 @@
     {
       "relationship": {
         "id": 19,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2533,8 +2346,7 @@
     {
       "relationship": {
         "id": 29,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "start (model)",
         "description": [
                 ""
@@ -2552,8 +2364,7 @@
     {
       "relationship": {
         "id": 30,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "start",
         "description": [
                 ""
@@ -2571,8 +2382,7 @@
     {
       "relationship": {
         "id": 21,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2588,8 +2398,7 @@
     {
       "relationship": {
         "id": 20,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2605,8 +2414,7 @@
     {
       "relationship": {
         "id": 22,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2622,8 +2430,7 @@
     {
       "relationship": {
         "id": 35,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "notify change",
         "description": [
                 ""
@@ -2641,8 +2448,7 @@
     {
       "relationship": {
         "id": 31,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "start (model)",
         "description": [
                 ""
@@ -2660,8 +2466,7 @@
     {
       "relationship": {
         "id": 32,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "change data",
         "description": [
                 ""
@@ -2679,8 +2484,7 @@
     {
       "relationship": {
         "id": 34,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "register for changes",
         "description": [
                 ""
@@ -2698,8 +2502,7 @@
     {
       "relationship": {
         "id": 33,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "change data",
         "description": [
                 ""
@@ -2717,8 +2520,7 @@
     {
       "relationship": {
         "id": 36,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
@@ -2734,8 +2536,7 @@
     {
       "relationship": {
         "id": 37,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2751,8 +2552,7 @@
     {
       "relationship": {
         "id": 38,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2768,8 +2568,7 @@
     {
       "relationship": {
         "id": 39,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2785,8 +2584,7 @@
     {
       "relationship": {
         "id": 40,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2802,8 +2600,7 @@
     {
       "relationship": {
         "id": 45,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2819,8 +2616,7 @@
     {
       "relationship": {
         "id": 47,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2836,8 +2632,7 @@
     {
       "relationship": {
         "id": 46,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2853,8 +2648,7 @@
     {
       "relationship": {
         "id": 41,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2870,8 +2664,7 @@
     {
       "relationship": {
         "id": 42,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2887,8 +2680,7 @@
     {
       "relationship": {
         "id": 43,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2904,8 +2696,7 @@
     {
       "relationship": {
         "id": 44,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -2921,8 +2712,7 @@
     {
       "relationship": {
         "id": 48,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2938,8 +2728,7 @@
     {
       "relationship": {
         "id": 49,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -2955,8 +2744,7 @@
     {
       "relationship": {
         "id": 50,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""

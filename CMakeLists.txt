@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 PROJECT(crystal-facet-uml LANGUAGES C)
 
 # pkgconfig is a helper program to find include directories and libraries:
@@ -6,9 +6,19 @@ FIND_PACKAGE(PkgConfig REQUIRED)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directory")
-SET(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
-INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
+IF (MSYS)
+    MESSAGE("BUILD FOR: WINDOWS")
+
+    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crystal-facet-uml.res
+                        COMMAND windres ${CMAKE_CURRENT_SOURCE_DIR}/build/msys2/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res )
+    SET(APP_ICON_RESOURCE_FILE "${CMAKE_CURRENT_BINARY_DIR}/crystal-facet-uml.res" )
+    SET(NO_BLACK_TERMINAL_WINDOW "-mwindows")
+
+    MESSAGE("BUILD    : make --debug=p -j")
+    MESSAGE("DEPLOY   : make msys2_deploy")
+ELSE()
+    MESSAGE("BUILD FOR: LINUX/UNIX")
+ENDIF()
 
 # crystal-facet-uml
 
@@ -35,8 +45,8 @@ MESSAGE("GLIB2:   ${GLIB2_LIBRARY_DIRS}")
 MESSAGE("GLIB2:   ${GLIB2_CFLAGS}")
 
 # for DEBUG mode, some headers may not be found automatically:
-#EXECUTE_PROCESS(COMMAND pkg-config --cflags glib-2.0
-#                OUTPUT_VARIABLE GLIB_MORE_CFLAGS)
+#EXECUTE_PROCESS( COMMAND pkg-config --cflags glib-2.0
+#                 OUTPUT_VARIABLE GLIB_MORE_CFLAGS)
 #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GLIB_MORE_CFLAGS}" )
 #MESSAGE("GLIB_MORE_CFLAGS:   ${GLIB_MORE_CFLAGS}")
 
@@ -89,7 +99,7 @@ FILE(GLOB commonSource gui/source/*.c
                        main/source/main_commands.c
                        main/source/main_execute.c)
 FILE(GLOB appSource    main/source/main.c)
-FILE(GLOB utestSource  main/test/*.c
+FILE(GLOB testSource   main/test/*.c
                        data/test/unit/*.c
                        data/test/integration/*.c
                        ctrl/test/unit/*.c
@@ -113,20 +123,18 @@ MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CM
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
 
-# ==== ==== ==== ==== ==== ==== ==== ==== Common Settings ==== ==== ==== ==== ==== ==== ==== ====
-
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings" )
-# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
-
 # ==== ==== ==== ==== ==== ==== ==== ==== EXE Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${APP_ICON_RESOURCE_FILE})
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
+SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINK_FLAGS "${APP_ICON_RESOURCE_FILE}")
+TARGET_COMPILE_OPTIONS(crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall)
+TARGET_LINK_OPTIONS(crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
 # ==== ==== ==== ==== ==== ==== ==== ==== test Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(test_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+ADD_EXECUTABLE(test_crystal-facet-uml ${testSource} ${commonSource} ${APP_ICON_RESOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC test_fw/include)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC data/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/test)
@@ -136,22 +144,25 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8stream/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
+SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINK_FLAGS "${APP_ICON_RESOURCE_FILE}")
+TARGET_COMPILE_OPTIONS(test_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings)
+TARGET_LINK_OPTIONS(test_crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 INSTALL(TARGETS crystal-facet-uml DESTINATION "/usr/bin/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/de.arrows2boxes.crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.metainfo.xml" DESTINATION "/usr/share/metainfo/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal-facet-uml.png")
+#INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml.svg" DESTINATION "/usr/share/icons/hicolor/scalable/apps/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== gcov Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 
+# This target must not exist on debian build servers because it creates non-reproducible builds
 if(CFU_ADD_GCOV_TARGET)
     if(CMAKE_COMPILER_IS_GNUCC)
-        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -O0" )
-        SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs" )
-        ADD_EXECUTABLE(gcov_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
+        ADD_EXECUTABLE(gcov_crystal-facet-uml ${testSource} ${commonSource} ${APP_ICON_RESOURCE_FILE})
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC test_fw/include)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC data/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC ctrl/test)
@@ -162,8 +173,17 @@ if(CFU_ADD_GCOV_TARGET)
         TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)
+        TARGET_COMPILE_OPTIONS(gcov_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -g -Wall -Wno-overlength-strings -fprofile-arcs -ftest-coverage -O0)
+        TARGET_LINK_OPTIONS(gcov_crystal-facet-uml PUBLIC -fprofile-arcs)
     endif(CMAKE_COMPILER_IS_GNUCC)
 endif(CFU_ADD_GCOV_TARGET)
+
+# ==== ==== ==== ==== ==== ==== ==== ==== run the msys2 deploy script ==== ==== ==== ==== ==== ==== ==== ====
+
+ADD_CUSTOM_TARGET(msys2_deploy
+                  ${CMAKE_CURRENT_SOURCE_DIR}/build/msys2/deploy.sh
+                  ${CMAKE_CURRENT_SOURCE_DIR}
+                  ${CMAKE_CURRENT_BINARY_DIR})
 
 
 # Copyright 2018-2025 Andreas Warnke

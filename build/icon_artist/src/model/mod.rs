@@ -1,12 +1,6 @@
 //! This module provides a static data model to be rendered.
 
-pub mod gui_file_icon;
-pub mod gui_view_icon;
 pub mod icon;
-pub mod shape;
-pub mod stereotype_icon;
-pub mod type_class_icon;
-pub mod type_diag_icon;
 
 /*
 Copyright 2023-2025 Andreas Warnke

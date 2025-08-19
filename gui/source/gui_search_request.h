@@ -13,7 +13,7 @@
 #include "gui_marked_set.h"
 #include "entity/data_id.h"
 #include "storage/data_change_message.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief attributes of the search request widget-set

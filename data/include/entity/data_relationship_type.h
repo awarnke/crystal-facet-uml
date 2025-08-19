@@ -57,9 +57,22 @@ typedef enum data_relationship_type_enum data_relationship_type_t;
 #define DATA_RELATIONSHIP_TYPE_COUNT (19)
 
 /*!
+ *  \brief a modulo for a hash function for unique hashing
+ */
+#define DATA_RELATIONSHIP_TYPE_HASH_MOD (43)
+
+/*!
  *  \brief lists all values of data_relationship_type_t, excluding DATA_RELATIONSHIP_TYPE_VOID
  */
 extern data_relationship_type_t const DATA_RELATIONSHIP_TYPE_ARRAY [DATA_RELATIONSHIP_TYPE_COUNT];
+
+/*!
+ *  \brief returns a short name for the data_relationship_type_t
+ *
+ *  \param this_ enumeration value
+ *  \return name of the type, "" if unknown or void type
+ */
+const char * data_relationship_type_get_name( data_relationship_type_t this_ );
 
 #endif  /* DATA_RELATIONSHIP_TYPE_H */
 

@@ -7,7 +7,7 @@
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8/u8_trace.h"
 #include <assert.h>
-#include <gtk/gtk.h>
+#include "io_gtk.h"
 #include <stdbool.h>
 
 void io_export_set_traversal_init ( io_export_set_traversal_t *this_,

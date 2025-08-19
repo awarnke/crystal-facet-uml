@@ -4,7 +4,7 @@
 #include "meta/meta_info.h"
 #include "u8/u8_trace.h"
 #include <stdint.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <assert.h>
 
 void gui_sketch_background_init( gui_sketch_background_t *this_,

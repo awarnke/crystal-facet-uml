@@ -8,8 +8,6 @@
  *  \brief Enumeration of gui tools
  */
 
-#include <gtk/gtk.h>
-
 /*!
  *  \brief enumeration on tools
  */

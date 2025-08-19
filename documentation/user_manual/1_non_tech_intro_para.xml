@@ -23,7 +23,7 @@ Diagrams are layouted part-automatically:
 <itemizedlist>
     <listitem><para>The user chooses the relative location of elements towards others,</para>
     </listitem>
-    <listitem><para>crystal-facet-uml selects the exact locations of shown elements.</para>
+    <listitem><para>crystal-facet-uml defines the exact locations of shown elements.</para>
     </listitem>
     <listitem><para>The user controls the positions of messages/transitions in sequence and timing diagrams,</para>
     </listitem>

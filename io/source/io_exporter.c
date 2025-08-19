@@ -8,7 +8,7 @@
 #include "xmi/xmi_writer_pass.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gtk/gtk.h>
+#include "io_gtk.h"
 #include <cairo-svg.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>

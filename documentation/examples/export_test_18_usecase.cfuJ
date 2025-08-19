@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,48 +14,41 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
+        "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Use Case",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "229a9a46-bcbf-4a67-aac5-1743e1f87698",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "Customer Support",
             "node": "c27dfef5-e60d-4ab1-a8aa-7dacce2af646",
             "uuid": "2fff6aa3-18e4-44e1-aa23-c2e8d28e5157"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "Customer",
             "node": "9c53f372-b8e3-447d-8907-20e50b733805",
             "uuid": "db57739c-3261-43e7-a343-3bbf73cfe2c3"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "Complain",
             "node": "d8c74262-fb48-498b-bb3d-02de2288f030",
             "uuid": "d007df7e-c3e8-44f5-8397-0fef8ee39959"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "Solve Complaint",
             "node": "42c09c4a-1d65-45cb-8300-d50854afbfac",
             "uuid": "cbad66d1-eb25-49ec-8c08-5a5ca8e1200f"
           },
           {
             "id": 5,
-            "display_flags": 0,
             "classifier_name": "Track Customer Satisfaction",
             "node": "0dc2da74-c198-441f-9cc5-b7cf99c0114c",
             "uuid": "c2061e55-b829-41c0-a5d9-cb0ecf3315f0"
@@ -70,9 +63,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 102,
-        "type": "Component",
-        "stereotype": "",
+        "type": "Subsystem", "main_type": 102,
         "name": "Customer Support",
         "description": [
                 ""
@@ -89,9 +80,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 100,
-        "type": "Actor",
-        "stereotype": "",
+        "type": "Actor", "main_type": 100,
         "name": "Customer",
         "description": [
                 ""
@@ -108,9 +97,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
+        "type": "Use Case", "main_type": 101,
         "name": "Complain",
         "description": [
                 ""
@@ -127,9 +114,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
+        "type": "Use Case", "main_type": 101,
         "name": "Solve Complaint",
         "description": [
                 ""
@@ -146,9 +131,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
+        "type": "Use Case", "main_type": 101,
         "name": "Track Customer Satisfaction",
         "description": [
                 ""
@@ -169,8 +152,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -186,8 +168,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -203,8 +184,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -220,8 +200,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -237,8 +216,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 261,
-        "type": "Include",
+        "type": "Inclusion", "main_type": 261,
         "name": "",
         "description": [
                 ""
@@ -254,8 +232,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 260,
-        "type": "Extend",
+        "type": "Extension", "main_type": 260,
         "name": "",
         "description": [
                 ""

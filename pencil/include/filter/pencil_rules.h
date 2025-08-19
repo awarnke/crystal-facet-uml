@@ -57,7 +57,7 @@ static inline void pencil_rules_destroy ( pencil_rules_t *this_ );
  *          and not DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM
  *          or the classifier_type is DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE
  *          or DATA_CLASSIFIER_TYPE_REQUIREMENT or DATA_CLASSIFIER_TYPE_COMMENT
- *          or DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE
+ *          or DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_INTERACTION_USE
  */
 static inline bool pencil_rules_feature_is_implicit_proxy ( const pencil_rules_t *this_,
                                                             data_feature_type_t feature_type,

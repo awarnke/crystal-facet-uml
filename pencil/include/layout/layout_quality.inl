@@ -45,9 +45,9 @@ static inline void layout_quality_destroy ( layout_quality_t *this_ )
 /* if an object shall be avoided to find nice solutions and not run into a local layouting optimum that is forbidden: */
 #define LAYOUT_QUALITY_WEIGHT_AVOID (10.0)
 /* if a location is not nice (too short line segment, too far from source or target): */
-#define LAYOUT_QUALITY_WEIGHT_LOCATION (1.0)
+#define LAYOUT_QUALITY_WEIGHT_LOCATION (3.0)
 /* if an objects contour, label or type-icon is too far from the target location or a connection line is longer than needed: */
-#define LAYOUT_QUALITY_WEIGHT_DISTANCE (0.1)
+#define LAYOUT_QUALITY_WEIGHT_DISTANCE (1.0)
 
 static inline double layout_quality_debts_class_diag( const layout_quality_t *this_,
                                                       const layout_visible_classifier_t *probe,
@@ -141,6 +141,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     /* get information on probe */
     const geometry_rectangle_t connector_bounds
         = geometry_connector_get_bounding_rectangle( probe );
+    const double length = geometry_connector_get_length( probe );
 
     /* get information on expected source and destination */
     const double src_center_x = geometry_rectangle_get_center_x ( source_rect );
@@ -166,7 +167,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     }
 
     /* the more length, the more unwanted... */
-    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * geometry_connector_get_length( probe ) * line_corridor;
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * length * line_corridor;
 
     /* prefer _either_ no _or_ minimum-dist lengths of parts, otherwise line too close to object... */
     const double source_length = geometry_connector_get_source_length( probe );
@@ -180,11 +181,19 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     {
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( object_dist - destination_length ) * line_corridor;
     }
+    /* prefer _either_ no _or_ minimum-dist lengths of main if only one of of source and dest exists */
     const bool no_source_or_no_dest = ( source_length < 0.000001 )||( destination_length < 0.000001 );
     const double main_length = geometry_connector_get_main_length( probe );
     if (( main_length > 0.000001 )&&( main_length < object_dist )&&( no_source_or_no_dest ))
     {
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( object_dist - main_length ) * line_corridor;
+    }
+
+    /* if the object distance is too low, prefer a detour */
+    const double minimum_good_length = 2.0 * object_dist;  /* not more than 2.0 because interfaces at components are rather close... */
+    if (( length < minimum_good_length ))
+    {
+        debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * ( minimum_good_length - length ) * line_corridor;
     }
 
     /* prefer centered over uncentered departure and arrival */
@@ -205,12 +214,12 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
     if ( bad_pattern_h || bad_pattern_v )
     {
-        const double current_len = geometry_connector_get_length( probe );
+        const double current_len = length;
         if ( current_len > ( 4.0 * object_dist ) )
         {
             /* probe is a long path and right-handed */
             /* to avoid overreactions, we assume a line width of 0.1 only */
-            debts += LAYOUT_QUALITY_WEIGHT_AVOID * 0.1 * geometry_connector_get_length( probe );
+            debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * ( 0.1 * line_corridor );
         }
     }
 
@@ -238,7 +247,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
             else
@@ -257,7 +266,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
         }
@@ -279,7 +288,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
             else
@@ -298,7 +307,7 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN3 ) )
                     || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN4 ) ))
                 {
-                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * 1.0 * geometry_connector_get_length( probe );
+                    debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
         }
@@ -309,7 +318,9 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
 
 static inline double layout_quality_debts_conn_class ( const layout_quality_t *this_,
                                                        const geometry_connector_t *probe,
-                                                       const layout_visible_classifier_t *other )
+                                                       const layout_visible_classifier_t *other,
+                                                       const bool is_ancestor_of_source,
+                                                       const bool is_ancestor_of_destination )
 {
     double debts = 0.0;
 
@@ -325,14 +336,18 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
 
         const geometry_rectangle_t *const classifier_symbol_box
             = layout_visible_classifier_get_symbol_box_const( other );
-        debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
-            * geometry_connector_get_transit_length( probe, classifier_symbol_box ) * line_corridor;
+        if ( is_ancestor_of_source == is_ancestor_of_destination )
+        {
+            /* either probe is no ancestor or ancestor of both */
+            debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
+                * geometry_connector_get_transit_length( probe, classifier_symbol_box ) * line_corridor;
+        }
         const double same_path
             = geometry_connector_get_same_path_length_rect( probe,
                                                             classifier_symbol_box,
                                                             5.0 * line_width
                                                           );
-         /* ^ max_distance is 5x line width because the contour line of a classifier is 3x linewidth within the bounds */
+        /* ^ max_distance is 5x line width because the contour line of a classifier is drawn at 3x linewidth within the bounds */
         debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * same_path * line_corridor;
 
         const geometry_rectangle_t *const classifier_icon_box
@@ -485,23 +500,14 @@ static inline double layout_quality_debts_label_feat( const layout_quality_t *th
 {
     double debts = 0.0;
 
-    const data_feature_t *const probe_f_data
-        = layout_feature_get_data_const( other );
-
     const geometry_rectangle_t *const feature_symbol_box
         = layout_feature_get_symbol_box_const( other );
     if ( geometry_rectangle_is_intersecting( probe, feature_symbol_box ) )
     {
-        if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) )
-        {
-            /* lower debt */
-            debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE * geometry_rectangle_get_intersect_area( probe, feature_symbol_box );
-        }
-        else
-        {
-            /* lower debt */
-            debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE * geometry_rectangle_get_intersect_area( probe, feature_symbol_box );
-        }
+        /* no special handling for lifelines */
+        /* const data_feature_t *const probe_f_data = layout_feature_get_data_const( other ); */
+        /* if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( probe_f_data ) ) { } else { } */
+        debts += LAYOUT_QUALITY_WEIGHT_LABEL_ON_LINE * geometry_rectangle_get_intersect_area( probe, feature_symbol_box );
     }
 
     const geometry_rectangle_t *const feature_label_box

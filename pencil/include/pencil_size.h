@@ -11,7 +11,14 @@
 
 #include <pango/pangocairo.h>
 #include <cairo.h>
+#if __GNUC__ >= 8
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+#endif
 #include <gdk/gdk.h>
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
 #include <stdint.h>
 #include <stdbool.h>
 

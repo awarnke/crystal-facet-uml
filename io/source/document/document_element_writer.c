@@ -101,7 +101,6 @@ static const char DOCBOOK_ELEMENT_ID_END[]
     = "</token>";
 static const char DOCBOOK_ELEMENT_SEE_START[] = "\n<emphasis>(appears in ";
 static const char DOCBOOK_ELEMENT_SEE_NEXT[] = ",\n";
-static const char DOCBOOK_ELEMENT_SEE_MORE[] = ", ...";
 static const char DOCBOOK_ELEMENT_SEE_END[] = ")\n</emphasis>";
 static const char DOCBOOK_ELEMENT_ATTRIBUTES_END[]
     = "\n</para>";
@@ -240,7 +239,6 @@ static const char HTML_CLAS_ID_END[] = "</em>";
 static const char HTML_CLAS_HEAD_END[] = "\n</p>";
 static const char HTML_CLAS_SEE_START[] = "\n<p class=\"clas-see\">\n";
 static const char HTML_CLAS_SEE_NEXT[] = ",\n";
-static const char HTML_CLAS_SEE_MORE[] = ", ...";
 static const char HTML_CLAS_SEE_END[] = "\n</p>";
 static const char HTML_CLAS_DESCR_START[] = "\n<p class=\"clas-descr\">\n";
 static const char HTML_CLAS_DESCR_END[] = "\n</p>";
@@ -282,13 +280,18 @@ static const char HTML_REL_END[] = "\n</div>";
 
 /* IO_FILE_FORMAT_TXT */
 
-static const int TXT_ID_INDENT_COLUMN = 48;
+static const int TXT_ID_ALIGN_COLUMN = 80;  /* the alignment column of the id in export mode txt */
 static const char TXT_NEWLINE[] = "\n";
-static const char TXT_SINGLE_INDENT[] = "| ";
-static const char TXT_DOUBLE_INDENT[] = "  | ";
-static const char TXT_SPACE_INDENT[] = "  ";
+static const char TXT_NO_INDENT[] = "";
+static const char TXT_FEAT_INDENT[] = "+ ";
+static const char TXT_REL_INDENT[] = "* ";
+static const char TXT_CONTINUE_INDENT[] = "  ";
 static const char TXT_COLON_SPACE[] = ": ";
 static const char TXT_SPACE[] = " ";
+static const char TXT_CODE_START[] = "`";
+static const char TXT_CODE_END[] = "`";
+static const char TXT_DIAG_UNDERLINE = '=';  /* underline character for diagram names */
+static const char TXT_CLAS_UNDERLINE = '-';  /* underline character for classifier names */
 
 #define io_element_writer_impl_t document_element_writer_t
 /*!
@@ -350,7 +353,6 @@ void document_element_writer_init ( document_element_writer_t *this_,
 
     json_type_name_map_init( &((*this_).type_map) );
     data_rules_init( &((*this_).data_rules) );
-    document_link_provider_init( &((*this_).link_provider), db_reader );
     io_txt_icon_init( &((*this_).txt_icon) );
 
     io_txt_writer_init( &((*this_).txt_writer), output );
@@ -360,32 +362,56 @@ void document_element_writer_init ( document_element_writer_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         DOCBOOK_ELEMENT_SEE_NEXT,
+                                         DOCBOOK_DESCRIPTION_XREF_START,
+                                         DOCBOOK_DESCRIPTION_XREF_MIDDLE,
+                                         DOCBOOK_DESCRIPTION_XREF_END,
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer),
-                            db_reader,
-                            DOCBOOK_DESCRIPTION_MIDDLE,
-                            DOCBOOK_DESCRIPTION_XREF_START,
-                            DOCBOOK_DESCRIPTION_XREF_MIDDLE,
-                            DOCBOOK_DESCRIPTION_XREF_END,
-                            &((*this_).xml_writer)
-                          );
+                               db_reader,
+                               DOCBOOK_DESCRIPTION_MIDDLE,
+                               DOCBOOK_DESCRIPTION_XREF_START,
+                               DOCBOOK_DESCRIPTION_XREF_MIDDLE,
+                               DOCBOOK_DESCRIPTION_XREF_END,
+                               &((*this_).xml_writer)
+                             );
         }
         break;
 
         case IO_FILE_FORMAT_HTML:
         {
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         HTML_CLAS_SEE_NEXT,
+                                         HTML_ANY_DESCR_XREF_START,
+                                         HTML_ANY_DESCR_XREF_MIDDLE,
+                                         HTML_ANY_DESCR_XREF_END,
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer),
-                            db_reader,
-                            HTML_ANY_DESCR_NEWLINE,
-                            HTML_ANY_DESCR_XREF_START,
-                            HTML_ANY_DESCR_XREF_MIDDLE,
-                            HTML_ANY_DESCR_XREF_END,
-                            &((*this_).xml_writer)
-                          );
+                               db_reader,
+                               HTML_ANY_DESCR_NEWLINE,
+                               HTML_ANY_DESCR_XREF_START,
+                               HTML_ANY_DESCR_XREF_MIDDLE,
+                               HTML_ANY_DESCR_XREF_END,
+                               &((*this_).xml_writer)
+                             );
         }
         break;
 
         case IO_FILE_FORMAT_TXT:
         {
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         ", ",
+                                         "",
+                                         ": ",
+                                         "",
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer), db_reader, "\n", "", ": ", "", &((*this_).xml_writer) );
         }
         break;
@@ -394,6 +420,14 @@ void document_element_writer_init ( document_element_writer_t *this_,
         {
             U8_LOG_ERROR("error: unknown_format.");
             assert(false);  /* use another io_element_writer instead */
+            document_link_provider_init( &((*this_).link_provider),
+                                         db_reader,
+                                         ", ",
+                                         "",
+                                         ": ",
+                                         "",
+                                         &((*this_).xml_writer)
+                                       );
             io_md_writer_init( &((*this_).md_writer), db_reader, "\n", "", ": ", "", &((*this_).xml_writer) );
         }
         break;
@@ -407,11 +441,11 @@ void document_element_writer_destroy( document_element_writer_t *this_ )
     U8_TRACE_BEGIN();
 
     io_md_writer_destroy( &((*this_).md_writer) );
+    document_link_provider_destroy( &((*this_).link_provider) );
     io_xml_writer_destroy( &((*this_).xml_writer) );
     io_txt_writer_destroy( &((*this_).txt_writer) );
 
     io_txt_icon_destroy( &((*this_).txt_icon) );
-    document_link_provider_destroy( &((*this_).link_provider) );
     data_rules_destroy( &((*this_).data_rules) );
     json_type_name_map_destroy( &((*this_).type_map) );
 
@@ -799,18 +833,9 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const char *const classifier_type_name
         = json_type_name_map_get_classifier_type( &((*this_).type_map),
-                                                  host_type,
                                                   data_classifier_get_main_type( classifier_ptr )
                                                 );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier_ptr );
-    data_diagram_t (*appears_in_diagrams)[];
-    uint32_t appears_in_diagrams_count;
-    const u8_error_t appears_in_diagrams_err
-        = document_link_provider_get_occurrences( &((*this_).link_provider),
-                                                  classifier_id,
-                                                  &appears_in_diagrams,
-                                                  &appears_in_diagrams_count
-                                                );
 
     switch ( (*this_).export_type )
     {
@@ -834,35 +859,10 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= io_xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
-
-            if (( U8_ERROR_NONE == appears_in_diagrams_err )
-               ||( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err ))
+            /* unconditional: Every classifier shoud be contained in at least 1 diagram */
             {
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_START );
-                bool is_first = true;
-                for ( uint_fast32_t idx = 0; idx < appears_in_diagrams_count; idx ++ )
-                {
-                    const data_diagram_t *const current = &((*appears_in_diagrams)[idx]);
-                    const data_id_t diag_ref_id = data_diagram_get_data_id( current );
-                    if ( is_first )
-                    {
-                        is_first = false;
-                    }
-                    else
-                    {
-                        export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_NEXT );
-                    }
-                    const char *const diag_ref_name = data_diagram_get_name_const( current );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_START );
-                    export_err |= io_xml_writer_write_plain_id( &((*this_).xml_writer), diag_ref_id );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_MIDDLE );
-                    export_err |= io_xml_writer_write_xml_enc( &((*this_).xml_writer), diag_ref_name );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_END );
-                }
-                if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err )
-                {
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_MORE );
-                }
+                export_err |= document_link_provider_write_occurrences( &((*this_).link_provider), classifier_id );
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_END );
             }
 
@@ -883,37 +883,12 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
 
         case IO_FILE_FORMAT_HTML:
         {
-            if (( U8_ERROR_NONE == appears_in_diagrams_err )
-               ||( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err ))
+            /* unconditional: Every classifier shoud be contained in at least 1 diagram */
             {
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_START );
-                bool is_first = true;
-                for ( uint_fast32_t idx = 0; idx < appears_in_diagrams_count; idx ++ )
-                {
-                    const data_diagram_t *const current = &((*appears_in_diagrams)[idx]);
-                    const data_id_t diag_ref_id = data_diagram_get_data_id( current );
-                    if ( is_first )
-                    {
-                        is_first = false;
-                    }
-                    else
-                    {
-                        export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_NEXT );
-                    }
-                    const char *const diag_ref_name = data_diagram_get_name_const( current );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_START );
-                    export_err |= io_xml_writer_write_plain_id( &((*this_).xml_writer), diag_ref_id );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_MIDDLE );
-                    export_err |= io_xml_writer_write_xml_enc( &((*this_).xml_writer), diag_ref_name );
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_END );
-                }
-                if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err )
-                {
-                    export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_MORE );
-                }
+                export_err |= document_link_provider_write_occurrences( &((*this_).link_provider), classifier_id );
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_END );
             }
-
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_HEAD_START );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_START );
             export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
@@ -947,15 +922,18 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), classifier_name );
             const utf8stringview_t classifier_name_view = UTF8STRINGVIEW_STR( classifier_name );
             const size_t clas_codepoint = utf8stringview_count_codepoints( &classifier_name_view );
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         TXT_ID_INDENT_COLUMN - clas_codepoint,
-                                                         classifier_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          TXT_ID_ALIGN_COLUMN - clas_codepoint,
+                                                          classifier_id
+                                                        );
+            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
+            export_err |= io_txt_writer_fill (  &((*this_).txt_writer), TXT_CLAS_UNDERLINE, clas_codepoint );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
-                                                                       TXT_SINGLE_INDENT,
+                                                                       TXT_NO_INDENT,
                                                                        classifier_descr
                                                                      );
+            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
         }
         break;
 
@@ -1059,13 +1037,9 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
     const char *const feature_descr = data_feature_get_description_const( feature_ptr );
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
-    const data_classifier_type_t parent_type = data_classifier_get_main_type( parent );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const char *const feature_type_name
-        = json_type_name_map_get_feature_type( &((*this_).type_map),
-                                               parent_type,
-                                               feature_type
-                                             );
+        = json_type_name_map_get_feature_type( &((*this_).type_map), feature_type );
     const bool has_stereotype = data_rules_feature_value_is_stereotype( &((*this_).data_rules), feature_type );
 
     switch ( (*this_).export_type )
@@ -1153,7 +1127,7 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
 
         case IO_FILE_FORMAT_TXT:
         {
-            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE_INDENT );
+            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_FEAT_INDENT );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), feature_key );
             if ( 0 != feature_value_len )
             {
@@ -1165,15 +1139,15 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
             const utf8stringview_t feature_value_view = UTF8STRINGVIEW_STR( feature_value );
             const size_t feat_key_codepoint = utf8stringview_count_codepoints( &feature_key_view );
             const size_t feat_value_codepoint = utf8stringview_count_codepoints( &feature_value_view );
-            int id_indent_width = TXT_ID_INDENT_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - feat_key_codepoint
+            int id_indent_width = TXT_ID_ALIGN_COLUMN - utf8string_get_length(TXT_FEAT_INDENT) - feat_key_codepoint
                 - ((feature_value_len==0)?0:(feat_value_codepoint+utf8string_get_length(TXT_COLON_SPACE)));
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         id_indent_width,
-                                                         feature_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          id_indent_width,
+                                                          feature_id
+                                                        );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
-                                                                       TXT_DOUBLE_INDENT,
+                                                                       TXT_CONTINUE_INDENT,
                                                                        feature_descr
                                                                      );
         }
@@ -1273,22 +1247,8 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         = (NULL != to_c)
         ? data_classifier_get_name_const( to_c )
         : "";
-    const bool from_c_valid = ( from_c == NULL ) ? false : data_classifier_is_valid( from_c );
-    const bool to_c_valid = ( to_c == NULL ) ? false : data_classifier_is_valid( to_c );
-    const bool statemachine_context
-        = (from_c_valid
-        && ((data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_STATE)
-        || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
-        || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)))
-        || (to_c_valid
-        && (( data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_STATE)
-        || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
-        || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)));
     const char *const relation_type_name
-        = json_type_name_map_get_relationship_type( &((*this_).type_map),
-                                                    statemachine_context,
-                                                    relation_type
-                                                  );
+        = json_type_name_map_get_relationship_type( &((*this_).type_map), relation_type );
     const char*const relation_txticon = io_txt_icon_get_relationship ( &((*this_).txt_icon), relation_type );
 
     const char *const relation_stereotype = data_relationship_get_stereotype_const( relation_ptr );
@@ -1379,7 +1339,7 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
 
         case IO_FILE_FORMAT_TXT:
         {
-            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE_INDENT );
+            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_REL_INDENT );
 
             size_t relation_name_len = utf8string_get_length(relation_name);
             /* print arrow */
@@ -1388,7 +1348,9 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
                 export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), relation_name );
                 export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE );
             }
+            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_CODE_START );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), relation_txticon );
+            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_CODE_END );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE );
 
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), dest_classifier_name );
@@ -1401,20 +1363,22 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             const size_t rel_icon_codepoint = utf8stringview_count_codepoints( &relation_txticon_view );
             const size_t rel_dest_codepoint = utf8stringview_count_codepoints( &dest_classifier_name_view );
             int id_indent_width
-                = TXT_ID_INDENT_COLUMN
-                - utf8string_get_length(TXT_SPACE_INDENT)
+                = TXT_ID_ALIGN_COLUMN
+                - utf8string_get_length(TXT_REL_INDENT)
                 - ((relation_name_len==0)?0:(rel_name_codepoint+utf8string_get_length(TXT_SPACE)))
+                - utf8string_get_length(TXT_CODE_START)
                 - rel_icon_codepoint
+                - utf8string_get_length(TXT_CODE_END)
                 - utf8string_get_length(TXT_SPACE)
                 - rel_dest_codepoint;
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         id_indent_width,
-                                                         relation_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          id_indent_width,
+                                                          relation_id
+                                                        );
 
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
-                                                                       TXT_DOUBLE_INDENT,
+                                                                       TXT_CONTINUE_INDENT,
                                                                        relation_descr
                                                                      );
         }
@@ -1637,13 +1601,15 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), diag_name );
             const utf8stringview_t diag_name_view = UTF8STRINGVIEW_STR( diag_name );
             const size_t diag_name_codepoint = utf8stringview_count_codepoints( &diag_name_view );
-            export_err |= io_txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                         TXT_ID_INDENT_COLUMN - diag_name_codepoint,
-                                                         diag_id
-                                                       );
+            export_err |= io_txt_writer_write_aligned_id( &((*this_).txt_writer),
+                                                          TXT_ID_ALIGN_COLUMN - diag_name_codepoint,
+                                                          diag_id
+                                                        );
+            export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
+            export_err |= io_txt_writer_fill (  &((*this_).txt_writer), TXT_DIAG_UNDERLINE, diag_name_codepoint );
             export_err |= io_txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= io_txt_writer_write_indent_multiline_string( &((*this_).txt_writer),
-                                                                       TXT_SINGLE_INDENT,
+                                                                       TXT_NO_INDENT,
                                                                        diag_description
                                                                      );
         }

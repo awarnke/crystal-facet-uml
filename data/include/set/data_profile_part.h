@@ -26,7 +26,8 @@
  */
 enum data_profile_part_max_enum {
     DATA_PROFILE_PART_MAX_STEREOTYPES = 48,  /*!< maximum number of stereotypes to be used in one single diagram. */
-                                             /*!< Note that a single profile diagram may contain all custom stereotypes. */
+                                             /*!< Note that a single profile diagram may contain all custom stereotypes, */
+                                             /*!< therefore 48 is a size that may be suitable. */
 };
 
 /*!

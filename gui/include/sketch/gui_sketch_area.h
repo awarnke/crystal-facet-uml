@@ -20,6 +20,7 @@
 #include "layout/layout_subelement_id.h"
 #include "gui_toolbox.h"
 #include "gui_marked_set.h"
+#include "gui_search_runner.h"
 #include "gui_resources.h"
 #include "gui_simple_message_to_user.h"
 #include "shape/shape_int_rectangle.h"
@@ -34,7 +35,7 @@
 #include "set/data_search_result_list.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -57,6 +58,7 @@ struct gui_sketch_area_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_resources_t *resources;  /*!< pointer to external resources */
     gui_toolbox_t *toolbox;  /*!< pointer to external tool box */
+    gui_search_runner_t *search_runner;  /*!< pointer to external search runner */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
     gui_marked_set_t *marker;  /*!< pointer to external marker */
     GtkWidget *drawing_area;  /*!< pointer to the gtk drawing area, used as origin for selected-object-changed signals */
@@ -90,6 +92,7 @@ typedef struct gui_sketch_area_struct gui_sketch_area_t;
  *  \param drawing_area pointer to the gtk drawing area, used as origin for selected-object-changed signals. Ownership remains at caller.
  *  \param marker pointer to an object which references all focused, highlichted and selected ojects
  *  \param toolbox pointer to an object which represents the tool buttons
+ *  \param search_runner pointer to external search runner; it is ok if this is not initialized at init-time but shortly-after.
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param resources pointer to a resource provider
  *  \param controller pointer to a controller object which can modify the database
@@ -99,6 +102,7 @@ void gui_sketch_area_init ( gui_sketch_area_t *this_,
                             GtkWidget *drawing_area,
                             gui_marked_set_t *marker,
                             gui_toolbox_t *toolbox,
+                            gui_search_runner_t *search_runner,
                             gui_simple_message_to_user_t *message_to_user,
                             gui_resources_t *resources,
                             ctrl_controller_t *controller,
@@ -116,9 +120,9 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
  *  \brief shows the list of search results
  *
  *  \param this_ pointer to own object attributes
- *  \param result_list list of search results including their diagram ids to be displayed
+ *  \param search_runner the search_runner from which to fetch the search results to be displayed
  */
-void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list );
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_runner_t *search_runner );
 
 /*!
  *  \brief loads the cards, nav_tree and result_list data to be shown

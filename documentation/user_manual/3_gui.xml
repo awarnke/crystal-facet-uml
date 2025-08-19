@@ -27,6 +27,9 @@
     <section>
         <title>Tool Bar</title>
         <para>
+            The top row of a window provides buttons to select files, change the view and modify model elements.
+        </para>
+        <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_1.svg" width="4cm"/></imageobject>
             </mediaobject>
@@ -347,7 +350,7 @@
 
         </section>
         <section>
-            <title>Highlight</title>
+            <title>Mark</title>
             <para>
 
                 <inlinemediaobject>
@@ -400,15 +403,20 @@
     <section>
         <title>Drawing Area</title>
         <para>
-
+            The center area of a window allows to view and change diagrams and model elements.
+        </para>
+        <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_2.svg" width="4cm"/></imageobject>
             </mediaobject>
 
             Diagrams are layouted automatically. You can influence the locations of classifiers only.
-            When adding too many classifiers or relations, auto layouting may not achieve the expected results.
+        </para>
+        <para>
+            When adding too many classifiers or relationships, auto layouting may not achieve the expected results.
             In many cases, splitting the diagram into two or more diagrams solves the layouting issues and
             at the same time improves understandability by focusing on one aspect/topic per diagram.
+            For examples, see <xref linkend="decoupling_mechanisms"/>.
         </para>
 
         <section id="draw_search">
@@ -432,19 +440,12 @@
                             to find diagrams containing elements without description.
                         </para>
                     </listitem>
-                </itemizedlist>
-            </para>
-            <para>
-
-                <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/search_search.svg" width="1cm"/></imageobject>
-                </inlinemediaobject>
-                <itemizedlist>
-                    <listitem><para>Starts a search and displays the results</para></listitem>
                     <listitem>
                         <para>
-                            In case the list of search results is too long, consider to export the model
-                            and search in the generated output instead.
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/search_search.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
+                            Start a search to displays the results.
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -477,6 +478,9 @@
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_move_v.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To restructure the diagram tree, drag a diagram name to the new location.
                         </para>
                     </listitem>
@@ -512,6 +516,9 @@
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_move_2d.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.
                         </para>
                         <para>
@@ -535,34 +542,39 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/view_create.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
 
-                <orderedlist>
+                <itemizedlist>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_create.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To create a classifier, click at an empty space in the diagram.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            To create a child classifier, click into the white space of a classifier.
-                            (Alternatively, create a classifier (see 1) and a containment relationship (see 4).)
+                            To create a child classifier, click into the white space of the parent classifier.
+                            (Alternatively, create a classifier and a containment relationship.)
                         </para>
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_refine.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To create a feature, click onto a classifier border (not on the classifier name).
                         </para>
                     </listitem>
                     <listitem>
                         <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/sketch_relate.svg" width="1cm"/></imageobject>
+                            </inlinemediaobject>
                             To create a relationship, press on the source classifier or feature
                             and drag it to the destination classifier or feature.
                         </para>
                     </listitem>
-                </orderedlist>
-
-                <mediaobject>
-                    <imageobject><imagedata fileref="3_main_window_sketch_2_create.svg" width="10cm"/></imageobject>
-                </mediaobject>
+                </itemizedlist>
 
                 To modify existing elements, switch back to edit mode: <xref linkend="draw_edit"/>.
             </para>
@@ -571,6 +583,9 @@
     </section>
     <section>
         <title>Element Configuration Area</title>
+        <para>
+            The right side of a window shows the properties of the focused model element.
+        </para>
         <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_3.svg" width="4cm"/></imageobject>
@@ -613,7 +628,9 @@
     <section>
         <title>Notification Bar</title>
         <para>
-
+            The bottom row of a window, if shown, displays the result of the last user interaction.
+        </para>
+        <para>
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_4.svg" width="4cm"/></imageobject>
             </mediaobject>

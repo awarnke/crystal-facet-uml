@@ -11,10 +11,14 @@
  */
 
 #include "entity/data_diagram.h"
+#include "entity/data_diagram_type.h"
 #include "entity/data_diagramelement.h"
 #include "entity/data_classifier.h"
+#include "entity/data_classifier_type.h"
 #include "entity/data_feature.h"
+#include "entity/data_feature_type.h"
 #include "entity/data_relationship.h"
+#include "entity/data_relationship_type.h"
 #include "entity/data_diagramelement_flag.h"
 #include "entity/data_diagram_flag.h"
 
@@ -22,7 +26,12 @@
  *  \brief attributes of the json_type_name_map
  */
 struct json_type_name_map_struct {
-    int dummy;  /*!< a dummy value */
+    const char * classifier_types[ DATA_CLASSIFIER_TYPE_COUNT + 1 ]; /* list of type names, NULL terminated. */
+    const char * feature_types[ DATA_FEATURE_TYPE_COUNT + 1 ]; /* list of type names, NULL terminated. */
+    const char * relationship_types[ DATA_RELATIONSHIP_TYPE_COUNT + 1 ]; /* list of type names, NULL terminated. */
+    const char * diagram_types[ DATA_DIAGRAM_TYPE_COUNT + 1 ]; /* list of type names, NULL terminated. */
+    const char * diagram_tags[4]; /* list of type names, NULL terminated. */
+    const char * diagramelement_tags[10]; /* list of type names, NULL terminated. */
 };
 
 typedef struct json_type_name_map_struct json_type_name_map_t;
@@ -32,55 +41,71 @@ typedef struct json_type_name_map_struct json_type_name_map_t;
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void json_type_name_map_init( json_type_name_map_t *this_ );
+void json_type_name_map_init( json_type_name_map_t *this_ );
 
 /*!
  *  \brief destroys the json_type_name_map
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void json_type_name_map_destroy( json_type_name_map_t *this_ );
+void json_type_name_map_destroy( json_type_name_map_t *this_ );
 
 /*!
  *  \brief gets the type name of the data_classifier_type_t id.
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type for some classifiers, the result depends on the used context,
- *                     therefore the parent type is needed to select the xmi_element_info_t
  *  \param classifier_type id for which to select the name
  *  \return type name of classifier_type id; empty string if the id is unknown
  */
-static inline const char * json_type_name_map_get_classifier_type ( const json_type_name_map_t *this_,
-                                                                    data_classifier_type_t parent_type,
-                                                                    data_classifier_type_t classifier_type
-                                                                  );
+const char * json_type_name_map_get_classifier_type ( const json_type_name_map_t *this_,
+                                                      data_classifier_type_t classifier_type
+                                                    );
+
+/*!
+ *  \brief gets the list of all possible classifier type names.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return list of type names, NULL terminated.
+ */
+const char *const * json_type_name_map_get_classifier_types_list ( const json_type_name_map_t *this_ );
 
 /*!
  *  \brief gets the type name of the data_feature_type_t id.
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type data_classifier_type_t of the parent of which the feature type shall be determined
  *  \param feature_type id for which to select the name
  *  \return type name of feature_type id; empty string if the id is unknown
  */
-static inline const char * json_type_name_map_get_feature_type ( const json_type_name_map_t *this_,
-                                                                 data_classifier_type_t parent_type,
-                                                                 data_feature_type_t feature_type
-                                                               );
+const char * json_type_name_map_get_feature_type ( const json_type_name_map_t *this_,
+                                                   data_feature_type_t feature_type
+                                                 );
+
+/*!
+ *  \brief gets the list of all possible feature type names.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return list of type names, NULL terminated.
+ */
+const char *const * json_type_name_map_get_feature_types_list ( const json_type_name_map_t *this_ );
 
 /*!
  *  \brief gets the type name of the data_relationship_type_t id.
  *
  *  \param this_ pointer to own object attributes
- *  \param statemachine_context for some relationships, the result depends on the used context,
- *                              e.g. transition in statemachine or control flow in activities
  *  \param rel_type id for which to select the name
  *  \return type name of rel_type id; empty string if the id is unknown
  */
-static inline const char * json_type_name_map_get_relationship_type ( const json_type_name_map_t *this_,
-                                                                      bool statemachine_context,
-                                                                      data_relationship_type_t rel_type
-                                                                    );
+const char * json_type_name_map_get_relationship_type ( const json_type_name_map_t *this_,
+                                                        data_relationship_type_t rel_type
+                                                      );
+
+/*!
+ *  \brief gets the list of all possible relationship type names.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return list of type names, NULL terminated.
+ */
+const char *const * json_type_name_map_get_relationship_types_list ( const json_type_name_map_t *this_ );
 
 /*!
  *  \brief gets the type name of the data_diagram_type_t id.
@@ -89,9 +114,17 @@ static inline const char * json_type_name_map_get_relationship_type ( const json
  *  \param diagram_type id for which to select the name
  *  \return type name of diagram_type id; empty string if the id is unknown
  */
-static inline const char * json_type_name_map_get_diagram_type ( const json_type_name_map_t *this_,
-                                                                 data_diagram_type_t diagram_type
-                                                               );
+const char * json_type_name_map_get_diagram_type ( const json_type_name_map_t *this_,
+                                                   data_diagram_type_t diagram_type
+                                                 );
+
+/*!
+ *  \brief gets the list of all possible diagram type names.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return list of type names, NULL terminated.
+ */
+const char *const * json_type_name_map_get_diagram_types_list ( const json_type_name_map_t *this_ );
 
 /*!
  *  \brief gets the tag name of the data_diagram_flag_t.
@@ -100,9 +133,17 @@ static inline const char * json_type_name_map_get_diagram_type ( const json_type
  *  \param diagram_flag flags for which to select the name
  *  \return tag names of diagram_flag id; empty string if the id is unknown
  */
-static inline const char * json_type_name_map_get_diagram_tags ( const json_type_name_map_t *this_,
-                                                                 data_diagram_flag_t diagram_flag
-                                                               );
+const char * json_type_name_map_get_diagram_tags ( const json_type_name_map_t *this_,
+                                                   data_diagram_flag_t diagram_flag
+                                                 );
+
+/*!
+ *  \brief gets the list of all possible diagram flag names.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return list of type names, NULL terminated.
+ */
+const char *const * json_type_name_map_get_diagram_tags_list ( const json_type_name_map_t *this_ );
 
 /*!
  *  \brief gets the tag name of the data_diagramelement_flag_t.
@@ -111,11 +152,16 @@ static inline const char * json_type_name_map_get_diagram_tags ( const json_type
  *  \param diagramelement_flag flags for which to select the name
  *  \return tag names of diagramelement_flag id; empty string if the id is unknown
  */
-static inline const char * json_type_name_map_get_diagramelement_tags ( const json_type_name_map_t *this_,
-                                                                        data_diagramelement_flag_t diagramelement_flag
-                                                                      );
-
-#include "json_type_name_map.inl"
+const char * json_type_name_map_get_diagramelement_tags ( const json_type_name_map_t *this_,
+                                                          data_diagramelement_flag_t diagramelement_flag
+                                                        );
+/*!
+ *  \brief gets the list of all possible diagramelement flag names.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return tag names of diagramelement_flag id; empty string if the id is unknown
+ */
+const char *const * json_type_name_map_get_diagramelement_tags_list ( const json_type_name_map_t *this_ );
 
 #endif  /* JSON_TYPE_NAME_MAP_H */
 

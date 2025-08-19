@@ -17,6 +17,18 @@
         <para>
             To repair the database, use the <command>-r</command> option.
         </para>
+        <para>
+            To merge two model files, use the <command>-i</command> option.
+        </para>
+        <para>
+            <command>crystal-facet-uml -i my_database_file_1.cfu1 add my_database_file_2.cfu1"</command>
+        </para>
+        <para>
+            To export a model, use the <command>-e</command> option.
+        </para>
+        <para>
+            <command>crystal-facet-uml -e my_database_file.cfu1 html output_directory"</command>
+        </para>
     </section>
     <section><title>Storing data in a version control system</title>
         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="6_command_line_example_para.xml" />

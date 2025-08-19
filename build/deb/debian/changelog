@@ -1,3 +1,93 @@
+crystal-facet-uml (1.65.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * in search results, no empty page after the last page
+  * in search results, performance optimized by not reading database records
+    when the result buffer is already full
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 12 Aug 2025 06:00:00 +0200
+
+crystal-facet-uml (1.65.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * No compiler warnings on no-overlength-strings, except test code
+  * page up/down buttons in search results
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 08 Aug 2025 08:00:00 +0200
+
+crystal-facet-uml (1.64.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * When clicking, an arrow is shown to indicate that dragging is possible
+  * when dragging or creating, the grid indicator is a solid line when snapped
+  * when dragging or creating, crosslines at grid crossings are removed
+  * new type icons for relationships and some classifiers and features
+  * The line iterator breaks lines at ideographic space, comma and full stop
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 21 Jun 2025 08:00:00 +0200
+
+crystal-facet-uml (1.64.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * fix for test case testMultiByteUseCase on x86 systems
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 07 Jun 2025 14:00:00 +0200
+
+crystal-facet-uml (1.64.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * mouse cursor indicates options for creating objects with nicer icons
+  * the plain txt export performs linebreaks at 80 chars
+    and omits empty descriptions
+  * the plain txt export uses markdown headings, code, lists
+  * the json storage and export files add linebreaks at 80 chars of contents
+  * exported json schema shows enum values of display_tags and element types
+  * exported json and html show simplified element type names
+  * in json export, enums are written as string and int value in the same line
+  * json format changed to version 1.2, this is downwards compatible
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 07 Jun 2025 08:00:00 +0200
+
+crystal-facet-uml (1.63.3-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Improved navigation in html export
+  * All linebreaks are transformed to html and doxygen exports
+  * removed limitation on maximum 10 appearance-links in html export
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 04 May 2025 10:30:00 +0200
+
+crystal-facet-uml (1.63.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * relationships to contained elements start from inner border, not outside
+  * too short relationships are weighted by additional dept
+    layout_good_cases        ERR=0,  W/C=8,    W/F=1,   W/L=25,   W/R=61
+    layout_challenging_cases ERR=39, W/C=9751, W/F=503, W/L=6720, W/R=7636
+  * exported cross-references D0001#id work even if many characters follow
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 01 May 2025 11:00:00 +0200
+
+crystal-facet-uml (1.63.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * in sequence charts, labels of relationships are closer to the x-center
+  * relationships may trespass parents/ancestors of their from/to nodes
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 22 Mar 2025 08:00:00 +0100
+
+crystal-facet-uml (1.63.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * scripts added to build for Windows(TM) using msys2
+  * no fancy names for new objects, only New Diagram, New Element, New Feature
+  * snapping distance increased for snapping classifiers to grid
+  * layouting of relationship labels consider the surrouding space
+    layout_good_cases         ERR=0,  W/C=8,    W/F=1,   W/L=25,   W/R=79
+    layout_challenging_cases  ERR=44, W/C=9751, W/F=509, W/L=6720, W/R=7777
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 08 Mar 2025 18:30:00 +0100
+
 crystal-facet-uml (1.62.3-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

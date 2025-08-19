@@ -4,6 +4,14 @@
 #include "u8/u8_log.h"
 #include <assert.h>
 
+static inline geometry_3dir_t geometry_3dir_new ( geometry_direction_t first,
+                                                  geometry_direction_t second,
+                                                  geometry_direction_t third )
+{
+    const geometry_3dir_t result = { .first = first, .second = second, .third = third };
+    return result;
+}
+
 static inline bool geometry_3dir_equals ( const geometry_3dir_t *this_, const geometry_3dir_t *that )
 {
     const bool result

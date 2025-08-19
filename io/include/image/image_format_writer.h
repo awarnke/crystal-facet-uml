@@ -16,7 +16,7 @@
 #include "set/data_stat.h"
 #include "geometry/geometry_rectangle.h"
 #include "u8/u8_error.h"
-#include <gtk/gtk.h>
+#include "io_gtk.h"
 
 /*!
  *  \brief attributes of the diagram image file exporter

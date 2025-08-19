@@ -127,7 +127,7 @@ static inline data_row_t layout_relationship_get_relationship_id ( const layout_
     return data_relationship_get_row_id( (*this_).data );
 }
 
-static inline const geometry_rectangle_t *layout_relationship_get_from_symbol_box_const ( const layout_relationship_t *this_ )
+static inline const geometry_rectangle_t *layout_relationship_get_from_box_const ( const layout_relationship_t *this_ )
 {
     const geometry_rectangle_t *result;
 
@@ -137,13 +137,24 @@ static inline const geometry_rectangle_t *layout_relationship_get_from_symbol_bo
     }
     else
     {
-        result = layout_visible_classifier_get_symbol_box_const( (*this_).from_classifier );
+        const geometry_rectangle_t *from_symbol = layout_visible_classifier_get_symbol_box_const( (*this_).from_classifier );
+        const geometry_rectangle_t *from_space = layout_visible_classifier_get_space_const( (*this_).from_classifier );
+        const geometry_rectangle_t *to_symbol = layout_visible_classifier_get_symbol_box_const( (*this_).to_classifier );
+        if( geometry_rectangle_is_containing( from_space, to_symbol ) )
+        {
+            /* special case: if from classifier contains to classifier, take the space box as source */
+            result = from_space;
+        }
+        else
+        {
+            result = from_symbol;
+        }
     }
 
     return result;
 }
 
-static inline const geometry_rectangle_t *layout_relationship_get_to_symbol_box_const ( const layout_relationship_t *this_ )
+static inline const geometry_rectangle_t *layout_relationship_get_to_box_const ( const layout_relationship_t *this_ )
 {
     const geometry_rectangle_t *result;
 
@@ -153,7 +164,18 @@ static inline const geometry_rectangle_t *layout_relationship_get_to_symbol_box_
     }
     else
     {
-        result = layout_visible_classifier_get_symbol_box_const( (*this_).to_classifier );
+        const geometry_rectangle_t *to_symbol = layout_visible_classifier_get_symbol_box_const( (*this_).to_classifier );
+        const geometry_rectangle_t *to_space = layout_visible_classifier_get_space_const( (*this_).to_classifier );
+        const geometry_rectangle_t *from_symbol = layout_visible_classifier_get_symbol_box_const( (*this_).from_classifier );
+        if( geometry_rectangle_is_containing( to_space, from_symbol ) )
+        {
+            /* special case: if to classifier contains from classifier, take the space box as destination */
+            result = to_space;
+        }
+        else
+        {
+            result = to_symbol;
+        }
     }
 
     return result;

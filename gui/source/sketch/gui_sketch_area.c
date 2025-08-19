@@ -9,8 +9,8 @@
 #include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
+#include "gui_gdk.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -18,6 +18,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
                            GtkWidget *drawing_area,
                            gui_marked_set_t *marker,
                            gui_toolbox_t *toolbox,
+                           gui_search_runner_t *search_runner,
                            gui_simple_message_to_user_t *message_to_user,
                            gui_resources_t *resources,
                            ctrl_controller_t *controller,
@@ -27,6 +28,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     assert( NULL != drawing_area );
     assert( NULL != marker );
     assert( NULL != toolbox );
+    assert( NULL != search_runner );
     assert( NULL != message_to_user );
     assert( NULL != resources );
     assert( NULL != controller );
@@ -35,6 +37,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     /* init pointers to external objects */
     (*this_).drawing_area = drawing_area;
     (*this_).toolbox = toolbox;
+    (*this_).search_runner = search_runner;
     (*this_).message_to_user = message_to_user;
     (*this_).resources = resources;
     (*this_).db_reader = db_reader;
@@ -50,7 +53,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     gui_sketch_nav_tree_init( &((*this_).nav_tree), resources, &((*this_).texture_downloader) );
     gui_sketch_result_list_init( &((*this_).result_list), resources, &((*this_).texture_downloader) );
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
-    gui_sketch_card_painter_init( &((*this_).card_overlay) );
+    gui_sketch_card_painter_init( &((*this_).card_overlay), resources, &((*this_).texture_downloader) );
     gui_sketch_background_init( &((*this_).background), resources, &((*this_).texture_downloader) );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
 
@@ -119,6 +122,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     /* unset pointers to external objects */
     (*this_).drawing_area = NULL;
     (*this_).marker = NULL;
+    (*this_).search_runner = NULL;
     (*this_).toolbox = NULL;
     (*this_).message_to_user = NULL;
     (*this_).resources = NULL;
@@ -128,31 +132,66 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list )
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, gui_search_runner_t *search_runner )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != result_list );
+    assert( NULL != search_runner );
 
+    const pos_scroll_page_t *const requested_page = gui_search_runner_get_page_request( search_runner );
+    const data_search_result_list_t *const result_list = gui_search_runner_get_result_list( search_runner );
+    const uint32_t result_buffer_start = gui_search_runner_get_result_buffer_start( search_runner );
+    const bool result_buffer_more_after = gui_search_runner_get_result_buffer_more_after( search_runner );
     data_search_result_list_trace(result_list);
+    const uint_fast32_t result_buffer_length = data_search_result_list_get_length( result_list );
+
+    /* do not fully trust the consistency between requested_page and result_list. */
+    /* These information come from different sources. */
+    pos_scroll_page_trace( requested_page );
+    const int_fast32_t requested_anchor_idx = pos_scroll_page_get_anchor_index( requested_page );
+    const bool valid_anchor
+        = (( result_buffer_start <= requested_anchor_idx )&&( requested_anchor_idx < ( result_buffer_start + result_buffer_length )));
+    assert( valid_anchor || ( result_buffer_length == 0 ) );
+    const int_fast32_t anchor_idx = valid_anchor ? requested_anchor_idx : result_buffer_start;
+    const bool requested_backwards = pos_scroll_page_get_backwards( requested_page );
+    const bool backwards = valid_anchor ? requested_backwards : false;
 
     /* copy non-duplicate diagram ids to request list */
     data_small_set_t* requested_diagrams = gui_sketch_request_get_search_result_diagrams_ptr( &((*this_).request) );
     data_small_set_clear( requested_diagrams );
     unsigned int dropped_duplicates = 0;
     unsigned int dropped_too_many = 0;
-    const uint_fast32_t d_count = data_search_result_list_get_length( result_list );
-    for ( uint_fast32_t index = 0; index < d_count; index ++ )
+    if ( backwards )
     {
-        const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
-        const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
-        const u8_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
-        if ( d_err == U8_ERROR_DUPLICATE_ID )
+        for ( int32_t buffer_idx = anchor_idx - result_buffer_start; buffer_idx >= 0; buffer_idx -- )
         {
-            dropped_duplicates ++;
+            const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, buffer_idx );
+            const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
+            const u8_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
+            if ( d_err == U8_ERROR_DUPLICATE_ID )
+            {
+                dropped_duplicates ++;
+            }
+            else if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
+            {
+                dropped_too_many ++;
+            }
         }
-        else if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
+    }
+    else
+    {
+        for ( uint32_t buffer_idx = 0; buffer_idx < result_buffer_length; buffer_idx ++ )
         {
-            dropped_too_many ++;
+            const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, buffer_idx );
+            const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
+            const u8_error_t d_err = data_small_set_add_obj( requested_diagrams, diag_id );
+            if ( d_err == U8_ERROR_DUPLICATE_ID )
+            {
+                dropped_duplicates ++;
+            }
+            else if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
+            {
+                dropped_too_many ++;
+            }
         }
     }
     if ( (dropped_duplicates + dropped_too_many) > 0 )
@@ -164,7 +203,13 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
     gui_sketch_area_private_load_cards_data ( this_ );
 
     /* load new data in subwidgets */
-    gui_sketch_result_list_load_data( &((*this_).result_list), result_list, (*this_).db_reader );
+    gui_sketch_result_list_load_data( &((*this_).result_list),
+                                      requested_page,
+                                      result_buffer_start,
+                                      result_list,
+                                      result_buffer_more_after,
+                                      (*this_).db_reader
+                                    );
 
     /* notify listener */
     gui_marked_set_clear_focused( (*this_).marker );
@@ -647,6 +692,10 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                 {
                     gui_sketch_nav_tree_get_button_at_pos( &((*this_).nav_tree), x, y, &btn_under_mouse );
                 }
+                else
+                {
+                    gui_sketch_result_list_get_button_at_pos( &((*this_).result_list), x, y, &btn_under_mouse );
+                }
 
                 const data_id_t object_highlighted
                     = gui_marked_set_get_highlighted( (*this_).marker );
@@ -878,6 +927,9 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 data_full_id_t dragged_object;
                 data_full_id_init_solo ( &dragged_object, &clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
+
+                /* if a diagram was clicked (not a button) then redraw to show the hint-to-drag */
+                gtk_widget_queue_draw( (*this_).drawing_area );
             }
             else
             {
@@ -1017,6 +1069,23 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 data_full_id_t dragged_object;
                 data_full_id_init_solo ( &dragged_object, &clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
+            }
+            else
+            {
+                U8_TRACE_INFO("invalid clicked object at gui_sketch_area_button_press_callback");
+
+                gui_sketch_action_t action_button_id;
+                gui_sketch_result_list_get_button_at_pos ( &((*this_).result_list), x, y, &action_button_id );
+                if ( action_button_id == GUI_SKETCH_ACTION_PREVIOUS_PAGE )
+                {
+                    pos_scroll_page_t prev_page = gui_sketch_result_list_get_prev_page( &((*this_).result_list) );
+                    gui_search_runner_rerun( (*this_).search_runner, prev_page );
+                }
+                else if ( action_button_id == GUI_SKETCH_ACTION_NEXT_PAGE )
+                {
+                    pos_scroll_page_t next_page = gui_sketch_result_list_get_next_page( &((*this_).result_list) );
+                    gui_search_runner_rerun( (*this_).search_runner, next_page );
+                }
             }
 
             /* which object is currently focused? */

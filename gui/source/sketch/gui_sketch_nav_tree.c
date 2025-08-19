@@ -5,7 +5,7 @@
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include "u8/u8_i32.h"
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 
 static const int GUI_SKETCH_NAV_TREE_INDENT = 12;
 static const int OBJ_GAP = 3;

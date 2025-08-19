@@ -146,10 +146,31 @@ static inline void geometry_rectangle_init_by_corners ( geometry_rectangle_t *th
  *  \param rect_b rectangle b. Must not be NULL
  *  \return 0 in case of success (always)
  */
-int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
-                                            const geometry_rectangle_t *rect_a,
-                                            const geometry_rectangle_t *rect_b
-                                          );
+int geometry_rectangle_init_by_difference_max ( geometry_rectangle_t *this_,
+                                                const geometry_rectangle_t *rect_a,
+                                                const geometry_rectangle_t *rect_b
+                                              );
+
+/*!
+ *  \brief initializes the geometry_rectangle_t struct by the difference of moon minus shadow.
+ *
+ *  If the difference is not a rectangle, the algorithm chooses the rectange closest to pivot_point.
+ *  If the pivot-point is at the shadow side of the moon, the resulting rectangle may be empty.
+ *
+ *  It is valid to call with identical parameters this_ and/or moon and/or shadow (same pointer).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param moon the full rectangle from which to subtract shadow. Must not be NULL
+ *  \param shadow shadow rectangle which to subtract from the full moon. Must not be NULL
+ *  \param pivot_point point that determines the selection of the result in case the difference is not a rectangle.
+ *                     Must not be NULL
+ *  \return 0 in case of success (always)
+ */
+int geometry_rectangle_init_by_difference_at_pivot ( geometry_rectangle_t *this_,
+                                                     const geometry_rectangle_t *moon,
+                                                     const geometry_rectangle_t *shadow,
+                                                     const geometry_point_t *pivot_point
+                                                   );
 
 /*!
  *  \brief destroys the geometry_rectangle_t struct
@@ -246,6 +267,15 @@ static inline double geometry_rectangle_get_area ( const geometry_rectangle_t *t
  *  \return true if the location is within the rectangle.
  */
 static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *this_, double x, double y );
+
+/*!
+ *  \brief determines if a given point is within geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param point point to check
+ *  \return true if the point is within the rectangle.
+ */
+static inline bool geometry_rectangle_contains_point ( const geometry_rectangle_t *this_, const geometry_point_t *point );
 
 /*!
  *  \brief determines if the given rectangle has a valid (positive) size

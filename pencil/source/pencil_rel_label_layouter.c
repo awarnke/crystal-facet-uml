@@ -1,6 +1,7 @@
 /* File: pencil_rel_label_layouter.c; Copyright and License: see below */
 
 #include "pencil_rel_label_layouter.h"
+#include "layout/layout_relationship_iter.h"
 #include "geometry/geometry_point.h"
 #include "geometry/geometry_direction.h"
 #include "u8/u8_trace.h"
@@ -20,7 +21,7 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
-    pencil_label_layout_helper_init ( &((*this_).label_layout_helper), pencil_size );
+    pencil_floating_label_layouter_init_void( &((*this_).label_floater) );
 
     U8_TRACE_END();
 }
@@ -38,6 +39,7 @@ void pencil_rel_label_layouter_reinit( pencil_rel_label_layouter_t *this_,
     (*this_).layout_data = layout_data;
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
+    pencil_floating_label_layouter_init_void( &((*this_).label_floater) );
 
     U8_TRACE_END();
 }
@@ -46,17 +48,24 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    pencil_label_layout_helper_destroy ( &((*this_).label_layout_helper) );
+    pencil_floating_label_layouter_destroy ( &((*this_).label_floater) );
     draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
 
     U8_TRACE_END();
 }
 
-void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, PangoLayout *font_layout )
+void pencil_rel_label_layouter_do_layout( pencil_rel_label_layouter_t *this_, PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS );
     assert( NULL != font_layout );
+
+    pencil_floating_label_layouter_reinit( &((*this_).label_floater),
+                                           (*this_).layout_data,
+                                           (*this_).profile,
+                                           (*this_).pencil_size,
+                                           font_layout
+                                         );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -65,30 +74,27 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
     pencil_rel_label_layouter_private_propose_processing_order ( this_, &sorted );
 
     /* layout the relationship label-boxes */
-    const uint32_t count_sorted
-        = universal_array_index_sorter_get_count( &sorted );
-    for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
+    layout_relationship_iter_t relationship_iterator;
+    layout_relationship_iter_init( &relationship_iterator, (*this_).layout_data, &sorted );
+    while ( layout_relationship_iter_has_next( &relationship_iterator ) )
     {
         /* determine pointer to relationship */
-        const uint32_t index
-            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-        layout_relationship_t *const current_relation
-            = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const current_relation = layout_relationship_iter_next_ptr( &relationship_iterator );
         geometry_point_t relation_middle = layout_relationship_get_middle ( current_relation );
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 16;
-        geometry_rectangle_t solution[16];
+        static const uint32_t SOLUTIONS_MAX = 10;
+        geometry_rectangle_t solution[10];
 
         /* propose options */
-        pencil_rel_label_layouter_private_propose_solutions ( this_,
-                                                              current_relation,
-                                                              font_layout,
-                                                              SOLUTIONS_MAX,
-                                                              solution,
-                                                              &solutions_count
-                                                            );
+        pencil_rel_label_layouter_private_propose_solutions( this_,
+                                                             current_relation,
+                                                             font_layout,
+                                                             SOLUTIONS_MAX,
+                                                             solution,
+                                                             &solutions_count
+                                                           );
 
         /* select best option */
         uint32_t index_of_best;
@@ -98,26 +104,28 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         }
         else
         {
-            pencil_label_layout_helper_select_solution ( &((*this_).label_layout_helper),
-                                                         (*this_).layout_data,
-                                                         relation_middle,
-                                                         solutions_count,
-                                                         solution,
-                                                         &index_of_best
-                                                       );
+            pencil_floating_label_layouter_select_solution( &((*this_).label_floater),
+                                                            relation_middle,
+                                                            solutions_count,
+                                                            solution,
+                                                            &index_of_best
+                                                          );
         }
 
         /* store best option to (*this_).layout_data */
         layout_relationship_set_label_box( current_relation, &(solution[index_of_best]) );
     }
 
+    layout_relationship_iter_destroy( &relationship_iterator );
     universal_array_index_sorter_destroy( &sorted );
+
+    pencil_floating_label_layouter_reinit_void( &((*this_).label_floater) );
 
     U8_TRACE_END();
 }
 
-void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_label_layouter_t *this_,
-                                                                  universal_array_index_sorter_t *out_sorted )
+void pencil_rel_label_layouter_private_propose_processing_order( pencil_rel_label_layouter_t *this_,
+                                                                 universal_array_index_sorter_t *out_sorted )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_sorted );
@@ -153,12 +161,12 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
     U8_TRACE_END();
 }
 
-void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layouter_t *this_,
-                                                           layout_relationship_t *current_relation,
-                                                           PangoLayout *font_layout,
-                                                           uint32_t solutions_max,
-                                                           geometry_rectangle_t out_solutions[],
-                                                           uint32_t *out_solutions_count)
+void pencil_rel_label_layouter_private_propose_solutions( pencil_rel_label_layouter_t *this_,
+                                                          layout_relationship_t *current_relation,
+                                                          PangoLayout *font_layout,
+                                                          uint32_t solutions_max,
+                                                          geometry_rectangle_t out_solutions[],
+                                                          uint32_t *out_solutions_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != current_relation );
@@ -170,23 +178,21 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
     {
         /* determine label dimensions */
         const geometry_dimensions_t label_dim_proposal = {
-            .width = 15.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
+            .width = 30.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
             .height = pencil_size_get_standard_font_size( (*this_).pencil_size )
         };
-        geometry_dimensions_t label_dim;
+        geometry_dimensions_t preferred_label_dim;
         draw_relationship_label_get_type_and_name_dimensions( &((*this_).draw_relationship_label),
                                                               the_relationship,
                                                               (*this_).profile,
                                                               &label_dim_proposal,
                                                               (*this_).pencil_size,
                                                               font_layout,
-                                                              &label_dim
+                                                              &preferred_label_dim
                                                             );
-        const double text_width = geometry_dimensions_get_width( &label_dim );
-        const double text_height = geometry_dimensions_get_height( &label_dim );
 
         /* get layout data */
-        const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+        const double line_w = 0.5 * pencil_size_get_standard_line_width( (*this_).pencil_size );
         const double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
         /* get connector data */
@@ -207,215 +213,291 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         geometry_point_init ( &main_src, main_line_source_x, main_line_source_y );
         geometry_point_init ( &main_dst, main_line_destination_x, main_line_destination_y );
         geometry_point_init ( &dst_end, destination_end_x, destination_end_y );
-        const geometry_direction_t src_dir = geometry_point_get_direction ( &src_end, &main_src );
-        const geometry_direction_t dst_dir = geometry_point_get_direction ( &main_dst, &dst_end );
-        geometry_rectangle_t main_line_rect;
-        geometry_rectangle_init_by_corners ( &main_line_rect, main_line_source_x, main_line_source_y, main_line_destination_x, main_line_destination_y );
+        const geometry_3dir_t connector_dirs = geometry_connector_get_directions( shape );
+        const geometry_direction_t src_dir = geometry_3dir_get_first ( &connector_dirs );
+        const geometry_direction_t main_dir = geometry_3dir_get_second ( &connector_dirs );
+        const geometry_direction_t dst_dir = geometry_3dir_get_third ( &connector_dirs );
 
         /* propose solutions */
-        assert( solutions_max >= 16 );
+        assert( solutions_max >= 10 );
         uint32_t solution_idx = 0;
 
-        /* there are 0..2 solutions at the src line segment */
+        /* there are 0 or 3 solutions at the src line segment */
         if ( geometry_point_calc_chess_distance( &src_end, &main_src ) > object_dist )
         {
             /* this is a noteworthy line segment */
+            geometry_anchor_t anchor_1;
+            geometry_anchor_t anchor_2;
+            geometry_anchor_t anchor_3;
+            geometry_anchor_t anchor_4;
+
             if ( ( src_dir == GEOMETRY_DIRECTION_UP ) || ( src_dir == GEOMETRY_DIRECTION_DOWN ) )
             {
                 /* right */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         main_line_source_x + gap,
-                                         (source_end_y + main_line_source_y - text_height) / 2.0,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
+                geometry_anchor_init( &anchor_1,
+                                      main_line_source_x + line_w,
+                                      (source_end_y + main_line_source_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
 
                 /* left */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         main_line_source_x - text_width - gap,
-                                         (source_end_y + main_line_source_y - text_height) / 2.0,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
+                geometry_anchor_init( &anchor_2,
+                                      main_line_source_x - line_w,
+                                      (source_end_y + main_line_source_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+                /* at bend to main line */
+                geometry_anchor_init( &anchor_3,
+                                      main_line_source_x,
+                                      main_line_source_y + (( src_dir == GEOMETRY_DIRECTION_UP ) ? (-line_w) : line_w ),
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      ( src_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_BOTTOM : GEOMETRY_V_ALIGN_TOP
+                                    );
+                geometry_anchor_init( &anchor_4,
+                                      main_line_source_x + (( main_dir == GEOMETRY_DIRECTION_LEFT ) ? line_w : (-line_w) ),
+                                      main_line_source_y,
+                                      ( main_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_LEFT : GEOMETRY_H_ALIGN_RIGHT,
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
             }
             else
             {
                 /* down */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         (source_end_x + main_line_source_x - text_width) / 2.0,
-                                         main_line_source_y + gap,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
+                geometry_anchor_init( &anchor_1,
+                                      (source_end_x + main_line_source_x) / 2.0,
+                                      main_line_source_y + line_w,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_TOP  /* the reference point is the top of the label */
+                                    );
 
                 /* up */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         (source_end_x + main_line_source_x - text_width) / 2.0,
-                                         main_line_source_y - text_height - gap,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
-
+                geometry_anchor_init( &anchor_2,
+                                      (source_end_x + main_line_source_x) / 2.0,
+                                      main_line_source_y - line_w,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom of the label */
+                                    );
+                /* at bend to main line */
+                geometry_anchor_init( &anchor_3,
+                                      main_line_source_x + (( src_dir == GEOMETRY_DIRECTION_LEFT ) ? (-line_w) : line_w ),
+                                      main_line_source_y,
+                                      ( src_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_RIGHT : GEOMETRY_H_ALIGN_LEFT,
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+                geometry_anchor_init( &anchor_4,
+                                      main_line_source_x,
+                                      main_line_source_y + (( main_dir == GEOMETRY_DIRECTION_UP ) ? line_w : (-line_w) ),
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      ( main_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_TOP : GEOMETRY_V_ALIGN_BOTTOM
+                                    );
             }
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_1,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
+            solution_idx ++;
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_2,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
+            solution_idx ++;
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_3,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
+            solution_idx ++;
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_4,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
+            solution_idx ++;
         }
 
-        /* there are 4 solutions at the main line segment */
+        /* there are 2 solutions at the main line segment */
         {
-            /* left */
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     geometry_rectangle_get_left(&main_line_rect) - text_width - gap,
-                                     (main_line_source_y + main_line_destination_y - text_height) / 2.0,
-                                     text_width,
-                                     text_height
-                                   );
+            geometry_anchor_t anchor_5;
+            geometry_anchor_t anchor_6;
+
+            if ( ( main_dir == GEOMETRY_DIRECTION_UP ) || ( main_dir == GEOMETRY_DIRECTION_DOWN ) )
+            {
+                geometry_anchor_init( &anchor_5,
+                                      main_line_source_x + line_w,
+                                      (main_line_source_y + main_line_destination_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+                geometry_anchor_init( &anchor_6,
+                                      main_line_source_x - line_w,
+                                      (main_line_source_y + main_line_destination_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+            }
+            else
+            {
+                geometry_anchor_init( &anchor_5,
+                                      (main_line_source_x + main_line_destination_x) / 2.0,
+                                      main_line_source_y + line_w,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_TOP  /* the reference point is the top of the label */
+                                    );
+                geometry_anchor_init( &anchor_6,
+                                      (main_line_source_x + main_line_destination_x) / 2.0,
+                                      main_line_source_y - line_w,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom of the label */
+                                    );
+            }
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_5,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
             solution_idx ++;
 
-            /* right */
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     geometry_rectangle_get_right(&main_line_rect) + gap,
-                                     (main_line_source_y + main_line_destination_y - text_height) / 2.0,
-                                     text_width,
-                                     text_height
-                                   );
-            solution_idx ++;
-
-            /* up */
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     (main_line_source_x + main_line_destination_x - text_width) / 2.0,
-                                     geometry_rectangle_get_top(&main_line_rect) - text_height - gap,
-                                     text_width,
-                                     text_height
-                                   );
-            solution_idx ++;
-
-            /* down */
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     (main_line_source_x + main_line_destination_x - text_width) / 2.0,
-                                     geometry_rectangle_get_bottom(&main_line_rect) + gap,
-                                     text_width,
-                                     text_height
-                                   );
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_6,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
             solution_idx ++;
         }
 
-        /* there are 0..2 solutions at the dst line segment */
+        /* there are 0 or 3 solutions at the dst line segment */
         if ( geometry_point_calc_chess_distance( &main_dst, &dst_end ) > object_dist )
         {
+            geometry_anchor_t anchor_7;
+            geometry_anchor_t anchor_8;
+            geometry_anchor_t anchor_9;
+            geometry_anchor_t anchor_10;
+
             /* this is a noteworthy line segment */
             if ( ( dst_dir == GEOMETRY_DIRECTION_UP ) || ( dst_dir == GEOMETRY_DIRECTION_DOWN ) )
             {
+                /* at bend to main line */
+                geometry_anchor_init( &anchor_7,
+                                      main_line_destination_x + (( main_dir == GEOMETRY_DIRECTION_LEFT ) ? (-line_w) : line_w ),
+                                      main_line_destination_y,
+                                      ( main_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_RIGHT : GEOMETRY_H_ALIGN_LEFT,
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
+                geometry_anchor_init( &anchor_8,
+                                      main_line_destination_x,
+                                      main_line_destination_y + (( dst_dir == GEOMETRY_DIRECTION_UP ) ? line_w : (-line_w) ),
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      ( dst_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_TOP : GEOMETRY_V_ALIGN_BOTTOM
+                                    );
                 /* right */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         main_line_destination_x + gap,
-                                         (destination_end_y + main_line_destination_y - text_height) / 2.0,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
-
+                geometry_anchor_init( &anchor_9,
+                                      main_line_destination_x + line_w,
+                                      (destination_end_y + main_line_destination_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_LEFT,  /* the reference point is the left side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
                 /* left */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         main_line_destination_x - text_width - gap,
-                                         (destination_end_y + main_line_destination_y - text_height) / 2.0,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
+                geometry_anchor_init( &anchor_10,
+                                      main_line_destination_x - line_w,
+                                      (destination_end_y + main_line_destination_y) / 2.0,
+                                      GEOMETRY_H_ALIGN_RIGHT,  /* the reference point is the right side of the label */
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
             }
             else
             {
+                /* at bend to main line */
+                geometry_anchor_init( &anchor_7,
+                                      main_line_destination_x,
+                                      main_line_destination_y + (( main_dir == GEOMETRY_DIRECTION_UP ) ? (-line_w) : line_w ),
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      ( main_dir == GEOMETRY_DIRECTION_UP ) ? GEOMETRY_V_ALIGN_BOTTOM : GEOMETRY_V_ALIGN_TOP
+                                    );
+                geometry_anchor_init( &anchor_8,
+                                      main_line_destination_x + (( dst_dir == GEOMETRY_DIRECTION_LEFT ) ? line_w : (-line_w) ),
+                                      main_line_destination_y,
+                                      ( dst_dir == GEOMETRY_DIRECTION_LEFT ) ? GEOMETRY_H_ALIGN_LEFT : GEOMETRY_H_ALIGN_RIGHT,
+                                      GEOMETRY_V_ALIGN_CENTER
+                                    );
                 /* down */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         (destination_end_x + main_line_destination_x - text_width) / 2.0,
-                                         main_line_destination_y + gap,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
+                geometry_anchor_init( &anchor_9,
+                                      (destination_end_x + main_line_destination_x) / 2.0,
+                                      main_line_destination_y + line_w,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_TOP  /* the reference point is the top of the label */
+                                    );
 
                 /* up */
-                geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                         (destination_end_x + main_line_destination_x - text_width) / 2.0,
-                                         main_line_destination_y - text_height - gap,
-                                         text_width,
-                                         text_height
-                                       );
-                solution_idx ++;
+                geometry_anchor_init( &anchor_10,
+                                      (destination_end_x + main_line_destination_x) / 2.0,
+                                      main_line_destination_y - line_w,
+                                      GEOMETRY_H_ALIGN_CENTER,
+                                      GEOMETRY_V_ALIGN_BOTTOM  /* the reference point is the bottom of the label */
+                                    );
+
             }
-        }
 
-        /* 0..4 at main line source if source end line exists */
-        if ( src_dir != GEOMETRY_DIRECTION_CENTER )
-        {
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_source_x - text_width - gap,
-                                     main_line_source_y - text_height - gap,
-                                     text_width,
-                                     text_height
-                                   );
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_7,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
             solution_idx ++;
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_source_x - text_width - gap,
-                                     main_line_source_y + gap,
-                                     text_width,
-                                     text_height
-                                   );
-            solution_idx ++;
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_source_x + gap,
-                                     main_line_source_y - text_height - gap,
-                                     text_width,
-                                     text_height
-                                   );
-            solution_idx ++;
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_source_x + gap,
-                                     main_line_source_y + gap,
-                                     text_width,
-                                     text_height
-                                   );
-            solution_idx ++;
-        }
 
-        /* 0..4 at main line destination if destination end line exists */
-        if ( dst_dir != GEOMETRY_DIRECTION_CENTER )
-        {
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_destination_x - text_width - gap,
-                                     main_line_destination_y - text_height - gap,
-                                     text_width,
-                                     text_height
-                                   );
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_8,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
             solution_idx ++;
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_destination_x - text_width - gap,
-                                     main_line_destination_y + gap,
-                                     text_width,
-                                     text_height
-                                   );
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_9,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
             solution_idx ++;
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_destination_x + gap,
-                                     main_line_destination_y - text_height - gap,
-                                     text_width,
-                                     text_height
-                                   );
-            solution_idx ++;
-            geometry_rectangle_init( &(out_solutions[solution_idx]),
-                                     main_line_destination_x + gap,
-                                     main_line_destination_y + gap,
-                                     text_width,
-                                     text_height
-                                   );
+
+            pencil_floating_label_layouter_propose_solution_rel( &((*this_).label_floater),
+                                                                 &anchor_10,
+                                                                 &preferred_label_dim,
+                                                                 &((*this_).draw_relationship_label),
+                                                                 the_relationship,
+                                                                 &(out_solutions[solution_idx])
+                                                               );
             solution_idx ++;
         }
 
         assert( solution_idx > 0 );
         assert( solution_idx <= solutions_max );
+        assert(( solution_idx == 2 )||( solution_idx == 6 )||( solution_idx == 10 ));
         *out_solutions_count = solution_idx;
     }
 

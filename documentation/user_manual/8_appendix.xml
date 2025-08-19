@@ -45,6 +45,7 @@ sudo apt install crystal-facet-uml
             <programlisting>
 sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Tumbleweed devel_tools_tumble
 # or sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/15.5 devel_tools_15.5
+# for more repositories see https://download.opensuse.org/repositories/devel:/tools/
 sudo zypper refresh
 sudo zypper install crystal-facet-uml
             </programlisting>

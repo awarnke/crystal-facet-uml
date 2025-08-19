@@ -14,9 +14,9 @@
  *
  */
 enum geometry_h_align_enum {
-    GEOMETRY_H_ALIGN_LEFT,
+    GEOMETRY_H_ALIGN_LEFT,  /*!< align the rectangle left with the left of the reference rect */
     GEOMETRY_H_ALIGN_CENTER,
-    GEOMETRY_H_ALIGN_RIGHT,
+    GEOMETRY_H_ALIGN_RIGHT,  /*!< align the rectangle tight with the right of the reference rect */
 };
 
 typedef enum geometry_h_align_enum geometry_h_align_t;

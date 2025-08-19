@@ -58,7 +58,7 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
         break;
 
         case DATA_CLASSIFIER_TYPE_ACTOR:
-        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_INTERACTION_USE:
         case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
@@ -146,7 +146,7 @@ static inline bool data_rules_classifier_has_scenario_semantics ( const data_rul
         || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
         || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
         && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )));
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )));
     return ( ! lifeline_has_no_semantics);
 }
 

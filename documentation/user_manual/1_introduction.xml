@@ -12,7 +12,7 @@
     </para>
     <para>
         Like a crystal shows different facets of the same thing, this application
-        shows different views of the same system.
+        shows different views of the same system/software.
     </para>
     <para>
         <mediaobject>
@@ -33,12 +33,15 @@
         </para>
         <para>
             <!-- How does the tool solve the task? What is the data flow? Is it interoperable? input/output formats. required Environment? -->
+            These views show selected elements and their relationships.
             crystal-facet-uml keeps element names and element hierarchies consistent.
-            The tool exports diagrams in svg, pdf, ps and png formats
-            to be used in text processing systems like DocBook, html, LaTeX.
-            crystal-facet-uml exports the model to json and xmi format; json can also be imported.
-            The json-based data file can be stored to git, branched and merged together with your source code.
-            This tool runs on your local PC and is based on gtk (incl. glib, gdk, cairo, pango) and sqlite.
+        </para>
+        <para>
+            This tool runs on your local PC.
+            It stores the model data in a json-based file
+            which can be versioned in git, branched and merged together with your source code.
+            crystal-facet-uml exports diagrams in svg, pdf, ps and png formats
+            which can be used in text processing systems like DocBook, html, LaTeX.
         </para>
     </section>
     <section>

@@ -60,7 +60,7 @@ void test_data_evaluation_destroy( test_data_evaluation_t *this_ );
  *  methods that produce the layout - which is not a comparable, objective result.
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to the data that was layouted
+ *  \param input_layout pointer to the data that was layouted
  *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
  *  \param overlap_callback pointer to a function that is called in case of overlaps
  *  \param data pointer that is passed to overlap_callback

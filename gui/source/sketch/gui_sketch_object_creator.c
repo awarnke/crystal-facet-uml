@@ -76,16 +76,12 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
     data_classifier_type_t type_of_new_classifier;
     type_of_new_classifier = gui_sketch_defaults_get_classifier_type( &((*this_).defaults), diag_type );
 
-    /* propose a name */
-    const char *const full_new_name
-        = gui_sketch_object_creator_private_propose_classifier_name( this_, type_of_new_classifier );
-
     /* define classifier */
     const u8_error_t d_err
         = data_classifier_init_new ( &((*this_).private_temp_classifier),
                                      type_of_new_classifier,
                                      "",  /* stereotype */
-                                     full_new_name,
+                                     "New Element",  /* name */
                                      "",  /* description */
                                      x_order,
                                      y_order,
@@ -225,16 +221,13 @@ u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_
     ctrl_diagram_controller_t *diag_control;
     diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-    const char *const new_name
-        = gui_sketch_object_creator_private_propose_diagram_name( this_ );
-
     /* create the diagram */
     const u8_error_t d_err
         = data_diagram_init_new( &((*this_).private_temp_diagram),
                                  parent_diagram_id,
                                  DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
                                  "",
-                                 new_name,
+                                 "New Diagram",
                                  "",
                                  list_order,
                                  DATA_DIAGRAM_FLAG_NONE
@@ -447,16 +440,12 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
         list_order = std_list_order;
     }
 
-    /* find a good default name */
-    const char *const full_new_name
-        = gui_sketch_object_creator_private_propose_feature_name( this_, new_feature_type );
-
     /* define feature struct */
     const u8_error_t data_err
         = data_feature_init_new( &((*this_).private_temp_feature),
                                  new_feature_type,
                                  parent_classifier_id,
-                                 full_new_name,
+                                 "New Feature",  /* name */
                                  "",  /* type/value */
                                  "",
                                  list_order
@@ -515,280 +504,6 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
 
     U8_TRACE_END_ERR( c_result );
     return c_result;
-}
-
-const char* gui_sketch_object_creator_private_propose_diagram_name( gui_sketch_object_creator_t *this_ )
-{
-    static int cycle_names = 0;
-    static const char *const (NAMES[8])
-        = {"New Overview","New Context","New Structure","New Deployment","New Lifecycle","New Errors","New Use Cases","New Sequence"};
-
-    cycle_names ++;
-
-    return NAMES[cycle_names&0x07];
-}
-
-const char* gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_object_creator_t *this_, data_classifier_type_t c_type )
-{
-    const char* result = "";
-
-    static int cycle_names = 0;
-    static const char *const (BLOCK_NAMES[8])
-        = {"New DRAM","New SoC","New NAND","New NOR","New PMIC","New Watchdog","New CPU","New SRAM"};
-    static const char *(REQUIREMENT_NAMES[8])
-        = {"New Reaction Time","New Startup Time","New Latency","New Resource Consumption","New Update","New Fault Tolerance","New Availability","New Hardware Abstraction"};
-    static const char *const (ACTOR_NAMES[8])
-        = {"New Customer","New Database","New Service/Maintenance","New Operator","New Backend/Server","New Authorities","New Hacker","New Peer/Client"};
-    static const char *const (USECASE_NAMES[8])
-        = {"New Get Status","New Perform Transaction","New SW Update","New Pay Order","New Deliver","New Debug","New Check Eventlog","New Manage Rights"};
-    static const char *const (BOUNDARIES_NAMES[8])
-        = {"New Controller SW","New Machine","New Backend","New Virtual Machine","New Security Module","New Terminal","New Smart Device","New PC"};
-    static const char *const (ACTIVITY_NAMES[8])
-        = {"New Startup","New SW Update","New Background Scan","New Sleep","New User Input","New Normal Operation","New Error Reporting","New Idle"};
-    static const char *const (STATE_NAMES[8])
-        = {"New Off","New Starting","New On","New Debugging","New Wait","New Shutdown","New Send","New Receive"};
-    static const char *const (DIAGREF_NAMES[8])
-        = {"New Startup","New Data Upload","New Data Download","New Shutdown","New Suspend and Resume","New Background Activities","New Error Notification","New SW Update"};
-    static const char *const (COMPONENT_NAMES[8])
-        = {"New Persistence","New ErrorLogger","New UserInterface","New PeripheralControl","New Monitor","New ServiceDiscovery","New LifecycleManager","New Controller"};
-    static const char *const (ARTIFACT_NAMES[8])
-        = {"New Firmware","New Code","New Data","New Settings","New Log","New ErrorReport","New RuleSet","New Inventory"};
-    static const char *const (IF_NAMES[8])
-        = {"New Authentication_IF","New Log_IF","New TraceChannel_IF","New Update_IF","New DataSync_IF","New DataLink_IF","New AliveSignal_IF","New PowerControl_IF"};
-    static const char *const (CLASS_NAMES[8])
-        = {"New Serializer","New Deserializer","New CompressionAlg","New Transformer","New Wrapper","New EventLoop","New RingBuffer","New Multiplexer"};
-    static const char *const (PACKAGE_NAMES[8])
-        = {"New Drivers","New Platform Services","New User Applications","New Utilities","New Debug Tools","New Authentication and Authorization","New Controller","New Maintenance Tools"};
-    static const char *const (NOTE_NAMES[8])
-        = {"New Note","New Comment","New Hint","New Todo","New Remark","New Question","New Rationale","New Proposal"};
-    static const char *const (STEREOTYPE_NAMES[8])
-        = {"New transient","New persistent","New 3rd-party","New entity","New database","New decision","New testcase","New copy-of"};
-
-    cycle_names ++;
-
-    switch ( c_type )
-    {
-        case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
-        {
-            result = BLOCK_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
-        {
-            result = REQUIREMENT_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_ACTOR:
-        {
-            result = ACTOR_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_USE_CASE:
-        {
-            result = USECASE_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
-        {
-            result = BOUNDARIES_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
-        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
-        {
-            result = ACTIVITY_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_STATE:
-        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
-        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
-        {
-            result = STATE_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:
-        {
-            result = DIAGREF_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_NODE:
-        {
-            result = BLOCK_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_COMPONENT:  /* and */
-        {
-            result = COMPONENT_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_PART:
-        {
-            result = COMPONENT_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_ARTIFACT:
-        {
-            result = ARTIFACT_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_INTERFACE:  /* and */
-        {
-            result = IF_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_CLASS:  /* and */
-        {
-            result = CLASS_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_OBJECT:  /* and */
-        {
-            result = CLASS_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_PACKAGE:
-        {
-            result = PACKAGE_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_COMMENT:
-        {
-            result = NOTE_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
-        case DATA_CLASSIFIER_TYPE_IMAGE:
-        {
-            result = STEREOTYPE_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        default:
-        {
-            U8_LOG_ERROR("data_classifier_type_t out of range in gui_sketch_object_creator_private_propose_classifier_name");
-            result = "New";
-        }
-        break;
-    }
-
-    return result;
-}
-
-const char* gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_creator_t *this_, data_feature_type_t f_type )
-{
-    const char* result = "";
-
-    static int cycle_names = 0;
-    static const char *const (PROPERTY_NAMES[8])
-        = {"new_state","new_run_mode","new_error_code","new_color","new_name","new_type","new_size","new_weight"};
-    static const char *const (OPERATION_NAMES[8])
-        = {"new_start","new_stop","new_pause","new_resume","new_get_state","new_handle_event","new_set_color","new_is_valid"};
-    static const char *const (PORT_NAMES[8])
-        = {"new_in_a","new_in_b","new_in_c","new_out_a","new_out_b","new_out_c","new_out_error","new_in_reset"};
-    static const char *const (IO_PORT_NAMES[8])
-        = {"new_order","new_item","new_error","new_report","new_audio_file","new_video_file","new_plan","new_status"};
-    static const char *const (IF_NAMES[8])
-        = {"New Auth_IF","New Log_IF","New Trace_IF","New Update_IF","New Sync_IF","New Link_IF","New Alive_IF","New Power_IF"};
-    static const char *const (ENTRY_NAMES[8])
-        = {"new_again","new_first_time","new_error_case","new_std_entry","new_retries_exceeded","new_debug","new_rookie_mode","new_last_try"};
-    static const char *const (EXIT_NAMES[8])
-        = {"new_abort","new_std_exit","new_precondition_failed","new_warning","new_error","new_retry","new_ok","new_repair_request"};
-
-    cycle_names ++;
-
-    switch ( f_type )
-    {
-        case DATA_FEATURE_TYPE_PROPERTY:
-        case DATA_FEATURE_TYPE_TAGGED_VALUE:
-        {
-            result = PROPERTY_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_OPERATION:
-        {
-            result = OPERATION_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_PORT:
-        {
-            result = PORT_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_LIFELINE:
-        {
-            result = "";
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
-        {
-            result = IF_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
-        {
-            result = IF_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_IN_PORT_PIN:
-        case DATA_FEATURE_TYPE_OUT_PORT_PIN:
-        {
-            result = IO_PORT_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_ENTRY:
-        {
-            result = ENTRY_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        case DATA_FEATURE_TYPE_EXIT:
-        {
-            result = EXIT_NAMES[cycle_names&0x07];
-        }
-        break;
-
-        default:
-        {
-            U8_LOG_ERROR("data_feature_type_t out of range in gui_sketch_object_creator_private_propose_feature_name");
-            result = "new";
-        }
-        break;
-    }
-
-    return result;
 }
 
 

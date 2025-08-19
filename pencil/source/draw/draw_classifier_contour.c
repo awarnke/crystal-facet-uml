@@ -73,7 +73,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERACTION_USE:  /* and */
         case DATA_CLASSIFIER_TYPE_INTERACTION:  /* and */
         case DATA_CLASSIFIER_TYPE_PACKAGE:  /* and */
         case DATA_CLASSIFIER_TYPE_COMMENT:
@@ -219,7 +219,7 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
         }
         break;
 
-        case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_INTERACTION_USE:  /* and */
         case DATA_CLASSIFIER_TYPE_INTERACTION:  /* and */
         case DATA_CLASSIFIER_TYPE_PACKAGE:  /* and */
         case DATA_CLASSIFIER_TYPE_COMMENT:

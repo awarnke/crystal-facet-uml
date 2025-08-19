@@ -3,7 +3,7 @@
 #include "gui_type_resource_list.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <assert.h>
 
 void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_resources_t *resources )
@@ -23,7 +23,7 @@ void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_re
         gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_LIST, "List Diagram", icon_diag_list );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_diag_box = gui_resources_get_type_diag_box ( (*this_).resources );
-        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, "Box Diagram", icon_diag_box );
+        gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, "Box Overview Diagram", icon_diag_box );
 
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_diag_block = gui_resources_get_type_diag_block ( (*this_).resources );
@@ -141,8 +141,8 @@ void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_re
         GdkTexture *icon_clas_usecase = gui_resources_get_type_clas_usecase( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_USE_CASE, "Use Case", icon_clas_usecase );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        GdkTexture *icon_clas_diagram = gui_resources_get_type_clas_diagram( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE, "Interaction Diagram Reference", icon_clas_diagram );
+        GdkTexture *icon_clas_interaction_use = gui_resources_get_type_clas_interaction_use( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_INTERACTION_USE, "Interaction Use", icon_clas_interaction_use );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_clas_activity = gui_resources_get_type_clas_activity( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ACTIVITY, "Activity/Action", icon_clas_activity );

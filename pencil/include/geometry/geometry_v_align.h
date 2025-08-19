@@ -14,9 +14,9 @@
  *
  */
 enum geometry_v_align_enum {
-    GEOMETRY_V_ALIGN_TOP,
+    GEOMETRY_V_ALIGN_TOP,  /*!< align the rectangle top with the top of the reference rect */
     GEOMETRY_V_ALIGN_CENTER,
-    GEOMETRY_V_ALIGN_BOTTOM,
+    GEOMETRY_V_ALIGN_BOTTOM,  /*!< align the rectangle bottom with the bottom of the reference rect */
 };
 
 typedef enum geometry_v_align_enum geometry_v_align_t;

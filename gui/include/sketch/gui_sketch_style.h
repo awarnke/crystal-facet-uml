@@ -7,12 +7,13 @@
 /*!
  *  \file
  *  \brief Provides a set of size values used to draw icons and boxes and text
+ *         consistently by several gui_sketch_... sub widgets
  */
 
 #include "pencil_size.h"
 #include <pango/pangocairo.h>
 #include <cairo.h>
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -21,6 +22,8 @@
  */
 struct gui_sketch_style_struct {
     pencil_size_t pencil_size;  /*!< size, color and font settings derived from pencil package */
+    double snap_to_grid_distance;  /*!< number of pixels by which a classifier which is close to a grid position is snapped to the grid */
+    int32_t snap_to_relationship;  /*!< number of pixels by which a mouse position is selecting a close-by relationship */
 };
 
 typedef struct gui_sketch_style_struct gui_sketch_style_t;
@@ -38,6 +41,20 @@ static inline void gui_sketch_style_init( gui_sketch_style_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_style_destroy( gui_sketch_style_t *this_ );
+
+/*!
+ *  \brief gets the attribute of gui_sketch_style_t: snap_to_grid_distance
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double gui_sketch_style_get_snap_to_grid( const gui_sketch_style_t *this_ );
+
+/*!
+ *  \brief gets the attribute of gui_sketch_style_t: snap_to_relationship
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline int32_t gui_sketch_style_get_snap_to_relationship( const gui_sketch_style_t *this_ );
 
 /*!
  *  \brief gets the attribute of gui_sketch_style_t: footnote_font_size

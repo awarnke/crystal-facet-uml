@@ -32,6 +32,15 @@ typedef struct geometry_point_struct geometry_point_t;
 static inline void geometry_point_init ( geometry_point_t *this_, double x, double y );
 
 /*!
+ *  \brief initializes the geometry_point_t struct
+ *
+ *  \param x x coordinate of the object
+ *  \param y y coordinate of the object
+ *  \return the initialized point
+ */
+static inline geometry_point_t geometry_point_new ( double x, double y );
+
+/*!
  *  \brief re-initializes the geometry_point_t struct
  *
  *  \param this_ pointer to own object attributes
@@ -94,17 +103,6 @@ static inline double geometry_point_calc_chess_distance ( const geometry_point_t
  *  \return true if the two points are equal
  */
 static inline bool geometry_point_equals ( const geometry_point_t *this_, const geometry_point_t *that );
-
-/*!
- *  \brief gets the direction of *that point from the perspective of *this_ point.
- *
- *  Lesser y values mean GEOMETRY_DIRECTION_UP, lesser x values mean GEOMETRY_DIRECTION_LEFT. GEOMETRY_DIRECTION_CENTER if points are equal.
- *
- *  \param this_ pointer to own object attributes
- *  \param that pointer to other object attributes
- *  \return direction of the other point
- */
-static inline geometry_direction_t geometry_point_get_direction ( const geometry_point_t *this_, const geometry_point_t *that );
 
 /*!
  *  \brief shifts the geometry_point_t

@@ -5,7 +5,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <gdk/gdk.h>
+#include "gui_gdk.h"
 
 void gui_sketch_card_init( gui_sketch_card_t *this_ )
 {
@@ -18,8 +18,7 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     data_profile_part_init( &((*this_).profile) );
     pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data), &((*this_).profile) );
     gui_sketch_marker_init( &((*this_).sketch_marker), false );
-
-    (*this_).snap_to_grid_distance = 5.000001;  /* 5 is the expected accuracy of mouse pointers */
+    gui_sketch_style_init( &((*this_).sketch_style) );
 
     U8_TRACE_END();
 }
@@ -28,6 +27,7 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    gui_sketch_style_destroy( &((*this_).sketch_style) );
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     pencil_diagram_maker_destroy( &((*this_).painter) );
     data_profile_part_destroy( &((*this_).profile) );
@@ -43,7 +43,7 @@ layout_subelement_id_t gui_sketch_card_get_element_at_pos( const gui_sketch_card
                                                            bool filter_lifelines )
 {
     U8_TRACE_BEGIN();
-    static const int32_t snap_distance = 3;  /* snap_distance is the maximum distance to the next connector line when to select the connector */
+
     layout_subelement_id_t result;
     layout_subelement_id_init_void( &result );
 
@@ -66,8 +66,7 @@ layout_subelement_id_t gui_sketch_card_get_element_at_pos( const gui_sketch_card
         {
             result = gui_sketch_card_private_get_relationship_at_pos( this_,
                                                                       x,
-                                                                      y,
-                                                                      snap_distance
+                                                                      y
                                                                     );
         }
 
@@ -262,12 +261,12 @@ layout_subelement_id_t gui_sketch_card_private_get_feature_at_pos( const gui_ske
 
 layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos( const gui_sketch_card_t *this_,
                                                                         int32_t x,
-                                                                        int32_t y,
-                                                                        int32_t snap_distance )
+                                                                        int32_t y )
 {
     U8_TRACE_BEGIN();
     layout_subelement_id_t result;
     layout_subelement_id_init_void( &result );
+    const int32_t snap_distance = gui_sketch_style_get_snap_to_relationship( &((*this_).sketch_style) );
 
     const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
     const uint32_t count_relations
@@ -283,7 +282,7 @@ layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos( const gu
             = layout_relationship_get_label_box_const( the_relationship );
 
         const bool pos_on_shape
-            = geometry_connector_is_close( relationship_shape, (double) x, (double) y, (double) snap_distance );
+            = geometry_connector_is_close( relationship_shape, (double) x, (double) y, 0.000001 + (double) snap_distance );
         const bool pos_on_label
             = geometry_rectangle_contains( rel_label_box, (double) x, (double) y );
         if ( pos_on_shape || pos_on_label )

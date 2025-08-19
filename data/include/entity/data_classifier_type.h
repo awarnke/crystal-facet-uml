@@ -24,6 +24,7 @@ enum data_classifier_type_enum {
     /* Parametric Diagram: */
     DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK = 96,  /* SysML, this is an equation */
     /* Requirements Diagram: */
+    /* DATA_CLASSIFIER_TYPE_TESTCASE = 97, */  /* SysML, never activated */
     /* DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE = 98, */  /* deprecated since version 1.25.0 */
     DATA_CLASSIFIER_TYPE_REQUIREMENT = 99,  /* SysML */
     /* Use Case Diagram */
@@ -32,7 +33,7 @@ enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_SUBSYSTEM = 102,  /* a component of stereotype subsystem */
     DATA_CLASSIFIER_TYPE_ACTIVITY = 110,
     DATA_CLASSIFIER_TYPE_STATE = 111,
-    DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE = 112,
+    DATA_CLASSIFIER_TYPE_INTERACTION_USE = 112,  /* a diagram reference */
     DATA_CLASSIFIER_TYPE_NODE = 120,
     DATA_CLASSIFIER_TYPE_COMPONENT = 121,
     DATA_CLASSIFIER_TYPE_PART = 122,
@@ -66,6 +67,11 @@ typedef enum data_classifier_type_enum data_classifier_type_t;
 #define DATA_CLASSIFIER_TYPE_COUNT (32)
 
 /*!
+ *  \brief a modulo for a hash function for unique hashing
+ */
+#define DATA_CLASSIFIER_TYPE_HASH_MOD (75)
+
+/*!
  *  \brief lists all values of data_classifier_type_t, excluding DATA_CLASSIFIER_TYPE_VOID
  */
 extern data_classifier_type_t const DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_TYPE_COUNT];
@@ -78,6 +84,14 @@ extern data_classifier_type_t const DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_
  *          false otherwise, especially excluded are requirements, actors, constraint-blocks, comments
  */
 static inline bool data_classifier_type_is_behavioral( data_classifier_type_t this_ );
+
+/*!
+ *  \brief returns a short name for the classifier type
+ *
+ *  \param this_ enumeration value
+ *  \return name of the type, "" if unknown or void type
+ */
+const char * data_classifier_type_get_name( data_classifier_type_t this_ );
 
 #include "entity/data_classifier_type.inl"
 

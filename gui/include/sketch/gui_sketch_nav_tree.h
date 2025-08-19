@@ -24,7 +24,7 @@
 #include "layout/layout_order.h"
 #include <pango/pangocairo.h>
 #include <cairo.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -227,7 +227,7 @@ static inline const data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( const 
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param out_action_id the action id ofthe button at the given location. GUI_SKETCH_ACTION_NONE if there is no button at the given location.
+ *  \param out_action_id the action id of the button at the given location. GUI_SKETCH_ACTION_NONE if there is no button at the given location.
  */
 static inline void gui_sketch_nav_tree_get_button_at_pos ( const gui_sketch_nav_tree_t *this_,
                                                            int32_t x,

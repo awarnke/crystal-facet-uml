@@ -62,6 +62,11 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 #define U8_TRACE_INFO_INT_INT(x,i,j) { const char *string_test = (x); const int int_test = (i); const int int_test2 = (j); fprintf(U8_TRACE_OUT_STREAM,"%s%s %i, %i\n",U8_TRACE_INDENT_INFO,string_test,int_test,int_test2); }
 
 /*!
+ *  \brief traces a string and an integer and another string
+ */
+#define U8_TRACE_INFO_INT_STR(x,i,s) { const char *string_test = (x); const int int_test = (i); const char *string2_test = (s); fprintf(U8_TRACE_OUT_STREAM,"%s%s %i, %s\n",U8_TRACE_INDENT_INFO,string_test,int_test,string2_test); }
+
+/*!
  *  \brief traces a string and a hexadecimal integer
  */
 #define U8_TRACE_INFO_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); fprintf(U8_TRACE_OUT_STREAM,"%s%s 0x%x\n",U8_TRACE_INDENT_INFO,string_test,int_test); }
@@ -72,12 +77,12 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 #define U8_TRACE_INFO_PTR(x,p) { const char *string_test = (x); const void *ptr_test = (p); fprintf(U8_TRACE_OUT_STREAM,"%s%s @:%p\n",U8_TRACE_INDENT_INFO,string_test,ptr_test); }
 
 /*!
- *  \brief traces a string and and an information string
+ *  \brief traces a string and an information string
  */
 #define U8_TRACE_INFO_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(U8_TRACE_OUT_STREAM,"%s%s %s\n",U8_TRACE_INDENT_INFO,string_test,string2_test); }
 
 /*!
- *  \brief traces a string and and a stringview (a struct with members start and length)
+ *  \brief traces a string and a stringview (a struct with members start and length)
  */
 #define U8_TRACE_INFO_VIEW(x,v) { const char *string_test = (x); const int int_test = (v.length); const char *string2_test = (v.start); fprintf(U8_TRACE_OUT_STREAM,"%s%s %.*s\n",U8_TRACE_INDENT_INFO,string_test,int_test,string2_test); }
 
@@ -148,6 +153,11 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 #define U8_TRACE_INFO_INT_INT(x,i,j) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (i); const int int_test2 ATTR_UNUSED = (j); }
 
 /*!
+ *  \brief traces a string and an integer and another string
+ */
+#define U8_TRACE_INFO_INT_STR(x,i,s) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (i); const char *string2_test ATTR_UNUSED = (s); }
+
+/*!
  *  \brief traces a string and a hexadecimal integer
  */
 #define U8_TRACE_INFO_HEX(x,i) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (i); }
@@ -158,12 +168,12 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 #define U8_TRACE_INFO_PTR(x,p) { const char *string_test ATTR_UNUSED = (x); const void *ptr_test ATTR_UNUSED = (p); }
 
 /*!
- *  \brief traces a string and and an information string
+ *  \brief traces a string and an information string
  */
 #define U8_TRACE_INFO_STR(x,s) { const char *string_test ATTR_UNUSED = (x); const char *string2_test ATTR_UNUSED = (s); }
 
 /*!
- *  \brief traces a string and and a stringview (a struct with members start and length)
+ *  \brief traces a string and a stringview (a struct with members start and length)
  */
 #define U8_TRACE_INFO_VIEW(x,v) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (v.length); const char *string2_test ATTR_UNUSED = (v.start); }
 

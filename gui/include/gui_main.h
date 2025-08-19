@@ -9,7 +9,7 @@
  */
 
 #include "io_data_file.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 
 /*!
  *  \brief initializes the gui widgets

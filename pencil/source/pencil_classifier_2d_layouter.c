@@ -2,6 +2,7 @@
 
 #include "pencil_classifier_2d_layouter.h"
 #include "layout/layout_quality.h"
+#include "layout/layout_relationship_iter.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
@@ -27,6 +28,7 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
 
     (*this_).layout_data = layout_data;
     (*this_).profile = profile;
+
     (*this_).pencil_size = pencil_size;
     (*this_).default_classifier_size = default_classifier_size;
     (*this_).grid = grid;
@@ -174,21 +176,24 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
     U8_TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) LAYOUT_VISIBLE_SET_MAX_CLASSIFIERS );
 
-    universal_array_index_sorter_t sorted;
-    universal_array_index_sorter_init( &sorted );
+    universal_array_index_sorter_t sorted_classifiers;
+    universal_array_index_sorter_init( &sorted_classifiers );
 
     /* sort the classifiers by their movement-needs */
-    pencil_classifier_2d_layouter_private_propose_move_processing_order ( this_, &sorted );
+    pencil_classifier_2d_layouter_private_propose_move_processing_order ( this_, &sorted_classifiers );
 
     /* move the classifiers */
-    const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
-    for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
+    layout_visible_classifier_iter_t classifier_iterator;
+    layout_visible_classifier_iter_init( &classifier_iterator, (*this_).layout_data, &sorted_classifiers );
+    while ( layout_visible_classifier_iter_has_next( &classifier_iterator ) )
     {
-        /* get iteration-specific data */
-        const uint32_t index
-            = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        /* initialize the already processed classifier iterator - it is needed by called methods */
+        layout_visible_classifier_iter_t already_processed;
+        layout_visible_classifier_iter_init_from_processed( &already_processed, &classifier_iterator );
+
+        /* determine pointer to classifier */
         layout_visible_classifier_t *const layouted_classifier
-            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
+            = layout_visible_classifier_iter_next_ptr( &classifier_iterator );
 
         /* trace */
         {
@@ -206,8 +211,8 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
 
         /* propose options of moving left/right/up/down */
         pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( this_,
-                                                                           &sorted,
-                                                                           sort_index,
+                                                                           layouted_classifier,
+                                                                           already_processed,  /* copy */
                                                                            SOLUTION_MAX-1,
                                                                            &solution,
                                                                            &solution_count
@@ -215,8 +220,8 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
         assert( solution_count < SOLUTION_MAX );
         /* propose options of moving close at origin-area */
         pencil_classifier_2d_layouter_private_propose_anchored_solution( this_,
-                                                                         &sorted,
-                                                                         sort_index,
+                                                                         layouted_classifier,
+                                                                         already_processed,  /* copy */
                                                                          &(solution[solution_count])
                                                                        );
         solution_count ++;
@@ -230,8 +235,8 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
         else
         {
             pencil_classifier_2d_layouter_private_select_move_solution( this_,
-                                                                        &sorted,
-                                                                        sort_index,
+                                                                        layouted_classifier,
+                                                                        &sorted_classifiers,
                                                                         solution_count,
                                                                         &solution,
                                                                         &index_of_best
@@ -244,9 +249,11 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
                                geometry_offset_get_dx( &(solution[index_of_best]) ),
                                geometry_offset_get_dy( &(solution[index_of_best]) )
                              );
-    }
 
-    universal_array_index_sorter_destroy( &sorted );
+        layout_visible_classifier_iter_destroy( &already_processed );
+    }
+    layout_visible_classifier_iter_destroy( &classifier_iterator );
+    universal_array_index_sorter_destroy( &sorted_classifiers );
 
     U8_TRACE_END();
 }
@@ -349,25 +356,20 @@ enum pencil_classifier_2d_layouter_private_move_enum {
 };
 
 void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_classifier_2d_layouter_t *this_,
-                                                                        const universal_array_index_sorter_t *sorted,
-                                                                        uint32_t sort_index,
+                                                                        const layout_visible_classifier_t *the_classifier,
+                                                                        layout_visible_classifier_iter_t already_processed,
                                                                         uint32_t solutions_max,
                                                                         geometry_offset_t (*out_solution)[],
                                                                         uint32_t *out_solution_count )
 {
     U8_TRACE_BEGIN();
-    assert ( NULL != sorted );
-    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( NULL != the_classifier );
     assert ( NULL != out_solution );
     assert ( NULL != out_solution_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
     assert ( (unsigned int) PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 5 options */
 
-    /* get classifier to move */
-    const uint32_t index
-        = universal_array_index_sorter_get_array_index( sorted, sort_index );
-    const layout_visible_classifier_t *const the_classifier
-        = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
+    /* get classifier to move properties */
     const geometry_rectangle_t *const classifier_envelope_box
         = layout_visible_classifier_get_envelope_box_const( the_classifier );
     double top = geometry_rectangle_get_top ( classifier_envelope_box );
@@ -417,13 +419,11 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
     right += shift_x;
 
     /* check overlap to already moved classifiers */
-    for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
+    while ( layout_visible_classifier_iter_has_next( &already_processed ) )
     {
         /* get classifier to check overlaps */
-        const uint32_t probe_index
-             = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
         const layout_visible_classifier_t *const the_probe
-            = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, probe_index );
+            = layout_visible_classifier_iter_next_ptr( &already_processed );
         const geometry_rectangle_t *const probe_envelope_box
             = layout_visible_classifier_get_envelope_box_const( the_probe );
         const double probe_top = geometry_rectangle_get_top ( probe_envelope_box );
@@ -505,20 +505,13 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
 }
 
 void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_classifier_2d_layouter_t *this_,
-                                                                      const universal_array_index_sorter_t *sorted,
-                                                                      uint32_t sort_index,
+                                                                      const layout_visible_classifier_t *the_classifier,
+                                                                      layout_visible_classifier_iter_t already_processed,
                                                                       geometry_offset_t *out_solution )
 {
     U8_TRACE_BEGIN();
-    assert ( NULL != sorted );
-    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( NULL != the_classifier );
     assert ( NULL != out_solution );
-
-    /* get classifier to move */
-    const uint32_t index
-        = universal_array_index_sorter_get_array_index( sorted, sort_index );
-    const layout_visible_classifier_t *const the_classifier
-        = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
 
     /* determine the space needed for the solution */
     const geometry_rectangle_t *const classifier_envelope_box
@@ -543,13 +536,11 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
                                         );
 
     /* check overlap to already moved classifiers */
-    for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
+    while ( layout_visible_classifier_iter_has_next( &already_processed ) )
     {
         /* get classifier to check overlaps */
-        const uint32_t probe_index
-            = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
         const layout_visible_classifier_t *const the_probe
-            = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, probe_index );
+        = layout_visible_classifier_iter_next_ptr( &already_processed );
 
         geometry_rectangle_t probe_total_bounds;
         geometry_rectangle_init_by_bounds( &probe_total_bounds,
@@ -557,10 +548,10 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
                                            layout_visible_classifier_get_envelope_box_const( the_probe )
                                          );
 
-        geometry_rectangle_init_by_difference( &classifier_solution_area,
-                                               &classifier_solution_area,
-                                               &probe_total_bounds
-                                             );
+        geometry_rectangle_init_by_difference_max( &classifier_solution_area,
+                                                   &classifier_solution_area,
+                                                   &probe_total_bounds
+                                                 );
     }
 
     /* reduce the biggest free/unoccupied box by gap */
@@ -619,15 +610,15 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
 }
 
 void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifier_2d_layouter_t *this_,
+                                                                 const layout_visible_classifier_t *the_classifier,
                                                                  const universal_array_index_sorter_t *sorted,
-                                                                 uint32_t sort_index,
                                                                  uint32_t solution_count,
                                                                  geometry_offset_t (*solution)[],
                                                                  uint32_t *out_index_of_best )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != sorted );
-    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( NULL != the_classifier );
     assert ( NULL != solution );
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solution_count );
@@ -635,12 +626,6 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
     /* define potential solution and rating */
     uint32_t index_of_best = 0;  /* in case of doubts, take the first solution */
     double debts_of_best = DBL_MAX;
-
-    /* get classifier to move */
-    const uint32_t index
-        = universal_array_index_sorter_get_array_index( sorted, sort_index );
-    const layout_visible_classifier_t *const the_classifier
-        = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
 
     /* check all solutions */
     for ( uint32_t solution_index = 0; solution_index < solution_count; solution_index ++ )
@@ -660,23 +645,28 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
         debts_of_current += layout_quality_debts_class_diag( &quality, &moved_solution, &((*solution)[solution_index]), diagram_layout );
 
         /* check overlap to other classifiers */
-        for ( uint32_t probe_sort_index = 0; probe_sort_index < universal_array_index_sorter_get_count( sorted ); probe_sort_index ++ )
+        bool self_passed = false;
+        layout_visible_classifier_iter_t classifer_iterator;
+        layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, sorted );
+        while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
         {
-            if ( probe_sort_index != sort_index )  /* skip self */
+            /* get classifier to check overlaps */
+            layout_visible_classifier_t *const the_probe
+                = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
+
+            if ( the_probe != the_classifier )  /* skip self */
             {
-                /* get classifier to check overlaps */
-                const uint32_t probe_index
-                    = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
-
-                const layout_visible_classifier_t *const the_probe
-                    = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, probe_index );
-
-                /* already processed classifiers have higher severity because these do not move anymore */
-                const double severity = ( probe_sort_index < sort_index ) ? 1.0 : 0.25;
+                /* already processed classifiers have 4x higher severity because these do not move anymore */
+                const double severity = self_passed ? 0.25 : 1.0;
 
                 debts_of_current += severity * layout_quality_debts_class_class( &quality, &moved_solution, the_probe, (*this_).layout_data );
             }
+            else
+            {
+                self_passed = true;
+            }
         }
+        layout_visible_classifier_iter_destroy( &classifer_iterator );
 
         /* finish evaluating this solution */
         layout_visible_classifier_destroy( &moved_solution );
@@ -711,13 +701,12 @@ void pencil_classifier_2d_layouter_embrace_children( pencil_classifier_2d_layout
     data_small_set_init( &has_embraced_children );
 
     /* move the classifiers */
-    const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_relationships );
-    for ( uint32_t rel_sort_idx = 0; rel_sort_idx < count_sorted; rel_sort_idx ++ )
+    layout_relationship_iter_t relationship_iterator;
+    layout_relationship_iter_init( &relationship_iterator, (*this_).layout_data, &sorted_relationships );
+    while( layout_relationship_iter_has_next( &relationship_iterator ) )
     {
-        const uint32_t rel_idx
-            = universal_array_index_sorter_get_array_index( &sorted_relationships, rel_sort_idx );
         layout_relationship_t *const the_relationship
-            = layout_visible_set_get_relationship_ptr( (*this_).layout_data, rel_idx );
+            = layout_relationship_iter_next_ptr( &relationship_iterator );
         assert ( the_relationship != NULL );
         const data_relationship_t *const rel_data = layout_relationship_get_data_const ( the_relationship );
         assert ( rel_data != NULL );
@@ -738,6 +727,7 @@ void pencil_classifier_2d_layouter_embrace_children( pencil_classifier_2d_layout
 
     data_small_set_destroy( &has_embraced_children );
 
+    layout_relationship_iter_destroy( &relationship_iterator );
     universal_array_index_sorter_destroy( &sorted_relationships );
 
     U8_TRACE_END();
@@ -949,12 +939,12 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
     pencil_classifier_2d_layouter_private_propose_move_embrace_order ( this_, &sorted_classifiers );
 
     /* small-move and embrace the child classifiers */
-    const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_classifiers );
-    for ( uint32_t classifier_sort_idx = 0; classifier_sort_idx < count_sorted; classifier_sort_idx ++ )
+    layout_visible_classifier_iter_t classifer_iterator;
+    layout_visible_classifier_iter_init( &classifer_iterator, (*this_).layout_data, &sorted_classifiers );
+    while( layout_visible_classifier_iter_has_next( &classifer_iterator ) )
     {
-        const uint32_t classifier_idx = universal_array_index_sorter_get_array_index( &sorted_classifiers, classifier_sort_idx );
         layout_visible_classifier_t *const the_classifier
-            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, classifier_idx );
+            = layout_visible_classifier_iter_next_ptr( &classifer_iterator );
 
         /* only if the classifier has children */
         const uint32_t child_count = layout_visible_set_count_descendants( (*this_).layout_data, the_classifier );
@@ -1032,6 +1022,7 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
         }
     }
 
+    layout_visible_classifier_iter_destroy( &classifer_iterator );
     universal_array_index_sorter_destroy( &sorted_classifiers );
 
     U8_TRACE_END();

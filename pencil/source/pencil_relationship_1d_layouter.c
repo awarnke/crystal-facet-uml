@@ -112,9 +112,9 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
 
             /* get source and destination rectangles */
             const geometry_rectangle_t *const source_rect
-                = layout_relationship_get_from_symbol_box_const ( the_relationship );
+                = layout_relationship_get_from_box_const ( the_relationship );
             const geometry_rectangle_t *const dest_rect
-                = layout_relationship_get_to_symbol_box_const ( the_relationship );
+                = layout_relationship_get_to_box_const ( the_relationship );
 
             /* calculate coordinates */
             const double src_left = geometry_rectangle_get_left(source_rect);
@@ -188,6 +188,14 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
             }
             layout_relationship_set_shape( the_relationship, &relationship_shape );
             geometry_connector_destroy( &relationship_shape );
+
+            /* initialize also the label (to empty), this is updated later */
+            {
+                geometry_rectangle_t void_rect;
+                geometry_rectangle_init_empty( &void_rect );
+                layout_relationship_set_label_box( the_relationship, &void_rect );
+                geometry_rectangle_destroy( &void_rect );
+            }
         }
     }
 
@@ -237,9 +245,9 @@ void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_l
 
             /* get source and destination rectangles */
             const geometry_rectangle_t *const source_rect
-                = layout_relationship_get_from_symbol_box_const( the_relationship );
+                = layout_relationship_get_from_box_const( the_relationship );
             const geometry_rectangle_t *const dest_rect
-                = layout_relationship_get_to_symbol_box_const( the_relationship );
+                = layout_relationship_get_to_box_const( the_relationship );
 
             /* calculate coordinates */
             const double src_left = geometry_rectangle_get_left(source_rect);
@@ -313,6 +321,14 @@ void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_l
             }
             layout_relationship_set_shape( the_relationship, &relationship_shape );
             geometry_connector_destroy( &relationship_shape );
+
+            /* initialize also the label (to empty), this is updated later */
+            {
+                geometry_rectangle_t void_rect;
+                geometry_rectangle_init_empty( &void_rect );
+                layout_relationship_set_label_box( the_relationship, &void_rect );
+                geometry_rectangle_destroy( &void_rect );
+            }
         }
     }
 

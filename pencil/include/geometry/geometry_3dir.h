@@ -23,6 +23,19 @@ struct geometry_3dir_struct {
 typedef struct geometry_3dir_struct geometry_3dir_t;
 
 /*!
+ *  \brief initializes a 3dir object for use as const
+ *
+ *  \param first first direction
+ *  \param second second direction
+ *  \param third third direction
+ *  \return initialized geometry_3dir_t
+ */
+static inline geometry_3dir_t geometry_3dir_new ( geometry_direction_t first,
+                                                  geometry_direction_t second,
+                                                  geometry_direction_t third
+                                                );
+
+/*!
  *  \brief checks if two geometry_3dir_t objects are equal
  *
  *  \param this_ pointer to own object attributes

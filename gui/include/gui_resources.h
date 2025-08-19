@@ -9,7 +9,7 @@
  *  \brief Provides bitmap resources to the gui module
  */
 
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 /*!
@@ -60,6 +60,17 @@ struct gui_resources_struct {
 
     GdkPixbuf *background_column;
 
+    GdkTexture *sketch_create;
+    GdkTexture *sketch_refine;
+    GdkTexture *sketch_relate;
+    GdkTexture *sketch_move_h;
+    GdkTexture *sketch_move_v;
+    GdkTexture *sketch_move_2d;
+    GdkTexture *sketch_page_down_bold;
+    GdkTexture *sketch_page_down_gray;
+    GdkTexture *sketch_page_up_bold;
+    GdkTexture *sketch_page_up_gray;
+
     GdkTexture *type_undef;
 
     GdkTexture *type_diag_activity;
@@ -93,12 +104,12 @@ struct gui_resources_struct {
     GdkTexture *type_clas_constraint;
     GdkTexture *type_clas_decision;
     GdkTexture *type_clas_deephistory;
-    GdkTexture *type_clas_diagram;
     GdkTexture *type_clas_final;
     GdkTexture *type_clas_fork;
     GdkTexture *type_clas_history;
     GdkTexture *type_clas_image;
     GdkTexture *type_clas_initial;
+    GdkTexture *type_clas_interaction_use;
     GdkTexture *type_clas_interface;
     GdkTexture *type_clas_join;
     GdkTexture *type_clas_node;
@@ -416,6 +427,76 @@ static inline GdkTexture *gui_resources_get_search_search ( const gui_resources_
 static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the sketch_create as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_create ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_refine as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_refine ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_relate as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_relate ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_move_h as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_move_h ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_move_v as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_move_v ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_move_2d as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_move_2d ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_down_bold as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_down_bold ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_down_gray as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_down_gray ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_up_bold as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_up_bold ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the sketch_page_up_gray as GdkTexture
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_sketch_page_up_gray ( const gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_undef
  *
  *  \param this_ pointer to own object attributes
@@ -633,13 +714,6 @@ static inline GdkTexture *gui_resources_get_type_clas_decision ( const gui_resou
 static inline GdkTexture *gui_resources_get_type_clas_deephistory ( const gui_resources_t *this_ );
 
 /*!
- *  \brief gets the type_clas_diagram
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkTexture *gui_resources_get_type_clas_diagram ( const gui_resources_t *this_ );
-
-/*!
  *  \brief gets the type_clas_final
  *
  *  \param this_ pointer to own object attributes
@@ -673,6 +747,13 @@ static inline GdkTexture *gui_resources_get_type_clas_image ( const gui_resource
  *  \param this_ pointer to own object attributes
  */
 static inline GdkTexture *gui_resources_get_type_clas_initial ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_interaction_use
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_type_clas_interaction_use ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_interface

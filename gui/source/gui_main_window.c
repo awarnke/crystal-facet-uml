@@ -11,8 +11,8 @@
 #include "storage/data_database.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
+#include "gui_gdk.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -82,12 +82,18 @@ void gui_main_window_init( gui_main_window_t *this_,
                     );
 
     /* init search widgets and sketch area */
+    observer_t search_result_observer;
+    observer_init( &search_result_observer,
+                   &((*this_).sketcharea_data),
+                   (void(*)(void*,void*))&gui_sketch_area_show_result_list,
+                   "search_results_available"
+                 );
     gui_main_window_private_init_search_and_sketch_area( this_ );
     gui_search_runner_init( &((*this_).search_runner),
                             &((*this_).message_to_user),
                             db_reader,
                             io_data_file_get_database_ptr( data_file ),
-                            &((*this_).sketcharea_data)
+                            search_result_observer
                           );
     gui_search_request_init( &((*this_).search_request),
                              (*this_).search_label,
@@ -100,6 +106,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                           (*this_).sketcharea,
                           &((*this_).marker_data),
                           &((*this_).tools_data),
+                          &((*this_).search_runner),
                           &((*this_).message_to_user),
                           resources,
                           controller,
@@ -554,7 +561,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
     gui_button_init( &((*this_).edit_highlight),
                      GDK_PAINTABLE( gui_resources_get_edit_highlight( res ) ),
                      "mark",
-                     "Highlight"
+                     "Mark"
                    );
 
     gui_button_init( &((*this_).edit_reset),

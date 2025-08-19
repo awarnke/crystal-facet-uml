@@ -15,23 +15,17 @@
 #include "gui_resources.h"
 #include "gui_type_resource_list.h"
 #include "shape/shape_int_rectangle.h"
+#include "pos/pos_search_result_page.h"
 #include "pos/pos_search_result.h"
+#include "pos/pos_scroll_page.h"
 #include "storage/data_database.h"
 #include "set/data_search_result.h"
 #include "set/data_search_result_list.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"
-#include <gtk/gtk.h>
+#include "gui_gtk.h"
 #include <stdbool.h>
 #include <stdint.h>
-
-/*!
- *  \brief constants for maximum values of gui_sketch_result_list_t
- */
-enum gui_sketch_result_list_max_enum {
-    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 128,  /*!< maximum number of total search results */
-    GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS = 128,  /*!< maximum number of displayed search results on current page */
-};
 
 /*!
  *  \brief attributes of the result list
@@ -45,21 +39,19 @@ enum gui_sketch_result_list_max_enum {
  * also it does not trigger events to other widgets
  */
 struct gui_sketch_result_list_struct {
+    /* layouting information */
     bool visible;  /*!< is the result list visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the result list */
 
-    data_search_result_t result_list_buf[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of all results */
-    data_search_result_list_t result_list;
-
-    /* layout information */
-    pos_search_result_t element_pos[GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS];  /*!< layout positions of search results on current visible page */
-    uint32_t element_count;  /*!< number of layout positions in element_pos list */
+    /* data and layouting information of search results */
+    pos_scroll_page_t requested_page;  /*!< description of the requested page */
+    pos_search_result_page_t page;  /*!< page constains list data elements and layouting information */
 
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
     gui_sketch_marker_t sketch_marker;
     gui_resources_t *resources;  /*!< pointer to external resources */
-    gui_type_resource_list_t selector;  /*!< own instance of a resource selector */
+    gui_type_resource_list_t selector;  /*!< own instance of a type-icon resource selector */
     gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
 
@@ -88,11 +80,17 @@ void gui_sketch_result_list_destroy ( gui_sketch_result_list_t *this_ );
  *  \brief fetches the diagram data from the database
  *
  *  \param this_ pointer to own object attributes
+ *  \param requested_page the page to be shown
+ *  \param result_buffer_start the start index of the result_list, 0 if no search resulsts are skipped
  *  \param result_list list of search results and their diagram ids to load
+ *  \param result_buffer_more_after indicates if there are more list-entries after the result_list buffer
  *  \param db_reader pointer to a database reader object
  */
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
+                                                     const pos_scroll_page_t *requested_page,
+                                                     uint32_t result_buffer_start,
                                                      const data_search_result_list_t *result_list,
+                                                     bool result_buffer_more_after,
                                                      data_database_reader_t *db_reader
                                                    );
 
@@ -102,6 +100,22 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
  *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ );
+
+/*!
+ *  \brief determines the previous scroll page
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return returns the revious scroll page
+ */
+static inline pos_scroll_page_t gui_sketch_result_list_get_prev_page( gui_sketch_result_list_t *this_ );
+
+/*!
+ *  \brief determines the next scroll page
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return returns the next scroll page
+ */
+static inline pos_scroll_page_t gui_sketch_result_list_get_next_page( gui_sketch_result_list_t *this_ );
 
 /*!
  *  \brief gets the bounds rectangle
@@ -149,13 +163,29 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
  *  \param this_ pointer to own object attributes
  *  \param element pointer to the pos_search_result_t which to position
  *  \param[in,out] io_y_pos top position of the current element to be layouted; out: pos of next element
+ *  \param upwards true if the element shall be layouted in upwards direction to lesser y-values
  *  \param font_layout the pango font rendering object for i18n suppoprt
  */
 void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
                                                      pos_search_result_t *element,
-                                                     int32_t *io_y_pos,
+                                                     int_fast32_t *io_y_pos,
+                                                     bool upwards,
                                                      PangoLayout *font_layout
                                                    );
+
+/*!
+ *  \brief gets the action-id of the button at a given position.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_action_id the action id of the button at the given location. GUI_SKETCH_ACTION_NONE if there is no button at the given location.
+ */
+static inline void gui_sketch_result_list_get_button_at_pos ( const gui_sketch_result_list_t *this_,
+                                                              int32_t x,
+                                                              int32_t y,
+                                                              gui_sketch_action_t *out_action_id
+                                                            );
 
 /*!
  *  \brief determines the object at a given position and returns its id. The object can be a diagram.
@@ -172,25 +202,6 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                                                                  data_id_t* out_selected_id,
                                                                  data_id_t* out_diagram_id
                                                                );
-
-/*!
- * \brief gets the pos_search_result_t position object at index
- *
- *  \param this_ pointer to own object attributes
- *  \param index 0 &lt;= index &lt; element_count &lt;=  GUI_SKETCH_RESULT_LIST_MAX_ELEMENTS
- *  \return pointer to const pos_search_result_t
- */
-static inline const pos_search_result_t *gui_sketch_result_list_get_element_pos_const ( const gui_sketch_result_list_t *this_,
-                                                                                        uint32_t index
-                                                                                      );
-
-/*!
- * \brief gets the number of position objects
- *
- *  \param this_ pointer to own object attributes
- *  \return element_count
- */
-static inline uint32_t gui_sketch_result_list_get_element_count ( const gui_sketch_result_list_t *this_ );
 
 /*!
  *  \brief draws the search result list

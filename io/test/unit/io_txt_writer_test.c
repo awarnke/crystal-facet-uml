@@ -45,7 +45,7 @@ static const int ENDMARKER_LEN = 1;
 struct test_fixture_struct {
     /* data_visible_set_t fake_input_data; */
     io_txt_writer_t fake_testee;
-    char out_buffer[24];
+    char out_buffer[96];
     universal_memory_output_stream_t out_stream;
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
@@ -143,7 +143,7 @@ static test_case_result_t test_write_indent_multiline_string_crnl( test_fixture_
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
-    TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
+    TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), "123_456\r\n123_789\r\n[", strlen("123_456\r\n123_789\r\n[") ) );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -151,11 +151,16 @@ static test_case_result_t test_write_indent_multiline_string_cr( test_fixture_t 
 {
     assert( fix != NULL );
 
-    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\r789\r" );
+    static const char* LONG_LINE
+        = "56789\r123456789\r123456789\r123456789\r123456789\r123456789\r123456789\r123456789\r567\r";
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", LONG_LINE );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
-    TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
+    /*printf("%s",(char*)&((*fix).out_buffer));*/
+    static const char* LONG_LINE_RESULT
+        = "123_56789\r123456789\r123456789\r123456789\r123456789\r123456789\r123456789\r123456789\r\n123_567\r\n[";
+    TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), LONG_LINE_RESULT, strlen(LONG_LINE_RESULT) ) );
     return TEST_CASE_RESULT_OK;
 }
 

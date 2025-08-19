@@ -13,6 +13,8 @@
  *  shall be aligned relative to this anchor point
  */
 
+#include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_point.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
@@ -23,8 +25,8 @@
  */
 struct geometry_anchor_struct {
     geometry_point_t reference_point;
-    geometry_h_align_t x_align;
-    geometry_v_align_t y_align;
+    geometry_h_align_t x_align;  /*!< align the objects left or right to the reference point */
+    geometry_v_align_t y_align;  /*!< align the objects top or bottmo to the reference point */
 };
 
 typedef struct geometry_anchor_struct geometry_anchor_t;
@@ -83,6 +85,14 @@ static inline double geometry_anchor_get_x ( const geometry_anchor_t *this_ );
 static inline double geometry_anchor_get_y ( const geometry_anchor_t *this_ );
 
 /*!
+ *  \brief gets the reference point of geometry_anchor_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the reference point
+ */
+static inline const geometry_point_t * geometry_anchor_get_point_const ( const geometry_anchor_t *this_ );
+
+/*!
  *  \brief gets the horizontal alignment of geometry_anchor_t
  *
  *  \param this_ pointer to own object attributes
@@ -95,6 +105,41 @@ static inline geometry_h_align_t geometry_anchor_get_x_align ( const geometry_an
  *  \param this_ pointer to own object attributes
  */
 static inline geometry_v_align_t geometry_anchor_get_y_align ( const geometry_anchor_t *this_ );
+
+/*!
+ *  \brief aligns a rectangle to geometry_anchor_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param unaligned geometry_rectangle to be aligned to this_ anchor
+ *  \return geometry_rectangle aligned to anchor
+ */
+static inline geometry_rectangle_t geometry_anchor_align_rect ( const geometry_anchor_t *this_,
+                                                                const geometry_rectangle_t *unaligned
+                                                              );
+
+/*!
+ *  \brief aligns a dimension to coordinate of geometry_anchor_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param unaligned geometry_dimensions to be aligned to this_ anchor
+ *  \return geometry_rectangle aligned to anchor
+ */
+static inline geometry_rectangle_t geometry_anchor_align_dim ( const geometry_anchor_t *this_,
+                                                               const geometry_dimensions_t *unaligned
+                                                             );
+
+/*!
+ *  \brief aligns a dimension to coordinate of geometry_anchor_t but biased by preferred_location if centering
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param unaligned geometry_dimensions to be aligned to this_ anchor
+ *  \param preferred_location geometry_rectangle within which the result may be located if possible
+ *  \return geometry_rectangle aligned to anchor
+ */
+static inline geometry_rectangle_t geometry_anchor_align_biased_dim ( const geometry_anchor_t *this_,
+                                                                      const geometry_dimensions_t *unaligned,
+                                                                      const geometry_rectangle_t *preferred_location
+                                                                    );
 
 /*!
  *  \brief prints the geometry_anchor_t struct to the trace output

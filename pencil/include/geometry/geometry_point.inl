@@ -11,6 +11,13 @@ static inline void geometry_point_init ( geometry_point_t *this_, double x, doub
     (*this_).y = y;
 }
 
+static inline geometry_point_t geometry_point_new ( double x, double y )
+{
+    geometry_point_t result;
+    geometry_point_init( &result, x, y );
+    return result;
+}
+
 static inline void geometry_point_reinit ( geometry_point_t *this_, double x, double y )
 {
     (*this_).x = x;
@@ -53,61 +60,6 @@ static inline bool geometry_point_equals ( const geometry_point_t *this_, const 
 {
     assert( NULL != that );
     return ( ( fabs( (*this_).x - (*that).x ) + fabs( (*this_).y - (*that).y ) ) < 0.000000001 );
-}
-
-static inline geometry_direction_t geometry_point_get_direction ( const geometry_point_t *this_, const geometry_point_t *that )
-{
-    assert( NULL != that );
-    geometry_direction_t result;
-    if ( (*this_).x + 0.000000001 < (*that).x )
-    {
-        /* that is right of this_ */
-        if ( (*this_).y + 0.000000001 < (*that).y )
-        {
-            result = GEOMETRY_DIRECTION_DOWN_RIGHT;
-        }
-        else if ( (*this_).y - 0.000000001 > (*that).y )
-        {
-            result = GEOMETRY_DIRECTION_UP_RIGHT;
-        }
-        else
-        {
-            result = GEOMETRY_DIRECTION_RIGHT;
-        }
-    }
-    else if ( (*this_).x - 0.000000001 > (*that).x )
-    {
-        /* that is left of this_ */
-        if ( (*this_).y + 0.000000001 < (*that).y )
-        {
-            result = GEOMETRY_DIRECTION_DOWN_LEFT;
-        }
-        else if ( (*this_).y - 0.000000001 > (*that).y )
-        {
-            result = GEOMETRY_DIRECTION_UP_LEFT;
-        }
-        else
-        {
-            result = GEOMETRY_DIRECTION_LEFT;
-        }
-    }
-    else
-    {
-        /* that is x-equal to this_ */
-        if ( (*this_).y + 0.000000001 < (*that).y )
-        {
-            result = GEOMETRY_DIRECTION_DOWN;
-        }
-        else if ( (*this_).y - 0.000000001 > (*that).y )
-        {
-            result = GEOMETRY_DIRECTION_UP;
-        }
-        else
-        {
-            result = GEOMETRY_DIRECTION_CENTER;
-        }
-    }
-    return result;
 }
 
 static inline void geometry_point_shift ( geometry_point_t *this_, double delta_x, double delta_y )

@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.64.0"
   }
   ,
   "views":
@@ -14,77 +14,66 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "type": "Activity Diagram", "diagram_type": 11,
         "name": "Activity",
         "description": [
                 ""
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "b425194c-7e82-451c-b929-66c8408d1819",
         "diagramelements":
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "begin",
             "node": "67275757-5a20-4256-ad53-474771f46417",
             "uuid": "d25c01ed-f409-45ae-bef0-8d14e4cdb4ea"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "begin_parallel",
             "node": "765a10d4-f163-4681-9050-c1b5b18761df",
             "uuid": "9618f473-c174-490d-a651-c6a61a1fa10e"
           },
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "while there is time",
             "node": "60bc3bd6-b5be-4515-b4d5-91cb2c88de02",
             "uuid": "7929e5a1-4ebd-4cfc-aa98-97f58d2c793e"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "listen to music",
             "node": "107539f9-98f7-4d95-a650-833448da2c1a",
             "uuid": "cd8719f7-ad30-49fb-b859-85bd278ea78f"
           },
           {
             "id": 5,
-            "display_flags": 0,
             "classifier_name": "read emails",
             "node": "c386b4b9-3560-468c-8a0a-4627dc459770",
             "uuid": "79f91dbd-3e85-4420-8667-0824f26d1357"
           },
           {
             "id": 6,
-            "display_flags": 0,
             "classifier_name": "timeout",
             "node": "c9495ac0-bf70-4dce-8f76-ab73806a4784",
             "uuid": "5317763f-7d76-47f1-84ca-42bcd2d529b3"
           },
           {
             "id": 7,
-            "display_flags": 0,
             "classifier_name": "end parallel",
             "node": "4bf9701f-ff08-40c7-ac4a-275ff8924c4b",
             "uuid": "09803597-fe14-4f5c-b15c-243943e1059c"
           },
           {
             "id": 8,
-            "display_flags": 0,
             "classifier_name": "end",
             "node": "a8fe54e4-6359-4769-8e24-157c16542fd6",
             "uuid": "1980f3ad-7203-43b1-aa49-52c40acdbf04"
           },
           {
             "id": 18,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "all",
             "node": "29f145a9-7c4c-414e-9385-0604cdde8cc3",
             "uuid": "3aa9f97c-4030-434b-aec1-9c921409d570"
@@ -95,14 +84,12 @@
     {
       "diagram": {
         "id": 2,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "type": "Activity Diagram", "diagram_type": 11,
         "name": "Sub-Activity",
         "description": [
                 ""
         ],
         "list_order": 32768,
-        "display_flags": 0,
         "parent_name": "Activity",
         "parent": "b425194c-7e82-451c-b929-66c8408d1819",
         "uuid": "86fcf7dc-cb82-428b-aedb-92a1d5f486c4",
@@ -110,63 +97,54 @@
         [
           {
             "id": 9,
-            "display_flags": 0,
             "classifier_name": "read emails",
             "node": "c386b4b9-3560-468c-8a0a-4627dc459770",
             "uuid": "b45a72c8-3347-4e8f-baef-f6d94cd570d8"
           },
           {
             "id": 10,
-            "display_flags": 0,
             "classifier_name": "start",
             "node": "42670994-010c-4ac0-b37d-580c2f1cfafd",
             "uuid": "ad8afae8-7a2b-408e-8b7c-576c5c90f0b1"
           },
           {
             "id": 11,
-            "display_flags": 0,
             "classifier_name": "wait for next mail",
             "node": "583d909c-e34e-4bcc-beac-4198d7ddcea9",
             "uuid": "312377d7-a5a1-4399-a266-20b5fff6b4ee"
           },
           {
             "id": 12,
-            "display_flags": 0,
             "classifier_name": "read mail",
             "node": "7178cf35-e702-4b9c-8a09-23b16d1d7c7d",
             "uuid": "9bd72c4f-248b-437e-a396-f7f46425cb23"
           },
           {
             "id": 13,
-            "display_flags": 0,
             "classifier_name": "decision",
             "node": "67fe55c2-2e7f-43bf-ad1c-d743171e7e83",
             "uuid": "2aa0e450-532a-4a4f-8b99-a52c536916a1"
           },
           {
             "id": 14,
-            "display_flags": 0,
             "classifier_name": "delete",
             "node": "5e5b4ba8-3075-4500-ad0b-fb8f1a683e79",
             "uuid": "f5c6f603-36a3-4323-8fbf-d57b794e19d3"
           },
           {
             "id": 15,
-            "display_flags": 0,
             "classifier_name": "archive",
             "node": "dbb1af25-41ae-4cb3-b878-f5802c5408c2",
             "uuid": "7109efa6-b4c6-43e5-815a-d540fc94e884"
           },
           {
             "id": 16,
-            "display_flags": 0,
             "classifier_name": "reply mail",
             "node": "8450194f-b047-4157-885e-78729e679e3f",
             "uuid": "b40956b6-c2ee-4260-9fa1-353cdd1c933c"
           },
           {
             "id": 17,
-            "display_flags": 0,
             "classifier_name": "fetch mail",
             "node": "ebbbc48f-be91-4cdb-9896-e0c42e3a8173",
             "uuid": "11cf7d5b-9f91-473a-9c82-d68fe8b51dca"
@@ -181,9 +159,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 151,
-        "type": "InitialNode",
-        "stereotype": "",
+        "type": "Initial Node", "main_type": 151,
         "name": "begin",
         "description": [
                 ""
@@ -200,9 +176,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 154,
-        "type": "ForkNode",
-        "stereotype": "",
+        "type": "Fork", "main_type": 154,
         "name": "begin_parallel",
         "description": [
                 ""
@@ -219,9 +193,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 150,
-        "type": "InterruptibleActivityRegion",
-        "stereotype": "",
+        "type": "Interruptable Region", "main_type": 150,
         "name": "while there is time",
         "description": [
                 ""
@@ -238,9 +210,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "listen to music",
         "description": [
                 ""
@@ -257,9 +227,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "read emails",
         "description": [
                 ""
@@ -276,9 +244,7 @@
     {
       "classifier": {
         "id": 6,
-        "main_type": 168,
-        "type": "AcceptEventAction",
-        "stereotype": "",
+        "type": "Time Event", "main_type": 168,
         "name": "timeout",
         "description": [
                 ""
@@ -295,9 +261,7 @@
     {
       "classifier": {
         "id": 7,
-        "main_type": 155,
-        "type": "JoinNode",
-        "stereotype": "",
+        "type": "Join", "main_type": 155,
         "name": "end parallel",
         "description": [
                 ""
@@ -314,9 +278,7 @@
     {
       "classifier": {
         "id": 8,
-        "main_type": 152,
-        "type": "ActivityFinalNode",
-        "stereotype": "",
+        "type": "Final Node", "main_type": 152,
         "name": "end",
         "description": [
                 ""
@@ -333,9 +295,7 @@
     {
       "classifier": {
         "id": 9,
-        "main_type": 151,
-        "type": "InitialNode",
-        "stereotype": "",
+        "type": "Initial Node", "main_type": 151,
         "name": "start",
         "description": [
                 ""
@@ -352,9 +312,7 @@
     {
       "classifier": {
         "id": 10,
-        "main_type": 167,
-        "type": "AcceptEventAction",
-        "stereotype": "",
+        "type": "Accept Event", "main_type": 167,
         "name": "wait for next mail",
         "description": [
                 ""
@@ -371,9 +329,7 @@
     {
       "classifier": {
         "id": 11,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "read mail",
         "description": [
                 ""
@@ -386,10 +342,8 @@
         [
           {
             "id": 2,
-            "main_type": 6,
-            "type": "InputPin",
+            "type": "Input Port", "main_type": 6,
             "key": "mail",
-            "value": "",
             "description": [
                 ""
             ],
@@ -402,9 +356,7 @@
     {
       "classifier": {
         "id": 12,
-        "main_type": 157,
-        "type": "DecisionNode",
-        "stereotype": "",
+        "type": "Decision", "main_type": 157,
         "name": "decision",
         "description": [
                 ""
@@ -421,9 +373,7 @@
     {
       "classifier": {
         "id": 13,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "delete",
         "description": [
                 ""
@@ -440,9 +390,7 @@
     {
       "classifier": {
         "id": 14,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "archive",
         "description": [
                 ""
@@ -459,9 +407,7 @@
     {
       "classifier": {
         "id": 15,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "reply mail",
         "description": [
                 ""
@@ -478,9 +424,7 @@
     {
       "classifier": {
         "id": 16,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "fetch mail",
         "description": [
                 ""
@@ -493,10 +437,8 @@
         [
           {
             "id": 1,
-            "main_type": 7,
-            "type": "OutputPin",
+            "type": "Output Port", "main_type": 7,
             "key": "mail",
-            "value": "",
             "description": [
                 ""
             ],
@@ -509,9 +451,7 @@
     {
       "classifier": {
         "id": 17,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
+        "type": "Activity", "main_type": 110,
         "name": "all",
         "description": [
                 ""
@@ -532,8 +472,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -549,8 +488,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -566,8 +504,7 @@
     {
       "relationship": {
         "id": 7,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -583,8 +520,7 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -600,8 +536,7 @@
     {
       "relationship": {
         "id": 4,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -617,8 +552,7 @@
     {
       "relationship": {
         "id": 37,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -634,8 +568,7 @@
     {
       "relationship": {
         "id": 10,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -651,8 +584,7 @@
     {
       "relationship": {
         "id": 11,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -668,8 +600,7 @@
     {
       "relationship": {
         "id": 12,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -685,8 +616,7 @@
     {
       "relationship": {
         "id": 13,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -702,8 +632,7 @@
     {
       "relationship": {
         "id": 14,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -719,8 +648,7 @@
     {
       "relationship": {
         "id": 15,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -736,8 +664,7 @@
     {
       "relationship": {
         "id": 16,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -753,8 +680,7 @@
     {
       "relationship": {
         "id": 17,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -770,8 +696,7 @@
     {
       "relationship": {
         "id": 8,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -787,8 +712,7 @@
     {
       "relationship": {
         "id": 9,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -804,8 +728,7 @@
     {
       "relationship": {
         "id": 18,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -821,8 +744,7 @@
     {
       "relationship": {
         "id": 28,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -838,8 +760,7 @@
     {
       "relationship": {
         "id": 30,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -855,8 +776,7 @@
     {
       "relationship": {
         "id": 20,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "unimportant",
         "description": [
                 ""
@@ -872,8 +792,7 @@
     {
       "relationship": {
         "id": 21,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "keep",
         "description": [
                 ""
@@ -889,8 +808,7 @@
     {
       "relationship": {
         "id": 22,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "answer",
         "description": [
                 ""
@@ -906,8 +824,7 @@
     {
       "relationship": {
         "id": 25,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -923,8 +840,7 @@
     {
       "relationship": {
         "id": 27,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -940,8 +856,7 @@
     {
       "relationship": {
         "id": 26,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -957,8 +872,7 @@
     {
       "relationship": {
         "id": 36,
-        "main_type": 241,
-        "type": "ObjectFlow",
+        "type": "Object Flow", "main_type": 241,
         "name": "",
         "description": [
                 ""
@@ -976,8 +890,7 @@
     {
       "relationship": {
         "id": 31,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -993,8 +906,7 @@
     {
       "relationship": {
         "id": 32,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -1010,8 +922,7 @@
     {
       "relationship": {
         "id": 33,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -1027,8 +938,7 @@
     {
       "relationship": {
         "id": 34,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -1044,8 +954,7 @@
     {
       "relationship": {
         "id": 35,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
