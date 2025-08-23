@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
   <!-- file format specification available at https://www.freedesktop.org/software/appstream/docs/ -->
-  <id>de.andreaswarnke.crystal-facet-uml</id>
+  <id>de.arrows2boxes.crystal-facet-uml</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>crystal-facet-uml</name>
   <summary>crystal-facet-uml creates diagrams to document system and software architecture</summary>
@@ -26,7 +26,7 @@
   </categories>
   <url type="homepage">https://andreaswarnke.de/crystal-facet-uml/html/index.html</url>
   <url type="bugtracker">https://github.com/awarnke/crystal-facet-uml/issues</url>
-  <launchable type="desktop-id">crystal-facet-uml.desktop</launchable>
+  <launchable type="desktop-id">de.arrows2boxes.crystal-facet-uml.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <image type="source" width="1120" height="630">https://andreaswarnke.de/crystal-facet-uml/metainfo/screenshot_1.png</image>
