@@ -6,6 +6,7 @@ pub mod icon_data;
 pub mod model;
 pub mod render;
 pub mod stream_if;
+use icon_data::gui_edit_icon;
 use icon_data::gui_file_icon;
 use icon_data::gui_sketch_icon;
 use icon_data::gui_view_icon;
@@ -28,6 +29,12 @@ fn main() {
 
     for argument in args {
         let arg = argument.as_str();
+        if arg == "-e" {
+            let gui_file_icons: &'static [IconSource<'static>] = gui_edit_icon::get_icons();
+            icon_writer::generate_files(gui_file_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(gui_file_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
         if arg == "-f" {
             let gui_file_icons: &'static [IconSource<'static>] = gui_file_icon::get_icons();
             icon_writer::generate_files(gui_file_icons, FileType::Svg, OUT_DIR_GUI);
@@ -79,8 +86,8 @@ fn main() {
         if arg == "-h" {
             println!("options are");
             println!("-f file icons");
-            println!("-e edit icons");
             println!("-v view icons");
+            println!("-e edit icons");
             println!("-g gui sketch icons");
             println!("-d diagram icons");
             println!("-c classifier icons");

@@ -50,6 +50,9 @@ static BLACK_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
+/// half line width
+const HALFLINE: f32 = 0.5;
+
 /// The function defines the draw directives for the view mode background
 ///
 /// # Arguments
@@ -80,6 +83,50 @@ fn get_view_ground(pos: i32) -> [geometry::DrawDirective; 5] {
         Line(Point { x: 0.0, y: 32.0 }),
         Close,
     ]
+}
+
+/// The function generates a new window icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_view_new_window(out: &mut dyn PathRenderer) -> () {
+    /* window */
+    let icon_segs: [geometry::DrawDirective; 7] = [
+        MoveRel(Offset {
+            dx: 31.0 - HALFLINE,
+            dy: 7.0 + HALFLINE,
+        }),
+        LineRel(Offset { dx: -29.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: 17.0 }),
+        LineRel(Offset { dx: 29.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: -19.0 }),
+        LineRel(Offset { dx: -29.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: 2.0 }),
+    ];
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+
+    /* plus symbol */
+    let plus_sym: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: 12.0,
+            y: 16.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: 20.0,
+            y: 16.0 - HALFLINE,
+        }),
+        Move(Point {
+            x: 16.0 - HALFLINE,
+            y: 12.0,
+        }),
+        Line(Point {
+            x: 16.0 - HALFLINE,
+            y: 20.0,
+        }),
+    ];
+    out.render_path(&plus_sym, &Some(BLACK_PEN), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -543,6 +590,11 @@ pub fn generate_view_create(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
     &[
+        IconSource {
+            name: "view_new_window",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_view_new_window,
+        },
         IconSource {
             name: "view_search",
             viewport: ICON_VIEW_RECT,
