@@ -1,11 +1,16 @@
 //! The module provides functions to render an icon to vector graphics.
 
+use super::shape::get_circle_abs;
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::CloseRel;
 use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::Line;
+use crate::stream_if::geometry::DrawDirective::LineRel;
 use crate::stream_if::geometry::DrawDirective::Move;
+use crate::stream_if::geometry::DrawDirective::MoveRel;
+use crate::stream_if::geometry::Offset;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
@@ -54,6 +59,19 @@ static BLACK: geometry::Color = geometry::Color {
 static BLACK_PEN: geometry::Pen = geometry::Pen {
     color: BLACK,
     width: 1.0,
+};
+
+/// pink color
+static PINK: geometry::Color = geometry::Color {
+    red: 0xff,
+    green: 0x3c,
+    blue: 0xd2,
+};
+
+/// pink thick pen
+static PINK_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: PINK,
+    width: 2.0,
 };
 
 /// half line width
@@ -345,6 +363,67 @@ pub fn generate_edit_redo(out: &mut dyn PathRenderer) -> () {
     out.render_path(&time_glass_sym, &Some(BLACK_PEN), &None);
 }
 
+/// The function generates an edit/cut icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_edit_cut(out: &mut dyn PathRenderer) -> () {
+    let left_finger_sym: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 15.5, y: 24.5 }, 3.0, 3.0);
+    out.render_path(&left_finger_sym, &Some(BLACK_PEN), &None);
+
+    let right_finger_sym: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 23.5, y: 21.5 }, 3.0, 3.0);
+    out.render_path(&right_finger_sym, &Some(BLACK_PEN), &None);
+
+    let scissors_sym: [geometry::DrawDirective; 11] = [
+        MoveRel(Offset { dx: 16.0, dy: 21.5 }),
+        LineRel(Offset {
+            dx: 0.375,
+            dy: -4.75,
+        }),
+        LineRel(Offset {
+            dx: -3.5,
+            dy: -2.125,
+        }),
+        LineRel(Offset {
+            dx: -5.0,
+            dy: -8.125,
+        }),
+        LineRel(Offset { dx: 9.0, dy: 8.375 }),
+        LineRel(Offset {
+            dx: -0.625,
+            dy: -12.375,
+        }),
+        LineRel(Offset {
+            dx: 2.875,
+            dy: 9.25,
+        }),
+        LineRel(Offset {
+            dx: -0.625,
+            dy: 4.25,
+        }),
+        LineRel(Offset {
+            dx: 3.375,
+            dy: 3.125,
+        }),
+        LineRel(Offset {
+            dx: -3.875,
+            dy: -1.625,
+        }),
+        CloseRel,
+    ];
+    out.render_path(&scissors_sym, &Some(BLACK_PEN), &None);
+
+    let pink_line: [geometry::DrawDirective; 2] = [
+        MoveRel(Offset { dx: 1.0, dy: 30.0 }),
+        LineRel(Offset { dx: 30.0, dy: 0.0 }),
+    ];
+    out.render_path(&pink_line, &Some(PINK_THICK_PEN), &None);
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -358,6 +437,11 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "edit_redo",
             viewport: ICON_VIEW_RECT,
             generate: generate_edit_redo,
+        },
+        IconSource {
+            name: "edit_cut",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_edit_cut,
         },
     ]
 }
