@@ -1,3 +1,10 @@
+crystal-facet-uml (1.65.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * desktop file renamed and dbus app-name adapted to arrows2boxes.de domain
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 23 Aug 2025 08:00:00 +0200
+
 crystal-facet-uml (1.65.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
