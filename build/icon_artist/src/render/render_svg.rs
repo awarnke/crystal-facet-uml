@@ -50,7 +50,7 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     xmlns=\"http://www.w3.org/2000/svg\"
     version=\"1.1\"
     >
-    \
+\
             ",
             view.left, view.top, view.width, view.height
         )
@@ -64,7 +64,7 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     /// This function panics if the vector graphics cannot be written to a file.
     ///
     pub(super) fn footer(self: &mut Self) -> () {
-        write!(self.output_file, "\n</svg>\n").expect("Error at writing file");
+        write!(self.output_file, "</svg>\n").expect("Error at writing file");
     }
 }
 
@@ -88,34 +88,34 @@ impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
         stroke: &Option<Pen>,
         fill: &Option<Color>,
     ) -> () {
-        write!(self.output_file, "<path ").expect("Error at writing file");
+        write!(self.output_file, "    <path").expect("Error at writing file");
         match (stroke, fill, self.force_colors) {
             (Some(pen), _, _) => {
-                write!(self.output_file, "stroke=\"#{}\" ", pen.color.to_svg())
+                write!(self.output_file, " stroke=\"#{}\"", pen.color.to_svg())
                     .expect("Error at writing file");
-                write!(self.output_file, "stroke-width=\"{}\" ", pen.width)
+                write!(self.output_file, " stroke-width=\"{}\"", pen.width)
                     .expect("Error at writing file");
             }
             (None, Some(_), _) => {
-                write!(self.output_file, "stroke=\"none\" ").expect("Error at writing file");
+                write!(self.output_file, " stroke=\"none\"").expect("Error at writing file");
             }
             (None, None, true) => {
-                write!(self.output_file, "stroke=\"black\" ").expect("Error at writing file");
+                write!(self.output_file, " stroke=\"black\"").expect("Error at writing file");
             }
             (None, None, false) => {}
         }
         match (fill, self.force_colors) {
             (Some(color), _) => {
-                write!(self.output_file, "fill=\"#{}\" ", color.to_svg())
+                write!(self.output_file, " fill=\"#{}\"", color.to_svg())
                     .expect("Error at writing file");
             }
             (None, true) => {
-                write!(self.output_file, "fill=\"none\" ").expect("Error at writing file");
+                write!(self.output_file, " fill=\"none\"").expect("Error at writing file");
             }
             (None, false) => {}
         }
 
-        write!(self.output_file, "d=\"").expect("Error at writing file");
+        write!(self.output_file, "\n        d=\"").expect("Error at writing file");
         for seg in segs {
             match seg {
                 DrawDirective::Move(target) => {
@@ -219,7 +219,7 @@ impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
             }
             .expect("Error at writing file");
         }
-        write!(self.output_file, "\" />").expect("Error at writing file");
+        write!(self.output_file, "\"\n    />\n").expect("Error at writing file");
     }
 }
 

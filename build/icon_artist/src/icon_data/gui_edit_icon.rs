@@ -48,6 +48,12 @@ static GRAY_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
+/// gray pen
+static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 2.0,
+};
+
 /// black color
 static BLACK: geometry::Color = geometry::Color {
     red: 0x0,
@@ -243,6 +249,15 @@ fn get_time_glass() -> [geometry::DrawDirective; 9] {
     ]
 }
 
+/// The function defines the pink marker icon directives
+///
+fn get_pink_marker() -> [geometry::DrawDirective; 2] {
+    [
+        MoveRel(Offset { dx: 1.0, dy: 30.0 }),
+        LineRel(Offset { dx: 30.0, dy: 0.0 }),
+    ]
+}
+
 /// The function generates an edit/undo icon to vector graphics drawing directives
 ///
 /// # Panics
@@ -417,11 +432,108 @@ pub fn generate_edit_cut(out: &mut dyn PathRenderer) -> () {
     ];
     out.render_path(&scissors_sym, &Some(BLACK_PEN), &None);
 
-    let pink_line: [geometry::DrawDirective; 2] = [
-        MoveRel(Offset { dx: 1.0, dy: 30.0 }),
-        LineRel(Offset { dx: 30.0, dy: 0.0 }),
-    ];
+    let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
     out.render_path(&pink_line, &Some(PINK_THICK_PEN), &None);
+}
+
+/// The function defines the draw directives for the page contour
+///
+fn get_page_contour( left: f32, top: f32 ) -> [geometry::DrawDirective; 8] {
+    [
+        MoveRel(Offset { dx: left + 6.0, dy: top + 19.0 }),
+        LineRel(Offset {
+            dx: 5.0,
+            dy: -5.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: -14.0,
+        }),
+        LineRel(Offset {
+            dx: -11.0,
+            dy: 0.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 19.0,
+        }),
+        LineRel(Offset { dx: 6.0, dy: 0.0 }),
+        LineRel(Offset {
+            dx: 1.0,
+            dy: -4.0,
+        }),
+        LineRel(Offset {
+            dx: 4.0,
+            dy: -1.0,
+        }),
+    ]
+}
+
+/// The function generates an edit/copy icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_edit_copy(out: &mut dyn PathRenderer) -> () {
+    let left_page_sym: [geometry::DrawDirective; 8] = get_page_contour( 3.0 + HALFLINE, 4.0 + HALFLINE );
+    out.render_path(&left_page_sym, &Some(BLACK_PEN), &None);
+
+    let right_page_sym: [geometry::DrawDirective; 8] = get_page_contour( 17.0 + HALFLINE, 4.0 + HALFLINE );
+    out.render_path(&right_page_sym, &Some(BLACK_PEN), &None);
+
+    let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
+    out.render_path(&pink_line, &Some(PINK_THICK_PEN), &None);
+}
+
+/// The function generates an edit/paste icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_edit_paste(out: &mut dyn PathRenderer) -> () {
+    let left_page_sym: [geometry::DrawDirective; 8] = get_page_contour( 10.0 + HALFLINE, 4.0 + HALFLINE );
+    out.render_path(&left_page_sym, &Some(BLACK_PEN), &None);
+
+    let board_sym: [geometry::DrawDirective; 6] = [
+        MoveRel(Offset { dx: 7.0 + HALFLINE, dy: 26.0 }),
+        LineRel(Offset {
+            dx: -1.0,
+            dy: -2.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: -22.0 - HALFLINE,
+        }),
+        LineRel(Offset {
+            dx: 19.0,
+            dy: 0.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 22.0 + HALFLINE,
+        }),
+        LineRel(Offset {
+            dx: -1.0,
+            dy: 2.0,
+        }),
+    ];
+    out.render_path(&board_sym, &Some(BLACK_PEN), &None);
+
+    let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
+    out.render_path(&pink_line, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates an edit/reset icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_edit_reset(out: &mut dyn PathRenderer) -> () {
+    let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
+    out.render_path(&pink_line, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function returns an array of IconSource
@@ -442,6 +554,21 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "edit_cut",
             viewport: ICON_VIEW_RECT,
             generate: generate_edit_cut,
+        },
+        IconSource {
+            name: "edit_copy",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_edit_copy,
+        },
+        IconSource {
+            name: "edit_paste",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_edit_paste,
+        },
+        IconSource {
+            name: "edit_reset",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_edit_reset,
         },
     ]
 }
