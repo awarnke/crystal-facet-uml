@@ -7,7 +7,7 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+    <path stroke="#999999" stroke-width="1" fill="none"
         d="M 5.375,5.375 C -0.625,11.375 -0.625,20.625 5.375,26.625 M 26.625,26.625 C 32.625,20.625 32.625,11.375 26.625,5.375 "
     />
     <path stroke="none" fill="#00ff99"
