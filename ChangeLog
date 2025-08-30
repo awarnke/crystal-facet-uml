@@ -1,3 +1,11 @@
+crystal-facet-uml (1.65.3) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * icons of edit buttons beautified
+  * search pages show only diagrams that are referenced from visible results
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 23 Aug 2025 08:00:00 +0200
+
 crystal-facet-uml (1.65.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

@@ -174,6 +174,16 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
                                                    );
 
 /*!
+ *  \brief gets the list of diagrams that is referenced from the current visible page of search results.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_diagram_id_list the list of diagram ids that is referenced from the current visible page.
+ */
+static inline void gui_sketch_result_list_get_visible_diagrams ( const gui_sketch_result_list_t *this_,
+                                                                 data_small_set_t *out_diagram_id_list
+                                                               );
+
+/*!
  *  \brief gets the action-id of the button at a given position.
  *
  *  \param this_ pointer to own object attributes

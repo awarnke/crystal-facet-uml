@@ -75,7 +75,8 @@ struct gui_sketch_area_struct {
     gui_sketch_card_painter_t card_overlay;  /*!< own instance of sketch card overlay */
     gui_sketch_background_t background;  /*!< own instance of sketch background */
     gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
-    uint32_t card_num;
+    uint32_t card_num;  /*!< number of cards that have its data loaded */
+    data_small_set_t card_draw_list;  /*!< diagram IDs for which cards shall be drawn */
     gui_sketch_nav_tree_t nav_tree;  /*!< own instance of a navigation tree sub-widget */
     gui_sketch_result_list_t result_list;  /*!< own instance of a search result list sub-widget */
 

@@ -73,6 +73,26 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
     (*this_).visible = visible;
 }
 
+static inline void gui_sketch_result_list_get_visible_diagrams( const gui_sketch_result_list_t *this_,
+                                                                data_small_set_t *out_diagram_id_list )
+{
+    data_small_set_reinit( out_diagram_id_list );
+    const uint_fast32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
+    const uint_fast32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
+    assert( page_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+    for ( uint_fast32_t idx = 0; idx < page_length; idx ++ )
+    {
+        const pos_search_result_t *const pos_element = pos_search_result_page_get_search_result_layout_const( &((*this_).page), page_start + idx );
+        const data_search_result_t *const data_element = pos_search_result_get_data_const( pos_element );
+        const data_id_t element_diag_id = data_search_result_get_diagram_id( data_element );
+        const u8_error_t set_full = data_small_set_add_obj( out_diagram_id_list, element_diag_id );
+        if ( U8_ERROR_NONE != set_full )
+        {
+            U8_LOG_ANOMALY("A search result contains more elements than data_small_set_t can contain.");
+        }
+    }
+}
+
 static inline void gui_sketch_result_list_get_button_at_pos( const gui_sketch_result_list_t *this_,
                                                              int32_t x,
                                                              int32_t y,

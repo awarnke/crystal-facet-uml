@@ -25,7 +25,7 @@ ideas for future versions:
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [ ] to pink-mark several objects - require shift key
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
-  [ ] In Search View, show e.g. the Diagram Id to better explani why classifiers are shown multiple times
+  [ ] In Search View, show e.g. the Diagram Id to better explain why classifiers are shown multiple times
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

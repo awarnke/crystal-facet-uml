@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.65.1"
+    "generator_version": "1.65.3"
   }
   ,
   "views":
@@ -2260,13 +2260,13 @@
           },
           {
             "id": 380,
-            "classifier_name": "gui_search _runner",
+            "classifier_name": "gui_search_runner",
             "node": "330fd818-d38a-4267-86a1-13846247fee2",
             "uuid": "f410468b-2cd8-4271-a237-47b39ddcdf82"
           },
           {
             "id": 381,
-            "classifier_name": "gui_sketch _result_list",
+            "classifier_name": "gui_sketch_result_list",
             "node": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
             "uuid": "997a0398-9bbf-44f8-b48b-907d68c73c56"
           },
@@ -2336,16 +2336,16 @@
             "uuid": "08952f8d-fc51-4e3e-a461-c13c184bf95e"
           },
           {
-            "id": 868,
-            "classifier_name": "gui_sketch_result_list",
-            "node": "235a527e-3f82-4624-92d0-008f6b9122cc",
-            "uuid": "9d22d5bd-be3c-4f0a-ac4e-f30b6df26884"
-          },
-          {
             "id": 886,
             "classifier_name": "gui_marked_set",
             "node": "ba3f0d81-fbdf-43d3-a68e-4ef11bfba6b7",
             "uuid": "1745a2ad-6210-4d0d-8a9b-8c4daa5a082d"
+          },
+          {
+            "id": 981,
+            "classifier_name": "gui_sketch_result_list",
+            "node": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
+            "uuid": "a4963150-99f3-465f-8ed2-7439d46c477f"
           }
         ]
       }
@@ -2399,6 +2399,65 @@
     },
     {
       "diagram": {
+        "id": 132,
+        "type": "Activity Diagram", "diagram_type": 11,
+        "name": "activities of sketch area",
+        "description": [
+                ""
+        ],
+        "list_order": -1610604544,
+        "parent_name": "gui: Runtime View",
+        "parent": "65463912-947e-4e45-9d91-38b47fae6ae9",
+        "uuid": "7dc8d536-caff-4237-bb00-b1279615851d",
+        "diagramelements":
+        [
+          {
+            "id": 974,
+            "classifier_name": "sketch",
+            "node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
+            "uuid": "40eec58f-0bd3-442b-a941-b1496d0d8f03"
+          },
+          {
+            "id": 975,
+            "classifier_name": "data changed callback",
+            "node": "8356fa84-2ad9-417a-814c-4f72097c2d64",
+            "uuid": "6d86a1d5-de5f-40a6-9c02-6b74f592fd86"
+          },
+          {
+            "id": 976,
+            "classifier_name": "refocus and reload data",
+            "node": "41fac543-8c92-4887-9374-d70b98e34706",
+            "uuid": "17218c46-efca-465d-b4c4-931b5426254a"
+          },
+          {
+            "id": 977,
+            "classifier_name": "layout subwidgets",
+            "node": "ecc789ba-1c8b-4355-b991-bf22799baef3",
+            "uuid": "df407b40-a447-416c-ad6b-2c1b1a42dd59"
+          },
+          {
+            "id": 978,
+            "classifier_name": "draw subwidgets",
+            "node": "7be00158-3753-45b0-bcd2-a7bebde4bdb2",
+            "uuid": "55c354a0-b08d-4862-95d7-aa0c60174e8e"
+          },
+          {
+            "id": 979,
+            "classifier_name": "end callback",
+            "node": "d782414f-6aaf-4388-946c-da56e2726204",
+            "uuid": "fe1dcda6-6df2-4546-b3b8-33f1c9bacd45"
+          },
+          {
+            "id": 980,
+            "classifier_name": "redraw callback",
+            "node": "ba151637-e583-4f4a-830a-a63b15f5ea4f",
+            "uuid": "8b45d819-d0e6-4e68-8d84-398302de521e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 63,
         "type": "Sequence Diagram", "diagram_type": 13,
         "stereotype": "reason_chosen",
@@ -2420,13 +2479,13 @@
           },
           {
             "id": 385,
-            "classifier_name": "gui_search _runner",
+            "classifier_name": "gui_search_runner",
             "node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
             "uuid": "dd5866ad-4547-494d-a7f4-c20c39ff258e"
           },
           {
             "id": 386,
-            "classifier_name": "gui_sketch _result_list",
+            "classifier_name": "gui_sketch_result_list",
             "node": "4cf05fc6-ee5c-4242-b64b-6c0bfd19188f",
             "uuid": "0776bd9e-0019-4570-b922-589cc38ee5c0"
           },
@@ -12637,7 +12696,8 @@
         "type": "Component", "main_type": 121,
         "name": "search_entry",
         "description": [
-                ""
+                "This is a set of widgets that allow to enter a search text and to start a ",
+                "search."
         ],
         "x_order": -550118132,
         "y_order": -658153891,
@@ -12662,7 +12722,7 @@
       "classifier": {
         "id": 261,
         "type": "Component", "main_type": 121,
-        "name": "gui_search _runner",
+        "name": "gui_search_runner",
         "description": [
                 ""
         ],
@@ -12689,12 +12749,12 @@
       "classifier": {
         "id": 262,
         "type": "Component", "main_type": 121,
-        "name": "gui_sketch _result_list",
+        "name": "gui_sketch_result_list",
         "description": [
-                ""
+                "shows a list of search results"
         ],
-        "x_order": -748458753,
-        "y_order": -741926945,
+        "x_order": -755179412,
+        "y_order": -863059162,
         "list_order": 1851360124,
         "uuid": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
         "features":
@@ -17666,23 +17726,6 @@
     },
     {
       "classifier": {
-        "id": 529,
-        "type": "Component", "main_type": 121,
-        "name": "gui_sketch_result_list",
-        "description": [
-                "shows a list of search results"
-        ],
-        "x_order": -755179412,
-        "y_order": -863059162,
-        "list_order": -863059162,
-        "uuid": "235a527e-3f82-4624-92d0-008f6b9122cc",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 530,
         "type": "Activity", "main_type": 110,
         "name": "GUI Activities",
@@ -18888,6 +18931,108 @@
             "list_order": 0,
             "uuid": "e40e3db1-714d-442c-b89f-366be378306c"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 588,
+        "type": "Initial Node", "main_type": 151,
+        "name": "data changed callback",
+        "description": [
+                ""
+        ],
+        "x_order": -1115789740,
+        "y_order": -1062811711,
+        "list_order": -1062811711,
+        "uuid": "8356fa84-2ad9-417a-814c-4f72097c2d64",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 589,
+        "type": "Activity", "main_type": 110,
+        "name": "refocus and reload data",
+        "description": [
+                ""
+        ],
+        "x_order": -1205367449,
+        "y_order": -556011536,
+        "list_order": -150113746,
+        "uuid": "41fac543-8c92-4887-9374-d70b98e34706",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 590,
+        "type": "Activity", "main_type": 110,
+        "name": "layout subwidgets",
+        "description": [
+                ""
+        ],
+        "x_order": -911715420,
+        "y_order": -556011536,
+        "list_order": -834633532,
+        "uuid": "ecc789ba-1c8b-4355-b991-bf22799baef3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 591,
+        "type": "Activity", "main_type": 110,
+        "name": "draw subwidgets",
+        "description": [
+                ""
+        ],
+        "x_order": -474642521,
+        "y_order": -379024634,
+        "list_order": -379024634,
+        "uuid": "7be00158-3753-45b0-bcd2-a7bebde4bdb2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 592,
+        "type": "Final Node", "main_type": 152,
+        "name": "end callback",
+        "description": [
+                ""
+        ],
+        "x_order": -1115789740,
+        "y_order": -238278497,
+        "list_order": -238278497,
+        "uuid": "d782414f-6aaf-4388-946c-da56e2726204",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 593,
+        "type": "Initial Node", "main_type": 151,
+        "name": "redraw callback",
+        "description": [
+                ""
+        ],
+        "x_order": -814115730,
+        "y_order": -1062811711,
+        "list_order": -794615773,
+        "uuid": "ba151637-e583-4f4a-830a-a63b15f5ea4f",
+        "features":
+        [
         ]
       }
     }
@@ -21422,22 +21567,6 @@
     },
     {
       "relationship": {
-        "id": 920,
-        "type": "Composition", "main_type": 202,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1412250053,
-        "from_classifier_name": "gui_sketch_area",
-        "to_classifier_name": "gui_sketch_result_list",
-        "from_node": "f208b8bc-a0ff-4536-8bb2-80edff271f58",
-        "to_node": "235a527e-3f82-4624-92d0-008f6b9122cc",
-        "uuid": "f002ebdb-8f54-4b4b-985a-43ad6292f68e"
-      }
-    },
-    {
-      "relationship": {
         "id": 921,
         "type": "Composition", "main_type": 202,
         "name": "",
@@ -21466,6 +21595,22 @@
         "from_node": "f208b8bc-a0ff-4536-8bb2-80edff271f58",
         "to_node": "091e9bb0-dd72-4b0c-894e-ca86b34b0e07",
         "uuid": "9f54c647-df9c-4168-85b8-65c61a3262c3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1123,
+        "type": "Composition", "main_type": 202,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1549961462,
+        "from_classifier_name": "gui_sketch_area",
+        "to_classifier_name": "gui_sketch_result_list",
+        "from_node": "f208b8bc-a0ff-4536-8bb2-80edff271f58",
+        "to_node": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
+        "uuid": "d8106c7c-92d6-4593-9cd7-1d2713145d75"
       }
     },
     {
@@ -26842,7 +26987,7 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "sketch",
-        "to_classifier_name": "gui_sketch _result_list",
+        "to_classifier_name": "gui_sketch_result_list",
         "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
         "to_node": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
         "uuid": "f81cc903-022e-46f1-8d33-15d49515e420"
@@ -26859,7 +27004,7 @@
         "list_order": 1037485876,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
-        "to_classifier_name": "gui_sketch _result_list",
+        "to_classifier_name": "gui_sketch_result_list",
         "to_feature_key": "",
         "from_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
         "to_node": "4cf05fc6-ee5c-4242-b64b-6c0bfd19188f",
@@ -26902,22 +27047,6 @@
     },
     {
       "relationship": {
-        "id": 919,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -863059162,
-        "from_classifier_name": "sketch",
-        "to_classifier_name": "gui_sketch_result_list",
-        "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
-        "to_node": "235a527e-3f82-4624-92d0-008f6b9122cc",
-        "uuid": "a9e0f5aa-c69a-4351-8a28-596ef395d047"
-      }
-    },
-    {
-      "relationship": {
         "id": 1071,
         "type": "Synchronous Call", "main_type": 221,
         "name": "re-run (page)",
@@ -26927,7 +27056,7 @@
         "list_order": 1393502823,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
-        "to_classifier_name": "gui_search _runner",
+        "to_classifier_name": "gui_search_runner",
         "to_feature_key": "",
         "from_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
         "to_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
@@ -26945,11 +27074,107 @@
         "list_order": 673017285,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
-        "to_classifier_name": "gui_search _runner",
+        "to_classifier_name": "gui_search_runner",
         "to_feature_key": "",
         "from_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
         "to_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
         "uuid": "b5520396-be65-4fca-9d51-9d54f9bf9f55"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1110,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1062811711,
+        "from_classifier_name": "sketch",
+        "to_classifier_name": "data changed callback",
+        "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
+        "to_node": "8356fa84-2ad9-417a-814c-4f72097c2d64",
+        "uuid": "5e719c28-226d-46d9-8cb6-13a67d7bcc26"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1111,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -150113746,
+        "from_classifier_name": "sketch",
+        "to_classifier_name": "refocus and reload data",
+        "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
+        "to_node": "41fac543-8c92-4887-9374-d70b98e34706",
+        "uuid": "3b6f215a-21c3-4293-b368-3f5ea7023652"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1112,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -834633532,
+        "from_classifier_name": "sketch",
+        "to_classifier_name": "layout subwidgets",
+        "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
+        "to_node": "ecc789ba-1c8b-4355-b991-bf22799baef3",
+        "uuid": "42cdbcfd-bd02-4cc6-a903-e4e8c59e77b1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1113,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -379024634,
+        "from_classifier_name": "sketch",
+        "to_classifier_name": "draw subwidgets",
+        "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
+        "to_node": "7be00158-3753-45b0-bcd2-a7bebde4bdb2",
+        "uuid": "db56bcde-802a-4f3a-9e7b-f12f4908a37b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1114,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -238278497,
+        "from_classifier_name": "sketch",
+        "to_classifier_name": "end callback",
+        "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
+        "to_node": "d782414f-6aaf-4388-946c-da56e2726204",
+        "uuid": "f64dc7ca-5e83-4719-bf7c-198b06f0f3e3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1115,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -794615773,
+        "from_classifier_name": "sketch",
+        "to_classifier_name": "redraw callback",
+        "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
+        "to_node": "ba151637-e583-4f4a-830a-a63b15f5ea4f",
+        "uuid": "664c0a70-5741-47de-870e-b4f4a55468bb"
       }
     },
     {
@@ -26962,7 +27187,7 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "search_entry",
-        "to_classifier_name": "gui_search _runner",
+        "to_classifier_name": "gui_search_runner",
         "from_node": "d1b9fa38-a6f5-4a18-9d51-ca1e21b475f7",
         "to_node": "330fd818-d38a-4267-86a1-13846247fee2",
         "uuid": "f80ef904-c269-4bf0-967a-2eeec408f362"
@@ -26979,7 +27204,7 @@
         "list_order": -260716533,
         "from_classifier_name": "search_entry",
         "from_feature_key": "",
-        "to_classifier_name": "gui_search _runner",
+        "to_classifier_name": "gui_search_runner",
         "to_feature_key": "",
         "from_node": "c2118a74-95f1-4a02-9a99-8a7d2517c1f2",
         "to_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
@@ -26995,8 +27220,8 @@
                 ""
         ],
         "list_order": 65536,
-        "from_classifier_name": "gui_search _runner",
-        "to_classifier_name": "gui_sketch _result_list",
+        "from_classifier_name": "gui_search_runner",
+        "to_classifier_name": "gui_sketch_result_list",
         "from_node": "330fd818-d38a-4267-86a1-13846247fee2",
         "to_node": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
         "uuid": "cfad0dcc-9db1-488e-a5e5-a9f529449355"
@@ -27011,7 +27236,7 @@
                 ""
         ],
         "list_order": 180116905,
-        "from_classifier_name": "gui_search _runner",
+        "from_classifier_name": "gui_search_runner",
         "from_feature_key": "",
         "to_classifier_name": "sketch",
         "to_feature_key": "",
@@ -27029,8 +27254,8 @@
                 ""
         ],
         "list_order": 1411889605,
-        "from_classifier_name": "gui_sketch _result_list",
-        "to_classifier_name": "gui_search _runner",
+        "from_classifier_name": "gui_sketch_result_list",
+        "to_classifier_name": "gui_search_runner",
         "from_node": "7bf16398-7bc1-47a6-bfe1-0902338e1fd0",
         "to_node": "330fd818-d38a-4267-86a1-13846247fee2",
         "uuid": "1ee3733e-efd4-4f40-8702-47704b95d1bd"
@@ -33408,7 +33633,7 @@
         "list_order": -73275543,
         "from_classifier_name": "Challenge",
         "from_feature_key": "",
-        "to_classifier_name": "gui_search _runner",
+        "to_classifier_name": "gui_search_runner",
         "to_feature_key": "",
         "from_node": "65f1aff0-19ef-4528-bc83-5fe4bb83c254",
         "to_node": "54ba6927-a21c-42ca-9108-4d7eb1944249",
@@ -33465,6 +33690,86 @@
         "from_node": "e40e3db1-714d-442c-b89f-366be378306c",
         "to_node": "b4dbd2eb-6566-46ea-a56c-df777e5ca551",
         "uuid": "37abc2e6-a709-4bde-a0e2-4ef60a50854d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1117,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "data changed callback",
+        "to_classifier_name": "refocus and reload data",
+        "from_node": "8356fa84-2ad9-417a-814c-4f72097c2d64",
+        "to_node": "41fac543-8c92-4887-9374-d70b98e34706",
+        "uuid": "9b622870-b2ad-4246-8706-a0c31ea54c42"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1118,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "refocus and reload data",
+        "to_classifier_name": "layout subwidgets",
+        "from_node": "41fac543-8c92-4887-9374-d70b98e34706",
+        "to_node": "ecc789ba-1c8b-4355-b991-bf22799baef3",
+        "uuid": "e9c60bdb-feaa-447b-b06f-6cd64dd38a79"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1119,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "layout subwidgets",
+        "to_classifier_name": "draw subwidgets",
+        "from_node": "ecc789ba-1c8b-4355-b991-bf22799baef3",
+        "to_node": "7be00158-3753-45b0-bcd2-a7bebde4bdb2",
+        "uuid": "2d1c74c6-b354-49ac-a248-8ba598c4ccdc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1120,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "draw subwidgets",
+        "to_classifier_name": "end callback",
+        "from_node": "7be00158-3753-45b0-bcd2-a7bebde4bdb2",
+        "to_node": "d782414f-6aaf-4388-946c-da56e2726204",
+        "uuid": "4af9c083-aad9-46b4-95b6-c600051183d4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1122,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "redraw callback",
+        "to_classifier_name": "layout subwidgets",
+        "from_node": "ba151637-e583-4f4a-830a-a63b15f5ea4f",
+        "to_node": "ecc789ba-1c8b-4355-b991-bf22799baef3",
+        "uuid": "96d30f26-c192-4d1a-b66e-b169366c5fad"
       }
     }
   ]

@@ -9,9 +9,10 @@
  */
 
 #include "sketch/gui_sketch_card.h"
-#include "gui_tool.h"
 #include "shape/shape_int_rectangle.h"
+#include "gui_tool.h"
 #include "gui_gtk.h"
+#include "set/data_small_set.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -46,12 +47,14 @@ void gui_sketch_card_layouter_destroy ( gui_sketch_card_layouter_t *this_ );
  *  \param selected_tool currently selected tool
  *  \param io_cards list of cards to be layouted. Bounding boxes of cards are adjusted.
  *  \param cards_num number of cards in the io_cards list
+ *  \param card_draw_list diagram IDs for which cards shall be drawn
  *  \param cr cairo drawing context, needed to determine the font metrics in the given drawing context
  */
 void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
                                        gui_tool_t selected_tool,
                                        gui_sketch_card_t io_cards[],
                                        uint32_t cards_num,
+                                       const data_small_set_t *card_draw_list,
                                        cairo_t *cr
                                      );
 

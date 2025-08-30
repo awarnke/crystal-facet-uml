@@ -48,6 +48,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
 
     /* init instances of own objects */
     (*this_).card_num = 0;
+    data_small_set_init( &((*this_).card_draw_list) );
     (*this_).marker = marker;
     gui_sketch_texture_init( &((*this_).texture_downloader) );
     gui_sketch_nav_tree_init( &((*this_).nav_tree), resources, &((*this_).texture_downloader) );
@@ -103,6 +104,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     gui_sketch_nav_tree_destroy( &((*this_).nav_tree) );
 
     /* destroy all cards */
+    data_small_set_destroy( &((*this_).card_draw_list) );
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
         gui_sketch_card_destroy( &((*this_).cards[idx]) );
@@ -356,6 +358,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
     U8_TRACE_BEGIN();
 
     /* destroy _all_ old cards */
+    data_small_set_reinit( &((*this_).card_draw_list) );
     for ( uint_fast32_t idx = 0; idx < (*this_).card_num; idx ++ )
     {
         gui_sketch_card_destroy( &((*this_).cards[idx]) );
@@ -369,6 +372,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
         {
             const data_small_set_t* requested_diagrams
                 = gui_sketch_request_get_search_result_diagrams_const( &((*this_).request) );
+            /* Note: the list of requested diagrams from the search page may be larger than what can be displayed */
 
             const uint_fast32_t d_count = data_small_set_get_count( requested_diagrams );
             for ( uint_fast32_t index = 0; index < d_count; index ++ )
@@ -490,6 +494,9 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     gui_tool_t selected_tool;
     selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
 
+    /* reset the list of cards to be shown */
+    data_small_set_reinit( &((*this_).card_draw_list) );
+
     /* fetch area bounds */
     const uint32_t width = shape_int_rectangle_get_width( &area_bounds );
     const uint32_t height = shape_int_rectangle_get_height( &area_bounds );
@@ -507,6 +514,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         if ( result_list_visible )
         {
             gui_sketch_result_list_do_layout( &((*this_).result_list), cr );
+            gui_sketch_result_list_get_visible_diagrams( &((*this_).result_list), &((*this_).card_draw_list) );
         }
     }
 
@@ -531,7 +539,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         shape_int_rectangle_init( &cards_bounds, cards_left, top, cards_width, height );
         gui_sketch_card_layouter_t cards_layouter;
         gui_sketch_card_layouter_init( &cards_layouter, &cards_bounds );
-        gui_sketch_card_layouter_layout( &cards_layouter, selected_tool, &((*this_).cards[0]), (*this_).card_num, cr );
+        gui_sketch_card_layouter_layout( &cards_layouter, selected_tool, &((*this_).cards[0]), (*this_).card_num, &((*this_).card_draw_list), cr );
         gui_sketch_card_layouter_destroy( &cards_layouter );
     }
 

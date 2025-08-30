@@ -30,6 +30,7 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
                                        gui_tool_t selected_tool,
                                        gui_sketch_card_t io_cards[],
                                        uint32_t cards_num,
+                                       const data_small_set_t *card_draw_list,
                                        cairo_t *cr )
 {
     U8_TRACE_BEGIN();
@@ -81,6 +82,14 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
                                                                  cards_num,
                                                                  cr
                                                                );
+                /* hide cards that are not on current visible page */
+                for ( uint_fast32_t idx = 0; idx < cards_num; idx ++ )
+                {
+                    gui_sketch_card_t* current_card = &(io_cards[idx]);
+                    const data_id_t diag_id = gui_sketch_card_get_diagram_id( current_card );
+                    const bool draw = data_small_set_contains( card_draw_list, diag_id );
+                    gui_sketch_card_set_visible( current_card, draw );
+                }
             }
         }
         break;
