@@ -1,3 +1,12 @@
+crystal-facet-uml (1.65.3-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * icons of edit buttons beautified
+  * html user documentation is single-paged
+  * search pages show only diagrams that contain the visible results
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 31 Aug 2025 09:00:00 +0200
+
 crystal-facet-uml (1.65.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
