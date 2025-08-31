@@ -82,6 +82,7 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
                                                                  cards_num,
                                                                  cr
                                                                );
+
                 /* hide cards that are not on current visible page */
                 for ( uint_fast32_t idx = 0; idx < cards_num; idx ++ )
                 {

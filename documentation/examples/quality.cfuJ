@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.65.0"
+    "generator_version": "1.65.3"
   }
   ,
   "views":
@@ -8763,7 +8763,7 @@
         "type": "Activity", "main_type": 110,
         "name": "Understand Stakeholder Requirements",
         "description": [
-                ""
+                "This process may produce use cases that show usage scenarios."
         ],
         "x_order": -1522026435,
         "y_order": -1415498083,

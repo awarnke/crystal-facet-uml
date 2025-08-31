@@ -2,9 +2,23 @@ body {
     background-color: rgb(255,255,255);
     font-family: Helvetica,Arial,sans-serif;
 }
-.navheader {
-    background-color:rgb(216,255,240);
+body {
+    margin-left: 200px;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-left: 24px;
 }
-.navfooter {
-    background-color:rgb(216,255,240);
+div.toc {
+    background-color: rgb(216,255,240);
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    padding: 2px;
+    margin: 0px;
+    color: rgb(96,192,128);
+    font-size: small;
 }

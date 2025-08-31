@@ -11,7 +11,7 @@ crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery
 html: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.png ${SOURCE}/*.png ${SOURCE}/*.svg ${SOURCE}/4_stereotypes/*.*
 	echo "PLEASE UPDATE DIAGRAMS IN ${SOURCE}/2_feature_gallery_export/ MANUALLY" &&\
 	echo "PLEASE UPDATE DIAGRAMS IN ${SOURCE}/5_modeling_hints_export/ MANUALLY" &&\
-	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml ${SOURCE}/crystal-facet-uml_documentation.xml &&\
+	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml-nochunks ${SOURCE}/crystal-facet-uml_documentation.xml &&\
 	echo relocate image files &&\
 	cat ${SOURCE}/*.xml | grep -e 'fileref.*png' | sed -e 's#^[^"]*"\([^"]*\)".*#${SOURCE}/\1#' | xargs cp --target-directory=./html &&\
 	cat ${SOURCE}/*.xml | grep -e 'fileref.*svg' | sed -e 's#^[^"]*"\([^"]*\)".*#${SOURCE}/\1#' | xargs cp --target-directory=./html &&\
@@ -20,6 +20,7 @@ html: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.png ${SOURCE}/*.png $
 	find ./html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g' &&\
 	find ./html -name '*.html' | xargs sed -i -e 's/2_feature_gallery_export\///g'
 	find ./html -name '*.html' | xargs sed -i -e 's/5_modeling_hints_export\///g'
+	mv ./html/crystal-facet-uml_documentation.html ./html/index.html
 
 MAN_STYLESHEET_ROOT=`find /usr/share/xml/docbook/stylesheet -name manpages`
 #MAN_STYLESHEET_0="/usr/share/xml/docbook/stylesheet/nwalsh/1.78.1/manpages/docbook.xsl"

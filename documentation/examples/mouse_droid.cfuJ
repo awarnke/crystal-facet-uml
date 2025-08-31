@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.65.1"
+    "generator_version": "1.65.3"
   }
   ,
   "views":
@@ -1054,7 +1054,7 @@
         "stereotype": "locigal_form",
         "name": "Logical View",
         "description": [
-                "This view maps the functions (roles) to a form.\n",
+                "This view maps the functions to a form.\n",
                 ""
         ],
         "list_order": 127392,
@@ -1102,6 +1102,70 @@
             "classifier_name": "Tactic execution",
             "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
             "uuid": "6479c3cd-e93b-46a2-aeae-276d1364153e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 69,
+        "type": "Block Definition Diagram", "diagram_type": 4,
+        "stereotype": "locigal_form",
+        "name": "Logical View on Sensors and Actuators",
+        "description": [
+                "The functions identified in D0050#name are allocated to locical blocks. "
+        ],
+        "list_order": 32768,
+        "parent_name": "Logical View",
+        "parent": "0a061bdf-1c88-4f16-9a75-f73a0bc8ae42",
+        "uuid": "09b1b46a-3eaf-4e91-bda0-9bd2f7a89a1e",
+        "diagramelements":
+        [
+          {
+            "id": 436,
+            "classifier_name": "Wheels with Engine",
+            "node": "7b74542b-1c58-49df-a502-e58cc4ff5777",
+            "uuid": "a80b3b9e-0fd5-4091-8878-8015e4983c1e"
+          },
+          {
+            "id": 437,
+            "classifier_name": "Tool-Arm with Motors",
+            "node": "af39338e-c11f-4641-b1d3-d8d1cdc49a22",
+            "uuid": "bd42a08d-975d-4a28-81b6-ce6d83d15a75"
+          },
+          {
+            "id": 438,
+            "classifier_name": "Camera Subsystem",
+            "node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+            "uuid": "6b897274-2311-4c01-b741-9768865af1b8"
+          },
+          {
+            "id": 439,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Recognize environment (L1-Fkt)",
+            "node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
+            "uuid": "7740ba97-5ac7-477e-be53-e1cf52e59002"
+          },
+          {
+            "id": 440,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Motors to move the MoD5G (L1-Fct)",
+            "node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
+            "uuid": "f4ca1017-a00e-481a-a1e9-7403d18fec35"
+          },
+          {
+            "id": 441,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Tools to repair",
+            "node": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
+            "uuid": "f2867da3-0c3f-4df0-a5ce-4e17335aebcb"
+          },
+          {
+            "id": 442,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Recognize objects to repair (L1-Fct)",
+            "node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
+            "uuid": "672d42a7-9409-49a3-8240-60f58e813216"
           }
         ]
       }
@@ -8236,6 +8300,60 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 220,
+        "type": "Block", "main_type": 90,
+        "stereotype": "locigal_form",
+        "name": "Wheels with Engine",
+        "description": [
+                ""
+        ],
+        "x_order": -1506783247,
+        "y_order": -1021307211,
+        "list_order": -1021307211,
+        "uuid": "7b74542b-1c58-49df-a502-e58cc4ff5777",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 221,
+        "type": "Component", "main_type": 121,
+        "stereotype": "locigal_form",
+        "name": "Tool-Arm with Motors",
+        "description": [
+                "locigal_form"
+        ],
+        "x_order": -602991231,
+        "y_order": -1720202308,
+        "list_order": -1720202308,
+        "uuid": "af39338e-c11f-4641-b1d3-d8d1cdc49a22",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 222,
+        "type": "Block", "main_type": 90,
+        "stereotype": "locigal_form",
+        "name": "Camera Subsystem",
+        "description": [
+                ""
+        ],
+        "x_order": -1506783247,
+        "y_order": -1720202308,
+        "list_order": -1720202308,
+        "uuid": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -13645,6 +13763,70 @@
         "from_node": "e38af5e6-79d4-4f9b-ad89-0348cdba121e",
         "to_node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
         "uuid": "7e143010-390f-42df-9d46-c6527ac62cc7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 400,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Wheels with Engine",
+        "to_classifier_name": "Motors to move the MoD5G (L1-Fct)",
+        "from_node": "7b74542b-1c58-49df-a502-e58cc4ff5777",
+        "to_node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
+        "uuid": "00470ab5-9f9d-4a9d-bcf6-e087cb590616"
+      }
+    },
+    {
+      "relationship": {
+        "id": 398,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Tool-Arm with Motors",
+        "to_classifier_name": "Tools to repair",
+        "from_node": "af39338e-c11f-4641-b1d3-d8d1cdc49a22",
+        "to_node": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
+        "uuid": "49167bc5-30f1-4b95-bff5-2e8b8e2c446a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 397,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Camera Subsystem",
+        "to_classifier_name": "Recognize environment (L1-Fkt)",
+        "from_node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+        "to_node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
+        "uuid": "801d4e4d-fe66-4a24-a26a-4513052a36b6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 399,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Camera Subsystem",
+        "to_classifier_name": "Recognize objects to repair (L1-Fct)",
+        "from_node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+        "to_node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
+        "uuid": "7d41a34d-4402-4e86-83bd-075c125ae617"
       }
     }
   ]
