@@ -21,7 +21,7 @@ u8_error_t data_search_result_iterator_init_empty ( data_search_result_iterator_
     (*this_).is_at_classifier_end = true;
     (*this_).is_at_feature_end = true;
     (*this_).is_at_relationship_end = true;
-    (*this_).next_search_result_buf = NULL;
+    data_search_result_init_void( &((*this_).next_search_result_buf) );
 
     data_rules_init ( &((*this_).data_rules) );
 
@@ -33,8 +33,7 @@ u8_error_t data_search_result_iterator_reinit ( data_search_result_iterator_t *t
                                                 data_database_borrowed_stmt_t diagram_statement,
                                                 data_database_borrowed_stmt_t classifier_statement,
                                                 data_database_borrowed_stmt_t feature_statement,
-                                                data_database_borrowed_stmt_t relationship_statement,
-                                                data_search_result_t *next_search_result_buf )
+                                                data_database_borrowed_stmt_t relationship_statement )
 {
     U8_TRACE_BEGIN();
     assert( data_database_borrowed_stmt_is_valid( &diagram_statement ) );
@@ -55,7 +54,7 @@ u8_error_t data_search_result_iterator_reinit ( data_search_result_iterator_t *t
     (*this_).is_at_classifier_end = false;
     (*this_).is_at_feature_end = false;
     (*this_).is_at_relationship_end = false;
-    (*this_).next_search_result_buf = next_search_result_buf;
+    data_search_result_init_void( &((*this_).next_search_result_buf) );
     result |= data_search_result_iterator_private_step_to_next( this_ );
 
     data_rules_init ( &((*this_).data_rules) );
@@ -79,7 +78,7 @@ u8_error_t data_search_result_iterator_destroy ( data_search_result_iterator_t *
     (*this_).is_at_classifier_end = true;
     (*this_).is_at_feature_end = true;
     (*this_).is_at_relationship_end = true;
-    (*this_).next_search_result_buf = NULL;
+    data_search_result_destroy( &((*this_).next_search_result_buf) );
 
     U8_TRACE_END_ERR(result);
     return result;
@@ -87,11 +86,9 @@ u8_error_t data_search_result_iterator_destroy ( data_search_result_iterator_t *
 
 bool data_search_result_iterator_has_next ( const data_search_result_iterator_t *this_ )
 {
-    assert( NULL != (*this_).next_search_result_buf );
-
     const bool finished = (*this_).is_at_diagram_end && (*this_).is_at_classifier_end
                           && (*this_).is_at_feature_end && (*this_).is_at_relationship_end;
-    assert( ( ! finished ) == data_search_result_is_valid( (*this_).next_search_result_buf ) );
+    assert( ( ! finished ) == data_search_result_is_valid( &((*this_).next_search_result_buf) ) );
     return ( ! finished );
 }
 
@@ -103,11 +100,10 @@ u8_error_t data_search_result_iterator_next ( data_search_result_iterator_t *thi
     assert( data_database_borrowed_stmt_is_valid( &((*this_).classifier_statement) ) );
     assert( data_database_borrowed_stmt_is_valid( &((*this_).feature_statement) ) );
     assert( data_database_borrowed_stmt_is_valid( &((*this_).relationship_statement) ) );
-    assert( NULL != (*this_).next_search_result_buf );
     u8_error_t result = U8_ERROR_NONE;
 
     /* copy the next data_search_result_t to out */
-    data_search_result_copy( out_search_result, (*this_).next_search_result_buf );
+    data_search_result_copy( out_search_result, &((*this_).next_search_result_buf) );
 
     /* search (and filter) for the next valid, unfiltered search result */
     data_search_result_iterator_private_step_to_next( this_ );
@@ -126,7 +122,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
     u8_error_t result = U8_ERROR_NONE;
 
     /* invalidate the next_search_result_buf */
-    data_search_result_init_void( (*this_).next_search_result_buf );
+    data_search_result_init_void( &((*this_).next_search_result_buf) );
 
     if ( ! (*this_).is_at_diagram_end )
     {
@@ -144,7 +140,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
         {
             (*this_).is_at_diagram_end = false;
             /* read next */
-            result |= data_search_result_iterator_private_get_diagram( this_, (*this_).next_search_result_buf );
+            result |= data_search_result_iterator_private_get_diagram( this_, &((*this_).next_search_result_buf) );
         }
         else
         {
@@ -170,7 +166,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
         {
             (*this_).is_at_classifier_end = false;
             /* read next */
-            result |= data_search_result_iterator_private_get_classifier( this_, (*this_).next_search_result_buf );
+            result |= data_search_result_iterator_private_get_classifier( this_, &((*this_).next_search_result_buf) );
         }
         else
         {
@@ -180,7 +176,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
         }
     }
 
-    while ( (*this_).is_at_classifier_end && ( ! (*this_).is_at_feature_end ) && ( ! data_search_result_is_valid( (*this_).next_search_result_buf ) ) )
+    while ( (*this_).is_at_classifier_end && ( ! (*this_).is_at_feature_end ) && ( ! data_search_result_is_valid( &((*this_).next_search_result_buf) ) ) )
     {
         sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).feature_statement) );
 
@@ -196,7 +192,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
         {
             (*this_).is_at_feature_end = false;
             /* read next */
-            result |= data_search_result_iterator_private_get_feature( this_, (*this_).next_search_result_buf );
+            result |= data_search_result_iterator_private_get_feature( this_, &((*this_).next_search_result_buf) );
         }
         else
         {
@@ -206,7 +202,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
         }
     }
 
-    while ( (*this_).is_at_feature_end && ( ! (*this_).is_at_relationship_end ) && ( ! data_search_result_is_valid( (*this_).next_search_result_buf ) ) )
+    while ( (*this_).is_at_feature_end && ( ! (*this_).is_at_relationship_end ) && ( ! data_search_result_is_valid( &((*this_).next_search_result_buf) ) ) )
     {
         sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).relationship_statement) );
 
@@ -222,7 +218,7 @@ u8_error_t data_search_result_iterator_private_step_to_next ( data_search_result
         {
             (*this_).is_at_relationship_end = false;
             /* read next */
-            result |= data_search_result_iterator_private_get_relationship( this_, (*this_).next_search_result_buf );
+            result |= data_search_result_iterator_private_get_relationship( this_, &((*this_).next_search_result_buf) );
         }
         else
         {

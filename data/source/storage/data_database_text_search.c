@@ -217,8 +217,7 @@ u8_error_t data_database_text_search_get_objects_by_text_fragment ( data_databas
                                                           sql_statement_diag,
                                                           sql_statement_class,
                                                           sql_statement_feat,
-                                                          sql_statement_rel,
-                                                          &((*this_).temp_search_result_buf)
+                                                          sql_statement_rel
                                                         );
             /* do not destroy sql_statement_xxx; the object is transferred to the iterator and consumed there. */
         }

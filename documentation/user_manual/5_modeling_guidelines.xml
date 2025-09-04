@@ -55,26 +55,36 @@
                 <itemizedlist>
                 <listitem>
                     <para>
-                        Add an hierarchy level, show only the outer elements in one diagram,
-                        show only the contained elements in another diagram.
+                        Split by hierarchy level:
                         <mediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0005_add_hierarchy_level.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                    </para>
+                    <para>
+                        Add an hierarchy level, show only the outer elements in one diagram,
+                        show only the contained elements in another diagram.
+                    </para>
+                    <para>
                         <inlinemediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0011_higher_hierarchy_level.svg" width="8cm"/></imageobject>
                         </inlinemediaobject>
                         <inlinemediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0012_detailed_level.svg" width="8cm"/></imageobject>
                         </inlinemediaobject>
-                        </para>
+                    </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Define a port at a parent
-                        to bundle multiple communication paths of children.
+                        Bundle communication paths:
                         <mediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0003_add_parent_ports.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                    </para>
+                    <para>
+                        Define a port at a parent
+                        to bundle multiple communication paths of children.
+                    </para>
+                    <para>
                         <inlinemediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0008_parents.svg" width="8cm"/></imageobject>
                         </inlinemediaobject>
@@ -85,11 +95,16 @@
                 </listitem>
                 <listitem>
                     <para>
-                        Separate abstract classes/components/blocks and their specializations
-                        to hide details when showing the abstract concepts and vice versa.
+                        Separate abstraction levels:
                         <mediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0002_add_abstraction_level.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                    </para>
+                    <para>
+                        Separate abstract classes/components/blocks and their specializations
+                        to hide details when showing the abstract concepts and vice versa.
+                    </para>
+                    <para>
                         <inlinemediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0006_abstract_components.svg" width="8cm"/></imageobject>
                         </inlinemediaobject>
@@ -100,10 +115,15 @@
                 </listitem>
                 <listitem>
                     <para>
-                        Extract methods to an interface to hide details when using the class.
+                        Hide details:
                         <mediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0004_extract_interface.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                    </para>
+                    <para>
+                        Extract methods to an interface to hide details when using the class.
+                    </para>
+                    <para>
                         <inlinemediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0013_separate_interface.svg" width="8cm"/></imageobject>
                         </inlinemediaobject>
@@ -114,10 +134,15 @@
                 </listitem>
                 <listitem>
                     <para>
-                        Add a topic-specific mediator class (e.g. a risk) that is only shown in selected diagrams.
+                        Use relationships via a mediator:
                         <mediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0014_add_mediator_class.svg" width="8cm"/></imageobject>
                         </mediaobject>
+                    </para>
+                    <para>
+                        Add a topic-specific mediator class (e.g. a risk) that is only shown in selected diagrams.
+                    </para>
+                    <para>
                         <inlinemediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0015_technical_solution.svg" width="8cm"/></imageobject>
                         </inlinemediaobject>
@@ -128,8 +153,23 @@
                 </listitem>
                 <listitem>
                     <para>
+                        Use interaction diagram:
+                        <mediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0017_split_scenarios.svg" width="8cm"/></imageobject>
+                        </mediaobject>
+                    </para>
+                    <para>
                         If applicable, use an interaction diagram: Interaction-Overview, Communication, Sequence or Timing.
-                        These hide features and relationships except the ones defined at the local diagram.
+                        These hide features and relationships except the ones defined at the local diagram,
+                        therefore they allow to focus on a single aspect of the interaction in each diagram.
+                    </para>
+                    <para>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0019_show_diagram.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
+                        <inlinemediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0018_do_search.svg" width="8cm"/></imageobject>
+                        </inlinemediaobject>
                     </para>
                 </listitem>
                 </itemizedlist>

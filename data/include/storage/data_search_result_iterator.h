@@ -40,7 +40,7 @@ struct data_search_result_iterator_struct {
     bool is_at_feature_end;  /*!< true if is_invalid or if at the end of the sql query result */
     bool is_at_relationship_end;  /*!< true if is_invalid or if at the end of the sql query result */
 
-    data_search_result_t *next_search_result_buf;  /*!< a buffer that was passed from data_database_text_search to store the next data_search_result_t */
+    data_search_result_t next_search_result_buf;  /*!< a buffer to store the next data_search_result_t */
 
     data_rules_t data_rules;  /*!< own instance of data rules */
 };
@@ -83,15 +83,13 @@ u8_error_t data_search_result_iterator_init_empty ( data_search_result_iterator_
  *  \param classifier_statement borrowed statement to access the sql query results on classifiers
  *  \param feature_statement borrowed statement to access the sql query results on features
  *  \param relationship_statement borrowed statement to access the sql query results on relationships
- *  \param next_search_result_buf a buffer that was passed from data_database_text_search to store the next data_search_result_t
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_search_result_iterator_reinit ( data_search_result_iterator_t *this_,
                                                 data_database_borrowed_stmt_t diagram_statement,
                                                 data_database_borrowed_stmt_t classifier_statement,
                                                 data_database_borrowed_stmt_t feature_statement,
-                                                data_database_borrowed_stmt_t relationship_statement,
-                                                data_search_result_t *next_search_result_buf
+                                                data_database_borrowed_stmt_t relationship_statement
                                               );
 
 /*!

@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 1,
+    "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.63.3"
+    "generator_version": "1.65.3"
   }
   ,
   "views":
@@ -14,34 +14,29 @@
     {
       "diagram": {
         "id": 1,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
+        "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Overview [root]",
         "description": [
                 "This model shows different features of crystal facet uml."
         ],
         "list_order": 0,
-        "display_flags": 0,
         "uuid": "77e513a5-8cce-40c7-ba3f-ec58754facec",
         "diagramelements":
         [
           {
             "id": 85,
-            "display_flags": 0,
             "classifier_name": "Reader",
             "node": "b89da5a3-66e4-4577-9e2e-86e0ff92d3c2",
             "uuid": "7c64a41e-8f16-4a7c-ad98-672d292543d5"
           },
           {
             "id": 86,
-            "display_flags": 0,
             "classifier_name": "View Examples of UML Diagrams",
             "node": "3328cd45-4906-4211-87b6-1fe5f466d0a9",
             "uuid": "4be79229-c87d-4040-8e71-07ee55cad6b1"
           },
           {
             "id": 87,
-            "display_flags": 0,
             "classifier_name": "View List of Features",
             "node": "b8e0e9de-4ddc-429e-a92b-1b9fc51d8b8e",
             "uuid": "7c2ece7d-e5fb-4235-8961-e9e9d6d900dc"
@@ -52,14 +47,12 @@
     {
       "diagram": {
         "id": 2,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Diagram Features",
         "description": [
                 "This diagram shows the feature categories of crystal_facet_uml"
         ],
         "list_order": 0,
-        "display_flags": 0,
         "parent_name": "Overview [root]",
         "parent": "77e513a5-8cce-40c7-ba3f-ec58754facec",
         "uuid": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
@@ -67,21 +60,18 @@
         [
           {
             "id": 1,
-            "display_flags": 0,
             "classifier_name": "Classifier",
             "node": "90179656-1de3-4a50-a7b9-8efe048abffe",
             "uuid": "1b484bb0-f9f1-452e-b3da-9423eed84e77"
           },
           {
             "id": 2,
-            "display_flags": 0,
             "classifier_name": "Relationship",
             "node": "971fff79-422b-44fe-9943-eb296e4cec27",
             "uuid": "b58f199f-b3ce-4ea4-9a78-3131025d7d4f"
           },
           {
             "id": 14,
-            "display_flags": 0,
             "classifier_name": "Diagram",
             "node": "65cea034-ef78-49c5-9e2b-03f7cc7a9b2e",
             "uuid": "d4ee3c92-ea47-4cec-ad2d-7f0fc6ac72c1"
@@ -92,14 +82,12 @@
     {
       "diagram": {
         "id": 3,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Classifiers",
         "description": [
                 "This diagram shows supported classifier features"
         ],
         "list_order": 98304,
-        "display_flags": 0,
         "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "37c9e2a2-ea47-4e3d-9e03-3d6b10d0f77e",
@@ -107,105 +95,90 @@
         [
           {
             "id": 10,
-            "display_flags": 0,
             "classifier_name": "Parser Class",
             "node": "4aaf46e8-822b-4947-8b05-79342398adb0",
             "uuid": "5e9a589f-96aa-45b7-8bac-cc469f61bccd"
           },
           {
             "id": 19,
-            "display_flags": 0,
             "classifier_name": "Package",
             "node": "b008535f-f72e-415c-a842-882e07f37d1a",
             "uuid": "d34a4ff0-59b8-46eb-ad28-7e6a9aba18bb"
           },
           {
             "id": 20,
-            "display_flags": 0,
             "classifier_name": "Standard User",
             "node": "36ddf5d4-cd9e-4c34-96ec-c1d6b28939c8",
             "uuid": "30e69d45-eb23-47f4-bc3a-9605617a269f"
           },
           {
             "id": 21,
-            "display_flags": 0,
             "classifier_name": "Note 1",
             "node": "eb80fb50-80ac-4abd-9675-e51150cdf06b",
             "uuid": "06069509-8519-4d59-92f1-44812fa9f6a7"
           },
           {
             "id": 22,
-            "display_flags": 0,
             "classifier_name": "config file",
             "node": "4b696cb1-514c-45e3-b5d5-733799d758ec",
             "uuid": "7bd25e43-4323-4552-9af7-e23469ead770"
           },
           {
             "id": 23,
-            "display_flags": 0,
             "classifier_name": "systemd",
             "node": "018c49af-80c7-4ff7-8314-07fb7a28eecf",
             "uuid": "990bd4f0-7602-4fb9-8c57-de16b1fd6a33"
           },
           {
             "id": 24,
-            "display_flags": 0,
             "classifier_name": "main CPU",
             "node": "cc03adbd-98d9-4a8e-a95f-651438aee431",
             "uuid": "5d16378d-5eef-4203-88c2-06886f15d1a8"
           },
           {
             "id": 25,
-            "display_flags": 0,
             "classifier_name": "running state",
             "node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
             "uuid": "d93d9189-56f3-4e1a-a741-575079751ecf"
           },
           {
             "id": 26,
-            "display_flags": 0,
             "classifier_name": "system start",
             "node": "66ea7e3b-6468-4b47-81da-3c1c149dfe6e",
             "uuid": "3cf68d48-a834-419c-98ee-21398de5d632"
           },
           {
             "id": 114,
-            "display_flags": 0,
             "classifier_name": "Requirement",
             "node": "961c9cb7-0e7e-4710-8279-4431b95d032b",
             "uuid": "24a405ab-6224-4613-9db9-5462dfbd5472"
           },
           {
             "id": 138,
-            "display_flags": 0,
             "classifier_name": "Block",
             "node": "fe3edb57-b9ee-45ac-92e0-9469c3cc8205",
             "uuid": "5825e60e-dc25-4e77-b12a-f5bf50ac5c5c"
           },
           {
             "id": 139,
-            "display_flags": 0,
             "classifier_name": "Constraint Property",
             "node": "877e4375-adf5-4466-851a-e8bf20b84ab2",
             "uuid": "a100550e-1105-4fc3-93ad-d452c95e5dcc"
           },
           {
             "id": 140,
-            "display_flags": 0,
             "classifier_name": "Diagram Reference",
             "node": "8fa5d87a-a410-4731-af18-3048277d9d2e",
             "uuid": "ba73743c-8616-4bb0-b764-501c1b987c09"
           },
           {
             "id": 164,
-            "display_flags": 0,
             "classifier_name": "Action",
             "node": "56aab755-be0d-4c90-8139-a5881ee65842",
             "uuid": "bb698d93-2d28-4737-aca5-42cdafb98978"
           },
           {
             "id": 169,
-            "display_flags": 0,
             "classifier_name": "Boundary",
             "node": "095e7248-9de4-41ee-8f62-173fff9c0e56",
             "uuid": "15cd35ba-f66e-499c-a508-824b9980b32c"
@@ -216,14 +189,12 @@
     {
       "diagram": {
         "id": 24,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "type": "Activity Diagram", "diagram_type": 11,
         "name": "Classifiers II",
         "description": [
                 ""
         ],
         "list_order": 131072,
-        "display_flags": 0,
         "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "f95917ed-c5be-4f5f-b1f9-56ea3dc6c908",
@@ -231,98 +202,84 @@
         [
           {
             "id": 141,
-            "display_flags": 0,
             "classifier_name": "start",
             "node": "ea064f71-c5e7-4a6d-b327-916dc3b3bd96",
             "uuid": "5036c2bd-ef99-4cf5-a499-e79a5c74f229"
           },
           {
             "id": 142,
-            "display_flags": 0,
             "classifier_name": "end",
             "node": "13c73116-890c-4175-87bd-aadb0b02ccd0",
             "uuid": "9db75e93-20a6-486b-8fd5-2bc01c4cb1f3"
           },
           {
             "id": 143,
-            "display_flags": 0,
             "classifier_name": "Region",
             "node": "0296326b-eca5-40bd-9d31-01b11538244a",
             "uuid": "007cfcfa-e077-4134-9e4e-03d8d896eb4e"
           },
           {
             "id": 144,
-            "display_flags": 0,
             "classifier_name": "timeout",
             "node": "6fd39e33-cd25-46fd-9880-e8f91f859da5",
             "uuid": "2afd881d-eb96-4363-895e-152deca4ee2b"
           },
           {
             "id": 145,
-            "display_flags": 0,
             "classifier_name": "Action",
             "node": "56aab755-be0d-4c90-8139-a5881ee65842",
             "uuid": "1e68d359-13e8-4fcf-8640-134ac1d78d37"
           },
           {
             "id": 146,
-            "display_flags": 0,
             "classifier_name": "Send",
             "node": "4c4f8591-25bb-4974-a592-b8040907bed1",
             "uuid": "410fd655-4e0e-45a8-b8aa-c82edc625297"
           },
           {
             "id": 147,
-            "display_flags": 0,
             "classifier_name": "Receive",
             "node": "04566201-2749-464d-81f6-85e63cef47b9",
             "uuid": "163e288f-de26-42ee-be66-7d0b9f93da96"
           },
           {
             "id": 148,
-            "display_flags": 0,
             "classifier_name": "Fork",
             "node": "f10248ad-527f-4bdb-b021-0c01983fc266",
             "uuid": "bbbfddc9-5c7a-448c-8ad9-ffa0f80b7265"
           },
           {
             "id": 149,
-            "display_flags": 0,
             "classifier_name": "Join",
             "node": "493c2a1e-a1e8-4951-83ae-68b66a66b7dc",
             "uuid": "48e785b2-4c35-4eb3-964a-2dbe67df24cd"
           },
           {
             "id": 150,
-            "display_flags": 0,
             "classifier_name": "continue?",
             "node": "857cd108-b57f-46b9-a1b3-fce7757003ff",
             "uuid": "69aa89cc-fb27-438f-9dad-60b1da9b7a64"
           },
           {
             "id": 151,
-            "display_flags": 0,
             "classifier_name": "State",
             "node": "3a6da4bf-cdce-4db6-868f-6830af0e9331",
             "uuid": "6338b219-8364-4c87-a50f-03f097880158"
           },
           {
             "id": 152,
-            "display_flags": 0,
             "classifier_name": "H1",
             "node": "52bd1747-16c4-4d92-838c-ee6c03a351aa",
             "uuid": "331e74ee-9fa8-40e7-a089-c451be97eaa9"
           },
           {
             "id": 153,
-            "display_flags": 0,
             "classifier_name": "H*2",
             "node": "e61abf3f-3cab-4d76-8139-4832558e0b74",
             "uuid": "0a309bda-653e-4030-a176-ec181a6fc1c3"
           },
           {
             "id": 165,
-            "display_flags": 0,
             "classifier_name": "running state",
             "node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
             "uuid": "d93be3ab-6c48-40be-8fee-d07cb90ed438"
@@ -333,14 +290,12 @@
     {
       "diagram": {
         "id": 5,
-        "diagram_type": 1,
-        "type": "CFUBoxDiagram",
+        "type": "Box Overview", "diagram_type": 1,
         "name": "Diagrams",
         "description": [
                 ""
         ],
         "list_order": 163840,
-        "display_flags": 0,
         "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "6180ee1e-d7e4-4378-ad2f-9a4654edb445",
@@ -348,7 +303,6 @@
         [
           {
             "id": 98,
-            "display_flags": 0,
             "classifier_name": "Diagram Types",
             "node": "06421d67-2b31-4450-bcf9-d3707732136c",
             "uuid": "e5e2f8d7-98b6-4337-9071-d4f0ad961043"
@@ -359,14 +313,12 @@
     {
       "diagram": {
         "id": 4,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Relationships",
         "description": [
                 ""
         ],
         "list_order": 196608,
-        "display_flags": 0,
         "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "ab5b12b1-6046-4637-aa3a-7afc4de4b3d4",
@@ -374,70 +326,60 @@
         [
           {
             "id": 3,
-            "display_flags": 0,
             "classifier_name": "classifier-1",
             "node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
             "uuid": "66361ad1-ed26-45cd-801a-7ce83c2b4ada"
           },
           {
             "id": 4,
-            "display_flags": 0,
             "classifier_name": "classifier-2",
             "node": "8cd005af-b559-412e-a86c-85253a8c2bec",
             "uuid": "cb83a620-e469-418e-8c64-6975f9a34410"
           },
           {
             "id": 5,
-            "display_flags": 0,
             "classifier_name": "classifier-3",
             "node": "d1f5d48e-08d0-4bc4-93ce-f06353ba0a5f",
             "uuid": "7e1c8ff5-e6dc-4fa7-b57e-23f1f1a1e24b"
           },
           {
             "id": 6,
-            "display_flags": 0,
             "classifier_name": "classifier-4",
             "node": "69f5a52c-a207-4d31-aec6-826d2242921b",
             "uuid": "d223b3a2-436c-472f-bccd-3546aa310a20"
           },
           {
             "id": 7,
-            "display_flags": 0,
             "classifier_name": "classifier-5",
             "node": "e9027f4e-e1f1-42ef-a153-3b401848aef9",
             "uuid": "be14d267-0a0d-4c77-8af3-f46b44706bca"
           },
           {
             "id": 8,
-            "display_flags": 0,
             "classifier_name": "classifier-6",
             "node": "0c049507-72f8-4b08-b938-24d197605a1a",
             "uuid": "1fbe8563-7949-4531-8cf2-8289ef7c9f99"
           },
           {
             "id": 9,
-            "display_flags": 0,
             "classifier_name": "classifier-7",
             "node": "c6bb2c59-4159-4039-b775-241454cb5755",
             "uuid": "f05ef644-aca6-404f-9e6d-734b1b4228f4"
           },
           {
             "id": 92,
-            "display_flags": 0,
             "classifier_name": "create result 2",
             "node": "03cbebaf-7693-4fec-9492-c76b931a2197",
             "uuid": "66a1c369-3f2a-404a-955f-f3baa66ed8d0"
           },
           {
             "id": 93,
-            "display_flags": 0,
             "classifier_name": "perform action 1",
             "node": "bab35fcd-ca40-45eb-99a2-525ccb5c625b",
             "uuid": "a260b7e8-3eb3-4187-8f67-3af1dcac8821"
           },
           {
             "id": 127,
-            "display_flags": 0,
             "classifier_name": "play music :req",
             "node": "c57b4136-d09c-4883-a612-c9f731fb9387",
             "uuid": "3f7e0285-0dca-4858-af21-1a7627bf6d0d"
@@ -448,14 +390,12 @@
     {
       "diagram": {
         "id": 6,
-        "diagram_type": 34,
-        "type": "UMLClassDiagram",
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Classifier instances",
         "description": [
                 ""
         ],
         "list_order": 229376,
-        "display_flags": 0,
         "parent_name": "Diagram Features",
         "parent": "42ecca29-2edd-4b50-aff8-7260ee4c34ae",
         "uuid": "948825a8-3255-4e0c-ad4e-6c4b59582657",
@@ -463,77 +403,67 @@
         [
           {
             "id": 15,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Highlighted Class",
             "node": "1a8f51c9-abb9-4791-9a73-a9738761db9d",
             "uuid": "6b30875b-d0af-466a-b475-c209f09648eb"
           },
           {
             "id": 16,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Instance",
             "node": "8ea48e55-8309-4065-b246-1cc0cf8403fc",
             "uuid": "5461d913-827c-479c-9538-de93b51a27aa"
           },
           {
             "id": 17,
-            "display_flags": 0,
             "classifier_name": "Class with Features",
             "node": "0f6ce44b-3dd9-4d97-ad69-bb0cc9c4eaa3",
             "uuid": "d43beba7-ad0e-4d05-8838-148c56c03f8b"
           },
           {
             "id": 18,
-            "display_flags": 0,
             "classifier_name": "Parser Class",
             "node": "4aaf46e8-822b-4947-8b05-79342398adb0",
             "uuid": "7fe4d98c-fe91-4e47-9751-ffa9f170a2f5"
           },
           {
             "id": 88,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Instance",
             "node": "8ea48e55-8309-4065-b246-1cc0cf8403fc",
             "uuid": "89541588-7d58-49a9-8034-30f27f8ec9f5"
           },
           {
             "id": 89,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "2 instances of same object",
             "node": "f04ac7df-4da9-479e-a24b-68bcc371fe0e",
             "uuid": "3b6db352-1089-4a16-ac97-f32175a92ce7"
           },
           {
             "id": 91,
-            "display_flags": 1,
-            "display_tags": "NamedInstance",
+            "display_tags": "Named Instance", "display_flags": 1,
             "classifier_name": "Explicit Instance",
             "node": "2034e982-20f8-43df-b5ae-b0c231397b78",
             "uuid": "0a412aac-74e2-4305-a838-47ae947137ae"
           },
           {
             "id": 115,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "One Component",
             "node": "3aa2b31e-5e64-4272-a89a-77c624f4ac5d",
             "uuid": "a818e657-c691-41bc-b69b-cecd652cf979"
           },
           {
             "id": 125,
-            "display_flags": 0,
             "classifier_name": "Other Component",
             "node": "cb019de3-b5ec-400e-bb88-b6ddf7e97354",
             "uuid": "7f0bab45-6fd9-4194-b523-3ef2ffe8ea49"
           },
           {
             "id": 126,
-            "display_flags": 1,
-            "display_tags": "NamedInstance",
+            "display_tags": "Named Instance", "display_flags": 1,
             "classifier_name": "Subcomponent",
             "node": "1b7cb77f-656e-41e2-b67f-740b50234856",
             "uuid": "5c09e4c4-6796-4220-a494-cdae9544bcbb"
@@ -544,15 +474,13 @@
     {
       "diagram": {
         "id": 7,
-        "diagram_type": 33,
-        "type": "UMLPackageDiagram",
+        "type": "Package Diagram", "diagram_type": 33,
         "name": "Examples",
         "description": [
                 "This diagram shows some example diagrams\n",
                 " from consumer electronics"
         ],
         "list_order": 0,
-        "display_flags": 0,
         "parent_name": "Overview [root]",
         "parent": "77e513a5-8cce-40c7-ba3f-ec58754facec",
         "uuid": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
@@ -560,35 +488,30 @@
         [
           {
             "id": 177,
-            "display_flags": 0,
             "classifier_name": "Behavior Diagrams",
             "node": "8482e2ce-7cb1-40aa-a4bf-dd8a0ba7d0bf",
             "uuid": "91f8f3e6-086f-4ffd-8a58-7bc4642cabdd"
           },
           {
             "id": 178,
-            "display_flags": 0,
             "classifier_name": "Structure Diagrams",
             "node": "4b32276f-1cc7-4f8c-9bf5-78eec3d7fe2a",
             "uuid": "41cd0310-1975-4cb9-9f6a-a0cbd4e5ff78"
           },
           {
             "id": 179,
-            "display_flags": 0,
             "classifier_name": "Interaction Diagrams",
             "node": "e60f8dc6-71e5-4f60-b0a7-3109ccf85a4e",
             "uuid": "29140d3e-b7ff-423a-a357-3d1c98360138"
           },
           {
             "id": 180,
-            "display_flags": 0,
             "classifier_name": "UML Diagrams",
             "node": "1985bb09-0f8d-418e-a49c-d6a3a3267006",
             "uuid": "a67cdf30-65aa-44a0-8c65-238acdbe0424"
           },
           {
             "id": 190,
-            "display_flags": 0,
             "classifier_name": "SysML Diagrams",
             "node": "77bac38d-5c3f-4e5b-bfc0-65097a0fcccd",
             "uuid": "8218e4d2-e85a-4765-ba4f-06a6586772b6"
@@ -599,14 +522,12 @@
     {
       "diagram": {
         "id": 25,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Use Case Diagram",
         "description": [
                 ""
         ],
         "list_order": -1073643520,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "deebd078-5b23-4bc9-8594-c432ae8e9e91",
@@ -614,49 +535,42 @@
         [
           {
             "id": 170,
-            "display_flags": 0,
             "classifier_name": "Analyse Customer Complaint",
             "node": "f4558934-6975-47b1-9645-624d8cefa68a",
             "uuid": "60e74188-6cb4-4338-8eaa-c996b1e2e734"
           },
           {
             "id": 171,
-            "display_flags": 0,
             "classifier_name": "Customer Service",
             "node": "b747dcc5-5504-4b72-af79-408ddf245eb8",
             "uuid": "168e503f-3786-4099-865a-57cd01b85a30"
           },
           {
             "id": 172,
-            "display_flags": 0,
             "classifier_name": "AV User",
             "node": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
             "uuid": "b78aebe1-505e-4c43-a2ea-4767f65c777d"
           },
           {
             "id": 173,
-            "display_flags": 0,
             "classifier_name": "Watch TV",
             "node": "c5b660d4-3766-41af-9e61-99a7032d3ce5",
             "uuid": "b119ac3d-7e53-493e-8071-94dbf0225aaa"
           },
           {
             "id": 174,
-            "display_flags": 0,
             "classifier_name": "System Boundary",
             "node": "8fe5d745-e0f6-4777-9278-5ded1e86401d",
             "uuid": "b8a104b2-326d-4eb8-8805-84a0b983e5da"
           },
           {
             "id": 175,
-            "display_flags": 0,
             "classifier_name": "Listen to Radio",
             "node": "514bbb3e-8902-45cb-92cc-0368a554a589",
             "uuid": "5f2794c5-b1f9-4862-90a7-0967495d5996"
           },
           {
             "id": 176,
-            "display_flags": 0,
             "classifier_name": "Audio User",
             "node": "fdc019fe-a641-434c-b356-c8a9207bcf00",
             "uuid": "adc4cf3f-f35a-4274-a355-7cb543e9767f"
@@ -667,15 +581,13 @@
     {
       "diagram": {
         "id": 8,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "type": "Activity Diagram", "diagram_type": 11,
         "name": "Activities",
         "description": [
                 "This diagram shows the activities\n",
                 "which are the base for parsing an xml file."
         ],
         "list_order": 196608,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "4ef6fc5a-9ec3-4725-8cf4-a996e62ba187",
@@ -683,70 +595,60 @@
         [
           {
             "id": 51,
-            "display_flags": 0,
             "classifier_name": "select file to parse",
             "node": "836dd632-86e1-49a0-bdae-dee9e3e89363",
             "uuid": "965c6d04-9b90-4559-999e-13e4a0cc30b9"
           },
           {
             "id": 52,
-            "display_flags": 0,
             "classifier_name": "read xml header",
             "node": "f84af1f6-d215-4a48-8667-07086a444d1b",
             "uuid": "4a6a26d6-0178-45c1-86b0-e07228dfaa4e"
           },
           {
             "id": 53,
-            "display_flags": 0,
             "classifier_name": "read element and attributes",
             "node": "33aa2542-3744-46bb-b032-38e8f514c0da",
             "uuid": "a4f6a103-c740-4c3e-b0a1-58827db9c239"
           },
           {
             "id": 54,
-            "display_flags": 0,
             "classifier_name": "read CDATA contents",
             "node": "361316cf-9fa0-4670-a23e-01c498e52f35",
             "uuid": "7b6b290b-98ec-4ecc-bebd-90edc5e8c268"
           },
           {
             "id": 55,
-            "display_flags": 0,
             "classifier_name": "check validity",
             "node": "c1002f7e-8291-4586-b7c7-94ef4bde710f",
             "uuid": "730d92cc-2ee0-4e53-b811-32c1354b5685"
           },
           {
             "id": 90,
-            "display_flags": 0,
             "classifier_name": "read xml",
             "node": "af72c24f-9420-432a-833e-1cb6260d362e",
             "uuid": "01c5240b-94f0-4534-8e52-2a4ec925d493"
           },
           {
             "id": 155,
-            "display_flags": 0,
             "classifier_name": "decoder::start",
             "node": "9b27613c-cc40-4330-99e6-9ee61e4845d6",
             "uuid": "ce82f181-03c7-4df0-b09d-8801bb1fe810"
           },
           {
             "id": 156,
-            "display_flags": 0,
             "classifier_name": "decoder::end",
             "node": "b26adcf8-5d22-4715-b751-d2dca7b6900c",
             "uuid": "b596fb2f-0950-46db-afc8-f9ee081d11f1"
           },
           {
             "id": 157,
-            "display_flags": 0,
             "classifier_name": "read end tag",
             "node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
             "uuid": "fc663e60-e5a6-48fd-ace0-10577845a085"
           },
           {
             "id": 158,
-            "display_flags": 0,
             "classifier_name": "next token",
             "node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
             "uuid": "2bd8e87d-e542-4feb-8fd1-6b11fe64088c"
@@ -757,14 +659,12 @@
     {
       "diagram": {
         "id": 12,
-        "diagram_type": 12,
-        "type": "UMLStateMachineDiagram",
+        "type": "State Diagram", "diagram_type": 12,
         "name": "System States",
         "description": [
                 ""
         ],
         "list_order": 229376,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "5b2929bf-03d2-47a9-bd5b-8833647e6c23",
@@ -772,49 +672,42 @@
         [
           {
             "id": 57,
-            "display_flags": 0,
             "classifier_name": "diagnosis",
             "node": "2146b0c6-11fe-4e69-9d4e-15d2f449f933",
             "uuid": "5c633d7e-5369-43e9-a51a-f45138a0260b"
           },
           {
             "id": 58,
-            "display_flags": 0,
             "classifier_name": "running",
             "node": "44779792-00ab-4b6f-9686-4f30da0e113f",
             "uuid": "339adc8d-90d3-4c47-b699-d46a60b24422"
           },
           {
             "id": 59,
-            "display_flags": 0,
             "classifier_name": "booting",
             "node": "cc4ec715-ccf4-4ba7-b58a-4f8a05639080",
             "uuid": "d4efd315-74c3-4556-93f0-b30bf0bc96b3"
           },
           {
             "id": 60,
-            "display_flags": 0,
             "classifier_name": "shutting down",
             "node": "0b89728c-13e1-49f4-9d2b-3b3ed1b7f907",
             "uuid": "c0c3d76d-bbf3-4274-b2fb-3ce3395f424a"
           },
           {
             "id": 61,
-            "display_flags": 0,
             "classifier_name": "pwr::off",
             "node": "df0f8e13-9164-430e-830a-fc54259ab459",
             "uuid": "22545521-35c5-448e-89da-17e6e4ed16bb"
           },
           {
             "id": 62,
-            "display_flags": 0,
             "classifier_name": "SW-update",
             "node": "a8f03903-8d9e-4a62-bdbf-a1f54d39e043",
             "uuid": "99775a66-3218-4fbd-98b9-9276d81ebe97"
           },
           {
             "id": 154,
-            "display_flags": 0,
             "classifier_name": "pwr::start",
             "node": "fd499d12-7e7b-48e5-8213-86b0956c9512",
             "uuid": "71cd7f0a-ec8a-49c8-bd47-5a581971b991"
@@ -825,14 +718,12 @@
     {
       "diagram": {
         "id": 13,
-        "diagram_type": 14,
-        "type": "UMLInteractionDiagram/communication",
+        "type": "Communication Diagram", "diagram_type": 14,
         "name": "Communication Diagram",
         "description": [
                 ""
         ],
         "list_order": 262144,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "977c6946-dab3-4966-ad7b-d066ddcea371",
@@ -840,28 +731,24 @@
         [
           {
             "id": 63,
-            "display_flags": 0,
             "classifier_name": "Asymmetric Signature Storage",
             "node": "dc2fe71a-359a-46ee-a1f0-0318b35e12c9",
             "uuid": "a516cca5-974c-4d92-a08e-50039ba0eb74"
           },
           {
             "id": 64,
-            "display_flags": 0,
             "classifier_name": "Symmetric Session Keys",
             "node": "04340b08-e0c6-40fb-bd1c-48a199b27370",
             "uuid": "0b7cb37e-c68a-4711-8fdf-489b65a4db8c"
           },
           {
             "id": 65,
-            "display_flags": 0,
             "classifier_name": "TLS Endpoint",
             "node": "81cf1538-9cc2-4c5c-9359-dbffa2d99576",
             "uuid": "27549038-0689-4205-8419-01b4b3141bd1"
           },
           {
             "id": 66,
-            "display_flags": 0,
             "classifier_name": "External Entity",
             "node": "d46c62b3-221a-460a-a483-6e4b84cf4d5e",
             "uuid": "2802d7bd-fa76-40bc-a6a6-6501f8ce8ab6"
@@ -872,14 +759,12 @@
     {
       "diagram": {
         "id": 20,
-        "diagram_type": 13,
-        "type": "UMLInteractionDiagram/sequence",
+        "type": "Sequence Diagram", "diagram_type": 13,
         "name": "Sequence",
         "description": [
                 ""
         ],
         "list_order": 294912,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "02d7edcc-dd6c-4318-a287-4563f308c33a",
@@ -887,35 +772,30 @@
         [
           {
             "id": 121,
-            "display_flags": 0,
             "classifier_name": "User",
             "node": "87de2766-3cbd-4614-8993-b05453bb9007",
             "uuid": "063579f2-c502-4fb8-9576-a8270ef0540b"
           },
           {
             "id": 122,
-            "display_flags": 0,
             "classifier_name": "GUI",
             "node": "f2e9a281-239f-4414-996d-56803b605733",
             "uuid": "520ad7ed-bf42-4f4a-ba1b-55f4af126cd6"
           },
           {
             "id": 123,
-            "display_flags": 0,
             "classifier_name": "Audio Manager",
             "node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
             "uuid": "9a4e19db-6313-4093-9275-e33f9493a9ce"
           },
           {
             "id": 166,
-            "display_flags": 0,
             "classifier_name": "<100 ms",
             "node": "51da12aa-60bc-47ee-9562-e20245d6f815",
             "uuid": "c9cc5d9e-ad22-441d-ab5f-fef2afbb2807"
           },
           {
             "id": 167,
-            "display_flags": 0,
             "classifier_name": "data change animation",
             "node": "c5ee457b-84ce-4fcd-aeb4-25d3ed798053",
             "uuid": "6fb554e0-47fc-47f1-8269-c17081b04860"
@@ -926,14 +806,12 @@
     {
       "diagram": {
         "id": 21,
-        "diagram_type": 16,
-        "type": "UMLInteractionDiagram/timing",
+        "type": "Timing Diagram", "diagram_type": 16,
         "name": "Timing",
         "description": [
                 ""
         ],
         "list_order": 311296,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "e7606880-e793-48ea-8e71-d10bd9fdb1fd",
@@ -941,42 +819,36 @@
         [
           {
             "id": 116,
-            "display_flags": 0,
             "classifier_name": "fully operational",
             "node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
             "uuid": "723e0824-960d-48f5-912a-a347c561fa50"
           },
           {
             "id": 117,
-            "display_flags": 0,
             "classifier_name": "starting applications",
             "node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
             "uuid": "c25be54a-2b35-47f6-9b2e-7d5b70278eca"
           },
           {
             "id": 118,
-            "display_flags": 0,
             "classifier_name": "starting operating system",
             "node": "18411ac8-d373-4180-89f4-a3067c555857",
             "uuid": "9e69dd3c-ee29-4a0f-9669-1949b21908b5"
           },
           {
             "id": 119,
-            "display_flags": 0,
             "classifier_name": "initializing hardware",
             "node": "2fa49589-316d-4472-96db-34b9fbb8b128",
             "uuid": "28f2a692-dba7-4095-8d22-3d0c9680da8e"
           },
           {
             "id": 120,
-            "display_flags": 0,
             "classifier_name": "unpowered",
             "node": "1dcfc895-6759-41bc-982b-874a981e5791",
             "uuid": "14b8769f-c6f9-40a6-962b-b5a586a3d86a"
           },
           {
             "id": 168,
-            "display_flags": 0,
             "classifier_name": "<2 secs",
             "node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
             "uuid": "3d1d25df-60c5-4762-984b-bbd8498efd10"
@@ -987,14 +859,12 @@
     {
       "diagram": {
         "id": 23,
-        "diagram_type": 17,
-        "type": "UMLInteractionDiagram/overview",
+        "type": "Interation Overview Diagram", "diagram_type": 17,
         "name": "Interaction Overview",
         "description": [
                 ""
         ],
         "list_order": 319488,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "95a317e6-1e0e-4180-8aa7-22f146f312ee",
@@ -1002,42 +872,36 @@
         [
           {
             "id": 132,
-            "display_flags": 0,
             "classifier_name": "start trigger",
             "node": "3ac2fc7f-4159-43f9-8a0c-6735d805679a",
             "uuid": "27d99ad9-2be8-4b73-96c8-73a84c95e2b3"
           },
           {
             "id": 133,
-            "display_flags": 0,
             "classifier_name": "Timing",
             "node": "4ac7f1d1-ae74-48f8-b431-a5326fd00322",
             "uuid": "d3c5c5a1-93e0-4497-8fd5-902b34016844"
           },
           {
             "id": 134,
-            "display_flags": 0,
             "classifier_name": "Wait for User Input",
             "node": "f40210ab-d6a8-404d-a160-485be3f0f199",
             "uuid": "1ccd7f3a-b2e3-4ec3-869e-605577070d28"
           },
           {
             "id": 135,
-            "display_flags": 0,
             "classifier_name": "Event Type?",
             "node": "295a7599-3725-4221-86fd-e77afe3581ac",
             "uuid": "90961bd5-fa4b-4164-8369-7b8c1337cfee"
           },
           {
             "id": 136,
-            "display_flags": 0,
             "classifier_name": "Sequence",
             "node": "ea7572f1-8eb4-4130-8734-01de78ade5f9",
             "uuid": "341839d2-4c28-4c02-aef7-2e36ae5db83b"
           },
           {
             "id": 137,
-            "display_flags": 0,
             "classifier_name": "shutdown",
             "node": "2ef7719b-e01a-4b74-bf64-f904f8a46fcc",
             "uuid": "cb33dc25-8f14-4ef8-8354-98f3b8ebb724"
@@ -1048,14 +912,12 @@
     {
       "diagram": {
         "id": 26,
-        "diagram_type": 39,
-        "type": "UMLProfileDiagram",
+        "type": "Profile Diagram", "diagram_type": 39,
         "name": "Profile Diagram",
         "description": [
                 ""
         ],
         "list_order": 323584,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "5c453317-3e35-4d12-ab1b-cb6bca50b856",
@@ -1063,66 +925,57 @@
         [
           {
             "id": 181,
-            "display_flags": 0,
             "classifier_name": "Database-Artifact",
             "node": "d84b2c5d-f6a1-4656-aaa0-37ce1f790869",
             "uuid": "014656b9-ded7-49e6-8f0c-869de7e6dbcb"
           },
           {
             "id": 182,
-            "display_flags": 0,
             "classifier_name": "Class",
             "node": "22369081-83e0-45a5-ba1c-07109eee0a90",
             "uuid": "568538a4-f306-4f16-bbe1-b3b7248fb268"
           },
           {
             "id": 183,
-            "display_flags": 0,
             "classifier_name": "Artifact",
             "node": "464b99fe-5d6f-4aab-8933-c6235e144e0f",
             "uuid": "cb5d2f0b-41bc-4699-8dc2-ba9eae403ece"
           },
           {
             "id": 184,
-            "display_flags": 0,
             "classifier_name": "GSN-Strategy",
             "node": "59a5d1b6-df67-41ed-869a-30d56575061e",
             "uuid": "4a2674f6-a875-46ce-9634-35a539699437"
           },
           {
             "id": 185,
-            "display_flags": 0,
             "classifier_name": "DB_Image",
             "node": "dafbb937-33de-493a-b62c-88b202e577fa",
             "uuid": "2059a2e0-1a4a-45c9-81d1-8579d338a58b"
           },
           {
             "id": 186,
-            "display_flags": 0,
             "classifier_name": "Strategy_Image",
             "node": "bd6d0530-1be9-4c94-8ba2-edb7ed22134a",
             "uuid": "86bfa270-1e2d-4b0c-a416-13ad464ca4cc"
           },
           {
             "id": 187,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Usage examples",
             "node": "cfaecc68-6126-4536-8ab2-902e15037b26",
             "uuid": "15ad554b-6650-4e5a-9037-442ed927f488"
           },
           {
             "id": 188,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "No dynamic memory",
             "node": "30b10c2f-9b81-4a31-8ed3-5c6de94bc9b7",
             "uuid": "be58b92d-f60a-49ea-98ef-b6cac58fd3c4"
           },
           {
             "id": 189,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Authentication DB",
             "node": "4f0a8a06-9bf7-415a-9b98-056f120d47f0",
             "uuid": "a285a170-1841-42a7-9533-0a836416c100"
@@ -1133,14 +986,12 @@
     {
       "diagram": {
         "id": 15,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "type": "Component Diagram", "diagram_type": 31,
         "name": "Component Diagram",
         "description": [
                 ""
         ],
         "list_order": 327680,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "415ee3fe-314f-48a0-a6a6-3f40e0074a61",
@@ -1148,43 +999,37 @@
         [
           {
             "id": 73,
-            "display_flags": 0,
             "classifier_name": "Web Browser",
             "node": "420ad9b6-748a-4876-9578-dc13270d7983",
             "uuid": "0d91b154-7e9c-405f-bca1-aac60baaa0f2"
           },
           {
             "id": 74,
-            "display_flags": 0,
             "classifier_name": "Content DB",
             "node": "443a7597-c5cf-4463-bc9c-ef7e576ec14c",
             "uuid": "0f2b5e8f-c05f-47f1-8aea-1c4c252c23ef"
           },
           {
             "id": 75,
-            "display_flags": 0,
             "classifier_name": "TLS Endpoint",
             "node": "06e05a9a-27bd-492e-a87c-11be2656d363",
             "uuid": "62c4729b-8a82-460a-91ec-83bddea93e71"
           },
           {
             "id": 76,
-            "display_flags": 0,
             "classifier_name": "Images Server",
             "node": "3062d023-6dcd-4805-a090-07d7eff81f32",
             "uuid": "25a47adb-fde0-43d8-8205-152825ce1af3"
           },
           {
             "id": 96,
-            "display_flags": 2,
-            "display_tags": "AnonymousInstance",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Page Renderer",
             "node": "0c739e23-db60-415f-bea3-ddcaf8c340db",
             "uuid": "383d0309-9889-4597-867c-dbd0c3ec37c3"
           },
           {
             "id": 124,
-            "display_flags": 0,
             "classifier_name": "Crypto Key Server",
             "node": "f4bfd848-e203-4170-9af8-4ac7385e03d3",
             "uuid": "9fd033f7-5dc9-40f2-a32c-6b44c6ad8e00"
@@ -1195,14 +1040,12 @@
     {
       "diagram": {
         "id": 16,
-        "diagram_type": 33,
-        "type": "UMLPackageDiagram",
+        "type": "Package Diagram", "diagram_type": 33,
         "name": "Package Diagram",
         "description": [
                 ""
         ],
         "list_order": 360448,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "63bc8070-fad1-4b32-920f-920adc788a55",
@@ -1210,63 +1053,54 @@
         [
           {
             "id": 77,
-            "display_flags": 0,
             "classifier_name": "Application 1",
             "node": "dcc0baca-6eb1-49b3-80d2-d979e253b516",
             "uuid": "0e911425-fb00-4248-b16e-b4367f7b93c2"
           },
           {
             "id": 78,
-            "display_flags": 0,
             "classifier_name": "Service Layer",
             "node": "58509a8e-3833-4e32-95ae-50de8926c2ac",
             "uuid": "06f560ae-989c-4a91-a5c2-bb71810ddd03"
           },
           {
             "id": 79,
-            "display_flags": 0,
             "classifier_name": "Infrastructure",
             "node": "8b9e7f06-0c23-4765-b77d-534a0df36e84",
             "uuid": "d4c5e44c-16fe-4b68-ad89-d4abecd08c41"
           },
           {
             "id": 94,
-            "display_flags": 0,
             "classifier_name": "common Services",
             "node": "c0395ffe-0d05-4129-892d-373ecc143a50",
             "uuid": "ef7abe9d-f4ea-49b1-8ef3-9458a9d3aa91"
           },
           {
             "id": 95,
-            "display_flags": 0,
             "classifier_name": "specific Services",
             "node": "449482a3-f3e4-4068-bbac-83e82a206b59",
             "uuid": "147a77c5-4f27-490b-adbc-6985a4f062df"
           },
           {
             "id": 159,
-            "display_flags": 0,
             "classifier_name": "communication Lib",
             "node": "c7f56354-e429-47c2-b9bc-eb71fa8174c0",
             "uuid": "7c9515aa-d03d-4b5d-9fed-653e1b51a5c8"
           },
           {
             "id": 160,
-            "display_flags": 0,
             "classifier_name": "storage Lib",
             "node": "7034e944-2fcf-46d5-a450-3743c0f67838",
             "uuid": "e5a85f56-3a72-4c2c-a2b1-ab25a287aece"
           },
           {
             "id": 161,
-            "display_flags": 0,
             "classifier_name": "Application 2",
             "node": "eedb3c67-7ed0-4dd7-965e-d24b09bcc374",
             "uuid": "b55f4db4-b40f-41d0-a097-9d1d4c425276"
           },
           {
             "id": 162,
-            "display_flags": 0,
             "classifier_name": "Application Layer",
             "node": "2d91af7d-9b41-4405-8397-9064ba27a35a",
             "uuid": "72215b45-476a-4d76-8e23-90e43b38bb09"
@@ -1277,14 +1111,12 @@
     {
       "diagram": {
         "id": 17,
-        "diagram_type": 34,
-        "type": "UMLClassDiagram",
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Class Diagram",
         "description": [
                 ""
         ],
         "list_order": 393216,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "e0bd4c2c-3e4c-4551-9da6-123fdf6369a8",
@@ -1292,28 +1124,24 @@
         [
           {
             "id": 81,
-            "display_flags": 0,
             "classifier_name": "List",
             "node": "cbb8c23c-04a0-45cd-8c11-9b7af21c91a0",
             "uuid": "cdc0cddd-2af9-4b18-be12-fba1a4e114b8"
           },
           {
             "id": 82,
-            "display_flags": 0,
             "classifier_name": "Contract",
             "node": "4932e997-c410-489d-8dc9-d5118ba4ceaa",
             "uuid": "672cb111-068a-4119-a363-90615c54139c"
           },
           {
             "id": 83,
-            "display_flags": 0,
             "classifier_name": "List of Contracts",
             "node": "4cec37b4-0b32-4ad2-af76-0bb6b0d93426",
             "uuid": "0a10320d-f3aa-4fe6-93f3-3f64abd95254"
           },
           {
             "id": 84,
-            "display_flags": 0,
             "classifier_name": "Iterator",
             "node": "458884c0-6398-4a61-ab99-3c8cfba10b70",
             "uuid": "dc43a3e6-865d-44fe-b548-2c59c46a0df6"
@@ -1324,14 +1152,12 @@
     {
       "diagram": {
         "id": 14,
-        "diagram_type": 30,
-        "type": "UMLDeploymentDiagram",
+        "type": "Deployment Diagram", "diagram_type": 30,
         "name": "Deployment Diagram",
         "description": [
                 ""
         ],
         "list_order": 409600,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "1009c159-98c8-43e9-b3b4-869122efb9cc",
@@ -1339,42 +1165,36 @@
         [
           {
             "id": 67,
-            "display_flags": 0,
             "classifier_name": "Box",
             "node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
             "uuid": "08bcf3da-54c8-42d3-9c84-783c6155a718"
           },
           {
             "id": 69,
-            "display_flags": 0,
             "classifier_name": "Main Processor",
             "node": "a4057f7a-9030-4296-9a50-96354390febc",
             "uuid": "6bc78d34-a886-443c-92bc-5336ea508d14"
           },
           {
             "id": 70,
-            "display_flags": 0,
             "classifier_name": "Tuner Chip",
             "node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
             "uuid": "70a80f9f-34f2-4bc6-9732-9732665cb078"
           },
           {
             "id": 71,
-            "display_flags": 0,
             "classifier_name": "Amplifier",
             "node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
             "uuid": "d55eb5fe-efc6-4c53-9865-ef0ead8dbf7b"
           },
           {
             "id": 72,
-            "display_flags": 0,
             "classifier_name": "Power Supply",
             "node": "04156c73-4c79-4740-8280-29c8b9b06c64",
             "uuid": "e0022b98-fd33-4815-b2fc-0c6209f288db"
           },
           {
             "id": 97,
-            "display_flags": 0,
             "classifier_name": "Watchdog",
             "node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
             "uuid": "743db9d2-8b7c-4417-9d7e-8b405d555cf3"
@@ -1385,14 +1205,12 @@
     {
       "diagram": {
         "id": 18,
-        "diagram_type": 9,
-        "type": "SysMLRequirementDiagram",
+        "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Requirements",
         "description": [
                 ""
         ],
         "list_order": 425984,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "4f7453a0-4f77-4c16-bfb4-f568ec3f8288",
@@ -1400,35 +1218,30 @@
         [
           {
             "id": 99,
-            "display_flags": 0,
             "classifier_name": "REQ-1001: Stream Audio",
             "node": "ba7af822-b3aa-4088-b2b0-a814e275a388",
             "uuid": "8a05b85e-e40e-42f9-98b6-4788631bce3d"
           },
           {
             "id": 100,
-            "display_flags": 0,
             "classifier_name": "REQ-1002: Capture Mic",
             "node": "352158fa-5538-4070-96c6-9b5eb1939784",
             "uuid": "00e779a0-b468-4faa-8684-eb879c29a909"
           },
           {
             "id": 101,
-            "display_flags": 0,
             "classifier_name": "REQ-1003: Play Audio on Speaker",
             "node": "6232c069-8281-40e2-bced-6a0b78c51491",
             "uuid": "10c18bdc-7d55-4f83-877d-8e132fc53fc5"
           },
           {
             "id": 102,
-            "display_flags": 0,
             "classifier_name": "Phone Call",
             "node": "c42bf08b-b197-4820-ae47-89620833f159",
             "uuid": "67596eb6-1e92-4c99-b4f2-6ed0ee753839"
           },
           {
             "id": 103,
-            "display_flags": 0,
             "classifier_name": "REQ-1004: Dial Number",
             "node": "6f5ab8eb-fc62-4560-80b1-5d840a9d3661",
             "uuid": "611a93f6-decf-4e20-aedb-69bdb8f0495f"
@@ -1439,14 +1252,12 @@
     {
       "diagram": {
         "id": 19,
-        "diagram_type": 4,
-        "type": "SysMLBlockDefinitionDiagram",
+        "type": "Block Definition Diagram", "diagram_type": 4,
         "name": "Block Diagram",
         "description": [
                 ""
         ],
         "list_order": 458752,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "eb974623-3fa4-45df-a4af-d75a9cb6a702",
@@ -1454,63 +1265,54 @@
         [
           {
             "id": 104,
-            "display_flags": 0,
             "classifier_name": "Telephone",
             "node": "ba881e97-1072-4296-ba29-6abc73b7f252",
             "uuid": "a2377f99-7489-4b97-942c-bcd5b22f40e5"
           },
           {
             "id": 105,
-            "display_flags": 0,
             "classifier_name": "Dial Pad",
             "node": "fce3ffeb-62d1-4689-92db-83387adbcbc7",
             "uuid": "4d5dc09e-d04e-4779-b0d1-301f85c746d2"
           },
           {
             "id": 106,
-            "display_flags": 0,
             "classifier_name": "Microphone",
             "node": "787bd029-c41b-4305-a575-871a19db6078",
             "uuid": "ea77639a-3f5f-43d5-855e-10a4aa381002"
           },
           {
             "id": 107,
-            "display_flags": 0,
             "classifier_name": "Speaker",
             "node": "453345e3-49bd-4803-98fe-09cff2f6ece9",
             "uuid": "8d64cd58-f6ae-4b84-86ce-f8f35a484ca1"
           },
           {
             "id": 108,
-            "display_flags": 0,
             "classifier_name": "Power Management IC",
             "node": "e66ba866-2fa8-432a-88ad-853589e18426",
             "uuid": "1c0be3da-af39-46ea-9b73-1ab4dbb8748a"
           },
           {
             "id": 109,
-            "display_flags": 0,
             "classifier_name": "Display",
             "node": "259cd218-e04a-4b67-8fe5-f58ccdc55ae2",
             "uuid": "963033e2-0ea9-498a-88b4-3a19b4c8d805"
           },
           {
             "id": 110,
-            "display_flags": 0,
             "classifier_name": "Network Connector",
             "node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
             "uuid": "ed39ebdd-5be0-4fa0-8e43-cfcd3e4522f9"
           },
           {
             "id": 111,
-            "display_flags": 0,
             "classifier_name": "Power Connector",
             "node": "98f22d96-80fd-4f93-bb88-8a1bd9952cb4",
             "uuid": "05898047-b55e-424f-b1d5-6d7debbc8dab"
           },
           {
             "id": 112,
-            "display_flags": 0,
             "classifier_name": "CPU",
             "node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
             "uuid": "ae0d267d-aa9c-4e30-9f04-705fb8b9f2df"
@@ -1521,14 +1323,12 @@
     {
       "diagram": {
         "id": 22,
-        "diagram_type": 7,
-        "type": "SysMLParametricDiagram",
+        "type": "Parametric Diagram", "diagram_type": 7,
         "name": "Parametric Diagram",
         "description": [
                 ""
         ],
         "list_order": 557056,
-        "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
         "uuid": "a32e5511-6cff-4db4-9e62-aa06d25f68c2",
@@ -1536,28 +1336,24 @@
         [
           {
             "id": 128,
-            "display_flags": 0,
             "classifier_name": "Heat Sensor",
             "node": "a226d506-fd43-4fa9-9116-17f6bf5dd902",
             "uuid": "d869dd22-c9c5-4e66-bfa9-8c3a6ef1f3fb"
           },
           {
             "id": 129,
-            "display_flags": 0,
             "classifier_name": "Overtemperature Off",
             "node": "179612ad-6bf3-48af-8e26-e1cdd8e79417",
             "uuid": "d8410119-5a04-4779-9e90-ffa4af5a564c"
           },
           {
             "id": 130,
-            "display_flags": 0,
             "classifier_name": "Powermanagement IC",
             "node": "f2289972-e9bd-479b-8437-8f5f598a9885",
             "uuid": "2e3db93f-3aee-4fed-9886-b5fd0d4e1447"
           },
           {
             "id": 131,
-            "display_flags": 0,
             "classifier_name": "Max Temperature Config Value",
             "node": "a0c004e1-f501-4233-b283-bbd2968e3437",
             "uuid": "fbb90d38-35f2-46c3-82be-b32eb8ee1941"
@@ -1572,8 +1368,7 @@
     {
       "classifier": {
         "id": 1,
-        "main_type": 127,
-        "type": "Artifact",
+        "type": "Artifact", "main_type": 127,
         "stereotype": "node",
         "name": "Classifier",
         "description": [
@@ -1587,8 +1382,7 @@
         [
           {
             "id": 69,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Feature [ ]",
             "description": [
                 ""
@@ -1602,8 +1396,7 @@
     {
       "classifier": {
         "id": 2,
-        "main_type": 127,
-        "type": "Artifact",
+        "type": "Artifact", "main_type": 127,
         "stereotype": "edge",
         "name": "Relationship",
         "description": [
@@ -1621,8 +1414,7 @@
     {
       "classifier": {
         "id": 3,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "classifier-1",
         "description": [
                 ""
@@ -1639,8 +1431,7 @@
     {
       "classifier": {
         "id": 4,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "classifier-2",
         "description": [
                 ""
@@ -1657,8 +1448,7 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "classifier-3",
         "description": [
                 ""
@@ -1675,8 +1465,7 @@
     {
       "classifier": {
         "id": 6,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "classifier-4",
         "description": [
                 ""
@@ -1693,8 +1482,7 @@
     {
       "classifier": {
         "id": 7,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "classifier-5",
         "description": [
                 ""
@@ -1711,8 +1499,7 @@
     {
       "classifier": {
         "id": 8,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "classifier-6",
         "description": [
                 ""
@@ -1729,8 +1516,7 @@
     {
       "classifier": {
         "id": 9,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "classifier-7",
         "description": [
                 ""
@@ -1747,8 +1533,7 @@
     {
       "classifier": {
         "id": 10,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Parser Class",
         "description": [
                 ""
@@ -1765,8 +1550,7 @@
     {
       "classifier": {
         "id": 11,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Class with Features",
         "description": [
                 ""
@@ -1779,8 +1563,7 @@
         [
           {
             "id": 1,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "attribute",
             "value": "int",
             "description": [
@@ -1791,8 +1574,7 @@
           },
           {
             "id": 2,
-            "main_type": 1,
-            "type": "Operation",
+            "type": "Operation", "main_type": 1,
             "key": "function",
             "value": "uint32_t(*)(int,bool)",
             "description": [
@@ -1807,8 +1589,7 @@
     {
       "classifier": {
         "id": 12,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Highlighted Class",
         "description": [
                 ""
@@ -1825,8 +1606,7 @@
     {
       "classifier": {
         "id": 13,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Instance",
         "description": [
                 ""
@@ -1839,8 +1619,7 @@
         [
           {
             "id": 6,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "color",
             "value": "uint8_t[4]",
             "description": [
@@ -1855,8 +1634,7 @@
     {
       "classifier": {
         "id": 14,
-        "main_type": 127,
-        "type": "Artifact",
+        "type": "Artifact", "main_type": 127,
         "stereotype": "view",
         "name": "Diagram",
         "description": [
@@ -1874,8 +1652,7 @@
     {
       "classifier": {
         "id": 15,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "stereotype": "example",
         "name": "Package",
         "description": [
@@ -1893,8 +1670,7 @@
     {
       "classifier": {
         "id": 16,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "Standard User",
         "description": [
                 ""
@@ -1911,8 +1687,7 @@
     {
       "classifier": {
         "id": 17,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "name": "Note 1",
         "description": [
                 "وعيًا بأفكارك\n",
@@ -1930,8 +1705,7 @@
     {
       "classifier": {
         "id": 18,
-        "main_type": 127,
-        "type": "Artifact",
+        "type": "Artifact", "main_type": 127,
         "name": "config file",
         "description": [
                 ""
@@ -1948,8 +1722,7 @@
     {
       "classifier": {
         "id": 19,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "systemd",
         "description": [
                 ""
@@ -1962,8 +1735,7 @@
         [
           {
             "id": 88,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "port",
             "value": "signal",
             "description": [
@@ -1978,8 +1750,7 @@
     {
       "classifier": {
         "id": 20,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "name": "main CPU",
         "description": [
                 ""
@@ -1996,8 +1767,7 @@
     {
       "classifier": {
         "id": 21,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "running state",
         "description": [
                 ""
@@ -2010,8 +1780,7 @@
         [
           {
             "id": 85,
-            "main_type": 9,
-            "type": "Pseudostate",
+            "type": "Exit", "main_type": 9,
             "key": "abort",
             "description": [
                 ""
@@ -2021,13 +1790,12 @@
           },
           {
             "id": 86,
-            "main_type": 8,
-            "type": "Pseudostate",
+            "type": "Entry", "main_type": 8,
             "key": "alt_start",
             "description": [
                 ""
             ],
-            "list_order": 1190335641,
+            "list_order": 554535968,
             "uuid": "a9d8bcf5-f1a7-4186-a35f-f711bb852913"
           }
         ]
@@ -2036,8 +1804,7 @@
     {
       "classifier": {
         "id": 22,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "system start",
         "description": [
                 ""
@@ -2054,14 +1821,13 @@
     {
       "classifier": {
         "id": 23,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "AV User",
         "description": [
                 ""
         ],
         "x_order": -1722481869,
-        "y_order": -1252004359,
+        "y_order": 602145243,
         "list_order": 0,
         "uuid": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
         "features":
@@ -2072,8 +1838,7 @@
     {
       "classifier": {
         "id": 24,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "Audio User",
         "description": [
                 ""
@@ -2090,8 +1855,7 @@
     {
       "classifier": {
         "id": 25,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "Customer Service",
         "description": [
                 ""
@@ -2108,14 +1872,13 @@
     {
       "classifier": {
         "id": 26,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "Listen to Radio",
         "description": [
                 ""
         ],
         "x_order": -1440951005,
-        "y_order": 995454033,
+        "y_order": 1433323224,
         "list_order": 0,
         "uuid": "514bbb3e-8902-45cb-92cc-0368a554a589",
         "features":
@@ -2126,8 +1889,7 @@
     {
       "classifier": {
         "id": 27,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "Watch TV",
         "description": [
                 ""
@@ -2144,8 +1906,7 @@
     {
       "classifier": {
         "id": 28,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "Analyse Customer Complaint",
         "description": [
                 ""
@@ -2158,8 +1919,7 @@
         [
           {
             "id": 92,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "L1/L2/L3 Support",
             "description": [
                 ""
@@ -2173,8 +1933,7 @@
     {
       "classifier": {
         "id": 29,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "select file to parse",
         "description": [
                 ""
@@ -2191,8 +1950,7 @@
     {
       "classifier": {
         "id": 30,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "read xml header",
         "description": [
                 ""
@@ -2209,8 +1967,7 @@
     {
       "classifier": {
         "id": 31,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "read element and attributes",
         "description": [
                 ""
@@ -2227,8 +1984,7 @@
     {
       "classifier": {
         "id": 32,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "read CDATA contents",
         "description": [
                 ""
@@ -2245,8 +2001,7 @@
     {
       "classifier": {
         "id": 33,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "check validity",
         "description": [
                 ""
@@ -2263,8 +2018,7 @@
     {
       "classifier": {
         "id": 34,
-        "main_type": 152,
-        "type": "ActivityFinalNode",
+        "type": "Final Node", "main_type": 152,
         "name": "pwr::off",
         "description": [
                 ""
@@ -2281,8 +2035,7 @@
     {
       "classifier": {
         "id": 35,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "booting",
         "description": [
                 ""
@@ -2299,8 +2052,7 @@
     {
       "classifier": {
         "id": 36,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "SW-update",
         "description": [
                 ""
@@ -2317,8 +2069,7 @@
     {
       "classifier": {
         "id": 37,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "running",
         "description": [
                 ""
@@ -2335,8 +2086,7 @@
     {
       "classifier": {
         "id": 39,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "shutting down",
         "description": [
                 ""
@@ -2353,8 +2103,7 @@
     {
       "classifier": {
         "id": 40,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "diagnosis",
         "description": [
                 ""
@@ -2371,8 +2120,7 @@
     {
       "classifier": {
         "id": 41,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "name": "Asymmetric Signature Storage",
         "description": [
                 ""
@@ -2385,8 +2133,7 @@
         [
           {
             "id": 47,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -2400,8 +2147,7 @@
     {
       "classifier": {
         "id": 42,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "name": "Symmetric Session Keys",
         "description": [
                 ""
@@ -2414,8 +2160,7 @@
         [
           {
             "id": 48,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -2429,8 +2174,7 @@
     {
       "classifier": {
         "id": 43,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "TLS Endpoint",
         "description": [
                 ""
@@ -2443,8 +2187,7 @@
         [
           {
             "id": 39,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "session token",
             "description": [
                 ""
@@ -2454,8 +2197,7 @@
           },
           {
             "id": 40,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "/dev/tty2",
             "value": "Pipe",
             "description": [
@@ -2466,8 +2208,7 @@
           },
           {
             "id": 43,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "request",
             "value": "out_signal",
             "description": [
@@ -2478,8 +2219,7 @@
           },
           {
             "id": 49,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -2489,8 +2229,7 @@
           },
           {
             "id": 52,
-            "main_type": 4,
-            "type": "Interface",
+            "type": "Provided Interface", "main_type": 4,
             "key": "Cmd_IF",
             "description": [
                 ""
@@ -2504,8 +2243,7 @@
     {
       "classifier": {
         "id": 44,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "External Entity",
         "description": [
                 ""
@@ -2518,8 +2256,7 @@
         [
           {
             "id": 50,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -2533,8 +2270,7 @@
     {
       "classifier": {
         "id": 45,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "name": "Box",
         "description": [
                 ""
@@ -2551,8 +2287,7 @@
     {
       "classifier": {
         "id": 47,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "name": "Main Processor",
         "description": [
                 ""
@@ -2569,8 +2304,7 @@
     {
       "classifier": {
         "id": 48,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "name": "Tuner Chip",
         "description": [
                 ""
@@ -2587,8 +2321,7 @@
     {
       "classifier": {
         "id": 49,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "name": "Amplifier",
         "description": [
                 ""
@@ -2605,8 +2338,7 @@
     {
       "classifier": {
         "id": 50,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "name": "Power Supply",
         "description": [
                 ""
@@ -2623,8 +2355,7 @@
     {
       "classifier": {
         "id": 51,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "Web Browser",
         "description": [
                 ""
@@ -2637,8 +2368,7 @@
         [
           {
             "id": 57,
-            "main_type": 5,
-            "type": "Interface",
+            "type": "Required Interface", "main_type": 5,
             "key": "Nav",
             "value": "Cmd_IF",
             "description": [
@@ -2649,32 +2379,29 @@
           },
           {
             "id": 58,
-            "main_type": 5,
-            "type": "Interface",
+            "type": "Required Interface", "main_type": 5,
             "key": "Tun",
             "value": "Cmd_IF",
             "description": [
                 ""
             ],
-            "list_order": 1805388255,
+            "list_order": 1557672882,
             "uuid": "f645ef7e-2dc0-4b27-8aa8-2935abcc2c15"
           },
           {
             "id": 74,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "8080",
             "value": "IP Port",
             "description": [
                 ""
             ],
-            "list_order": 1820409126,
+            "list_order": 1530000790,
             "uuid": "9b7121a8-7cea-4e0c-bd55-af1b8b372f64"
           },
           {
             "id": 75,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "8443",
             "value": "IP Port",
             "description": [
@@ -2689,8 +2416,7 @@
     {
       "classifier": {
         "id": 52,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "Content DB",
         "description": [
                 ""
@@ -2703,8 +2429,7 @@
         [
           {
             "id": 53,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "8080",
             "value": "IP Port",
             "description": [
@@ -2715,8 +2440,7 @@
           },
           {
             "id": 54,
-            "main_type": 4,
-            "type": "Interface",
+            "type": "Provided Interface", "main_type": 4,
             "key": "Cmd_IF",
             "description": [
                 ""
@@ -2730,8 +2454,7 @@
     {
       "classifier": {
         "id": 53,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "Images Server",
         "description": [
                 ""
@@ -2744,8 +2467,7 @@
         [
           {
             "id": 55,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "80",
             "value": "IP Port",
             "description": [
@@ -2756,8 +2478,7 @@
           },
           {
             "id": 56,
-            "main_type": 4,
-            "type": "Interface",
+            "type": "Provided Interface", "main_type": 4,
             "key": "Cmd_IF",
             "description": [
                 ""
@@ -2771,8 +2492,7 @@
     {
       "classifier": {
         "id": 54,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Application 1",
         "description": [
                 ""
@@ -2789,8 +2509,7 @@
     {
       "classifier": {
         "id": 55,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Service Layer",
         "description": [
                 ""
@@ -2807,8 +2526,7 @@
     {
       "classifier": {
         "id": 56,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Infrastructure",
         "description": [
                 ""
@@ -2825,8 +2543,7 @@
     {
       "classifier": {
         "id": 58,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "stereotype": "generic",
         "name": "List",
         "description": [
@@ -2840,8 +2557,7 @@
         [
           {
             "id": 7,
-            "main_type": 1,
-            "type": "Operation",
+            "type": "Operation", "main_type": 1,
             "key": "get_length",
             "value": "uint32_t(*)(void)",
             "description": [
@@ -2852,8 +2568,7 @@
           },
           {
             "id": 8,
-            "main_type": 1,
-            "type": "Operation",
+            "type": "Operation", "main_type": 1,
             "key": "add",
             "value": "void(*)(element_t)",
             "description": [
@@ -2864,8 +2579,7 @@
           },
           {
             "id": 9,
-            "main_type": 1,
-            "type": "Operation",
+            "type": "Operation", "main_type": 1,
             "key": "delete",
             "value": "void(*)(int32_t)",
             "description": [
@@ -2876,8 +2590,7 @@
           },
           {
             "id": 93,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "len",
             "value": "uint",
             "description": [
@@ -2892,8 +2605,7 @@
     {
       "classifier": {
         "id": 59,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Contract",
         "description": [
                 ""
@@ -2910,8 +2622,7 @@
     {
       "classifier": {
         "id": 60,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "List of Contracts",
         "description": [
                 ""
@@ -2928,8 +2639,7 @@
     {
       "classifier": {
         "id": 61,
-        "main_type": 123,
-        "type": "Interface",
+        "type": "Interface", "main_type": 123,
         "stereotype": "interface",
         "name": "Iterator",
         "description": [
@@ -2947,8 +2657,7 @@
     {
       "classifier": {
         "id": 62,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "Reader",
         "description": [
                 ""
@@ -2965,8 +2674,7 @@
     {
       "classifier": {
         "id": 63,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "View Examples of UML Diagrams",
         "description": [
                 "The reader checks examples of diagrams"
@@ -2983,8 +2691,7 @@
     {
       "classifier": {
         "id": 64,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "View List of Features",
         "description": [
                 "The reader checks lists of features"
@@ -3001,8 +2708,7 @@
     {
       "classifier": {
         "id": 65,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "name": "2 instances of same object",
         "description": [
                 "Several instances of the same classifier\n",
@@ -3020,8 +2726,7 @@
     {
       "classifier": {
         "id": 66,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "read xml",
         "description": [
                 ""
@@ -3038,8 +2743,7 @@
     {
       "classifier": {
         "id": 67,
-        "main_type": 126,
-        "type": "Class",
+        "type": "Object", "main_type": 126,
         "name": "Explicit Instance",
         "description": [
                 ""
@@ -3056,8 +2760,7 @@
     {
       "classifier": {
         "id": 68,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "create result 2",
         "description": [
                 ""
@@ -3074,8 +2777,7 @@
     {
       "classifier": {
         "id": 69,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "perform action 1",
         "description": [
                 ""
@@ -3092,8 +2794,7 @@
     {
       "classifier": {
         "id": 70,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "common Services",
         "description": [
                 ""
@@ -3110,8 +2811,7 @@
     {
       "classifier": {
         "id": 71,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "specific Services",
         "description": [
                 ""
@@ -3128,8 +2828,7 @@
     {
       "classifier": {
         "id": 72,
-        "main_type": 122,
-        "type": "Component",
+        "type": "Part", "main_type": 122,
         "name": "Page Renderer",
         "description": [
                 ""
@@ -3146,8 +2845,7 @@
     {
       "classifier": {
         "id": 73,
-        "main_type": 120,
-        "type": "Node",
+        "type": "Node", "main_type": 120,
         "name": "Watchdog",
         "description": [
                 ""
@@ -3164,8 +2862,7 @@
     {
       "classifier": {
         "id": 74,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "name": "Diagram Types",
         "description": [
                 ""
@@ -3178,8 +2875,7 @@
         [
           {
             "id": 10,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Block (SysML)",
             "description": [
                 ""
@@ -3189,8 +2885,7 @@
           },
           {
             "id": 11,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Requirements (SysML)",
             "description": [
                 ""
@@ -3200,8 +2895,7 @@
           },
           {
             "id": 12,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Use Case (UML)",
             "description": [
                 ""
@@ -3211,8 +2905,7 @@
           },
           {
             "id": 13,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Activity (UML)",
             "description": [
                 ""
@@ -3222,8 +2915,7 @@
           },
           {
             "id": 14,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Statemachine (UML)",
             "description": [
                 ""
@@ -3233,8 +2925,7 @@
           },
           {
             "id": 16,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Deployment (UML)",
             "description": [
                 ""
@@ -3244,8 +2935,7 @@
           },
           {
             "id": 17,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Component (UML)",
             "description": [
                 ""
@@ -3255,8 +2945,7 @@
           },
           {
             "id": 18,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Package (UML)",
             "description": [
                 ""
@@ -3266,8 +2955,7 @@
           },
           {
             "id": 19,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Class (UML)",
             "description": [
                 ""
@@ -3277,8 +2965,7 @@
           },
           {
             "id": 44,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Sequence (UML)",
             "description": [
                 ""
@@ -3288,8 +2975,7 @@
           },
           {
             "id": 45,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Timing (UML)",
             "description": [
                 ""
@@ -3299,8 +2985,7 @@
           },
           {
             "id": 46,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Communication (UML)",
             "description": [
                 ""
@@ -3310,8 +2995,7 @@
           },
           {
             "id": 59,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Parametric Diagram (SysML)",
             "description": [
                 ""
@@ -3321,8 +3005,7 @@
           },
           {
             "id": 66,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "Interaction Overview (UML)",
             "description": [
                 ""
@@ -3336,8 +3019,7 @@
     {
       "classifier": {
         "id": 75,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "name": "REQ-1001: Stream Audio",
         "description": [
                 "The system shall stream audio"
@@ -3354,8 +3036,7 @@
     {
       "classifier": {
         "id": 76,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "name": "REQ-1002: Capture Mic",
         "description": [
                 "The system shall record the mic signal"
@@ -3372,8 +3053,7 @@
     {
       "classifier": {
         "id": 77,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "name": "REQ-1003: Play Audio on Speaker",
         "description": [
                 "The system shall playback audio on speakers"
@@ -3390,8 +3070,7 @@
     {
       "classifier": {
         "id": 78,
-        "main_type": 101,
-        "type": "UseCase",
+        "type": "Use Case", "main_type": 101,
         "name": "Phone Call",
         "description": [
                 "The system shall perform a phone call"
@@ -3408,8 +3087,7 @@
     {
       "classifier": {
         "id": 79,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "name": "REQ-1004: Dial Number",
         "description": [
                 "The system shall allow a user to dial a number"
@@ -3426,8 +3104,7 @@
     {
       "classifier": {
         "id": 80,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Telephone",
         "description": [
                 ""
@@ -3444,8 +3121,7 @@
     {
       "classifier": {
         "id": 81,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Dial Pad",
         "description": [
                 ""
@@ -3458,14 +3134,13 @@
         [
           {
             "id": 25,
-            "main_type": 7,
-            "type": "Port",
+            "type": "Output Port", "main_type": 7,
             "key": "coordinates",
             "value": "SPI",
             "description": [
                 ""
             ],
-            "list_order": 723016782,
+            "list_order": 1284207372,
             "uuid": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461"
           }
         ]
@@ -3474,8 +3149,7 @@
     {
       "classifier": {
         "id": 82,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Microphone",
         "description": [
                 ""
@@ -3488,8 +3162,7 @@
         [
           {
             "id": 22,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "sample rate",
             "value": "16 bits @ 48000 Hz",
             "description": [
@@ -3500,14 +3173,13 @@
           },
           {
             "id": 71,
-            "main_type": 7,
-            "type": "Port",
+            "type": "Output Port", "main_type": 7,
             "key": "out",
             "value": "i2s",
             "description": [
                 ""
             ],
-            "list_order": -1423241207,
+            "list_order": -1222889511,
             "uuid": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4"
           }
         ]
@@ -3516,8 +3188,7 @@
     {
       "classifier": {
         "id": 83,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Speaker",
         "description": [
                 ""
@@ -3530,8 +3201,7 @@
         [
           {
             "id": 21,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "playback rate",
             "value": "16 bits @ 24000 Hz",
             "description": [
@@ -3542,8 +3212,7 @@
           },
           {
             "id": 70,
-            "main_type": 6,
-            "type": "Port",
+            "type": "Input Port", "main_type": 6,
             "key": "in",
             "value": "i2s",
             "description": [
@@ -3558,8 +3227,7 @@
     {
       "classifier": {
         "id": 84,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Power Management IC",
         "description": [
                 ""
@@ -3572,8 +3240,7 @@
         [
           {
             "id": 26,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "V+",
             "description": [
                 ""
@@ -3583,8 +3250,7 @@
           },
           {
             "id": 27,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "0",
             "description": [
                 ""
@@ -3598,8 +3264,7 @@
     {
       "classifier": {
         "id": 85,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Display",
         "description": [
                 ""
@@ -3612,8 +3277,7 @@
         [
           {
             "id": 24,
-            "main_type": 6,
-            "type": "Port",
+            "type": "Input Port", "main_type": 6,
             "key": "video_1",
             "value": "LVDS_in",
             "description": [
@@ -3628,8 +3292,7 @@
     {
       "classifier": {
         "id": 86,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Network Connector",
         "description": [
                 ""
@@ -3646,8 +3309,7 @@
     {
       "classifier": {
         "id": 87,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Power Connector",
         "description": [
                 ""
@@ -3660,8 +3322,7 @@
         [
           {
             "id": 28,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "pwr",
             "description": [
                 ""
@@ -3675,8 +3336,7 @@
     {
       "classifier": {
         "id": 88,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "CPU",
         "description": [
                 ""
@@ -3689,8 +3349,7 @@
         [
           {
             "id": 20,
-            "main_type": 0,
-            "type": "Property",
+            "type": "Property", "main_type": 0,
             "key": "kind",
             "value": "octacore, 64 bit",
             "description": [
@@ -3701,20 +3360,18 @@
           },
           {
             "id": 72,
-            "main_type": 7,
-            "type": "Port",
+            "type": "Output Port", "main_type": 7,
             "key": "audio_out",
             "value": "i2s",
             "description": [
                 ""
             ],
-            "list_order": 1050092728,
+            "list_order": 313115795,
             "uuid": "cd460687-2492-4a76-b831-68c1c7eea81b"
           },
           {
             "id": 73,
-            "main_type": 6,
-            "type": "Port",
+            "type": "Input Port", "main_type": 6,
             "key": "audio_in",
             "value": "i2s",
             "description": [
@@ -3729,8 +3386,7 @@
     {
       "classifier": {
         "id": 90,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "name": "Requirement",
         "description": [
                 "The system shall \n",
@@ -3748,8 +3404,7 @@
     {
       "classifier": {
         "id": 91,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "One Component",
         "description": [
                 ""
@@ -3762,8 +3417,7 @@
         [
           {
             "id": 23,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "8080",
             "value": "IP-port",
             "description": [
@@ -3774,8 +3428,7 @@
           },
           {
             "id": 51,
-            "main_type": 4,
-            "type": "Interface",
+            "type": "Provided Interface", "main_type": 4,
             "key": "http://admin",
             "description": [
                 ""
@@ -3789,8 +3442,7 @@
     {
       "classifier": {
         "id": 92,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "fully operational",
         "description": [
                 ""
@@ -3803,8 +3455,7 @@
         [
           {
             "id": 29,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -3818,8 +3469,7 @@
     {
       "classifier": {
         "id": 93,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "starting applications",
         "description": [
                 ""
@@ -3832,8 +3482,7 @@
         [
           {
             "id": 30,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -3847,8 +3496,7 @@
     {
       "classifier": {
         "id": 94,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "starting operating system",
         "description": [
                 ""
@@ -3861,8 +3509,7 @@
         [
           {
             "id": 31,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -3876,8 +3523,7 @@
     {
       "classifier": {
         "id": 95,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "initializing hardware",
         "description": [
                 ""
@@ -3890,8 +3536,7 @@
         [
           {
             "id": 32,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -3905,8 +3550,7 @@
     {
       "classifier": {
         "id": 96,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "unpowered",
         "description": [
                 ""
@@ -3919,8 +3563,7 @@
         [
           {
             "id": 33,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -3934,8 +3577,7 @@
     {
       "classifier": {
         "id": 97,
-        "main_type": 100,
-        "type": "Actor",
+        "type": "Actor", "main_type": 100,
         "name": "User",
         "description": [
                 ""
@@ -3948,8 +3590,7 @@
         [
           {
             "id": 34,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -3963,8 +3604,7 @@
     {
       "classifier": {
         "id": 98,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "name": "GUI",
         "description": [
                 ""
@@ -3977,8 +3617,7 @@
         [
           {
             "id": 35,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -3992,8 +3631,7 @@
     {
       "classifier": {
         "id": 99,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "name": "Audio Manager",
         "description": [
                 ""
@@ -4006,8 +3644,7 @@
         [
           {
             "id": 36,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4021,8 +3658,7 @@
     {
       "classifier": {
         "id": 100,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "Crypto Key Server",
         "description": [
                 ""
@@ -4035,8 +3671,7 @@
         [
           {
             "id": 37,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "status",
             "value": "out",
             "description": [
@@ -4047,8 +3682,7 @@
           },
           {
             "id": 38,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "command",
             "value": "in",
             "description": [
@@ -4063,8 +3697,7 @@
     {
       "classifier": {
         "id": 101,
-        "main_type": 121,
-        "type": "Component",
+        "type": "Component", "main_type": 121,
         "name": "Other Component",
         "description": [
                 ""
@@ -4081,8 +3714,7 @@
     {
       "classifier": {
         "id": 102,
-        "main_type": 122,
-        "type": "Component",
+        "type": "Part", "main_type": 122,
         "name": "Subcomponent",
         "description": [
                 ""
@@ -4099,8 +3731,7 @@
     {
       "classifier": {
         "id": 103,
-        "main_type": 99,
-        "type": "Requirement",
+        "type": "Requirement", "main_type": 99,
         "name": "play music :req",
         "description": [
                 "The system shall play music"
@@ -4117,8 +3748,7 @@
     {
       "classifier": {
         "id": 104,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Heat Sensor",
         "description": [
                 ""
@@ -4131,8 +3761,7 @@
         [
           {
             "id": 64,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "out_actual_value",
             "description": [
                 ""
@@ -4146,8 +3775,7 @@
     {
       "classifier": {
         "id": 105,
-        "main_type": 96,
-        "type": "ConstraintBlock",
+        "type": "Constraint Block", "main_type": 96,
         "name": "Overtemperature Off",
         "description": [
                 ""
@@ -4160,8 +3788,7 @@
         [
           {
             "id": 60,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "actual temperature",
             "description": [
                 ""
@@ -4171,8 +3798,7 @@
           },
           {
             "id": 61,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "max temperature",
             "description": [
                 ""
@@ -4182,8 +3808,7 @@
           },
           {
             "id": 62,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "out_emergency_off",
             "value": "bool",
             "description": [
@@ -4198,8 +3823,7 @@
     {
       "classifier": {
         "id": 106,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Powermanagement IC",
         "description": [
                 ""
@@ -4212,8 +3836,7 @@
         [
           {
             "id": 63,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "in_emergency_off",
             "description": [
                 ""
@@ -4227,8 +3850,7 @@
     {
       "classifier": {
         "id": 107,
-        "main_type": 90,
-        "type": "Block",
+        "type": "Block", "main_type": 90,
         "name": "Max Temperature Config Value",
         "description": [
                 ""
@@ -4241,8 +3863,7 @@
         [
           {
             "id": 65,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "max_temperature",
             "description": [
                 ""
@@ -4256,8 +3877,7 @@
     {
       "classifier": {
         "id": 108,
-        "main_type": 151,
-        "type": "InitialNode",
+        "type": "Initial Node", "main_type": 151,
         "name": "start trigger",
         "description": [
                 ""
@@ -4270,8 +3890,7 @@
         [
           {
             "id": 76,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4285,8 +3904,7 @@
     {
       "classifier": {
         "id": 109,
-        "main_type": 112,
-        "type": "InteractionUse",
+        "type": "Interaction Use", "main_type": 112,
         "name": "Timing",
         "description": [
                 ""
@@ -4299,8 +3917,7 @@
         [
           {
             "id": 77,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4314,8 +3931,7 @@
     {
       "classifier": {
         "id": 110,
-        "main_type": 167,
-        "type": "AcceptEventAction",
+        "type": "Accept Event", "main_type": 167,
         "name": "Wait for User Input",
         "description": [
                 ""
@@ -4328,8 +3944,7 @@
         [
           {
             "id": 78,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4343,8 +3958,7 @@
     {
       "classifier": {
         "id": 111,
-        "main_type": 157,
-        "type": "DecisionNode",
+        "type": "Decision", "main_type": 157,
         "name": "Event Type?",
         "description": [
                 ""
@@ -4357,8 +3971,7 @@
         [
           {
             "id": 79,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4372,8 +3985,7 @@
     {
       "classifier": {
         "id": 112,
-        "main_type": 112,
-        "type": "InteractionUse",
+        "type": "Interaction Use", "main_type": 112,
         "name": "Sequence",
         "description": [
                 ""
@@ -4386,8 +3998,7 @@
         [
           {
             "id": 80,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4401,8 +4012,7 @@
     {
       "classifier": {
         "id": 113,
-        "main_type": 152,
-        "type": "ActivityFinalNode",
+        "type": "Final Node", "main_type": 152,
         "name": "shutdown",
         "description": [
                 ""
@@ -4415,8 +4025,7 @@
         [
           {
             "id": 81,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4430,8 +4039,7 @@
     {
       "classifier": {
         "id": 114,
-        "main_type": 102,
-        "type": "Component",
+        "type": "Subsystem", "main_type": 102,
         "name": "Block",
         "description": [
                 ""
@@ -4444,8 +4052,7 @@
         [
           {
             "id": 67,
-            "main_type": 7,
-            "type": "Port",
+            "type": "Output Port", "main_type": 7,
             "key": "out",
             "value": "int",
             "description": [
@@ -4456,8 +4063,7 @@
           },
           {
             "id": 84,
-            "main_type": 6,
-            "type": "Port",
+            "type": "Input Port", "main_type": 6,
             "key": "in",
             "value": "signal",
             "description": [
@@ -4472,8 +4078,7 @@
     {
       "classifier": {
         "id": 115,
-        "main_type": 96,
-        "type": "ConstraintBlock",
+        "type": "Constraint Block", "main_type": 96,
         "name": "Constraint Property",
         "description": [
                 ""
@@ -4486,8 +4091,7 @@
         [
           {
             "id": 68,
-            "main_type": 2,
-            "type": "Port",
+            "type": "Port", "main_type": 2,
             "key": "equation result",
             "description": [
                 ""
@@ -4501,8 +4105,7 @@
     {
       "classifier": {
         "id": 116,
-        "main_type": 112,
-        "type": "InteractionUse",
+        "type": "Interaction Use", "main_type": 112,
         "name": "Diagram Reference",
         "description": [
                 ""
@@ -4519,8 +4122,7 @@
     {
       "classifier": {
         "id": 117,
-        "main_type": 151,
-        "type": "InitialNode",
+        "type": "Initial Node", "main_type": 151,
         "name": "start",
         "description": [
                 ""
@@ -4537,8 +4139,7 @@
     {
       "classifier": {
         "id": 118,
-        "main_type": 152,
-        "type": "ActivityFinalNode",
+        "type": "Final Node", "main_type": 152,
         "name": "end",
         "description": [
                 ""
@@ -4555,8 +4156,7 @@
     {
       "classifier": {
         "id": 119,
-        "main_type": 150,
-        "type": "InterruptibleActivityRegion",
+        "type": "Interruptable Region", "main_type": 150,
         "name": "Region",
         "description": [
                 ""
@@ -4573,8 +4173,7 @@
     {
       "classifier": {
         "id": 120,
-        "main_type": 168,
-        "type": "AcceptEventAction",
+        "type": "Time Event", "main_type": 168,
         "name": "timeout",
         "description": [
                 ""
@@ -4591,8 +4190,7 @@
     {
       "classifier": {
         "id": 121,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "Action",
         "description": [
                 ""
@@ -4605,24 +4203,22 @@
         [
           {
             "id": 82,
-            "main_type": 6,
-            "type": "InputPin",
+            "type": "Input Port", "main_type": 6,
             "key": "object pin",
             "description": [
                 ""
             ],
-            "list_order": -524587803,
+            "list_order": -911632543,
             "uuid": "5c4f2f4b-aa83-4844-8993-2440a07af364"
           },
           {
             "id": 87,
-            "main_type": 7,
-            "type": "OutputPin",
+            "type": "Output Port", "main_type": 7,
             "key": "result pin",
             "description": [
                 ""
             ],
-            "list_order": 1608326616,
+            "list_order": 1951712430,
             "uuid": "f886e125-18db-45eb-8f27-f4eed47eae5e"
           }
         ]
@@ -4631,8 +4227,7 @@
     {
       "classifier": {
         "id": 122,
-        "main_type": 170,
-        "type": "SendSignalAction",
+        "type": "Send Signal", "main_type": 170,
         "name": "Send",
         "description": [
                 ""
@@ -4649,8 +4244,7 @@
     {
       "classifier": {
         "id": 123,
-        "main_type": 167,
-        "type": "AcceptEventAction",
+        "type": "Accept Event", "main_type": 167,
         "name": "Receive",
         "description": [
                 ""
@@ -4667,8 +4261,7 @@
     {
       "classifier": {
         "id": 124,
-        "main_type": 154,
-        "type": "ForkNode",
+        "type": "Fork", "main_type": 154,
         "name": "Fork",
         "description": [
                 ""
@@ -4685,8 +4278,7 @@
     {
       "classifier": {
         "id": 125,
-        "main_type": 155,
-        "type": "JoinNode",
+        "type": "Join", "main_type": 155,
         "name": "Join",
         "description": [
                 ""
@@ -4703,8 +4295,7 @@
     {
       "classifier": {
         "id": 126,
-        "main_type": 157,
-        "type": "DecisionNode",
+        "type": "Decision", "main_type": 157,
         "name": "continue?",
         "description": [
                 ""
@@ -4721,8 +4312,7 @@
     {
       "classifier": {
         "id": 127,
-        "main_type": 111,
-        "type": "StateMachine",
+        "type": "State", "main_type": 111,
         "name": "State",
         "description": [
                 ""
@@ -4739,8 +4329,7 @@
     {
       "classifier": {
         "id": 128,
-        "main_type": 158,
-        "type": "Pseudostate",
+        "type": "Shallow History", "main_type": 158,
         "name": "H1",
         "description": [
                 ""
@@ -4757,8 +4346,7 @@
     {
       "classifier": {
         "id": 129,
-        "main_type": 159,
-        "type": "Pseudostate",
+        "type": "Deep History", "main_type": 159,
         "name": "H*2",
         "description": [
                 ""
@@ -4775,8 +4363,7 @@
     {
       "classifier": {
         "id": 130,
-        "main_type": 151,
-        "type": "InitialNode",
+        "type": "Initial Node", "main_type": 151,
         "name": "pwr::start",
         "description": [
                 ""
@@ -4793,8 +4380,7 @@
     {
       "classifier": {
         "id": 131,
-        "main_type": 151,
-        "type": "InitialNode",
+        "type": "Initial Node", "main_type": 151,
         "name": "decoder::start",
         "description": [
                 ""
@@ -4811,8 +4397,7 @@
     {
       "classifier": {
         "id": 132,
-        "main_type": 152,
-        "type": "ActivityFinalNode",
+        "type": "Final Node", "main_type": 152,
         "name": "decoder::end",
         "description": [
                 ""
@@ -4829,8 +4414,7 @@
     {
       "classifier": {
         "id": 133,
-        "main_type": 110,
-        "type": "Activity",
+        "type": "Activity", "main_type": 110,
         "name": "read end tag",
         "description": [
                 ""
@@ -4847,8 +4431,7 @@
     {
       "classifier": {
         "id": 134,
-        "main_type": 157,
-        "type": "DecisionNode",
+        "type": "Decision", "main_type": 157,
         "name": "next token",
         "description": [
                 ""
@@ -4865,8 +4448,7 @@
     {
       "classifier": {
         "id": 135,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "communication Lib",
         "description": [
                 ""
@@ -4883,8 +4465,7 @@
     {
       "classifier": {
         "id": 136,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "storage Lib",
         "description": [
                 ""
@@ -4901,8 +4482,7 @@
     {
       "classifier": {
         "id": 137,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Application 2",
         "description": [
                 ""
@@ -4919,8 +4499,7 @@
     {
       "classifier": {
         "id": 138,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Application Layer",
         "description": [
                 ""
@@ -4937,8 +4516,7 @@
     {
       "classifier": {
         "id": 139,
-        "main_type": 102,
-        "type": "Component",
+        "type": "Subsystem", "main_type": 102,
         "name": "System Boundary",
         "description": [
                 ""
@@ -4955,8 +4533,7 @@
     {
       "classifier": {
         "id": 140,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "name": "<100 ms",
         "description": [
                 "max 100 ms delay"
@@ -4969,8 +4546,7 @@
         [
           {
             "id": 89,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -4984,8 +4560,7 @@
     {
       "classifier": {
         "id": 141,
-        "main_type": 112,
-        "type": "InteractionUse",
+        "type": "Interaction Use", "main_type": 112,
         "name": "data change animation",
         "description": [
                 ""
@@ -4998,8 +4573,7 @@
         [
           {
             "id": 90,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -5013,14 +4587,11 @@
     {
       "classifier": {
         "id": 142,
-        "main_type": 130,
-        "type": "Comment",
+        "type": "Comment", "main_type": 130,
         "name": "<2 secs",
         "description": [
-                "For a user, \n",
-                "the perceived startup time \n",
-                "shall not exceed 2 secs\n",
-                ""
+                "For a user, the perceived startup time \n",
+                "shall not exceed 2 secs"
         ],
         "x_order": 0,
         "y_order": 0,
@@ -5030,8 +4601,7 @@
         [
           {
             "id": 91,
-            "main_type": 3,
-            "type": "Lifeline",
+            "type": "Lifeline", "main_type": 3,
             "key": "",
             "description": [
                 ""
@@ -5045,8 +4615,7 @@
     {
       "classifier": {
         "id": 143,
-        "main_type": 102,
-        "type": "Component",
+        "type": "Subsystem", "main_type": 102,
         "stereotype": "subsystem",
         "name": "Boundary",
         "description": [
@@ -5064,8 +4633,7 @@
     {
       "classifier": {
         "id": 144,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Behavior Diagrams",
         "description": [
                 ""
@@ -5082,8 +4650,7 @@
     {
       "classifier": {
         "id": 145,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Structure Diagrams",
         "description": [
                 ""
@@ -5100,8 +4667,7 @@
     {
       "classifier": {
         "id": 146,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Interaction Diagrams",
         "description": [
                 ""
@@ -5118,8 +4684,7 @@
     {
       "classifier": {
         "id": 147,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "UML Diagrams",
         "description": [
                 ""
@@ -5136,8 +4701,7 @@
     {
       "classifier": {
         "id": 148,
-        "main_type": 139,
-        "type": "Stereotype",
+        "type": "Stereotype", "main_type": 139,
         "name": "Database-Artifact",
         "description": [
                 "<path \n",
@@ -5171,8 +4735,7 @@
     {
       "classifier": {
         "id": 149,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "stereotype": "Metaclass",
         "name": "Class",
         "description": [
@@ -5190,8 +4753,7 @@
     {
       "classifier": {
         "id": 150,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "stereotype": "Metaclass",
         "name": "Artifact",
         "description": [
@@ -5209,8 +4771,7 @@
     {
       "classifier": {
         "id": 151,
-        "main_type": 139,
-        "type": "Stereotype",
+        "type": "Stereotype", "main_type": 139,
         "name": "GSN-Strategy",
         "description": [
                 "<path \n",
@@ -5232,8 +4793,7 @@
     {
       "classifier": {
         "id": 152,
-        "main_type": 138,
-        "type": "Image",
+        "type": "Image", "main_type": 138,
         "stereotype": "Database-Artifact",
         "name": "DB_Image",
         "description": [
@@ -5251,8 +4811,7 @@
     {
       "classifier": {
         "id": 153,
-        "main_type": 138,
-        "type": "Image",
+        "type": "Image", "main_type": 138,
         "stereotype": "GSN-Strategy",
         "name": "Strategy_Image",
         "description": [
@@ -5270,8 +4829,7 @@
     {
       "classifier": {
         "id": 154,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "Usage examples",
         "description": [
                 ""
@@ -5288,8 +4846,7 @@
     {
       "classifier": {
         "id": 155,
-        "main_type": 125,
-        "type": "Class",
+        "type": "Class", "main_type": 125,
         "stereotype": "GSN-Strategy",
         "name": "No dynamic memory",
         "description": [
@@ -5307,8 +4864,7 @@
     {
       "classifier": {
         "id": 156,
-        "main_type": 127,
-        "type": "Artifact",
+        "type": "Artifact", "main_type": 127,
         "stereotype": "Database-Artifact",
         "name": "Authentication DB",
         "description": [
@@ -5326,8 +4882,7 @@
     {
       "classifier": {
         "id": 157,
-        "main_type": 124,
-        "type": "Package",
+        "type": "Package", "main_type": 124,
         "name": "SysML Diagrams",
         "description": [
                 ""
@@ -5348,8 +4903,7 @@
     {
       "relationship": {
         "id": 10,
-        "main_type": 202,
-        "type": "Association",
+        "type": "Composition", "main_type": 202,
         "name": "has",
         "description": [
                 ""
@@ -5365,8 +4919,7 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "depends on",
         "description": [
                 ""
@@ -5382,8 +4935,7 @@
     {
       "relationship": {
         "id": 5,
-        "main_type": 210,
-        "type": "Generalization",
+        "type": "Generalization", "main_type": 210,
         "name": "specializes",
         "description": [
                 ""
@@ -5399,8 +4951,7 @@
     {
       "relationship": {
         "id": 123,
-        "main_type": 401,
-        "type": "Trace",
+        "type": "Trace", "main_type": 401,
         "name": "implements",
         "description": [
                 ""
@@ -5416,8 +4967,7 @@
     {
       "relationship": {
         "id": 3,
-        "main_type": 202,
-        "type": "Association",
+        "type": "Composition", "main_type": 202,
         "name": "composition",
         "description": [
                 ""
@@ -5433,8 +4983,7 @@
     {
       "relationship": {
         "id": 7,
-        "main_type": 211,
-        "type": "Realization",
+        "type": "Realization", "main_type": 211,
         "name": "realizes interface",
         "description": [
                 ""
@@ -5450,8 +4999,7 @@
     {
       "relationship": {
         "id": 8,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "contains",
         "description": [
                 ""
@@ -5467,8 +5015,7 @@
     {
       "relationship": {
         "id": 181,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "contains",
         "description": [
                 ""
@@ -5484,8 +5031,7 @@
     {
       "relationship": {
         "id": 124,
-        "main_type": 201,
-        "type": "Association",
+        "type": "Aggregation", "main_type": 201,
         "name": "aggregates",
         "description": [
                 ""
@@ -5501,8 +5047,7 @@
     {
       "relationship": {
         "id": 6,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "knows",
         "description": [
                 ""
@@ -5518,8 +5063,7 @@
     {
       "relationship": {
         "id": 125,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "communication path",
         "description": [
                 ""
@@ -5535,8 +5079,7 @@
     {
       "relationship": {
         "id": 90,
-        "main_type": 221,
-        "type": "Message",
+        "type": "Synchronous Call", "main_type": 221,
         "name": "1. unlock",
         "description": [
                 ""
@@ -5552,8 +5095,7 @@
     {
       "relationship": {
         "id": 91,
-        "main_type": 221,
-        "type": "Message",
+        "type": "Synchronous Call", "main_type": 221,
         "name": "2. lock",
         "description": [
                 ""
@@ -5569,8 +5111,7 @@
     {
       "relationship": {
         "id": 9,
-        "main_type": 201,
-        "type": "Association",
+        "type": "Aggregation", "main_type": 201,
         "name": "shows",
         "description": [
                 ""
@@ -5586,8 +5127,7 @@
     {
       "relationship": {
         "id": 99,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5603,8 +5143,7 @@
     {
       "relationship": {
         "id": 100,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5620,8 +5159,7 @@
     {
       "relationship": {
         "id": 101,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5637,8 +5175,7 @@
     {
       "relationship": {
         "id": 94,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5654,8 +5191,7 @@
     {
       "relationship": {
         "id": 95,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5671,8 +5207,7 @@
     {
       "relationship": {
         "id": 96,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5688,8 +5223,7 @@
     {
       "relationship": {
         "id": 97,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5705,8 +5239,7 @@
     {
       "relationship": {
         "id": 98,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -5722,8 +5255,7 @@
     {
       "relationship": {
         "id": 12,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "triggers",
         "description": [
                 ""
@@ -5739,8 +5271,7 @@
     {
       "relationship": {
         "id": 13,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "starts",
         "description": [
                 ""
@@ -5756,8 +5287,7 @@
     {
       "relationship": {
         "id": 15,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "listens",
         "description": [
                 ""
@@ -5773,8 +5303,7 @@
     {
       "relationship": {
         "id": 14,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "listens",
         "description": [
                 ""
@@ -5790,8 +5319,7 @@
     {
       "relationship": {
         "id": 11,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "performs",
         "description": [
                 ""
@@ -5807,8 +5335,7 @@
     {
       "relationship": {
         "id": 16,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "open",
         "description": [
                 ""
@@ -5824,8 +5351,7 @@
     {
       "relationship": {
         "id": 17,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "success",
         "description": [
                 ""
@@ -5841,8 +5367,7 @@
     {
       "relationship": {
         "id": 171,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "error",
         "description": [
                 ""
@@ -5858,8 +5383,7 @@
     {
       "relationship": {
         "id": 172,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "tag end",
         "description": [
                 ""
@@ -5875,8 +5399,7 @@
     {
       "relationship": {
         "id": 160,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "content end",
         "description": [
                 ""
@@ -5892,8 +5415,7 @@
     {
       "relationship": {
         "id": 156,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -5909,8 +5431,7 @@
     {
       "relationship": {
         "id": 23,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "normal boot",
         "description": [
                 ""
@@ -5926,8 +5447,7 @@
     {
       "relationship": {
         "id": 26,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "sw-update",
         "description": [
                 ""
@@ -5943,8 +5463,7 @@
     {
       "relationship": {
         "id": 37,
-        "main_type": 241,
-        "type": "Transition",
+        "type": "Object Flow", "main_type": 241,
         "name": "diag mode",
         "description": [
                 ""
@@ -5960,8 +5479,7 @@
     {
       "relationship": {
         "id": 34,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "update finished",
         "description": [
                 ""
@@ -5977,8 +5495,7 @@
     {
       "relationship": {
         "id": 24,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "trigger shutdown",
         "description": [
                 ""
@@ -5994,8 +5511,7 @@
     {
       "relationship": {
         "id": 28,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "start session",
         "description": [
                 ""
@@ -6011,8 +5527,7 @@
     {
       "relationship": {
         "id": 25,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -6028,8 +5543,7 @@
     {
       "relationship": {
         "id": 29,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "trigger sw-update",
         "description": [
                 ""
@@ -6045,8 +5559,7 @@
     {
       "relationship": {
         "id": 36,
-        "main_type": 241,
-        "type": "Transition",
+        "type": "Object Flow", "main_type": 241,
         "name": "end session",
         "description": [
                 ""
@@ -6062,8 +5575,7 @@
     {
       "relationship": {
         "id": 120,
-        "main_type": 222,
-        "type": "Message",
+        "type": "Return", "main_type": 222,
         "name": "3. return key",
         "description": [
                 ""
@@ -6081,8 +5593,7 @@
     {
       "relationship": {
         "id": 122,
-        "main_type": 222,
-        "type": "Message",
+        "type": "Return", "main_type": 222,
         "name": "5. ack",
         "description": [
                 ""
@@ -6100,8 +5611,7 @@
     {
       "relationship": {
         "id": 102,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -6119,8 +5629,7 @@
     {
       "relationship": {
         "id": 104,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -6137,8 +5646,7 @@
     {
       "relationship": {
         "id": 119,
-        "main_type": 221,
-        "type": "Message",
+        "type": "Synchronous Call", "main_type": 221,
         "name": "2. fetch own public key",
         "description": [
                 ""
@@ -6156,8 +5664,7 @@
     {
       "relationship": {
         "id": 121,
-        "main_type": 221,
-        "type": "Message",
+        "type": "Synchronous Call", "main_type": 221,
         "name": "4. store generated session key",
         "description": [
                 ""
@@ -6175,8 +5682,7 @@
     {
       "relationship": {
         "id": 127,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -6194,8 +5700,7 @@
     {
       "relationship": {
         "id": 118,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "1. connect",
         "description": [
                 ""
@@ -6213,8 +5718,7 @@
     {
       "relationship": {
         "id": 43,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6230,8 +5734,7 @@
     {
       "relationship": {
         "id": 44,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6247,8 +5750,7 @@
     {
       "relationship": {
         "id": 45,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6264,8 +5766,7 @@
     {
       "relationship": {
         "id": 46,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6281,8 +5782,7 @@
     {
       "relationship": {
         "id": 62,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6298,8 +5798,7 @@
     {
       "relationship": {
         "id": 66,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "audio stream",
         "description": [
                 ""
@@ -6315,8 +5814,7 @@
     {
       "relationship": {
         "id": 67,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "controls",
         "description": [
                 ""
@@ -6332,8 +5830,7 @@
     {
       "relationship": {
         "id": 68,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "controls",
         "description": [
                 ""
@@ -6349,8 +5846,7 @@
     {
       "relationship": {
         "id": 157,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "alive signal",
         "description": [
                 ""
@@ -6366,8 +5862,7 @@
     {
       "relationship": {
         "id": 65,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "audio stream",
         "description": [
                 ""
@@ -6383,8 +5878,7 @@
     {
       "relationship": {
         "id": 61,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6400,8 +5894,7 @@
     {
       "relationship": {
         "id": 128,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "call",
         "description": [
                 ""
@@ -6418,8 +5911,7 @@
     {
       "relationship": {
         "id": 150,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -6437,8 +5929,7 @@
     {
       "relationship": {
         "id": 151,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -6456,8 +5947,7 @@
     {
       "relationship": {
         "id": 152,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
@@ -6475,8 +5965,7 @@
     {
       "relationship": {
         "id": 153,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
@@ -6494,8 +5983,7 @@
     {
       "relationship": {
         "id": 129,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -6513,8 +6001,7 @@
     {
       "relationship": {
         "id": 130,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -6532,8 +6019,7 @@
     {
       "relationship": {
         "id": 59,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6549,8 +6035,7 @@
     {
       "relationship": {
         "id": 60,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6566,8 +6051,7 @@
     {
       "relationship": {
         "id": 166,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6583,8 +6067,7 @@
     {
       "relationship": {
         "id": 167,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6600,8 +6083,7 @@
     {
       "relationship": {
         "id": 50,
-        "main_type": 211,
-        "type": "Realization",
+        "type": "Realization", "main_type": 211,
         "name": "realizes",
         "description": [
                 ""
@@ -6617,8 +6099,7 @@
     {
       "relationship": {
         "id": 48,
-        "main_type": 210,
-        "type": "Generalization",
+        "type": "Generalization", "main_type": 210,
         "name": "generalizes",
         "description": [
                 ""
@@ -6634,8 +6115,7 @@
     {
       "relationship": {
         "id": 49,
-        "main_type": 201,
-        "type": "Association",
+        "type": "Aggregation", "main_type": 201,
         "name": "aggregates",
         "description": [
                 ""
@@ -6651,8 +6131,7 @@
     {
       "relationship": {
         "id": 51,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -6668,8 +6147,7 @@
     {
       "relationship": {
         "id": 52,
-        "main_type": 200,
-        "type": "Association",
+        "type": "Association", "main_type": 200,
         "name": "",
         "description": [
                 ""
@@ -6685,8 +6163,7 @@
     {
       "relationship": {
         "id": 53,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "explains",
         "description": [
                 ""
@@ -6702,8 +6179,7 @@
     {
       "relationship": {
         "id": 54,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6719,8 +6195,7 @@
     {
       "relationship": {
         "id": 55,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6736,8 +6211,7 @@
     {
       "relationship": {
         "id": 158,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6753,8 +6227,7 @@
     {
       "relationship": {
         "id": 159,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6770,8 +6243,7 @@
     {
       "relationship": {
         "id": 56,
-        "main_type": 211,
-        "type": "Realization",
+        "type": "Realization", "main_type": 211,
         "name": "instance of",
         "description": [
                 ""
@@ -6787,8 +6259,7 @@
     {
       "relationship": {
         "id": 57,
-        "main_type": 260,
-        "type": "Extend",
+        "type": "Extension", "main_type": 260,
         "name": "",
         "description": [
                 ""
@@ -6804,8 +6275,7 @@
     {
       "relationship": {
         "id": 58,
-        "main_type": 261,
-        "type": "Include",
+        "type": "Inclusion", "main_type": 261,
         "name": "",
         "description": [
                 ""
@@ -6821,8 +6291,7 @@
     {
       "relationship": {
         "id": 63,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "switches",
         "description": [
                 ""
@@ -6838,8 +6307,7 @@
     {
       "relationship": {
         "id": 71,
-        "main_type": 401,
-        "type": "Trace",
+        "type": "Trace", "main_type": 401,
         "name": "",
         "description": [
                 ""
@@ -6855,8 +6323,7 @@
     {
       "relationship": {
         "id": 72,
-        "main_type": 400,
-        "type": "Refine",
+        "type": "Refinement", "main_type": 400,
         "name": "audio_in",
         "description": [
                 ""
@@ -6872,8 +6339,7 @@
     {
       "relationship": {
         "id": 73,
-        "main_type": 400,
-        "type": "Refine",
+        "type": "Refinement", "main_type": 400,
         "name": "audio_out",
         "description": [
                 ""
@@ -6889,8 +6355,7 @@
     {
       "relationship": {
         "id": 70,
-        "main_type": 401,
-        "type": "Trace",
+        "type": "Trace", "main_type": 401,
         "name": "",
         "description": [
                 ""
@@ -6906,8 +6371,7 @@
     {
       "relationship": {
         "id": 74,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6923,8 +6387,7 @@
     {
       "relationship": {
         "id": 75,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6940,8 +6403,7 @@
     {
       "relationship": {
         "id": 76,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6957,8 +6419,7 @@
     {
       "relationship": {
         "id": 77,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6974,8 +6435,7 @@
     {
       "relationship": {
         "id": 78,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -6991,8 +6451,7 @@
     {
       "relationship": {
         "id": 79,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7008,8 +6467,7 @@
     {
       "relationship": {
         "id": 80,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7025,8 +6483,7 @@
     {
       "relationship": {
         "id": 81,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7042,8 +6499,7 @@
     {
       "relationship": {
         "id": 107,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "touch input",
         "description": [
                 ""
@@ -7060,8 +6516,7 @@
     {
       "relationship": {
         "id": 148,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "mic in",
         "description": [
                 ""
@@ -7079,8 +6534,7 @@
     {
       "relationship": {
         "id": 86,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "power supply",
         "description": [
                 ""
@@ -7096,8 +6550,7 @@
     {
       "relationship": {
         "id": 89,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "data in",
         "description": [
                 ""
@@ -7113,8 +6566,7 @@
     {
       "relationship": {
         "id": 109,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "power supply",
         "description": [
                 ""
@@ -7132,8 +6584,7 @@
     {
       "relationship": {
         "id": 88,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "data out",
         "description": [
                 ""
@@ -7149,8 +6600,7 @@
     {
       "relationship": {
         "id": 108,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "display signal",
         "description": [
                 ""
@@ -7167,8 +6617,7 @@
     {
       "relationship": {
         "id": 149,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "amp out",
         "description": [
                 ""
@@ -7186,8 +6635,7 @@
     {
       "relationship": {
         "id": 126,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "type": "Communication Path", "main_type": 230,
         "name": "",
         "description": [
                 ""
@@ -7205,8 +6653,7 @@
     {
       "relationship": {
         "id": 116,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "system up and running (2500 ms)",
         "description": [
                 ""
@@ -7224,8 +6671,7 @@
     {
       "relationship": {
         "id": 115,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "load and start applications (800 ms)",
         "description": [
                 ""
@@ -7243,8 +6689,7 @@
     {
       "relationship": {
         "id": 106,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "load and start OS (100 ms)",
         "description": [
                 ""
@@ -7262,8 +6707,7 @@
     {
       "relationship": {
         "id": 114,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "power up (0 sec)",
         "description": [
                 ""
@@ -7281,8 +6725,7 @@
     {
       "relationship": {
         "id": 105,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "increase volume",
         "description": [
                 ""
@@ -7300,8 +6743,7 @@
     {
       "relationship": {
         "id": 110,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "increase volume",
         "description": [
                 ""
@@ -7319,8 +6761,7 @@
     {
       "relationship": {
         "id": 111,
-        "main_type": 221,
-        "type": "Message",
+        "type": "Synchronous Call", "main_type": 221,
         "name": "get volume",
         "description": [
                 ""
@@ -7338,8 +6779,7 @@
     {
       "relationship": {
         "id": 113,
-        "main_type": 220,
-        "type": "Message",
+        "type": "Asynchronous Call", "main_type": 220,
         "name": "show volume",
         "description": [
                 ""
@@ -7357,8 +6797,7 @@
     {
       "relationship": {
         "id": 112,
-        "main_type": 222,
-        "type": "Message",
+        "type": "Return", "main_type": 222,
         "name": "volume",
         "description": [
                 ""
@@ -7376,8 +6815,7 @@
     {
       "relationship": {
         "id": 117,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7393,8 +6831,7 @@
     {
       "relationship": {
         "id": 135,
-        "main_type": 241,
-        "type": "ObjectFlow",
+        "type": "Object Flow", "main_type": 241,
         "name": "",
         "description": [
                 ""
@@ -7412,8 +6849,7 @@
     {
       "relationship": {
         "id": 134,
-        "main_type": 241,
-        "type": "ObjectFlow",
+        "type": "Object Flow", "main_type": 241,
         "name": "",
         "description": [
                 ""
@@ -7431,8 +6867,7 @@
     {
       "relationship": {
         "id": 133,
-        "main_type": 241,
-        "type": "ObjectFlow",
+        "type": "Object Flow", "main_type": 241,
         "name": "",
         "description": [
                 ""
@@ -7450,8 +6885,7 @@
     {
       "relationship": {
         "id": 175,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -7469,8 +6903,7 @@
     {
       "relationship": {
         "id": 176,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -7488,8 +6921,7 @@
     {
       "relationship": {
         "id": 177,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -7507,8 +6939,7 @@
     {
       "relationship": {
         "id": 178,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "volume control",
         "description": [
                 ""
@@ -7526,8 +6957,7 @@
     {
       "relationship": {
         "id": 180,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "switch off",
         "description": [
                 ""
@@ -7545,8 +6975,7 @@
     {
       "relationship": {
         "id": 179,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -7564,8 +6993,7 @@
     {
       "relationship": {
         "id": 142,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7581,8 +7009,7 @@
     {
       "relationship": {
         "id": 143,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7598,8 +7025,7 @@
     {
       "relationship": {
         "id": 144,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7615,8 +7041,7 @@
     {
       "relationship": {
         "id": 145,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7632,8 +7057,7 @@
     {
       "relationship": {
         "id": 146,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7649,8 +7073,7 @@
     {
       "relationship": {
         "id": 147,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7666,8 +7089,7 @@
     {
       "relationship": {
         "id": 182,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7683,8 +7105,7 @@
     {
       "relationship": {
         "id": 154,
-        "main_type": 240,
-        "type": "Transition",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -7700,8 +7121,7 @@
     {
       "relationship": {
         "id": 155,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "",
         "description": [
                 ""
@@ -7717,8 +7137,7 @@
     {
       "relationship": {
         "id": 170,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "tag end",
         "description": [
                 ""
@@ -7734,8 +7153,7 @@
     {
       "relationship": {
         "id": 161,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "element end",
         "description": [
                 ""
@@ -7751,8 +7169,7 @@
     {
       "relationship": {
         "id": 162,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "element start",
         "description": [
                 ""
@@ -7768,8 +7185,7 @@
     {
       "relationship": {
         "id": 164,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "data",
         "description": [
                 ""
@@ -7785,8 +7201,7 @@
     {
       "relationship": {
         "id": 165,
-        "main_type": 240,
-        "type": "ControlFlow",
+        "type": "Control Flow", "main_type": 240,
         "name": "end of file",
         "description": [
                 ""
@@ -7802,8 +7217,7 @@
     {
       "relationship": {
         "id": 168,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7819,8 +7233,7 @@
     {
       "relationship": {
         "id": 169,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7836,8 +7249,7 @@
     {
       "relationship": {
         "id": 173,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7853,8 +7265,7 @@
     {
       "relationship": {
         "id": 174,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7870,8 +7281,7 @@
     {
       "relationship": {
         "id": 183,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
@@ -7889,8 +7299,7 @@
     {
       "relationship": {
         "id": 184,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
@@ -7908,8 +7317,7 @@
     {
       "relationship": {
         "id": 185,
-        "main_type": 0,
-        "type": "Dependency",
+        "type": "Dependency", "main_type": 0,
         "name": "",
         "description": [
                 ""
@@ -7927,8 +7335,7 @@
     {
       "relationship": {
         "id": 186,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7944,8 +7351,7 @@
     {
       "relationship": {
         "id": 187,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7961,8 +7367,7 @@
     {
       "relationship": {
         "id": 188,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -7978,8 +7383,7 @@
     {
       "relationship": {
         "id": 190,
-        "main_type": 210,
-        "type": "Generalization",
+        "type": "Generalization", "main_type": 210,
         "name": "",
         "description": [
                 ""
@@ -7995,8 +7399,7 @@
     {
       "relationship": {
         "id": 191,
-        "main_type": 202,
-        "type": "Association",
+        "type": "Composition", "main_type": 202,
         "name": "",
         "description": [
                 ""
@@ -8012,8 +7415,7 @@
     {
       "relationship": {
         "id": 189,
-        "main_type": 210,
-        "type": "Generalization",
+        "type": "Generalization", "main_type": 210,
         "name": "",
         "description": [
                 ""
@@ -8029,8 +7431,7 @@
     {
       "relationship": {
         "id": 192,
-        "main_type": 202,
-        "type": "Association",
+        "type": "Composition", "main_type": 202,
         "name": "",
         "description": [
                 ""
@@ -8046,8 +7447,7 @@
     {
       "relationship": {
         "id": 193,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
@@ -8063,8 +7463,7 @@
     {
       "relationship": {
         "id": 194,
-        "main_type": 300,
-        "type": "Association",
+        "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""

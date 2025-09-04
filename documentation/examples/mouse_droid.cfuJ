@@ -6993,7 +6993,8 @@
         "stereotype": "env-perception",
         "name": "env-image",
         "description": [
-                ""
+                "The symbol of a flower was chosen to depict sensors for the environment: the ",
+                "flower is found by insects by visual and chemical sensors."
         ],
         "x_order": 585891664,
         "y_order": -1541016509,
@@ -8094,7 +8095,8 @@
         "stereotype": "locigal_form",
         "name": "Logical-img",
         "description": [
-                ""
+                "The symbol of an airplane was chosen to depict that form follows function: the ",
+                "shape of the airplane is derived from the fly-function."
         ],
         "x_order": 585891664,
         "y_order": -2039976797,

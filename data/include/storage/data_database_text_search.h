@@ -44,7 +44,6 @@ struct data_database_text_search_struct {
     bool statement_feature_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     bool statement_relationship_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     char temp_like_search_buf [288];  /*!< escaped like search string which is passed to the sqlite database */
-    data_search_result_t temp_search_result_buf;  /*!< a buffer that is passed on to data_search_result_iterator to store the next data_search_result_t */
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_text_search_db_change_callback */
 };

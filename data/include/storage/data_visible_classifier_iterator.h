@@ -57,8 +57,8 @@ u8_error_t data_visible_classifier_iterator_init_empty ( data_visible_classifier
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_visible_classifier_iterator_reinit ( data_visible_classifier_iterator_t *this_,
-                                             data_database_borrowed_stmt_t statement
-                                           );
+                                                     data_database_borrowed_stmt_t statement
+                                                   );
 
 /*!
  *  \brief destroys the data_visible_classifier_iterator_t struct

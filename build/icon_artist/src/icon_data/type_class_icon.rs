@@ -1017,6 +1017,24 @@ pub fn generate_type_clas_interaction_use(out: &mut dyn PathRenderer) -> () {
  gui/source/resources/type_clas_usecase.c
 */
 
+/// The function generates a type_undef
+///
+pub fn generate_type_undef(out: &mut dyn PathRenderer) -> () {
+    let icon_body: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - 7.0,
+            y: CY - 7.0,
+        }),
+        Line(Point { x: CX + 7.0, y: CY + 7.0 }),
+        Move(Point {
+            x: CX - 7.0,
+            y: CY + 7.0,
+        }),
+        Line(Point { x: CX + 7.0, y: CY - 7.0 }),
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -1105,6 +1123,11 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "type_clas_interaction_use",
             viewport: ICON_VIEW_RECT,
             generate: generate_type_clas_interaction_use,
+        },
+        IconSource {
+            name: "type_undef",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_undef,
         },
     ]
 }

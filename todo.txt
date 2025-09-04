@@ -23,7 +23,7 @@ ideas for future versions:
   [ ] allow creating diagrams before choosing a filename
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
-  [ ] to pink-mark several objects - require shift key
+  [?] to pink-mark several objects - require shift key
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
   [ ] In Search View, show e.g. the Diagram Id to better explain why classifiers are shown multiple times
   @pencil
