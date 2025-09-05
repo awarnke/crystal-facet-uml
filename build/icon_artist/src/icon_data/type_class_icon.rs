@@ -2,6 +2,7 @@
 
 use super::shape::get_circle_abs;
 use super::shape::get_rect_abs;
+use super::shape::get_rounded_rect_abs;
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective::Close;
@@ -1000,39 +1001,499 @@ pub fn generate_type_clas_interaction_use(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_diagref, &Some(GRAY_PEN), &None);
 }
 
-/*
- gui/source/resources/type_clas_accept.c
- gui/source/resources/type_clas_activity.c
- gui/source/resources/type_clas_decision.c
- gui/source/resources/type_clas_deephistory.c
- gui/source/resources/type_clas_final.c
- gui/source/resources/type_clas_fork.c
- gui/source/resources/type_clas_history.c
- gui/source/resources/type_clas_initial.c
- gui/source/resources/type_clas_join.c
- gui/source/resources/type_clas_region.c
- gui/source/resources/type_clas_send.c
- gui/source/resources/type_clas_state.c
- gui/source/resources/type_clas_time.c
- gui/source/resources/type_clas_usecase.c
-*/
+/// The function generates a type_clas_accept
+///
+pub fn generate_type_clas_accept(out: &mut dyn PathRenderer) -> () {
+    let icon_body: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 12.0,
+            y: CY - 5.0,
+        }),
+        Line(Point {
+            x: CX + 14.0,
+            y: CY - 5.0,
+        }),
+        Line(Point {
+            x: CX + 14.0,
+            y: CY + 5.0,
+        }),
+        Line(Point {
+            x: CX - 12.0,
+            y: CY + 5.0,
+        }),
+        Line(Point { x: CX - 5.0, y: CY }),
+        Close,
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_activity
+///
+pub fn generate_type_clas_activity(out: &mut dyn PathRenderer) -> () {
+    let icon_rect: [geometry::DrawDirective; 9] = get_rounded_rect_abs(
+        Rect {
+            left: CX - 12.0,
+            top: CY - 8.0,
+            width: 24.0,
+            height: 16.0,
+        },
+        5.0,
+    );
+    out.render_path(&icon_rect, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_decision
+///
+pub fn generate_type_clas_decision(out: &mut dyn PathRenderer) -> () {
+    let icon_body: [geometry::DrawDirective; 5] = [
+        Move(Point {
+            x: CX - HALFLINE,
+            y: CY - 9.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 9.0 - HALFLINE,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - HALFLINE,
+            y: CY + 9.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 9.0 - HALFLINE,
+            y: CY - HALFLINE,
+        }),
+        Close,
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_deephistory
+///
+pub fn generate_type_clas_deephistory(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX, y: CY }, 11.0 + HALFLINE, 11.0 + HALFLINE);
+    out.render_path(&icon_segs_circle, &Some(GRAY_PEN), &None);
+
+    let icon_body: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 6.0,
+            y: CY - 6.0,
+        }),
+        Line(Point {
+            x: CX - 6.0,
+            y: CY + 6.0,
+        }),
+        Move(Point { x: CX - 5.0, y: CY }),
+        Line(Point { x: CX - 1.0, y: CY }),
+        Move(Point {
+            x: CX + 0.0,
+            y: CY - 6.0,
+        }),
+        Line(Point {
+            x: CX + 0.0,
+            y: CY + 6.0,
+        }),
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_asterisk: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX + 2.0,
+            y: CY - 2.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 7.0,
+            y: CY - 6.0 - HALFLINE,
+        }),
+        Move(Point {
+            x: CX + 2.0,
+            y: CY - 6.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 7.0,
+            y: CY - 2.0 - HALFLINE,
+        }),
+        Move(Point {
+            x: CX + 4.0 + HALFLINE,
+            y: CY - 8.0,
+        }),
+        Line(Point {
+            x: CX + 4.0 + HALFLINE,
+            y: CY - 1.0,
+        }),
+    ];
+    out.render_path(&icon_asterisk, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_clas_final
+///
+pub fn generate_type_clas_final(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_end_dot: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX, y: CY }, 6.0, 6.0);
+    out.render_path(&icon_segs_end_dot, &None, &Some(GRAY));
+    let icon_segs_end_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX, y: CY }, 9.0, 9.0);
+    out.render_path(&icon_segs_end_circle, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_clas_fork
+///
+pub fn generate_type_clas_fork(out: &mut dyn PathRenderer) -> () {
+    let icon_base_rect: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 2.0,
+        top: CY - 11.0,
+        width: 4.0,
+        height: 21.0,
+    });
+    out.render_path(&icon_base_rect, &None, &Some(GRAY));
+
+    let icon_body: [geometry::DrawDirective; 9] = [
+        Move(Point {
+            x: CX + 5.0,
+            y: CY - 6.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 14.0,
+            y: CY - 6.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 11.0 + HALFLINE,
+            y: CY - 8.0 - HALFLINE,
+        }),
+        Move(Point {
+            x: CX + 5.0,
+            y: CY + 5.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 14.0,
+            y: CY + 5.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 11.0 + HALFLINE,
+            y: CY + 7.0 + HALFLINE,
+        }),
+        Move(Point {
+            x: CX - 14.0,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 5.0,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 8.0 + HALFLINE,
+            y: CY - 2.0 - HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_body, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_clas_history
+///
+pub fn generate_type_clas_history(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX, y: CY }, 11.0 + HALFLINE, 11.0 + HALFLINE);
+    out.render_path(&icon_segs_circle, &Some(GRAY_PEN), &None);
+
+    let icon_body: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 3.0,
+            y: CY - 6.0,
+        }),
+        Line(Point {
+            x: CX - 3.0,
+            y: CY + 6.0,
+        }),
+        Move(Point { x: CX - 2.0, y: CY }),
+        Line(Point { x: CX + 2.0, y: CY }),
+        Move(Point {
+            x: CX + 3.0,
+            y: CY - 6.0,
+        }),
+        Line(Point {
+            x: CX + 3.0,
+            y: CY + 6.0,
+        }),
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_initial
+///
+pub fn generate_type_clas_initial(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_start: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX, y: CY }, 7.0, 7.0);
+    out.render_path(&icon_segs_start, &None, &Some(GRAY));
+}
+
+/// The function generates a type_clas_join
+///
+pub fn generate_type_clas_join(out: &mut dyn PathRenderer) -> () {
+    let icon_base_rect: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 2.0,
+        top: CY - 11.0,
+        width: 4.0,
+        height: 21.0,
+    });
+    out.render_path(&icon_base_rect, &None, &Some(GRAY));
+
+    let icon_body: [geometry::DrawDirective; 9] = [
+        Move(Point {
+            x: CX - 14.0,
+            y: CY - 6.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 5.0,
+            y: CY - 6.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 8.0 - HALFLINE,
+            y: CY - 8.0 - HALFLINE,
+        }),
+        Move(Point {
+            x: CX - 14.0,
+            y: CY + 5.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 5.0,
+            y: CY + 5.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX - 8.0 - HALFLINE,
+            y: CY + 7.0 + HALFLINE,
+        }),
+        Move(Point {
+            x: CX + 5.0,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 14.0,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 11.0 - HALFLINE,
+            y: CY - 2.0 - HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_body, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a type_clas_region
+///
+pub fn generate_type_clas_region(out: &mut dyn PathRenderer) -> () {
+    let icon_body: [geometry::DrawDirective; 12] = [
+        Move(Point {
+            x: CX - 3.0,
+            y: CY - 8.0,
+        }),
+        Line(Point {
+            x: CX + 3.0,
+            y: CY - 8.0,
+        }),
+        Move(Point {
+            x: CX + 8.0,
+            y: CY - 8.0,
+        }),
+        Curve(
+            Point {
+                x: CX + 11.0,
+                y: CY - 8.0,
+            },
+            Point {
+                x: CX + 13.0,
+                y: CY - 6.0,
+            },
+            Point {
+                x: CX + 13.0,
+                y: CY - 3.0,
+            },
+        ),
+        Move(Point {
+            x: CX + 13.0,
+            y: CY + 3.0,
+        }),
+        Curve(
+            Point {
+                x: CX + 13.0,
+                y: CY + 6.0,
+            },
+            Point {
+                x: CX + 11.0,
+                y: CY + 8.0,
+            },
+            Point {
+                x: CX + 8.0,
+                y: CY + 8.0,
+            },
+        ),
+        Move(Point {
+            x: CX + 3.0,
+            y: CY + 8.0,
+        }),
+        Line(Point {
+            x: CX - 3.0,
+            y: CY + 8.0,
+        }),
+        Move(Point {
+            x: CX - 8.0,
+            y: CY + 8.0,
+        }),
+        Curve(
+            Point {
+                x: CX - 11.0,
+                y: CY + 8.0,
+            },
+            Point {
+                x: CX - 13.0,
+                y: CY + 6.0,
+            },
+            Point {
+                x: CX - 13.0,
+                y: CY + 3.0,
+            },
+        ),
+        Move(Point {
+            x: CX - 13.0,
+            y: CY - 3.0,
+        }),
+        Curve(
+            Point {
+                x: CX - 13.0,
+                y: CY - 6.0,
+            },
+            Point {
+                x: CX - 11.0,
+                y: CY - 8.0,
+            },
+            Point {
+                x: CX - 8.0,
+                y: CY - 8.0,
+            },
+        ),
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_send
+///
+pub fn generate_type_clas_send(out: &mut dyn PathRenderer) -> () {
+    let icon_body: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 14.0,
+            y: CY - 5.0,
+        }),
+        Line(Point {
+            x: CX + 6.0,
+            y: CY - 5.0,
+        }),
+        Line(Point {
+            x: CX + 13.0,
+            y: CY,
+        }),
+        Line(Point {
+            x: CX + 6.0,
+            y: CY + 5.0,
+        }),
+        Line(Point {
+            x: CX - 14.0,
+            y: CY + 5.0,
+        }),
+        Close,
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_state
+///
+pub fn generate_type_clas_state(out: &mut dyn PathRenderer) -> () {
+    let icon_rect: [geometry::DrawDirective; 9] = get_rounded_rect_abs(
+        Rect {
+            left: CX - 9.0,
+            top: CY - 7.0,
+            width: 18.0,
+            height: 14.0,
+        },
+        5.0,
+    );
+    out.render_path(&icon_rect, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_time
+///
+pub fn generate_type_clas_time(out: &mut dyn PathRenderer) -> () {
+    let icon_body: [geometry::DrawDirective; 6] = [
+        Move(Point { x: CX, y: CY }),
+        Line(Point {
+            x: CX - 6.0,
+            y: CY - 8.0,
+        }),
+        Curve(
+            Point {
+                x: CX - 9.0,
+                y: CY - 12.0,
+            },
+            Point {
+                x: CX + 9.0,
+                y: CY - 12.0,
+            },
+            Point {
+                x: CX + 6.0,
+                y: CY - 8.0,
+            },
+        ),
+        Line(Point {
+            x: CX - 6.0,
+            y: CY + 8.0,
+        }),
+        Curve(
+            Point {
+                x: CX - 9.0,
+                y: CY + 12.0,
+            },
+            Point {
+                x: CX + 9.0,
+                y: CY + 12.0,
+            },
+            Point {
+                x: CX + 6.0,
+                y: CY + 8.0,
+            },
+        ),
+        Close,
+    ];
+    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_clas_usecase
+///
+pub fn generate_type_clas_usecase(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_use_case: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: CX, y: CY }, 14.0, 8.0);
+    out.render_path(&icon_segs_use_case, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_undef
 ///
 pub fn generate_type_undef(out: &mut dyn PathRenderer) -> () {
     let icon_body: [geometry::DrawDirective; 4] = [
         Move(Point {
-            x: CX - 7.0,
-            y: CY - 7.0,
+            x: CX - 4.0 - HALFLINE,
+            y: CY - 4.0 - HALFLINE,
         }),
-        Line(Point { x: CX + 7.0, y: CY + 7.0 }),
+        Line(Point {
+            x: CX + 4.0 - HALFLINE,
+            y: CY + 4.0 - HALFLINE,
+        }),
         Move(Point {
-            x: CX - 7.0,
-            y: CY + 7.0,
+            x: CX - 4.0 - HALFLINE,
+            y: CY + 4.0 - HALFLINE,
         }),
-        Line(Point { x: CX + 7.0, y: CY - 7.0 }),
+        Line(Point {
+            x: CX + 4.0 - HALFLINE,
+            y: CY - 4.0 - HALFLINE,
+        }),
     ];
-    out.render_path(&icon_body, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_body, &Some(GRAY_PEN), &None);
 }
 
 /// The function returns an array of IconSource
@@ -1123,6 +1584,76 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "type_clas_interaction_use",
             viewport: ICON_VIEW_RECT,
             generate: generate_type_clas_interaction_use,
+        },
+        IconSource {
+            name: "type_clas_accept",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_accept,
+        },
+        IconSource {
+            name: "type_clas_activity",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_activity,
+        },
+        IconSource {
+            name: "type_clas_decision",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_decision,
+        },
+        IconSource {
+            name: "type_clas_deephistory",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_deephistory,
+        },
+        IconSource {
+            name: "type_clas_final",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_final,
+        },
+        IconSource {
+            name: "type_clas_fork",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_fork,
+        },
+        IconSource {
+            name: "type_clas_history",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_history,
+        },
+        IconSource {
+            name: "type_clas_initial",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_initial,
+        },
+        IconSource {
+            name: "type_clas_join",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_join,
+        },
+        IconSource {
+            name: "type_clas_region",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_region,
+        },
+        IconSource {
+            name: "type_clas_send",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_send,
+        },
+        IconSource {
+            name: "type_clas_state",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_state,
+        },
+        IconSource {
+            name: "type_clas_time",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_time,
+        },
+        IconSource {
+            name: "type_clas_usecase",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_usecase,
         },
         IconSource {
             name: "type_undef",

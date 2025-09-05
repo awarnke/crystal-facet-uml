@@ -545,18 +545,50 @@ pub fn generate_edit_delete(out: &mut dyn PathRenderer) -> () {
             dx: 16.0 + HALFLINE,
             dy: 19.0 + HALFLINE,
         }),
-        CurveRel(Offset {dx: 0.0,dy: 0.0,},Offset {dx: 0.6,dy: -5.7,},Offset {dx: 1.0,dy: -7.0,},),
-        CurveRel(Offset {dx: 0.5,dy: -1.4,},Offset {dx: 0.2,dy: -2.1,},Offset {dx: 1.0,dy: -2.5,},),
-        CurveRel(Offset {dx: 0.7,dy: -0.6,},Offset {dx: 1.4,dy: 0.0,},Offset {dx: 2.0,dy: -1.0,},),
-        CurveRel(Offset {dx: 0.7,dy: -1.1,},Offset {dx: 0.3,dy: -4.1,},Offset {dx: 1.0,dy: -4.5,},),
-        CurveRel(Offset {dx: 0.8,dy: -0.5,},Offset {dx: 1.9,dy: -0.5,},Offset {dx: 2.5,dy: 0.0,},),
-        CurveRel(Offset {dx: 0.7,dy: 0.6,},Offset {dx: 0.3,dy: 3.7,},Offset {dx: 1.0,dy: 4.5,},),
-        CurveRel(Offset {dx: 0.9,dy: 0.9,},Offset {dx: 1.2,dy: 0.0,},Offset {dx: 2.0,dy: 1.5,},),
-        CurveRel(Offset {dx: 0.9,dy: 1.2,},Offset {dx: 0.9,dy: 9.3,},Offset {dx: 1.0,dy: 9.5,},),
-        LineRel(Offset {dx: -2.5,dy: 1.0,},),
-        LineRel(Offset {dx: 1.0,dy: 8.5,},),
-        LineRel(Offset {dx: -7.5,dy: -1.0,},),
-        LineRel(Offset {dx: 0.0,dy: -9.0,},),
+        CurveRel(
+            Offset { dx: 0.0, dy: 0.0 },
+            Offset { dx: 0.6, dy: -5.7 },
+            Offset { dx: 1.0, dy: -7.0 },
+        ),
+        CurveRel(
+            Offset { dx: 0.5, dy: -1.4 },
+            Offset { dx: 0.2, dy: -2.1 },
+            Offset { dx: 1.0, dy: -2.5 },
+        ),
+        CurveRel(
+            Offset { dx: 0.7, dy: -0.6 },
+            Offset { dx: 1.4, dy: 0.0 },
+            Offset { dx: 2.0, dy: -1.0 },
+        ),
+        CurveRel(
+            Offset { dx: 0.7, dy: -1.1 },
+            Offset { dx: 0.3, dy: -4.1 },
+            Offset { dx: 1.0, dy: -4.5 },
+        ),
+        CurveRel(
+            Offset { dx: 0.8, dy: -0.5 },
+            Offset { dx: 1.9, dy: -0.5 },
+            Offset { dx: 2.5, dy: 0.0 },
+        ),
+        CurveRel(
+            Offset { dx: 0.7, dy: 0.6 },
+            Offset { dx: 0.3, dy: 3.7 },
+            Offset { dx: 1.0, dy: 4.5 },
+        ),
+        CurveRel(
+            Offset { dx: 0.9, dy: 0.9 },
+            Offset { dx: 1.2, dy: 0.0 },
+            Offset { dx: 2.0, dy: 1.5 },
+        ),
+        CurveRel(
+            Offset { dx: 0.9, dy: 1.2 },
+            Offset { dx: 0.9, dy: 9.3 },
+            Offset { dx: 1.0, dy: 9.5 },
+        ),
+        LineRel(Offset { dx: -2.5, dy: 1.0 }),
+        LineRel(Offset { dx: 1.0, dy: 8.5 }),
+        LineRel(Offset { dx: -7.5, dy: -1.0 }),
+        LineRel(Offset { dx: 0.0, dy: -9.0 }),
         CloseRel,
     ];
     out.render_path(&man_sym, &Some(BLACK_PEN), &Some(BLACK));
@@ -570,8 +602,16 @@ pub fn generate_edit_delete(out: &mut dyn PathRenderer) -> () {
             dx: -2.0,
             dy: -27.0 + HALFLINE,
         }),
-        CurveRel(Offset {dx: -9.0,dy: 0.75,},Offset {dx: -12.5,dy: 3.5,},Offset {dx: -13.0,dy: 6.5,},),
-        CurveRel(Offset {dx: 3.0,dy: -2.5,},Offset {dx: 5.5,dy: -4.5,},Offset {dx: 13.0,dy: -4.0,},),
+        CurveRel(
+            Offset { dx: -9.0, dy: 0.75 },
+            Offset { dx: -12.5, dy: 3.5 },
+            Offset { dx: -13.0, dy: 6.5 },
+        ),
+        CurveRel(
+            Offset { dx: 3.0, dy: -2.5 },
+            Offset { dx: 5.5, dy: -4.5 },
+            Offset { dx: 13.0, dy: -4.0 },
+        ),
     ];
     out.render_path(&tool_sym, &Some(BLACK_PEN), &None);
 
@@ -587,23 +627,18 @@ pub fn generate_edit_delete(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_edit_instantiate(out: &mut dyn PathRenderer) -> () {
     let color_sym: [geometry::DrawDirective; 2] = [
-        MoveRel(Offset {
-            dx: 3.5,
-            dy: 20.0,
-        }),
-        LineRel(Offset {
-            dx: 21.0,
-            dy: 6.0,
-        }),
+        MoveRel(Offset { dx: 3.5, dy: 20.0 }),
+        LineRel(Offset { dx: 21.0, dy: 6.0 }),
     ];
     out.render_path(&color_sym, &Some(GREEN_THICK_PEN), &None);
 
     let shadow_sym: [geometry::DrawDirective; 2] = [
-        MoveRel(Offset {
-            dx: 18.0,
-            dy: 16.0,
-        }),
-        CurveRel(Offset {dx: 6.5,dy: -13.0,},Offset {dx: 4.5,dy: -10.0,},Offset {dx: 1.0,dy: -11.0,},),
+        MoveRel(Offset { dx: 18.0, dy: 16.0 }),
+        CurveRel(
+            Offset { dx: 6.5, dy: -13.0 },
+            Offset { dx: 4.5, dy: -10.0 },
+            Offset { dx: 1.0, dy: -11.0 },
+        ),
     ];
     out.render_path(&shadow_sym, &Some(GRAY_THICK_PEN), &None);
 
@@ -612,31 +647,17 @@ pub fn generate_edit_instantiate(out: &mut dyn PathRenderer) -> () {
             dx: 2.0 + HALFLINE,
             dy: 18.0 + HALFLINE,
         }),
-        LineRel(Offset {
-            dx: 3.0,
-            dy: -6.0,
-        }),
-        LineRel(Offset {
-            dx: 7.0,
-            dy: 2.0,
-        }),
-        LineRel(Offset {
-            dx: 1.0,
-            dy: -10.0,
-        }),
-        CurveRel(Offset {dx: 0.5,dy: -5.0,},Offset {dx: 11.5,dy: -3.0,},Offset {dx: 10.0,dy: 2.0,},),
-        LineRel(Offset {
-            dx: -4.0,
-            dy: 10.0,
-        }),
-        LineRel(Offset {
-            dx: 7.0,
-            dy: 2.0,
-        }),
-        LineRel(Offset {
-            dx: -0.5,
-            dy: 7.0,
-        }),
+        LineRel(Offset { dx: 3.0, dy: -6.0 }),
+        LineRel(Offset { dx: 7.0, dy: 2.0 }),
+        LineRel(Offset { dx: 1.0, dy: -10.0 }),
+        CurveRel(
+            Offset { dx: 0.5, dy: -5.0 },
+            Offset { dx: 11.5, dy: -3.0 },
+            Offset { dx: 10.0, dy: 2.0 },
+        ),
+        LineRel(Offset { dx: -4.0, dy: 10.0 }),
+        LineRel(Offset { dx: 7.0, dy: 2.0 }),
+        LineRel(Offset { dx: -0.5, dy: 7.0 }),
     ];
     out.render_path(&stamp_sym, &Some(BLACK_PEN), &None);
 
@@ -656,18 +677,12 @@ pub fn generate_edit_highlight(out: &mut dyn PathRenderer) -> () {
             x: 10.0 + HALFLINE,
             y: 25.0 + HALFLINE,
         }),
-        LineRel(Offset {
-            dx: -1.0,
-            dy: -4.0,
-        }),
+        LineRel(Offset { dx: -1.0, dy: -4.0 }),
         LineRel(Offset {
             dx: 12.0,
             dy: -20.0,
         }),
-        LineRel(Offset {
-            dx: 7.0,
-            dy: 4.0,
-        }),
+        LineRel(Offset { dx: 7.0, dy: 4.0 }),
         LineRel(Offset {
             dx: -12.0,
             dy: 20.0,
@@ -680,14 +695,8 @@ pub fn generate_edit_highlight(out: &mut dyn PathRenderer) -> () {
     out.render_path(&pen_sym, &Some(GRAY_PEN), &Some(YELLOW));
 
     let tip_sym: [geometry::DrawDirective; 4] = [
-        Move(Point {
-            x: 9.75,
-            y: 25.0,
-        }),
-        LineRel(Offset {
-            dx: 0.75,
-            dy: 3.25,
-        }),
+        Move(Point { x: 9.75, y: 25.0 }),
+        LineRel(Offset { dx: 0.75, dy: 3.25 }),
         LineRel(Offset {
             dx: 3.25,
             dy: -1.25,
