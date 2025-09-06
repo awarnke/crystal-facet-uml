@@ -1,96 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
-   id="svg2"
-   version="1.1"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="message_info.svg"
-   inkscape:export-filename="/home/andi/Code/crystal-facet-uml/gui/source/resources/message_info.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96">
-  <defs
-     id="defs4" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="30.151033"
-     inkscape:cx="14.618484"
-     inkscape:cy="15.768602"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="2560"
-     inkscape:window-height="1339"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:document-rotation="0" />
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-1020.3622)">
-    <ellipse
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3986"
-       transform="scale(-1,1)"
-       cx="-15.944146"
-       cy="1036.3356"
-       rx="15.517717"
-       ry="15.551272" />
-    <ellipse
-       style="fill:#ffffff;fill-opacity:1;stroke:#0055dd;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path4498"
-       transform="scale(-1,1)"
-       cx="-16.27236"
-       cy="1028.3237"
-       rx="3.0556405"
-       ry="3.1259968" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#0055dd;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 18.195436,1034.0226 h -6.003752 v 3.471 l 1.782363,-10e-5 0.04691,6.0038 -1.73546,0.516 -0.0469,2.9549 8.208254,0.094 1e-6,-3.7992 -2.345216,0.2346 z"
-       id="path4500"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccccc" />
-    <ellipse
-       style="fill:none;fill-opacity:1;stroke:#0055dd;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3986-3"
-       transform="scale(-1,1)"
-       cx="-15.930169"
-       cy="1036.3477"
-       rx="14.592605"
-       ry="14.720021" />
-    <ellipse
-       style="fill:none;fill-opacity:1;stroke:#0055dd;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.466667"
-       id="path3986-3-6"
-       transform="scale(-1,1)"
-       cx="-15.907537"
-       cy="1036.3601"
-       rx="13.754335"
-       ry="13.875892" />
-  </g>
+    width="100%"
+    height="100%"
+    viewBox="0 0 32 32"
+    preserveAspectRatio="xMidYMid meet"
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+    >
+    <path stroke="#3f3fff" stroke-width="2" fill="none"
+        d="M 3,16 C 3,8.875 8.875,3 16,3 S 29,8.875 29,16 S 23.125,29 16,29 S 3,23.125 3,16 "
+    />
+    <path stroke="#3f3fff" stroke-width="1" fill="none"
+        d="M 13.5,10 C 13.5,8.625 14.625,7.5 16,7.5 S 18.5,8.625 18.5,10 S 17.375,12.5 16,12.5 S 13.5,11.375 13.5,10 "
+    />
+    <path stroke="#3f3fff" stroke-width="1" fill="none"
+        d="M 13.5,18 C 13.5,16.625 14.625,15.5 16,15.5 L 16,15.5 C 17.375,15.5 18.5,16.625 18.5,18 L 18.5,22 C 18.5,23.375 17.375,24.5 16,24.5 L 16,24.5 C 14.625,24.5 13.5,23.375 13.5,22 Z "
+    />
 </svg>

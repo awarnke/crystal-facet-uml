@@ -4,6 +4,7 @@ pub mod gui_edit_icon;
 pub mod gui_file_icon;
 pub mod gui_sketch_icon;
 pub mod gui_view_icon;
+pub mod message_icon;
 pub mod shape;
 pub mod stereotype_icon;
 pub mod type_class_icon;
