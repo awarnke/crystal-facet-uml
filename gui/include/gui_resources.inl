@@ -115,6 +115,11 @@ static inline GdkTexture *gui_resources_get_view_search ( const gui_resources_t 
     return (*this_).view_search;
 }
 
+static inline GdkTexture *gui_resources_get_view_search_now ( const gui_resources_t *this_ )
+{
+    return (*this_).view_search_now;
+}
+
 static inline GdkTexture *gui_resources_get_view_navigate ( const gui_resources_t *this_ )
 {
     return (*this_).view_navigate;
@@ -168,11 +173,6 @@ static inline GdkTexture *gui_resources_get_navigate_create_sibling ( const gui_
 static inline GdkTexture *gui_resources_get_navigate_create_sibling_0 ( const gui_resources_t *this_ )
 {
     return (*this_).navigate_create_sibling_0;
-}
-
-static inline GdkTexture *gui_resources_get_search_search ( const gui_resources_t *this_ )
-{
-    return (*this_).search_search;
 }
 
 static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resources_t *this_ )

@@ -28,6 +28,7 @@ struct gui_resources_struct {
 
     GdkTexture *view_new_window;
     GdkTexture *view_search;
+    GdkTexture *view_search_now;
     GdkTexture *view_navigate;
     GdkTexture *view_create;
     GdkTexture *view_edit;
@@ -56,7 +57,6 @@ struct gui_resources_struct {
     GdkTexture *navigate_create_sibling;
     GdkTexture *navigate_create_sibling_0;
     GdkTexture *navigate_open_folder;
-    GdkTexture *search_search;
 
     GdkPixbuf *background_column;
 
@@ -336,6 +336,13 @@ static inline GdkTexture *gui_resources_get_view_new_window ( const gui_resource
 static inline GdkTexture *gui_resources_get_view_search ( const gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the view_search_now
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_view_search_now ( const gui_resources_t *this_ );
+
+/*!
  *  \brief gets the view_navigate
  *
  *  \param this_ pointer to own object attributes
@@ -411,13 +418,6 @@ static inline GdkTexture *gui_resources_get_navigate_create_sibling ( const gui_
  *  \param this_ pointer to own object attributes
  */
 static inline GdkTexture *gui_resources_get_navigate_create_sibling_0 ( const gui_resources_t *this_ );
-
-/*!
- *  \brief gets the search_search
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkTexture *gui_resources_get_search_search ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the background_column as GdkPixbuf

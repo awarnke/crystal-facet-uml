@@ -154,6 +154,27 @@ pub fn generate_view_search(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 }
 
+/// The function generates a magnifying glass icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_view_search_now(out: &mut dyn PathRenderer) -> () {
+    /* circle */
+    let icon_segs: [geometry::DrawDirective; 5] =
+    get_circle_abs(Point { x: 19.25, y: 12.0 }, 7.5, 7.5);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(WHITE));
+
+    let icon_segs: [geometry::DrawDirective; 4] = [
+        MoveRel(Offset { dx: 16.0, dy: 19.0 }),
+        LineRel(Offset { dx: -3.0, dy: 10.0 }),
+        LineRel(Offset { dx: 2.0, dy: 0.6 }),
+        LineRel(Offset { dx: 3.0, dy: -10.0 }),
+    ];
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+}
+
 /// The function generates a steering wheel of ship navigation to vector graphics drawing directives
 ///
 /// # Panics
@@ -599,6 +620,11 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "view_search",
             viewport: ICON_VIEW_RECT,
             generate: generate_view_search,
+        },
+        IconSource {
+            name: "view_search_now",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_view_search_now,
         },
         IconSource {
             name: "view_navigate",

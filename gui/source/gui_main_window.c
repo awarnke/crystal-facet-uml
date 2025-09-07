@@ -628,7 +628,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_ )
     gtk_label_set_xalign( GTK_LABEL( (*this_).type_label ), 0.0 );
 
     (*this_).id_search_btn = gtk_button_new();
-    (*this_).id_search_btn_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_search_search( res ) ) );
+    (*this_).id_search_btn_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_search_now( res ) ) );
     gtk_button_set_image( GTK_BUTTON((*this_).id_search_btn), (*this_).id_search_btn_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).id_search_btn), "Find Occurrences" );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).id_search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
@@ -869,7 +869,7 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
         (*this_).search_entry = gtk_entry_new();
 
         (*this_).search_button = gtk_button_new();
-        (*this_).search_btn_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_search_search( res ) ) );
+        (*this_).search_btn_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_search_now( res ) ) );
         gtk_button_set_image( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
         gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
         gtk_widget_set_size_request( GTK_WIDGET((*this_).search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );

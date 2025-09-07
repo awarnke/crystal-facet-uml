@@ -7,11 +7,6 @@
 
 /* including resource files */
 
-#if __GNUC__ >= 8
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Woverlength-strings"
-#endif
-
 #include "resources/crystal_facet_uml.c"
 #include "resources/edit_attributes_sect.c"
 
@@ -27,6 +22,7 @@
 #include "resources/view_navigate.c"
 #include "resources/view_new_window.c"
 #include "resources/view_search.c"
+#include "resources/view_search_now.c"
 
 #include "resources/tool_sect.c"
 
@@ -52,12 +48,7 @@
 #include "resources/navigate_create_sibling.c"
 #include "resources/navigate_create_sibling_0.c"
 #include "resources/navigate_open_folder.c"
-#include "resources/search_search.c"
 #include "resources/background_column.c"
-
-#if __GNUC__ >= 8
-#pragma GCC diagnostic pop
-#endif
 
 #include "resources/sketch_create.c"
 #include "resources/sketch_refine.c"
@@ -193,6 +184,7 @@ void gui_resources_init ( gui_resources_t *this_ )
 
     (*this_).view_new_window = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_new_window ) );
     (*this_).view_search = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_search ) );
+    (*this_).view_search_now = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_search_now ) );
     (*this_).view_navigate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_navigate ) );
     (*this_).view_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_create ) );
     (*this_).view_edit = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_edit ) );
@@ -221,8 +213,6 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).navigate_create_sibling = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_sibling ) );
     (*this_).navigate_create_sibling_0 = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_sibling_0 ) );
     (*this_).navigate_open_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_open_folder ) );
-
-    (*this_).search_search = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( search_search ) );
 
     (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
 
@@ -346,6 +336,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
 
     g_object_unref ((*this_).view_new_window);
     g_object_unref ((*this_).view_search);
+    g_object_unref ((*this_).view_search_now);
     g_object_unref ((*this_).view_navigate);
     g_object_unref ((*this_).view_create);
     g_object_unref ((*this_).view_edit);
@@ -375,8 +366,6 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).navigate_create_sibling);
     g_object_unref ((*this_).navigate_create_sibling_0);
     g_object_unref ((*this_).navigate_open_folder);
-
-    g_object_unref ((*this_).search_search);
 
     g_object_unref ((*this_).background_column);  /* Type: GdkPixbuf */
 
