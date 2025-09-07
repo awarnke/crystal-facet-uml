@@ -1,11 +1,11 @@
-/* GIMP RGBA C-Source image dump (background_column.c) */
+/* GIMP RGBA C-Source image dump (sketch_background.c) */
 
 static const struct {
   guint  	 width;
   guint  	 height;
   guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
   guint8 	 pixel_data[96 * 1200 * 4 + 1];
-} background_column = {
+} sketch_background = {
   96, 1200, 4,
   "\024\245y\377\016\244|\377\012\237s\377\002\232m\377\002\233m\377\001\227k\377\004\231"
   "m\377\000\225j\377\000\220b\377\001\221c\377\001\212a\377\000\213b\377\000\213b\377\001"

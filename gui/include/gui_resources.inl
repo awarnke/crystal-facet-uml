@@ -175,9 +175,9 @@ static inline GdkTexture *gui_resources_get_navigate_create_sibling_0 ( const gu
     return (*this_).navigate_create_sibling_0;
 }
 
-static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_sketch_background ( const gui_resources_t *this_ )
 {
-    return (*this_).background_column;
+    return (*this_).sketch_background;
 }
 
 static inline GdkTexture *gui_resources_get_sketch_create ( const gui_resources_t *this_ )

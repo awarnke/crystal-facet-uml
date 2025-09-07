@@ -58,8 +58,7 @@ struct gui_resources_struct {
     GdkTexture *navigate_create_sibling_0;
     GdkTexture *navigate_open_folder;
 
-    GdkPixbuf *background_column;
-
+    GdkPixbuf *sketch_background;
     GdkTexture *sketch_create;
     GdkTexture *sketch_refine;
     GdkTexture *sketch_relate;
@@ -420,11 +419,11 @@ static inline GdkTexture *gui_resources_get_navigate_create_sibling ( const gui_
 static inline GdkTexture *gui_resources_get_navigate_create_sibling_0 ( const gui_resources_t *this_ );
 
 /*!
- *  \brief gets the background_column as GdkPixbuf
+ *  \brief gets the background as GdkPixbuf
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_sketch_background ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the sketch_create as GdkTexture

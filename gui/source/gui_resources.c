@@ -48,8 +48,8 @@
 #include "resources/navigate_create_sibling.c"
 #include "resources/navigate_create_sibling_0.c"
 #include "resources/navigate_open_folder.c"
-#include "resources/background_column.c"
 
+#include "resources/sketch_background.c"
 #include "resources/sketch_create.c"
 #include "resources/sketch_refine.c"
 #include "resources/sketch_relate.c"
@@ -214,8 +214,7 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).navigate_create_sibling_0 = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_sibling_0 ) );
     (*this_).navigate_open_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_open_folder ) );
 
-    (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
-
+    (*this_).sketch_background = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_background ) );
     (*this_).sketch_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_create ) );
     (*this_).sketch_refine = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_refine ) );
     (*this_).sketch_relate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_relate ) );
@@ -367,8 +366,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).navigate_create_sibling_0);
     g_object_unref ((*this_).navigate_open_folder);
 
-    g_object_unref ((*this_).background_column);  /* Type: GdkPixbuf */
-
+    g_object_unref ((*this_).sketch_background);  /* Type: GdkPixbuf */
     g_object_unref ((*this_).sketch_create);
     g_object_unref ((*this_).sketch_refine);
     g_object_unref ((*this_).sketch_relate);

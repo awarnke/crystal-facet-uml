@@ -75,7 +75,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     /* if there is enough space, draw a nice picture bar on the left side */
     if ( width > 192 )
     {
-        GdkPixbuf *bg_img = gui_resources_get_background_column( (*this_).resources );
+        GdkPixbuf *bg_img = gui_resources_get_sketch_background( (*this_).resources );
         double icon_width = gdk_pixbuf_get_width ( bg_img );
         double icon_height = gdk_pixbuf_get_height ( bg_img );
         gdk_cairo_set_source_pixbuf( cr, bg_img, left, top );
