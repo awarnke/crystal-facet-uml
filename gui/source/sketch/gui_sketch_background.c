@@ -10,6 +10,7 @@
 #if 0
 void gui_sketch_background_private_write_as_ints( gui_sketch_background_t *this_ )
 {
+    fprintf(stdout,"%s","\n    ");
     GdkPixbuf *bg_img = gui_resources_get_sketch_background( (*this_).resources );
     int icon_width = gdk_pixbuf_get_width( bg_img );
     int icon_height = gdk_pixbuf_get_height( bg_img );
@@ -28,7 +29,6 @@ void gui_sketch_background_private_write_as_ints( gui_sketch_background_t *this_
                 fprintf(stdout,"%s","\n    ");
             }
         }
-        //fprintf(stdout,"%s","\n    ");
     }
 }
 #endif

@@ -433,7 +433,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
 
     (*this_).tool_sect_1_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_1_icon), 12 /*=w*/ , 32 /*=h*/ );
-    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_1_icon), 32 );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_1_icon), 32 /*=max(w,h)*/ );
     gtk_widget_set_halign( (*this_).tool_sect_1_icon, GTK_ALIGN_START );
 
     gui_button_init( &((*this_).view_new_window),
@@ -477,7 +477,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
 
     (*this_).tool_sect_2_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_2_icon), 12 /*=w*/ , 32 /*=h*/ );
-    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_2_icon), 32 );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_2_icon), 32 /*=max(w,h)*/ );
     gtk_widget_set_halign( (*this_).tool_sect_2_icon, GTK_ALIGN_START );
 
     gui_button_init( &((*this_).edit_undo),
@@ -611,8 +611,12 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_ )
     const gui_resources_t *const res = (*this_).resources;
 
     (*this_).attr_section_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_edit_attributes_sect( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
-    gtk_image_set_pixel_size( GTK_IMAGE((*this_).attr_section_icon), 48 );
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 32 /*=w*/ , 24 /*=h*/ );
+    gtk_widget_set_margin_start( GTK_WIDGET((*this_).attr_section_icon), 8 );
+    gtk_widget_set_margin_end( GTK_WIDGET((*this_).attr_section_icon), 8 );
+    gtk_widget_set_margin_top( GTK_WIDGET((*this_).attr_section_icon), 0 );
+    gtk_widget_set_margin_bottom( GTK_WIDGET((*this_).attr_section_icon), 0 );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).attr_section_icon), 32 /*=max(w,h)*/ );
     gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
 
     (*this_).id_label = gtk_label_new( "" );
@@ -838,7 +842,8 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
     (*this_).message_text_label = gtk_label_new( "" );
     gtk_label_set_xalign(GTK_LABEL( (*this_).message_text_label ), 0.0 );
 
-    (*this_).message_icon_image = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_crystal_facet_uml( res ) ) );    gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).message_icon_image = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_crystal_facet_uml( res ) ) );
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
 
     /* insert widgets to box container */
     {

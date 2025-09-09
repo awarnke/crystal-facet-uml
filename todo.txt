@@ -25,7 +25,7 @@ ideas for future versions:
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [?] to pink-mark several objects - require shift key
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
-  [ ] In Search View, show e.g. the Diagram Id to better explain why classifiers are shown multiple times
+! [ ] In Search View, show e.g. the Diagram Id to better explain why classifiers are shown multiple times
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -39,31 +39,28 @@ ideas for future versions:
   [ ] relationship ends at packages or use-cases or choices are sometimes unluckily positioned.
       A simple solution is to consider the type of the classifier when determining the weight for non-centered ends.
   [ ] A comment should only show the first paragraph. Or - like an svg-path - define other delimiters
-  [ ] A comment should consider CJK linebreaks - like the json export
-  [ ] An image should allow to show an svg-<path> without a stereotype
+  [ ] A comment should consider CJK linebreaks - like the json export (or should pango do this?)
+! [ ] An image should allow to show an svg-<path> without a stereotype
   [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
-  [ ] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
+  [?] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
-  [?] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
+  [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] add test case for opening non-cfuJ files
-  [ ] in html export, do not create "appears in" links to current chapter - this is superfluous and irritating
+! [ ] in html export, do not create "appears in" links to current chapter - this is superfluous and irritating
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
-  [?] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
-      show/hide relationships-of-other-diag-types
   [ ] links unclear:
-      interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
-  [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
-      --> use a DATA_RELATIONSHIP_TYPE_UML_INSTANCE_OF
+      interactionuse-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
   [?] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
       --> see self_architecture.cfuJ / D0018
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
+      --> document the limitation (or is it a usability-feature?)
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.

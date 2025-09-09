@@ -16,7 +16,7 @@ use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
 
-/// The view rectangle of each icon
+/// The view rectangle of each icon (except edit_attributes_sect)
 const ICON_VIEW_RECT: Rect = Rect {
     left: 0.0,
     top: 0.0,
@@ -28,6 +28,14 @@ const ICON_VIEW_RECT: Rect = Rect {
 const CX: f32 = 16.0;
 /// icon center y
 const CY: f32 = 16.0;
+
+/// The view rectangle of edit_attributes_sect icon
+const SECT_RECT: Rect = Rect {
+    left: 0.0,
+    top: 0.0,
+    width: 32.0,
+    height: 24.0,
+};
 
 /// green fill color
 static GREEN: geometry::Color = geometry::Color {
@@ -92,6 +100,13 @@ static YELLOW: geometry::Color = geometry::Color {
     red: 0xee,
     green: 0xdd,
     blue: 0x00,
+};
+
+/// bright yellow color
+static BRIGHT_YELLOW: geometry::Color = geometry::Color {
+    red: 0xff,
+    green: 0xff,
+    blue: 0x44,
 };
 
 /// half line width
@@ -720,6 +735,31 @@ pub fn generate_edit_reset(out: &mut dyn PathRenderer) -> () {
     out.render_path(&pink_line, &Some(GRAY_THICK_PEN), &None);
 }
 
+/// The function generates a section item for the edit attributes to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_edit_attributes_sect(out: &mut dyn PathRenderer) -> () {
+    let gray_line: [geometry::DrawDirective; 2] = [
+        MoveRel(Offset { dx: 16.0, dy: 12.0 }),
+        LineRel(Offset { dx: 15.0, dy: 0.0 }),
+    ];
+    out.render_path(&gray_line, &Some(GRAY_THICK_PEN), &None);
+
+    let yellow_arrow_tip: [geometry::DrawDirective; 4] = [
+        MoveRel(Offset { dx: 1.0, dy: 12.0 }),
+        LineRel(Offset {
+            dx: 14.0 - HALFLINE,
+            dy: -10.0,
+        }),
+        LineRel(Offset { dx: 0.0, dy: 20.0 }),
+        CloseRel,
+    ];
+    out.render_path(&yellow_arrow_tip, &Some(GRAY_PEN), &Some(BRIGHT_YELLOW));
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -768,6 +808,11 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "edit_reset",
             viewport: ICON_VIEW_RECT,
             generate: generate_edit_reset,
+        },
+        IconSource {
+            name: "edit_attributes_sect",
+            viewport: SECT_RECT,
+            generate: generate_edit_attributes_sect,
         },
     ]
 }
