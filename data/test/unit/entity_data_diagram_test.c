@@ -25,11 +25,13 @@ test_suite_t entity_data_diagram_test_get_suite(void)
     return result;
 }
 
-#define TOO_LONG_100 "too long text ...   too long text ...   too long text ...   too long text ...   too long text ...   "
+/* initialize a long string by single characters to avoid the maximum string length ‘4095’ ISO C99 compilers are required to support */
+#define TOO_LONG_20 't', 'o', 'o', ' ', 'l', 'o', 'n', 'g', ' ', 't', 'e', 'x', 't', ' ', '.', '.', '.', ' ', ' ', ' ',
+#define TOO_LONG_100 TOO_LONG_20 TOO_LONG_20 TOO_LONG_20 TOO_LONG_20 TOO_LONG_20
 #define TOO_LONG_800 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100
 static const char static_too_long[8801]
-    = TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800
-      TOO_LONG_800 TOO_LONG_800 ;
+    = { TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800
+      TOO_LONG_800 TOO_LONG_800 '\0' };
 
 struct test_fixture_struct {
     const char *too_long;  /*!< a pointer to a string that is too long */

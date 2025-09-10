@@ -87,21 +87,14 @@ static const char *const LONG_NAME = u8"Input-Devices::360" u8"\u00B0" u8"Surrou
 static const char *const WIDE_NAME = "WWWWWWWWWW" "WWWWWWWWWW" "WWWWWWWWWW" "WWWWWWWWWW" "WWWWWWW";
 #define TEST_DATA_SETUP_NORMAL_TEXT "This software component shall implement the following interfaces:\n"
 static const char *const NORMAL_DESCRIPTION = TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT;
-static const char *const LONG_DESCRIPTION
-    = TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT
-      TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT TEST_DATA_SETUP_NORMAL_TEXT;
+
+/* initialize a long string by single characters to avoid the maximum string length ‘4095’ ISO C99 compilers are required to support */
+#define TOO_LONG_25 'T', 'h', 'i', 's', ' ', 's', 'o', 'f', 't', 'w', 'a', 'r', 'e', ' ', 'c', 'o', 'm', 'p', 'o', 'n', 'e', 'n', 't', ',', ' ',
+#define TOO_LONG_100 TOO_LONG_25 TOO_LONG_25 TOO_LONG_25 TOO_LONG_25
+#define TOO_LONG_800 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100
+static const char LONG_DESCRIPTION[8001]
+    = { TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800
+        TOO_LONG_800 '\0' };
 
 static inline void test_data_setup_private_set_diagram( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
@@ -195,16 +188,16 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
 
     data_diagram_t *diag = data_visible_set_get_diagram_ptr( io_data_set );
     const u8_error_t d_err = data_diagram_init( diag,
-                                                  (*this_).variant, /* diagram_id */
-                                                  DATA_ROW_VOID, /* parent_diagram_id */
-                                                  diagram_type,
-                                                  "stereo_t",  /* stereotype */
-                                                  diagram_name,
-                                                  diagram_description,
-                                                  (*this_).variant, /* list_order */
-                                                  flag_emph,
-                                                  data_uuid_get_string( &diag_uuid )
-                                                );
+                                                (*this_).variant, /* diagram_id */
+                                                DATA_ROW_VOID, /* parent_diagram_id */
+                                                diagram_type,
+                                                "stereo_t",  /* stereotype */
+                                                diagram_name,
+                                                diagram_description,
+                                                (*this_).variant, /* list_order */
+                                                flag_emph,
+                                                data_uuid_get_string( &diag_uuid )
+                                              );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == d_err );
 
     data_uuid_destroy( &diag_uuid );
