@@ -1,3 +1,13 @@
+crystal-facet-uml (1.65.4-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * in debug mode, no assertion if searching without open database
+  * no overlength string warnings, all strings are below 4096 bytes
+  * compile flag -Woverlength-strings removed
+  * some icons of classifier types beautified
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 13 Sep 2025 09:30:00 +0200
+
 crystal-facet-uml (1.65.3-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
