@@ -548,9 +548,25 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
     {
         /* there could be valid relationships that are visible and match the search. */
         /* but it is quite difficult to determine if the relationship is visible in the current diagram */
-        /* --> drop the result and write a not to the log */
-        dropped_scenario_rel ++;
-        filter = true;
+        /* in theory, we would need to know the from_feature_type and the to_feature_type: */
+        /*
+         * const bool is_shown = data_rules_relationship_is_scenario_cond( const data_rules_t *this_,
+         *                                                                 data_feature_type_t from_feature_type,
+         *                                                                 data_feature_type_t to_feature_type
+         *                                                               );
+         */
+        /* but we only have the data_relationship_type_t: */
+        data_type_t entity_type = data_search_result_get_match_type( out_search_result );
+        const data_relationship_type_t rel_type = data_type_get_relationship_type( &entity_type );
+        const bool is_shown = ( rel_type == DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL )
+            ||( rel_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )||( rel_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL );
+
+        /* --> drop the result and write a note to the log */
+        if ( ! is_shown )
+        {
+            dropped_scenario_rel ++;
+            filter = true;
+        }
     }
     else
     {
@@ -565,6 +581,10 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
     {
         /* invalidate the out_search_result */
         data_search_result_init_void( out_search_result );
+    }
+    if ( 0 != dropped_scenario_rel )
+    {
+        U8_LOG_WARNING_INT( "at search, some relationships were not shown in result list:", dropped_scenario_rel );
     }
 
     data_search_result_trace( out_search_result );

@@ -1,3 +1,10 @@
+crystal-facet-uml (1.65.5) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * when searching for relationships, less possibly wrong assumptions on model
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 13 Sep 2025 09:30:00 +0200
+
 crystal-facet-uml (1.65.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
