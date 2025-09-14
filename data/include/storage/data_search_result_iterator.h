@@ -43,6 +43,9 @@ struct data_search_result_iterator_struct {
     data_search_result_t next_search_result_buf;  /*!< a buffer to store the next data_search_result_t */
 
     data_rules_t data_rules;  /*!< own instance of data rules */
+
+    data_row_t last_relationship_id;  /* allows to check the id of the last relationship */
+    bool last_relationship_was_scenario;  /* allows to skip a non-scenario search result if the relationship is scenario-specific */
 };
 
 typedef struct data_search_result_iterator_struct data_search_result_iterator_t;

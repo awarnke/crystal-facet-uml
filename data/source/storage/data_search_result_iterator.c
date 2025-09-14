@@ -25,6 +25,9 @@ u8_error_t data_search_result_iterator_init_empty ( data_search_result_iterator_
 
     data_rules_init ( &((*this_).data_rules) );
 
+    (*this_).last_relationship_id = DATA_ROW_VOID;
+    (*this_).last_relationship_was_scenario = false;
+
     U8_TRACE_END_ERR(result);
     return result;
 }
@@ -55,6 +58,9 @@ u8_error_t data_search_result_iterator_reinit ( data_search_result_iterator_t *t
     (*this_).is_at_feature_end = false;
     (*this_).is_at_relationship_end = false;
     data_search_result_init_void( &((*this_).next_search_result_buf) );
+    (*this_).last_relationship_id = DATA_ROW_VOID;
+    (*this_).last_relationship_was_scenario = false;
+
     result |= data_search_result_iterator_private_step_to_next( this_ );
 
     data_rules_init ( &((*this_).data_rules) );
@@ -67,6 +73,9 @@ u8_error_t data_search_result_iterator_destroy ( data_search_result_iterator_t *
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
+
+    (*this_).last_relationship_id = DATA_ROW_VOID;
+    (*this_).last_relationship_was_scenario = false;
 
     data_rules_destroy ( &((*this_).data_rules) );
 
@@ -459,6 +468,7 @@ const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_RELATIONSHIP_BY_TEXTFRAGMEN
 "SELECT DISTINCT relationships.id,relationships.main_type,relationships.name,"
 "relationships.from_classifier_id,relationships.to_classifier_id,"
 "relationships.from_feature_id,relationships.to_feature_id,"
+"source.focused_feature_id,dest.focused_feature_id,"  /* warning: the group by clause may randomly select ids here */
 "diagrams.id,diagrams.diagram_type "
 "FROM relationships "
 "INNER JOIN diagramelements AS source "
@@ -469,7 +479,8 @@ const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_RELATIONSHIP_BY_TEXTFRAGMEN
 "WHERE relationships.name LIKE ? ESCAPE \"\\\" "
 "OR relationships.stereotype LIKE ? ESCAPE \"\\\" "
 "OR relationships.description LIKE ? ESCAPE \"\\\" "
-"GROUP BY relationships.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
+"GROUP BY relationships.id,diagrams.id "  /* no duplicates if a classifier is twice in a diagram */
+"ORDER BY relationships.id,((source.focused_feature_id ISNULL)AND(dest.focused_feature_id ISNULL)) ASC;";  /* start with interactions/scenarios */
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -507,14 +518,30 @@ static const int RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN = 5;
 static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 6;
 
 /*!
+ *  \brief the column id of the result where this parameter is stored: source.focused_feature_id
+ *
+ *  WARNING: this id may not be related to the RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN due to the GROUP BY clause!
+ *  One may consider to remove the GROUP BY and accept more search results
+ */
+static const int RESULT_RELATIONSHIP_FROM_FOCUSED_ID_COLUMN = 7;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: dest.focused_feature_id
+ *
+ *  WARNING: this id may not be related to the RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN due to the GROUP BY clause!
+ *  One may consider to remove the GROUP BY and accept more search results
+ */
+static const int RESULT_RELATIONSHIP_TO_FOCUSED_ID_COLUMN = 8;
+
+/*!
  *  \brief the column id of the result where this parameter is stored: diagrams.id
  */
-static const int RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN = 7;
+static const int RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN = 9;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: diagrams.diagram_type
  */
-static const int RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN = 8;
+static const int RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN = 10;
 
 u8_error_t data_search_result_iterator_private_get_relationship( data_search_result_iterator_t *this_,
                                                                  data_search_result_t *out_search_result )
@@ -524,7 +551,6 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
     u8_error_t result = U8_ERROR_NONE;
 
     sqlite3_stmt *const prepared_statement = data_database_borrowed_stmt_get_statement( &((*this_).relationship_statement) );
-    unsigned int dropped_scenario_rel = 0;
 
     data_search_result_init_relationship( out_search_result,
                                           sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
@@ -534,57 +560,87 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
                                           sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
                                           sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN )
                                         );
-    const data_row_t from_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN );
-    const data_row_t to_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN );
+    const data_row_t from_feat
+         = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
+         ? sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN )
+         : DATA_ROW_VOID;
+         const data_row_t to_feat
+         = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
+         ? sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN )
+         : DATA_ROW_VOID;
+         const data_row_t from_focused
+         = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FOCUSED_ID_COLUMN ) )
+         ? sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FOCUSED_ID_COLUMN )
+         : DATA_ROW_VOID;
+         const data_row_t to_focused
+         = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FOCUSED_ID_COLUMN ) )
+         ? sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FOCUSED_ID_COLUMN )
+         : DATA_ROW_VOID;
     const data_diagram_type_t d_type = sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN );
     U8_TRACE_INFO_INT( "- from_feat:", from_feat );
     U8_TRACE_INFO_INT( "- to_feat:", to_feat );
     U8_TRACE_INFO_INT( "- d_type:", d_type );
+    const data_row_t rel_row_id = data_id_get_row_id( data_search_result_get_match_id_const( out_search_result ) );
 
     bool filter = false;
     const bool is_scenario_diag = data_rules_diagram_is_scenario ( &((*this_).data_rules), d_type );
     /*const bool is_scenario_rel = data_rules_relationship_is_scenario_cond( &((*this_).data_rules), from_feature_type, to_feature_type);*/
     if ( is_scenario_diag )
     {
-        /* there could be valid relationships that are visible and match the search. */
-        /* but it is quite difficult to determine if the relationship is visible in the current diagram */
-        /* in theory, we would need to know the from_feature_type and the to_feature_type: */
+        /* in theory, we would need to know the from_feature_type and the to_feature_type to determine the visibility: */
         /*
          * const bool is_shown = data_rules_relationship_is_scenario_cond( const data_rules_t *this_,
          *                                                                 data_feature_type_t from_feature_type,
          *                                                                 data_feature_type_t to_feature_type
          *                                                               );
          */
-        /* but we only have the data_relationship_type_t: */
-        data_type_t entity_type = data_search_result_get_match_type( out_search_result );
-        const data_relationship_type_t rel_type = data_type_get_relationship_type( &entity_type );
-        const bool is_shown = ( rel_type == DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL )
-            ||( rel_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )||( rel_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL );
-
-        /* --> drop the result and write a note to the log */
-        if ( ! is_shown )
+        /* but we only have the data_relationship_type_t and the data_diagramelement_t here and we control the order of results: */
+        const bool from_is_lifeline = ( DATA_ROW_VOID != from_feat )&&( from_focused == from_feat );
+        const bool to_is_lifeline = ( DATA_ROW_VOID != to_feat )&&( to_focused == to_feat );
+        const bool visible = from_is_lifeline || to_is_lifeline;
+        if ( visible )
         {
-            dropped_scenario_rel ++;
+            filter = false;
+            (*this_).last_relationship_was_scenario = true;
+            (*this_).last_relationship_id = rel_row_id;
+            U8_TRACE_INFO_INT( "data_search_result_iterator: in scenario found relationship", rel_row_id );
+        }
+        else
+        {
             filter = true;
+            U8_TRACE_INFO_INT( "data_search_result_iterator: in scenario skipped invisible relationship", rel_row_id );
         }
     }
     else
     {
-        /* there could be hidden scenario-typed relationships in a non-scenario diagram. */
-        /* but it is quite difficult to determine if the relationship is scenario-only */
-        /* --> show the result anyway */
+        /* in theory, we would need to know the from_feature_type and the to_feature_type to determine the visibility: */
+        /*
+         * const bool is_shown = data_rules_relationship_is_scenario_cond( const data_rules_t *this_,
+         *                                                                 data_feature_type_t from_feature_type,
+         *                                                                 data_feature_type_t to_feature_type
+         *                                                               );
+         */
+        /* but we only have the data_relationship_type_t and the data_diagramelement_t here and we control the order of results: */
+        const bool is_scenario = ( (*this_).last_relationship_id == rel_row_id )&&( (*this_).last_relationship_was_scenario );
         const bool vis_by_diagram = data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), d_type );
-        filter = ! vis_by_diagram;
+        if ( vis_by_diagram && ( ! is_scenario ) )
+        {
+            filter = false;
+            (*this_).last_relationship_was_scenario = false;
+            (*this_).last_relationship_id = rel_row_id;
+            U8_TRACE_INFO_INT( "data_search_result_iterator: non-scenario found relationship", rel_row_id );
+        }
+        else
+        {
+            filter = true;
+            U8_TRACE_INFO_INT( "data_search_result_iterator: non-scenario skipped scenario-specific relationship", rel_row_id );
+        }
     }
 
     if ( filter )
     {
         /* invalidate the out_search_result */
         data_search_result_init_void( out_search_result );
-    }
-    if ( 0 != dropped_scenario_rel )
-    {
-        U8_LOG_WARNING_INT( "at search, some relationships were not shown in result list:", dropped_scenario_rel );
     }
 
     data_search_result_trace( out_search_result );

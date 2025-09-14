@@ -1,9 +1,11 @@
 crystal-facet-uml (1.65.5) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * when searching for relationships, less possibly wrong assumptions on model
+  * if search for relationships in interactions, these are found
+  * if search for relationships in interactions, non-interactions are skipped
+  * if search for relationships agnostic to interactions, interactions skipped
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 13 Sep 2025 09:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 14 Sep 2025 09:30:00 +0200
 
 crystal-facet-uml (1.65.4) UNRELEASED; urgency=medium
 
