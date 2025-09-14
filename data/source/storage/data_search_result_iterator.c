@@ -360,7 +360,7 @@ u8_error_t data_search_result_iterator_private_get_classifier( data_search_resul
  *  note: features.key is needed for debugging only
  */
 const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_FEATURE_BY_TEXTFRAGMENT =
-"SELECT DISTINCT features.id,features.main_type,features.key,features.classifier_id,"
+"SELECT features.id,features.main_type,features.key,features.classifier_id,"
 "classifiers.main_type,diagrams.id,diagrams.diagram_type "
 "FROM features "
 "INNER JOIN classifiers ON features.classifier_id=classifiers.id "
