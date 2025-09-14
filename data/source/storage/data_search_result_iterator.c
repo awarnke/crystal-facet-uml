@@ -468,7 +468,7 @@ const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_RELATIONSHIP_BY_TEXTFRAGMEN
 "SELECT DISTINCT relationships.id,relationships.main_type,relationships.name,"
 "relationships.from_classifier_id,relationships.to_classifier_id,"
 "relationships.from_feature_id,relationships.to_feature_id,"
-"source.focused_feature_id,dest.focused_feature_id,"  /* warning: the group by clause may randomly select ids here */
+"source.focused_feature_id,dest.focused_feature_id,"  /* challenge: the group by clause may randomly select ids here */
 "diagrams.id,diagrams.diagram_type "
 "FROM relationships "
 "INNER JOIN diagramelements AS source "
@@ -479,7 +479,7 @@ const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_RELATIONSHIP_BY_TEXTFRAGMEN
 "WHERE relationships.name LIKE ? ESCAPE \"\\\" "
 "OR relationships.stereotype LIKE ? ESCAPE \"\\\" "
 "OR relationships.description LIKE ? ESCAPE \"\\\" "
-"GROUP BY relationships.id,diagrams.id "  /* no duplicates if a classifier is twice in a diagram */
+//"GROUP BY relationships.id,diagrams.id "  /* good: no duplicates if a classifier is twice in a diagram / bad: randomly chosen source and dest */
 "ORDER BY relationships.id,((source.focused_feature_id ISNULL)AND(dest.focused_feature_id ISNULL)) ASC;";  /* start with interactions/scenarios */
 
 /*!
@@ -520,7 +520,7 @@ static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 6;
 /*!
  *  \brief the column id of the result where this parameter is stored: source.focused_feature_id
  *
- *  WARNING: this id may not be related to the RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN due to the GROUP BY clause!
+ *  In case of a GROUP BY clause, this id may not be related to the RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN due to random selection
  *  One may consider to remove the GROUP BY and accept more search results
  */
 static const int RESULT_RELATIONSHIP_FROM_FOCUSED_ID_COLUMN = 7;
@@ -528,7 +528,7 @@ static const int RESULT_RELATIONSHIP_FROM_FOCUSED_ID_COLUMN = 7;
 /*!
  *  \brief the column id of the result where this parameter is stored: dest.focused_feature_id
  *
- *  WARNING: this id may not be related to the RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN due to the GROUP BY clause!
+ *  In case of a GROUP BY clause, this id may not be related to the RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN due to random selection
  *  One may consider to remove the GROUP BY and accept more search results
  */
 static const int RESULT_RELATIONSHIP_TO_FOCUSED_ID_COLUMN = 8;
@@ -597,7 +597,7 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
         /* but we only have the data_relationship_type_t and the data_diagramelement_t here and we control the order of results: */
         const bool from_is_lifeline = ( DATA_ROW_VOID != from_feat )&&( from_focused == from_feat );
         const bool to_is_lifeline = ( DATA_ROW_VOID != to_feat )&&( to_focused == to_feat );
-        const bool visible = from_is_lifeline || to_is_lifeline;
+        const bool visible = from_is_lifeline && to_is_lifeline;
         if ( visible )
         {
             filter = false;

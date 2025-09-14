@@ -62,9 +62,6 @@ ideas for future versions:
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
       --> document the limitation (or is it a usability-feature?)
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
-! [ ] search for step count in the mouse droid example and you find only non-fitting results.... ?
-      in 1.65.5 there is only a small quick-fix - no real solution yet.
-      also: "movement info" is found but should not in scenario diagrams
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
