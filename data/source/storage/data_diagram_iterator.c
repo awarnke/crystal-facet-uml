@@ -25,6 +25,18 @@ const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID =
     "GROUP BY diagrams.id "  /* filter duplicates if a classifier exists twice in a diagram */
     "ORDER BY diagrams.list_order ASC;";
 
+const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_RELATIONSHIP_ID =
+    "SELECT DISTINCT diagrams.id,diagrams.parent_id,diagrams.diagram_type,diagrams.stereotype,"
+    "diagrams.name,diagrams.description,diagrams.list_order,diagrams.display_flags,diagrams.uuid,"
+    "source.focused_feature_id,dest.focused_feature_id "  /* challenge: the group by clause may randomly select ids here */
+    "FROM relationships "
+    "INNER JOIN diagramelements AS source ON source.classifier_id=relationships.from_classifier_id "
+    "INNER JOIN diagramelements AS dest ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id=source.diagram_id) "
+    "INNER JOIN diagrams ON diagrams.id=source.diagram_id "
+    "WHERE source.classifier_id=? "
+    /* "GROUP BY diagrams.id " filter duplicates if a relationship exists twice in a diagram --> use DISTINCT to not drop info on focused_feature_id */
+    "ORDER BY ((source.focused_feature_id ISNULL)AND(dest.focused_feature_id ISNULL)),diagrams.list_order ASC;";  /* start with interactions/scenarios */
+
 /*!
  *  \brief the column id of the result where this parameter is stored: id
  */

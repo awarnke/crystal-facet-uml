@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.65.5"
+    "generator_version": "1.65.6"
   }
   ,
   "views":
@@ -5633,6 +5633,13 @@
             "classifier_name": "DATA_CLASSIFIER_TYPE_INTERACTION",
             "node": "e231bbf0-d968-405b-b49e-e41ff435c545",
             "uuid": "79abb78b-4858-41ec-a68a-06834c42588d"
+          },
+          {
+            "id": 992,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "2 types of Relationships",
+            "node": "55ed6dac-0546-426c-9389-727405741e3a",
+            "uuid": "82aec615-7709-40e0-92e2-f8c72e5dc9c3"
           }
         ]
       }
@@ -5959,6 +5966,67 @@
             "classifier_name": "To Realize",
             "node": "bc141b7f-99f2-4423-a680-8684b9750e3c",
             "uuid": "8da83d20-536b-4269-b577-1a8c73d61e4e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 135,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "2 types of Relationships",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "parent_name": "Alternatives on UML-Model selection for Diagram",
+        "parent": "e726a661-5f5f-43bf-baf2-6d6b6f139822",
+        "uuid": "7538efa0-0ac8-4d8b-938c-6c642f950879",
+        "diagramelements":
+        [
+          {
+            "id": 993,
+            "display_tags": "Emphasis", "display_flags": 16777216,
+            "classifier_name": "2 types of Relationships",
+            "node": "55ed6dac-0546-426c-9389-727405741e3a",
+            "uuid": "4fce461a-2683-4b1f-be31-87aa8dc8e4ce"
+          },
+          {
+            "id": 994,
+            "classifier_name": "diagrams",
+            "node": "7671f0cf-fae4-4efd-88df-947f35d44466",
+            "uuid": "b1bf5d20-a360-4e22-8cbf-237ab87eda44"
+          },
+          {
+            "id": 995,
+            "classifier_name": "diagramelements",
+            "node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
+            "uuid": "83b39366-2fb5-407e-8068-011194a64077"
+          },
+          {
+            "id": 996,
+            "classifier_name": "classifiers",
+            "node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+            "uuid": "b74c8337-1d06-4af3-ab24-d067dd33568c"
+          },
+          {
+            "id": 997,
+            "classifier_name": "relationships",
+            "node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
+            "uuid": "8757b6a1-4696-489a-b449-ba690b4fa511"
+          },
+          {
+            "id": 998,
+            "classifier_name": "features",
+            "node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+            "uuid": "fd2a9929-6229-4739-a05b-592185a49907"
+          },
+          {
+            "id": 999,
+            "display_tags": "Emphasis", "display_flags": 16777216,
+            "classifier_name": "messages",
+            "node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+            "uuid": "1da91d8e-ec31-4a69-89de-6a4d7dfc550a"
           }
         ]
       }
@@ -9483,8 +9551,8 @@
                 "    con: Bigger extension to existing structure. \n",
                 "         Algorithm to distinguish used from unused elements gets complicated"
         ],
-        "x_order": -1428489671,
-        "y_order": 1264665551,
+        "x_order": -1511902978,
+        "y_order": 407066554,
         "list_order": 0,
         "uuid": "74715f02-68c4-452f-b176-0b9eebca88e1",
         "features":
@@ -19190,6 +19258,50 @@
         "y_order": 1487713474,
         "list_order": 1398930124,
         "uuid": "5b9a5ef9-dcc5-4375-aa75-0c6c285a6710",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 598,
+        "type": "Package", "main_type": 124,
+        "stereotype": "reason_rejected",
+        "name": "2 types of Relationships",
+        "description": [
+                "Lifelines do not exist.\n",
+                "Instead, messages implicitly assume that there is a lifeline\n",
+                "\n",
+                "Pro:\n",
+                "- many SQL queries get simpler if no need to decide between lifelines and ",
+                "non-lifeline\n",
+                "\n",
+                "Con:\n",
+                "- 1 more table to kep in sync\n",
+                "- without lifelines, 2 instances of classifiers cannot be distinguished"
+        ],
+        "x_order": -2062109982,
+        "y_order": 1264665551,
+        "list_order": 1398686882,
+        "uuid": "55ed6dac-0546-426c-9389-727405741e3a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 599,
+        "type": "Class", "main_type": 125,
+        "name": "messages",
+        "description": [
+                ""
+        ],
+        "x_order": -2082355621,
+        "y_order": 1398930124,
+        "list_order": 1273938051,
+        "uuid": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
         "features":
         [
         ]
@@ -34041,6 +34153,120 @@
         "from_node": "5b9a5ef9-dcc5-4375-aa75-0c6c285a6710",
         "to_node": "a8836688-972f-4d8b-bfdc-859d23c99b2b",
         "uuid": "062fd92f-f2b6-4593-afce-4a9befb5ca60"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1131,
+        "type": "Dependency", "main_type": 0,
+        "name": "solves",
+        "description": [
+                ""
+        ],
+        "list_order": 429520852,
+        "from_classifier_name": "2 types of Relationships",
+        "to_classifier_name": "How can diagrams select the parts to show?",
+        "from_node": "55ed6dac-0546-426c-9389-727405741e3a",
+        "to_node": "ded5ef91-bdfd-421a-b5ee-d334c9547a3c",
+        "uuid": "b0e5750f-05e9-49c8-8a0c-b2e1ff95fddf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1132,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1273938051,
+        "from_classifier_name": "2 types of Relationships",
+        "to_classifier_name": "messages",
+        "from_node": "55ed6dac-0546-426c-9389-727405741e3a",
+        "to_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+        "uuid": "e07b805e-d632-447d-8062-6613e3065911"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1133,
+        "type": "Association", "main_type": 200,
+        "name": "context",
+        "description": [
+                ""
+        ],
+        "list_order": 1390777718,
+        "from_classifier_name": "messages",
+        "to_classifier_name": "diagrams",
+        "from_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+        "to_node": "7671f0cf-fae4-4efd-88df-947f35d44466",
+        "uuid": "886f0bda-c341-4a33-9d3b-58aa84ec7f81"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1134,
+        "type": "Association", "main_type": 200,
+        "name": "from",
+        "description": [
+                ""
+        ],
+        "list_order": 1390810486,
+        "from_classifier_name": "messages",
+        "to_classifier_name": "classifiers",
+        "from_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+        "to_node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+        "uuid": "c26c5f80-8831-4e95-b896-f0cadea5ae16"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1135,
+        "type": "Association", "main_type": 200,
+        "name": "to",
+        "description": [
+                ""
+        ],
+        "list_order": 1390843254,
+        "from_classifier_name": "messages",
+        "to_classifier_name": "classifiers",
+        "from_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+        "to_node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+        "uuid": "0db288d8-0666-440c-a43a-64a35c269268"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1136,
+        "type": "Association", "main_type": 200,
+        "stereotype": "optional",
+        "name": "from",
+        "description": [
+                ""
+        ],
+        "list_order": 1390876022,
+        "from_classifier_name": "messages",
+        "to_classifier_name": "features",
+        "from_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+        "to_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+        "uuid": "517b3de1-2d37-40d8-97ac-283dcb2c40b2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1137,
+        "type": "Association", "main_type": 200,
+        "stereotype": "optional",
+        "name": "to",
+        "description": [
+                ""
+        ],
+        "list_order": 1390908790,
+        "from_classifier_name": "messages",
+        "to_classifier_name": "features",
+        "from_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+        "to_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+        "uuid": "da1e8601-49c8-4d43-a0df-582202fe7614"
       }
     }
   ]

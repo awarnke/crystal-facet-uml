@@ -275,6 +275,8 @@ u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( dat
  *
  *  If classifiers are contained multiple times in a diagram, each relationship is returned only once nonetheless (DISTINCT).
  *
+ *  Messages between DATA_FEATURE_TYPE_LIFELINE in an interaction diagram are not filtered if they belong to a foreign diagram.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param[in,out] io_relationship_iterator iterator over relationships of selected diagram. The caller is responsible
