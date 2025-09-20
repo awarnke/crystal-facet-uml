@@ -146,6 +146,26 @@ static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( da
                                                                             );
 
 /*!
+ *  \brief reads all relationship-displaying diagrams from the database
+ *
+ *  If a relationship is scenario-specific, only the corresponding diagram is returned.
+ *  Otherwise the scenario-specific diagrams are skipped.
+ *
+ *  If a diagram shows the relationship multiple times, the diagram is returned just once (DISTINCT).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship
+ *  \param[in,out] io_diagram_iterator iterator over diagrams of selected relationship. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open.
+ */
+static inline u8_error_t data_database_reader_get_diagrams_by_relationship_id ( data_database_reader_t *this_,
+                                                                                data_row_t relationship_id,
+                                                                                data_diagram_iterator_t *io_diagram_iterator
+                                                                              );
+
+/*!
  *  \brief reads all child-diagram ids from the database
  *
  *  \param this_ pointer to own object attributes

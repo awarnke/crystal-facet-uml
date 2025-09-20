@@ -52,6 +52,11 @@ extern const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID_NULL
 extern const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID;
 
 /*!
+ *  \brief predefined search statement to find diagrams by relationship-id
+ */
+extern const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_RELATIONSHIP_ID;
+
+/*!
  *  \brief initializes the data_diagram_iterator_t struct to an empty set
  *
  *  \param this_ pointer to own object attributes
@@ -67,8 +72,8 @@ u8_error_t data_diagram_iterator_init_empty ( data_diagram_iterator_t *this_ );
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_diagram_iterator_reinit ( data_diagram_iterator_t *this_,
-                                             data_database_borrowed_stmt_t statement
-                                           );
+                                          data_database_borrowed_stmt_t statement
+                                        );
 
 /*!
  *  \brief destroys the data_diagram_iterator_t struct

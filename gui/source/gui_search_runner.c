@@ -377,83 +377,79 @@ u8_error_t gui_search_runner_private_add_diagrams_of_object( gui_search_runner_t
     assert( result_template != NULL );
     u8_error_t d_err = U8_ERROR_NONE;  /* a data read or data store error */
 
-    data_row_t classifier_row_id;
-    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_search_result_get_match_id_const( result_template )))
-    {
-        classifier_row_id = data_id_get_row_id( data_search_result_get_match_id_const( result_template ));
-    }
-    else
-    {
-        classifier_row_id = data_id_get_row_id( data_search_result_get_src_classifier_id_const( result_template ));
-    }
-
+    /* initialize an iterator to fetch all diagrams where result_template occurs: */
     data_diagram_iterator_t diagram_iterator;
     d_err |= data_diagram_iterator_init_empty( &diagram_iterator );
-    d_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
-                                                                 classifier_row_id,
-                                                                 &diagram_iterator
-                                                               );
+    const data_table_t object_type = data_id_get_table( data_search_result_get_match_id_const( result_template ));
+    switch ( object_type )
+    {
+        case DATA_TABLE_CLASSIFIER:
+        {
+            const data_row_t classifier_row_id
+                = data_id_get_row_id( data_search_result_get_match_id_const( result_template ));
+            d_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
+                                                                         classifier_row_id,
+                                                                         &diagram_iterator
+                                                                       );
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            const data_row_t classifier_row_id
+                = data_id_get_row_id( data_search_result_get_src_classifier_id_const( result_template ));
+            d_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
+                                                                         classifier_row_id,
+                                                                         &diagram_iterator
+                                                                       );
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            const data_row_t relationship_row_id
+                = data_id_get_row_id( data_search_result_get_match_id_const( result_template ));
+            d_err |= data_database_reader_get_diagrams_by_relationship_id( (*this_).db_reader,
+                                                                           relationship_row_id,
+                                                                           &diagram_iterator
+                                                                         );
+        }
+        break;
+
+        default:
+        {
+            U8_LOG_ERROR_INT( "gui_search_runner_private_add_diagrams_of_object called with search result of wrong type:",
+                             object_type
+                           );
+            assert(false);
+        }
+        break;
+    }
 
     while (( data_diagram_iterator_has_next( &diagram_iterator ) )&&( d_err == U8_ERROR_NONE ))
     {
+        /* fetch diagram from iterator */
         d_err |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
         const data_row_t diagram_row_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
-        data_id_reinit( data_search_result_get_diagram_id_ptr( result_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
 
-        bool filter = false;
-        switch ( data_id_get_table( data_search_result_get_match_id_const( result_template ) ) )
+        if ( (*io_skip_results) == 0 )
         {
-            case DATA_TABLE_FEATURE:
+            /* complete the half initialized search result template */
+            data_id_reinit( data_search_result_get_diagram_id_ptr( result_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
+
+            const u8_error_t err = data_search_result_list_add( &((*this_).result_list), result_template );
+            if ( err != U8_ERROR_NONE )
             {
-                /* if a user searches explicitly for a feature-id, which feature/classifiers should be filtered? */
-                /* and how? till here, the classifier type is not yet loaded. */
+                d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                U8_LOG_ANOMALY( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
             }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                /* if a user searches explicitly for a relationship-id, which ones should be filtered? */
-                /* and how? till here, the classifier type is not yet loaded. */
-
-                /* TODO: Needed is a scenario filter based on the type of the relationship */
-                /*
-                const bool scenario = data_rules_relationship_is_scenario_cond ( const data_rules_t *this_,
-                                                                              data_feature_type_t from_feature_type,
-                                                                              data_feature_type_t to_feature_type
-                );
-
-                const bool uncond = data_rules_diagram_shows_uncond_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type );
-
-                const bool scenario = data_rules_diagram_shows_scenario_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type );
-                */
-            }
-            break;
-
-            default:
-            {
-                /* do not filter classifiers (or other things?) */
-            }
-            break;
         }
-
-        if ( ! filter )
+        else
         {
-            if ( (*io_skip_results) == 0 )
-            {
-                const u8_error_t err = data_search_result_list_add( &((*this_).result_list), result_template );
-                if ( err != U8_ERROR_NONE )
-                {
-                    d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-                    U8_LOG_ANOMALY( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
-                    (*this_).result_buffer_more_after = true;  /* there are more results that cannot be stored in &((*this_).result_list) */
-                }
-            }
-            else
-            {
-                /* to advance to the requested search result page, skip this entry */
-                *io_skip_results = (*io_skip_results) - 1;
-                (*this_).result_buffer_start ++;
-            }
+            /* to advance to the requested search result page, skip this entry */
+            *io_skip_results = (*io_skip_results) - 1;
+            (*this_).result_buffer_start ++;
         }
 
         data_diagram_destroy( &((*this_).temp_diagram) );

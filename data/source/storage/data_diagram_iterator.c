@@ -27,13 +27,14 @@ const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID =
 
 const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_RELATIONSHIP_ID =
     "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,diagrams.stereotype,"
-    "diagrams.name,diagrams.description,diagrams.list_order,diagrams.display_flags,diagrams.uuid,"
+    "diagrams.name,diagrams.description,diagrams.list_order,diagrams.display_flags,diagrams.uuid "
     "FROM relationships "
     "INNER JOIN diagramelements AS source ON source.classifier_id=relationships.from_classifier_id "
     "INNER JOIN diagramelements AS dest ON (dest.classifier_id=relationships.to_classifier_id) AND (dest.diagram_id=source.diagram_id) "
     "INNER JOIN diagrams ON diagrams.id=source.diagram_id "
-    "WHERE relationships.id=? AND ( (source.focused_feature_id=?) OR (source.focused_feature_id ISNULL) ) "
-    "AND ( (dest.focused_feature_id=?) OR (dest.focused_feature_id ISNULL) ) "
+    "WHERE relationships.id=? "
+    "AND ( (source.focused_feature_id=relationships.from_feature_id) OR (source.focused_feature_id ISNULL) ) "
+    "AND ( (dest.focused_feature_id=relationships.to_feature_id) OR (dest.focused_feature_id ISNULL) ) "
     "GROUP BY diagrams.id " /* filter duplicates if a relationship exists twice in a diagram */
     "ORDER BY diagrams.list_order ASC,diagrams.id ASC;";  /* ensure always the same order */
 

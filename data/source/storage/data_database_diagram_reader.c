@@ -20,6 +20,7 @@ u8_error_t data_database_diagram_reader_init( data_database_diagram_reader_t *th
     (*this_).statement_diagrams_by_parent_id = NULL;
     (*this_).statement_diagrams_by_parent_id_null = NULL;
     (*this_).statement_diagrams_by_classifier_id = NULL;
+    (*this_).statement_diagrams_by_relationship_id = NULL;
     (*this_).statement_diagram_ids_by_parent_id = NULL;
     (*this_).statement_diagram_ids_by_parent_id_null = NULL;
     (*this_).statement_diagram_ids_by_classifier_id = NULL;
@@ -283,9 +284,9 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id( data_database
     return result;
 }
 
-u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                        data_row_t classifier_id,
-                                                                        data_diagram_iterator_t *io_diagram_iterator )
+u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id( data_database_diagram_reader_t *this_,
+                                                                       data_row_t classifier_id,
+                                                                       data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
     assert( NULL != io_diagram_iterator );
@@ -294,6 +295,27 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
     sqlite3_stmt *const sqlite3_stmt = (*this_).statement_diagrams_by_classifier_id;
     result |= data_database_diagram_reader_private_bind_id_to_statement( this_, sqlite3_stmt, classifier_id );
     bool *const borrow_flag = &((*this_).statement_diagrams_by_classifier_id_borrowed);
+
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement, (*this_).database, sqlite3_stmt, borrow_flag );
+    result |= data_diagram_iterator_reinit( io_diagram_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_diagram_reader_get_diagrams_by_relationship_id( data_database_diagram_reader_t *this_,
+                                                                         data_row_t relationship_id,
+                                                                         data_diagram_iterator_t *io_diagram_iterator )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != io_diagram_iterator );
+    u8_error_t result = U8_ERROR_NONE;
+
+    sqlite3_stmt *const sqlite3_stmt = (*this_).statement_diagrams_by_relationship_id;
+    result |= data_database_diagram_reader_private_bind_id_to_statement( this_, sqlite3_stmt, relationship_id );
+    bool *const borrow_flag = &((*this_).statement_diagrams_by_relationship_id_borrowed);
 
     data_database_borrowed_stmt_t sql_statement;
     data_database_borrowed_stmt_init( &sql_statement, (*this_).database, sqlite3_stmt, borrow_flag );
@@ -667,6 +689,13 @@ u8_error_t data_database_diagram_reader_private_open( data_database_diagram_read
         (*this_).statement_diagrams_by_classifier_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_RELATIONSHIP_ID,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   &((*this_).statement_diagrams_by_relationship_id)
+                                                 );
+        (*this_).statement_diagrams_by_relationship_id_borrowed = false;
+
+        result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID,
                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID ),
                                                    &((*this_).statement_diagram_ids_by_parent_id)
@@ -750,6 +779,10 @@ u8_error_t data_database_diagram_reader_private_close( data_database_diagram_rea
         assert( (*this_).statement_diagrams_by_classifier_id_borrowed == false );
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_diagrams_by_classifier_id );
         (*this_).statement_diagrams_by_classifier_id = NULL;
+
+        assert( (*this_).statement_diagrams_by_relationship_id_borrowed == false );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_diagrams_by_relationship_id );
+        (*this_).statement_diagrams_by_relationship_id = NULL;
 
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_diagram_ids_by_parent_id );
         (*this_).statement_diagram_ids_by_parent_id = NULL;

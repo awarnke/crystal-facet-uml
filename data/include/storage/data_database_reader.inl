@@ -13,9 +13,9 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
 
 /* ================================ DIAGRAM ================================ */
 
-static inline u8_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_,
-                                                                  data_row_t id,
-                                                                  data_diagram_t *out_diagram )
+static inline u8_error_t data_database_reader_get_diagram_by_id( data_database_reader_t *this_,
+                                                                 data_row_t id,
+                                                                 data_diagram_t *out_diagram )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -34,9 +34,9 @@ static inline u8_error_t data_database_reader_get_diagram_by_id ( data_database_
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *this_,
-                                                                    const char *uuid,
-                                                                    data_diagram_t *out_diagram )
+static inline u8_error_t data_database_reader_get_diagram_by_uuid( data_database_reader_t *this_,
+                                                                   const char *uuid,
+                                                                   data_diagram_t *out_diagram )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -79,9 +79,9 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
-                                                                              data_row_t classifier_id,
-                                                                              data_diagram_iterator_t *io_diagram_iterator )
+static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id( data_database_reader_t *this_,
+                                                                             data_row_t classifier_id,
+                                                                             data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -103,9 +103,33 @@ static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( da
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
-                                                                             data_row_t parent_id,
-                                                                             data_small_set_t *out_diagram_ids )
+static inline u8_error_t data_database_reader_get_diagrams_by_relationship_id( data_database_reader_t *this_,
+                                                                               data_row_t relationship_id,
+                                                                               data_diagram_iterator_t *io_diagram_iterator )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    if ( (*this_).is_open )
+    {
+        result = data_database_diagram_reader_get_diagrams_by_relationship_id( &((*this_).temp_diagram_reader),
+                                                                               relationship_id,
+                                                                               io_diagram_iterator
+                                                                             );
+    }
+    else
+    {
+        result |= U8_ERROR_NO_DB;
+        U8_TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id( data_database_reader_t *this_,
+                                                                            data_row_t parent_id,
+                                                                            data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -127,9 +151,9 @@ static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( dat
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
-                                                                                 data_row_t classifier_id,
-                                                                                 data_small_set_t *out_diagram_ids )
+static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id( data_database_reader_t *this_,
+                                                                                data_row_t classifier_id,
+                                                                                data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

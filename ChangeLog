@@ -1,9 +1,10 @@
 crystal-facet-uml (1.65.6) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * ...
+  * Searching for a non-scenario-based relationship finds expected diagrams
+  * Searching for a scenario relationship finds less superfluous occurrences
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 14 Sep 2025 16:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 21 Sep 2025 16:30:00 +0200
 
 crystal-facet-uml (1.65.5) UNRELEASED; urgency=medium
 

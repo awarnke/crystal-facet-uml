@@ -27,7 +27,7 @@ ideas for future versions:
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
 ! [ ] In Search View, show e.g. the Diagram Id to better explain why classifiers are shown multiple times
   [ ] In Nav+Search view, no linebreaks are introduced to long words
-  [ ] Searching for relationship ids finds too many occurrences, fix needed in gui_search_runner_private_add_diagrams_of_object()
+  [ ] Searching for relationship ids finds too many occurrences for messages between lifelines
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
