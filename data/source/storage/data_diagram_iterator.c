@@ -36,7 +36,8 @@ const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_RELATIONSHIP_ID =
     "AND ( (source.focused_feature_id=relationships.from_feature_id) OR (source.focused_feature_id ISNULL) ) "
     "AND ( (dest.focused_feature_id=relationships.to_feature_id) OR (dest.focused_feature_id ISNULL) ) "
     "GROUP BY diagrams.id " /* filter duplicates if a relationship exists twice in a diagram */
-    "ORDER BY diagrams.list_order ASC,diagrams.id ASC;";  /* ensure always the same order */
+    "ORDER BY ( (source.focused_feature_id ISNULL) AND (dest.focused_feature_id ISNULL) ) ASC,"  /* start with interactions/scenarios */
+    "diagrams.list_order ASC,diagrams.id ASC;";  /* ensure always the same order */
 
     /* Note: This query omits scenario/interaction diagrams which contain the searched relationship */
     /* as invariant/non-scenario relationship. For todays version this should be fine. */

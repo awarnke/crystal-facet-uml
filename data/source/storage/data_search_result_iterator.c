@@ -480,7 +480,7 @@ const char *const DATA_SEARCH_RESULT_ITERATOR_SELECT_RELATIONSHIP_BY_TEXTFRAGMEN
 "OR relationships.stereotype LIKE ? ESCAPE \"\\\" "
 "OR relationships.description LIKE ? ESCAPE \"\\\" "
 //"GROUP BY relationships.id,diagrams.id "  /* good: no duplicates if a classifier is twice in a diagram / bad: randomly chosen source and dest --> use DISTINCT */
-"ORDER BY relationships.id,((source.focused_feature_id ISNULL)AND(dest.focused_feature_id ISNULL)) ASC;";  /* start with interactions/scenarios */
+"ORDER BY relationships.id,( (source.focused_feature_id ISNULL) AND (dest.focused_feature_id ISNULL) ) ASC;";  /* start with interactions/scenarios */
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
