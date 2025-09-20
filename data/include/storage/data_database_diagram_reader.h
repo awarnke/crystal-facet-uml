@@ -144,6 +144,30 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
                                                                       );
 
 /*!
+ *  \brief reads all relationship-displaying diagrams from the database
+ *
+ *  If a relationship is scenario-specific, only the corresponding diagram is returned. Otherwise the scenario-specific diagrams are skipped. TODO check if this makes sense here
+ *  If a diagram shows the relationship multiple times, the diagram is returned just once (DISTINCT).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param from_classifier_id id of the source classifier
+ *  \param from_feature_id id of the source feature or lifeline, void if undefined
+ *  \param to_classifier_id id of the destination classifier
+ *  \param to_feature_id id of the destination feature or lifeline, void if undefined
+ *  \param[in,out] io_diagram_iterator iterator over diagrams of selected relationship. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_database_diagram_reader_get_diagrams_by_relationship ( data_database_diagram_reader_t *this_,
+                                                                       data_row_t from_classifier_id,
+                                                                       data_row_t from_feature_id,
+                                                                       data_row_t to_classifier_id,
+                                                                       data_row_t to_feature_id,
+                                                                       data_diagram_iterator_t *io_diagram_iterator
+                                                                     );
+
+/*!
  *  \brief reads all child-diagram ids from the database
  *
  *  \param this_ pointer to own object attributes

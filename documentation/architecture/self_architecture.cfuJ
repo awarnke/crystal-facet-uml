@@ -1499,6 +1499,80 @@
     },
     {
       "diagram": {
+        "id": 134,
+        "type": "Class Diagram", "diagram_type": 34,
+        "name": "Logical View on Interactions/Scenarios",
+        "description": [
+                "This diagram shows the tables and relationships of the database."
+        ],
+        "list_order": 0,
+        "parent_name": "Database Structure",
+        "parent": "f717fec6-808f-4b36-829c-4d44c485a371",
+        "uuid": "a0b35365-66e0-48ab-8c96-97a009a1c826",
+        "diagramelements":
+        [
+          {
+            "id": 982,
+            "classifier_name": "data/entity",
+            "node": "4cce57a5-2f44-4811-9929-5f0d180ebf13",
+            "uuid": "f495a6cd-5bc5-43aa-aab3-a936faec5bf3"
+          },
+          {
+            "id": 983,
+            "classifier_name": "diagrams",
+            "node": "7671f0cf-fae4-4efd-88df-947f35d44466",
+            "uuid": "f0090a9a-b806-4398-8424-b4636bfd9118"
+          },
+          {
+            "id": 984,
+            "classifier_name": "diagramelements",
+            "node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
+            "uuid": "a45aa29c-fd0c-4c5e-9fa5-dae0565c59e8"
+          },
+          {
+            "id": 985,
+            "classifier_name": "classifiers",
+            "node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+            "uuid": "f0f03c31-53f1-41e6-b7d5-9bf0ad90a16a"
+          },
+          {
+            "id": 986,
+            "classifier_name": "relationships",
+            "node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
+            "uuid": "d6bd5a2b-5c72-417c-bba2-0b55fd81b7e2"
+          },
+          {
+            "id": 987,
+            "classifier_name": "features",
+            "node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+            "uuid": "1216a801-3733-4e4e-a3c7-249beb7d7dce"
+          },
+          {
+            "id": 988,
+            "display_tags": "Emphasis", "display_flags": 16777216,
+            "classifier_name": "Lifeline",
+            "node": "5f82d094-4c85-45e4-87d9-a63ba027f241",
+            "uuid": "f274efb3-6b70-4104-b999-5cb79d36f4da"
+          },
+          {
+            "id": 989,
+            "display_tags": "Emphasis", "display_flags": 16777216,
+            "classifier_name": "Interaction",
+            "node": "6dff2172-d4a4-4b3b-9436-bbea7c7e40eb",
+            "uuid": "8858c92b-3dc6-4edf-b063-dff388714fdf"
+          },
+          {
+            "id": 990,
+            "display_tags": "Emphasis", "display_flags": 16777216,
+            "classifier_name": "InteractionUse",
+            "node": "8bad834d-472b-4c9f-a44a-2a77554435eb",
+            "uuid": "d30ceb64-a9de-488d-adb2-3e2c5e6ccf88"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 89,
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "JSON Storage Format",
@@ -1602,25 +1676,25 @@
           },
           {
             "id": 850,
-            "classifier_name": "data_database _head",
+            "classifier_name": "data_database_head",
             "node": "f1476039-3ac4-4818-91ec-f042dce57569",
             "uuid": "ca9cb3a8-de66-4ca9-adea-253d420316f2"
           },
           {
             "id": 851,
-            "classifier_name": "data_database _text_search",
+            "classifier_name": "data_database_text_search",
             "node": "eacea9ae-4156-4cc9-a3f7-577fe8bb5efe",
             "uuid": "8373a88f-2ccc-4049-8f31-b6a3f8797d2d"
           },
           {
             "id": 852,
-            "classifier_name": "data_database _classifier_reader",
+            "classifier_name": "data_database_classifier_reader",
             "node": "65a36ea1-3d35-4609-b058-65ee15934c98",
             "uuid": "2454e295-e4c7-4135-8686-cd1e01d6916f"
           },
           {
             "id": 853,
-            "classifier_name": "data_database _diagram_reader",
+            "classifier_name": "data_database_diagram_reader",
             "node": "4abe52d5-8947-46e5-87b7-29feecd36bb9",
             "uuid": "054e4d6c-ee4a-4183-b718-3edd1817b94b"
           }
@@ -2917,13 +2991,13 @@
           },
           {
             "id": 293,
-            "classifier_name": "layout _visible_classifier",
+            "classifier_name": "layout_visible_classifier",
             "node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
             "uuid": "245a8c37-27d7-4ba3-b664-e322ec3761d4"
           },
           {
             "id": 294,
-            "classifier_name": "layout _relationship",
+            "classifier_name": "layout_relationship",
             "node": "a372226d-373f-4bca-b48c-d5a9f6480050",
             "uuid": "fe1e7b2f-91b1-4ba8-a4cf-15e90a8b741b"
           },
@@ -4619,13 +4693,13 @@
         [
           {
             "id": 820,
-            "classifier_name": "db_reader_2 :data_database _reader",
+            "classifier_name": "db_reader_2 :data_database_reader",
             "node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
             "uuid": "cdf3c747-a966-4b85-aff8-e846af672651"
           },
           {
             "id": 821,
-            "classifier_name": "db_reader_1 :data_database _reader",
+            "classifier_name": "db_reader_1 :data_database_reader",
             "node": "38a1de76-2bb8-4703-9d41-fd44243539af",
             "uuid": "776cee5f-5daa-4c76-8567-8e3791010471"
           },
@@ -5556,7 +5630,7 @@
           {
             "id": 728,
             "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+            "classifier_name": "DATA_CLASSIFIER_TYPE_INTERACTION",
             "node": "e231bbf0-d968-405b-b49e-e41ff435c545",
             "uuid": "79abb78b-4858-41ec-a68a-06834c42588d"
           }
@@ -5690,6 +5764,12 @@
             "classifier_name": "diagramelements_simple",
             "node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
             "uuid": "f887851c-6a50-4eb8-be60-6c2d0acb0a43"
+          },
+          {
+            "id": 991,
+            "classifier_name": "Drawback: no scenario specifics",
+            "node": "5b9a5ef9-dcc5-4375-aa75-0c6c285a6710",
+            "uuid": "2a3b4a6a-2098-450a-a8af-6a11373391e8"
           }
         ]
       }
@@ -5773,7 +5853,7 @@
         [
           {
             "id": 729,
-            "classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+            "classifier_name": "DATA_CLASSIFIER_TYPE_INTERACTION",
             "node": "e231bbf0-d968-405b-b49e-e41ff435c545",
             "uuid": "73327377-f4a7-40b9-996b-74cea71164b7"
           },
@@ -11480,7 +11560,7 @@
       "classifier": {
         "id": 202,
         "type": "Class", "main_type": 125,
-        "name": "layout _visible_classifier",
+        "name": "layout_visible_classifier",
         "description": [
                 ""
         ],
@@ -11544,7 +11624,7 @@
       "classifier": {
         "id": 203,
         "type": "Class", "main_type": 125,
-        "name": "layout _relationship",
+        "name": "layout_relationship",
         "description": [
                 "\t"
         ],
@@ -16288,7 +16368,7 @@
         "id": 455,
         "type": "Package", "main_type": 124,
         "stereotype": "reason_rejected",
-        "name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "name": "DATA_CLASSIFIER_TYPE_INTERACTION",
         "description": [
                 "Diagramelements define which classifiers are visible in which diagram.\n",
                 "All features of a visible classifier are shown.\n",
@@ -16471,7 +16551,7 @@
             "id": 107,
             "type": "Property", "main_type": 0,
             "key": "A lifeline",
-            "value": "must exist when interaction exists and classifier type can have lifelines",
+            "value": "must exist when interaction exists",
             "description": [
                 ""
             ],
@@ -17156,7 +17236,7 @@
       "classifier": {
         "id": 496,
         "type": "Object", "main_type": 126,
-        "name": "db_reader_2 :data_database _reader",
+        "name": "db_reader_2 :data_database_reader",
         "description": [
                 ""
         ],
@@ -17173,7 +17253,7 @@
       "classifier": {
         "id": 497,
         "type": "Object", "main_type": 126,
-        "name": "db_reader_1 :data_database _reader",
+        "name": "db_reader_1 :data_database_reader",
         "description": [
                 ""
         ],
@@ -17502,7 +17582,7 @@
         "id": 519,
         "type": "Class", "main_type": 125,
         "stereotype": "rw",
-        "name": "data_database _head",
+        "name": "data_database_head",
         "description": [
                 ""
         ],
@@ -17520,7 +17600,7 @@
         "id": 520,
         "type": "Class", "main_type": 125,
         "stereotype": "ro",
-        "name": "data_database _text_search",
+        "name": "data_database_text_search",
         "description": [
                 ""
         ],
@@ -17538,7 +17618,7 @@
         "id": 521,
         "type": "Class", "main_type": 125,
         "stereotype": "ro",
-        "name": "data_database _classifier_reader",
+        "name": "data_database_classifier_reader",
         "description": [
                 ""
         ],
@@ -17556,7 +17636,7 @@
         "id": 522,
         "type": "Class", "main_type": 125,
         "stereotype": "ro",
-        "name": "data_database _diagram_reader",
+        "name": "data_database_diagram_reader",
         "description": [
                 ""
         ],
@@ -19035,6 +19115,85 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 594,
+        "type": "Class", "main_type": 125,
+        "stereotype": "subtype",
+        "name": "Lifeline",
+        "description": [
+                "The focused_feature of a diagramelement associates this lifeline with an ",
+                "interaction."
+        ],
+        "x_order": -435392186,
+        "y_order": 1683543807,
+        "list_order": 1761116069,
+        "uuid": "5f82d094-4c85-45e4-87d9-a63ba027f241",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 595,
+        "type": "Class", "main_type": 125,
+        "stereotype": "omitted",
+        "name": "Interaction",
+        "description": [
+                "An interaction is not implemented, it simply is represented by a diagram.\n",
+                "\n",
+                "This has the advantage of keeping the database structure simple.\n",
+                "\n",
+                "This has the disadvantage that\n",
+                "- the model-elements are not clearly separated from the view definitions"
+        ],
+        "x_order": -435392186,
+        "y_order": 1248221140,
+        "list_order": 1261603245,
+        "uuid": "6dff2172-d4a4-4b3b-9436-bbea7c7e40eb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 596,
+        "type": "Class", "main_type": 125,
+        "stereotype": "subtype",
+        "name": "InteractionUse",
+        "description": [
+                "An instance of an interaction is a classifier."
+        ],
+        "x_order": -550118132,
+        "y_order": 1683543807,
+        "list_order": 1253633532,
+        "uuid": "8bad834d-472b-4c9f-a44a-2a77554435eb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 597,
+        "type": "Comment", "main_type": 130,
+        "name": "Drawback: no scenario specifics",
+        "description": [
+                "The user must model explicit instances\n",
+                "(objects of classes or parts of components)\n",
+                "to show scenario-specific interactions."
+        ],
+        "x_order": -1051465166,
+        "y_order": 1487713474,
+        "list_order": 1398930124,
+        "uuid": "5b9a5ef9-dcc5-4375-aa75-0c6c285a6710",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -19704,7 +19863,7 @@
         ],
         "list_order": 455829179,
         "from_classifier_name": "data/storage",
-        "to_classifier_name": "data_database _head",
+        "to_classifier_name": "data_database_head",
         "from_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
         "to_node": "f1476039-3ac4-4818-91ec-f042dce57569",
         "uuid": "251e2ac9-89bf-4652-a6ed-972f27e5b58d"
@@ -19720,7 +19879,7 @@
         ],
         "list_order": 455829179,
         "from_classifier_name": "data/storage",
-        "to_classifier_name": "data_database _text_search",
+        "to_classifier_name": "data_database_text_search",
         "from_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
         "to_node": "eacea9ae-4156-4cc9-a3f7-577fe8bb5efe",
         "uuid": "cd69fac8-c85c-4dd7-8fe6-6e116692b885"
@@ -19736,7 +19895,7 @@
         ],
         "list_order": 455829179,
         "from_classifier_name": "data/storage",
-        "to_classifier_name": "data_database _classifier_reader",
+        "to_classifier_name": "data_database_classifier_reader",
         "from_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
         "to_node": "65a36ea1-3d35-4609-b058-65ee15934c98",
         "uuid": "d8eec0d4-72ea-4f73-b5aa-a421b99eb04d"
@@ -19752,7 +19911,7 @@
         ],
         "list_order": 515458372,
         "from_classifier_name": "data/storage",
-        "to_classifier_name": "data_database _diagram_reader",
+        "to_classifier_name": "data_database_diagram_reader",
         "from_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
         "to_node": "4abe52d5-8947-46e5-87b7-29feecd36bb9",
         "uuid": "359f7099-d8ab-49bb-8b48-b2612acd7e9e"
@@ -21207,7 +21366,7 @@
         ],
         "list_order": 515556676,
         "from_classifier_name": "data_database_reader",
-        "to_classifier_name": "data_database _classifier_reader",
+        "to_classifier_name": "data_database_classifier_reader",
         "from_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "to_node": "65a36ea1-3d35-4609-b058-65ee15934c98",
         "uuid": "e365fab5-0509-419d-84ca-a7fe3c9ee51b"
@@ -21223,7 +21382,7 @@
         ],
         "list_order": 515589444,
         "from_classifier_name": "data_database_reader",
-        "to_classifier_name": "data_database _diagram_reader",
+        "to_classifier_name": "data_database_diagram_reader",
         "from_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
         "to_node": "4abe52d5-8947-46e5-87b7-29feecd36bb9",
         "uuid": "ebf0a72e-5a2d-46f1-bffd-5f45fbe8f4f8"
@@ -25415,7 +25574,7 @@
         ],
         "list_order": -1307331198,
         "from_classifier_name": "pencil.layout",
-        "to_classifier_name": "layout _visible_classifier",
+        "to_classifier_name": "layout_visible_classifier",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
         "uuid": "16790374-70c7-48b1-b0ea-e6b6b5d33db6"
@@ -25431,7 +25590,7 @@
         ],
         "list_order": -1304108565,
         "from_classifier_name": "pencil.layout",
-        "to_classifier_name": "layout _relationship",
+        "to_classifier_name": "layout_relationship",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "a372226d-373f-4bca-b48c-d5a9f6480050",
         "uuid": "67c70287-a27b-42e4-8bd6-782ac7650a03"
@@ -25512,7 +25671,7 @@
                 ""
         ],
         "list_order": 1412250053,
-        "from_classifier_name": "layout _visible_classifier",
+        "from_classifier_name": "layout_visible_classifier",
         "to_classifier_name": "visible_classifier",
         "from_node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
         "to_node": "73338600-d624-43f6-9d30-55cb003e1f56",
@@ -25528,7 +25687,7 @@
                 ""
         ],
         "list_order": 1412446661,
-        "from_classifier_name": "layout _visible_classifier",
+        "from_classifier_name": "layout_visible_classifier",
         "to_classifier_name": "layout_feature",
         "from_node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
         "to_node": "e0ce0921-4c9e-4b11-bbbd-5e2209715115",
@@ -25544,7 +25703,7 @@
                 ""
         ],
         "list_order": 1411987909,
-        "from_classifier_name": "layout _relationship",
+        "from_classifier_name": "layout_relationship",
         "to_classifier_name": "relationships",
         "from_node": "a372226d-373f-4bca-b48c-d5a9f6480050",
         "to_node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
@@ -25560,8 +25719,8 @@
                 ""
         ],
         "list_order": 1412020677,
-        "from_classifier_name": "layout _relationship",
-        "to_classifier_name": "layout _visible_classifier",
+        "from_classifier_name": "layout_relationship",
+        "to_classifier_name": "layout_visible_classifier",
         "from_node": "a372226d-373f-4bca-b48c-d5a9f6480050",
         "to_node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
         "uuid": "d6142909-7e3b-4588-9770-4427c6112a2b"
@@ -25576,8 +25735,8 @@
                 ""
         ],
         "list_order": 1412053445,
-        "from_classifier_name": "layout _relationship",
-        "to_classifier_name": "layout _visible_classifier",
+        "from_classifier_name": "layout_relationship",
+        "to_classifier_name": "layout_visible_classifier",
         "from_node": "a372226d-373f-4bca-b48c-d5a9f6480050",
         "to_node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
         "uuid": "76339a77-9622-4c9e-8fe2-b17e7d257c41"
@@ -25592,7 +25751,7 @@
                 ""
         ],
         "list_order": 1412086213,
-        "from_classifier_name": "layout _relationship",
+        "from_classifier_name": "layout_relationship",
         "to_classifier_name": "layout_feature",
         "from_node": "a372226d-373f-4bca-b48c-d5a9f6480050",
         "to_node": "e0ce0921-4c9e-4b11-bbbd-5e2209715115",
@@ -25608,7 +25767,7 @@
                 ""
         ],
         "list_order": 1412413893,
-        "from_classifier_name": "layout _relationship",
+        "from_classifier_name": "layout_relationship",
         "to_classifier_name": "layout_feature",
         "from_node": "a372226d-373f-4bca-b48c-d5a9f6480050",
         "to_node": "e0ce0921-4c9e-4b11-bbbd-5e2209715115",
@@ -30912,7 +31071,7 @@
                 ""
         ],
         "list_order": 429488084,
-        "from_classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "from_classifier_name": "DATA_CLASSIFIER_TYPE_INTERACTION",
         "to_classifier_name": "How can diagrams select the parts to show?",
         "from_node": "e231bbf0-d968-405b-b49e-e41ff435c545",
         "to_node": "ded5ef91-bdfd-421a-b5ee-d334c9547a3c",
@@ -30928,7 +31087,7 @@
                 ""
         ],
         "list_order": 1390777718,
-        "from_classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "from_classifier_name": "DATA_CLASSIFIER_TYPE_INTERACTION",
         "to_classifier_name": "diagramelements_simple",
         "from_node": "e231bbf0-d968-405b-b49e-e41ff435c545",
         "to_node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
@@ -30944,7 +31103,7 @@
                 ""
         ],
         "list_order": 1383510513,
-        "from_classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "from_classifier_name": "DATA_CLASSIFIER_TYPE_INTERACTION",
         "to_classifier_name": "interaction classifier",
         "from_node": "e231bbf0-d968-405b-b49e-e41ff435c545",
         "to_node": "699bf0ff-6e24-4b98-a667-35eee9924f27",
@@ -31650,7 +31809,7 @@
         ],
         "list_order": 754640516,
         "from_classifier_name": "Main GUI Thread",
-        "to_classifier_name": "db_reader_1 :data_database _reader",
+        "to_classifier_name": "db_reader_1 :data_database_reader",
         "from_node": "a565509e-37cc-470d-99df-594886c14348",
         "to_node": "38a1de76-2bb8-4703-9d41-fd44243539af",
         "uuid": "22ccb6ab-3f62-4161-9296-d4dc814772a0"
@@ -31765,7 +31924,7 @@
         ],
         "list_order": 754607748,
         "from_classifier_name": "Load-or-Render Thread(s)",
-        "to_classifier_name": "db_reader_2 :data_database _reader",
+        "to_classifier_name": "db_reader_2 :data_database_reader",
         "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
         "to_node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
         "uuid": "c7c53815-274b-4a4c-ad38-0a0580b38332"
@@ -31957,7 +32116,7 @@
                 ""
         ],
         "list_order": 754574980,
-        "from_classifier_name": "db_reader_2 :data_database _reader",
+        "from_classifier_name": "db_reader_2 :data_database_reader",
         "to_classifier_name": "data_database_reader",
         "from_node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
         "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
@@ -31973,7 +32132,7 @@
                 ""
         ],
         "list_order": 754542212,
-        "from_classifier_name": "db_reader_1 :data_database _reader",
+        "from_classifier_name": "db_reader_1 :data_database_reader",
         "to_classifier_name": "data_database_reader",
         "from_node": "38a1de76-2bb8-4703-9d41-fd44243539af",
         "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
@@ -32389,7 +32548,7 @@
                 ""
         ],
         "list_order": 455861947,
-        "from_classifier_name": "data_database _head",
+        "from_classifier_name": "data_database_head",
         "to_classifier_name": "data_database",
         "from_node": "f1476039-3ac4-4818-91ec-f042dce57569",
         "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
@@ -32405,7 +32564,7 @@
                 ""
         ],
         "list_order": 455894715,
-        "from_classifier_name": "data_database _text_search",
+        "from_classifier_name": "data_database_text_search",
         "to_classifier_name": "data_database",
         "from_node": "eacea9ae-4156-4cc9-a3f7-577fe8bb5efe",
         "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
@@ -32421,7 +32580,7 @@
                 ""
         ],
         "list_order": 515523908,
-        "from_classifier_name": "data_database _classifier_reader",
+        "from_classifier_name": "data_database_classifier_reader",
         "to_classifier_name": "data_database",
         "from_node": "65a36ea1-3d35-4609-b058-65ee15934c98",
         "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
@@ -32437,7 +32596,7 @@
                 ""
         ],
         "list_order": 515491140,
-        "from_classifier_name": "data_database _diagram_reader",
+        "from_classifier_name": "data_database_diagram_reader",
         "to_classifier_name": "data_database",
         "from_node": "4abe52d5-8947-46e5-87b7-29feecd36bb9",
         "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
@@ -32848,6 +33007,54 @@
         "from_node": "4cce57a5-2f44-4811-9929-5f0d180ebf13",
         "to_node": "f073fc84-1b30-4d65-b605-79306f0bd854",
         "uuid": "d35ab6d2-f3d4-4f9d-97b3-1c3dcf93f729"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1124,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1761116069,
+        "from_classifier_name": "data/entity",
+        "to_classifier_name": "Lifeline",
+        "from_node": "4cce57a5-2f44-4811-9929-5f0d180ebf13",
+        "to_node": "5f82d094-4c85-45e4-87d9-a63ba027f241",
+        "uuid": "8cd221ee-e14b-4e84-848f-46d46e376f40"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1126,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1261603245,
+        "from_classifier_name": "data/entity",
+        "to_classifier_name": "Interaction",
+        "from_node": "4cce57a5-2f44-4811-9929-5f0d180ebf13",
+        "to_node": "6dff2172-d4a4-4b3b-9436-bbea7c7e40eb",
+        "uuid": "424bfc2c-a1f3-4c78-888d-2948ce5310f1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1128,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1253633532,
+        "from_classifier_name": "data/entity",
+        "to_classifier_name": "InteractionUse",
+        "from_node": "4cce57a5-2f44-4811-9929-5f0d180ebf13",
+        "to_node": "8bad834d-472b-4c9f-a44a-2a77554435eb",
+        "uuid": "ee823f58-56a0-4b4f-8e4e-0f1137ebecf1"
       }
     },
     {
@@ -33770,6 +33977,70 @@
         "from_node": "ba151637-e583-4f4a-830a-a63b15f5ea4f",
         "to_node": "ecc789ba-1c8b-4355-b991-bf22799baef3",
         "uuid": "96d30f26-c192-4d1a-b66e-b169366c5fad"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1125,
+        "type": "Generalization", "main_type": 210,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1761148837,
+        "from_classifier_name": "Lifeline",
+        "to_classifier_name": "features",
+        "from_node": "5f82d094-4c85-45e4-87d9-a63ba027f241",
+        "to_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+        "uuid": "e64acf94-154e-4b2f-9d46-e8f1e4ee02ed"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1127,
+        "type": "Generalization", "main_type": 210,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1761181605,
+        "from_classifier_name": "Interaction",
+        "to_classifier_name": "diagrams",
+        "from_node": "6dff2172-d4a4-4b3b-9436-bbea7c7e40eb",
+        "to_node": "7671f0cf-fae4-4efd-88df-947f35d44466",
+        "uuid": "99b59464-cdcc-474d-9d77-3a0e56c7f69b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1129,
+        "type": "Generalization", "main_type": 210,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1761214373,
+        "from_classifier_name": "InteractionUse",
+        "to_classifier_name": "classifiers",
+        "from_node": "8bad834d-472b-4c9f-a44a-2a77554435eb",
+        "to_node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+        "uuid": "4072dc47-8356-476e-a7fe-8a5e8d607559"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1130,
+        "type": "Dependency", "main_type": 0,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390777718,
+        "from_classifier_name": "Drawback: no scenario specifics",
+        "to_classifier_name": "Classifier selection defines view",
+        "from_node": "5b9a5ef9-dcc5-4375-aa75-0c6c285a6710",
+        "to_node": "a8836688-972f-4d8b-bfdc-859d23c99b2b",
+        "uuid": "062fd92f-f2b6-4593-afce-4a9befb5ca60"
       }
     }
   ]

@@ -142,10 +142,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                         data_classifier_get_name_const( &((*this_).temp_classifier) ),
                                                         DATA_ROW_VOID /* diagram_id */
                                                       );
-                    d_err |= gui_search_runner_private_add_diagrams_of_classifier( this_,
-                                                                                   &half_initialized,
-                                                                                   &skip_results
-                                                                                 );
+                    d_err |= gui_search_runner_private_add_diagrams_of_object( this_,
+                                                                               &half_initialized,
+                                                                               &skip_results
+                                                                             );
 
                     data_classifier_destroy( &((*this_).temp_classifier) );
                     data_search_result_destroy( &half_initialized );
@@ -174,10 +174,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                      classifier_id,
                                                      DATA_ROW_VOID /* diagram_id */
                                                    );
-                    d_err |= gui_search_runner_private_add_diagrams_of_classifier( this_,
-                                                                                   &half_initialized,
-                                                                                   &skip_results
-                                                                                 );
+                    d_err |= gui_search_runner_private_add_diagrams_of_object( this_,
+                                                                               &half_initialized,
+                                                                               &skip_results
+                                                                             );
 
                     data_feature_destroy( &((*this_).temp_feature) );
                     data_search_result_destroy( &half_initialized );
@@ -207,10 +207,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                                                           data_relationship_get_to_classifier_row_id( &((*this_).temp_relationship) ),
                                                           DATA_ROW_VOID /* diagram_id */
                                                         );
-                    d_err |= gui_search_runner_private_add_diagrams_of_classifier( this_,
-                                                                                   &half_initialized,
-                                                                                   &skip_results
-                                                                                 );
+                    d_err |= gui_search_runner_private_add_diagrams_of_object( this_,
+                                                                               &half_initialized,
+                                                                               &skip_results
+                                                                             );
 
                     data_relationship_destroy( &((*this_).temp_relationship) );
                     data_search_result_destroy( &half_initialized );
@@ -368,23 +368,23 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
     U8_TRACE_END();
 }
 
-u8_error_t gui_search_runner_private_add_diagrams_of_classifier( gui_search_runner_t *this_,
-                                                                 data_search_result_t *classifier_template,
-                                                                 uint_fast32_t *io_skip_results
-                                                               )
+u8_error_t gui_search_runner_private_add_diagrams_of_object( gui_search_runner_t *this_,
+                                                             data_search_result_t *result_template,
+                                                             uint_fast32_t *io_skip_results
+                                                           )
 {
     U8_TRACE_BEGIN();
-    assert( classifier_template != NULL );
+    assert( result_template != NULL );
     u8_error_t d_err = U8_ERROR_NONE;  /* a data read or data store error */
 
     data_row_t classifier_row_id;
-    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_search_result_get_match_id_const( classifier_template )))
+    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_search_result_get_match_id_const( result_template )))
     {
-        classifier_row_id = data_id_get_row_id( data_search_result_get_match_id_const( classifier_template ));
+        classifier_row_id = data_id_get_row_id( data_search_result_get_match_id_const( result_template ));
     }
     else
     {
-        classifier_row_id = data_id_get_row_id( data_search_result_get_src_classifier_id_const( classifier_template ));
+        classifier_row_id = data_id_get_row_id( data_search_result_get_src_classifier_id_const( result_template ));
     }
 
     data_diagram_iterator_t diagram_iterator;
@@ -398,10 +398,10 @@ u8_error_t gui_search_runner_private_add_diagrams_of_classifier( gui_search_runn
     {
         d_err |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
         const data_row_t diagram_row_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
-        data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
+        data_id_reinit( data_search_result_get_diagram_id_ptr( result_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
 
         bool filter = false;
-        switch ( data_id_get_table( data_search_result_get_match_id_const( classifier_template ) ) )
+        switch ( data_id_get_table( data_search_result_get_match_id_const( result_template ) ) )
         {
             case DATA_TABLE_FEATURE:
             {
@@ -414,6 +414,18 @@ u8_error_t gui_search_runner_private_add_diagrams_of_classifier( gui_search_runn
             {
                 /* if a user searches explicitly for a relationship-id, which ones should be filtered? */
                 /* and how? till here, the classifier type is not yet loaded. */
+
+                /* TODO: Needed is a scenario filter based on the type of the relationship */
+                /*
+                const bool scenario = data_rules_relationship_is_scenario_cond ( const data_rules_t *this_,
+                                                                              data_feature_type_t from_feature_type,
+                                                                              data_feature_type_t to_feature_type
+                );
+
+                const bool uncond = data_rules_diagram_shows_uncond_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+
+                const bool scenario = data_rules_diagram_shows_scenario_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+                */
             }
             break;
 
@@ -428,7 +440,7 @@ u8_error_t gui_search_runner_private_add_diagrams_of_classifier( gui_search_runn
         {
             if ( (*io_skip_results) == 0 )
             {
-                const u8_error_t err = data_search_result_list_add( &((*this_).result_list), classifier_template );
+                const u8_error_t err = data_search_result_list_add( &((*this_).result_list), result_template );
                 if ( err != U8_ERROR_NONE )
                 {
                     d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
