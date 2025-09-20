@@ -16,7 +16,10 @@ const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID =
     "features.key,features.value,features.description,features.list_order,features.uuid,"
     "diagramelements.id " /* diagramelements.id needed only for debugging */
     "FROM features INNER JOIN diagramelements ON diagramelements.classifier_id=features.classifier_id "
-    "WHERE diagramelements.diagram_id=? GROUP BY features.id ORDER BY features.list_order ASC;";
+    /* "WHERE diagramelements.diagram_id=? " */
+    "WHERE diagramelements.diagram_id=? AND (( features.main_type=3 AND diagramelements.focused_feature_id=features.id ) OR features.main_type<>3 ) "
+    "GROUP BY features.id ORDER BY features.list_order ASC;";
+    /* Note: 3 == DATA_FEATURE_TYPE_LIFELINE */
 
 /*!
  *  \brief predefined search statement to find features by classifier-id

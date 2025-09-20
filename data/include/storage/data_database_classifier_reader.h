@@ -192,6 +192,8 @@ u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_
  *
  *  If a classifier is contained multiple times in a diagram, the classifiers associated features are returned only once nonetheless (DISTINCT).
  *
+ *  If a feature is a DATA_FEATURE_TYPE_LIFELINE, it is only in the result iterator if it is visible in diagram_id.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param[in,out] io_feature_iterator iterator over features of selected classifier. The caller is responsible

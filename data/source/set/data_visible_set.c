@@ -141,6 +141,8 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_
                     if ( ! u8_error_more_than( f_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                     {
                         /* Ignore lifelines (== is_scenario) that do not belong to current diagram */
+                        /* NOTE: The iteraltor already filters lifelines that do not belong to the current diagram, see DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID */
+#if 0
                         const bool is_scenario =
                             data_rules_feature_is_scenario_cond( &rules, data_feature_get_main_type( current_feature ) );
                         bool is_foreign_scenario = is_scenario;
@@ -156,7 +158,9 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_
                         }
                         if ( ! is_foreign_scenario ) /* either not a scenario or a scenario that is in scope of the diagram */
                         {
+#endif
                             (*this_).feature_count++;
+#if 0
                         }
                         else
                         {
@@ -164,6 +168,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_
                                                data_feature_get_row_id( current_feature )
                                              );
                         }
+#endif
                     }
                 }
                 else
