@@ -17,9 +17,14 @@ const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID =
     "diagramelements.id " /* diagramelements.id needed only for debugging */
     "FROM features INNER JOIN diagramelements ON diagramelements.classifier_id=features.classifier_id "
     /* "WHERE diagramelements.diagram_id=? " */
-    "WHERE diagramelements.diagram_id=? AND (( features.main_type=3 AND diagramelements.focused_feature_id=features.id ) OR features.main_type<>3 ) "
-    "GROUP BY features.id ORDER BY features.list_order ASC;";
+    "WHERE diagramelements.diagram_id=? AND ( diagramelements.focused_feature_id=features.id OR features.main_type<>3 ) "
+    "GROUP BY features.id "
+    "ORDER BY features.list_order ASC,features.id ASC;";   /* ensure always the same order */
     /* Note: 3 == DATA_FEATURE_TYPE_LIFELINE */
+
+    /* if you ignore the type, "non-scenario features" of "classifiers that have a lifeline" would be skipped: */
+    /* "WHERE diagramelements.diagram_id=? AND ( (diagramelements.focused_feature_id=features.id) OR (diagramelements.focused_feature_id ISNULL) ) " */
+    /* but we want to skip only lifelines and only if these belong to foreign diagrams */
 
 /*!
  *  \brief predefined search statement to find features by classifier-id
@@ -29,7 +34,7 @@ const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID =
 const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID =
     "SELECT id,main_type,classifier_id,key,value,description,list_order,uuid,-1 "
     "FROM features "
-    "WHERE classifier_id=? ORDER BY id ASC;";
+    "WHERE classifier_id=? ORDER BY id ASC;";   /* ensure always the same order */
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id

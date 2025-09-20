@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.65.6"
+    "generator_version": "1.65.5"
   }
   ,
   "views":
@@ -5998,12 +5998,6 @@
             "uuid": "b1bf5d20-a360-4e22-8cbf-237ab87eda44"
           },
           {
-            "id": 995,
-            "classifier_name": "diagramelements",
-            "node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
-            "uuid": "83b39366-2fb5-407e-8068-011194a64077"
-          },
-          {
             "id": 996,
             "classifier_name": "classifiers",
             "node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
@@ -6027,6 +6021,13 @@
             "classifier_name": "messages",
             "node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
             "uuid": "1da91d8e-ec31-4a69-89de-6a4d7dfc550a"
+          },
+          {
+            "id": 1000,
+            "display_tags": "Emphasis", "display_flags": 16777216,
+            "classifier_name": "diagramelements_simple",
+            "node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
+            "uuid": "01968f21-8f1b-4493-a082-fae8f98e7526"
           }
         ]
       }
@@ -34185,6 +34186,22 @@
         "from_node": "55ed6dac-0546-426c-9389-727405741e3a",
         "to_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
         "uuid": "e07b805e-d632-447d-8062-6613e3065911"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1138,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390941558,
+        "from_classifier_name": "2 types of Relationships",
+        "to_classifier_name": "diagramelements_simple",
+        "from_node": "55ed6dac-0546-426c-9389-727405741e3a",
+        "to_node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
+        "uuid": "ed2af741-ccda-408d-bacc-ed30a32acae7"
       }
     },
     {

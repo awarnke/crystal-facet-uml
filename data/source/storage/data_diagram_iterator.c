@@ -14,7 +14,7 @@ const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID =
 
 const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID_NULL =
     "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
-    "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
+    "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC,diagrams.id ASC;";  /* ensure always the same order */
 
 const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID =
     "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,diagrams.stereotype,"
@@ -23,19 +23,22 @@ const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID =
     "INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
     "WHERE diagramelements.classifier_id=? "
     "GROUP BY diagrams.id "  /* filter duplicates if a classifier exists twice in a diagram */
-    "ORDER BY diagrams.list_order ASC;";
+    "ORDER BY diagrams.list_order ASC,diagrams.id ASC;";  /* ensure always the same order */
 
 const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_RELATIONSHIP_ID =
-    "SELECT DISTINCT diagrams.id,diagrams.parent_id,diagrams.diagram_type,diagrams.stereotype,"
+    "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,diagrams.stereotype,"
     "diagrams.name,diagrams.description,diagrams.list_order,diagrams.display_flags,diagrams.uuid,"
-    "source.focused_feature_id,dest.focused_feature_id "  /* challenge: the group by clause may randomly select ids here */
     "FROM relationships "
     "INNER JOIN diagramelements AS source ON source.classifier_id=relationships.from_classifier_id "
-    "INNER JOIN diagramelements AS dest ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id=source.diagram_id) "
+    "INNER JOIN diagramelements AS dest ON (dest.classifier_id=relationships.to_classifier_id) AND (dest.diagram_id=source.diagram_id) "
     "INNER JOIN diagrams ON diagrams.id=source.diagram_id "
-    "WHERE source.classifier_id=? "
-    /* "GROUP BY diagrams.id " filter duplicates if a relationship exists twice in a diagram --> use DISTINCT to not drop info on focused_feature_id */
-    "ORDER BY ((source.focused_feature_id ISNULL)AND(dest.focused_feature_id ISNULL)),diagrams.list_order ASC;";  /* start with interactions/scenarios */
+    "WHERE relationships.id=? AND ( (source.focused_feature_id=?) OR (source.focused_feature_id ISNULL) ) "
+    "AND ( (dest.focused_feature_id=?) OR (dest.focused_feature_id ISNULL) ) "
+    "GROUP BY diagrams.id " /* filter duplicates if a relationship exists twice in a diagram */
+    "ORDER BY diagrams.list_order ASC,diagrams.id ASC;";  /* ensure always the same order */
+
+    /* Note: This query omits scenario/interaction diagrams which contain the searched relationship */
+    /* as invariant/non-scenario relationship. For todays version this should be fine. */
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
