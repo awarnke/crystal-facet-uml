@@ -53,7 +53,6 @@ ideas for future versions:
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] add test case for opening non-cfuJ files
-! [ ] in html export, do not create "appears in" links to current chapter - this is superfluous and irritating
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"

@@ -234,6 +234,7 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
 }
 
 #if 0
+/* REPLACED BY gui_simple_message_to_user_show_error_info */
 void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_user_t *this_,
                                                          gui_simple_message_type_t type_id,
                                                          const gui_simple_message_content_position_t *content_id,
@@ -415,7 +416,7 @@ void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_
 }
 
 const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLE_MAX])
-    = {"lifelines","classifiers","features","relations","classifier-occurrences","diagrams"};
+    = {"lifelines","classifiers","features","relationships","classifier-occurrences","diagrams"};
 const char *const (gui_simple_message_to_user_private_series_name4change[DATA_STAT_SERIES_MAX])
     = {"created","modified","deleted","ignored","warning","error"};
 const char *const (gui_simple_message_to_user_private_series_name4other[DATA_STAT_SERIES_MAX])

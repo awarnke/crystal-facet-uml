@@ -31,12 +31,16 @@ void document_link_provider_init( document_link_provider_t *this_,
     (*this_).tag_xref_end = tag_xref_end;
     (*this_).xml_writer = xml_writer;
 
+    (*this_).current_diagram = DATA_ID_VOID;
+
     U8_TRACE_END();
 }
 
 void document_link_provider_destroy( document_link_provider_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+    (*this_).current_diagram = DATA_ID_VOID;
 
     (*this_).db_reader = NULL;
     (*this_).xml_writer = NULL;
@@ -76,16 +80,32 @@ u8_error_t document_link_provider_write_occurrences( document_link_provider_t *t
         }
         const data_id_t diag_ref_id = data_diagram_get_data_id( &((*this_).temp_diagram) );
         const char *const diag_ref_name = data_diagram_get_name_const( &((*this_).temp_diagram) );
-        export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, (*this_).tag_xref_start );
-        export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, diag_ref_id );
-        export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, (*this_).tag_xref_middle );
-        export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, diag_ref_name );
-        export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, (*this_).tag_xref_end );
+        if ( data_id_equals( &diag_ref_id, &((*this_).current_diagram) ) )
+        {
+            export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, diag_ref_name );
+        }
+        else
+        {
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, (*this_).tag_xref_start );
+            export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, diag_ref_id );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, (*this_).tag_xref_middle );
+            export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, diag_ref_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, (*this_).tag_xref_end );
+        }
     }
     db_err |= data_diagram_iterator_destroy( &diagram_iterator );
 
     U8_TRACE_END_ERR( db_err || export_err );
     return ( db_err || export_err );
+}
+
+void document_link_provider_set_current_diagram( document_link_provider_t *this_, const data_id_t *current_diagram )
+{
+    U8_TRACE_BEGIN();
+
+    (*this_).current_diagram = *current_diagram;
+
+    U8_TRACE_END();
 }
 
 

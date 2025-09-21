@@ -16,6 +16,7 @@
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
 #include "entity/data_diagram.h"
+#include "entity/data_id.h"
 #include "u8/u8_error.h"
 
 
@@ -30,6 +31,8 @@ struct document_link_provider_struct {
     const char * tag_xref_start;  /*!< tag for xref_start */
     const char * tag_xref_middle;  /*!< tag for xref_middle */
     const char * tag_xref_end;  /*!< tag for xref_end */
+
+    data_id_t current_diagram;  /*!< the current diagram/chapter that is being printed. */
 
     data_diagram_t temp_diagram;  /*!< memory for temporary diagram storage */
 };
@@ -75,6 +78,18 @@ void document_link_provider_destroy( document_link_provider_t *this_ );
 u8_error_t document_link_provider_write_occurrences( document_link_provider_t *this_,
                                                      data_id_t classifier_id
                                                    );
+
+/*!
+ *  \brief sets the current diagram
+ *
+ *  The function document_link_provider_write_occurrences will omit creating links to the current diagram.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param current_diagram the current diagram that is written
+ */
+void document_link_provider_set_current_diagram( document_link_provider_t *this_,
+                                                 const data_id_t *current_diagram
+                                               );
 
 #endif  /* DOCUMENT_LINK_PROVIDER_H */
 

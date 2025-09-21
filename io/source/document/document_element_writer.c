@@ -1480,6 +1480,9 @@ u8_error_t document_element_writer_start_diagram( document_element_writer_t *thi
         U8_LOG_ERROR( "not all bytes could be written" );
     }
 
+    /* inform the link provider on current diagram id: */
+    document_link_provider_set_current_diagram( &((*this_).link_provider), &diag_id );
+
     U8_TRACE_END_ERR( export_err );
     return export_err;
 }
