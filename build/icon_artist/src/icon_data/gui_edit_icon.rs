@@ -29,6 +29,9 @@ const CX: f32 = 16.0;
 /// icon center y
 const CY: f32 = 16.0;
 
+/// half line width
+const HALFLINE: f32 = 0.5;
+
 /// The view rectangle of edit_attributes_sect icon
 const SECT_RECT: Rect = Rect {
     left: 0.0,
@@ -108,9 +111,6 @@ static BRIGHT_YELLOW: geometry::Color = geometry::Color {
     green: 0xff,
     blue: 0x44,
 };
-
-/// half line width
-const HALFLINE: f32 = 0.5;
 
 /// The function defines the draw directives for the broken_circle contour
 ///

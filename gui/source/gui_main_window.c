@@ -844,6 +844,10 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
 
     (*this_).message_icon_image = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_crystal_facet_uml( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
+    gtk_widget_set_margin_start( GTK_WIDGET((*this_).message_icon_image), 8 );
+    gtk_widget_set_margin_end( GTK_WIDGET((*this_).message_icon_image), 8 );
+    gtk_widget_set_margin_top( GTK_WIDGET((*this_).message_icon_image), 0 );
+    gtk_widget_set_margin_bottom( GTK_WIDGET((*this_).message_icon_image), 0 );
 
     /* insert widgets to box container */
     {

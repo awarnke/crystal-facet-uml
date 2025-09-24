@@ -69,21 +69,9 @@ static RED_THICK_PEN: geometry::Pen = geometry::Pen {
 
 /// yellow line color
 static YELLOW: geometry::Color = geometry::Color {
-    red: 0xee,
-    green: 0xee,
-    blue: 0x00,
-};
-
-/// yellow pen
-static YELLOW_PEN: geometry::Pen = geometry::Pen {
-    color: YELLOW,
-    width: 1.0,
-};
-
-/// yellow bold pen
-static YELLOW_THICK_PEN: geometry::Pen = geometry::Pen {
-    color: YELLOW,
-    width: 2.0,
+    red: 0xff,
+    green: 0xff,
+    blue: 0x44,
 };
 
 /// blue line color
@@ -105,41 +93,60 @@ static BLUE_THICK_PEN: geometry::Pen = geometry::Pen {
     width: 2.0,
 };
 
+/// gray line color
+static GRAY: geometry::Color = geometry::Color {
+    red: 0x7f,
+    green: 0x7f,
+    blue: 0x7f,
+};
+
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 1.0,
+};
+
+/// gray bold pen
+static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 2.0,
+};
+
 /// The function generates a message_error icon
 ///
 pub fn generate_message_error(out: &mut dyn PathRenderer) -> () {
     let icon_shape: [geometry::DrawDirective; 9] = [
         Move(Point {
-            x: CX - 4.0,
-            y: CY - 12.0,
+            x: CX - 5.0,
+            y: CY - 13.0,
         }),
         Line(Point {
-            x: CX + 4.0,
-            y: CY - 12.0,
+            x: CX + 5.0,
+            y: CY - 13.0,
         }),
         Line(Point {
-            x: CX + 12.0,
-            y: CY - 4.0,
+            x: CX + 13.0,
+            y: CY - 5.0,
         }),
         Line(Point {
-            x: CX + 12.0,
-            y: CY + 4.0,
+            x: CX + 13.0,
+            y: CY + 5.0,
         }),
         Line(Point {
-            x: CX + 4.0,
-            y: CY + 12.0,
+            x: CX + 5.0,
+            y: CY + 13.0,
         }),
         Line(Point {
-            x: CX - 4.0,
-            y: CY + 12.0,
+            x: CX - 5.0,
+            y: CY + 13.0,
         }),
         Line(Point {
-            x: CX - 12.0,
-            y: CY + 4.0,
+            x: CX - 13.0,
+            y: CY + 5.0,
         }),
         Line(Point {
-            x: CX - 12.0,
-            y: CY - 4.0,
+            x: CX - 13.0,
+            y: CY - 5.0,
         }),
         Close,
     ];
@@ -150,11 +157,15 @@ pub fn generate_message_error(out: &mut dyn PathRenderer) -> () {
             left: CX - 2.0 - HALFLINE,
             top: CY - 8.0 - HALFLINE,
             width: 5.0,
-            height: 17.0,
+            height: 9.0,
         },
-        2.5,
+        2.0 + HALFLINE,
     );
     out.render_path(&icon_mark, &Some(RED_PEN), &None);
+
+    let icon_mark_dot: [geometry::DrawDirective; 5] =
+    get_circle_abs(Point { x: CX, y: CY + 6.0 }, 2.0 + HALFLINE, 2.0 + HALFLINE);
+    out.render_path(&icon_mark_dot, &Some(RED_PEN), &None);
 }
 
 /// The function generates a message_info icon
@@ -252,62 +263,62 @@ pub fn generate_message_user_doc(out: &mut dyn PathRenderer) -> () {
 pub fn generate_message_warn(out: &mut dyn PathRenderer) -> () {
     let icon_shape: [geometry::DrawDirective; 7] = [
         Move(Point {
-            x: CX - 4.0,
+            x: CX - 5.0,
             y: CY - 10.0,
         }),
         Curve(
             Point {
-                x: CX - 2.0,
-                y: CY - 13.0,
+                x: CX - 3.0,
+                y: CY - 14.5,
             },
             Point {
-                x: CX + 2.0,
-                y: CY - 13.0,
+                x: CX + 3.0,
+                y: CY - 14.5,
             },
             Point {
-                x: CX + 4.0,
+                x: CX + 5.0,
                 y: CY - 10.0,
             },
         ),
         Line(Point {
-            x: CX + 13.0,
-            y: CY + 5.0,
+            x: CX + 14.0,
+            y: CY + 6.0,
         }),
         Curve(
             Point {
-                x: CX + 15.0,
-                y: CY + 9.0,
+                x: CX + 16.0,
+                y: CY + 10.0,
             },
             Point {
-                x: CX + 12.0,
-                y: CY + 12.0,
+                x: CX + 13.0,
+                y: CY + 13.0,
             },
             Point {
-                x: CX + 9.0,
-                y: CY + 12.0,
+                x: CX + 10.0,
+                y: CY + 13.0,
             },
         ),
         Line(Point {
-            x: CX - 9.0,
-            y: CY + 12.0,
+            x: CX - 10.0,
+            y: CY + 13.0,
         }),
         Curve(
             Point {
-                x: CX - 12.0,
-                y: CY + 12.0,
-            },
-            Point {
-                x: CX - 15.0,
-                y: CY + 9.0,
-            },
-            Point {
                 x: CX - 13.0,
-                y: CY + 5.0,
+                y: CY + 13.0,
+            },
+            Point {
+                x: CX - 16.0,
+                y: CY + 10.0,
+            },
+            Point {
+                x: CX - 14.0,
+                y: CY + 6.0,
             },
         ),
         Close,
     ];
-    out.render_path(&icon_shape, &Some(YELLOW_THICK_PEN), &None);
+    out.render_path(&icon_shape, &Some(GRAY_THICK_PEN), &Some(YELLOW));
 
     let icon_feature: [geometry::DrawDirective; 9] = get_rounded_rect_abs(
         Rect {
@@ -318,7 +329,7 @@ pub fn generate_message_warn(out: &mut dyn PathRenderer) -> () {
         },
         2.5,
     );
-    out.render_path(&icon_feature, &Some(YELLOW_PEN), &None);
+    out.render_path(&icon_feature, &Some(GRAY_PEN), &Some(WHITE));
 }
 
 /// The function returns an array of IconSource

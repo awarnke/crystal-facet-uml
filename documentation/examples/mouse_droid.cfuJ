@@ -19,8 +19,8 @@
         "name": "Mouse Droid",
         "description": [
                 "This document shows a system architecture\n",
-                "and software architecture for a mouse droid.\n",
-                "This is a small repair droid similar to the MSE-6 used on death star 1.\n",
+                "and software architecture for the mouse droid MoD5G.\n",
+                "The MoD5G is a small repair droid similar to the MSE-6 used on death star 1.\n",
                 "\n",
                 "The structure of the system architecture is loosely based on arc42.\n",
                 "The software architecture in chapter D0019#id follows more exactly the ",
@@ -63,8 +63,9 @@
         "type": "Box Overview", "diagram_type": 1,
         "name": "Goal",
         "description": [
-                "The goal states what to achieve.\n",
-                "Later, the D0066#name chapter shows the scope of this project."
+                "This section describes the goal of the MoD5G project. This is a short ",
+                "description of the functionality and a list of the main features.\n",
+                "The next sections then show D0003#name and D0066#name."
         ],
         "list_order": -1610592256,
         "parent_name": "Mouse Droid",
@@ -77,6 +78,41 @@
             "classifier_name": "Introduction",
             "node": "37777305-f8d0-4f99-8a24-b7a39e022659",
             "uuid": "7a24369f-cd3a-48ab-8deb-2a0f222d2f6f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 70,
+        "type": "Requirement Diagram", "diagram_type": 9,
+        "name": "High-level Features",
+        "description": [
+                "A list of high-level features is shown here."
+        ],
+        "list_order": 32768,
+        "parent_name": "Goal",
+        "parent": "2e4e7f46-b893-440e-84c3-7a893817cc67",
+        "uuid": "69277889-1b0b-4055-8c1e-907f23fed6a8",
+        "diagramelements":
+        [
+          {
+            "id": 443,
+            "classifier_name": "30 years operation time",
+            "node": "70539fe8-361d-40ed-8ab9-20977a9309e7",
+            "uuid": "0fdaec4f-06c4-49e3-ba0e-0f13e0b5628a"
+          },
+          {
+            "id": 444,
+            "classifier_name": "Autonomously drive ranges up to 10 km",
+            "node": "debef67d-129c-44d1-a944-2e6795df6f7f",
+            "uuid": "2e54cdf7-1a3d-427e-ad94-d1a698516183"
+          },
+          {
+            "id": 445,
+            "classifier_name": "Autonomously repair, replace things up to 1kg ",
+            "node": "3d6dbdac-45d6-4e96-9602-d9473dd32b6b",
+            "uuid": "8ccd17d8-0179-4f00-b1fc-a1b95c63c796"
           }
         ]
       }
@@ -123,7 +159,7 @@
         "type": "Block Definition Diagram", "diagram_type": 4,
         "name": "Scope and Context",
         "description": [
-                "This chapter shows\n",
+                "This section shows\n",
                 "- the users\n",
                 "- the uses (intended, unintended, misuses)\n",
                 "- the external conditions\n",
@@ -409,9 +445,9 @@
       "diagram": {
         "id": 44,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Requirements View",
+        "name": "Requirements on Moving",
         "description": [
-                "This diagram shows examples of system level requirements."
+                "This diagram shows the system level requirements related to driving use cases."
         ],
         "list_order": 32768,
         "parent_name": "Use Cases and Requirements",
@@ -427,23 +463,10 @@
             "uuid": "964266f7-c823-4607-af35-a7b6e3395b99"
           },
           {
-            "id": 236,
-            "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "Repair using tools",
-            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-            "uuid": "d817f954-4887-469c-bb2f-0c52a9fb9193"
-          },
-          {
             "id": 237,
             "classifier_name": "L1Req: Recognize paths",
             "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
             "uuid": "3983afe2-adf9-4da4-8b6a-e555f6b5bdf0"
-          },
-          {
-            "id": 238,
-            "classifier_name": "L1Req: Position screw driver",
-            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
-            "uuid": "ea4fed52-d285-41a7-91c3-393eac2064f3"
           },
           {
             "id": 299,
@@ -451,6 +474,51 @@
             "classifier_name": "Return to base location",
             "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
             "uuid": "27779e91-747a-4fc4-b99e-6d4f9824cd42"
+          },
+          {
+            "id": 448,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Autonomously drive ranges up to 10 km",
+            "node": "debef67d-129c-44d1-a944-2e6795df6f7f",
+            "uuid": "89bd0494-e393-47be-aeda-9b14e1377e44"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 71,
+        "type": "Requirement Diagram", "diagram_type": 9,
+        "name": "Requirements on Tool Usage",
+        "description": [
+                "This diagram shows the system level requirements related to repairing use ",
+                "cases."
+        ],
+        "list_order": 268463231,
+        "parent_name": "Use Cases and Requirements",
+        "parent": "eb0b6c0b-a4e4-42c3-86d5-200f51b2ed70",
+        "uuid": "52c5757b-547b-43a6-b218-a0e595d881f0",
+        "diagramelements":
+        [
+          {
+            "id": 450,
+            "classifier_name": "L1Req: Position screw driver",
+            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+            "uuid": "e8275217-12db-46ba-bc5e-2f260899bcb4"
+          },
+          {
+            "id": 451,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Autonomously repair, replace things up to 1kg ",
+            "node": "3d6dbdac-45d6-4e96-9602-d9473dd32b6b",
+            "uuid": "7261803b-7089-49a5-ba33-3b482afb0939"
+          },
+          {
+            "id": 452,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Repair using tools",
+            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+            "uuid": "0d6cc887-cf29-43ba-a03c-0b94a222cfbf"
           }
         ]
       }
@@ -464,8 +532,8 @@
                 "This section shows the major quality requrements and scenarios. (Problem Space, ",
                 "System Level)\n",
                 "\n",
-                "In the following, requirements and scenarios are selected that show the quality ",
-                "expectations: The WHAT shall be implemented, not the HOW.\n",
+                "In the following, requirements and scenarios are presented that show the ",
+                "quality expectations: They focus on WHAT shall be implemented, not on the HOW.\n",
                 ""
         ],
         "list_order": 1073754623,
@@ -583,6 +651,13 @@
             "classifier_name": "Self-Diagnosis",
             "node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
             "uuid": "b0c5b46c-c5cc-46b4-8d74-6016c21785be"
+          },
+          {
+            "id": 447,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "30 years operation time",
+            "node": "70539fe8-361d-40ed-8ab9-20977a9309e7",
+            "uuid": "a7eb7d22-3b9a-4c58-b63f-7ea57eb1b762"
           }
         ]
       }
@@ -969,7 +1044,7 @@
         "type": "State Diagram", "diagram_type": 12,
         "name": "Functionality per movement-related mode",
         "description": [
-                "This diagram shows the functionalities that area available in the operation ",
+                "This diagram shows the functionalities that are available in the operation ",
                 "modes related to moving."
         ],
         "list_order": 536942191,
@@ -1668,8 +1743,8 @@
                 "This section shows the goals of the software development for the MoD5G (Problem ",
                 "Space, Software Level)\n",
                 "\n",
-                "In gray, the use cases on system level are repeated from D0002#name to show the ",
-                "refinement to software-only use cases shown in black."
+                "In gray, the use cases on system level are repeated from D0002#name.\n",
+                "In black, the refinement to software-only use cases is presented."
         ],
         "list_order": 32768,
         "parent_name": "Software [subsystem]",
@@ -1743,7 +1818,7 @@
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Requirements",
         "description": [
-                "This diagram shows examples of software level requirements."
+                "This diagram shows the software level requirements."
         ],
         "list_order": 32768,
         "parent_name": "Requirements and Goals",
@@ -3470,7 +3545,7 @@
         "description": [
                 "The mouse droid is a repair droid.\n",
                 "\n",
-                "An operation supervision department \n",
+                "An operation execution department \n",
                 "defines a mission for the mouse droid.\n",
                 "\n",
                 "The mouse droid autonomously drives to the destination location,\n",
@@ -3555,7 +3630,7 @@
             "type": "Port", "main_type": 2,
             "key": "charge connector",
             "description": [
-                ""
+                "Via the charge connector, the energy call can be refreshed."
             ],
             "list_order": -1689509291,
             "uuid": "055054b6-e39b-4c72-ac46-8043cedddd82"
@@ -3565,7 +3640,8 @@
             "type": "Port", "main_type": 2,
             "key": "program connector",
             "description": [
-                ""
+                "Via the program connector, an operator provides the data for a mission to be ",
+                "performed."
             ],
             "list_order": 1724107938,
             "uuid": "2fcc78fe-5d3f-442d-a0c6-847565dbc0ee"
@@ -5469,7 +5545,8 @@
             "type": "Port", "main_type": 2,
             "key": "program connector",
             "description": [
-                ""
+                "Via the program connector, an operator instructs the MoD5G on the mission to be ",
+                "performed."
             ],
             "list_order": 1142318628,
             "uuid": "0ae553d8-86a0-4f47-886f-e7d21871a9ed"
@@ -5496,7 +5573,8 @@
             "type": "Port", "main_type": 2,
             "key": "charge connector",
             "description": [
-                ""
+                "Via the charge connector, the energy call of the MoD5G or other droids can be ",
+                "refreshed."
             ],
             "list_order": 295446375,
             "uuid": "d19c9719-423c-435d-a8c9-281dd9695bf3"
@@ -5510,8 +5588,8 @@
         "type": "Node", "main_type": 120,
         "name": "Maintenance Booth",
         "description": [
-                "A thie booth, a mechanic analyzes the health of the MoD5G and replaces parts if ",
-                "damaged."
+                "At this booth, a mechanic analyzes the health of the MoD5G and replaces parts ",
+                "if damaged."
         ],
         "x_order": 396257535,
         "y_order": 514857488,
@@ -8356,6 +8434,63 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 223,
+        "type": "Requirement", "main_type": 99,
+        "stereotype": "feature",
+        "name": "30 years operation time",
+        "description": [
+                "The MoD5G shall be designed for a lifetime of 30 years."
+        ],
+        "x_order": 1858836500,
+        "y_order": -29093700,
+        "list_order": -1564260931,
+        "uuid": "70539fe8-361d-40ed-8ab9-20977a9309e7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 224,
+        "type": "Requirement", "main_type": 99,
+        "stereotype": "feature",
+        "name": "Autonomously drive ranges up to 10 km",
+        "description": [
+                "The MoD5G shall reach target locations and be able to return to its base ",
+                "station.\n",
+                "The range shall be 10 km or more."
+        ],
+        "x_order": 1858836500,
+        "y_order": -2003601269,
+        "list_order": -1887648884,
+        "uuid": "debef67d-129c-44d1-a944-2e6795df6f7f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 225,
+        "type": "Requirement", "main_type": 99,
+        "stereotype": "feature",
+        "name": "Autonomously repair, replace things up to 1kg ",
+        "description": [
+                "The MoD5G shall autonomously repair or clean things or gather intelligence.\n",
+                "Repairing includes replacing parts of up to 1kg weight."
+        ],
+        "x_order": 1858836500,
+        "y_order": -1098273826,
+        "list_order": -2008146440,
+        "uuid": "3d6dbdac-45d6-4e96-9602-d9473dd32b6b",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -8623,6 +8758,22 @@
     },
     {
       "relationship": {
+        "id": 401,
+        "type": "Trace", "main_type": 401,
+        "name": "needed for",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "30 years spare-parts supply",
+        "to_classifier_name": "30 years operation time",
+        "from_node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
+        "to_node": "70539fe8-361d-40ed-8ab9-20977a9309e7",
+        "uuid": "146f4f99-c73b-4e2b-8bba-b8a65540eadc"
+      }
+    },
+    {
+      "relationship": {
         "id": 9,
         "type": "Refinement", "main_type": 400,
         "name": "",
@@ -8651,6 +8802,22 @@
         "from_node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
         "to_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
         "uuid": "3838574a-4989-4678-92a7-1524bd67b45a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 404,
+        "type": "Trace", "main_type": 401,
+        "name": "needed for",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Self-Diagnosis",
+        "to_classifier_name": "30 years operation time",
+        "from_node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
+        "to_node": "70539fe8-361d-40ed-8ab9-20977a9309e7",
+        "uuid": "0f4fe08f-6301-41f8-bb3a-a253b9ab1838"
       }
     },
     {
@@ -12430,6 +12597,22 @@
     },
     {
       "relationship": {
+        "id": 402,
+        "type": "Trace", "main_type": 401,
+        "name": "needed for",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "L1Req: Recognize paths",
+        "to_classifier_name": "Autonomously drive ranges up to 10 km",
+        "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "to_node": "debef67d-129c-44d1-a944-2e6795df6f7f",
+        "uuid": "b9ab1b52-413f-4ff2-861e-85eedef53bcd"
+      }
+    },
+    {
+      "relationship": {
         "id": 245,
         "type": "Trace", "main_type": 401,
         "name": "",
@@ -12442,6 +12625,22 @@
         "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "ff4c421b-3f79-4cae-8217-19284a6649c4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 403,
+        "type": "Trace", "main_type": 401,
+        "name": "needed for",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "L1Req: Position screw driver",
+        "to_classifier_name": "Autonomously repair, replace things up to 1kg ",
+        "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "to_node": "3d6dbdac-45d6-4e96-9602-d9473dd32b6b",
+        "uuid": "5e7dad80-4bf8-485b-bd85-dea0570879a7"
       }
     },
     {
@@ -13140,7 +13339,7 @@
       "relationship": {
         "id": 315,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Base Station AND all functions finished",
+        "name": "@Base location AND all functions finished",
         "description": [
                 ""
         ],
@@ -13156,7 +13355,7 @@
       "relationship": {
         "id": 316,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Maintenance Booth && damaged",
+        "name": "@Maintenance booth && damaged",
         "description": [
                 ""
         ],
@@ -13172,7 +13371,7 @@
       "relationship": {
         "id": 317,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Base Station && not fully charged",
+        "name": "@Base location && not fully charged",
         "description": [
                 ""
         ],
@@ -13188,7 +13387,7 @@
       "relationship": {
         "id": 318,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Base Station && operator initiates programming",
+        "name": "@Base location && operator starts programming",
         "description": [
                 ""
         ],
@@ -13204,7 +13403,7 @@
       "relationship": {
         "id": 319,
         "type": "Control Flow", "main_type": 240,
-        "name": "Mission not completed OR not @Base Station",
+        "name": "Mission not completed OR not @Base location",
         "description": [
                 ""
         ],
@@ -13220,7 +13419,7 @@
       "relationship": {
         "id": 320,
         "type": "Control Flow", "main_type": 240,
-        "name": "Mission not completed AND @Target Location",
+        "name": "Mission not completed AND @Target location",
         "description": [
                 ""
         ],
@@ -13268,7 +13467,7 @@
       "relationship": {
         "id": 350,
         "type": "Dependency", "main_type": 0,
-        "name": "",
+        "name": "needed for use case",
         "description": [
                 ""
         ],
@@ -13284,7 +13483,7 @@
       "relationship": {
         "id": 352,
         "type": "Dependency", "main_type": 0,
-        "name": "",
+        "name": "needed for use case",
         "description": [
                 ""
         ],
@@ -13332,7 +13531,7 @@
       "relationship": {
         "id": 351,
         "type": "Dependency", "main_type": 0,
-        "name": "",
+        "name": "needed for use case",
         "description": [
                 ""
         ],

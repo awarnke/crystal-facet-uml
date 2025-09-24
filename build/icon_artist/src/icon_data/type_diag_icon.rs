@@ -30,15 +30,15 @@ const CX: f32 = 16.0;
 /// icon center y
 const CY: f32 = 12.0;
 
+/// half line width
+const HALFLINE: f32 = 0.5;
+
 /// gray line color
 static GRAY: geometry::Color = geometry::Color {
     red: 0x7f,
     green: 0x7f,
     blue: 0x7f,
 };
-
-/// half line width
-const HALFLINE: f32 = 0.5;
 
 /// gray pen
 static GRAY_PEN: geometry::Pen = geometry::Pen {
