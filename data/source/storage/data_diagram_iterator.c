@@ -39,8 +39,10 @@ const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_RELATIONSHIP_ID =
     "ORDER BY ( (source.focused_feature_id ISNULL) AND (dest.focused_feature_id ISNULL) ) ASC,"  /* start with interactions/scenarios */
     "diagrams.list_order ASC,diagrams.id ASC;";  /* ensure always the same order */
 
-    /* Note: This query omits scenario/interaction diagrams which contain the searched relationship */
-    /* as invariant/non-scenario relationship. For todays version this should be fine. */
+    /* Note: This query omits scenario/interaction diagrams */
+    /* which either contain the searched relationship as invariant/non-scenario relationship */
+    /* or which show another lifeline than the one of the searched relationship. */
+    /* It does not filter any invariant/non-scenario diagram even if the relationship is not visible there. */
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id

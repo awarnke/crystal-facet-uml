@@ -27,7 +27,6 @@ ideas for future versions:
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
 ! [ ] In Search View, show e.g. the Diagram Id to better explain why classifiers are shown multiple times
   [ ] In Nav+Search view, no linebreaks are introduced to long words
-  [ ] Searching for relationship ids finds too many occurrences for messages between lifelines
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -42,7 +41,7 @@ ideas for future versions:
       A simple solution is to consider the type of the classifier when determining the weight for non-centered ends.
   [ ] A comment should only show the first paragraph. Or - like an svg-path - define other delimiters
   [ ] A comment should consider CJK linebreaks - like the json export (or should pango do this?)
-! [ ] An image should allow to show an svg-<path> without a stereotype
+  [ ] An image should allow to show an svg-<path> without a stereotype
   [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
   [?] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
   @io
