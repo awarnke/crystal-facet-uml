@@ -7,24 +7,24 @@
 #include "gui_gtk.h"
 #include <assert.h>
 
-#if 0
+#if 1
 /* to convert the source file from e.g. char to int, you may uncomment this here: */
 void gui_sketch_background_private_write_as_ints( gui_sketch_background_t *this_ )
 {
     fprintf(stdout,"%s","\n    ");
-    GdkPixbuf *bg_img = gui_resources_get_sketch_background( (*this_).resources );
-    int icon_width = gdk_pixbuf_get_width( bg_img );
-    int icon_height = gdk_pixbuf_get_height( bg_img );
+    cairo_surface_t *bg_img = gui_resources_get_sketch_background( (*this_).resources );
+    int icon_width = cairo_image_surface_get_width( bg_img );
+    int icon_height = cairo_image_surface_get_height( bg_img );
+    unsigned char *data = cairo_image_surface_get_data( bg_img );
     for ( int y = 0; y < icon_height; y++ )
     {
         for ( int x = 0; x < icon_width; x++ )
         {
-            guchar* data = gdk_pixbuf_get_pixels( bg_img );
             guchar r = data[(4*(x+(y*icon_width)))+0];
             guchar g = data[(4*(x+(y*icon_width)))+1];
             guchar b = data[(4*(x+(y*icon_width)))+2];
             guchar a = data[(4*(x+(y*icon_width)))+3];
-            fprintf(stdout,"%3d,%3d,%3d,%3d, ", r, g, b, a);
+            fprintf(stdout,"O3R(%3d,%3d,%3d,%3d), ", r, g, b, a);
             if ( (x & 7) == 7 )
             {
                 fprintf(stdout,"%s","\n    ");
@@ -45,7 +45,9 @@ void gui_sketch_background_init( gui_sketch_background_t *this_,
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     (*this_).resources = resources;
     (*this_).texture_downloader = texture_downloader;
-    /*gui_sketch_background_private_write_as_ints( this_ );*/
+#if 1
+    gui_sketch_background_private_write_as_ints( this_ );
+#endif
 
     U8_TRACE_END();
 }
