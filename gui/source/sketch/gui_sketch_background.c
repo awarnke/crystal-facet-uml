@@ -8,6 +8,7 @@
 #include <assert.h>
 
 #if 0
+/* to convert the source file from e.g. char to int, you may uncomment this here: */
 void gui_sketch_background_private_write_as_ints( gui_sketch_background_t *this_ )
 {
     fprintf(stdout,"%s","\n    ");
@@ -102,10 +103,10 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     /* if there is enough space, draw a nice picture bar on the left side */
     if ( width > 192 )
     {
-        GdkPixbuf *bg_img = gui_resources_get_sketch_background( (*this_).resources );
-        double icon_width = gdk_pixbuf_get_width ( bg_img );
-        double icon_height = gdk_pixbuf_get_height ( bg_img );
-        gdk_cairo_set_source_pixbuf( cr, bg_img, left, top );
+        cairo_surface_t *bg_img = gui_resources_get_sketch_background( (*this_).resources );
+        int icon_width = cairo_image_surface_get_width( bg_img );
+        int icon_height = cairo_image_surface_get_height( bg_img );
+        cairo_set_source_surface( cr, bg_img, left, top );
         cairo_rectangle ( cr, left, top, icon_width, icon_height );
         cairo_fill (cr);
 

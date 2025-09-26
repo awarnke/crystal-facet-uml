@@ -4,6 +4,7 @@
 #include "u8/u8_trace.h"
 #include "gui_gtk.h"
 #include <stdbool.h>
+#include <assert.h>
 
 /* including resource files */
 
@@ -146,24 +147,19 @@
 #include "resources/type_rel_sync.c"
 #include "resources/type_rel_trace.c"
 
-#define GIMP_PIXBUF_DATA(STRUCTNAME) &(STRUCTNAME.pixel_data[0]), GDK_COLORSPACE_RGB, true /* alpha */, 8, \
-                                     STRUCTNAME.width, STRUCTNAME.height, STRUCTNAME.width * STRUCTNAME.bytes_per_pixel, \
-                                     NULL, NULL
+#define GIMP_PIXBUF_DATA(STRUCTNAME) &(STRUCTNAME.pixel_data[0]), \
+                                     STRUCTNAME.width, STRUCTNAME.height, STRUCTNAME.width * STRUCTNAME.bytes_per_pixel
 
-GdkTexture *gui_resources_new_texture_from_pixbuf_data( const guchar* data,
-                                                        GdkColorspace colorspace,
-                                                        gboolean has_alpha,
-                                                        int bits_per_sample,
+GdkTexture *gui_resources_new_texture_from_pixbuf_data( gconstpointer data,
                                                         int width,
                                                         int height,
-                                                        int rowstride,
-                                                        GdkPixbufDestroyNotify destroy_fn,
-                                                        gpointer destroy_fn_data
+                                                        int rowstride
                                                       )
 {
-    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data( data, colorspace, has_alpha, bits_per_sample, width, height, rowstride, destroy_fn, destroy_fn_data );
-    GdkTexture *result = gdk_texture_new_for_pixbuf( pixbuf );
-    g_object_unref( pixbuf );
+    const GdkMemoryFormat pixelfmt = GDK_MEMORY_R8G8B8A8;
+    GBytes *data_as_bytes = g_bytes_new_static( data, rowstride*height );
+    GdkTexture *result = gdk_memory_texture_new( width, height, pixelfmt, data_as_bytes, rowstride );
+    /* do not unref while still in use : g_object_unref( data_as_bytes ); */
     return result;
 }
 
@@ -214,7 +210,14 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).navigate_create_sibling_0 = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_sibling_0 ) );
     (*this_).navigate_open_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_open_folder ) );
 
-    (*this_).sketch_background = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( sketch_background ) );
+    (*this_).sketch_background = cairo_image_surface_create_for_data( (unsigned char*)&(sketch_background.pixel_data[0]),
+                                                                      CAIRO_FORMAT_ARGB32,
+                                                                      sketch_background.width,
+                                                                      sketch_background.height,
+                                                                      sketch_background.width * sketch_background.bytes_per_pixel
+                                                                    );
+    assert( CAIRO_STATUS_SUCCESS == ( cairo_surface_status( (*this_).sketch_background ) ) );
+
     (*this_).sketch_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_create ) );
     (*this_).sketch_refine = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_refine ) );
     (*this_).sketch_relate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( sketch_relate ) );
@@ -366,7 +369,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).navigate_create_sibling_0);
     g_object_unref ((*this_).navigate_open_folder);
 
-    g_object_unref ((*this_).sketch_background);  /* Type: GdkPixbuf */
+    cairo_surface_destroy( (*this_).sketch_background );  /* type: cairo_surface_t */
     g_object_unref ((*this_).sketch_create);
     g_object_unref ((*this_).sketch_refine);
     g_object_unref ((*this_).sketch_relate);
