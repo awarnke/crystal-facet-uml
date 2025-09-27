@@ -7,7 +7,7 @@
 #include "gui_gtk.h"
 #include <assert.h>
 
-#if 1
+#if 0
 /* to convert the source file from e.g. char to int, you may uncomment this here: */
 void gui_sketch_background_private_write_as_ints( gui_sketch_background_t *this_ )
 {
@@ -45,7 +45,7 @@ void gui_sketch_background_init( gui_sketch_background_t *this_,
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     (*this_).resources = resources;
     (*this_).texture_downloader = texture_downloader;
-#if 1
+#if 0
     gui_sketch_background_private_write_as_ints( this_ );
 #endif
 

@@ -1,4 +1,8 @@
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#define O3R(r,g,b,a) a,r,g,b
+#else
 #define O3R(r,g,b,a) b,g,r,a
+#endif
 static const struct {
     guint  width;
     guint  height;
