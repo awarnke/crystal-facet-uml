@@ -1,15 +1,8 @@
-
-uml.dir/pencil/source/pencil_feature_painter.c.o" "CMakeFiles/test_crystal-facet-uml.dir/pencil/source/pencil_f/home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.6-build/crystal-facet-uml-1.65.6/u8stream/include/utf8stringbuf/utf8stringbuf.inl: In function ‘testGetEnd’:
-[  685s] /home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.6-build/crystal-facet-uml-1.65.6/u8stream/include/utf8stringbuf/utf8stringbuf.inl:312:13: warning: ‘__builtin_memcpy’ writing 3 bytes into a region of size 2 [-Wstringop-overflow=]
-[  685s]   312 |             memcpy( &((*this_).buf[start]), appendix, appLen+1 );
-[  685s]       |             ^
-[  685s] /home/abuild/rpmbuild/BUILD/crystal-facet-uml-1.65.6-build/crystal-facet-uml-1.65.6/u8stream/test/unit/utf8stringbuf_test.c:880:10: note: at offset 2 into destination object ‘dynTestArr1’ of size 4
-[  685s]   880 |     char dynTestArr1[4] = "";
-
 crystal-facet-uml (1.65.7) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * replaced deprecated gdk_texture_new_for_pixbuf, gdk_cairo_set_source_pixbuf
+  * workaround for false positive Wstringop-overflow at utf8stringbuf.inl:312
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 25 Sep 2025 06:00:00 +0200
 

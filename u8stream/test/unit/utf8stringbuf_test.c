@@ -889,7 +889,7 @@ static test_case_result_t testGetEnd( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     dynTestEnd = utf8stringbuf_get_end( &dynTestBuf1 );
-    error = utf8stringbuf_append_str( &dynTestEnd, "Bb" );
+    error = utf8stringbuf_append_str( &dynTestEnd, "BbCc" );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "AaB" );
     TEST_EXPECT_EQUAL_INT( 1, equal );

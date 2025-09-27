@@ -71,10 +71,6 @@ ideas for future versions:
   [ ] undo and redo shall update the revision number of the database
       - so that the save button can indicate no changes
   @u8stream
-  [ ] Do something about the false positive (maybe remove the inline?)
-      /u8stream/include/utf8stringbuf/utf8stringbuf.inl: In function ‘testGetEnd’:
-      /u8stream/include/utf8stringbuf/utf8stringbuf.inl:312:13: warning: ‘__builtin_memcpy’ writing 3 bytes into a region of size 2 [-Wstringop-overflow=]
-      /u8stream/test/unit/utf8stringbuf_test.c:880:10: note: at offset 2 into destination object ‘dynTestArr1’ of size 4
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?

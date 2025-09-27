@@ -305,14 +305,7 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, cons
             /* possibly related to https://gcc.gnu.org/bugzilla/show_bug.cgi?id=105329 */
             /* or https://gcc.gnu.org/bugzilla/show_bug.cgi?id=89689 */
             assert( ( start + appLen + 1 ) <= (*this_).size );
-#if __GNUC__ >= 8
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstringop-overflow"
-#endif
             memcpy( &((*this_).buf[start]), appendix, appLen+1 );
-#if __GNUC__ >= 8
-#pragma GCC diagnostic pop
-#endif
         }
         else
         {
