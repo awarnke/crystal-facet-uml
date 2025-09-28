@@ -20,9 +20,9 @@ void gui_sketch_background_private_write_as_ints( gui_sketch_background_t *this_
     {
         for ( int x = 0; x < icon_width; x++ )
         {
-            guchar r = data[(4*(x+(y*icon_width)))+0];
+            guchar b = data[(4*(x+(y*icon_width)))+0];
             guchar g = data[(4*(x+(y*icon_width)))+1];
-            guchar b = data[(4*(x+(y*icon_width)))+2];
+            guchar r = data[(4*(x+(y*icon_width)))+2];
             guchar a = data[(4*(x+(y*icon_width)))+3];
             fprintf(stdout,"O3R(%3d,%3d,%3d,%3d), ", r, g, b, a);
             if ( (x & 7) == 7 )
@@ -108,22 +108,14 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
         cairo_surface_t *bg_img = gui_resources_get_sketch_background( (*this_).resources );
         int icon_width = cairo_image_surface_get_width( bg_img );
         int icon_height = cairo_image_surface_get_height( bg_img );
-        cairo_set_source_surface( cr, bg_img, left, top );
-        cairo_rectangle ( cr, left, top, icon_width, icon_height );
-        cairo_fill (cr);
-
-        text_area_start = left+icon_width;
-
-        if ( height > icon_height )
+        const unsigned int tiles = (height+(icon_height-1))/icon_height;
+        for ( unsigned int tile = 0; tile < tiles; tile ++ )
         {
-            cairo_set_source_rgba( cr, 0.0, 0.4, 0.3, 1.0 );
-            cairo_rectangle ( cr, left, top+icon_height, icon_width, height-icon_height );
-            cairo_fill (cr);
-            cairo_move_to( cr, left, top+icon_height );
-            cairo_line_to( cr, left+icon_width, top+icon_height );
-            cairo_line_to( cr, left, top+icon_height-(0.3*icon_width) );
+            cairo_set_source_surface( cr, bg_img, left, top + ( tile * icon_height ) );
+            cairo_rectangle ( cr, left, top + ( tile * icon_height ), icon_width, icon_height );
             cairo_fill (cr);
         }
+        text_area_start = left+icon_width;
     }
     else
     {
