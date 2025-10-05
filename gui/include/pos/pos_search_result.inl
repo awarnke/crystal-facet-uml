@@ -65,6 +65,11 @@ static inline data_id_t pos_search_result_get_data_id ( const pos_search_result_
     return data_search_result_get_match_id( (*this_).data );
 }
 
+static inline data_id_t pos_search_result_get_diagram_id ( const pos_search_result_t *this_ )
+{
+    return data_search_result_get_diagram_id( (*this_).data );
+}
+
 
 /*
 Copyright 2021-2025 Andreas Warnke

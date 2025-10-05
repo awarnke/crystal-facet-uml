@@ -89,14 +89,24 @@ static inline void pos_search_result_set_label_box ( pos_search_result_t *this_,
 static inline const data_search_result_t *pos_search_result_get_data_const ( const pos_search_result_t *this_ );
 
 /*!
- *  \brief gets the row id of the data_search_result
+ *  \brief gets the object id of the data_search_result
  *
- *  This is a shortcut for data_feature_get_row_id( pos_search_result_get_data_const ( X ) )
+ *  This is a shortcut for data_search_result_get_match_id( (*this_).data );
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the data_search_result
  */
 static inline data_id_t pos_search_result_get_data_id ( const pos_search_result_t *this_ );
+
+/*!
+ *  \brief gets the diagram id of the data_search_result
+ *
+ *  This is a shortcut for data_search_result_get_diagram_id( (*this_).data );
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the data_search_result
+ */
+static inline data_id_t pos_search_result_get_diagram_id ( const pos_search_result_t *this_ );
 
 #include "pos_search_result.inl"
 

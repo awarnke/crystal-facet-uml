@@ -217,13 +217,15 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
  *  \brief determines the object at a given position and returns its id. The object can be a diagram.
  *
  *  \param this_ pointer to own object attributes
- *  \param search_id the object id to be searched in the gui_sketch_result_list
+ *  \param search_obj_id the object id to be searched in the gui_sketch_result_list
+ *  \param search_diag_id the diagram id to be searched in the gui_sketch_result_list
  *  \param[out] out_result_envelope_box the envelope box of the search result.
  *                                      The envelope box encompasses the icon box and the label box of the search result.
  *  \return DATA_ERROR_NONE if the search result exists, U8_ERROR_NOT_FOUND if there is no fitting search result on the current page
  */
 static inline u8_error_t gui_sketch_result_list_get_result_envelope ( gui_sketch_result_list_t *this_,
-                                                                      const data_id_t* search_id,
+                                                                      const data_id_t* search_obj_id,
+                                                                      const data_id_t* search_diag_id,
                                                                       shape_int_rectangle_t* out_result_envelope_box
                                                                     );
 

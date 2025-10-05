@@ -576,11 +576,6 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
     U8_TRACE_END();
 }
 
-static const double GREY_R = 0.8;
-static const double GREY_G = 0.8;
-static const double GREY_B = 0.8;
-static const double GREY_A = 1.0;
-
 void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
     U8_TRACE_BEGIN();
@@ -594,18 +589,6 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             const PangoFontDescription *const std_font
                 = gui_sketch_style_get_standard_font_description( &((*this_).sketch_style ) );
             pango_layout_set_font_description ( font_layout, std_font );
-        }
-
-        /* draw background */
-        {
-            const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-            const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-            const uint_fast32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-            const uint_fast32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
-
-            cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
-            cairo_rectangle ( cr, left, top, width, height );
-            cairo_fill (cr);
         }
 
         /* draw icons and text */

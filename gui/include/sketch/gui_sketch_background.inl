@@ -2,16 +2,23 @@
 
 #include "u8/u8_log.h"
 
-static inline shape_int_rectangle_t gui_sketch_background_get_bounds( gui_sketch_background_t *this_ )
+static inline const shape_int_rectangle_t *gui_sketch_background_get_card_bounds( gui_sketch_background_t *this_ )
 {
-    return (*this_).bounds;
+    return &((*this_).card_bounds);
 }
 
-static inline void gui_sketch_background_set_bounds( gui_sketch_background_t *this_, shape_int_rectangle_t bounds )
+static inline const shape_int_rectangle_t *gui_sketch_background_get_label_bounds( gui_sketch_background_t *this_ )
 {
-    (*this_).bounds = bounds;
+    return &((*this_).label_bounds);
 }
 
+static inline void gui_sketch_background_set_bounds( gui_sketch_background_t *this_,
+                                                     const shape_int_rectangle_t *card_bounds,
+                                                     const shape_int_rectangle_t *label_bounds )
+{
+    shape_int_rectangle_replace( &((*this_).card_bounds), card_bounds );
+    shape_int_rectangle_replace( &((*this_).label_bounds), label_bounds );
+}
 
 
 /*

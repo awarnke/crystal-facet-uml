@@ -19,7 +19,8 @@
  *  \brief attributes of the sketch background
  */
 struct gui_sketch_background_struct {
-    shape_int_rectangle_t bounds;  /*!< bounding box of the background */
+    shape_int_rectangle_t card_bounds;  /*!< bounding box of the background of the cards area */
+    shape_int_rectangle_t label_bounds;  /*!< bounding box of the background of the nav_tree or the search result list */
     gui_resources_t *resources;  /*!< pointer to external resources */
     gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
@@ -46,20 +47,32 @@ void gui_sketch_background_init( gui_sketch_background_t *this_,
 void gui_sketch_background_destroy( gui_sketch_background_t *this_ );
 
 /*!
- *  \brief gets the bounds rectangle
+ *  \brief gets the bounds rectangle of the cards area
  *
  *  \param this_ pointer to own object attributes
- *  \return returns the bounding box of this sketch card
+ *  \return returns the bounding box of this sketch areas card area
  */
-static inline shape_int_rectangle_t gui_sketch_background_get_bounds( gui_sketch_background_t *this_ );
+static inline const shape_int_rectangle_t *gui_sketch_background_get_card_bounds( gui_sketch_background_t *this_ );
+
+/*!
+ *  \brief gets the bounds rectangle of the list labels
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return returns the bounding box of this sketch areas list label area
+ */
+static inline const shape_int_rectangle_t *gui_sketch_background_get_label_bounds( gui_sketch_background_t *this_ );
 
 /*!
  *  \brief sets the bounds rectangle
  *
  *  \param this_ pointer to own object attributes
- *  \param bounds bounding box of this sketch card
+ *  \param card_bounds bounding box of this sketch areas card area
+ *  \param label_bounds bounding box of this sketch areas list label area
  */
-static inline void gui_sketch_background_set_bounds( gui_sketch_background_t *this_, shape_int_rectangle_t bounds );
+static inline void gui_sketch_background_set_bounds( gui_sketch_background_t *this_,
+                                                     const shape_int_rectangle_t *card_bounds,
+                                                     const shape_int_rectangle_t *label_bounds
+                                                   );
 
 /*!
  *  \brief draws background graphics to the cairo context, including the introduction
@@ -113,12 +126,12 @@ void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t 
  *  \brief draws a connector line from the object box to the diagram card box
  *
  *  \param this_ pointer to own object attributes
- *  \param object_box bounding box of icon and label of the object
+ *  \param label_box bounding box of icon and label of the object
  *  \param card_box bounding box of the diagram card
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_draw_appears_link( gui_sketch_background_t *this_,
-                                              const shape_int_rectangle_t *object_box,
+                                              const shape_int_rectangle_t *label_box,
                                               const shape_int_rectangle_t *card_box,
                                               cairo_t *cr
                                             );

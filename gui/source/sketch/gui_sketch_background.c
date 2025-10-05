@@ -42,7 +42,8 @@ void gui_sketch_background_init( gui_sketch_background_t *this_,
     assert( resources != NULL );
     assert( texture_downloader != NULL );
 
-    shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
+    shape_int_rectangle_init( &((*this_).card_bounds), 0, 0, 0, 0 );
+    shape_int_rectangle_init( &((*this_).label_bounds), 0, 0, 0, 0 );
     (*this_).resources = resources;
     (*this_).texture_downloader = texture_downloader;
 #if 0
@@ -56,7 +57,8 @@ void gui_sketch_background_destroy( gui_sketch_background_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    shape_int_rectangle_destroy( &((*this_).bounds) );
+    shape_int_rectangle_destroy( &((*this_).card_bounds) );
+    shape_int_rectangle_destroy( &((*this_).label_bounds) );
     (*this_).resources = NULL;
     (*this_).texture_downloader = NULL;
 
@@ -67,25 +69,21 @@ static const double BLACK_R = 0.0;
 static const double BLACK_G = 0.0;
 static const double BLACK_B = 0.0;
 static const double BLACK_A = 1.0;
-static const double DARK_R = 0.3;
-static const double DARK_G = 0.3;
-static const double DARK_B = 0.3;
+static const double DARK_R = 0.375;
+static const double DARK_G = 0.375;
+static const double DARK_B = 0.375;
 static const double DARK_A = 1.0;
-static const double D_GREY_R = 0.4;
-static const double D_GREY_G = 0.4;
-static const double D_GREY_B = 0.4;
-static const double D_GREY_A = 1.0;
-static const double GREY_R = 0.7;
-static const double GREY_G = 0.7;
-static const double GREY_B = 0.7;
+static const double GREY_R = 0.75;
+static const double GREY_G = 0.75;
+static const double GREY_B = 0.75;
 static const double GREY_A = 1.0;
 static const double ORANGE_R = 1.0;
-static const double ORANGE_G = 0.8;
+static const double ORANGE_G = 0.75;
 static const double ORANGE_B = 0.5;
 static const double ORANGE_A = 1.0;
-static const double LIGHT_R = 0.8;
-static const double LIGHT_G = 0.8;
-static const double LIGHT_B = 0.8;
+static const double LIGHT_R = 0.875;
+static const double LIGHT_G = 0.875;
+static const double LIGHT_B = 0.875;
 static const double LIGHT_A = 1.0;
 static const double BORDER = 8;  /* border between text/icons and ground rectangle */
 
@@ -95,10 +93,10 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).card_bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).card_bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).card_bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).card_bounds) );
 
     int32_t text_area_start;
 
@@ -171,10 +169,20 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    /* draw background of nav_tree list labels */
+    const int32_t label_left = shape_int_rectangle_get_left( &((*this_).label_bounds) );
+    const int32_t label_top = shape_int_rectangle_get_top( &((*this_).label_bounds) );
+    const uint32_t label_width = shape_int_rectangle_get_width( &((*this_).label_bounds) );
+    const uint32_t label_height = shape_int_rectangle_get_height( &((*this_).label_bounds) );
+    cairo_set_source_rgba( cr, LIGHT_R, LIGHT_G, LIGHT_B, LIGHT_A );
+    cairo_rectangle ( cr, label_left, label_top, label_width, label_height );
+    cairo_fill (cr);
+
+    /* draw background of cards area */
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).card_bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).card_bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).card_bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).card_bounds) );
 
     if ( 0 == tree_depth )
     {
@@ -182,7 +190,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     }
     else
     {
-        cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
+        cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
     }
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
@@ -202,10 +210,20 @@ void gui_sketch_background_draw_search( gui_sketch_background_t *this_, cairo_t 
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    /* draw background of search result list list labels */
+    const int32_t label_left = shape_int_rectangle_get_left( &((*this_).label_bounds) );
+    const int32_t label_top = shape_int_rectangle_get_top( &((*this_).label_bounds) );
+    const uint32_t label_width = shape_int_rectangle_get_width( &((*this_).label_bounds) );
+    const uint32_t label_height = shape_int_rectangle_get_height( &((*this_).label_bounds) );
+    cairo_set_source_rgba( cr, LIGHT_R, LIGHT_G, LIGHT_B, LIGHT_A );
+    cairo_rectangle ( cr, label_left, label_top, label_width, label_height );
+    cairo_fill (cr);
+
+    /* draw background of cards area */
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).card_bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).card_bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).card_bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).card_bounds) );
 
     cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
     cairo_rectangle ( cr, left, top, width, height );
@@ -219,10 +237,10 @@ void gui_sketch_background_draw_edit( gui_sketch_background_t *this_, cairo_t *c
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).card_bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).card_bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).card_bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).card_bounds) );
 
     cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
     cairo_rectangle ( cr, left, top, width, height );
@@ -236,10 +254,10 @@ void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t 
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).card_bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).card_bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).card_bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).card_bounds) );
 
     cairo_set_source_rgba( cr, ORANGE_R, ORANGE_G, ORANGE_B, ORANGE_A );
     cairo_rectangle ( cr, left, top, width, height );
@@ -249,28 +267,46 @@ void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t 
 }
 
 void gui_sketch_background_draw_appears_link( gui_sketch_background_t *this_,
-                                              const shape_int_rectangle_t *object_box,
+                                              const shape_int_rectangle_t *label_box,
                                               const shape_int_rectangle_t *card_box,
                                               cairo_t *cr )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != object_box );
+    assert( NULL != label_box );
     assert( NULL != card_box );
     assert( NULL != cr );
 
-    const int32_t obj_left = shape_int_rectangle_get_left( object_box );
-    const int32_t obj_top = shape_int_rectangle_get_top( object_box );
-    const uint32_t obj_width = shape_int_rectangle_get_width( object_box );
-    const uint32_t obj_height = shape_int_rectangle_get_height( object_box );
+    const int32_t label_left = shape_int_rectangle_get_left( label_box );
+    const int32_t label_top = shape_int_rectangle_get_top( label_box );
+    const uint32_t label_right = shape_int_rectangle_get_right( label_box );
+    const uint32_t label_bottom = shape_int_rectangle_get_bottom( label_box );
     const int32_t card_left = shape_int_rectangle_get_left( card_box );
     const int32_t card_top = shape_int_rectangle_get_top( card_box );
-    const uint32_t card_width = shape_int_rectangle_get_width( card_box );
-    const uint32_t card_height = shape_int_rectangle_get_height( card_box );
+    const uint32_t card_right = shape_int_rectangle_get_right( card_box );
+    const uint32_t card_bottom = shape_int_rectangle_get_bottom( card_box );
 
-    cairo_set_source_rgba( cr, LIGHT_R, LIGHT_G, LIGHT_B, LIGHT_A );
-    cairo_move_to( cr, obj_left + obj_width, obj_top + ( obj_height / 2 ) );
-    cairo_line_to( cr, card_left, card_top + ( card_height / 2 ) );
-    cairo_stroke( cr );
+    cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
+    cairo_move_to( cr, label_right, label_top );
+    if ( label_top > card_bottom )
+    {
+        cairo_curve_to( cr, card_left, label_top, card_left, label_top, card_left, card_bottom );
+        cairo_line_to( cr, card_right, card_bottom );
+        cairo_curve_to( cr, card_right, label_bottom, card_right, label_bottom, label_right, label_bottom );
+    }
+    else if ( label_bottom < card_top )
+    {
+        cairo_curve_to( cr, card_right, label_top, card_right, label_top, card_right, card_top );
+        cairo_line_to( cr, card_left, card_top );
+        cairo_curve_to( cr, card_left, label_bottom, card_left, label_bottom, label_right, label_bottom );
+    }
+    else
+    {
+        const int32_t mid_x = ( label_right + card_left ) / 2;
+        cairo_curve_to( cr, mid_x, label_top, mid_x, card_top, card_left, card_top );
+        cairo_line_to( cr, card_left, card_bottom );
+        cairo_curve_to( cr, mid_x, card_bottom, mid_x, label_bottom, label_right, label_bottom );
+    }
+    cairo_fill( cr );
 
     U8_TRACE_END();
 }
@@ -280,10 +316,10 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    //const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    //const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).card_bounds) );
+    //const int32_t top = shape_int_rectangle_get_top( &((*this_).card_bounds) );
+    //const uint32_t width = shape_int_rectangle_get_width( &((*this_).card_bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).card_bounds) );
 
     const int32_t TAB_HEIGHT = 144 + BORDER;
     const int32_t TAB_WIDTH = 640 + BORDER;

@@ -244,9 +244,11 @@ void gui_sketch_area_draw( gui_sketch_area_t *this_, int width, int height, cair
 
     if ( ! data_database_reader_is_open( (*this_).db_reader ) )
     {
-        shape_int_rectangle_t bounds;
-        shape_int_rectangle_init( &bounds, 0, 0, width, height );
-        gui_sketch_background_set_bounds( &((*this_).background), bounds );
+        shape_int_rectangle_t card_bounds;
+        shape_int_rectangle_init( &card_bounds, 0, 0, width, height );
+        shape_int_rectangle_t label_bounds;
+        shape_int_rectangle_init( &label_bounds, 0, 0, 0, height );
+        gui_sketch_background_set_bounds( &((*this_).background), &card_bounds, &label_bounds );
         gui_sketch_background_draw_introduction( &((*this_).background), cr );
     }
     else
@@ -545,9 +547,11 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
 
     /* layout background */
     {
-        shape_int_rectangle_t background_bounds;
-        shape_int_rectangle_init( &background_bounds, cards_left, top, cards_width, height );
-        gui_sketch_background_set_bounds( &((*this_).background), background_bounds );
+        shape_int_rectangle_t card_ground_bounds;
+        shape_int_rectangle_init( &card_ground_bounds, cards_left, top, cards_width, height );
+        shape_int_rectangle_t label_list_bounds;
+        shape_int_rectangle_init( &label_list_bounds, left, top, cards_left-left, height );
+        gui_sketch_background_set_bounds( &((*this_).background), &card_ground_bounds, &label_list_bounds );
     }
 
     U8_TRACE_END();
@@ -570,7 +574,12 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
             const data_id_t high_obj = gui_marked_set_get_highlighted ( (*this_).marker );
             const data_id_t high_diag = gui_marked_set_get_highlighted_diagram ( (*this_).marker );
             shape_int_rectangle_t search_envelope_box;
-            const u8_error_t search_found = gui_sketch_result_list_get_result_envelope( &((*this_).result_list), &high_obj, &search_envelope_box );
+            const u8_error_t search_found
+                = gui_sketch_result_list_get_result_envelope( &((*this_).result_list),
+                                                              &high_obj,
+                                                              &high_diag,
+                                                              &search_envelope_box
+                                                            );
             const gui_sketch_card_t* card;
             const u8_error_t card_found = gui_sketch_area_private_get_card_of_id( this_, &high_diag, &card );
             if (( search_found == U8_ERROR_NONE )&&( card_found == U8_ERROR_NONE ))

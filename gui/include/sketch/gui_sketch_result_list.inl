@@ -156,10 +156,12 @@ static inline void gui_sketch_result_list_get_object_id_at_pos( const gui_sketch
 }
 
 static inline u8_error_t gui_sketch_result_list_get_result_envelope( gui_sketch_result_list_t *this_,
-                                                                     const data_id_t* search_id,
+                                                                     const data_id_t* search_obj_id,
+                                                                     const data_id_t* search_diag_id,
                                                                      shape_int_rectangle_t* out_result_envelope_box )
 {
-    assert( search_id != NULL );
+    assert( search_obj_id != NULL );
+    assert( search_diag_id != NULL );
     assert( out_result_envelope_box != NULL );
     u8_error_t err = U8_ERROR_NOT_FOUND;
 
@@ -171,8 +173,9 @@ static inline u8_error_t gui_sketch_result_list_get_result_envelope( gui_sketch_
     {
         const pos_search_result_t *const element = pos_search_result_page_get_search_result_layout_const( &((*this_).page), page_start + idx );
         const data_id_t element_id = pos_search_result_get_data_id( element );
+        const data_id_t diagram_id = pos_search_result_get_diagram_id( element );
 
-        if ( data_id_equals( &element_id, search_id ) )
+        if ( data_id_equals( &element_id, search_obj_id ) && data_id_equals( &diagram_id, search_diag_id ) )
         {
             const shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_const( element );
             const shape_int_rectangle_t *label_box = pos_search_result_get_label_box_const( element );
