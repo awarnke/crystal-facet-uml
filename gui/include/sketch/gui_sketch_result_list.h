@@ -121,7 +121,7 @@ static inline pos_scroll_page_t gui_sketch_result_list_get_next_page( gui_sketch
  *  \brief gets the bounds rectangle
  *
  *  \param this_ pointer to own object attributes
- *  \return returns the bounding box of this sketch card
+ *  \return returns the bounding box of this result list subwidget
  */
 static inline shape_int_rectangle_t gui_sketch_result_list_get_bounds( gui_sketch_result_list_t *this_ );
 
@@ -129,7 +129,7 @@ static inline shape_int_rectangle_t gui_sketch_result_list_get_bounds( gui_sketc
  *  \brief sets the bounds rectangle
  *
  *  \param this_ pointer to own object attributes
- *  \param bounds bounding box of this sketch card
+ *  \param bounds bounding box of this result list subwidget
  */
 static inline void gui_sketch_result_list_set_bounds( gui_sketch_result_list_t *this_, shape_int_rectangle_t bounds );
 
@@ -137,7 +137,7 @@ static inline void gui_sketch_result_list_set_bounds( gui_sketch_result_list_t *
  *  \brief gets the visible flag
  *
  *  \param this_ pointer to own object attributes
- *  \return true if this sketch card is currently visible
+ *  \return true if this result list subwidget is currently visible
  */
 static inline bool gui_sketch_result_list_is_visible( gui_sketch_result_list_t *this_ );
 
@@ -212,6 +212,20 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                                                                  data_id_t* out_selected_id,
                                                                  data_id_t* out_diagram_id
                                                                );
+
+/*!
+ *  \brief determines the object at a given position and returns its id. The object can be a diagram.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param search_id the object id to be searched in the gui_sketch_result_list
+ *  \param[out] out_result_envelope_box the envelope box of the search result.
+ *                                      The envelope box encompasses the icon box and the label box of the search result.
+ *  \return DATA_ERROR_NONE if the search result exists, U8_ERROR_NOT_FOUND if there is no fitting search result on the current page
+ */
+static inline u8_error_t gui_sketch_result_list_get_result_envelope ( gui_sketch_result_list_t *this_,
+                                                                      const data_id_t* search_id,
+                                                                      shape_int_rectangle_t* out_result_envelope_box
+                                                                    );
 
 /*!
  *  \brief draws the search result list

@@ -102,7 +102,7 @@ static inline gui_sketch_card_t *gui_sketch_area_private_get_card_at_pos ( gui_s
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
-        gui_sketch_card_t *card = &((*this_).cards[idx]);
+        gui_sketch_card_t *const card = &((*this_).cards[idx]);
         const shape_int_rectangle_t card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
@@ -110,6 +110,27 @@ static inline gui_sketch_card_t *gui_sketch_area_private_get_card_at_pos ( gui_s
             break;
         }
     }
+    return result;
+}
+
+static inline u8_error_t gui_sketch_area_private_get_card_of_id ( gui_sketch_area_t *this_, const data_id_t* diagram_id, const gui_sketch_card_t** out_card_ptr )
+{
+    assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
+    assert( diagram_id != NULL );
+    assert( out_card_ptr != NULL );
+    u8_error_t result = U8_ERROR_NOT_FOUND;
+
+    for ( int idx = 0; ( idx < (*this_).card_num )&&( result != U8_ERROR_NONE ); idx ++ )
+    {
+        const gui_sketch_card_t *const card = &((*this_).cards[idx]);
+        const data_id_t diag_id = gui_sketch_card_get_diagram_id ( card );
+        if ( data_id_equals( &diag_id, diagram_id ) )
+        {
+            *out_card_ptr = card;
+            result = U8_ERROR_NONE;
+        }
+    }
+
     return result;
 }
 

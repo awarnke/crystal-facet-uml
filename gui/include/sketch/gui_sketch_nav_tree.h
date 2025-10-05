@@ -109,7 +109,7 @@ void gui_sketch_nav_tree_destroy ( gui_sketch_nav_tree_t *this_ );
  *  \param diagram_id id of the diagram to load, DATA_ROW_VOID to set empty data
  *  \param db_reader pointer to a database reader object
  */
-void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t diagram_id, data_database_reader_t *db_reader );
+void gui_sketch_nav_tree_load_data ( gui_sketch_nav_tree_t *this_, data_row_t diagram_id, data_database_reader_t *db_reader );
 
 /*!
  *  \brief gets the id of the root diagram
@@ -179,7 +179,7 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ );
+void gui_sketch_nav_tree_invalidate_data ( gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief gets the bounds rectangle
@@ -187,7 +187,7 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return returns the bounding box of this sketch card
  */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_get_bounds( const gui_sketch_nav_tree_t *this_ );
+static inline shape_int_rectangle_t gui_sketch_nav_tree_get_bounds ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief sets the bounds rectangle
@@ -195,7 +195,7 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_get_bounds( const gui_sk
  *  \param this_ pointer to own object attributes
  *  \param bounds bounding box of this sketch card
  */
-static inline void gui_sketch_nav_tree_set_bounds( gui_sketch_nav_tree_t *this_, shape_int_rectangle_t bounds );
+static inline void gui_sketch_nav_tree_set_bounds ( gui_sketch_nav_tree_t *this_, shape_int_rectangle_t bounds );
 
 /*!
  *  \brief gets the visible flag
@@ -203,7 +203,7 @@ static inline void gui_sketch_nav_tree_set_bounds( gui_sketch_nav_tree_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return true if this sketch card is currently visible
  */
-static inline bool gui_sketch_nav_tree_is_visible( const gui_sketch_nav_tree_t *this_ );
+static inline bool gui_sketch_nav_tree_is_visible ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief sets the visible flag
@@ -327,12 +327,12 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
  *  \param font_layout the pango font rendering object for i18n suppoprt
  *  \param cr the cairo drawing engine
  */
-void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
-                                            const pos_nav_tree_node_t *node,
-                                            const gui_marked_set_t *marker,
-                                            PangoLayout *font_layout,
-                                            cairo_t *cr
-                                          );
+void gui_sketch_nav_tree_private_draw_node ( gui_sketch_nav_tree_t *this_,
+                                             const pos_nav_tree_node_t *node,
+                                             const gui_marked_set_t *marker,
+                                             PangoLayout *font_layout,
+                                             cairo_t *cr
+                                           );
 
 /*!
  *  \brief draws overlay graphics for dragging a diagram to the cairo context
@@ -341,10 +341,10 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
  *  \param drag_state current dragging status
  *  \param cr cairo drawing context
  */
-void gui_sketch_nav_tree_draw_overlay( const gui_sketch_nav_tree_t *this_,
-                                       const gui_sketch_drag_state_t *drag_state,
-                                       cairo_t *cr
-                                     );
+void gui_sketch_nav_tree_draw_overlay ( const gui_sketch_nav_tree_t *this_,
+                                        const gui_sketch_drag_state_t *drag_state,
+                                        cairo_t *cr
+                                      );
 
 #include "gui_sketch_nav_tree.inl"
 

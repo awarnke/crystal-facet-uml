@@ -2,7 +2,8 @@ crystal-facet-uml (1.65.7) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * replaced deprecated gdk_texture_new_for_pixbuf, gdk_cairo_set_source_pixbuf
-  * workaround for false positive Wstringop-overflow at utf8stringbuf.inl:312
+  * workaround for false positive Wstringop-overflow at utf8stringbuf.inl
+  * in search view, search results are linked to the corresponding diagran card
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 25 Sep 2025 06:00:00 +0200
 

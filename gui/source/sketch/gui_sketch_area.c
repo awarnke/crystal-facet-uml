@@ -566,6 +566,18 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
         case GUI_TOOL_SEARCH:
         {
             gui_sketch_background_draw_search( &((*this_).background), cr );
+            /* draw link from highlighted search result to diagram */
+            const data_id_t high_obj = gui_marked_set_get_highlighted ( (*this_).marker );
+            const data_id_t high_diag = gui_marked_set_get_highlighted_diagram ( (*this_).marker );
+            shape_int_rectangle_t search_envelope_box;
+            const u8_error_t search_found = gui_sketch_result_list_get_result_envelope( &((*this_).result_list), &high_obj, &search_envelope_box );
+            const gui_sketch_card_t* card;
+            const u8_error_t card_found = gui_sketch_area_private_get_card_of_id( this_, &high_diag, &card );
+            if (( search_found == U8_ERROR_NONE )&&( card_found == U8_ERROR_NONE ))
+            {
+                const shape_int_rectangle_t card_box = gui_sketch_card_get_bounds( card );
+                gui_sketch_background_draw_appears_link( &((*this_).background), &search_envelope_box, &card_box, cr );
+            }
         }
         break;
 
@@ -576,6 +588,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
             const unsigned int children
                 = (*this_).card_num-2;
             gui_sketch_background_draw_navigation( &((*this_).background), depth, children, cr );
+            /* TODO: draw link from highlighted nav_tree_node to diagram */
         }
         break;
 

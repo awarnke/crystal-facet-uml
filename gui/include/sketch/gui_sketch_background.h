@@ -110,6 +110,20 @@ void gui_sketch_background_draw_edit( gui_sketch_background_t *this_, cairo_t *c
 void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t *cr );
 
 /*!
+ *  \brief draws a connector line from the object box to the diagram card box
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param object_box bounding box of icon and label of the object
+ *  \param card_box bounding box of the diagram card
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_draw_appears_link( gui_sketch_background_t *this_,
+                                              const shape_int_rectangle_t *object_box,
+                                              const shape_int_rectangle_t *card_box,
+                                              cairo_t *cr
+                                            );
+
+/*!
  *  \brief draws a quick-introduction to the cairo context
  *
  *  \param this_ pointer to own object attributes

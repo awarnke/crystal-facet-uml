@@ -248,6 +248,33 @@ void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t 
     U8_TRACE_END();
 }
 
+void gui_sketch_background_draw_appears_link( gui_sketch_background_t *this_,
+                                              const shape_int_rectangle_t *object_box,
+                                              const shape_int_rectangle_t *card_box,
+                                              cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != object_box );
+    assert( NULL != card_box );
+    assert( NULL != cr );
+
+    const int32_t obj_left = shape_int_rectangle_get_left( object_box );
+    const int32_t obj_top = shape_int_rectangle_get_top( object_box );
+    const uint32_t obj_width = shape_int_rectangle_get_width( object_box );
+    const uint32_t obj_height = shape_int_rectangle_get_height( object_box );
+    const int32_t card_left = shape_int_rectangle_get_left( card_box );
+    const int32_t card_top = shape_int_rectangle_get_top( card_box );
+    const uint32_t card_width = shape_int_rectangle_get_width( card_box );
+    const uint32_t card_height = shape_int_rectangle_get_height( card_box );
+
+    cairo_set_source_rgba( cr, LIGHT_R, LIGHT_G, LIGHT_B, LIGHT_A );
+    cairo_move_to( cr, obj_left + obj_width, obj_top + ( obj_height / 2 ) );
+    cairo_line_to( cr, card_left, card_top + ( card_height / 2 ) );
+    cairo_stroke( cr );
+
+    U8_TRACE_END();
+}
+
 void gui_sketch_background_private_draw_quick_introduction( gui_sketch_background_t *this_, cairo_t *cr )
 {
     U8_TRACE_BEGIN();

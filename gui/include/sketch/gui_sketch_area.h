@@ -341,6 +341,19 @@ static inline void gui_sketch_area_private_get_element_id_at_pos ( gui_sketch_ar
                                                                    data_id_t* out_diagram_id
                                                                  );
 
+/*!
+ *  \brief gets the gui_sketch_card_t of a given diagram_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to find
+ *  \param[out] out_card_ptr a pointer to the searched card.
+ *  \return U8_ERROR_NONE if found, U8_ERROR_NOT_FOUND if there is no card showing the requested diagram
+ */
+static inline u8_error_t gui_sketch_area_private_get_card_of_id ( gui_sketch_area_t *this_,
+                                                                  const data_id_t* diagram_id,
+                                                                  const gui_sketch_card_t** out_card_ptr
+                                                                );
+
 #include "gui_sketch_area.inl"
 
 #endif  /* GUI_SKETCH_AREA_H */

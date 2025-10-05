@@ -155,6 +155,35 @@ static inline void gui_sketch_result_list_get_object_id_at_pos( const gui_sketch
     }
 }
 
+static inline u8_error_t gui_sketch_result_list_get_result_envelope( gui_sketch_result_list_t *this_,
+                                                                     const data_id_t* search_id,
+                                                                     shape_int_rectangle_t* out_result_envelope_box )
+{
+    assert( search_id != NULL );
+    assert( out_result_envelope_box != NULL );
+    u8_error_t err = U8_ERROR_NOT_FOUND;
+
+    /* search object */
+    const uint_fast32_t page_start = pos_search_result_page_get_page_start( &((*this_).page) );
+    const uint_fast32_t page_length = pos_search_result_page_get_page_length( &((*this_).page) );
+    assert( page_length <= POS_SEARCH_RESULT_PAGE_MAX_PAGE_SIZE );
+    for ( uint_fast32_t idx = 0; ( idx < page_length )&&( err != U8_ERROR_NONE ); idx ++ )
+    {
+        const pos_search_result_t *const element = pos_search_result_page_get_search_result_layout_const( &((*this_).page), page_start + idx );
+        const data_id_t element_id = pos_search_result_get_data_id( element );
+
+        if ( data_id_equals( &element_id, search_id ) )
+        {
+            const shape_int_rectangle_t *icon_box = pos_search_result_get_icon_box_const( element );
+            const shape_int_rectangle_t *label_box = pos_search_result_get_label_box_const( element );
+            shape_int_rectangle_init_by_bounds( out_result_envelope_box, icon_box, label_box );
+            err = U8_ERROR_NONE;
+        }
+    }
+
+    return err;
+}
+
 
 /*
 Copyright 2018-2025 Andreas Warnke
