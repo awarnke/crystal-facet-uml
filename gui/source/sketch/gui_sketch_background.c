@@ -276,7 +276,6 @@ void gui_sketch_background_draw_appears_link( gui_sketch_background_t *this_,
     assert( NULL != card_box );
     assert( NULL != cr );
 
-    const int32_t label_left = shape_int_rectangle_get_left( label_box );
     const int32_t label_top = shape_int_rectangle_get_top( label_box );
     const uint32_t label_right = shape_int_rectangle_get_right( label_box );
     const uint32_t label_bottom = shape_int_rectangle_get_bottom( label_box );

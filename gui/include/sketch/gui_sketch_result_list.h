@@ -214,7 +214,7 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( const gui_sketc
                                                                );
 
 /*!
- *  \brief determines the object at a given position and returns its id. The object can be a diagram.
+ *  \brief determines the position of an search result object.
  *
  *  \param this_ pointer to own object attributes
  *  \param search_obj_id the object id to be searched in the gui_sketch_result_list

@@ -310,6 +310,20 @@ static inline const pos_nav_tree_gap_t *gui_sketch_nav_tree_get_gap_pos_const ( 
 static inline uint32_t gui_sketch_nav_tree_get_gap_count ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
+ *  \brief determines the position of a diagran node.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id the diagram id to be searched in the gui_sketch_nav_tree
+ *  \param[out] out_node_envelope_box the envelope box of the diagram node.
+ *                                    The envelope box encompasses the icon box and the label box of the search result.
+ *  \return DATA_ERROR_NONE if the search result exists, U8_ERROR_NOT_FOUND if there is no fitting search result on the current page
+ */
+static inline u8_error_t gui_sketch_nav_tree_get_node_envelope ( gui_sketch_nav_tree_t *this_,
+                                                                 const data_id_t* diagram_id,
+                                                                 shape_int_rectangle_t* out_node_envelope_box
+                                                               );
+
+/*!
  *  \brief draws a single diagram
  *
  *  \param this_ pointer to own object attributes

@@ -100,14 +100,14 @@ static inline pos_nav_tree_node_type_t pos_nav_tree_node_get_type ( const pos_na
 static inline const data_diagram_t *pos_nav_tree_node_get_data_const ( const pos_nav_tree_node_t *this_ );
 
 /*!
- *  \brief gets the row id of the diagram
+ *  \brief gets the data id of the diagram
  *
- *  This is a shortcut for data_diagram_get_row_id( pos_nav_tree_node_get_data_const ( X ) )
+ *  This is a shortcut for data_diagram_get_id( pos_nav_tree_node_get_data_const ( X ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the diagram
  */
-static inline data_row_t pos_nav_tree_node_get_diagram_id ( const pos_nav_tree_node_t *this_ );
+static inline data_id_t pos_nav_tree_node_get_diagram_id ( const pos_nav_tree_node_t *this_ );
 
 #include "pos_nav_tree_node.inl"
 

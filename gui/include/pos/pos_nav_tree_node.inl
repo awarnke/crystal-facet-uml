@@ -24,8 +24,7 @@ static inline bool pos_nav_tree_node_is_valid ( const pos_nav_tree_node_t *this_
     bool result;
     if ( (*this_).data == NULL )
     {
-        assert(false);
-        result = false;  /* cannot happen on initialized objects */
+        result = false;  /* can happen on initialized button objects */
     }
     else
     {
@@ -64,9 +63,19 @@ static inline const data_diagram_t *pos_nav_tree_node_get_data_const ( const pos
     return (*this_).data;
 }
 
-static inline data_row_t pos_nav_tree_node_get_diagram_id ( const pos_nav_tree_node_t *this_ )
+static inline data_id_t pos_nav_tree_node_get_diagram_id ( const pos_nav_tree_node_t *this_ )
 {
-    return data_diagram_get_row_id( (*this_).data );
+    data_id_t result;
+    if ( (*this_).data == NULL )
+    {
+        /* a button has no id */
+        result = DATA_ID_VOID;
+    }
+    else
+    {
+        result = data_diagram_get_data_id( (*this_).data );
+    }
+    return result;
 }
 
 

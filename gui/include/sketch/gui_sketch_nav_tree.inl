@@ -1,6 +1,7 @@
 /* File: gui_sketch_nav_tree.inl; Copyright and License: see below */
 
 #include "u8/u8_log.h"
+#include "u8/u8_trace.h"
 
 static inline data_row_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ )
 {
@@ -262,6 +263,36 @@ static inline uint32_t gui_sketch_nav_tree_get_gap_count ( const gui_sketch_nav_
 {
     assert( (*this_).gap_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_GAPS );
     return (*this_).gap_count;
+}
+
+static inline u8_error_t gui_sketch_nav_tree_get_node_envelope ( gui_sketch_nav_tree_t *this_,
+                                                                 const data_id_t* diagram_id,
+                                                                 shape_int_rectangle_t* out_node_envelope_box )
+{
+    U8_TRACE_BEGIN();
+    assert ( NULL != diagram_id );
+    assert ( NULL != out_node_envelope_box );
+    u8_error_t err = U8_ERROR_NOT_FOUND;
+
+    /* search node */
+    const unsigned int count = (*this_).node_count;
+    assert( count <= GUI_SKETCH_NAV_TREE_CONST_MAX_NODES );
+    for ( unsigned int idx = 0; ( idx < count )&&( err != U8_ERROR_NONE ); idx ++ )
+    {
+        const pos_nav_tree_node_t *const node = &((*this_).node_pos[idx]);
+        const data_id_t node_id = pos_nav_tree_node_get_diagram_id( node );
+        /* U8_TRACE_INFO_INT( "node_id", data_id_get_row_id( &node_id ) ); */
+        if ( data_id_equals( &node_id, diagram_id ) )
+        {
+            const shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_const( node );
+            const shape_int_rectangle_t *label_box = pos_nav_tree_node_get_label_box_const( node );
+            shape_int_rectangle_init_by_bounds( out_node_envelope_box, icon_box, label_box );
+            err = U8_ERROR_NONE;
+        }
+    }
+
+    U8_TRACE_END_ERR( err );
+    return err;
 }
 
 
