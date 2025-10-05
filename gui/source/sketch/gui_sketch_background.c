@@ -288,15 +288,31 @@ void gui_sketch_background_draw_appears_link( gui_sketch_background_t *this_,
     cairo_move_to( cr, label_right, label_top );
     if ( label_top > card_bottom )
     {
-        cairo_curve_to( cr, card_left, label_top, card_left, label_top, card_left, card_bottom );
+        const int_fast32_t big_delta_x = card_right - label_right;
+        const int_fast32_t small_delta_x = card_left - label_right;
+        const int_fast32_t big_delta_y = label_bottom - card_bottom;
+        const int_fast32_t small_delta_y = label_top - card_bottom;
+        const int_fast32_t big_mid_x = label_right + ( big_delta_x * 3 ) / 4;
+        const int_fast32_t small_mid_x = label_right + ( small_delta_x * 3 ) / 4;
+        const int_fast32_t big_mid_y = card_bottom + ( big_delta_y * 3 ) / 4;
+        const int_fast32_t small_mid_y = card_bottom + ( small_delta_y * 3 ) / 4;
+        cairo_curve_to( cr, small_mid_x, label_top, card_left, small_mid_y, card_left, card_bottom );
         cairo_line_to( cr, card_right, card_bottom );
-        cairo_curve_to( cr, card_right, label_bottom, card_right, label_bottom, label_right, label_bottom );
+        cairo_curve_to( cr, card_right, big_mid_y, big_mid_x, label_bottom, label_right, label_bottom );
     }
     else if ( label_bottom < card_top )
     {
-        cairo_curve_to( cr, card_right, label_top, card_right, label_top, card_right, card_top );
+        const int_fast32_t big_delta_x = card_right - label_right;
+        const int_fast32_t small_delta_x = card_left - label_right;
+        const int_fast32_t big_delta_y = card_top - label_top;
+        const int_fast32_t small_delta_y = card_top - label_bottom;
+        const int_fast32_t big_mid_x = label_right + ( big_delta_x * 3 ) / 4;
+        const int_fast32_t small_mid_x = label_right + ( small_delta_x * 3 ) / 4;
+        const int_fast32_t big_mid_y = card_top - ( big_delta_y * 3 ) / 4;
+        const int_fast32_t small_mid_y = card_top - ( small_delta_y * 3 ) / 4;
+        cairo_curve_to( cr, big_mid_x, label_top, card_right, big_mid_y, card_right, card_top );
         cairo_line_to( cr, card_left, card_top );
-        cairo_curve_to( cr, card_left, label_bottom, card_left, label_bottom, label_right, label_bottom );
+        cairo_curve_to( cr, card_left, small_mid_y, small_mid_x, label_bottom, label_right, label_bottom );
     }
     else
     {

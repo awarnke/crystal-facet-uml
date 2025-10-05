@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.65.7"
+    "generator_version": "1.66.0"
   }
   ,
   "views":
@@ -477,7 +477,7 @@
         "description": [
                 ""
         ],
-        "list_order": 65536,
+        "list_order": 49152,
         "parent_name": "Overview [root]",
         "parent": "9b37a210-63ea-49db-85c8-cf3ee50a2199",
         "uuid": "9b25b8fe-e0e4-4161-8432-2dbc55373077",
