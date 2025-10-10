@@ -40,7 +40,7 @@ crystal-facet-uml manages a meta model:
     <listitem><para>Relationships and features are consistent between all diagrams;</para>
     </listitem>
     <listitem>
-        <para>Diagram-local messages/transitions are supported in scenario-based interaction diagrams:
+        <para>Diagram-local messages/transitions are supported in interaction diagrams:
             sequence, communication, timing, interaction overview.
         </para>
     </listitem>

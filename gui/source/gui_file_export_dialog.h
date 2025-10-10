@@ -41,6 +41,7 @@ struct gui_file_export_dialog_struct {
     GtkWidget *format_xmi2;  /*!< pointer to checkbox for export-format xmi version 2.x */
     GtkWidget *format_json;  /*!< pointer to checkbox for export-format json */
 
+    GtkWidget *file_export_icon;  /*!< the icon identifying the options_layout as belonging to the file_export */
     GtkWidget *diagram_set_label;  /*!< the label for filetype-sets */
     GtkWidget *document_label;  /*!< the label for document-types */
     GtkButton *export_button;  /*!< the export button that triggers the directory chooser */
@@ -55,12 +56,14 @@ typedef struct gui_file_export_dialog_struct gui_file_export_dialog_t;
  *  \param this_ pointer to own object attributes
  *  \param database pointer to external data_database_t
  *  \param db_reader pointer to a database reader object
+ *  \param resources pointer to a resource provider
  *  \param parent_window pointer to the gtk parent window, to which this modal dialog belongs
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_export_dialog_init( gui_file_export_dialog_t *this_,
                                   data_database_t *database,
                                   data_database_reader_t *db_reader,
+                                  gui_resources_t *resources,
                                   GtkWindow *parent_window,
                                   gui_simple_message_to_user_t *message_to_user
                                 );

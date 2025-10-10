@@ -12,7 +12,7 @@
     </para>
     <para>
         Like a crystal shows different facets of the same thing, this application
-        shows different views of the same system/software.
+        shows different views of the same software or system.
     </para>
     <para>
         <mediaobject>
@@ -40,8 +40,8 @@
             This tool runs on your local PC.
             It stores the model data in a json-based file
             which can be versioned in git, branched and merged together with your source code.
-            crystal-facet-uml exports diagrams in svg, pdf, ps and png formats
-            which can be used in text processing systems like DocBook, html, LaTeX.
+            crystal-facet-uml exports diagrams as svg, pdf, ps, png
+            or the complete model as DocBook, html, json or xmi.
         </para>
     </section>
     <section>

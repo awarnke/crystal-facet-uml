@@ -13,6 +13,7 @@
 void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
                                    data_database_t *database,
                                    data_database_reader_t *db_reader,
+                                   gui_resources_t *resources,
                                    GtkWindow *parent_window,
                                    gui_simple_message_to_user_t *message_to_user )
 {
@@ -41,6 +42,17 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     (*this_).options_layout = gtk_grid_new();
 
+    (*this_).file_export_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_file_export( resources ) ) );
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_export_icon), 32 /*=w*/ , 32 /*=h*/ );
+    gtk_widget_set_margin_start( GTK_WIDGET((*this_).file_export_icon), 160 );
+    gtk_widget_set_margin_end( GTK_WIDGET((*this_).file_export_icon), 16 );
+    gtk_widget_set_margin_top( GTK_WIDGET((*this_).file_export_icon), 0 );
+    gtk_widget_set_margin_bottom( GTK_WIDGET((*this_).file_export_icon), 0 );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).file_export_icon), 32 /*=max(w,h)*/ );
+    gtk_widget_set_halign( (*this_).file_export_icon, GTK_ALIGN_START );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).file_export_icon ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).file_export_icon ), false );
+
     (*this_).diagram_set_label = gtk_label_new ( "Diagram-sets:" );
     (*this_).document_label = gtk_label_new ( "Documents:" );
     gtk_label_set_xalign (GTK_LABEL( (*this_).document_label ), 0.0 );
@@ -53,8 +65,9 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).options_layout), false );
     gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).options_layout), false );
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).diagram_set_label, 0, 0, 2, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).document_label, 0, 1, 2, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).file_export_icon, 0, 0, 1, 2 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).diagram_set_label, 1, 0, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).document_label, 1, 1, 1, 1 );
 
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_docbook, 2, 1, 2, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_html, 4, 1, 1, 1 );

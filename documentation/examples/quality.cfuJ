@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.65.7"
+    "generator_version": "1.66.0"
   }
   ,
   "views":
@@ -1139,9 +1139,15 @@
           },
           {
             "id": 219,
-            "classifier_name": "Integrity-2",
+            "classifier_name": "Non-Repudiation",
             "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
             "uuid": "2d418718-d6a2-4c54-b428-fa7ddfa96a48"
+          },
+          {
+            "id": 458,
+            "classifier_name": "Resistence",
+            "node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+            "uuid": "2a452e2f-41e7-4bb2-b9ee-18edab1b5b2d"
           }
         ]
       }
@@ -1673,9 +1679,15 @@
           },
           {
             "id": 431,
-            "classifier_name": "Integrity-2",
+            "classifier_name": "Non-Repudiation",
             "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
             "uuid": "ea6d980a-45d2-41c0-9e66-e04d884b1cb0"
+          },
+          {
+            "id": 459,
+            "classifier_name": "Resistence",
+            "node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+            "uuid": "758d3b69-bda8-4fb6-be9f-f2a3a2fbd002"
           }
         ]
       }
@@ -1736,7 +1748,7 @@
           {
             "id": 114,
             "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "Integrity-2",
+            "classifier_name": "Non-Repudiation",
             "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
             "uuid": "83da18aa-a2a5-4e1e-a122-86c3abb5e144"
           },
@@ -3825,7 +3837,7 @@
       "classifier": {
         "id": 38,
         "type": "Class", "main_type": 125,
-        "name": "Integrity-2",
+        "name": "Non-Repudiation",
         "description": [
                 "Non-Repudiation is a proof:\n",
                 "which person(enitiy) authorized an action (at which time, based on what input)"
@@ -6054,7 +6066,16 @@
         "name": "Define Attack Vectors",
         "description": [
                 "Define attack vectors, likelihoods and impacts. Based on this criticality, the ",
-                "mitigations are defined."
+                "mitigations are defined.\n",
+                "\n",
+                "a good checklist for attack vectors is the stride model:\n",
+                "- Spoofing\n",
+                "- Tampering\n",
+                "- Repudiation\n",
+                "- Information Disclosure\n",
+                "- Denial of Service\n",
+                "- Elevation of Privilege\n",
+                ""
         ],
         "x_order": 177477714,
         "y_order": -1785461819,
@@ -8932,6 +8953,23 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 287,
+        "type": "Requirement", "main_type": 99,
+        "name": "Resistence",
+        "description": [
+                "Keep functionality while under attack"
+        ],
+        "x_order": 2066864567,
+        "y_order": -2082278036,
+        "list_order": -2082278036,
+        "uuid": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -9587,7 +9625,7 @@
         ],
         "list_order": 768464,
         "from_classifier_name": "Security",
-        "to_classifier_name": "Integrity-2",
+        "to_classifier_name": "Non-Repudiation",
         "from_node": "0201be50-600f-44c8-aad8-6083621db401",
         "to_node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
         "uuid": "c04ac32c-01b1-4f4c-aafe-097cd2c9219f"
@@ -9639,6 +9677,22 @@
         "from_node": "0201be50-600f-44c8-aad8-6083621db401",
         "to_node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
         "uuid": "9ce8b28f-eeff-4fa9-bca9-7fb16ccc10ac"
+      }
+    },
+    {
+      "relationship": {
+        "id": 340,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2082278036,
+        "from_classifier_name": "Security",
+        "to_classifier_name": "Resistence",
+        "from_node": "0201be50-600f-44c8-aad8-6083621db401",
+        "to_node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+        "uuid": "d89d91c3-7fc8-40e3-be45-f1e922691ca3"
       }
     },
     {
@@ -10277,7 +10331,7 @@
         ],
         "list_order": 805328,
         "from_classifier_name": "Cryptographic Signatures",
-        "to_classifier_name": "Integrity-2",
+        "to_classifier_name": "Non-Repudiation",
         "from_node": "6d99baa8-17a9-4da4-9ced-2b8af836acc4",
         "to_node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
         "uuid": "91c8c69e-231e-4f38-b5f2-5e30263248ef"

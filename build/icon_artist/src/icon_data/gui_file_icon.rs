@@ -69,9 +69,19 @@ static WHITE_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
+/// bright yellow color
+static BRIGHT_YELLOW: geometry::Color = geometry::Color {
+    red: 0xff,
+    green: 0xff,
+    blue: 0x44,
+};
+
 const BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE: f32 = 0.552284749831;
 
 /// The function defines the draw directives for the file symbols contour
+///
+/// The last two draw directives are the inner arc of the top ellipsis,
+/// omitting these gives the outer bounds of the file symbol.
 ///
 fn get_db_storage_contour() -> [geometry::DrawDirective; 9] {
     let x_rad: f32 = 10.0;
@@ -393,15 +403,10 @@ pub fn generate_file_saved(out: &mut dyn PathRenderer) -> () {
 /// This function panics if PathRenderer cannot write to the output sink.
 ///
 pub fn generate_file_unsaved(out: &mut dyn PathRenderer) -> () {
-    /* background */
-    let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
-    out.render_path(&icon_segs, &None, &Some(GRAY));
-
-    let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
-    out.render_path(&icon_segs, &None, &Some(WHITE));
-
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
+    let outer_segs = &icon_segs[..7];
+    out.render_path(outer_segs, &None, &Some(BRIGHT_YELLOW));
     out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 
     /* asterisk symbol */

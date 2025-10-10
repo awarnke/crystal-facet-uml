@@ -147,6 +147,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     gui_file_export_dialog_init( &((*this_).file_export_dialog),
                                  io_data_file_get_database_ptr( data_file ),
                                  db_reader,
+                                 (*this_).resources,
                                  GTK_WINDOW( (*this_).window ),
                                  &((*this_).message_to_user)
                                );
