@@ -6,7 +6,7 @@
 #include <assert.h>
 
 void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_,
-                                   gui_resources_t *resources,
+                                   const gui_resources_t *resources,
                                    gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();

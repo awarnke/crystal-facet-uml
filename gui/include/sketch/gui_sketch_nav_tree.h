@@ -75,7 +75,7 @@ struct gui_sketch_nav_tree_struct {
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
     gui_sketch_marker_t sketch_marker;
-    gui_resources_t *resources;  /*!< pointer to external resources */
+    const gui_resources_t *resources;  /*!< pointer to external resources */
     gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
 
@@ -89,7 +89,7 @@ typedef struct gui_sketch_nav_tree_struct gui_sketch_nav_tree_t;
  *  \param texture_downloader pointer to a gui_sketch_texture_t that can draw a texture onto a cairo drawing context
  */
 void gui_sketch_nav_tree_init ( gui_sketch_nav_tree_t *this_,
-                                gui_resources_t *resources,
+                                const gui_resources_t *resources,
                                 gui_sketch_texture_t *texture_downloader
                               );
 

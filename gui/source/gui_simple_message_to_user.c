@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
+void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, const gui_resources_t *res )
 {
     U8_TRACE_BEGIN();
     assert ( text_label != NULL );

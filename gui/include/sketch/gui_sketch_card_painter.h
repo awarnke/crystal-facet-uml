@@ -23,7 +23,7 @@
 struct gui_sketch_card_painter_struct {
     gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing and calculating distances */
 
-    gui_resources_t *resources;  /*!< pointer to external resources */
+    const gui_resources_t *resources;  /*!< pointer to external resources */
     gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
 
@@ -37,7 +37,7 @@ typedef struct gui_sketch_card_painter_struct gui_sketch_card_painter_t;
  *  \param texture_downloader pointer to a gui_sketch_texture_t that can draw a texture onto a cairo drawing context
  */
 void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_,
-                                   gui_resources_t *resources,
+                                   const gui_resources_t *resources,
                                    gui_sketch_texture_t *texture_downloader );
 
 /*!

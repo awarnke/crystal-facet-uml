@@ -13,7 +13,7 @@ static const int GAP_HEIGHT = 2;
 static const int GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
 
 void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_,
-                               gui_resources_t *resources,
+                               const gui_resources_t *resources,
                                gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();

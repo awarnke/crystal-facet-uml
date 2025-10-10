@@ -4,7 +4,7 @@
 
 static inline GdkTexture * pos_nav_tree_node_type_get_icon( pos_nav_tree_node_type_t this_,
                                                             bool highlight,
-                                                            gui_resources_t *resources )
+                                                            const gui_resources_t *resources )
 {
     assert( resources != NULL );
     GdkTexture * result;

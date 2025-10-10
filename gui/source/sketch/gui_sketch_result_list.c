@@ -13,7 +13,7 @@ static const int GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH = -1;
 static const int OBJ_GAP = 4;
 
 void gui_sketch_result_list_init( gui_sketch_result_list_t *this_,
-                                  gui_resources_t *resources,
+                                  const gui_resources_t *resources,
                                   gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();

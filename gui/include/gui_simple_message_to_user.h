@@ -31,7 +31,7 @@ struct gui_simple_message_to_user_struct {
     gui_simple_message_type_t type_id;  /*!< current visible type */
     GtkWidget *text_label;  /*!< pointer to external GtkWidget */
     GtkWidget *icon_image;  /*!< pointer to external GtkWidget */
-    gui_resources_t *res;  /*!< pointer to external gui_resources_t */
+    const gui_resources_t *res;  /*!< pointer to external gui_resources_t */
     utf8stringbuf_t private_temp_str;
     char private_temp_buf[GUI_SIMPLE_MESSAGE_TO_USER_MAX_CONTENT_SIZE];
 };
@@ -49,7 +49,7 @@ typedef struct gui_simple_message_to_user_struct gui_simple_message_to_user_t;
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_,
                                        GtkWidget *text_label,
                                        GtkWidget *icon_image,
-                                       gui_resources_t *res
+                                       const gui_resources_t *res
                                      );
 
 /*!

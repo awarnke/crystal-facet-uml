@@ -63,7 +63,7 @@ typedef struct gui_file_export_dialog_struct gui_file_export_dialog_t;
 void gui_file_export_dialog_init( gui_file_export_dialog_t *this_,
                                   data_database_t *database,
                                   data_database_reader_t *db_reader,
-                                  gui_resources_t *resources,
+                                  const gui_resources_t *resources,
                                   GtkWindow *parent_window,
                                   gui_simple_message_to_user_t *message_to_user
                                 );

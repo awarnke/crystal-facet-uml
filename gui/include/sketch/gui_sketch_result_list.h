@@ -50,7 +50,7 @@ struct gui_sketch_result_list_struct {
     /* helper classes to perform drawing */
     gui_sketch_style_t sketch_style;
     gui_sketch_marker_t sketch_marker;
-    gui_resources_t *resources;  /*!< pointer to external resources */
+    const gui_resources_t *resources;  /*!< pointer to external resources */
     gui_type_resource_list_t selector;  /*!< own instance of a type-icon resource selector */
     gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
@@ -65,7 +65,7 @@ typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
  *  \param texture_downloader pointer to a gui_sketch_texture_t that can draw a texture onto a cairo drawing context
  */
 void gui_sketch_result_list_init ( gui_sketch_result_list_t *this_,
-                                   gui_resources_t *resources,
+                                   const gui_resources_t *resources,
                                    gui_sketch_texture_t *texture_downloader
                                  );
 

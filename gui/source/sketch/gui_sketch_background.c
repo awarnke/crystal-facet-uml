@@ -35,7 +35,7 @@ void gui_sketch_background_private_write_as_ints( gui_sketch_background_t *this_
 #endif
 
 void gui_sketch_background_init( gui_sketch_background_t *this_,
-                                 gui_resources_t *resources,
+                                 const gui_resources_t *resources,
                                  gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();

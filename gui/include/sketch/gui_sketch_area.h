@@ -56,7 +56,7 @@ struct gui_sketch_area_struct {
     /* external references */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-    gui_resources_t *resources;  /*!< pointer to external resources */
+    const gui_resources_t *resources;  /*!< pointer to external resources */
     gui_toolbox_t *toolbox;  /*!< pointer to external tool box */
     gui_search_runner_t *search_runner;  /*!< pointer to external search runner */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
@@ -105,7 +105,7 @@ void gui_sketch_area_init ( gui_sketch_area_t *this_,
                             gui_toolbox_t *toolbox,
                             gui_search_runner_t *search_runner,
                             gui_simple_message_to_user_t *message_to_user,
-                            gui_resources_t *resources,
+                            const gui_resources_t *resources,
                             ctrl_controller_t *controller,
                             data_database_reader_t *db_reader
                           );

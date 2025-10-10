@@ -20,7 +20,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,
                            io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
-                           gui_resources_t *resources,
+                           const gui_resources_t *resources,
                            GtkApplication *gtk_app,
                            observer_t *window_close_observer,
                            observer_t *window_open_observer )
