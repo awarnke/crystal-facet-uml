@@ -1788,6 +1788,13 @@
             "classifier_name": "Secure Defaults",
             "node": "ceabfa71-2d97-4073-9cd0-3d6c09669185",
             "uuid": "9f448af8-8326-47c3-be46-7913bd5d8343"
+          },
+          {
+            "id": 460,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Resistence",
+            "node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+            "uuid": "0450b2b5-369b-452d-a851-769519f3e91d"
           }
         ]
       }
