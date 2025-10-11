@@ -1,3 +1,14 @@
+crystal-facet-uml (1.66.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * replaced deprecated gdk_texture_new_for_pixbuf, gdk_cairo_set_source_pixbuf
+  * workaround for false positive Wstringop-overflow at utf8stringbuf.inl
+  * in search + nav view, labels are linked to their corresponding diagran card
+  * the file export options show an icon to indicate their purpose
+  * the unsaved file icon has a more aggressive yellow color
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 11 Oct 2025 07:30:00 +0200
+
 crystal-facet-uml (1.65.6-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
