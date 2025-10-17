@@ -10,6 +10,7 @@
  */
 
 #include "u8/u8_error.h"
+#include <stdint.h>
 #include <errno.h>
 
 /*!
@@ -29,6 +30,36 @@ typedef const char * u8dir_file_t;
  *          U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t u8dir_file_remove( u8dir_file_t this_ );
+
+/*!
+ *  \brief reads the file size from the file system
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_file_size size of the file
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_AT_FILE_READ if file does not exist or data is not accesible
+ */
+u8_error_t u8dir_file_get_size( u8dir_file_t this_, uint64_t* out_file_size );
+
+/*!
+ *  \brief reads the last modification time from the file system
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_mod_time last modification time of the file
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_AT_FILE_READ if file does not exist or data is not accesible
+ */
+u8_error_t u8dir_file_get_modification_time( u8dir_file_t this_, uint64_t* out_mod_time );
+
+/*!
+ *  \brief reads the creation time from the file system
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_create_time creation time of the file
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_AT_FILE_READ if file does not exist or data is not accesible
+ */
+u8_error_t u8dir_file_get_creation_time( u8dir_file_t this_, uint64_t* out_create_time );
 
 #endif  /* U8DIR_FILE_H */
 

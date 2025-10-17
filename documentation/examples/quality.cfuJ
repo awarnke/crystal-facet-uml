@@ -353,7 +353,9 @@
         "name": "Quality Characteristics",
         "description": [
                 "Charactersitics of Ext/Int Product Quality \n",
-                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
+                "according to ISO/IEC 25010:2011 (C0167), see D0023#name.\n",
+                "Note that there is a newer version of that standard (2023). One may check if ",
+                "this is an improvement."
         ],
         "list_order": 98304,
         "parent_name": "Product Quality",
@@ -3105,7 +3107,10 @@
         "name": "Ext/Int Product Quality ",
         "description": [
                 "Product quality are internal and externally visible qualities, \n",
-                "such as memory consumption or startup timings."
+                "such as memory consumption or startup timings.\n",
+                "\n",
+                "This category of product quality was introduced in ISO/IEC 9126-1 and extended ",
+                "in ISO-25010:2011."
         ],
         "x_order": 1256988814,
         "y_order": -2112750232,
@@ -3123,7 +3128,10 @@
         "name": "Quality in Use",
         "description": [
                 "Quality in use can be measured when the product is already in use, \n",
-                "e.g. the percentage of satisfied customers can be determined."
+                "e.g. the percentage of satisfied customers can be determined.\n",
+                "\n",
+                "This category was proposed in ISO/IEC 9126-4 and extended by context coverage ",
+                "in ISO-25010:2011"
         ],
         "x_order": 1256988814,
         "y_order": 174101726,
@@ -3932,7 +3940,7 @@
         "type": "Class", "main_type": 125,
         "name": "Modularity",
         "description": [
-                ""
+                "To keep effects of changes local to few components/functions"
         ],
         "x_order": 1421381224,
         "y_order": -2082256020,
@@ -3949,7 +3957,7 @@
         "type": "Class", "main_type": 125,
         "name": "Reusability",
         "description": [
-                ""
+                "To be able to re-use the solution in another operational context"
         ],
         "x_order": 1186635430,
         "y_order": -2082278036,
@@ -3966,7 +3974,7 @@
         "type": "Class", "main_type": 125,
         "name": "Analyzability",
         "description": [
-                ""
+                "To find a cause of an observed (unwanted) behavior"
         ],
         "x_order": 1421381224,
         "y_order": -2082278036,
@@ -3983,7 +3991,7 @@
         "type": "Class", "main_type": 125,
         "name": "Modifyability",
         "description": [
-                ""
+                "To be able to adapt the software/system to changed requirements"
         ],
         "x_order": 1421381224,
         "y_order": -2082043851,
@@ -4000,7 +4008,7 @@
         "type": "Class", "main_type": 125,
         "name": "Testability",
         "description": [
-                ""
+                "To determine a level of quality of a product"
         ],
         "x_order": 1186635430,
         "y_order": -2082256020,

@@ -14,8 +14,9 @@
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_file_remove( test_fixture_t *fix );
+static test_case_result_t test_file_stat( test_fixture_t *fix );
 
-static void create_a_file( u8dir_file_t path );
+static uint64_t create_a_file( u8dir_file_t path );
 
 test_suite_t u8dir_file_test_get_suite(void)
 {
@@ -27,6 +28,7 @@ test_suite_t u8dir_file_test_get_suite(void)
                      &tear_down
                    );
     test_suite_add_test_case( &result, "test_file_remove", &test_file_remove );
+    test_suite_add_test_case( &result, "test_file_stat", &test_file_stat );
     return result;
 }
 
@@ -39,7 +41,7 @@ static void tear_down( test_fixture_t *fix )
 {
 }
 
-static void create_a_file( u8dir_file_t path )
+static uint64_t create_a_file( u8dir_file_t path )
 {
     universal_file_output_stream_t create_file;
     universal_file_output_stream_init( &create_file );
@@ -49,6 +51,7 @@ static void create_a_file( u8dir_file_t path )
     dummy_file_err |= universal_file_output_stream_write( &create_file, &content, sizeof(content) );
     dummy_file_err |= universal_file_output_stream_destroy( &create_file );
     TEST_ENVIRONMENT_ASSERT( dummy_file_err == U8_ERROR_NONE );
+    return( sizeof(content) );  // return the filesize
 }
 
 static test_case_result_t test_file_remove( test_fixture_t *fix )
@@ -62,7 +65,7 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
 
     /* case: existant */
     const u8dir_file_t existant = "existant.file";
-    create_a_file( existant );
+    (void) create_a_file( existant );
     err = u8dir_file_remove( existant );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
 
@@ -77,7 +80,7 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
         /* _WIN32 command would be: mode_err = mkdir( temp_dir ); */
         mode_err = mkdir( temp_dir, (mode_t)0777 );
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
-        create_a_file( non_removable );
+        (void) create_a_file( non_removable );
         mode_err = chmod( temp_dir, (mode_t)0 );
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
     }
@@ -92,6 +95,49 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
         TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
     }
 #endif
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_file_stat( test_fixture_t *fix )
+{
+    u8_error_t err;
+    uint64_t out_value = 17;
+
+    /* case: non_existant */
+    const u8dir_file_t non_existant = "non_existant.file";
+
+    err = u8dir_file_get_size( non_existant, &out_value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, err );
+    TEST_EXPECT_EQUAL_INT( 17, out_value );
+
+    err = u8dir_file_get_modification_time( non_existant, &out_value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, err );
+    TEST_EXPECT_EQUAL_INT( 17, out_value );
+
+    err = u8dir_file_get_creation_time( non_existant, &out_value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, err );
+    TEST_EXPECT_EQUAL_INT( 17, out_value );
+
+    /* case: existant */
+    const u8dir_file_t existant = "existant.file";
+    const uint64_t f_size = create_a_file( existant );
+
+    err = u8dir_file_get_size( existant, &out_value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( f_size, out_value );
+
+    err = u8dir_file_get_modification_time( existant, &out_value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT( out_value > 1000000000 );  /* 1000000000 was Sep 09 2001 */
+
+    uint64_t out_create_time = 17;
+    err = u8dir_file_get_creation_time( existant, &out_create_time );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( out_value, out_create_time );
+
+    err = u8dir_file_remove( existant );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == err );
 
     return TEST_CASE_RESULT_OK;
 }

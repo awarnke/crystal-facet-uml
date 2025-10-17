@@ -397,13 +397,13 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
     gui_button_init( &((*this_).file_new),
                      GDK_PAINTABLE( gui_resources_get_file_new( res ) ),
                      "new",
-                     "New"
+                     "New..."
                     );
 
     gui_button_init( &((*this_).file_open),
                      GDK_PAINTABLE( gui_resources_get_file_open( res ) ),
                      "open",
-                     "Open"
+                     "Open..."
                     );
 
     /* save icon depends if latest changes are already saved */
@@ -429,7 +429,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
     gui_button_init( &((*this_).file_export),
                      GDK_PAINTABLE( gui_resources_get_file_export( res ) ),
                      "export",
-                     "Export"
+                     "Export..."
                     );
 
     (*this_).tool_sect_1_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );

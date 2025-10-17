@@ -17,7 +17,7 @@ ideas for future versions:
   [ ] a "saveAs" command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] auto-save when losing focus; Check gui_main_window_activated callback
-  [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
+! [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
   [ ] do not auto-save when there are no changes
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
@@ -25,10 +25,9 @@ ideas for future versions:
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [?] to pink-mark several objects - require shift key
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
-! [ ] In Search View, show e.g. the Diagram Id to better explain why classifiers are shown multiple times
   [ ] In Nav+Search view, no linebreaks are introduced to long words
   @pencil
-  [ ] activity bars on lifelines missing
+! [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
   [?] more relationship types needed: one-way x--> and no x--x association (maybe x is a feature?)
   [?] check dot notation at opposite relationship ends
@@ -44,6 +43,8 @@ ideas for future versions:
   [ ] An image should show an svg-<path> without a stereotype
   [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
   [?] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
+! [ ] Time axis in timing diagrams missing
+! [ ] Asynchronous calls shall be slightly diagonal
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
