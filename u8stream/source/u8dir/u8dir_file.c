@@ -78,7 +78,11 @@ u8_error_t u8dir_file_get_modification_time( u8dir_file_t this_, uint64_t* out_m
     }
     else
     {
+#ifdef _WIN32
+        *out_mod_time = stat_buffer.st_mtime;
+#else
         *out_mod_time = stat_buffer.st_mtim.tv_sec;
+#endif
     }
 
     U8_TRACE_END_ERR(err);
@@ -100,7 +104,11 @@ u8_error_t u8dir_file_get_creation_time( u8dir_file_t this_, uint64_t* out_creat
     }
     else
     {
+#ifdef _WIN32
+        *out_create_time = stat_buffer.st_ctime;
+#else
         *out_create_time = stat_buffer.st_ctim.tv_sec;
+#endif
     }
 
     U8_TRACE_END_ERR(err);
