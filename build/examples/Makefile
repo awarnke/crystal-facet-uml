@@ -32,7 +32,7 @@ self_architecture/self_architecture.html: $(ARCDIR)/self_architecture.cfuJ
 self_architecture/self_architecture.pdf: $(ARCDIR)/self_architecture.cfuJ
 	mkdir -p self_architecture
 	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfuJ docbook self_architecture
-	[ ! -f /home/andi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/andi/Downloads/docbook.xsd self_architecture/self_architecture
+	[ ! -f /home/andi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/andi/Downloads/docbook.xsd self_architecture/self_architecture.xml
 	(cd self_architecture && dblatex -p ../xsl_params.xsl --type=pdf self_architecture.xml)
 
 pencil_tests/pencil_tests.html: $(SRCDIR)/pencil_tests.cfuJ
