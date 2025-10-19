@@ -27,6 +27,7 @@ ideas for future versions:
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
   [ ] In Nav+Search view, no linebreaks are introduced to long words
   [ ] There is some bug when re-ordering the children of a diagram. see e.g. Quality Characteristics in quality.cjuJ
+      When re-ordering, some items get the exact same value, e.g. 268521471 or 67204095
   @pencil
 ! [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

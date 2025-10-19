@@ -306,7 +306,7 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
                         gui_sketch_nav_tree_private_layout_node( this_, chld_node, tree_depth+1, &y_pos, font_layout );
                     }
 
-                    prev_child_order = data_diagram_get_list_order( sibl_diag );
+                    prev_child_order = data_diagram_get_list_order( chld_diag );
                 }
 
                 /* layout lower-gap of child (if any) */
