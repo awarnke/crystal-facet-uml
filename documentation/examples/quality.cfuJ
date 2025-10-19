@@ -17,22 +17,18 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Quality",
         "description": [
-                "Quality is a set of characteristics of a product.\n",
-                "These characteritics can be concretized to quality attributes\n",
-                "(measureable properties of the product).\n",
+                "Quality is a set of characteristics of a product. These characteritics can be ",
+                "concretized to quality attributes (measureable properties of the product).\n",
                 "\n",
-                "To achieve quality at development and during operation, \n",
-                "one can set up processes to ensure that each development\n",
-                "or operation step implements mechanisms to reach \n",
-                "a defined level of quality.\n",
+                "To achieve quality at development and during operation, one can set up ",
+                "processes to ensure that each development or operation step implements ",
+                "mechanisms to reach a defined level of quality.\n",
                 "\n",
-                "Also, the developed and operated product has to encompass\n",
-                "technical measures to provide expected quality characteristics.\n",
+                "Also, the developed and operated product has to encompass technical measures to ",
+                "provide expected quality characteristics.\n",
                 "\n",
                 "Copyright 2019-2025 Andreas Warnke\n",
-                "License:\n",
-                "Choose either Apache-2.0\n",
-                "or Creative Commons Attribution (BY) Licence"
+                "License: Choose either Apache-2.0 or Creative Commons Attribution (BY) Licence"
         ],
         "list_order": 0,
         "uuid": "553523e8-f2b8-4a78-b13d-b2a0e4100cbc",
@@ -40,14 +36,12 @@
         [
           {
             "id": 1,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Process Quality",
             "node": "e3f7b327-c7a3-468a-97d2-7ad7172636f6",
             "uuid": "918aecff-ed6f-4128-9537-f191e2c4eb33"
           },
           {
             "id": 2,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Product Quality",
             "node": "1fe74536-812a-44e1-82a8-6bff746fac94",
             "uuid": "220901b9-2401-4480-96e5-ac92a103f428"
@@ -163,7 +157,7 @@
           },
           {
             "id": 57,
-            "classifier_name": "Backend Server / Cloud",
+            "classifier_name": "Backend Server / Cloud / AI",
             "node": "312ec422-49cb-4ef2-965e-568b28649cdf",
             "uuid": "eee692a1-8904-4203-8ac3-d139a71b8af4"
           },
@@ -254,10 +248,8 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Product Quality Taxonomy",
         "description": [
-                "This diagram shows some terms\n",
-                "in the context of product quality\n",
-                "and their relationships.\n",
-                "(Domain Model)\n",
+                "This diagram shows some terms in the context of product quality and their ",
+                "relationships. (Domain Model)\n",
                 "\n",
                 "This picture is composed of ideas from 1) Software Architecture in Practice ",
                 "(C0165), 2) ISO/IEC 9126 (C0166), 3) arc42 (C0168), see D0023#name."
@@ -342,6 +334,88 @@
             "classifier_name": "Quality Requirement",
             "node": "8c7a9118-dbfd-4d99-a85a-55e1a3f8585c",
             "uuid": "b846b714-19f9-4962-9751-6ced8d323552"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 48,
+        "type": "Class Diagram", "diagram_type": 34,
+        "name": "Further Glossary Terms",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "parent_name": "Product Quality Taxonomy",
+        "parent": "28e08295-3f48-4992-b27e-fbffbc9e7d7b",
+        "uuid": "e78b177a-0834-49a3-9ee2-8a08a6763e21",
+        "diagramelements":
+        [
+          {
+            "id": 461,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Quality Scenario",
+            "node": "7d516cbc-7b26-45a9-a3f4-9249c96dd97a",
+            "uuid": "2d3311dc-deed-46b0-b7f1-612099c97855"
+          },
+          {
+            "id": 462,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Quality Requirement",
+            "node": "8c7a9118-dbfd-4d99-a85a-55e1a3f8585c",
+            "uuid": "0d9df626-40f7-4bec-a44c-f84441432ae9"
+          },
+          {
+            "id": 463,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Tactic",
+            "node": "49fdd556-501b-401b-b2a9-23e92e43a880",
+            "uuid": "21ca0c4f-2bd7-4375-b1fb-970c020b18ae"
+          },
+          {
+            "id": 464,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Design Pattern",
+            "node": "cb3e49ab-e121-4f28-8e4a-123edfd37d14",
+            "uuid": "9d7df7df-dcba-4eca-8f11-716e69c7988d"
+          },
+          {
+            "id": 465,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Solution Strategy",
+            "node": "67c866f2-36ac-478d-b6bb-c804f8a6ee78",
+            "uuid": "fcdece07-0b9c-4898-8c0d-2bf159f35b0b"
+          },
+          {
+            "id": 466,
+            "classifier_name": "concept",
+            "node": "acabca5b-24ea-4a04-a85d-497523816eee",
+            "uuid": "76e74cf7-1dbf-45ba-8282-5f58f8503617"
+          },
+          {
+            "id": 467,
+            "classifier_name": "Use Case",
+            "node": "358893d1-23c1-4bd3-ad4f-3e87c92e24bb",
+            "uuid": "ddab954b-aa4a-4e5c-9749-08f3aafc922a"
+          },
+          {
+            "id": 468,
+            "classifier_name": "concept-img",
+            "node": "1ce35496-5f89-40b2-85ef-beb2a2303bf4",
+            "uuid": "fa5ecc3a-e508-4966-8f89-bab846e6d667"
+          },
+          {
+            "id": 469,
+            "classifier_name": "principle",
+            "node": "bb8f4b95-4b90-4b87-90a1-3e3637763b60",
+            "uuid": "a103d817-a5c4-4126-8e29-b64b36562704"
+          },
+          {
+            "id": 470,
+            "classifier_name": "principle-img",
+            "node": "bca6d8ee-a99d-4bbf-9e03-96538e96083c",
+            "uuid": "b2b998d4-39f5-40f5-acf6-273670078a26"
           }
         ]
       }
@@ -517,7 +591,6 @@
         [
           {
             "id": 17,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Usability",
             "node": "4872cb70-1542-43f0-88fe-7f3984c5f93c",
             "uuid": "40fc8f69-b1b6-4e51-a50f-847147d98b7e"
@@ -563,42 +636,6 @@
     },
     {
       "diagram": {
-        "id": 44,
-        "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Compatibility Subcharacteristics",
-        "description": [
-                "Compatibility Subcharactersitics of Ext/Int Product Quality \n",
-                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
-        ],
-        "list_order": 49152,
-        "parent_name": "Quality Characteristics",
-        "parent": "45fc4dee-2999-4742-9caa-997404191457",
-        "uuid": "8f014900-1583-4df5-ba1f-50a7b43fc006",
-        "diagramelements":
-        [
-          {
-            "id": 444,
-            "classifier_name": "Inter-operability",
-            "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
-            "uuid": "87bc0b58-3a3e-42e0-84ad-fec9fe25e05e"
-          },
-          {
-            "id": 445,
-            "classifier_name": "Co-existence",
-            "node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
-            "uuid": "c43bffab-c772-4a69-9cb9-24c15c509cf4"
-          },
-          {
-            "id": 446,
-            "classifier_name": "Compatibility",
-            "node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
-            "uuid": "a8800df3-f900-48d4-b48b-619cb817cc4f"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
         "id": 43,
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Portability Subcharacteristics",
@@ -606,7 +643,7 @@
                 "Portability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
-        "list_order": 73728,
+        "list_order": 49152,
         "parent_name": "Quality Characteristics",
         "parent": "45fc4dee-2999-4742-9caa-997404191457",
         "uuid": "4d044711-4804-4cc8-aadf-644b43e27429",
@@ -648,7 +685,7 @@
                 "Performance Efficiency Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
-        "list_order": 73728,
+        "list_order": 92160,
         "parent_name": "Quality Characteristics",
         "parent": "45fc4dee-2999-4742-9caa-997404191457",
         "uuid": "db0461ff-1999-455f-aa69-d4f7beaf946b",
@@ -722,42 +759,36 @@
           },
           {
             "id": 307,
-            "display_tags": "Emphasis", "display_flags": 16777216,
-            "classifier_name": "Access Memory immediately",
+            "classifier_name": "Preallocate Memory",
             "node": "0b0b4b6b-7987-4231-9879-dbc38d010a47",
             "uuid": "933fada6-318c-4bce-9b60-00528e2c8738"
           },
           {
             "id": 308,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Sufficient Memory",
             "node": "2b493215-3a44-42ae-b404-c8c8f46b02af",
             "uuid": "d8279e1a-068c-4ddf-aac8-d0cd9e925c9c"
           },
           {
             "id": 309,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Delay Function",
             "node": "092d3c98-3f75-467a-b463-35370dde5257",
             "uuid": "212811c9-98d7-4a03-b4d4-e64b5958b899"
           },
           {
             "id": 310,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Degrade Result",
             "node": "e6dd211e-5dac-42a9-8055-375b0697eaee",
             "uuid": "ea419e41-f524-4e24-8390-b29f7d677d50"
           },
           {
             "id": 311,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Stop and Restart Later",
             "node": "f657ba43-f828-4aed-b1ba-942316be2036",
             "uuid": "dd5e951a-f75a-4067-bedd-52354c6ead0d"
           },
           {
             "id": 317,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Abort Function",
             "node": "7227037c-95ef-4ef9-8943-ec580f0a263a",
             "uuid": "63bae1d5-e02c-4395-9d0b-d633f1d89eea"
@@ -805,7 +836,6 @@
           },
           {
             "id": 270,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Quality expectations depend on use cases",
             "node": "71590f02-9538-4c88-abce-bcc96ae2dec0",
             "uuid": "a343f0e9-b4cd-409e-b0e6-81840546f6bb"
@@ -818,7 +848,7 @@
           },
           {
             "id": 313,
-            "classifier_name": "Access Memory immediately",
+            "classifier_name": "Preallocate Memory",
             "node": "0b0b4b6b-7987-4231-9879-dbc38d010a47",
             "uuid": "c50f8175-3724-4ee6-9408-ebb31069c5d8"
           },
@@ -959,7 +989,7 @@
           },
           {
             "id": 288,
-            "classifier_name": "Static Size Buffering",
+            "classifier_name": "Streaming/Static Size Buffering",
             "node": "944c1d95-de36-448f-9a9e-4132e9a43369",
             "uuid": "b090044a-3421-41fa-849a-3c071c09a836"
           },
@@ -1064,92 +1094,84 @@
     },
     {
       "diagram": {
-        "id": 20,
+        "id": 44,
+        "type": "Requirement Diagram", "diagram_type": 9,
+        "name": "Compatibility Subcharacteristics",
+        "description": [
+                "Compatibility Subcharactersitics of Ext/Int Product Quality \n",
+                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
+        ],
+        "list_order": 67204095,
+        "parent_name": "Quality Characteristics",
+        "parent": "45fc4dee-2999-4742-9caa-997404191457",
+        "uuid": "8f014900-1583-4df5-ba1f-50a7b43fc006",
+        "diagramelements":
+        [
+          {
+            "id": 444,
+            "classifier_name": "Inter-operability",
+            "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
+            "uuid": "87bc0b58-3a3e-42e0-84ad-fec9fe25e05e"
+          },
+          {
+            "id": 445,
+            "classifier_name": "Co-existence",
+            "node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
+            "uuid": "c43bffab-c772-4a69-9cb9-24c15c509cf4"
+          },
+          {
+            "id": 446,
+            "classifier_name": "Compatibility",
+            "node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
+            "uuid": "a8800df3-f900-48d4-b48b-619cb817cc4f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 49,
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Reliability Subcharacteristics",
         "description": [
                 "Reliability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
-        "list_order": 268521471,
+        "list_order": 67204095,
         "parent_name": "Quality Characteristics",
         "parent": "45fc4dee-2999-4742-9caa-997404191457",
-        "uuid": "280222f5-37aa-43fa-8909-506f958f9cfc",
+        "uuid": "27597ff4-ebe3-43ea-a8ad-9a7c44ecfdfc",
         "diagramelements":
         [
           {
-            "id": 205,
-            "display_tags": "Emphasis", "display_flags": 16777216,
-            "classifier_name": "Reliability",
-            "node": "3469bf40-881d-4466-b93a-43158b1e4fec",
-            "uuid": "1bb846f2-5755-4eba-ae0e-49b764602b2e"
-          },
-          {
-            "id": 206,
-            "classifier_name": "Fault Tolerance",
-            "node": "8066b80c-2170-4243-a1be-e8b0246701d7",
-            "uuid": "2f2b1ee6-ca45-4b09-9734-384f678b40ef"
-          },
-          {
-            "id": 207,
+            "id": 471,
             "classifier_name": "Maturity",
             "node": "370d9b4a-221e-4965-8038-486df8fbe2a3",
-            "uuid": "e84f89d1-2dec-4a76-9b72-3e6ab1f77859"
+            "uuid": "96ed8b1a-1790-48ac-9679-0a21a221ab6d"
           },
           {
-            "id": 208,
+            "id": 472,
             "classifier_name": "Availability",
             "node": "434e57ae-2dd0-4d37-a8af-c4044307974b",
-            "uuid": "20d05a8b-5c3f-4c38-bece-7666fe14c6da"
+            "uuid": "9cd7d3be-5657-446e-9782-58a6d1b7b383"
           },
           {
-            "id": 209,
+            "id": 473,
             "classifier_name": "Recoverability",
             "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
-            "uuid": "a183f7b4-4210-4ffd-9948-4661d56f70f1"
+            "uuid": "d8e76ee4-e17b-47ff-aabd-14b22f614deb"
           },
           {
-            "id": 214,
-            "display_tags": "Emphasis", "display_flags": 16777216,
-            "classifier_name": "Security",
-            "node": "0201be50-600f-44c8-aad8-6083621db401",
-            "uuid": "df423cdb-1cb3-4740-b235-1b693c9d6e4c"
+            "id": 474,
+            "classifier_name": "Fault Tolerance",
+            "node": "8066b80c-2170-4243-a1be-e8b0246701d7",
+            "uuid": "a08eb114-5a79-4b0f-8e05-e408516cc916"
           },
           {
-            "id": 215,
-            "classifier_name": "Confidentiality",
-            "node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
-            "uuid": "9b1126b9-b277-4c9e-93f0-81df4ce2996e"
-          },
-          {
-            "id": 216,
-            "classifier_name": "Integrity",
-            "node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
-            "uuid": "d19f59f0-cb15-447f-801d-7c023d795556"
-          },
-          {
-            "id": 217,
-            "classifier_name": "Accountability",
-            "node": "03692939-1bd3-4b25-8328-9c09e2220b17",
-            "uuid": "b82c0efb-92c8-4502-ad47-6019a4e69395"
-          },
-          {
-            "id": 218,
-            "classifier_name": "Authenticity",
-            "node": "a46db944-f3fb-40c0-872f-d02a03409e6a",
-            "uuid": "fa7037cb-5d28-431f-b8c4-60ecaa7a6467"
-          },
-          {
-            "id": 219,
-            "classifier_name": "Non-Repudiation",
-            "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
-            "uuid": "2d418718-d6a2-4c54-b428-fa7ddfa96a48"
-          },
-          {
-            "id": 458,
-            "classifier_name": "Resistence",
-            "node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
-            "uuid": "2a452e2f-41e7-4bb2-b9ee-18edab1b5b2d"
+            "id": 475,
+            "classifier_name": "Reliability",
+            "node": "3469bf40-881d-4466-b93a-43158b1e4fec",
+            "uuid": "0d7aa16d-277e-4107-8661-453085231360"
           }
         ]
       }
@@ -1162,9 +1184,9 @@
         "description": [
                 "This diagram shows examples - not aiming for completeness."
         ],
-        "list_order": 32768,
+        "list_order": -1073741824,
         "parent_name": "Reliability Subcharacteristics",
-        "parent": "280222f5-37aa-43fa-8909-506f958f9cfc",
+        "parent": "27597ff4-ebe3-43ea-a8ad-9a7c44ecfdfc",
         "uuid": "5ef858cf-9370-41a7-acbe-8b61aa3d2a99",
         "diagramelements":
         [
@@ -1296,9 +1318,9 @@
         "description": [
                 ""
         ],
-        "list_order": 49152,
+        "list_order": -1,
         "parent_name": "Reliability Subcharacteristics",
-        "parent": "280222f5-37aa-43fa-8909-506f958f9cfc",
+        "parent": "27597ff4-ebe3-43ea-a8ad-9a7c44ecfdfc",
         "uuid": "e30b7a57-1bb8-45fd-b877-24a11b72be53",
         "diagramelements":
         [
@@ -1400,7 +1422,7 @@
                 "Maintainability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
-        "list_order": 268521471,
+        "list_order": 134309887,
         "parent_name": "Quality Characteristics",
         "parent": "45fc4dee-2999-4742-9caa-997404191457",
         "uuid": "9d1a7a9e-b4b8-4097-a913-ca06d0ef44f2",
@@ -1408,7 +1430,6 @@
         [
           {
             "id": 404,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Maintainability",
             "node": "9288b6b6-64a9-4157-88b7-8e1226fed939",
             "uuid": "05bc0b51-232a-4efd-96a8-326bbfef3d97"
@@ -1630,6 +1651,66 @@
             "classifier_name": "Dependency Inversion",
             "node": "6d515926-c548-486d-8304-dad434898ff8",
             "uuid": "7e97be82-20c5-446e-9724-bd3008e50329"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 20,
+        "type": "Requirement Diagram", "diagram_type": 9,
+        "name": "Security Subcharacteristics",
+        "description": [
+                "Security Subcharactersitics of Ext/Int Product Quality \n",
+                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
+        ],
+        "list_order": 268521471,
+        "parent_name": "Quality Characteristics",
+        "parent": "45fc4dee-2999-4742-9caa-997404191457",
+        "uuid": "280222f5-37aa-43fa-8909-506f958f9cfc",
+        "diagramelements":
+        [
+          {
+            "id": 214,
+            "classifier_name": "Security",
+            "node": "0201be50-600f-44c8-aad8-6083621db401",
+            "uuid": "df423cdb-1cb3-4740-b235-1b693c9d6e4c"
+          },
+          {
+            "id": 215,
+            "classifier_name": "Confidentiality",
+            "node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
+            "uuid": "9b1126b9-b277-4c9e-93f0-81df4ce2996e"
+          },
+          {
+            "id": 216,
+            "classifier_name": "Integrity",
+            "node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
+            "uuid": "d19f59f0-cb15-447f-801d-7c023d795556"
+          },
+          {
+            "id": 217,
+            "classifier_name": "Accountability",
+            "node": "03692939-1bd3-4b25-8328-9c09e2220b17",
+            "uuid": "b82c0efb-92c8-4502-ad47-6019a4e69395"
+          },
+          {
+            "id": 218,
+            "classifier_name": "Authenticity",
+            "node": "a46db944-f3fb-40c0-872f-d02a03409e6a",
+            "uuid": "fa7037cb-5d28-431f-b8c4-60ecaa7a6467"
+          },
+          {
+            "id": 219,
+            "classifier_name": "Non-Repudiation",
+            "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
+            "uuid": "2d418718-d6a2-4c54-b428-fa7ddfa96a48"
+          },
+          {
+            "id": 458,
+            "classifier_name": "Resistence",
+            "node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+            "uuid": "2a452e2f-41e7-4bb2-b9ee-18edab1b5b2d"
           }
         ]
       }
@@ -4125,7 +4206,7 @@
       "classifier": {
         "id": 57,
         "type": "Actor", "main_type": 100,
-        "name": "Backend Server / Cloud",
+        "name": "Backend Server / Cloud / AI",
         "description": [
                 ""
         ],
@@ -4178,6 +4259,7 @@
       "classifier": {
         "id": 61,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Layered Architecture",
         "description": [
                 ""
@@ -4195,6 +4277,7 @@
       "classifier": {
         "id": 62,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Coding Guidelines",
         "description": [
                 "Coding guidelines define how to get reproducible behavior of software.\n",
@@ -4307,6 +4390,7 @@
       "classifier": {
         "id": 63,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Fault injection Tests",
         "description": [
                 ""
@@ -4553,7 +4637,8 @@
     {
       "classifier": {
         "id": 74,
-        "type": "Block", "main_type": 90,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
         "name": "Redundancy",
         "description": [
                 ""
@@ -4619,6 +4704,7 @@
       "classifier": {
         "id": 75,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Partitioning",
         "description": [
                 "synonym for Compartments\n",
@@ -4734,6 +4820,7 @@
       "classifier": {
         "id": 78,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Over-the-Air Updates",
         "description": [
                 ""
@@ -4761,6 +4848,7 @@
       "classifier": {
         "id": 79,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Cryptographic Signatures",
         "description": [
                 ""
@@ -4798,6 +4886,7 @@
       "classifier": {
         "id": 80,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Encryption",
         "description": [
                 ""
@@ -4834,7 +4923,7 @@
     {
       "classifier": {
         "id": 81,
-        "type": "Block", "main_type": 90,
+        "type": "Class", "main_type": 125,
         "name": "Functional Safety",
         "description": [
                 ""
@@ -4852,6 +4941,7 @@
       "classifier": {
         "id": 82,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Trusted Data Paths",
         "description": [
                 ""
@@ -4889,6 +4979,7 @@
       "classifier": {
         "id": 83,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Input Signal Validation",
         "description": [
                 "Precondition is a specification of valid input signals.\n",
@@ -4914,6 +5005,7 @@
       "classifier": {
         "id": 84,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Monitoring",
         "description": [
                 ""
@@ -4981,6 +5073,7 @@
       "classifier": {
         "id": 85,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Real Time Execution",
         "description": [
                 ""
@@ -5018,6 +5111,7 @@
       "classifier": {
         "id": 86,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Static Code Analysis",
         "description": [
                 ""
@@ -5035,6 +5129,7 @@
       "classifier": {
         "id": 87,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Code Generation",
         "description": [
                 "An understandable model and a small code generator\n",
@@ -5230,6 +5325,7 @@
       "classifier": {
         "id": 98,
         "type": "Package", "main_type": 124,
+        "stereotype": "principle",
         "name": "Simplicity",
         "description": [
                 ""
@@ -5413,6 +5509,7 @@
       "classifier": {
         "id": 108,
         "type": "Class", "main_type": 125,
+        "stereotype": "concept",
         "name": "Secure Boot",
         "description": [
                 ""
@@ -5430,6 +5527,7 @@
       "classifier": {
         "id": 109,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Mature Platform",
         "description": [
                 ""
@@ -5560,6 +5658,7 @@
       "classifier": {
         "id": 114,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "Certificates",
         "description": [
                 ""
@@ -5593,8 +5692,8 @@
                 "a set of rules\n",
                 "how to create a product."
         ],
-        "x_order": -1106184771,
-        "y_order": -22721245,
+        "x_order": -978058353,
+        "y_order": -256171437,
         "list_order": 0,
         "uuid": "487af246-c0c0-4bce-a019-0a98414a1e89",
         "features":
@@ -5643,6 +5742,7 @@
       "classifier": {
         "id": 118,
         "type": "Block", "main_type": 90,
+        "stereotype": "concept",
         "name": "automated Tests",
         "description": [
                 ""
@@ -5775,7 +5875,7 @@
       "classifier": {
         "id": 123,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Dynamic Allocation accepting controlled death",
         "description": [
                 "- Accept memory fragmentation\n",
@@ -5796,7 +5896,7 @@
       "classifier": {
         "id": 125,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Weak Pointers / Caches",
         "description": [
                 "- There are managed data structures\n",
@@ -5825,7 +5925,7 @@
       "classifier": {
         "id": 126,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Moving Memory Objects",
         "description": [
                 "Some instance manages memory (e.g. OS)\n",
@@ -5913,6 +6013,7 @@
       "classifier": {
         "id": 132,
         "type": "Class", "main_type": 125,
+        "stereotype": "concept",
         "name": "Trust Levels",
         "description": [
                 "Create a Multi-Layer security,\n",
@@ -5937,6 +6038,7 @@
       "classifier": {
         "id": 133,
         "type": "Class", "main_type": 125,
+        "stereotype": "principle",
         "name": "Fail Secure",
         "description": [
                 "Do not expose data or system details when a fault occurs."
@@ -5972,6 +6074,7 @@
       "classifier": {
         "id": 135,
         "type": "Class", "main_type": 125,
+        "stereotype": "concept",
         "name": "Secure Defaults",
         "description": [
                 "The default settings/configuratoin of a system shall be tuned for security."
@@ -5989,6 +6092,7 @@
       "classifier": {
         "id": 136,
         "type": "Class", "main_type": 125,
+        "stereotype": "principle",
         "name": "Reduce Attack Surface",
         "description": [
                 "Remove unused functions"
@@ -6217,7 +6321,7 @@
       "classifier": {
         "id": 148,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Schedule tasks",
         "description": [
                 "- Schedule tasks that require memory\n",
@@ -6225,7 +6329,7 @@
                 "\n",
                 "E.g. only one memory-intensive task may run at a time"
         ],
-        "x_order": -1299181991,
+        "x_order": -16275143,
         "y_order": -2096249159,
         "list_order": -2018646309,
         "uuid": "609b6ca6-fa01-4c7c-9125-9f337dae32a8",
@@ -6238,7 +6342,7 @@
       "classifier": {
         "id": 149,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Region based Memory Management",
         "description": [
                 "A region/arena/stack is valid while performing\n",
@@ -6275,7 +6379,7 @@
       "classifier": {
         "id": 150,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Static Allocation",
         "description": [
                 "All memory is statically allocated\n",
@@ -6303,7 +6407,7 @@
       "classifier": {
         "id": 151,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Object Pools",
         "description": [
                 "Pools of same-type objects\n",
@@ -6382,7 +6486,7 @@
       "classifier": {
         "id": 155,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Dynamic Allocation accepting degradation",
         "description": [
                 "Continue working, accept that some requested functionality\n",
@@ -6484,6 +6588,9 @@
         "description": [
                 "A tactic is a method to influence a system to inherit a subcharacteristic.\n",
                 "\n",
+                "It is a precise, detailed action plan that produces an outcome. The outcome may ",
+                "be a step in a overarching strategy.\n",
+                "\n",
                 "See: Software Architecture in Practice (C0165) in D0023#name."
         ],
         "x_order": 1038680383,
@@ -6502,6 +6609,9 @@
         "stereotype": "problem space",
         "name": "Quality Scenario",
         "description": [
+                "A quality scenario is a use case in which one or more quality ",
+                "subcharacteristics are an important outcome.\n",
+                "\n",
                 "Scenarios as linking elements between a quality tree and requirements are ",
                 "described in arc42 (C0168), see D0023#name."
         ],
@@ -6520,7 +6630,9 @@
         "type": "Class", "main_type": 125,
         "name": "Solution Strategy",
         "description": [
-                ""
+                "A strategy is a plan to reach a long-term goal. The plan consists of high-level ",
+                "steps. These high-level steps shall produce expected outcomes and need to be ",
+                "broken further down into tactics.  "
         ],
         "x_order": 1038680383,
         "y_order": -1616804599,
@@ -6771,6 +6883,7 @@
       "classifier": {
         "id": 175,
         "type": "Class", "main_type": 125,
+        "stereotype": "strategy",
         "name": "Control and Manage Resources",
         "description": [
                 "see D0024#name."
@@ -7138,8 +7251,8 @@
       "classifier": {
         "id": 194,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
-        "name": "Static Size Buffering",
+        "stereotype": "concept",
+        "name": "Streaming/Static Size Buffering",
         "description": [
                 "- Windowing concept\n",
                 "- Streaming with buffering\n",
@@ -7158,14 +7271,14 @@
       "classifier": {
         "id": 195,
         "type": "Class", "main_type": 125,
-        "stereotype": "conecpt",
+        "stereotype": "concept",
         "name": "Remote Execution",
         "description": [
                 "Required memory may be provided\n",
                 "on a different hardware, e.g. Cloud"
         ],
-        "x_order": -312551200,
-        "y_order": -2082238724,
+        "x_order": -181822395,
+        "y_order": -2060218130,
         "list_order": -2129148876,
         "uuid": "13a4c5f0-8b29-4692-89ba-e6fb3715fc14",
         "features":
@@ -7246,7 +7359,7 @@
                 "Variant:\n",
                 "monotonic_buffer_resource(C++17)"
         ],
-        "x_order": -1365645119,
+        "x_order": -1448596116,
         "y_order": -2084879266,
         "list_order": -2084879266,
         "uuid": "6040bb89-3d97-4719-99b0-22699f11e6f3",
@@ -7301,7 +7414,8 @@
       "classifier": {
         "id": 202,
         "type": "Requirement", "main_type": 99,
-        "name": "Access Memory immediately",
+        "stereotype": "concept",
+        "name": "Preallocate Memory",
         "description": [
                 "For dedicated use cases and functions, the software shall access required ",
                 "memory within 1 usec."
@@ -7319,6 +7433,7 @@
       "classifier": {
         "id": 203,
         "type": "Requirement", "main_type": 99,
+        "stereotype": "concept",
         "name": "Sufficient Memory",
         "description": [
                 "For dedicated use cases and functions, the software shall be able to access ",
@@ -7337,6 +7452,7 @@
       "classifier": {
         "id": 204,
         "type": "Requirement", "main_type": 99,
+        "stereotype": "concept",
         "name": "Delay Function",
         "description": [
                 "For dedicated use cases and functions, the software shall delay processing till ",
@@ -7355,6 +7471,7 @@
       "classifier": {
         "id": 205,
         "type": "Requirement", "main_type": 99,
+        "stereotype": "concept",
         "name": "Degrade Result",
         "description": [
                 "For dedicated use cases and functions, the software shall calculate a result ",
@@ -7373,6 +7490,7 @@
       "classifier": {
         "id": 206,
         "type": "Requirement", "main_type": 99,
+        "stereotype": "concept",
         "name": "Stop and Restart Later",
         "description": [
                 "In case of insufficient amount of memory, the software shall stop operating and ",
@@ -7391,6 +7509,7 @@
       "classifier": {
         "id": 207,
         "type": "Requirement", "main_type": 99,
+        "stereotype": "concept",
         "name": "Abort Function",
         "description": [
                 "In case of insufficient memory, the software shall abort the function."
@@ -7629,6 +7748,7 @@
       "classifier": {
         "id": 220,
         "type": "Class", "main_type": 125,
+        "stereotype": "concept",
         "name": "Error Handling Concept",
         "description": [
                 "An error handling concept\n",
@@ -7896,6 +8016,7 @@
       "classifier": {
         "id": 233,
         "type": "Class", "main_type": 125,
+        "stereotype": "principle",
         "name": "freedom from interference (FFI)",
         "description": [
                 ""
@@ -8211,16 +8332,6 @@
         "uuid": "863c7cb4-94f2-476d-85b0-111bc76853ec",
         "features":
         [
-          {
-            "id": 92,
-            "type": "Operation", "main_type": 1,
-            "key": "new_pause",
-            "description": [
-                ""
-            ],
-            "list_order": 32768,
-            "uuid": "9d25a03f-f8f6-4b31-a952-3908f0ad8eea"
-          }
         ]
       }
     },
@@ -8412,7 +8523,8 @@
     {
       "classifier": {
         "id": 260,
-        "type": "Block", "main_type": 90,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
         "name": "Lockstep CPUs",
         "description": [
                 "Two CPUs execute the same program with the same input data at the same time.\n",
@@ -8430,7 +8542,8 @@
     {
       "classifier": {
         "id": 261,
-        "type": "Component", "main_type": 121,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
         "name": "ECC on memory",
         "description": [
                 "Error correction codes on volatile or persistant storages allow to correct one ",
@@ -8981,6 +9094,131 @@
         "y_order": -2082278036,
         "list_order": -2082278036,
         "uuid": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 288,
+        "type": "Stereotype", "main_type": 139,
+        "name": "concept",
+        "description": [
+                "A concept is an abstraction for a recurring structural and/or behavioural ",
+                "pattern.\n",
+                "\n",
+                "In contrast to a tactic and a strategy, it does not define a clear goal - its ",
+                "purpose depends on the context in which it is used.\n",
+                "\n",
+                "    <path stroke=\"#555555\" fill=\"#aaddff\"\n",
+                "        d=\"M 26,12 l -1.5,0.25 l -0.4375,2.375 l 1.3125,0.75 l 0.6875,1 l ",
+                "-0.8125,1.5 l -1.1875,-0 l -1.375,-0.6875 l -1.75,1.6875 l 0.625,1.375 l ",
+                "-0,1.1875 l -1.5625,0.75 l -0.9375,-0.6875 l -0.6875,-1.375 l -2.375,0.3125 l ",
+                "-0.3125,1.5 l -0.75,0.9375 l -1.6875,-0.3125 l -0.375,-1.125 l 0.1875,-1.5 l ",
+                "-2.125,-1.125 l -1.125,1 l -1.125,0.375 l -1.1875,-1.25 l 0.375,-1.125 l ",
+                "1.0625,-1.125 l -1.0625,-2.125 l -1.5,0.1875 l -1.125,-0.375 l -0.25,-1.6875 l ",
+                "1,-0.6875 l 1.5,-0.25 l 0.4375,-2.375 l -1.3125,-0.75 l -0.6875,-1 l ",
+                "0.8125,-1.5 l 1.1875,0 l 1.375,0.6875 l 1.75,-1.6875 l -0.625,-1.375 l ",
+                "0,-1.1875 l 1.5625,-0.75 l 0.9375,0.6875 l 0.6875,1.375 l 2.375,-0.3125 l ",
+                "0.3125,-1.5 l 0.75,-0.9375 l 1.6875,0.3125 l 0.375,1.125 l -0.1875,1.5 l ",
+                "2.125,1.125 l 1.125,-1 l 1.125,-0.375 l 1.1875,1.25 l -0.375,1.125 l ",
+                "-1.0625,1.125 l 1.0625,2.125 l 1.5,-0.1875 l 1.125,0.375 l 0.25,1.6875 l ",
+                "-1,0.6875 \"\n",
+                "    />\n",
+                "    <path stroke=\"none\" fill=\"#7f7f7f\"\n",
+                "        d=\"M 14,12 C 14,10.875 14.875,10 16,10 S 18,10.875 18,12 S 17.125,14 ",
+                "16,14 S 14,13.125 14,12 \"\n",
+                "    />"
+        ],
+        "x_order": 1635138607,
+        "y_order": -1028193722,
+        "list_order": -627781739,
+        "uuid": "acabca5b-24ea-4a04-a85d-497523816eee",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 289,
+        "type": "Class", "main_type": 125,
+        "name": "Use Case",
+        "description": [
+                "A use case is a description of the usage of a system.\n",
+                "The described usage is restricted to one or few concrete scenarios, it does not ",
+                "try to describe all possible interactions.\n",
+                "A use case consists of \n",
+                "- one or more actors\n",
+                "- pre-conditions\n",
+                "- one or few scenarios which describe the sequence of interactions\n",
+                "- post-conditions\n",
+                ""
+        ],
+        "x_order": -1743019937,
+        "y_order": -1028193722,
+        "list_order": -1028193722,
+        "uuid": "358893d1-23c1-4bd3-ad4f-3e87c92e24bb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 290,
+        "type": "Image", "main_type": 138,
+        "stereotype": "concept",
+        "name": "concept-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1635138607,
+        "y_order": 493629064,
+        "list_order": 493629064,
+        "uuid": "1ce35496-5f89-40b2-85ef-beb2a2303bf4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 291,
+        "type": "Stereotype", "main_type": 139,
+        "name": "principle",
+        "description": [
+                "A principle is a guideline to adhere when performing a task or when evaluating ",
+                "the result of a task.\n",
+                "\n",
+                "<path fill=\"#ccffcc\" stroke=\"none\" d=\"m 2,2 28,0 0,28 -28,0 z\" />\n",
+                "<path d=\"m 8,12 l -4,7 1,1 6,0 1,-1 -4,-7 l 8,-4 9,0 l -4,7 1,1 6,0 1,-1 -4,-7 ",
+                "\" />\n",
+                "<path d=\"m 15,5 l 1,3 m 0,2 l 0,17 \" />"
+        ],
+        "x_order": 1635138607,
+        "y_order": -1553370041,
+        "list_order": -1553370041,
+        "uuid": "bb8f4b95-4b90-4b87-90a1-3e3637763b60",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 292,
+        "type": "Image", "main_type": 138,
+        "stereotype": "principle",
+        "name": "principle-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1635138607,
+        "y_order": -1616804599,
+        "list_order": -1616804599,
+        "uuid": "bca6d8ee-a99d-4bbf-9e03-96538e96083c",
         "features":
         [
         ]
@@ -11266,6 +11504,22 @@
     },
     {
       "relationship": {
+        "id": 342,
+        "type": "Generalization", "main_type": 210,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "Quality Scenario",
+        "to_classifier_name": "Use Case",
+        "from_node": "7d516cbc-7b26-45a9-a3f4-9249c96dd97a",
+        "to_node": "358893d1-23c1-4bd3-ad4f-3e87c92e24bb",
+        "uuid": "c792269f-e7f5-4c24-8e5b-5ecd6a18f9ce"
+      }
+    },
+    {
+      "relationship": {
         "id": 163,
         "type": "Aggregation", "main_type": 201,
         "name": "selects (1:n)",
@@ -11412,7 +11666,7 @@
       "relationship": {
         "id": 170,
         "type": "Communication Path", "main_type": 230,
-        "name": "control",
+        "name": "handle",
         "description": [
                 ""
         ],
@@ -11834,7 +12088,7 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Concepts to plan and control memory usage",
-        "to_classifier_name": "Static Size Buffering",
+        "to_classifier_name": "Streaming/Static Size Buffering",
         "from_node": "4af17c79-2d80-4a20-9512-c488e9540a0e",
         "to_node": "944c1d95-de36-448f-9a9e-4132e9a43369",
         "uuid": "f9bcab48-befa-4bb0-ba36-980ac36eccb2"
@@ -12089,7 +12343,7 @@
                 ""
         ],
         "list_order": 942544,
-        "from_classifier_name": "Access Memory immediately",
+        "from_classifier_name": "Preallocate Memory",
         "to_classifier_name": "Time Behaviour",
         "from_node": "0b0b4b6b-7987-4231-9879-dbc38d010a47",
         "to_node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
@@ -12105,7 +12359,7 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_name": "Access Memory immediately",
+        "from_classifier_name": "Preallocate Memory",
         "to_classifier_name": "Reliable-Fkt Use-Case",
         "from_node": "0b0b4b6b-7987-4231-9879-dbc38d010a47",
         "to_node": "49528fd5-341d-47c0-8785-11342edf6165",
@@ -12318,6 +12572,22 @@
         "from_node": "cb3e49ab-e121-4f28-8e4a-123edfd37d14",
         "to_node": "49fdd556-501b-401b-b2a9-23e92e43a880",
         "uuid": "e2447352-ee1f-457f-89da-c78390236306"
+      }
+    },
+    {
+      "relationship": {
+        "id": 341,
+        "type": "Generalization", "main_type": 210,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "Design Pattern",
+        "to_classifier_name": "concept",
+        "from_node": "cb3e49ab-e121-4f28-8e4a-123edfd37d14",
+        "to_node": "acabca5b-24ea-4a04-a85d-497523816eee",
+        "uuid": "0322d628-924e-4b28-9ba6-4925bcee22f2"
       }
     },
     {
@@ -13486,6 +13756,54 @@
         "from_node": "126094e4-23f3-46e2-af58-7a359703f01c",
         "to_node": "6fade01e-8612-42b9-8458-18d258864efa",
         "uuid": "03fab404-5685-46e1-b9d9-9c0de92d29ec"
+      }
+    },
+    {
+      "relationship": {
+        "id": 343,
+        "type": "Aggregation", "main_type": 201,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 589824,
+        "from_classifier_name": "concept",
+        "to_classifier_name": "concept-img",
+        "from_node": "acabca5b-24ea-4a04-a85d-497523816eee",
+        "to_node": "1ce35496-5f89-40b2-85ef-beb2a2303bf4",
+        "uuid": "95df23e8-4415-4ba1-bdcb-74c976255ac8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 344,
+        "type": "Dependency", "main_type": 0,
+        "name": "may follow 1..n",
+        "description": [
+                ""
+        ],
+        "list_order": 622592,
+        "from_classifier_name": "concept",
+        "to_classifier_name": "principle",
+        "from_node": "acabca5b-24ea-4a04-a85d-497523816eee",
+        "to_node": "bb8f4b95-4b90-4b87-90a1-3e3637763b60",
+        "uuid": "e5afa4bc-ac68-4c2d-b0f5-84ad6d4e83c6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 345,
+        "type": "Aggregation", "main_type": 201,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 655360,
+        "from_classifier_name": "principle",
+        "to_classifier_name": "principle-img",
+        "from_node": "bb8f4b95-4b90-4b87-90a1-3e3637763b60",
+        "to_node": "bca6d8ee-a99d-4bbf-9e03-96538e96083c",
+        "uuid": "95542dfe-4b20-4c85-adb2-8ebca48debe9"
       }
     }
   ]
