@@ -13,7 +13,7 @@ mouse_droid/mouse_droid.pdf: $(SRCDIR)/mouse_droid.cfuJ
 	mkdir -p mouse_droid
 	crystal-facet-uml -e $(SRCDIR)/mouse_droid.cfuJ docbook mouse_droid
 	[ ! -f /home/andi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/andi/Downloads/docbook.xsd mouse_droid/mouse_droid.xml
-	(cd mouse_droid && dblatex mouse_droid.xml)
+	(cd mouse_droid && dblatex -p ../xsl_params.xsl --type=pdf mouse_droid.xml)
 
 quality/quality.html: $(SRCDIR)/quality.cfuJ
 	mkdir -p quality
@@ -23,7 +23,7 @@ quality/quality.pdf: $(SRCDIR)/quality.cfuJ
 	mkdir -p quality
 	crystal-facet-uml -e $(SRCDIR)/quality.cfuJ docbook quality
 	[ ! -f /home/andi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/andi/Downloads/docbook.xsd quality/quality.xml
-	(cd quality && dblatex quality.xml)
+	(cd quality && dblatex -p ../xsl_params.xsl --type=pdf quality.xml)
 
 self_architecture/self_architecture.html: $(ARCDIR)/self_architecture.cfuJ
 	mkdir -p self_architecture
@@ -33,7 +33,7 @@ self_architecture/self_architecture.pdf: $(ARCDIR)/self_architecture.cfuJ
 	mkdir -p self_architecture
 	crystal-facet-uml -e $(ARCDIR)/self_architecture.cfuJ docbook self_architecture
 	[ ! -f /home/andi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/andi/Downloads/docbook.xsd self_architecture/self_architecture
-	(cd self_architecture && dblatex self_architecture.xml)
+	(cd self_architecture && dblatex -p ../xsl_params.xsl --type=pdf self_architecture.xml)
 
 pencil_tests/pencil_tests.html: $(SRCDIR)/pencil_tests.cfuJ
 	mkdir -p pencil_tests

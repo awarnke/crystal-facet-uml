@@ -67,10 +67,10 @@ static const char DOCBOOK_DIAGRAM_END[]
     = "\n</section>";
 
 static const char DOCBOOK_DESCRIPTION_START[]
-    = "\n<para>";
+    = "\n<para role=\"description\">";
 static const char DOCBOOK_DESCRIPTION_MIDDLE[]  /* optional */
     = "\n</para>"
-      "\n<para>";
+      "\n<para role=\"description\">";
 static const char DOCBOOK_DESCRIPTION_XREF_START[]
     = "<xref linkend=\"";
 static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
@@ -105,7 +105,7 @@ static const char DOCBOOK_ELEMENT_SEE_END[] = ")\n</emphasis>";
 static const char DOCBOOK_ELEMENT_ATTRIBUTES_END[]
     = "\n</para>";
 static const char DOCBOOK_ELEMENT_DESCR_START[]  /* optional */
-    = "\n<para>";
+    = "\n<para role=\"description\">";
 static const char DOCBOOK_ELEMENT_DESCR_END[]  /* optional */
     = "\n</para>";
 static const char DOCBOOK_ELEMENT_END[]
