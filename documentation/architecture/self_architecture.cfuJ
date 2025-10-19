@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.66.0"
+    "generator_version": "1.66.1"
   }
   ,
   "views":
@@ -2757,13 +2757,295 @@
     },
     {
       "diagram": {
+        "id": 53,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "io: Black Box View",
+        "description": [
+                "The io module imports and exports data and diagrams.\n",
+                "Either the filesystem or the clipboard are source and destination.\n",
+                "\n",
+                "With the io_data_file_t class, this module provides a wrapper around a database ",
+                "of the data module that can import/export json files when opening/closing the ",
+                "database."
+        ],
+        "list_order": 28160,
+        "parent_name": "Building Block View",
+        "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
+        "uuid": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
+        "diagramelements":
+        [
+          {
+            "id": 333,
+            "classifier_name": "io",
+            "node": "9a93182d-56f8-4865-a642-24d997264063",
+            "uuid": "0fbc6792-ffde-4ace-aa63-97a63d05ae71"
+          },
+          {
+            "id": 626,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "pencil",
+            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
+            "uuid": "30eade03-9a07-4546-a883-81429b53fe6f"
+          },
+          {
+            "id": 627,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "data",
+            "node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
+            "uuid": "744a79c4-dac6-454e-80ba-3189a44ffac8"
+          },
+          {
+            "id": 628,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "data/storage",
+            "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
+            "uuid": "62094f71-d89e-4069-b7b7-1566c15d9d1e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 46,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "io: White Box View",
+        "description": [
+                "This component implements input output functionality, currently:\n",
+                "- Export of diagram images"
+        ],
+        "list_order": 0,
+        "parent_name": "io: Black Box View",
+        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
+        "uuid": "e4a25d23-ba14-4306-8c80-a5eea2434497",
+        "diagramelements":
+        [
+          {
+            "id": 285,
+            "classifier_name": "io",
+            "node": "9a93182d-56f8-4865-a642-24d997264063",
+            "uuid": "9960eb20-0069-428c-ad18-d8cfd51bc835"
+          },
+          {
+            "id": 305,
+            "classifier_name": "image_format_writer",
+            "node": "9762ae37-4a86-46ab-9bc0-e4184c208c8a",
+            "uuid": "4824e752-9035-48b4-ad3f-cfd8fcb8d3b9"
+          },
+          {
+            "id": 307,
+            "classifier_name": "io_exporter",
+            "node": "eb2b04c7-1958-4787-a9fe-68696880ccf3",
+            "uuid": "723102b5-0d9a-40fc-9318-0ab0515dd381"
+          },
+          {
+            "id": 395,
+            "classifier_name": "io_importer",
+            "node": "fcfb422f-51e0-442f-ad0b-92ba43fe0776",
+            "uuid": "05909ffd-0145-424b-854a-e90553572689"
+          },
+          {
+            "id": 447,
+            "classifier_name": "io_export_xxx_traversal",
+            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+            "uuid": "9cf0b6ed-c782-4759-93c4-3c7a0ff0979a"
+          },
+          {
+            "id": 650,
+            "classifier_name": "io_data_file",
+            "node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
+            "uuid": "bcf8a8ea-659e-4dd5-85c4-f27d42ea3aef"
+          },
+          {
+            "id": 797,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "557df7d7-ebcb-4b62-97f7-1ce2f35fb572"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 73,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "io_export writers",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "parent_name": "io: White Box View",
+        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
+        "uuid": "e7eda656-ea48-4f05-97ff-6266c7aebdb5",
+        "diagramelements":
+        [
+          {
+            "id": 450,
+            "classifier_name": "io_export_xxx_traversal",
+            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+            "uuid": "cebf084c-33a6-4330-9742-e8f2a020e74a"
+          },
+          {
+            "id": 452,
+            "classifier_name": "document_element_writer",
+            "node": "28d24517-4348-455a-a70e-a548fa63589b",
+            "uuid": "b7b069d3-ec08-43f0-86cd-68fae37760f3"
+          },
+          {
+            "id": 454,
+            "classifier_name": "xmi_element_writer",
+            "node": "26dcb480-f664-470d-8295-6c5e2a62fdb9",
+            "uuid": "da17d740-9126-4e97-8225-e7b8ccffa98e"
+          },
+          {
+            "id": 455,
+            "classifier_name": "io_txt_writer",
+            "node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
+            "uuid": "07ff49a8-c994-42cf-a912-ff32d1867a57"
+          },
+          {
+            "id": 456,
+            "classifier_name": "io_xml_writer",
+            "node": "b5960f34-5328-438f-a755-418e58dee838",
+            "uuid": "7924c4a7-6d01-405e-800a-eca381c359f5"
+          },
+          {
+            "id": 457,
+            "classifier_name": "io_md_writer",
+            "node": "ef415086-85ec-446b-8a84-deb484e8393e",
+            "uuid": "7bf11274-cbcd-4907-977e-b8e28b72f756"
+          },
+          {
+            "id": 561,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "4db58daf-112d-4e08-b546-14b599ff7327"
+          },
+          {
+            "id": 664,
+            "classifier_name": "json_element_writer",
+            "node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
+            "uuid": "41abf9c7-5fed-4392-9273-597bc18e8d85"
+          },
+          {
+            "id": 798,
+            "classifier_name": "format",
+            "node": "cffdbd1b-8427-4508-a891-a668907e394f",
+            "uuid": "94f7920e-7334-4a1c-adce-b947066fedf7"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 99,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "data_model_traversal",
+        "description": [
+                ""
+        ],
+        "list_order": 1073758207,
+        "parent_name": "io: White Box View",
+        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
+        "uuid": "2b20a75a-336f-4a01-b709-6a5b15957f2f",
+        "diagramelements":
+        [
+          {
+            "id": 657,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Constant order for unchanged parts",
+            "node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
+            "uuid": "4eb7ef51-0aa7-41ad-b3db-c6c4e268b02c"
+          },
+          {
+            "id": 658,
+            "classifier_name": "io_export_flat_traversal",
+            "node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+            "uuid": "f8986760-e951-496a-9990-31c5ee1e5f64"
+          },
+          {
+            "id": 659,
+            "classifier_name": "io_export_xxx_traversal",
+            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+            "uuid": "a36d4f0b-8f70-41ce-b4c2-30cf6bdfb2d1"
+          },
+          {
+            "id": 660,
+            "classifier_name": "io_export_model_traversal",
+            "node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
+            "uuid": "64cf8ba9-3d64-466a-be2a-35a68e365616"
+          },
+          {
+            "id": 661,
+            "classifier_name": "io_export_diagram_traversal",
+            "node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
+            "uuid": "8ee5000f-8a72-44be-915a-81fcfdb929b9"
+          },
+          {
+            "id": 662,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "995f142c-abf2-40ed-86c9-1cb436108af3"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 71,
+        "type": "Communication Diagram", "diagram_type": 14,
+        "name": "io: Runtime View",
+        "description": [
+                "The io_exporter sets up the data pipe"
+        ],
+        "list_order": 32768,
+        "parent_name": "io: Black Box View",
+        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
+        "uuid": "55e179de-6342-443a-a830-1befe0620e8d",
+        "diagramelements":
+        [
+          {
+            "id": 433,
+            "classifier_name": "document_element_writer",
+            "node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
+            "uuid": "925cbe6b-886f-4e4b-b496-7526ec0c4065"
+          },
+          {
+            "id": 444,
+            "classifier_name": "Output Stream",
+            "node": "e24ebbb4-2e68-4390-9414-b5601178cbc6",
+            "uuid": "d93ac678-31dd-4d7e-944d-8df33c2117dd"
+          },
+          {
+            "id": 445,
+            "classifier_name": "data_database_reader",
+            "node": "ef1ca5dc-361c-4ee8-a299-9c975d60610d",
+            "uuid": "a31a16a4-3b08-4d38-bb6c-9114f7f3f2ce"
+          },
+          {
+            "id": 446,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "io_exporter",
+            "node": "46eac473-636d-490a-a4a5-102c984e3a02",
+            "uuid": "44163c01-c7bc-4358-a768-e27586ee7df7"
+          },
+          {
+            "id": 458,
+            "classifier_name": "io_export_diagram_traversal",
+            "node": "1d5d8c36-04c2-40c3-a724-38bf291c9e79",
+            "uuid": "f52f6e2c-1846-4a0a-bfcb-47cd579e94b4"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 54,
         "type": "Component Diagram", "diagram_type": 31,
         "name": "pencil: Black Box View",
         "description": [
                 ""
         ],
-        "list_order": 24320,
+        "list_order": 29440,
         "parent_name": "Building Block View",
         "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
         "uuid": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
@@ -3496,288 +3778,6 @@
             "classifier_name": "end of list?",
             "node": "85264a07-34e5-4810-a3a8-e9b3e0393671",
             "uuid": "de9d99a9-7ffb-4f13-93a9-78ca9caae46d"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 53,
-        "type": "Component Diagram", "diagram_type": 31,
-        "name": "io: Black Box View",
-        "description": [
-                "The io module imports and exports data and diagrams.\n",
-                "Either the filesystem or the clipboard are source and destination.\n",
-                "\n",
-                "With the io_data_file_t class, this module provides a wrapper around a database ",
-                "of the data module that can import/export json files when opening/closing the ",
-                "database."
-        ],
-        "list_order": 28160,
-        "parent_name": "Building Block View",
-        "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
-        "uuid": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
-        "diagramelements":
-        [
-          {
-            "id": 333,
-            "classifier_name": "io",
-            "node": "9a93182d-56f8-4865-a642-24d997264063",
-            "uuid": "0fbc6792-ffde-4ace-aa63-97a63d05ae71"
-          },
-          {
-            "id": 626,
-            "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "pencil",
-            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
-            "uuid": "30eade03-9a07-4546-a883-81429b53fe6f"
-          },
-          {
-            "id": 627,
-            "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "data",
-            "node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
-            "uuid": "744a79c4-dac6-454e-80ba-3189a44ffac8"
-          },
-          {
-            "id": 628,
-            "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "data/storage",
-            "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
-            "uuid": "62094f71-d89e-4069-b7b7-1566c15d9d1e"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 46,
-        "type": "Component Diagram", "diagram_type": 31,
-        "name": "io: White Box View",
-        "description": [
-                "This component implements input output functionality, currently:\n",
-                "- Export of diagram images"
-        ],
-        "list_order": 0,
-        "parent_name": "io: Black Box View",
-        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
-        "uuid": "e4a25d23-ba14-4306-8c80-a5eea2434497",
-        "diagramelements":
-        [
-          {
-            "id": 285,
-            "classifier_name": "io",
-            "node": "9a93182d-56f8-4865-a642-24d997264063",
-            "uuid": "9960eb20-0069-428c-ad18-d8cfd51bc835"
-          },
-          {
-            "id": 305,
-            "classifier_name": "image_format_writer",
-            "node": "9762ae37-4a86-46ab-9bc0-e4184c208c8a",
-            "uuid": "4824e752-9035-48b4-ad3f-cfd8fcb8d3b9"
-          },
-          {
-            "id": 307,
-            "classifier_name": "io_exporter",
-            "node": "eb2b04c7-1958-4787-a9fe-68696880ccf3",
-            "uuid": "723102b5-0d9a-40fc-9318-0ab0515dd381"
-          },
-          {
-            "id": 395,
-            "classifier_name": "io_importer",
-            "node": "fcfb422f-51e0-442f-ad0b-92ba43fe0776",
-            "uuid": "05909ffd-0145-424b-854a-e90553572689"
-          },
-          {
-            "id": 447,
-            "classifier_name": "io_export_xxx_traversal",
-            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
-            "uuid": "9cf0b6ed-c782-4759-93c4-3c7a0ff0979a"
-          },
-          {
-            "id": 650,
-            "classifier_name": "io_data_file",
-            "node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
-            "uuid": "bcf8a8ea-659e-4dd5-85c4-f27d42ea3aef"
-          },
-          {
-            "id": 797,
-            "classifier_name": "io_element_writer",
-            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
-            "uuid": "557df7d7-ebcb-4b62-97f7-1ce2f35fb572"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 73,
-        "type": "Component Diagram", "diagram_type": 31,
-        "name": "io_export writers",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "parent_name": "io: White Box View",
-        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
-        "uuid": "e7eda656-ea48-4f05-97ff-6266c7aebdb5",
-        "diagramelements":
-        [
-          {
-            "id": 450,
-            "classifier_name": "io_export_xxx_traversal",
-            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
-            "uuid": "cebf084c-33a6-4330-9742-e8f2a020e74a"
-          },
-          {
-            "id": 452,
-            "classifier_name": "document_element_writer",
-            "node": "28d24517-4348-455a-a70e-a548fa63589b",
-            "uuid": "b7b069d3-ec08-43f0-86cd-68fae37760f3"
-          },
-          {
-            "id": 454,
-            "classifier_name": "xmi_element_writer",
-            "node": "26dcb480-f664-470d-8295-6c5e2a62fdb9",
-            "uuid": "da17d740-9126-4e97-8225-e7b8ccffa98e"
-          },
-          {
-            "id": 455,
-            "classifier_name": "io_txt_writer",
-            "node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
-            "uuid": "07ff49a8-c994-42cf-a912-ff32d1867a57"
-          },
-          {
-            "id": 456,
-            "classifier_name": "io_xml_writer",
-            "node": "b5960f34-5328-438f-a755-418e58dee838",
-            "uuid": "7924c4a7-6d01-405e-800a-eca381c359f5"
-          },
-          {
-            "id": 457,
-            "classifier_name": "io_md_writer",
-            "node": "ef415086-85ec-446b-8a84-deb484e8393e",
-            "uuid": "7bf11274-cbcd-4907-977e-b8e28b72f756"
-          },
-          {
-            "id": 561,
-            "classifier_name": "io_element_writer",
-            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
-            "uuid": "4db58daf-112d-4e08-b546-14b599ff7327"
-          },
-          {
-            "id": 664,
-            "classifier_name": "json_element_writer",
-            "node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
-            "uuid": "41abf9c7-5fed-4392-9273-597bc18e8d85"
-          },
-          {
-            "id": 798,
-            "classifier_name": "format",
-            "node": "cffdbd1b-8427-4508-a891-a668907e394f",
-            "uuid": "94f7920e-7334-4a1c-adce-b947066fedf7"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 99,
-        "type": "Component Diagram", "diagram_type": 31,
-        "name": "data_model_traversal",
-        "description": [
-                ""
-        ],
-        "list_order": 1073758207,
-        "parent_name": "io: White Box View",
-        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
-        "uuid": "2b20a75a-336f-4a01-b709-6a5b15957f2f",
-        "diagramelements":
-        [
-          {
-            "id": 657,
-            "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "Constant order for unchanged parts",
-            "node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
-            "uuid": "4eb7ef51-0aa7-41ad-b3db-c6c4e268b02c"
-          },
-          {
-            "id": 658,
-            "classifier_name": "io_export_flat_traversal",
-            "node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
-            "uuid": "f8986760-e951-496a-9990-31c5ee1e5f64"
-          },
-          {
-            "id": 659,
-            "classifier_name": "io_export_xxx_traversal",
-            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
-            "uuid": "a36d4f0b-8f70-41ce-b4c2-30cf6bdfb2d1"
-          },
-          {
-            "id": 660,
-            "classifier_name": "io_export_model_traversal",
-            "node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
-            "uuid": "64cf8ba9-3d64-466a-be2a-35a68e365616"
-          },
-          {
-            "id": 661,
-            "classifier_name": "io_export_diagram_traversal",
-            "node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
-            "uuid": "8ee5000f-8a72-44be-915a-81fcfdb929b9"
-          },
-          {
-            "id": 662,
-            "classifier_name": "io_element_writer",
-            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
-            "uuid": "995f142c-abf2-40ed-86c9-1cb436108af3"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 71,
-        "type": "Communication Diagram", "diagram_type": 14,
-        "name": "io: Runtime View",
-        "description": [
-                "The io_exporter sets up the data pipe"
-        ],
-        "list_order": 32768,
-        "parent_name": "io: Black Box View",
-        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
-        "uuid": "55e179de-6342-443a-a830-1befe0620e8d",
-        "diagramelements":
-        [
-          {
-            "id": 433,
-            "classifier_name": "document_element_writer",
-            "node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
-            "uuid": "925cbe6b-886f-4e4b-b496-7526ec0c4065"
-          },
-          {
-            "id": 444,
-            "classifier_name": "Output Stream",
-            "node": "e24ebbb4-2e68-4390-9414-b5601178cbc6",
-            "uuid": "d93ac678-31dd-4d7e-944d-8df33c2117dd"
-          },
-          {
-            "id": 445,
-            "classifier_name": "data_database_reader",
-            "node": "ef1ca5dc-361c-4ee8-a299-9c975d60610d",
-            "uuid": "a31a16a4-3b08-4d38-bb6c-9114f7f3f2ce"
-          },
-          {
-            "id": 446,
-            "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "io_exporter",
-            "node": "46eac473-636d-490a-a4a5-102c984e3a02",
-            "uuid": "44163c01-c7bc-4358-a768-e27586ee7df7"
-          },
-          {
-            "id": 458,
-            "classifier_name": "io_export_diagram_traversal",
-            "node": "1d5d8c36-04c2-40c3-a724-38bf291c9e79",
-            "uuid": "f52f6e2c-1846-4a0a-bfcb-47cd579e94b4"
           }
         ]
       }

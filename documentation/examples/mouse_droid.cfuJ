@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.66.0"
+    "generator_version": "1.66.1"
   }
   ,
   "views":
@@ -3163,48 +3163,6 @@
     },
     {
       "diagram": {
-        "id": 12,
-        "type": "Use Case Diagram", "diagram_type": 10,
-        "name": "Failure Modes of Motors and Wheels",
-        "description": [
-                "This section lists the failure modes of motors and wheels and their effects."
-        ],
-        "list_order": -1,
-        "parent_name": "Risks",
-        "parent": "2a47061e-46d8-4357-8bb9-080ebfde511a",
-        "uuid": "5dc39d06-6d77-4667-bcc8-a2ceb1ce276f",
-        "diagramelements":
-        [
-          {
-            "id": 141,
-            "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "health::limp_home",
-            "node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-            "uuid": "b3c563c7-d3b0-4b67-9228-af129dac5ad9"
-          },
-          {
-            "id": 230,
-            "classifier_name": "Risk: MoD5G does not drive back (motors)",
-            "node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
-            "uuid": "d190913a-1a9c-4dba-8e28-320f4bd6b99c"
-          },
-          {
-            "id": 372,
-            "classifier_name": "Motors",
-            "node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
-            "uuid": "f735559b-c389-4da0-8d83-fa5063dd35af"
-          },
-          {
-            "id": 373,
-            "classifier_name": "Wheels (4)",
-            "node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
-            "uuid": "b5212413-fbfe-456a-a1ec-e6061403050e"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
         "id": 63,
         "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Failure Modes of Energy Cell",
@@ -3269,6 +3227,48 @@
             "classifier_name": "Risk: MoD5G does not drive back (logic board)",
             "node": "74903d54-6d51-4e5f-984a-539cb62006a6",
             "uuid": "b78e5c70-e563-4b26-9914-3ae906d0684a"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 12,
+        "type": "Use Case Diagram", "diagram_type": 10,
+        "name": "Failure Modes of Motors and Wheels",
+        "description": [
+                "This section lists the failure modes of motors and wheels and their effects."
+        ],
+        "list_order": 1073774590,
+        "parent_name": "Risks",
+        "parent": "2a47061e-46d8-4357-8bb9-080ebfde511a",
+        "uuid": "5dc39d06-6d77-4667-bcc8-a2ceb1ce276f",
+        "diagramelements":
+        [
+          {
+            "id": 141,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "health::limp_home",
+            "node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+            "uuid": "b3c563c7-d3b0-4b67-9228-af129dac5ad9"
+          },
+          {
+            "id": 230,
+            "classifier_name": "Risk: MoD5G does not drive back (motors)",
+            "node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
+            "uuid": "d190913a-1a9c-4dba-8e28-320f4bd6b99c"
+          },
+          {
+            "id": 372,
+            "classifier_name": "Motors",
+            "node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+            "uuid": "f735559b-c389-4da0-8d83-fa5063dd35af"
+          },
+          {
+            "id": 373,
+            "classifier_name": "Wheels (4)",
+            "node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
+            "uuid": "b5212413-fbfe-456a-a1ec-e6061403050e"
           }
         ]
       }
