@@ -87,8 +87,14 @@ static const char DOCBOOK_DESCRIPTION_END[]
 
 static const char DOCBOOK_ELEMENT_LIST_START[]
     = "\n<variablelist>";
-static const char DOCBOOK_ELEMENT_START[]
-    = "\n<varlistentry>";
+static const char DOCBOOK_ELEMENT_START_DIAGRAM[]
+    = "\n<varlistentry role=\"diagram\">";
+static const char DOCBOOK_ELEMENT_START_CLASSIFIER[]
+    = "\n<varlistentry role=\"classifier\">";
+static const char DOCBOOK_ELEMENT_START_FEATURE[]
+    = "\n<varlistentry role=\"feature\">";
+static const char DOCBOOK_ELEMENT_START_RELATIONSHIP[]
+    = "\n<varlistentry role=\"relationship\">";
 static const char DOCBOOK_ELEMENT_NAME_START[]
     = "\n<term>";
 static const char DOCBOOK_ELEMENT_NAME_END[]
@@ -118,6 +124,8 @@ static const char DOCBOOK_ELEMENT_END[]
       "\n</varlistentry>";
 static const char DOCBOOK_ELEMENT_LIST_END[]
     = "\n</variablelist>";
+static const char DOCBOOK_ELEMENT_DUMMY[]  /* to avoid empty lists */
+    = "\n<varlistentry role=\"dummy\"><term></term><listitem><para></para></listitem></varlistentry>";
 static const char DOCBOOK_INDENT[]
     = "<token role=\"indent\"></token>";
 
@@ -846,7 +854,7 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START_CLASSIFIER );
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
@@ -1048,7 +1056,7 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START_FEATURE );
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
@@ -1261,7 +1269,7 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         case IO_FILE_FORMAT_DOCBOOK:
         {
             /* list element start */
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START_RELATIONSHIP );
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
@@ -1515,7 +1523,7 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_CONTENT_START );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START_DIAGRAM );
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
@@ -1645,6 +1653,8 @@ u8_error_t document_element_writer_descend_diagram( document_element_writer_t *t
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DUMMY );
+
             /* end a varlist and a para */
             io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
