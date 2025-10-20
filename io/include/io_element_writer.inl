@@ -192,6 +192,14 @@ static inline u8_error_t io_element_writer_assemble_diagram( io_element_writer_t
     return (*(  (*((*this_).interface)).assemble_diagram  )) ( (*this_).objectdata, parent, diag_ptr, diagram_file_base_name );
 }
 
+static inline u8_error_t io_element_writer_descend_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).end_diagram != NULL );
+    return (*(  (*((*this_).interface)).descend_diagram  )) ( (*this_).objectdata, diag_ptr );
+}
+
 static inline u8_error_t io_element_writer_end_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     assert( (*this_).interface != NULL );

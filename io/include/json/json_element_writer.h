@@ -288,6 +288,15 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                );
 
 /*!
+ *  \brief writes the local end of a diagram and the start to descend
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_ptr pointer to diagram that shall be written, not NULL
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t json_element_writer_descend_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr );
+
+/*!
  *  \brief ends a diagram
  *
  *  This function is called as part of the abstract universal_output_stream_t - but it does nothing.

@@ -634,7 +634,7 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
     /* end diagram section */
     if ( DATA_ROW_VOID != diagram_row_id )
     {
-        /* write doc part */
+        /* write end of doc part */
         export_err |= io_export_diagram_traversal_end_diagram( &((*this_).temp_diagram_traversal), diagram_id );
     }
 

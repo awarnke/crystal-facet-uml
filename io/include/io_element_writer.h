@@ -274,6 +274,15 @@ static inline u8_error_t io_element_writer_assemble_diagram( io_element_writer_t
                                                            );
 
 /*!
+ *  \brief writes the local end of a diagram and the start to descend
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_ptr pointer to diagram that shall be written, not NULL
+ *  \return U8_ERROR_NONE in case of success
+ */
+static inline u8_error_t io_element_writer_descend_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr );
+
+/*!
  *  \brief ends a diagram
  *
  *  This ends a section that contains a diagram and a list of diagramelements (classifier-occurrences)

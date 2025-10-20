@@ -38,6 +38,7 @@ static const struct json_element_writer_io_element_writer_if_struct json_element
         .end_relationship = &json_element_writer_end_relationship,
         .start_diagram = &json_element_writer_start_diagram,
         .assemble_diagram = &json_element_writer_assemble_diagram,
+        .descend_diagram = &json_element_writer_descend_diagram,
         .end_diagram = &json_element_writer_end_diagram_fake,
         .start_diagramelement = &json_element_writer_start_diagramelement,
         .assemble_diagramelement = &json_element_writer_assemble_diagramelement,
@@ -1084,6 +1085,16 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
 
     U8_TRACE_END_ERR(out_err);
     return out_err;
+}
+
+u8_error_t json_element_writer_descend_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+  U8_TRACE_BEGIN();
+  assert( diag_ptr != NULL );
+  u8_error_t out_err = U8_ERROR_NONE;
+
+  U8_TRACE_END_ERR(out_err);
+  return out_err;
 }
 
 u8_error_t json_element_writer_end_diagram_fake( json_element_writer_t *this_, const data_diagram_t *diag_ptr )

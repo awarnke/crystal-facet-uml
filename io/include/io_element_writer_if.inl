@@ -56,6 +56,7 @@
                                     const data_diagram_t *diag_ptr,
                                     const char *diagram_file_base_name
                                   );  /*!< \see io_element_writer_t */
+    u8_error_t (*descend_diagram)( io_element_writer_impl_t *this_, const data_diagram_t *diag_ptr );  /*!< \see io_element_writer_t */
     u8_error_t (*end_diagram)( io_element_writer_impl_t *this_, const data_diagram_t *diag_ptr );  /*!< \see io_element_writer_t */
     u8_error_t (*start_diagramelement)( io_element_writer_impl_t *this_,
                                         const data_diagram_t *host,

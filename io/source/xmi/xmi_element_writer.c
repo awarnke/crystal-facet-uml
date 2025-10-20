@@ -47,6 +47,7 @@ static const struct xmi_element_writer_io_element_writer_if_struct xmi_element_w
         .end_relationship = &xmi_element_writer_end_relationship,
         .start_diagram = &xmi_element_writer_start_diagram,
         .assemble_diagram = &xmi_element_writer_assemble_diagram,
+        .descend_diagram = &xmi_element_writer_descend_diagram,
         .end_diagram = &xmi_element_writer_end_diagram,
         .start_diagramelement = &xmi_element_writer_start_diagramelement,
         .assemble_diagramelement = &xmi_element_writer_assemble_diagramelement,
@@ -1585,6 +1586,15 @@ u8_error_t xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
                                                 const data_diagram_t *parent,
                                                 const data_diagram_t *diag_ptr,
                                                 const char *diagram_file_base_name )
+{
+    U8_TRACE_BEGIN();
+    const u8_error_t export_err = U8_ERROR_NOT_YET_IMPLEMENTED;
+    U8_LOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t xmi_element_writer_descend_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     U8_TRACE_BEGIN();
     const u8_error_t export_err = U8_ERROR_NOT_YET_IMPLEMENTED;

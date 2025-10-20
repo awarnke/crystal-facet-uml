@@ -95,6 +95,9 @@ u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagra
 
         /* write all classifiers */
         write_err |= io_export_diagram_traversal_private_iterate_diagram_classifiers( this_, (*this_).input_data );
+
+        /* write end of diagram-contents, prepare to descend to children  */
+        write_err |= io_element_writer_descend_diagram( (*this_).element_writer, diag_ptr );
     }
 
     data_visible_set_destroy( (*this_).input_data );
