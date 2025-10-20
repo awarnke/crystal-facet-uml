@@ -101,7 +101,7 @@ static const char DOCBOOK_ELEMENT_STEREO_START[]
 static const char DOCBOOK_ELEMENT_STEREO_END[]
     = DOCUMENT_ELEMENT_WRITER_RIGHT_POINTING_GUILLEMENTS;
 static const char DOCBOOK_ELEMENT_ID_START[]
-    = "\n<token>";
+    = "\n<token role=\"id\">";
 static const char DOCBOOK_ELEMENT_ID_END[]
     = "</token>";
 static const char DOCBOOK_ELEMENT_SEE_START[] = "\n<emphasis>(appears in ";
@@ -118,6 +118,8 @@ static const char DOCBOOK_ELEMENT_END[]
       "\n</varlistentry>";
 static const char DOCBOOK_ELEMENT_LIST_END[]
     = "\n</variablelist>";
+static const char DOCBOOK_INDENT[]
+    = "<token role=\"indent\"></token>";
 
 /* IO_FILE_FORMAT_HTML */
 
@@ -1050,6 +1052,7 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_INDENT );
             export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
 
@@ -1262,6 +1265,7 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_INDENT );
             export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
 

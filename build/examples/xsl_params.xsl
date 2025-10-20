@@ -14,13 +14,21 @@
     <xsl:text>}}</xsl:text>
   </xsl:template>
 
-  <xsl:template match="token">
+  <xsl:template match="token[@role='id']">
     <xsl:param name="content">
       <xsl:apply-templates/>
     </xsl:param>
     <xsl:text>\fcolorbox{lightgray}{white}{</xsl:text>
     <xsl:copy-of select="$content"/>
     <xsl:text>}</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="token[@role='indent']">
+    <xsl:param name="content">
+      <xsl:apply-templates/>
+    </xsl:param>
+    <xsl:text>\hspace{0.9cm}</xsl:text>
+    <xsl:copy-of select="$content"/>
   </xsl:template>
 
 </xsl:stylesheet>
