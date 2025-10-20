@@ -66,8 +66,16 @@ static const char DOCBOOK_DIAGRAM_IMG_END[]
 static const char DOCBOOK_DIAGRAM_END[]
     = "\n</section>";
 
-static const char DOCBOOK_DESCRIPTION_START[]
+static const char DOCBOOK_CONTENT_START[]
     = "\n<para>";
+static const char DOCBOOK_CONTENT_END[]
+    = "\n</para>";
+
+static const char DOCBOOK_DESCRIPTION_START[]
+    = "\n<para role=\"description\">";
+static const char DOCBOOK_DESCRIPTION_MIDDLE[]  /* optional */
+    = "\n</para>"
+      "\n<para role=\"description\">";
 static const char DOCBOOK_DESCRIPTION_XREF_START[]
     = "<xref linkend=\"";
 static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
@@ -88,9 +96,6 @@ static const char DOCBOOK_ELEMENT_NAME_END[]
       "\n<listitem>";
 static const char DOCBOOK_ELEMENT_ATTRIBUTES_START[]
     = "\n<para>";
-static const char DOCBOOK_ELEMENT_ATTRIBUTES_MIDDLE[]  /* optional */
-    = "\n</para>"
-      "\n<para role=\"description\">";
 static const char DOCBOOK_ELEMENT_STEREO_START[]
     = "\n" DOCUMENT_ELEMENT_WRITER_LEFT_POINTING_GUILLEMENTS;
 static const char DOCBOOK_ELEMENT_STEREO_END[]
@@ -373,7 +378,7 @@ void document_element_writer_init ( document_element_writer_t *this_,
                                        );
             io_md_writer_init( &((*this_).md_writer),
                                db_reader,
-                               DOCBOOK_ELEMENT_ATTRIBUTES_MIDDLE,
+                               DOCBOOK_DESCRIPTION_MIDDLE,
                                DOCBOOK_DESCRIPTION_XREF_START,
                                DOCBOOK_DESCRIPTION_XREF_MIDDLE,
                                DOCBOOK_DESCRIPTION_XREF_END,
@@ -789,8 +794,6 @@ u8_error_t document_element_writer_start_classifier( document_element_writer_t *
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
-            io_xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -964,8 +967,6 @@ u8_error_t document_element_writer_end_classifier( document_element_writer_t *th
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
         }
         break;
 
@@ -1256,10 +1257,7 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            /* list start */
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
-            io_xml_writer_increase_indent ( &((*this_).xml_writer) );
-            /* element */
+            /* list element start */
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
 
@@ -1292,11 +1290,9 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
             }
 
+            /* list element end */
             io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
-            /* list end */
-            io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
         }
         break;
 
@@ -1512,7 +1508,7 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
             export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_END );
 
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_CONTENT_START );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
             io_xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
@@ -1540,7 +1536,7 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
             io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_CONTENT_END );
 
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
             export_err |= io_md_writer_transform ( &((*this_).md_writer), diag_description );
@@ -1553,8 +1549,9 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_END );
 
             /* start a para and a varlist */
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
-
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_CONTENT_START );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
+            io_xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
 
@@ -1645,7 +1642,9 @@ u8_error_t document_element_writer_descend_diagram( document_element_writer_t *t
         case IO_FILE_FORMAT_DOCBOOK:
         {
             /* end a varlist and a para */
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+            io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_CONTENT_END );
         }
         break;
 
