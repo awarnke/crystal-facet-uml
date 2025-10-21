@@ -26,6 +26,7 @@
 
 #define DOCUMENT_ELEMENT_WRITER_LEFT_POINTING_GUILLEMENTS "\xc2\xab"
 #define DOCUMENT_ELEMENT_WRITER_RIGHT_POINTING_GUILLEMENTS "\xc2\xbb"
+#define DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE "\xc2\xa0"
 
 static const char DOCBOOK_ENC[]
     = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
@@ -76,14 +77,14 @@ static const char DOCBOOK_DESCRIPTION_START[]
 static const char DOCBOOK_DESCRIPTION_MIDDLE[]  /* optional */
     = "\n</para>"
       "\n<para role=\"description\">";
+static const char DOCBOOK_DESCRIPTION_END[]
+    = "\n</para>";
 static const char DOCBOOK_DESCRIPTION_XREF_START[]
     = "<xref linkend=\"";
 static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
     = "\"/>: ";
 static const char DOCBOOK_DESCRIPTION_XREF_END[]
     = "";
-static const char DOCBOOK_DESCRIPTION_END[]
-    = "\n</para>";
 
 static const char DOCBOOK_ELEMENT_LIST_START[]
     = "\n<variablelist>";
@@ -110,6 +111,10 @@ static const char DOCBOOK_ELEMENT_ID_START[]
     = "\n<token role=\"id\">";
 static const char DOCBOOK_ELEMENT_ID_END[]
     = "</token>";
+static const char DOCBOOK_ELEMENT_TYPE_TOKEN_START[]
+    = "\n<token role=\"type\">";
+static const char DOCBOOK_ELEMENT_TYPE_TOKEN_END[]
+    = "</token>";
 static const char DOCBOOK_ELEMENT_SEE_START[] = "\n<emphasis>(appears in ";
 static const char DOCBOOK_ELEMENT_SEE_NEXT[] = ",\n";
 static const char DOCBOOK_ELEMENT_SEE_END[] = ")\n</emphasis>";
@@ -127,7 +132,10 @@ static const char DOCBOOK_ELEMENT_LIST_END[]
 static const char DOCBOOK_ELEMENT_DUMMY[]  /* to avoid empty lists */
     = "\n<varlistentry role=\"dummy\"><term></term><listitem><para></para></listitem></varlistentry>";
 static const char DOCBOOK_INDENT[]
-    = "<token role=\"indent\"></token>";
+    = "<token role=\"indent\">-<![CDATA[" DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE
+      DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE
+      DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE
+      DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE "]]> </token>";
 
 /* IO_FILE_FORMAT_HTML */
 
@@ -1286,7 +1294,9 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
                 export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_END );
             }
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_TYPE_TOKEN_START );
             export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_txticon );
+            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_TYPE_TOKEN_END );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
             export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );

@@ -23,12 +23,20 @@
     <xsl:text>}</xsl:text>
   </xsl:template>
 
+  <xsl:template match="token[@role='type']">
+    <xsl:param name="content">
+      <xsl:apply-templates/>
+    </xsl:param>
+    <xsl:text>\color{teal}</xsl:text>
+    <xsl:copy-of select="$content"/>
+    <xsl:text>\color{black}\hspace{0.1cm}</xsl:text>
+  </xsl:template>
+
   <xsl:template match="token[@role='indent']">
     <xsl:param name="content">
       <xsl:apply-templates/>
     </xsl:param>
     <xsl:text>\hspace{0.9cm}</xsl:text>
-    <xsl:copy-of select="$content"/>
   </xsl:template>
 
 </xsl:stylesheet>
