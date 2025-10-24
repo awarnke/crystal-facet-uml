@@ -104,33 +104,42 @@ static test_case_result_t test_scale_conversion( test_fixture_t *fix )
 
     geometry_non_linear_scale_add_order( &my_scale, 200 );
 
+    const uint32_t num = geometry_non_linear_scale_get_grid_intervals( &my_scale );
+    TEST_EXPECT_EQUAL_INT( 3, num );
+
     geometry_non_linear_scale_trace ( &my_scale );
 
     /* test get_location */
 
     location = geometry_non_linear_scale_get_location( &my_scale, +200 );
-
     TEST_EXPECT( ( +1.0 < location ) && ( location < +1.1 ) );
 
     location = geometry_non_linear_scale_get_location( &my_scale, +100 );
-
     TEST_EXPECT( ( +0.3 < location ) && ( location < +0.4 ) );
 
     /* test get_order with snap */
 
-    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1, 0.1 );
-
-    TEST_EXPECT_EQUAL_INT( INT32_MIN, order );
+    order = geometry_non_linear_scale_get_order ( &my_scale, -1.0, 0.1 );
+    TEST_EXPECT_EQUAL_INT( -100, order );
 
     /* test get_order without snap */
 
-    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1, 0.01 );
-
+    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1, 0.1 );
     TEST_EXPECT( ( INT32_MIN < order ) && ( order < -1000000000 ) );
 
-    order = geometry_non_linear_scale_get_order ( &my_scale, -1.0, 0.01 );
+    order = geometry_non_linear_scale_get_order ( &my_scale, 3.1, 0.1 );
+    TEST_EXPECT( ( 1000000000 < order ) && ( order < INT32_MAX ) );
 
-    TEST_EXPECT( ( -100 < order ) && ( order < -80 ) );
+    order = geometry_non_linear_scale_get_order ( &my_scale, -0.9, 0.1 );
+    TEST_EXPECT( ( -100 < order ) && ( order < -70 ) );
+
+    /* test get_order out of bounds */
+
+    order = geometry_non_linear_scale_get_order ( &my_scale, -3.2, 0.1 );
+    TEST_EXPECT_EQUAL_INT( INT32_MIN, order );
+
+    order = geometry_non_linear_scale_get_order ( &my_scale, 3.2, 0.1 );
+    TEST_EXPECT_EQUAL_INT( INT32_MAX, order );
 
     geometry_non_linear_scale_destroy ( &my_scale );
     return TEST_CASE_RESULT_OK;
@@ -149,8 +158,10 @@ static test_case_result_t test_buffer_exceeded( test_fixture_t *fix )
     const u8_error_t err1 = geometry_non_linear_scale_add_order( &my_scale, GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS - 1 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err1 );
 
-    double not_the_dropped = geometry_non_linear_scale_get_closest_fix_location( &my_scale, 3000.1 );
-    TEST_EXPECT_EQUAL_FLOAT( 3000.0, not_the_dropped );
+    const bool on_grid = geometry_non_linear_scale_is_order_on_grid( &my_scale, GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS - 2 );
+    TEST_EXPECT_EQUAL_INT( true, on_grid );
+    const bool not_on_grid = geometry_non_linear_scale_is_order_on_grid( &my_scale, GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS - 1 );
+    TEST_EXPECT_EQUAL_INT( false, not_on_grid );
 
     geometry_non_linear_scale_destroy ( &my_scale );
     return TEST_CASE_RESULT_OK;

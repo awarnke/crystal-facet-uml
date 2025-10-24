@@ -18,6 +18,7 @@ static inline double geometry_non_linear_scale_get_location ( const geometry_non
 {
     U8_TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    assert( (*this_).num_points >= 2 );
     double result = (*this_).location[(*this_).num_points-1];
     bool found;
 
@@ -33,17 +34,13 @@ static inline double geometry_non_linear_scale_get_location ( const geometry_non
         if ( order < (*this_).order[pos] )
         {
             found = true;
-            double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
-            uint32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
-            if ( ord_interval_width == 0 )
-            {
-                result = (*this_).location[pos-1];  /* prevent division by zero */
-            }
-            else
-            {
-                uint32_t order_interval_offset = order - (*this_).order[pos-1];
-                result = (*this_).location[pos-1] + ( loc_interval_width * ((double)order_interval_offset) / ((double)ord_interval_width) );
-            }
+            const double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
+            const uint32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
+            /* prevent division by zero */
+            const uint32_t ord_interval_width_nonzero = ( ord_interval_width < 1 ) ? 1 : ord_interval_width;
+            const uint32_t order_interval_offset = order - (*this_).order[pos-1];
+            result = (*this_).location[pos-1] + ( loc_interval_width * ((double)order_interval_offset) / ((double)ord_interval_width_nonzero) );
+
             U8_TRACE_INFO_INT( "interval id:", pos );
             U8_TRACE_INFO_INT_INT( "interval [i-1,i]:", (int32_t)(*this_).location[pos-1], (int32_t)(*this_).location[pos] );
             U8_TRACE_INFO_INT( "result", (int32_t)result );
@@ -64,11 +61,13 @@ static inline int32_t geometry_non_linear_scale_get_order ( const geometry_non_l
 {
     U8_TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    assert( (*this_).num_points >= 2 );
+    assert( snap_interval >= 0.0 );
     int32_t result = (*this_).order[(*this_).num_points-1];
     bool found;
 
     found = false;
-    if ( location <= ( (*this_).location[0] + snap_interval) )
+    if ( location <= (*this_).location[0] ) /* on left border, no snap_interval */
     {
         found = true;
         result = (*this_).order[0];
@@ -76,9 +75,10 @@ static inline int32_t geometry_non_linear_scale_get_order ( const geometry_non_l
     }
     for ( uint32_t pos = 1; ( pos < (*this_).num_points ) && ( ! found ) ; pos ++ )
     {
-        if ( location <= ( (*this_).location[pos] + snap_interval ) )
+        const double snap_dist = ( pos == ( (*this_).num_points - 1 ) ) ? 0.0 : snap_interval; /* no snap at right border */
+        if ( location <= ( (*this_).location[pos] + snap_dist ) )
         {
-            if ( location > ( (*this_).location[pos] - snap_interval ) )
+            if ( location > ( (*this_).location[pos] - snap_dist ) )
             {
                 found = true;
                 result = (*this_).order[pos];
@@ -87,56 +87,16 @@ static inline int32_t geometry_non_linear_scale_get_order ( const geometry_non_l
             else
             {
                 found = true;
-                double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
-                uint32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
-                if ( ( loc_interval_width > -0.000000001 ) && ( loc_interval_width < 0.000000001 ) )
-                {
-                    result = (*this_).order[pos-1];  /* prevent division by zero */
-                }
-                else
-                {
-                    uint32_t order_interval_offset = ((double)ord_interval_width) * ( location - (*this_).location[pos-1] ) / loc_interval_width;
-                    result = (*this_).order[pos-1] + order_interval_offset;
-                }
+                const double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
+                /* prevent division by zero */
+                const double loc_interval_width_nonzero = ( loc_interval_width < 0.000000001 ) ? 0.000000001 : loc_interval_width;
+                const uint32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
+                const uint32_t order_interval_offset = ((double)ord_interval_width) * ( location - (*this_).location[pos-1] ) / loc_interval_width_nonzero;
+                result = (*this_).order[pos-1] + order_interval_offset;
+
                 U8_TRACE_INFO_INT( "interval id:", pos );
                 U8_TRACE_INFO_INT_INT( "interval [i-1,i]:", (*this_).order[pos-1], (*this_).order[pos] );
                 U8_TRACE_INFO_INT( "result", result );
-            }
-        }
-    }
-
-    U8_TRACE_END();
-    return result;
-}
-
-static inline double geometry_non_linear_scale_get_closest_fix_location ( const geometry_non_linear_scale_t *this_, double location )
-{
-    U8_TRACE_BEGIN();
-    assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
-    double result = (*this_).location[(*this_).num_points-1];
-    bool found;
-
-    found = false;
-    if ( location <= (*this_).location[0] )
-    {
-        found = true;
-        result = (*this_).location[0];
-        U8_TRACE_INFO_INT( "result-pos", 0 );
-    }
-    for ( uint32_t pos = 1; ( pos < (*this_).num_points ) && ( ! found ) ; pos ++ )
-    {
-        if ( location <= (*this_).location[pos] )
-        {
-            found = true;
-            if ( ( location - (*this_).location[pos-1] ) < ( (*this_).location[pos] - location ) )
-            {
-                result = (*this_).location[pos-1];
-                U8_TRACE_INFO_INT( "result-pos", pos-1 );
-            }
-            else
-            {
-                result = (*this_).location[pos];
-                U8_TRACE_INFO_INT( "result-pos", pos );
             }
         }
     }

@@ -84,17 +84,10 @@ static inline double geometry_non_linear_scale_get_location ( const geometry_non
  *
  *  \param this_ pointer to own object attributes
  *  \param location location for which the order shall be determined
- *  \param snap_interval maximum distance from location to next point which snaps the location to the points location
+ *  \param snap_interval maximum distance from location to next point which snaps the location to the points location.
+ *                       There is no snap mechanism to the borders INT32_MIN and INT32_MAX.
  */
 static inline int32_t geometry_non_linear_scale_get_order ( const geometry_non_linear_scale_t *this_, double location, double snap_interval );
-
-/*!
- *  \brief gets the location of the closest fix point
- *
- *  \param this_ pointer to own object attributes
- *  \param location location value for which the closest fix-point location shall be determined
- */
-static inline double geometry_non_linear_scale_get_closest_fix_location ( const geometry_non_linear_scale_t *this_, double location );
 
 /*!
  *  \brief checks if the given order is on grid
