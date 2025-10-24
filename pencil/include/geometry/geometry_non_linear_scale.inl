@@ -149,16 +149,12 @@ static inline bool geometry_non_linear_scale_is_order_on_grid ( const geometry_n
 {
     U8_TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    assert( (*this_).num_points >= 2 );
     bool found = false;
     bool result = false;
 
     found = false;
-    if ( order <= (*this_).order[0] )
-    {
-        found = true;
-        result = false;
-    }
-    for ( uint32_t pos = 1; ( pos < (*this_).num_points ) && ( ! found ) ; pos ++ )
+    for ( uint32_t pos = 1; ( pos < ( (*this_).num_points - 1 ) ) && ( ! found ) ; pos ++ )
     {
         if ( order < (*this_).order[pos] )
         {
@@ -179,14 +175,14 @@ static inline bool geometry_non_linear_scale_is_order_on_grid ( const geometry_n
 static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( const geometry_non_linear_scale_t *this_ )
 {
     assert( (*this_).num_points >= 2 );
-    return ( (*this_).num_points - 1 );
+    return( (*this_).num_points - 1 );
 }
 
 static inline double geometry_non_linear_scale_get_grid_distances ( const geometry_non_linear_scale_t *this_ )
 {
     assert( (*this_).num_points >= 2 );
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
-    return (( (*this_).location[(*this_).num_points-1] - (*this_).location[0] )/( (*this_).num_points - 1 ));
+    return(( (*this_).location[(*this_).num_points-1] - (*this_).location[0] )/( (*this_).num_points - 1 ));
 }
 
 

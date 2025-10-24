@@ -52,7 +52,6 @@ ideas for future versions:
   [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
-  [ ] docbook export: add a stylesheet file. The default is too clumsy
   [ ] add test case for opening non-cfuJ files
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.

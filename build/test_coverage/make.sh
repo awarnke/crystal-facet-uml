@@ -2,32 +2,24 @@
 . ../../main/include/meta/meta_version.inl
 VERSIONSTR=${META_VERSION_STR}
 
-echo "pack src archive"
-cd ../..
-git archive --format tar.gz --prefix=crystal-facet-uml_$VERSIONSTR/ --output=build/test_coverage/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
-cd build/test_coverage
-
 echo "Cov-Measurement Source Package Version ${VERSIONSTR}"
 if [ -z $VERSIONSTR ]; then exit; fi
-echo "based on crystal-facet-uml_${VERSIONSTR}.orig.tar.gz"
 echo "----"
 echo "clean up possibly broken previous cov-build"
 test -d crystal-facet-uml_${VERSIONSTR} && rm -fr crystal-facet-uml_${VERSIONSTR}
 test -d lcov_covts.info && rm -f lcov_covts.info
 test -d lcov_covts_filtered.info && rm -f lcov_covts_filtered.info
 
-echo "extract archive"
-tar -xzf crystal-facet-uml_${VERSIONSTR}.orig.tar.gz
-
 echo "building binary"
+mkdir crystal-facet-uml_${VERSIONSTR}
 cd crystal-facet-uml_${VERSIONSTR}
 mkdir cmake_build
 cd cmake_build
 # Release has optimizations that interfere with coverage measurements.
 # Only in debug mode, fault injectsions and assert statements have effect.
-cmake -DCMAKE_BUILD_TYPE=Debug -DCFU_ADD_GCOV_TARGET=ON ..
-# start up to 4 parallel processes to make use of quad-core processors:
-make -j gcov_crystal-facet-uml
+cmake -DCMAKE_BUILD_TYPE=Debug -DCFU_ADD_GCOV_TARGET=ON ../../../..
+# start up to 12 parallel processes to make use of 12-core processors:
+make -j12 gcov_crystal-facet-uml
 cd ../..
 
 echo "initializing lcov for COVERAGE tests"

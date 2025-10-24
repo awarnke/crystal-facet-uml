@@ -101,7 +101,7 @@ static inline double geometry_non_linear_scale_get_closest_fix_location ( const 
  *
  *  \param this_ pointer to own object attributes
  *  \param order order value
- *  \return true if order is on grid
+ *  \return true if order is on grid; the borders INT32_MIN and INT32_MAX are not on grid.
  */
 static inline bool geometry_non_linear_scale_is_order_on_grid ( const geometry_non_linear_scale_t *this_, int32_t order );
 

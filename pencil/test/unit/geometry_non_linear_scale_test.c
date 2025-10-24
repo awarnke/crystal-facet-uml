@@ -9,6 +9,8 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_init( test_fixture_t *fix );
+static test_case_result_t test_get_grid( test_fixture_t *fix );
 static test_case_result_t test_scale_conversion( test_fixture_t *fix );
 static test_case_result_t test_buffer_exceeded( test_fixture_t *fix );
 
@@ -21,6 +23,8 @@ test_suite_t geometry_non_linear_scale_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
+    test_suite_add_test_case( &result, "test_init", &test_init );
+    test_suite_add_test_case( &result, "test_get_grid", &test_get_grid );
     test_suite_add_test_case( &result, "test_scale_conversion", &test_scale_conversion );
     test_suite_add_test_case( &result, "test_buffer_exceeded", &test_buffer_exceeded );
     return result;
@@ -33,6 +37,55 @@ static test_fixture_t * set_up()
 
 static void tear_down( test_fixture_t *fix )
 {
+}
+
+static test_case_result_t test_init( test_fixture_t *fix )
+{
+    geometry_non_linear_scale_t my_scale;
+
+    geometry_non_linear_scale_init ( &my_scale, 0.0, 1000.0 );
+    const double one_quarter = geometry_non_linear_scale_get_location( &my_scale, INT32_MIN/2 );
+    TEST_EXPECT_EQUAL_FLOAT( 250.0, one_quarter );
+
+    geometry_non_linear_scale_reinit ( &my_scale, -250.0, 0.0 );
+    const double low_side = geometry_non_linear_scale_get_location( &my_scale, INT32_MIN );
+    TEST_EXPECT_EQUAL_FLOAT( -250.0, low_side );
+
+    geometry_non_linear_scale_destroy ( &my_scale );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_get_grid( test_fixture_t *fix )
+{
+    geometry_non_linear_scale_t my_scale;
+
+    geometry_non_linear_scale_init ( &my_scale, -250.0, 0.0 );
+    const u8_error_t err = geometry_non_linear_scale_add_order( &my_scale, 512 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+
+    const double one_quarter = geometry_non_linear_scale_get_location( &my_scale, INT32_MIN );
+    TEST_EXPECT_EQUAL_FLOAT( -250.0, one_quarter );
+
+    const uint32_t num = geometry_non_linear_scale_get_grid_intervals( &my_scale );
+    TEST_EXPECT_EQUAL_INT( 2, num );
+
+    const double dist = geometry_non_linear_scale_get_grid_distances( &my_scale );
+    TEST_EXPECT_EQUAL_FLOAT( 125.0, dist );
+
+    const bool on_grid_500 = geometry_non_linear_scale_is_order_on_grid( &my_scale, 500 );
+    TEST_EXPECT_EQUAL_INT( false, on_grid_500 );
+
+    const bool on_grid_512 = geometry_non_linear_scale_is_order_on_grid( &my_scale, 512 );
+    TEST_EXPECT_EQUAL_INT( true, on_grid_512 );
+
+    const bool on_grid_min = geometry_non_linear_scale_is_order_on_grid( &my_scale, INT32_MIN );
+    TEST_EXPECT_EQUAL_INT( false, on_grid_min );
+
+    const bool on_grid_max = geometry_non_linear_scale_is_order_on_grid( &my_scale, INT32_MAX );
+    TEST_EXPECT_EQUAL_INT( false, on_grid_max );
+
+    geometry_non_linear_scale_destroy ( &my_scale );
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t test_scale_conversion( test_fixture_t *fix )

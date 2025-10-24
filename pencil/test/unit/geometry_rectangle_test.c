@@ -9,7 +9,10 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_copy( test_fixture_t *fix );
+static test_case_result_t test_set( test_fixture_t *fix );
 static test_case_result_t test_contain( test_fixture_t *fix );
+static test_case_result_t test_calc_chess_distance( test_fixture_t *fix );
 static test_case_result_t test_intersect( test_fixture_t *fix );
 static test_case_result_t test_bounds( test_fixture_t *fix );
 static test_case_result_t test_difference_max_basic( test_fixture_t *fix );
@@ -18,6 +21,7 @@ static test_case_result_t test_difference_max_3_U_candidates( test_fixture_t *fi
 static test_case_result_t test_difference_max_2_L_corner_candidates( test_fixture_t *fix );
 static test_case_result_t test_difference_max_2_stripe_candidates( test_fixture_t *fix );
 static test_case_result_t test_difference_max_only_1_solution( test_fixture_t *fix );
+static test_case_result_t test_enlarge( test_fixture_t *fix );
 static test_case_result_t test_expand_4d( test_fixture_t *fix );
 static test_case_result_t test_embrace( test_fixture_t *fix );
 static test_case_result_t test_difference_at_pivot( test_fixture_t *fix );
@@ -33,7 +37,10 @@ test_suite_t geometry_rectangle_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
+    test_suite_add_test_case( &result, "test_copy", &test_copy );
+    test_suite_add_test_case( &result, "test_set", &test_set );
     test_suite_add_test_case( &result, "test_contain", &test_contain );
+    test_suite_add_test_case( &result, "test_calc_chess_distance", &test_calc_chess_distance );
     test_suite_add_test_case( &result, "test_intersect", &test_intersect );
     test_suite_add_test_case( &result, "test_bounds", &test_bounds );
     test_suite_add_test_case( &result, "test_difference_max_basic", &test_difference_max_basic );
@@ -42,6 +49,7 @@ test_suite_t geometry_rectangle_test_get_suite(void)
     test_suite_add_test_case( &result, "test_difference_max_2_L_corner_candidates", &test_difference_max_2_L_corner_candidates );
     test_suite_add_test_case( &result, "test_difference_max_2_stripe_candidates", &test_difference_max_2_stripe_candidates );
     test_suite_add_test_case( &result, "test_difference_max_only_1_solution", &test_difference_max_only_1_solution );
+    test_suite_add_test_case( &result, "test_enlarge", &test_enlarge );
     test_suite_add_test_case( &result, "test_expand_4d", &test_expand_4d );
     test_suite_add_test_case( &result, "test_embrace", &test_embrace );
     test_suite_add_test_case( &result, "test_difference_at_pivot", &test_difference_at_pivot );
@@ -56,6 +64,92 @@ static test_fixture_t * set_up()
 
 static void tear_down( test_fixture_t *fix )
 {
+}
+
+static test_case_result_t test_copy( test_fixture_t *fix )
+{
+    geometry_rectangle_t rect_a;
+    geometry_rectangle_t rect_b;
+    geometry_rectangle_t rect_c;
+
+    geometry_rectangle_init( &rect_a, 1.0, 2.0, 3.0 /*width*/, 4.0 /*height*/ );
+    TEST_EXPECT_EQUAL_FLOAT( 1.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 4.0, geometry_rectangle_get_right( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 6.0, geometry_rectangle_get_bottom( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 3.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 4.0, geometry_rectangle_get_height( &rect_a ) );
+
+    geometry_rectangle_init_empty( &rect_b );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_left( &rect_b ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_top( &rect_b ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_width( &rect_b ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_height( &rect_b ) );
+
+    geometry_rectangle_reinit( &rect_a, -1.0, -1.0, 2.0 /*width*/, 2.0 /*height*/ );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_height( &rect_a ) );
+
+    geometry_rectangle_destroy( &rect_b );
+    geometry_rectangle_copy( &rect_b, &rect_a );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_left( &rect_b ) );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_top( &rect_b ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_width( &rect_b ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_height( &rect_b ) );
+
+    geometry_rectangle_reinit_empty( &rect_a );
+    geometry_rectangle_move( &rect_c, &rect_a );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_left( &rect_c ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_top( &rect_c ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_width( &rect_c ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, geometry_rectangle_get_height( &rect_c ) );
+    /* rect_a is destroyed now */
+
+    geometry_rectangle_replace( &rect_c, &rect_b );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_left( &rect_c ) );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_top( &rect_c ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_width( &rect_c ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_height( &rect_c ) );
+
+    geometry_rectangle_init_empty( &rect_a );
+    geometry_rectangle_replacemove( &rect_a, &rect_b );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( -1.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_height( &rect_a ) );
+    /* rect_b is destroyed now */
+
+    /* clean up */
+    geometry_rectangle_destroy ( &rect_a );
+    geometry_rectangle_destroy ( &rect_c );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_set( test_fixture_t *fix )
+{
+    geometry_rectangle_t rect_a;
+
+    geometry_rectangle_init_empty( &rect_a );
+    geometry_rectangle_set_left( &rect_a, -38.5 );
+    geometry_rectangle_set_top( &rect_a, -12.625 );
+    geometry_rectangle_set_width( &rect_a, 3.5 );
+    geometry_rectangle_set_height( &rect_a, 0.375 );
+    TEST_EXPECT_EQUAL_FLOAT( -38.5, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( -12.625, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 3.5, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.375, geometry_rectangle_get_height( &rect_a ) );
+
+    geometry_dimensions_t dim = geometry_rectangle_get_dimensions( &rect_a );
+    TEST_EXPECT_EQUAL_FLOAT( 3.5, geometry_dimensions_get_width( &dim ) );
+    TEST_EXPECT_EQUAL_FLOAT( 0.375, geometry_dimensions_get_height( &dim ) );
+
+    /* clean up */
+    geometry_rectangle_destroy ( &rect_a );
+
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t test_contain( test_fixture_t *fix )
@@ -94,9 +188,32 @@ static test_case_result_t test_contain( test_fixture_t *fix )
     contains = geometry_rectangle_contains( &rect_a, 19.0, 19.0 );
     TEST_EXPECT_EQUAL_INT( true, contains );
 
+    /* test point */
+    geometry_point_t center = geometry_rectangle_get_center( &rect_a );
+    contains = geometry_rectangle_contains_point( &rect_a, &center );
+    TEST_EXPECT_EQUAL_INT( true, contains );
+
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
     geometry_rectangle_destroy ( &rect_b );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_calc_chess_distance( test_fixture_t *fix )
+{
+    geometry_rectangle_t rect_a;
+
+    geometry_rectangle_init( &rect_a, 5.0, 5.0, 1.0 /*width*/, 2.0 /*height*/ );
+
+    const double to_left = geometry_rectangle_calc_chess_distance( &rect_a, 3.0 /*x*/, 6.0 /*y*/ );
+    TEST_EXPECT_EQUAL_DOUBLE( 2.0, to_left );
+    const double to_top_right = geometry_rectangle_calc_chess_distance( &rect_a, 7.0 /*x*/, 3.0 /*y*/ );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, to_top_right );
+    const double to_bottom = geometry_rectangle_calc_chess_distance( &rect_a, 5.5 /*x*/, 8.0 /*y*/ );
+    TEST_EXPECT_EQUAL_DOUBLE( 1.0, to_bottom );
+    const double within = geometry_rectangle_calc_chess_distance( &rect_a, 5.5 /*x*/, 6.0 /*y*/ );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, within );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -450,6 +567,31 @@ static test_case_result_t test_difference_max_only_1_solution( test_fixture_t *f
         geometry_rectangle_destroy ( &rect_b );
         geometry_rectangle_destroy ( &diff_rect );
     }
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_enlarge( test_fixture_t *fix )
+{
+    geometry_rectangle_t rect_a;
+
+    /* good case */
+    geometry_rectangle_init ( &rect_a, 3.0, 4.0, 1.0 /*width*/, 2.0 /*height*/ );
+    geometry_rectangle_enlarge ( &rect_a, 10.0, 20.0 );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 11.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 22.0, geometry_rectangle_get_height( &rect_a ) );
+    geometry_rectangle_destroy ( &rect_a );
+
+    /* negative-size case */
+    geometry_rectangle_init ( &rect_a, 3.0, 4.0, 1.0 /*width*/, 2.0 /*height*/ );
+    geometry_rectangle_enlarge ( &rect_a, -10.0, -20.0 );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &rect_a ) );
+    geometry_rectangle_destroy ( &rect_a );
+
     return TEST_CASE_RESULT_OK;
 }
 
