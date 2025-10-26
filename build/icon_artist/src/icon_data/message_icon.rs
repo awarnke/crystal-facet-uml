@@ -164,7 +164,7 @@ pub fn generate_message_error(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_mark, &Some(RED_PEN), &None);
 
     let icon_mark_dot: [geometry::DrawDirective; 5] =
-    get_circle_abs(Point { x: CX, y: CY + 6.0 }, 2.0 + HALFLINE, 2.0 + HALFLINE);
+        get_circle_abs(Point { x: CX, y: CY + 6.0 }, 2.0 + HALFLINE, 2.0 + HALFLINE);
     out.render_path(&icon_mark_dot, &Some(RED_PEN), &None);
 }
 

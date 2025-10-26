@@ -2,10 +2,10 @@
 
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
+use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::Move;
-use crate::stream_if::geometry::DrawDirective::Curve;
-use crate::stream_if::geometry::DrawDirective::Close;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
@@ -28,10 +28,10 @@ static GRAY: geometry::Color = geometry::Color {
     blue: 0x7f,
 };
 
-/// gray bold pen
-static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
     color: GRAY,
-    width: 2.0,
+    width: 1.0,
 };
 
 /// red line color
@@ -72,18 +72,130 @@ pub fn generate_5_improve(out: &mut dyn PathRenderer) -> () {
     let icon_improve: [geometry::DrawDirective; 12] = [
         Move(Point { x: 2.0, y: 2.0 }),
         Line(Point { x: 2.0, y: 7.0 }),
-        Curve(Point { x: 2.0, y: 14.0 },Point { x: 3.0, y: 15.0 },Point { x: 10.0, y: 15.0 }),
+        Curve(
+            Point { x: 2.0, y: 14.0 },
+            Point { x: 3.0, y: 15.0 },
+            Point { x: 10.0, y: 15.0 },
+        ),
         Line(Point { x: 14.0, y: 15.0 }),
         Line(Point { x: 14.0, y: 19.0 }),
         Line(Point { x: 22.0, y: 13.0 }),
         Line(Point { x: 14.0, y: 7.0 }),
         Line(Point { x: 14.0, y: 11.0 }),
         Line(Point { x: 10.0, y: 11.0 }),
-        Curve(Point { x: 6.5, y: 11.0 },Point { x: 6.0, y: 10.5 },Point { x: 6.0, y: 7.0 }),
+        Curve(
+            Point { x: 6.5, y: 11.0 },
+            Point { x: 6.0, y: 10.5 },
+            Point { x: 6.0, y: 7.0 },
+        ),
         Line(Point { x: 6.0, y: 2.0 }),
         Close,
     ];
-    out.render_path(&icon_improve, &None, &Some(GREEN) );
+    out.render_path(&icon_improve, &None, &Some(GREEN));
+}
+
+/// The function generates a rel_JF icon
+///
+pub fn generate_5_rel_jf(out: &mut dyn PathRenderer) -> () {
+    let icon_rel: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: 2.0,
+            y: 21.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: 7.0 + HALFLINE,
+            y: 21.0 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: 9.0 + HALFLINE,
+                y: 21.0 + HALFLINE,
+            },
+            Point {
+                x: 12.0 + HALFLINE,
+                y: 19.0 + HALFLINE,
+            },
+            Point {
+                x: 12.0 + HALFLINE,
+                y: 16.0 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: 12.0 + HALFLINE,
+            y: 7.0 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: 12.0 + HALFLINE,
+                y: 4.0 + HALFLINE,
+            },
+            Point {
+                x: 14.0 + HALFLINE,
+                y: 2.0 + HALFLINE,
+            },
+            Point {
+                x: 17.0 + HALFLINE,
+                y: 2.0 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: 22.0,
+            y: 2.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_rel, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a rel_L7 icon
+///
+pub fn generate_5_rel_l7(out: &mut dyn PathRenderer) -> () {
+    let icon_rel: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: 2.0 + HALFLINE,
+            y: 2.0,
+        }),
+        Line(Point {
+            x: 2.0 + HALFLINE,
+            y: 7.0 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: 2.0 + HALFLINE,
+                y: 9.0 + HALFLINE,
+            },
+            Point {
+                x: 4.0 + HALFLINE,
+                y: 12.0 + HALFLINE,
+            },
+            Point {
+                x: 7.0 + HALFLINE,
+                y: 12.0 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: 16.0 + HALFLINE,
+            y: 12.0 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: 19.0 + HALFLINE,
+                y: 12.0 + HALFLINE,
+            },
+            Point {
+                x: 21.0 + HALFLINE,
+                y: 14.0 + HALFLINE,
+            },
+            Point {
+                x: 21.0 + HALFLINE,
+                y: 17.0 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: 21.0 + HALFLINE,
+            y: 22.0,
+        }),
+    ];
+    out.render_path(&icon_rel, &Some(GRAY_PEN), &None);
 }
 
 /// The function returns an array of IconSource
@@ -99,6 +211,16 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "5_improve",
             viewport: ICON_VIEW_RECT,
             generate: generate_5_improve,
+        },
+        IconSource {
+            name: "5_rel_JF",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_5_rel_jf,
+        },
+        IconSource {
+            name: "5_rel_L7",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_5_rel_l7,
         },
     ]
 }

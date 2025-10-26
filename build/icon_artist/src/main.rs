@@ -78,7 +78,10 @@ fn main() {
             let stereo_icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
             icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_STEREOTYPES);
             icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREOTYPES);
-            println!("Generated files have been written to '{}'.", OUT_DIR_STEREOTYPES);
+            println!(
+                "Generated files have been written to '{}'.",
+                OUT_DIR_STEREOTYPES
+            );
         }
         if arg == "-g" {
             let stereo_icons: &'static [IconSource<'static>] = gui_sketch_icon::get_icons();
@@ -95,7 +98,10 @@ fn main() {
         if arg == "-u" {
             let stereo_icons: &'static [IconSource<'static>] = user_manual_icon::get_icons();
             icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_USER_MANUAL);
-            println!("Generated files have been written to '{}'.", OUT_DIR_USER_MANUAL);
+            println!(
+                "Generated files have been written to '{}'.",
+                OUT_DIR_USER_MANUAL
+            );
         }
 
         if arg == "-h" {
@@ -117,6 +123,7 @@ fn main() {
             println!("   ");
             println!("-u user_manual icons");
             println!("   ");
+            println!("note: to convert svg to pdf, run 'rsvg-convert -f pdf -o some_icon.pdf some_icon.svg'");
         }
     }
 }
