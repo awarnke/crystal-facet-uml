@@ -288,7 +288,7 @@ static const char *DATA_DATABASE_COMMIT_TRANSACTION =
  *
  *  because data_database_set_revision() may set an already used identifier
  */
-static uint32_t data_database_unused_revision = 0;
+static data_revision_t data_database_unused_revision = 0;
 
 /* ================================ Lifecycle ================================ */
 

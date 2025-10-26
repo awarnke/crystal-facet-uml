@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.66.1"
+    "generator_version": "1.66.2"
   }
   ,
   "views":
@@ -1853,6 +1853,13 @@
             "classifier_name": "Post Quantum Cryptography",
             "node": "b297f2ef-2e7f-42c1-a020-7e1e5f189859",
             "uuid": "2beea1dd-07c5-4299-a600-c65a4cfaa7cf"
+          },
+          {
+            "id": 476,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Hidden subgroup problem",
+            "node": "2e4bee7c-5fd4-4800-ae18-3350c55b677e",
+            "uuid": "ebfb7584-5a1c-47d1-ad31-bd842c103e21"
           }
         ]
       }
@@ -9000,6 +9007,16 @@
             ],
             "list_order": 32768,
             "uuid": "3a422d6e-c800-4646-99fc-6eeab47b8105"
+          },
+          {
+            "id": 100,
+            "type": "Operation", "main_type": 1,
+            "key": "El Gamal",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "67c09214-cdbe-4594-81f2-9cd911aa3222"
           }
         ]
       }
@@ -9159,6 +9176,23 @@
         "y_order": -1616804599,
         "list_order": -1616804599,
         "uuid": "bca6d8ee-a99d-4bbf-9e03-96538e96083c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 293,
+        "type": "Class", "main_type": 125,
+        "name": "Hidden subgroup problem",
+        "description": [
+                ""
+        ],
+        "x_order": 849558376,
+        "y_order": -1910034275,
+        "list_order": -1886026174,
+        "uuid": "2e4bee7c-5fd4-4800-ae18-3350c55b677e",
         "features":
         [
         ]
@@ -13696,6 +13730,38 @@
         "from_node": "126094e4-23f3-46e2-af58-7a359703f01c",
         "to_node": "6fade01e-8612-42b9-8458-18d258864efa",
         "uuid": "03fab404-5685-46e1-b9d9-9c0de92d29ec"
+      }
+    },
+    {
+      "relationship": {
+        "id": 347,
+        "type": "Generalization", "main_type": 210,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Factorization based",
+        "to_classifier_name": "Hidden subgroup problem",
+        "from_node": "93eebd4b-38ab-4684-91c0-fa4fd54f0b62",
+        "to_node": "2e4bee7c-5fd4-4800-ae18-3350c55b677e",
+        "uuid": "0465696d-8e3e-4323-9f07-030ec092e0d9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 346,
+        "type": "Generalization", "main_type": 210,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Discrete Logarithm based",
+        "to_classifier_name": "Hidden subgroup problem",
+        "from_node": "0bdc873e-a80d-4dc8-af77-b30fb4f40501",
+        "to_node": "2e4bee7c-5fd4-4800-ae18-3350c55b677e",
+        "uuid": "73c32540-c6e4-4efe-8b3c-f954ef997a74"
       }
     },
     {

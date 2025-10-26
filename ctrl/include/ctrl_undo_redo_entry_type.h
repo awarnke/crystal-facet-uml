@@ -11,6 +11,8 @@
 
 /*!
  *  \brief list of actions that can be un-done and re-done
+ *
+ *  Note: data in head table are meta information that are not undone and redone.
  */
 enum ctrl_undo_redo_entry_type_enum {
     CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY,  /*!< marks a boundary between sets of undo/redo actions */

@@ -153,9 +153,9 @@ static inline u8_error_t data_database_finalize_statement ( data_database_t *thi
 
 /* ================================ Information ================================ */
 
-static inline uint32_t data_database_get_revision ( data_database_t *this_ )
+static inline data_revision_t data_database_get_revision ( data_database_t *this_ )
 {
-    uint32_t result;
+    data_revision_t result;
     u8_error_t locking_error;
     locking_error = data_database_lock_on_write( this_ );
     result = (*this_).revision;
@@ -165,7 +165,7 @@ static inline uint32_t data_database_get_revision ( data_database_t *this_ )
     return result;
 }
 
-static inline void data_database_set_revision ( data_database_t *this_, uint32_t revision )
+static inline void data_database_set_revision ( data_database_t *this_, data_revision_t revision )
 {
     u8_error_t locking_error;
     locking_error = data_database_lock_on_write( this_ );

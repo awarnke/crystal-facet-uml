@@ -127,6 +127,26 @@ static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_after_actio
     return &((*this_).data_after_action.feature);
 }
 
+static inline void ctrl_undo_redo_entry_set_revision_before_action ( ctrl_undo_redo_entry_t *this_, data_revision_t revision )
+{
+    (*this_).revision_before_action = revision;
+}
+
+static inline data_revision_t ctrl_undo_redo_entry_get_revision_before_action ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return (*this_).revision_before_action;
+}
+
+static inline void ctrl_undo_redo_entry_set_revision_after_action ( ctrl_undo_redo_entry_t *this_, data_revision_t revision )
+{
+    (*this_).revision_after_action = revision;
+}
+
+static inline data_revision_t ctrl_undo_redo_entry_get_revision_after_action ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return (*this_).revision_after_action;
+}
+
 static inline void ctrl_undo_redo_entry_to_statistics ( const ctrl_undo_redo_entry_t *this_, bool undo, bool err, data_stat_t *io_stat )
 {
     assert( NULL != io_stat );

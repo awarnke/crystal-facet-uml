@@ -12,6 +12,7 @@
 #include "storage/data_database_listener.h"
 #include "storage/data_change_notifier.h"
 #include "storage/data_database_state.h"
+#include "storage/data_revision.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -51,7 +52,7 @@ struct data_database_struct {
     char private_db_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
     data_database_state_t db_state;
     uint_fast8_t transaction_recursion;  /*!< current transaction depth, 0 if no transaction active */
-    uint32_t revision;  /*!< the revision identifier of the stored data-model */
+    data_revision_t revision;  /*!< the revision identifier of the stored data-model, valid while the database is open */
 
     data_database_listener_t *(listener_list[DATA_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
                                                                              /*!< Only in case of a changed db-file, listeners are informed. */
@@ -271,7 +272,7 @@ static inline u8_error_t data_database_finalize_statement ( data_database_t *thi
  *  \param this_ pointer to own object attributes
  *  \return an identifier that allows to check if the database contents has changed
  */
-static inline uint32_t data_database_get_revision ( data_database_t *this_ );
+static inline data_revision_t data_database_get_revision ( data_database_t *this_ );
 
 /*!
  *  \brief sets the revision_id
@@ -282,7 +283,7 @@ static inline uint32_t data_database_get_revision ( data_database_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param revision identifier that allows to check if the database contents has the expected revision
  */
-static inline void data_database_set_revision ( data_database_t *this_, uint32_t revision );
+static inline void data_database_set_revision ( data_database_t *this_, data_revision_t revision );
 
 /*!
  *  \brief prints statistics of the current database file to the trace output

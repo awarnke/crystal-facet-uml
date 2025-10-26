@@ -45,6 +45,7 @@ ideas for future versions:
   [?] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
 ! [ ] Time axis in timing diagrams missing
 ! [ ] Asynchronous calls shall be slightly diagonal
+  [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

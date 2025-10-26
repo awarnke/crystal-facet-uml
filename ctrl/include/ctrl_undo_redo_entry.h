@@ -17,6 +17,7 @@
 #include "entity/data_relationship.h"
 #include "entity/data_feature.h"
 #include "set/data_stat.h"
+#include "storage/data_revision.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -39,8 +40,9 @@ struct ctrl_undo_redo_entry_struct {
     ctrl_undo_redo_entry_type_t action_type;
     union ctrl_undo_redo_entry_private_data_union data_before_action;
     union ctrl_undo_redo_entry_private_data_union data_after_action;
-    /* bool boundary_after_action; */ /* true if there is a boundary after this action */
-    /* uint32_t boundary_revision_after_action; */ /* revision identifier at a boundary after this action */
+    /* TODO The following two attributes are still unused! */
+    data_revision_t revision_before_action;  /* revision identifier of database before this action */
+    data_revision_t revision_after_action;  /* revision identifier of database after this action */
 };
 
 typedef struct ctrl_undo_redo_entry_struct ctrl_undo_redo_entry_t;
@@ -242,6 +244,38 @@ static inline data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_ptr 
  *  \return pointer to data_feature_t, where the data after the action is stored
  */
 static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/*!
+ *  \brief sets the revision identifier of database before this action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param revision revision id
+ */
+static inline void ctrl_undo_redo_entry_set_revision_before_action ( ctrl_undo_redo_entry_t *this_, data_revision_t revision );
+
+/*!
+ *  \brief gets the revision identifier of database before this action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return revision id
+ */
+static inline data_revision_t ctrl_undo_redo_entry_get_revision_before_action ( const ctrl_undo_redo_entry_t *this_ );
+
+/*!
+ *  \brief sets the revision identifier of database after this action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param revision revision id
+ */
+static inline void ctrl_undo_redo_entry_set_revision_after_action ( ctrl_undo_redo_entry_t *this_, data_revision_t revision );
+
+/*!
+ *  \brief gets the revision identifier of database after this action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return revision id
+ */
+static inline data_revision_t ctrl_undo_redo_entry_get_revision_after_action ( const ctrl_undo_redo_entry_t *this_ );
 
 /*!
  *  \brief adds the action of the ctrl_undo_redo_entry_t to the statistics
