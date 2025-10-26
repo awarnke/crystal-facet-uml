@@ -27,15 +27,16 @@ static inline ctrl_controller_t *io_data_file_get_controller_ptr ( io_data_file_
     return &((*this_).controller);
 }
 
-static inline uint32_t io_data_file_get_sync_revision ( io_data_file_t *this_ )
+static inline data_revision_t io_data_file_get_sync_revision ( io_data_file_t *this_ )
 {
     return (*this_).sync_revision;
 }
 
 static inline bool io_data_file_is_in_sync ( io_data_file_t *this_ )
 {
-    const uint32_t db_revision = data_database_get_revision( &((*this_).database) );
-    return ( db_revision == (*this_).sync_revision );
+    const bool is_open = data_database_is_open( &((*this_).database) );
+    const data_revision_t db_revision = data_database_get_revision( &((*this_).database) );
+    return ( ! is_open ) || ( db_revision == (*this_).sync_revision );
 }
 
 static inline const char *io_data_file_get_filename_const ( const io_data_file_t *this_ )

@@ -36,7 +36,7 @@ void io_data_file_init ( io_data_file_t *this_ )
 
     (*this_).auto_writeback_to_json = false;
     (*this_).delete_db_when_finished = false;
-    (*this_).sync_revision = 0;
+    (*this_).sync_revision = DATA_REVISION_VOID;
 
     U8_TRACE_END();
 }

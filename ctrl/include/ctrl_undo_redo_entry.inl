@@ -6,16 +6,22 @@
 static inline void ctrl_undo_redo_entry_init_empty ( ctrl_undo_redo_entry_t *this_ )
 {
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY;
+    (*this_).revision_before_action = DATA_REVISION_VOID;
+    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type )
 {
     (*this_).action_type = action_type;
+    (*this_).revision_before_action = DATA_REVISION_VOID;
+    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_reinit ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type )
 {
     (*this_).action_type = action_type;
+    (*this_).revision_before_action = DATA_REVISION_VOID;
+    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_destroy ( ctrl_undo_redo_entry_t *this_ )

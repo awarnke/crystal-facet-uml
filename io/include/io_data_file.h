@@ -11,6 +11,7 @@
 
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
+#include "storage/data_revision.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error_info.h"
 #include "u8/u8_error.h"
@@ -34,7 +35,7 @@ struct io_data_file_struct {
                                   /*!< when flushing (sync to disk) and when closing. */
     bool delete_db_when_finished;  /*!< true if the current database (db_file_name) shall automatically */
                                    /*!< be deleted when closing. */
-    uint32_t sync_revision;  /*!< the revision id of the database that is synchronized to disk */
+    data_revision_t sync_revision;  /*!< the revision id of the database that is synchronized to disk */
 };
 
 typedef struct io_data_file_struct io_data_file_t;
@@ -150,13 +151,13 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return revision of the database when it was last successfully synced to disk
  */
-static inline uint32_t io_data_file_get_sync_revision ( io_data_file_t *this_ );
+static inline data_revision_t io_data_file_get_sync_revision ( io_data_file_t *this_ );
 
 /*!
  *  \brief checks it the database revision equals the file revision when it was last synchronized to disk
  *
  *  \param this_ pointer to own object attributes
- *  \return true if in sync
+ *  \return true if in sync (or if the database is not open)
  */
 static inline bool io_data_file_is_in_sync ( io_data_file_t *this_ );
 

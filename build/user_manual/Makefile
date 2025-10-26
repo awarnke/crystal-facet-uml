@@ -6,7 +6,6 @@ SOURCE=../../documentation/user_manual
 crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.pdf ${SOURCE}/*.svg ${SOURCE}/*.png ${SOURCE}/4_stereotypes/*.* ${SOURCE}/5_modeling_hints_export/*.svg
 	echo "you may need to install sudo zypper install rsvg-convert or sudo apt install librsvg2-bin" &&\
 	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
-	rsvg-convert -a -f pdf -o ../../gui/source/resources/type_undef.pdf ../../gui/source/resources/type_undef.svg &&\
 	dblatex -c use_rsvg-convert.conf -p xsl_params.xsl --type=pdf ${SOURCE}/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
 
 html: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.png ${SOURCE}/*.png ${SOURCE}/*.svg ${SOURCE}/4_stereotypes/*.*

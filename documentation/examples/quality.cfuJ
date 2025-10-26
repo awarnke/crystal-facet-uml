@@ -1610,7 +1610,7 @@
         "description": [
                 ""
         ],
-        "list_order": 65536,
+        "list_order": 49152,
         "parent_name": "Strategies for Maintainability",
         "parent": "f05046bc-aaa3-4403-a40f-1f2dee29bc6a",
         "uuid": "7a833304-6b33-4201-89f4-6c061dbfd1b0",
@@ -1651,6 +1651,67 @@
             "classifier_name": "Dependency Inversion",
             "node": "6d515926-c548-486d-8304-dad434898ff8",
             "uuid": "7e97be82-20c5-446e-9724-bd3008e50329"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 50,
+        "type": "Class Diagram", "diagram_type": 34,
+        "name": "API Guidelines",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "parent_name": "Strategies for Maintainability",
+        "parent": "f05046bc-aaa3-4403-a40f-1f2dee29bc6a",
+        "uuid": "fca2562f-6582-47dd-91ad-8418b96bb624",
+        "diagramelements":
+        [
+          {
+            "id": 477,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Modularity",
+            "node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
+            "uuid": "5ab37ad3-282b-4380-a350-a28328133efc"
+          },
+          {
+            "id": 478,
+            "display_tags": "Gray", "display_flags": 33554432,
+            "classifier_name": "Reusability",
+            "node": "b56e8134-a6da-4fa8-bb27-617964b34c14",
+            "uuid": "b2a2b77b-2039-4992-b956-d7a61d726534"
+          },
+          {
+            "id": 479,
+            "classifier_name": "Atomicity of Data",
+            "node": "bd75685b-bea7-46e0-9e8c-866b41d1139a",
+            "uuid": "6b766121-6674-4b4e-a343-cfaba98a34e3"
+          },
+          {
+            "id": 480,
+            "classifier_name": "Stateless",
+            "node": "aaf54be0-7842-43e5-bbc0-7f3e0485ac89",
+            "uuid": "3c6207d8-c86a-437b-9dbe-68b8e1d62293"
+          },
+          {
+            "id": 481,
+            "classifier_name": "Clear Semantics",
+            "node": "df8519ad-397b-4bde-a02f-1bbbb5e30711",
+            "uuid": "79e003ac-9a52-47a7-8fbb-e7cd4dcc2c1d"
+          },
+          {
+            "id": 482,
+            "classifier_name": "ipc-quartztime recommendations",
+            "node": "bdfce6a2-5ebb-46bc-b3bb-2b32cb79aa9d",
+            "uuid": "115da946-fc5c-4f2b-9e3a-bd02e0e58fba"
+          },
+          {
+            "id": 483,
+            "classifier_name": "Coarse-granular access rights",
+            "node": "b4aef49f-e488-48b7-bbca-c0754abe79e4",
+            "uuid": "8b9602d8-3c3f-49f4-9c04-fd476ba4ac60"
           }
         ]
       }
@@ -3970,8 +4031,8 @@
         "description": [
                 "To keep effects of changes local to few components/functions"
         ],
-        "x_order": 1421381224,
-        "y_order": -2082256020,
+        "x_order": 1198229110,
+        "y_order": -2082258624,
         "list_order": 0,
         "uuid": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
         "features":
@@ -3988,7 +4049,7 @@
                 "To be able to re-use the solution in another operational context"
         ],
         "x_order": 1186635430,
-        "y_order": -2082278036,
+        "y_order": -2082258624,
         "list_order": 0,
         "uuid": "b56e8134-a6da-4fa8-bb27-617964b34c14",
         "features":
@@ -4005,7 +4066,7 @@
                 "To find a cause of an observed (unwanted) behavior"
         ],
         "x_order": 1421381224,
-        "y_order": -2082278036,
+        "y_order": -2082258624,
         "list_order": 0,
         "uuid": "8e9683a3-d412-428d-a68c-374aa6ad703c",
         "features":
@@ -4022,7 +4083,7 @@
                 "To be able to adapt the software/system to changed requirements"
         ],
         "x_order": 1421381224,
-        "y_order": -2082043851,
+        "y_order": -2082256020,
         "list_order": 0,
         "uuid": "aa863c2c-3274-4ec3-a028-5468d2c10f3e",
         "features":
@@ -9197,6 +9258,165 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 294,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Atomicity of Data",
+        "description": [
+                ""
+        ],
+        "x_order": 1486357262,
+        "y_order": -2093250397,
+        "list_order": -2093250397,
+        "uuid": "bd75685b-bea7-46e0-9e8c-866b41d1139a",
+        "features":
+        [
+          {
+            "id": 101,
+            "type": "Operation", "main_type": 1,
+            "key": "Realize which parts of data are atomic",
+            "description": [
+                "Temperature-value and temperature-unit belong together and shall be updated ",
+                "only in an atomic way."
+            ],
+            "list_order": 32768,
+            "uuid": "b86ee4ad-73a5-4d45-9572-289a70386bca"
+          },
+          {
+            "id": 102,
+            "type": "Operation", "main_type": 1,
+            "key": "Define the API to enforce atomic updates",
+            "description": [
+                "The API shall enforce to update atomic data sets at a single point in time.\n",
+                "The API shall prevent to accidentially update unrelated data.\n",
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "6e7482ab-5835-4063-9b66-efee00c4d099"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 295,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Stateless",
+        "description": [
+                ""
+        ],
+        "x_order": 1421381224,
+        "y_order": -2082921651,
+        "list_order": -2083087398,
+        "uuid": "aaf54be0-7842-43e5-bbc0-7f3e0485ac89",
+        "features":
+        [
+          {
+            "id": 104,
+            "type": "Operation", "main_type": 1,
+            "key": "Do not enforce order of calls",
+            "description": [
+                "Prefer \"setCityAndStreet()\" over the pair of \"setStreet()\" which is only ",
+                "allowed after \"setCity()\".\n",
+                "This prevents to call methods in a wrong order or at an unexpected ",
+                "remote-state."
+            ],
+            "list_order": 32768,
+            "uuid": "2888397f-a5ea-4b4d-bb02-94a3ce5d7149"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 296,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Clear Semantics",
+        "description": [
+                ""
+        ],
+        "x_order": 1486357262,
+        "y_order": -2082921651,
+        "list_order": -2082921651,
+        "uuid": "df8519ad-397b-4bde-a02f-1bbbb5e30711",
+        "features":
+        [
+          {
+            "id": 103,
+            "type": "Operation", "main_type": 1,
+            "key": "Do not encode errors into vaild data structures",
+            "description": [
+                "Use an integer for a temperatue-value and a separate value for indicating if ",
+                "the temperature is valid.\n",
+                "Do not define -1 as invalid."
+            ],
+            "list_order": 32768,
+            "uuid": "4acb2a98-11b1-4cff-9eca-3c6aa23b3289"
+          },
+          {
+            "id": 105,
+            "type": "Operation", "main_type": 1,
+            "key": "Prefer attributes over methods",
+            "description": [
+                "Defining getter and setter methods instead of attributes prevents performance ",
+                "optimizations like \n",
+                "- caching/buffering\n",
+                "- pre-fetching or \n",
+                "- dropping outdated values.\n",
+                "\n",
+                "Note: Method calls have different semantics than attributes."
+            ],
+            "list_order": 65536,
+            "uuid": "2885d0d1-34b7-40ba-876c-e9431896b21b"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 297,
+        "type": "Package", "main_type": 124,
+        "name": "ipc-quartztime recommendations",
+        "description": [
+                "The ipc-quartztime project provides a shared--memory based IPC between ",
+                "POSIX-processes.\n",
+                "It recommends some API design rules."
+        ],
+        "x_order": 1198793976,
+        "y_order": -2108198357,
+        "list_order": -2108198357,
+        "uuid": "bdfce6a2-5ebb-46bc-b3bb-2b32cb79aa9d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 298,
+        "type": "Class", "main_type": 125,
+        "stereotype": "principle",
+        "name": "Coarse-granular access rights",
+        "description": [
+                "Define Access Rights on interface level.\n",
+                "\n",
+                "Don't define these per method and/or attribute to not interfere with\n",
+                "- testability\n",
+                "- changeability"
+        ],
+        "x_order": 1186635430,
+        "y_order": -2093250397,
+        "list_order": -2085410869,
+        "uuid": "b4aef49f-e488-48b7-bbca-c0754abe79e4",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -13810,6 +14030,118 @@
         "from_node": "bb8f4b95-4b90-4b87-90a1-3e3637763b60",
         "to_node": "bca6d8ee-a99d-4bbf-9e03-96538e96083c",
         "uuid": "95542dfe-4b20-4c85-adb2-8ebca48debe9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 348,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "ipc-quartztime recommendations",
+        "to_classifier_name": "Stateless",
+        "from_node": "bdfce6a2-5ebb-46bc-b3bb-2b32cb79aa9d",
+        "to_node": "aaf54be0-7842-43e5-bbc0-7f3e0485ac89",
+        "uuid": "610ef8fb-408e-4043-9416-41c8852ee817"
+      }
+    },
+    {
+      "relationship": {
+        "id": 349,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "ipc-quartztime recommendations",
+        "to_classifier_name": "Atomicity of Data",
+        "from_node": "bdfce6a2-5ebb-46bc-b3bb-2b32cb79aa9d",
+        "to_node": "bd75685b-bea7-46e0-9e8c-866b41d1139a",
+        "uuid": "ac32e7a3-1f1b-47ea-bdff-f5d10cd9bc96"
+      }
+    },
+    {
+      "relationship": {
+        "id": 350,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "ipc-quartztime recommendations",
+        "to_classifier_name": "Clear Semantics",
+        "from_node": "bdfce6a2-5ebb-46bc-b3bb-2b32cb79aa9d",
+        "to_node": "df8519ad-397b-4bde-a02f-1bbbb5e30711",
+        "uuid": "0cd13f3a-e5bc-412b-9470-a595086296b8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 351,
+        "type": "Association", "main_type": 200,
+        "name": "support",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "ipc-quartztime recommendations",
+        "to_classifier_name": "Modularity",
+        "from_node": "bdfce6a2-5ebb-46bc-b3bb-2b32cb79aa9d",
+        "to_node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
+        "uuid": "dcf5d583-0e2b-4e9b-9aea-6ecbbb29f6f5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 352,
+        "type": "Association", "main_type": 200,
+        "name": "support",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "ipc-quartztime recommendations",
+        "to_classifier_name": "Reusability",
+        "from_node": "bdfce6a2-5ebb-46bc-b3bb-2b32cb79aa9d",
+        "to_node": "b56e8134-a6da-4fa8-bb27-617964b34c14",
+        "uuid": "25bff8b6-9d18-4789-870b-fa926f805e40"
+      }
+    },
+    {
+      "relationship": {
+        "id": 353,
+        "type": "Association", "main_type": 200,
+        "name": "support",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Coarse-granular access rights",
+        "to_classifier_name": "Reusability",
+        "from_node": "b4aef49f-e488-48b7-bbca-c0754abe79e4",
+        "to_node": "b56e8134-a6da-4fa8-bb27-617964b34c14",
+        "uuid": "40c2e14d-506f-4b21-853b-5a5aa32c9943"
+      }
+    },
+    {
+      "relationship": {
+        "id": 354,
+        "type": "Association", "main_type": 200,
+        "name": "support",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Coarse-granular access rights",
+        "to_classifier_name": "Modularity",
+        "from_node": "b4aef49f-e488-48b7-bbca-c0754abe79e4",
+        "to_node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
+        "uuid": "beb963a2-d877-40ce-85f2-bb635e59fd17"
       }
     }
   ]

@@ -16,12 +16,14 @@ use icon_data::type_class_icon;
 use icon_data::type_diag_icon;
 use icon_data::type_feat_icon;
 use icon_data::type_rel_icon;
+use icon_data::user_manual_icon;
 use model::icon::IconSource;
 use render::icon_writer;
 use render::icon_writer::FileType;
 use std::env;
 
-static OUT_DIR_STEREO: &'static str = "../../documentation/user_manual/4_stereotypes";
+static OUT_DIR_USER_MANUAL: &'static str = "../../documentation/user_manual";
+static OUT_DIR_STEREOTYPES: &'static str = "../../documentation/user_manual/4_stereotypes";
 static OUT_DIR_GUI: &'static str = "../../gui/source/resources";
 
 /// The main function defines parameters and starts the icon_writer.
@@ -74,9 +76,9 @@ fn main() {
         }
         if arg == "-s" {
             let stereo_icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
-            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_STEREO);
-            icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREO);
-            println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
+            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_STEREOTYPES);
+            icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREOTYPES);
+            println!("Generated files have been written to '{}'.", OUT_DIR_STEREOTYPES);
         }
         if arg == "-g" {
             let stereo_icons: &'static [IconSource<'static>] = gui_sketch_icon::get_icons();
@@ -90,6 +92,12 @@ fn main() {
             icon_writer::generate_files(stereo_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
+        if arg == "-u" {
+            let stereo_icons: &'static [IconSource<'static>] = user_manual_icon::get_icons();
+            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_USER_MANUAL);
+            println!("Generated files have been written to '{}'.", OUT_DIR_USER_MANUAL);
+        }
+
         if arg == "-h" {
             println!("options are");
             println!("   ");
@@ -106,6 +114,9 @@ fn main() {
             println!("-s stereotype icons");
             println!("   ");
             println!("-m message icons");
+            println!("   ");
+            println!("-u user_manual icons");
+            println!("   ");
         }
     }
 }

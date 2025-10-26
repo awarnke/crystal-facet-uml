@@ -516,8 +516,8 @@
                             <entry>
                                 <para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 Value Type
                                 </para>
@@ -533,8 +533,8 @@
                         <row>
                             <entry><para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 Enumeration</para></entry>
                             <entry><para>UML, SysML</para></entry>
@@ -546,8 +546,8 @@
                         <row>
                             <entry><para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 ActivityParameterNode</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
@@ -559,8 +559,8 @@
                             <entry>
                                 <para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 MergeNode/Junction
                                 </para>
@@ -577,8 +577,8 @@
                         <row>
                             <entry><para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 ActivityPartition</para></entry>
                             <entry>
@@ -1047,8 +1047,8 @@
                         <row>
                             <entry><para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 Connector
                                 </para>
@@ -1067,8 +1067,8 @@
                         <row>
                             <entry><para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 Item Flow
                                 </para>
@@ -1085,8 +1085,8 @@
                         <row>
                             <entry><para>
                                 <inlinemediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_undef.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.pdf" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="4_type_undef.svg" width="1cm"/></imageobject>
                                 </inlinemediaobject>
                                 Exception Flow
                                 </para>

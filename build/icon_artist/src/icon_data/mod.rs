@@ -11,6 +11,7 @@ pub mod type_class_icon;
 pub mod type_diag_icon;
 pub mod type_feat_icon;
 pub mod type_rel_icon;
+pub mod user_manual_icon;
 
 /*
 Copyright 2023-2025 Andreas Warnke
