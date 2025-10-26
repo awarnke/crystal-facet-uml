@@ -9,6 +9,10 @@
  *  \brief Defined the type of a database revision
  */
 
+enum data_revision_enum {
+    DATA_REVISION_VOID,  /*!< an unsynchronized/invalid revision identifier */
+};
+
 /*!
  *  \brief a database revision is a simple integer
  */
