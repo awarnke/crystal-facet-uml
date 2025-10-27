@@ -23,19 +23,13 @@
  *      - diagramelements.focused_feature_id (and consistent classifier_id between diagramelement and feature)
  *  - Objects shall be visible:
  *      - classifiers shall be referenced by diagrams,
- *      - relationships shall be visible in at least one diagram (not yet checked).
+ *      - relationships shall be visible in at least one diagram (only partially checked).
  *  - Circular link structures are forbidden in:
  *      - diagrams.parent_id,
  *      - relationships.to_classifier_id (depending on the relationships.main_type, circles are forbidden. not yet checked).
  *  - Names shall be unique:
  *      - classifiers.name (checked by DB-constraint),
  *      - features.key (unique only within one classifier, not checked, low importance).
- *  - Enumerations shall be valid constants:
- *      - classifiers.main_type (not checked, repairable via GUI),
- *      - relationships.main_type (not checked, repairable via GUI),
- *      - features.main_type (not checked, repairable via GUI),
- *      - diagrams.diagram_type (not checked, repairable via GUI),
- *      - diagramelements.display_flags (not checked).
  *
  */
 

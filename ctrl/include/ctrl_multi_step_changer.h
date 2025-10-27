@@ -26,7 +26,7 @@
  *  \brief all data attributes needed to perform multiple actions on the controller
  *
  *  Lifecycle: A ctrl_multi_step_changer_t shall perform a single set of operations only.
- *  It may be initialized before one set of actions and be destroyed afterwards.
+ *  It shall be initialized before one set of actions and be destroyed afterwards.
  *
  *  All operations that are performed using one instance of this class are stored to the same undo/redo action set.
  */
