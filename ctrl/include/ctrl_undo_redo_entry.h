@@ -77,117 +77,48 @@ static inline void ctrl_undo_redo_entry_reinit ( ctrl_undo_redo_entry_t *this_, 
  */
 static inline void ctrl_undo_redo_entry_destroy ( ctrl_undo_redo_entry_t *this_ );
 
-/*!
- *  \brief gets the action type
- *
- *  \param this_ pointer to own object attributes
- *  \return action type
- */
-static inline ctrl_undo_redo_entry_type_t ctrl_undo_redo_entry_get_action_type ( const ctrl_undo_redo_entry_t *this_ );
+/* ================================ BOUNDARY ================================ */
 
 /*!
- *  \brief gets the old data before the undo redo action
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY type
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_classifier_t, where the data before the action is stored
  */
-static inline data_classifier_t *ctrl_undo_redo_entry_get_classifier_before_action_ptr ( ctrl_undo_redo_entry_t *this_ );
+static inline void ctrl_undo_redo_entry_init_boundary ( ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ DIAGRAM ================================ */
 
 /*!
- *  \brief gets the old data before the undo redo action
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM type
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_classifier_t, where the data before the action is stored
+ *  \param data_after pointer to data_diagram_t, where the new data after the action is stored
  */
-static inline const data_classifier_t *ctrl_undo_redo_entry_get_classifier_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
+static inline void ctrl_undo_redo_entry_init_create_diagram ( ctrl_undo_redo_entry_t *this_,
+                                                              const data_diagram_t *data_after
+                                                            );
 
 /*!
- *  \brief gets the old data before the undo redo action
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM type
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_diagram_t, where the data before the action is stored
+ *  \param data_before pointer to data_diagram_t, where the old data before the action is stored
+ *  \param data_after pointer to data_diagram_t, where the new data after the action is stored
  */
-static inline data_diagram_t *ctrl_undo_redo_entry_get_diagram_before_action_ptr ( ctrl_undo_redo_entry_t *this_ );
+static inline void ctrl_undo_redo_entry_init_update_diagram ( ctrl_undo_redo_entry_t *this_,
+                                                              const data_diagram_t *data_before,
+                                                              const data_diagram_t *data_after
+                                                            );
 
 /*!
- *  \brief gets the old data before the undo redo action
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM type
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_diagram_t, where the data before the action is stored
+ *  \param data_before pointer to data_diagram_t, where the old data before the action is stored
  */
-static inline const data_diagram_t *ctrl_undo_redo_entry_get_diagram_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the old data before the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_diagramelement_t, where the data before the action is stored
- */
-static inline data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_before_action_ptr ( ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the old data before the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_diagramelement_t, where the data before the action is stored
- */
-static inline const data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the old data before the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_relationship_t, where the data before the action is stored
- */
-static inline data_relationship_t *ctrl_undo_redo_entry_get_relationship_before_action_ptr ( ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the old data before the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_relationship_t, where the data before the action is stored
- */
-static inline const data_relationship_t *ctrl_undo_redo_entry_get_relationship_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the old data before the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_feature_t, where the data before the action is stored
- */
-static inline data_feature_t *ctrl_undo_redo_entry_get_feature_before_action_ptr ( ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the old data before the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_feature_t, where the data before the action is stored
- */
-static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the new data after the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_classifier_t, where the data after the action is stored
- */
-static inline data_classifier_t *ctrl_undo_redo_entry_get_classifier_after_action_ptr ( ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the new data after the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_classifier_t, where the data after the action is stored
- */
-static inline const data_classifier_t *ctrl_undo_redo_entry_get_classifier_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
-
-/*!
- *  \brief gets the new data after the undo redo action
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to data_diagram_t, where the data after the action is stored
- */
-static inline data_diagram_t *ctrl_undo_redo_entry_get_diagram_after_action_ptr ( ctrl_undo_redo_entry_t *this_ );
+static inline void ctrl_undo_redo_entry_init_delete_diagram ( ctrl_undo_redo_entry_t *this_,
+                                                              const data_diagram_t *data_before
+                                                            );
 
 /*!
  *  \brief gets the new data after the undo redo action
@@ -198,12 +129,46 @@ static inline data_diagram_t *ctrl_undo_redo_entry_get_diagram_after_action_ptr 
 static inline const data_diagram_t *ctrl_undo_redo_entry_get_diagram_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
 
 /*!
- *  \brief gets the new data after the undo redo action
+ *  \brief gets the old data before the undo redo action
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_diagramelement_t, where the data after the action is stored
+ *  \return pointer to data_diagram_t, where the data before the action is stored
  */
-static inline data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_after_action_ptr ( ctrl_undo_redo_entry_t *this_ );
+static inline const data_diagram_t *ctrl_undo_redo_entry_get_diagram_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ DIAGRAMELEMENT ================================ */
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_after pointer to data_diagramelement_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_create_diagramelement ( ctrl_undo_redo_entry_t *this_,
+                                                                     const data_diagramelement_t *data_after
+                                                                   );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_diagramelement_t, where the old data before the action is stored
+ *  \param data_after pointer to data_diagramelement_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_update_diagramelement ( ctrl_undo_redo_entry_t *this_,
+                                                                     const data_diagramelement_t *data_before,
+                                                                     const data_diagramelement_t *data_after
+                                                                   );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_diagramelement_t, where the old data before the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_delete_diagramelement ( ctrl_undo_redo_entry_t *this_,
+                                                                     const data_diagramelement_t *data_before
+                                                                   );
 
 /*!
  *  \brief gets the new data after the undo redo action
@@ -214,12 +179,146 @@ static inline data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_aft
 static inline const data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
 
 /*!
+ *  \brief gets the old data before the undo redo action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to data_diagramelement_t, where the data before the action is stored
+ */
+static inline const data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ CLASSIFIER ================================ */
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_after pointer to data_classifier_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_create_classifier ( ctrl_undo_redo_entry_t *this_ ,
+                                                                 const data_classifier_t *data_after
+                                                               );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_classifier_t, where the old data before the action is stored
+ *  \param data_after pointer to data_classifier_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_update_classifier ( ctrl_undo_redo_entry_t *this_ ,
+                                                                 const data_classifier_t *data_before,
+                                                                 const data_classifier_t *data_after
+                                                               );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_classifier_t, where the old data before the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_delete_classifier ( ctrl_undo_redo_entry_t *this_ ,
+                                                                 const data_classifier_t *data_before
+                                                               );
+
+/*!
  *  \brief gets the new data after the undo redo action
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_relationship_t, where the data after the action is stored
+ *  \return pointer to data_classifier_t, where the data after the action is stored
  */
-static inline data_relationship_t *ctrl_undo_redo_entry_get_relationship_after_action_ptr ( ctrl_undo_redo_entry_t *this_ );
+static inline const data_classifier_t *ctrl_undo_redo_entry_get_classifier_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/*!
+ *  \brief gets the old data before the undo redo action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to data_classifier_t, where the data before the action is stored
+ */
+static inline const data_classifier_t *ctrl_undo_redo_entry_get_classifier_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ FEATURE ================================ */
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_after pointer to data_feature_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_create_feature ( ctrl_undo_redo_entry_t *this_,
+                                                              const data_feature_t *data_after
+                                                            );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_feature_t, where the old data before the action is stored
+ *  \param data_after pointer to data_feature_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_update_feature ( ctrl_undo_redo_entry_t *this_,
+                                                              const data_feature_t *data_before,
+                                                              const data_feature_t *data_after
+                                                            );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_feature_t, where the old data before the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_delete_feature ( ctrl_undo_redo_entry_t *this_,
+                                                              const data_feature_t *data_before
+                                                            );
+
+/*!
+ *  \brief gets the new data after the undo redo action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to data_feature_t, where the data after the action is stored
+ */
+static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/*!
+ *  \brief gets the old data before the undo redo action
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to data_feature_t, where the data before the action is stored
+ */
+static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ RELATIONSHIP ================================ */
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_after pointer to data_relationship_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_create_relationship ( ctrl_undo_redo_entry_t *this_,
+                                                                   const data_relationship_t *data_after
+                                                                 );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_relationship_t, where the old data before the action is stored
+ *  \param data_after pointer to data_relationship_t, where the new data after the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_update_relationship ( ctrl_undo_redo_entry_t *this_,
+                                                                   const data_relationship_t *data_before,
+                                                                   const data_relationship_t *data_after
+                                                                 );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to a CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param data_before pointer to data_relationship_t, where the old data before the action is stored
+ */
+static inline void ctrl_undo_redo_entry_init_delete_relationship ( ctrl_undo_redo_entry_t *this_,
+                                                                   const data_relationship_t *data_before
+                                                                 );
 
 /*!
  *  \brief gets the new data after the undo redo action
@@ -230,20 +329,24 @@ static inline data_relationship_t *ctrl_undo_redo_entry_get_relationship_after_a
 static inline const data_relationship_t *ctrl_undo_redo_entry_get_relationship_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
 
 /*!
- *  \brief gets the new data after the undo redo action
+ *  \brief gets the old data before the undo redo action
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_feature_t, where the data after the action is stored
+ *  \return pointer to data_relationship_t, where the data before the action is stored
  */
-static inline data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_ptr ( ctrl_undo_redo_entry_t *this_ );
+static inline const data_relationship_t *ctrl_undo_redo_entry_get_relationship_before_action_const ( const ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ ENTRY_TYPE ================================ */
 
 /*!
- *  \brief gets the new data after the undo redo action
+ *  \brief gets the action type
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to data_feature_t, where the data after the action is stored
+ *  \return action type
  */
-static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_const ( const ctrl_undo_redo_entry_t *this_ );
+static inline ctrl_undo_redo_entry_type_t ctrl_undo_redo_entry_get_action_type ( const ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ REVISIONS ================================ */
 
 /*!
  *  \brief sets the revision identifier of database before this action
@@ -276,6 +379,8 @@ static inline void ctrl_undo_redo_entry_set_revision_after_action ( ctrl_undo_re
  *  \return revision id
  */
 static inline data_revision_t ctrl_undo_redo_entry_get_revision_after_action ( const ctrl_undo_redo_entry_t *this_ );
+
+/* ================================ STATISTICS ================================ */
 
 /*!
  *  \brief adds the action of the ctrl_undo_redo_entry_t to the statistics

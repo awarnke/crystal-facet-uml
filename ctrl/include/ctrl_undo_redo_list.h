@@ -165,7 +165,9 @@ u8_error_t ctrl_undo_redo_list_get_redo_iterator ( const ctrl_undo_redo_list_t *
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was deleted
  */
-static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value );
+static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_,
+                                                            const data_diagram_t *old_value
+                                                          );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM.
@@ -180,7 +182,10 @@ static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_
  *  \param old_value the record contents before the record was updated
  *  \param new_value the record contents after the record was updated
  */
-static inline void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value );
+static inline void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_,
+                                                            const data_diagram_t *old_value,
+                                                            const data_diagram_t *new_value
+                                                          );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM.
@@ -194,7 +199,9 @@ static inline void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_
  *  \param this_ pointer to own object attributes
  *  \param new_value the record contents after the record was created
  */
-static inline void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value );
+static inline void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_,
+                                                            const data_diagram_t *new_value
+                                                          );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
