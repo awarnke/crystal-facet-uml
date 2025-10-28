@@ -88,6 +88,12 @@ static inline void data_change_message_trace ( const data_change_message_t *this
         }
         break;
 
+        case DATA_CHANGE_EVENT_TYPE_REVISION_CHANGED:
+        {
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_REVISION_CHANGED");
+        }
+        break;
+
         default:
         {
             U8_LOG_ERROR("- event: out of range");

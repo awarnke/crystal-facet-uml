@@ -6,9 +6,12 @@
 
 static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
 {
-    bool result;
-    result = (*this_).is_open;
-    return result;
+    return (*this_).is_open;
+}
+
+static inline data_revision_t data_database_reader_get_revision ( data_database_reader_t *this_ )
+{
+    return data_database_get_revision( (*this_).database );
 }
 
 /* ================================ DIAGRAM ================================ */

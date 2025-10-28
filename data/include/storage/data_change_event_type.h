@@ -16,10 +16,11 @@ enum data_change_event_type_enum {
     DATA_CHANGE_EVENT_TYPE_CREATE,  /*!< a database record was created */
     DATA_CHANGE_EVENT_TYPE_UPDATE,  /*!< a database record was updated */
     DATA_CHANGE_EVENT_TYPE_DELETE,  /*!< a database record was deleted */
-    DATA_CHANGE_EVENT_TYPE_MULTI,  /*!< multiple database records have been created, uddated, deleted */
+    DATA_CHANGE_EVENT_TYPE_MULTI,  /*!< multiple database records have been created, updated, deleted */
     DATA_CHANGE_EVENT_TYPE_DB_OPENED,  /*!< a new database file is opened */
     DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE,  /*!< the current database file will be closed */
     DATA_CHANGE_EVENT_TYPE_DB_CLOSED,  /*!< the current database file is closed */
+    DATA_CHANGE_EVENT_TYPE_REVISION_CHANGED,  /*!< the revision of the database contents is updated, e.g. at undo/redo */
 };
 
 typedef enum data_change_event_type_enum data_change_event_type_t;

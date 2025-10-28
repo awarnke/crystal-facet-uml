@@ -1094,6 +1094,20 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
             U8_TRACE_INFO("icon of save button set to SAVED(/)");
         }
     }
+    else if ( DATA_CHANGE_EVENT_TYPE_REVISION_CHANGED == data_change_message_get_event( msg ) )
+    {
+        /* undo or redo caused a rewriting of the database revision */
+        const bool is_saved = io_data_file_is_in_sync( (*this_).data_file );
+        GdkPaintable *const save_icon
+            = is_saved
+            ? GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) )
+            : GDK_PAINTABLE( gui_resources_get_file_save( (*this_).resources ) );
+        if ( shown_icon != save_icon )
+        {
+            gtk_image_set_from_paintable( save_image, save_icon );
+            U8_TRACE_INFO("icon of save button set to NOT-SAVED(*)");
+        }
+    }
     else if ( DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE != data_change_message_get_event( msg ) )
     {
         GdkPaintable *const save_icon = GDK_PAINTABLE( gui_resources_get_file_save( (*this_).resources ) );

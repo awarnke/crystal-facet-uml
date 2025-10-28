@@ -67,6 +67,17 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
  */
 void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id );
 
+/*!
+ *  \brief sets the revision_id
+ *
+ *  setting a revision id is useful in case a known, previous state of the database is restored,
+ *  e.g. by undo/redo actions
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param revision identifier that allows to check if the database contents has the expected revision
+ */
+void data_database_writer_set_revision ( data_database_writer_t *this_, data_revision_t revision );
+
 /* ================================ DIAGRAM ================================ */
 
 /*!

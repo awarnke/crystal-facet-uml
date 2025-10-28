@@ -278,7 +278,7 @@ static inline data_revision_t data_database_get_revision ( data_database_t *this
  *  \brief sets the revision_id
  *
  *  setting a revision id is useful in case a known, previous state of the database is restored,
- *  e.g. by reloading or by undo/redo actions
+ *  e.g. by undo/redo actions
  *
  *  \param this_ pointer to own object attributes
  *  \param revision identifier that allows to check if the database contents has the expected revision

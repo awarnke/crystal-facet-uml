@@ -6,22 +6,8 @@
 static inline void ctrl_undo_redo_entry_init_empty ( ctrl_undo_redo_entry_t *this_ )
 {
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY;
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
-}
-
-static inline void ctrl_undo_redo_entry_init ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type )
-{
-    (*this_).action_type = action_type;
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
-}
-
-static inline void ctrl_undo_redo_entry_reinit ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type )
-{
-    (*this_).action_type = action_type;
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
+    (*this_).data_before_action.boundary_revision = DATA_REVISION_VOID;
+    (*this_).data_after_action.boundary_revision = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_destroy ( ctrl_undo_redo_entry_t *this_ )
@@ -30,11 +16,16 @@ static inline void ctrl_undo_redo_entry_destroy ( ctrl_undo_redo_entry_t *this_ 
 
 /* ================================ BOUNDARY ================================ */
 
-static inline void ctrl_undo_redo_entry_init_boundary ( ctrl_undo_redo_entry_t *this_ )
+static inline void ctrl_undo_redo_entry_init_boundary ( ctrl_undo_redo_entry_t *this_, data_revision_t boundary_revision )
 {
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY;
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
+    (*this_).data_before_action.boundary_revision = DATA_REVISION_VOID;  /* unused */
+    (*this_).data_after_action.boundary_revision = boundary_revision;
+}
+
+static inline data_revision_t ctrl_undo_redo_entry_get_boundary_revision ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return (*this_).data_after_action.boundary_revision;
 }
 
 /* ================================ DIAGRAM ================================ */
@@ -45,8 +36,6 @@ static inline void ctrl_undo_redo_entry_init_create_diagram ( ctrl_undo_redo_ent
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM;
     data_diagram_init_empty( &((*this_).data_before_action.diagram) );
     data_diagram_replace( &((*this_).data_after_action.diagram), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_update_diagram ( ctrl_undo_redo_entry_t *this_,
@@ -56,8 +45,6 @@ static inline void ctrl_undo_redo_entry_init_update_diagram ( ctrl_undo_redo_ent
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM;
     data_diagram_replace( &((*this_).data_before_action.diagram), data_before );
     data_diagram_replace( &((*this_).data_after_action.diagram), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_delete_diagram ( ctrl_undo_redo_entry_t *this_,
@@ -66,8 +53,6 @@ static inline void ctrl_undo_redo_entry_init_delete_diagram ( ctrl_undo_redo_ent
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM;
     data_diagram_replace( &((*this_).data_before_action.diagram), data_before );
     data_diagram_init_empty( &((*this_).data_after_action.diagram) );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline const data_diagram_t *ctrl_undo_redo_entry_get_diagram_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
@@ -88,8 +73,6 @@ static inline void ctrl_undo_redo_entry_init_create_diagramelement ( ctrl_undo_r
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT;
     data_diagramelement_init_empty( &((*this_).data_before_action.diagramelement) );
     data_diagramelement_replace( &((*this_).data_after_action.diagramelement), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_update_diagramelement ( ctrl_undo_redo_entry_t *this_,
@@ -99,8 +82,6 @@ static inline void ctrl_undo_redo_entry_init_update_diagramelement ( ctrl_undo_r
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT;
     data_diagramelement_replace( &((*this_).data_before_action.diagramelement), data_before );
     data_diagramelement_replace( &((*this_).data_after_action.diagramelement), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_delete_diagramelement ( ctrl_undo_redo_entry_t *this_,
@@ -109,8 +90,6 @@ static inline void ctrl_undo_redo_entry_init_delete_diagramelement ( ctrl_undo_r
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT;
     data_diagramelement_replace( &((*this_).data_before_action.diagramelement), data_before );
     data_diagramelement_init_empty( &((*this_).data_after_action.diagramelement) );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline const data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
@@ -131,8 +110,6 @@ static inline void ctrl_undo_redo_entry_init_create_classifier ( ctrl_undo_redo_
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER;
     data_classifier_init_empty( &((*this_).data_before_action.classifier) );
     data_classifier_replace( &((*this_).data_after_action.classifier), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_update_classifier ( ctrl_undo_redo_entry_t *this_ ,
@@ -142,8 +119,6 @@ static inline void ctrl_undo_redo_entry_init_update_classifier ( ctrl_undo_redo_
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER;
     data_classifier_replace( &((*this_).data_before_action.classifier), data_before );
     data_classifier_replace( &((*this_).data_after_action.classifier), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_delete_classifier ( ctrl_undo_redo_entry_t *this_ ,
@@ -152,8 +127,6 @@ static inline void ctrl_undo_redo_entry_init_delete_classifier ( ctrl_undo_redo_
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER;
     data_classifier_replace( &((*this_).data_before_action.classifier), data_before );
     data_classifier_init_empty( &((*this_).data_after_action.classifier) );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline data_classifier_t *ctrl_undo_redo_entry_get_classifier_before_action_ptr ( ctrl_undo_redo_entry_t *this_ )
@@ -184,8 +157,6 @@ static inline void ctrl_undo_redo_entry_init_create_feature ( ctrl_undo_redo_ent
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE;
     data_feature_init_empty( &((*this_).data_before_action.feature) );
     data_feature_replace( &((*this_).data_after_action.feature), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_update_feature ( ctrl_undo_redo_entry_t *this_,
@@ -195,8 +166,6 @@ static inline void ctrl_undo_redo_entry_init_update_feature ( ctrl_undo_redo_ent
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE;
     data_feature_replace( &((*this_).data_before_action.feature), data_before );
     data_feature_replace( &((*this_).data_after_action.feature), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_delete_feature ( ctrl_undo_redo_entry_t *this_,
@@ -205,8 +174,6 @@ static inline void ctrl_undo_redo_entry_init_delete_feature ( ctrl_undo_redo_ent
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE;
     data_feature_replace( &((*this_).data_before_action.feature), data_before );
     data_feature_init_empty( &((*this_).data_after_action.feature) );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
@@ -227,8 +194,6 @@ static inline void ctrl_undo_redo_entry_init_create_relationship ( ctrl_undo_red
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP;
     data_relationship_init_empty( &((*this_).data_before_action.relationship) );
     data_relationship_replace( &((*this_).data_after_action.relationship), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_update_relationship ( ctrl_undo_redo_entry_t *this_,
@@ -238,8 +203,6 @@ static inline void ctrl_undo_redo_entry_init_update_relationship ( ctrl_undo_red
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP;
     data_relationship_replace( &((*this_).data_before_action.relationship), data_before );
     data_relationship_replace( &((*this_).data_after_action.relationship), data_after );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline void ctrl_undo_redo_entry_init_delete_relationship ( ctrl_undo_redo_entry_t *this_,
@@ -248,8 +211,6 @@ static inline void ctrl_undo_redo_entry_init_delete_relationship ( ctrl_undo_red
     (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP;
     data_relationship_replace( &((*this_).data_before_action.relationship), data_before );
     data_relationship_init_empty( &((*this_).data_after_action.relationship) );
-    (*this_).revision_before_action = DATA_REVISION_VOID;
-    (*this_).revision_after_action = DATA_REVISION_VOID;
 }
 
 static inline const data_relationship_t *ctrl_undo_redo_entry_get_relationship_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
@@ -267,28 +228,6 @@ static inline const data_relationship_t *ctrl_undo_redo_entry_get_relationship_b
 static inline ctrl_undo_redo_entry_type_t ctrl_undo_redo_entry_get_action_type ( const ctrl_undo_redo_entry_t *this_ )
 {
     return (*this_).action_type;
-}
-
-/* ================================ REVISIONS ================================ */
-
-static inline void ctrl_undo_redo_entry_set_revision_before_action ( ctrl_undo_redo_entry_t *this_, data_revision_t revision )
-{
-    (*this_).revision_before_action = revision;
-}
-
-static inline data_revision_t ctrl_undo_redo_entry_get_revision_before_action ( const ctrl_undo_redo_entry_t *this_ )
-{
-    return (*this_).revision_before_action;
-}
-
-static inline void ctrl_undo_redo_entry_set_revision_after_action ( ctrl_undo_redo_entry_t *this_, data_revision_t revision )
-{
-    (*this_).revision_after_action = revision;
-}
-
-static inline data_revision_t ctrl_undo_redo_entry_get_revision_after_action ( const ctrl_undo_redo_entry_t *this_ )
-{
-    return (*this_).revision_after_action;
 }
 
 /* ================================ STATISTICS ================================ */

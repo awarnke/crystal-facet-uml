@@ -65,6 +65,23 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
     U8_TRACE_END();
 }
 
+void data_database_writer_set_revision ( data_database_writer_t *this_, data_revision_t revision )
+{
+    U8_TRACE_BEGIN();
+
+    U8_LOG_EVENT_INT( "revision:", revision );
+    data_database_set_revision( (*this_).database, revision );
+
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_REVISION_CHANGED,
+                                                     DATA_TABLE_VOID,
+                                                     DATA_ROW_VOID
+                                                   );
+
+    U8_TRACE_END();
+}
+
 /* ================================ DIAGRAM ================================ */
 
 u8_error_t data_database_writer_create_diagram ( data_database_writer_t *this_,

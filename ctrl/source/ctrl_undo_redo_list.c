@@ -95,6 +95,8 @@ u8_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( cur_entry ) )
             {
                 U8_TRACE_INFO("boundary");
+                const data_revision_t revision = ctrl_undo_redo_entry_get_boundary_revision( cur_entry );
+                data_database_writer_set_revision( (*this_).db_writer, revision );
                 finished = true;
             }
             else
@@ -134,7 +136,6 @@ u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t 
     else
     {
         bool finished = false;
-        ;
         for ( uint32_t pos = 0; (pos < CTRL_UNDO_REDO_LIST_MAX_SIZE) && (! finished); pos ++ )
         {
             /* move the current pointer forward in the list */
@@ -148,6 +149,8 @@ u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( cur_entry ) )
             {
                 U8_TRACE_INFO("boundary");
+                const data_revision_t revision = ctrl_undo_redo_entry_get_boundary_revision( cur_entry );
+                data_database_writer_set_revision( (*this_).db_writer, revision );
                 finished = true;
             }
             else if ( (*this_).current == (*this_).length )

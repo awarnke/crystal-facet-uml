@@ -83,6 +83,14 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
  */
 static inline bool data_database_reader_is_open( data_database_reader_t *this_ );
 
+/*!
+ *  \brief gets the revision_id of the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return an identifier that allows to check if the database contents has changed
+ */
+static inline data_revision_t data_database_reader_get_revision ( data_database_reader_t *this_ );
+
 /* ================================ DIAGRAM ================================ */
 
 /*!
