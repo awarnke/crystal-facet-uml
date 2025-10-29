@@ -175,6 +175,10 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
         }
+
+        /* get the sync revision now, the modification of head (below) will increase it */
+        (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
+        U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
     }
 
     /* Reading the DATA_HEAD_KEY_DATA_FILE_NAME from the just opened (*this_).db_file_name */
@@ -197,10 +201,11 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             const char *const requested_file_name = utf8stringview_get_start( &req_file_name );  /* This view is null terminated */
             data_head_init_new( &head, DATA_HEAD_KEY_DATA_FILE_NAME, requested_file_name );
             err |= data_database_head_create_value( &head_table, &head, NULL );
+
+            /* reset the database revision so that is_sync returns right value */
+            data_database_set_revision( &((*this_).database), (*this_).sync_revision );
         }
         data_database_head_destroy( &head_table );
-
-        (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
     }
 
     U8_TRACE_END_ERR( err );
@@ -213,7 +218,7 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
 
     u8_error_t result = U8_ERROR_NONE;
 
-    if ( (*this_).auto_writeback_to_json )
+    if ( (*this_).auto_writeback_to_json && ( ! io_data_file_is_in_sync( this_ ) ) )
     {
         U8_TRACE_INFO( "CASE: auto_writeback_to_json == true" );
         result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ) );
@@ -240,7 +245,7 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
 
     u8_error_t result = data_database_flush_caches( &((*this_).database) );
 
-    if ( (*this_).auto_writeback_to_json )
+    if ( (*this_).auto_writeback_to_json )  /* ignore if in_sync - if explicitly requested, simply do sync (again) */
     {
         result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ) );
     }
@@ -374,6 +379,7 @@ u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_
         data_database_reader_destroy( &db_reader );
 
         (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
+        U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
     }
     else
     {

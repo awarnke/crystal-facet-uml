@@ -18,7 +18,6 @@ ideas for future versions:
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] auto-save when losing focus; Check gui_main_window_activated callback
 ! [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
-  [ ] do not auto-save when there are no changes
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
