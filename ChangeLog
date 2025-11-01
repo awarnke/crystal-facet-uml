@@ -5,6 +5,7 @@ crystal-facet-uml (1.66.2) UNRELEASED; urgency=medium
   * Snap-to-grid feature does not snap to border anymore, only inner grid
   * No auto-save at close when there are no changes
   * Detection and warning in case of concurrently modified database file
+  * Restore old icon size for Ubuntu 24.10 and OpenSuse Tumbleweed 2025
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 19 Oct 2025 11:01:00 +0200
 

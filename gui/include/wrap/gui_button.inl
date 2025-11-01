@@ -6,7 +6,7 @@ static inline void gui_button_init( gui_button_t *this_,
                                     const char *tooltip_text )
 {
     (*this_).icon = GTK_IMAGE( gtk_image_new_from_paintable( icon_source ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).icon), 32 /*=w*/ , 32 /*=h*/ );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).icon), 32 /*=max(w,h)*/ );
 
     /*
     utf8stream_writemem_t css_out;
@@ -47,7 +47,7 @@ static inline void gui_button_init_toggle( gui_button_t *this_,
                                            const char *tooltip_text )
 {
     (*this_).icon = GTK_IMAGE( gtk_image_new_from_paintable( icon_source ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).icon), 32 /*=w*/ , 32 /*=h*/ );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).icon), 32 /*=max(w,h)*/ );
 
     char css_buf[48] = "";
     utf8stringbuf_t css = UTF8STRINGBUF( css_buf );
