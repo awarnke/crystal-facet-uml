@@ -28,6 +28,8 @@ static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_EXPORT
 const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT = &GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT_DATA;
 static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN_DATA = { .name=NULL };
 const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN = &GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN_DATA;
+static const gui_simple_message_content_name_t GUI_SIMPLE_MESSAGE_CONTENT_JSON_MODIFIED_DATA = { .name=NULL };
+const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_JSON_MODIFIED = &GUI_SIMPLE_MESSAGE_CONTENT_JSON_MODIFIED_DATA;
 
 static const gui_simple_message_content_error_t GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED_DATA = { .error_message=NULL };
 const gui_simple_message_content_error_t *GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED = &GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED_DATA;

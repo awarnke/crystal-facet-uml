@@ -16,8 +16,7 @@ ideas for future versions:
       (this is still the case in 1.61.2)
   [ ] a "saveAs" command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
-  [ ] auto-save when losing focus; Check gui_main_window_activated callback
-! [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
+  [ ] auto-save when losing focus; auto-reload when gaining focus
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline

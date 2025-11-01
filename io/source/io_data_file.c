@@ -271,7 +271,7 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
 
     u8_error_t result = data_database_flush_caches( &((*this_).database) );
 
-    if ( (*this_).auto_writeback_to_json )  /* ignore if in_sync - if explicitly requested, simply do sync (again) */
+    if ( (*this_).auto_writeback_to_json )  /* ignore if already in_sync - if explicitly requested, simply do sync (again) */
     {
         result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ) );
     }
@@ -306,6 +306,43 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
     data_database_set_revision( &((*this_).database), (*this_).sync_revision );
 
     U8_TRACE_END_ERR( result );
+    return result;
+}
+
+bool io_data_file_is_externally_modified ( io_data_file_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    bool result = false;
+
+    data_database_head_t head_table;
+    data_database_head_init( &head_table, &((*this_).database) );
+    {
+        uint64_t mod_time;
+        const char *const json_file_path = utf8stringbuf_get_string( &((*this_).data_file_name) );
+        u8_error_t mtime_err = u8dir_file_get_modification_time( json_file_path, &mod_time );
+        if ( mtime_err == U8_ERROR_NONE )
+        {
+            u8_u64_hex_t hex_time;
+            u8_u64_get_hex( mod_time, &hex_time );
+
+            data_head_t head_val;
+            const u8_error_t db_err
+                = data_database_head_read_value_by_key( &head_table,
+                                                        DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME,
+                                                        &head_val
+                                                      );
+            if ( db_err == U8_ERROR_NONE )
+            {
+                if ( ! utf8string_equals_str( &(hex_time[0]), data_head_get_value_const( &head_val ) ) )
+                {
+                    result = true;
+                }
+            }
+        }
+    }
+    data_database_head_destroy( &head_table );
+
+    U8_TRACE_END();
     return result;
 }
 

@@ -76,6 +76,7 @@ extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_NAME_
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT;  /*!< pls wait while loading */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT;  /*!< pls wait while exporting */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN;  /*!< db was saved successfully */
+extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_JSON_MODIFIED;  /*!< the json data was concurrently modified by external entity */
 
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names method.
  *

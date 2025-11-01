@@ -162,6 +162,17 @@ static inline data_revision_t io_data_file_get_sync_revision ( io_data_file_t *t
 static inline bool io_data_file_is_in_sync ( io_data_file_t *this_ );
 
 /*!
+ *  \brief checks it the json database file was modified concurrently
+ *
+ *  This may be likely if somebody synchronized the revision control system (e.g. git)
+ *  while crystal-facet-uml had this file open.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if an external entitiy modified the json file in parallel
+ */
+bool io_data_file_is_externally_modified ( io_data_file_t *this_ );
+
+/*!
  *  \brief prints statistics of the current data file to the trace output
  *
  *  \param this_ pointer to own object attributes

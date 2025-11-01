@@ -1159,6 +1159,18 @@ void gui_main_window_state_callback( GtkWidget* window, GtkStateFlags old_flags,
             U8_TRACE_INFO("icon of save button updated");
         }
         // U8_TRACE_FLUSH();
+
+        /* check if json file on disk was modified in the meantime */
+        const bool json_was_modified = io_data_file_is_externally_modified( (*this_).data_file );
+        if ( json_was_modified )
+        {
+            gui_simple_message_to_user_show_message_with_name( &((*this_).message_to_user),
+                                                               GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_JSON_MODIFIED,
+                                                               io_data_file_get_filename_const( (*this_).data_file )
+                                                             );
+        }
+
     }
 
     U8_TRACE_TIMESTAMP();

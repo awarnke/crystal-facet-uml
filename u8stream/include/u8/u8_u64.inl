@@ -4,6 +4,7 @@
 
 static inline void u8_u64_get_hex ( const uint64_t value, u8_u64_hex_t *out_hex )
 {
+    assert( out_hex != NULL );
     /* Note: snprintf is not available on every OS */
     sprintf( &((*out_hex)[0]), "%" PRIx64, value );
 }
