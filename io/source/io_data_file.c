@@ -208,9 +208,25 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
         }
 
-        /* get the sync revision now, the modification of head (below) will increase it */
-        (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
-        U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
+        /* get the sync revision */
+        if ( file_not_readable != U8_ERROR_NONE )
+        {
+            /* new file or access problem */
+            (*this_).sync_revision = DATA_REVISION_VOID;
+        }
+        else
+        {
+            if (( temp_requested )||( ! is_json ))
+            {
+                /* temp file is not in sync by definition */
+                (*this_).sync_revision = DATA_REVISION_VOID;
+            }
+            else
+            {
+                (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
+                U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
+            }
+        }
     }
 
     /* Reading the DATA_HEAD_KEY_DATA_FILE_NAME from the just opened (*this_).db_file_name */
