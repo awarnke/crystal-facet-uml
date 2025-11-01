@@ -108,7 +108,21 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_,
                                            );
 
 /*!
- *  \brief updates the head attribute: value
+ *  \brief deletes a head value by a given key and returns its old data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param key key of the head record to be deleted.
+ *  \param[out] out_old_head storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *
+ *  \return U8_ERROR_NONE in case of success, error id otherwise.
+ */
+static inline u8_error_t data_database_head_delete_value_by_key ( data_database_head_t *this_,
+                                                                  const char *key,
+                                                                  data_head_t *out_old_head
+                                                                );
+
+/*!
+ *  \brief updates the head attribute value
  *
  *  \param this_ pointer to own object attributes
  *  \param head_id id of the head record to be updated
@@ -121,6 +135,23 @@ u8_error_t data_database_head_update_value ( data_database_head_t *this_,
                                              const char* new_head_value,
                                              data_head_t *out_old_head
                                            );
+
+/*!
+ *  \brief updates the head attribute value by a given key
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param key key of the head record to be updated.
+ *  \param new_head_value new head value
+ *  \param[out] out_old_head storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+static inline u8_error_t data_database_head_update_value_by_key ( data_database_head_t *this_,
+                                                                  const char *key,
+                                                                  const char* new_head_value,
+                                                                  data_head_t *out_old_head
+                                                                );
+
+#include "data_database_head.inl"
 
 #endif  /* DATA_DATABASE_HEAD_H */
 

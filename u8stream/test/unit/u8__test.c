@@ -5,6 +5,7 @@
 #include "u8/u8_error_info.h"
 #include "u8/u8_f64.h"
 #include "u8/u8_i32.h"
+#include "u8/u8_u64.h"
 #include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
@@ -17,6 +18,7 @@ static test_case_result_t test_error( test_fixture_t *fix );
 static test_case_result_t test_error_info( test_fixture_t *fix );
 static test_case_result_t test_f64( test_fixture_t *fix );
 static test_case_result_t test_i32( test_fixture_t *fix );
+static test_case_result_t test_u64( test_fixture_t *fix );
 
 test_suite_t u8__test_get_suite(void)
 {
@@ -31,6 +33,7 @@ test_suite_t u8__test_get_suite(void)
     test_suite_add_test_case( &result, "test_error_info", &test_error_info );
     test_suite_add_test_case( &result, "test_f64", &test_f64 );
     test_suite_add_test_case( &result, "test_i32", &test_i32 );
+    test_suite_add_test_case( &result, "test_u64", &test_u64 );
     return result;
 }
 
@@ -196,6 +199,19 @@ static test_case_result_t test_i32( test_fixture_t *fix )
 
     result = u8_i32_min3( -1, 1, 10 + prevent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( -1, result );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_u64( test_fixture_t *fix )
+{
+    u8_u64_dec_t dec;
+    u8_u64_get_dec( 0xffffffffffffffff, &dec );
+    TEST_EXPECT_EQUAL_STRING( "18446744073709551615", dec );
+
+    u8_u64_hex_t hex;
+    u8_u64_get_hex( 0xffffffffffffffff, &hex );
+    TEST_EXPECT_EQUAL_STRING( "ffffffffffffffff", hex );
 
     return TEST_CASE_RESULT_OK;
 }

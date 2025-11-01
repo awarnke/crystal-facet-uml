@@ -14,6 +14,7 @@
 #include "u8stream/universal_output_stream.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
+#include "u8/u8_u64.h"
 #include <assert.h>
 
 static const char *IO_DATA_FILE_TEMP_EXT = ".tmp-cfu";
@@ -139,7 +140,38 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             }
             else
             {
+                /* import */
                 err |= io_data_file_private_import( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ), out_err_info );
+
+                /* update head data */
+                data_database_head_t head_table;
+                data_database_head_init( &head_table, &((*this_).database) );
+                {
+                    /* DATA_HEAD_KEY_DATA_FILE_NAME */
+                    data_head_t head1;
+                    const char *const requested_file_name = utf8stringview_get_start( &req_file_name );  /* This view is null terminated */
+                    data_head_init_new( &head1, DATA_HEAD_KEY_DATA_FILE_NAME, requested_file_name );
+                    err |= data_database_head_create_value( &head_table, &head1, NULL );
+                    data_head_destroy( &head1 );
+                    U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_NAME", requested_file_name );
+
+                    /* DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME */
+                    uint64_t mod_time;
+                    u8_error_t mtime_err = u8dir_file_get_modification_time( requested_file_path, &mod_time );
+                    if ( mtime_err == U8_ERROR_NONE )
+                    {
+                        u8_u64_hex_t hex_time;
+                        u8_u64_get_hex( mod_time, &hex_time );
+                        data_head_t head2;
+                        data_head_init_new( &head2, DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME, &(hex_time[0]) );
+                        err |= data_database_head_create_value( &head_table, &head2, NULL );
+                        data_head_destroy( &head2 );
+                        U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
+                    }
+                }
+                data_database_head_destroy( &head_table );
+
+                /* finish import */
                 err |= data_database_close( &((*this_).database) );
 
                 if ( err != U8_ERROR_NONE )
@@ -182,29 +214,23 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
     }
 
     /* Reading the DATA_HEAD_KEY_DATA_FILE_NAME from the just opened (*this_).db_file_name */
-    /* If found, update (*this_).data_file_name; otherwise if there is a json-writeback file, store the name */
+    /* If found, update (*this_).data_file_name */
     if ( err == U8_ERROR_NONE )
     {
         data_database_head_t head_table;
         data_database_head_init( &head_table, &((*this_).database) );
+
         data_head_t head;
         u8_error_t key_err = data_database_head_read_value_by_key( &head_table, DATA_HEAD_KEY_DATA_FILE_NAME, &head );
         if ( key_err == U8_ERROR_NONE )
         {
+            /* case: recovery after abnormal program termination */
             U8_TRACE_INFO_STR( "DATA_FILE_NAME:", data_head_get_value_const( &head ) );
             /* set the data_file_name to the read head value */
             err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
             err |= utf8stringbuf_append_str( &((*this_).data_file_name), data_head_get_value_const( &head ) );
         }
-        else if ( (*this_).auto_writeback_to_json )
-        {
-            const char *const requested_file_name = utf8stringview_get_start( &req_file_name );  /* This view is null terminated */
-            data_head_init_new( &head, DATA_HEAD_KEY_DATA_FILE_NAME, requested_file_name );
-            err |= data_database_head_create_value( &head_table, &head, NULL );
 
-            /* reset the database revision so that is_sync returns right value */
-            data_database_set_revision( &((*this_).database), (*this_).sync_revision );
-        }
         data_database_head_destroy( &head_table );
     }
 
@@ -249,6 +275,35 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
     {
         result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ) );
     }
+
+    /* get sync revision */
+    (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
+    U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
+
+    /* update head data */
+    data_database_head_t head_table;
+    data_database_head_init( &head_table, &((*this_).database) );
+    {
+        /* DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME */
+        uint64_t mod_time;
+        const char *const json_file_path = utf8stringbuf_get_string( &((*this_).data_file_name) );
+        u8_error_t mtime_err = u8dir_file_get_modification_time( json_file_path, &mod_time );
+        if ( mtime_err == U8_ERROR_NONE )
+        {
+            u8_u64_hex_t hex_time;
+            u8_u64_get_hex( mod_time, &hex_time );
+            result |= data_database_head_update_value_by_key( &head_table,
+                                                              DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME,
+                                                              &(hex_time[0]),
+                                                              NULL
+                                                            );
+            U8_TRACE_INFO_STR( "io_data_file_sync_to_disk/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
+        }
+    }
+    data_database_head_destroy( &head_table );
+
+    /* restore sync revision so that undo_redo history and this_ refer to the same revision */
+    data_database_set_revision( &((*this_).database), (*this_).sync_revision );
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -377,9 +432,6 @@ u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_
         }
         io_exporter_destroy( &exporter );
         data_database_reader_destroy( &db_reader );
-
-        (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
-        U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
     }
     else
     {

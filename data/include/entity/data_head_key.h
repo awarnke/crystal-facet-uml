@@ -10,8 +10,16 @@
  */
 
 /* extern const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT; */
+
+/*!
+ *  \brief stores the filename (but not the file path) to the json data file that is currently open
+ */
 extern const char *const DATA_HEAD_KEY_DATA_FILE_NAME;
-extern const char *const DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_CHECKSUM;
+
+/*!
+ *  \brief stored the modification time (as hex) when the currently open database was last synched to json (ex- or import)
+ */
+extern const char *const DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME;
 
 #endif  /* DATA_HEAD_KEY_H */
 

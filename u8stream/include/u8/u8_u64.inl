@@ -1,14 +1,23 @@
-/* File: data_head_key.c; Copyright and License: see below */
+/* File: u8_u64.inl; Copyright and License: see below */
 
-#include "entity/data_head_key.h"
+#include <assert.h>
 
-/* const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT = "DATA_FILE_FORMAT"; */
-const char *const DATA_HEAD_KEY_DATA_FILE_NAME = "DATA_FILE_NAME";
-const char *const DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME = "DATA_FILE_LAST_SYNC_MOD_TIME";
+static inline void u8_u64_get_hex ( const uint64_t value, u8_u64_hex_t *out_hex )
+{
+    /* Note: snprintf is not available on every OS */
+    sprintf( &((*out_hex)[0]), "%" PRIx64, value );
+}
+
+static inline void u8_u64_get_dec ( const uint64_t value, u8_u64_dec_t *out_dec )
+{
+    assert( out_dec != NULL );
+    /* Note: snprintf is not available on every OS */
+    sprintf( &((*out_dec)[0]), "%" PRIu64, value );
+}
 
 
 /*
-Copyright 2023-2025 Andreas Warnke
+Copyright 2025-2025 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
