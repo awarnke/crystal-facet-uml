@@ -199,45 +199,51 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 /* import */
                 err |= io_data_file_private_import( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ), out_err_info );
 
-                /* update head data */
-                data_database_head_t head_table;
-                data_database_head_init( &head_table, &((*this_).database) );
-                {
-                    /* DATA_HEAD_KEY_DATA_FILE_NAME */
-                    data_head_t head1;
-                    const char *const requested_file_name = utf8stringview_get_start( &req_file_name );  /* This view is null terminated */
-                    data_head_init_new( &head1, DATA_HEAD_KEY_DATA_FILE_NAME, requested_file_name );
-                    err |= data_database_head_create_value( &head_table, &head1, NULL );
-                    data_head_destroy( &head1 );
-                    U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_NAME", requested_file_name );
-
-                    /* DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME */
-                    uint64_t mod_time;
-                    u8_error_t mtime_err = u8dir_file_get_modification_time( requested_file_path, &mod_time );
-                    if ( mtime_err == U8_ERROR_NONE )
-                    {
-                        u8_u64_hex_t hex_time;
-                        u8_u64_get_hex( mod_time, &hex_time );
-                        data_head_t head2;
-                        data_head_init_new( &head2, DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME, &(hex_time[0]) );
-                        err |= data_database_head_create_value( &head_table, &head2, NULL );
-                        data_head_destroy( &head2 );
-                        U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
-                    }
-                }
-                data_database_head_destroy( &head_table );
-
                 if ( err != U8_ERROR_NONE )
                 {
+                    err |= data_database_close( &((*this_).database) );
+
                     U8_LOG_ERROR("An error occurred at reading a json data file")
                     u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible additional errors */
                     U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;
-                    (*this_).delete_db_when_finished = false;  /* keep .tmp-cfu files even if import was not successful */
+                    (*this_).delete_db_when_finished = false;  /* .tmp-cfu file was just deleted */
+                    /* file is not in sync with closed db */
+                    (*this_).sync_revision = DATA_REVISION_VOID;
                 }
+                else
+                {
+                    /* update head data */
+                    data_database_head_t head_table;
+                    data_database_head_init( &head_table, &((*this_).database) );
+                    {
+                        /* DATA_HEAD_KEY_DATA_FILE_NAME */
+                        data_head_t head1;
+                        const char *const requested_file_name = utf8stringview_get_start( &req_file_name );  /* This view is null terminated */
+                        data_head_init_new( &head1, DATA_HEAD_KEY_DATA_FILE_NAME, requested_file_name );
+                        err |= data_database_head_create_value( &head_table, &head1, NULL );
+                        data_head_destroy( &head1 );
+                        U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_NAME", requested_file_name );
 
-                (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
-                U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
+                        /* DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME */
+                        uint64_t mod_time;
+                        u8_error_t mtime_err = u8dir_file_get_modification_time( requested_file_path, &mod_time );
+                        if ( mtime_err == U8_ERROR_NONE )
+                        {
+                            u8_u64_hex_t hex_time;
+                            u8_u64_get_hex( mod_time, &hex_time );
+                            data_head_t head2;
+                            data_head_init_new( &head2, DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME, &(hex_time[0]) );
+                            err |= data_database_head_create_value( &head_table, &head2, NULL );
+                            data_head_destroy( &head2 );
+                            U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
+                        }
+                    }
+                    data_database_head_destroy( &head_table );
+
+                    (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
+                    U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
+                }
             }
         }
         else
