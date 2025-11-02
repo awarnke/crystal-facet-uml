@@ -112,12 +112,14 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param key key of the head record to be deleted.
+ *  \param ignore_not_found supresses an error if the key was not found.
  *  \param[out] out_old_head storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *
  *  \return U8_ERROR_NONE in case of success, error id otherwise.
  */
 static inline u8_error_t data_database_head_delete_value_by_key ( data_database_head_t *this_,
                                                                   const char *key,
+                                                                  bool ignore_not_found,
                                                                   data_head_t *out_old_head
                                                                 );
 
@@ -142,12 +144,14 @@ u8_error_t data_database_head_update_value ( data_database_head_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param key key of the head record to be updated.
  *  \param new_head_value new head value
+ *  \param create_if_not_found create the key if not existing
  *  \param[out] out_old_head storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 static inline u8_error_t data_database_head_update_value_by_key ( data_database_head_t *this_,
                                                                   const char *key,
                                                                   const char* new_head_value,
+                                                                  bool create_if_not_found,
                                                                   data_head_t *out_old_head
                                                                 );
 

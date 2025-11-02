@@ -1,4 +1,4 @@
-crystal-facet-uml (1.66.2) UNRELEASED; urgency=medium
+crystal-facet-uml (1.67.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Docbook output restructured to allow more compact page rendering
@@ -6,8 +6,12 @@ crystal-facet-uml (1.66.2) UNRELEASED; urgency=medium
   * No auto-save at close when there are no changes
   * Detection and warning in case of concurrently modified database file
   * Restore old icon size for Ubuntu 24.10 and OpenSuse Tumbleweed 2025
+  * Old sqlite3-based file format is automatically converted to json-based cfuJ
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 19 Oct 2025 11:01:00 +0200
+  WARNING! SAVING A NEW DB always returns an error - even if successfully saved
+
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 02 Nov 2025 11:01:00 +0100
 
 crystal-facet-uml (1.66.1) UNRELEASED; urgency=medium
 

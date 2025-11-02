@@ -78,57 +78,110 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
     {
         if (( temp_requested )||( ! is_json ))
         {
+            U8_LOG_EVENT( "creating a new database based on a given tmp-cfu filename..." );
             U8_TRACE_INFO( "CASE: use temp db file that does not exist, is not accessible or has wrong format" );
-            U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
             /* This is a strange request, but we can create such an sqlite file. */
             /* To be consistent with the case of opening an existing temporary file, also this is exported to json later */
-            (*this_).auto_writeback_to_json = ( ! read_only );
-            (*this_).delete_db_when_finished = ( ! read_only );
+            (*this_).auto_writeback_to_json = true;
+            (*this_).delete_db_when_finished = true;
 
             err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
             err |= utf8stringbuf_append_view( &((*this_).data_file_name), &req_file_basename );
             err |= utf8stringbuf_append_str( &((*this_).data_file_name), IO_DATA_FILE_JSON_EXT );
 
             err |= utf8stringbuf_copy_str( &((*this_).db_file_name), requested_file_path );
+
+            U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
+            U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            /* new file is not in sync by definition */
+            (*this_).sync_revision = DATA_REVISION_VOID;
         }
         else
         {
+            U8_LOG_EVENT( "creating a new database based on a given json filename (cfuJ)..." );
             U8_TRACE_INFO( "CASE: use json file that does not exist or is not accessible" );
-            U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
             /* A new json file shall be created */
-            (*this_).auto_writeback_to_json = ( ! read_only );
-            (*this_).delete_db_when_finished = ( ! read_only );
+            (*this_).auto_writeback_to_json = true;
+            (*this_).delete_db_when_finished = true;
             err |= utf8stringbuf_copy_str( &((*this_).data_file_name), requested_file_path );
+
             err |= utf8stringbuf_copy_view( &((*this_).db_file_name), &req_file_parent );
             err |= utf8stringbuf_append_view( &((*this_).db_file_name), &req_file_basename );
             err |= utf8stringbuf_append_str( &((*this_).db_file_name), IO_DATA_FILE_TEMP_EXT );
             u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible errors */
+
+            U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
+            U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            /* new file is not in sync by definition */
+            (*this_).sync_revision = DATA_REVISION_VOID;
         }
     }
     else
     {
         if ( temp_requested )
         {
-            U8_TRACE_INFO_STR( "CASE: use existing temp file", read_only ? "read_only" : "writeable" );
+            U8_LOG_EVENT( "opening an existing database based on a given tmp-cfu filename..." );
+            U8_TRACE_INFO( "CASE: use existing temp file" );
             /* A temporary sqlite file shall be used and later be exported to json */
-            (*this_).auto_writeback_to_json = ( ! read_only );
-            (*this_).delete_db_when_finished = ( ! read_only );
+            (*this_).auto_writeback_to_json = true;
+            (*this_).delete_db_when_finished = true;
             err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
             err |= utf8stringbuf_append_view( &((*this_).data_file_name), &req_file_basename );
             err |= utf8stringbuf_append_str( &((*this_).data_file_name), IO_DATA_FILE_JSON_EXT );
+
             err |= utf8stringbuf_copy_str( &((*this_).db_file_name), requested_file_path );
+
+            U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
+            U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            /* temp file is not in sync by definition */
+            (*this_).sync_revision = DATA_REVISION_VOID;
+
+            /* Reading the DATA_HEAD_KEY_DATA_FILE_NAME from the just opened (*this_).db_file_name */
+            /* If found, update (*this_).data_file_name */
+            if ( err == U8_ERROR_NONE )
+            {
+                data_database_head_t head_table;
+                data_database_head_init( &head_table, &((*this_).database) );
+
+                data_head_t head;
+                u8_error_t key_err = data_database_head_read_value_by_key( &head_table, DATA_HEAD_KEY_DATA_FILE_NAME, &head );
+                if ( key_err == U8_ERROR_NONE )
+                {
+                    /* case: recovery after abnormal program termination */
+                    U8_TRACE_INFO_STR( "data_file_name (updated):", data_head_get_value_const( &head ) );
+                    /* set the data_file_name to the read head value */
+                    err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
+                    err |= utf8stringbuf_append_str( &((*this_).data_file_name), data_head_get_value_const( &head ) );
+                }
+
+                data_database_head_destroy( &head_table );
+            }
         }
         else if ( is_json )
         {
-            U8_TRACE_INFO_STR( "CASE: use existing json file", read_only ? "read_only" : "writeable" );
+            U8_LOG_EVENT( "opening an existing database based on a given json filename (cfuJ)..." );
+            U8_TRACE_INFO_STR( "CASE: use existing json file ", read_only ? "read_only" : "writeable" );
             /* An existing json file shall be used */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = true;
             err |= utf8stringbuf_copy_str( &((*this_).data_file_name), requested_file_path );
+
             err |= utf8stringbuf_copy_view( &((*this_).db_file_name), &req_file_parent );
             err |= utf8stringbuf_append_view( &((*this_).db_file_name), &req_file_basename );
             err |= utf8stringbuf_append_str( &((*this_).db_file_name), IO_DATA_FILE_TEMP_EXT );
             u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible errors */
+
+            U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
+            U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
             if ( err != U8_ERROR_NONE )
@@ -136,7 +189,10 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 U8_LOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
                 U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                 (*this_).auto_writeback_to_json = false;
-                (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu files when import was not successful */
+                (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu file, it was not successfully created anyhow */
+
+                /* temp file is not in sync because import not possible */
+                (*this_).sync_revision = DATA_REVISION_VOID;
             }
             else
             {
@@ -171,83 +227,40 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 }
                 data_database_head_destroy( &head_table );
 
-                /* finish import */
-                err |= data_database_close( &((*this_).database) );
-
                 if ( err != U8_ERROR_NONE )
                 {
                     U8_LOG_ERROR("An error occurred at reading a json data file")
                     u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible additional errors */
                     U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;
-                    (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu files when import was not successful */
+                    (*this_).delete_db_when_finished = false;  /* keep .tmp-cfu files even if import was not successful */
                 }
-            }
-        }
-        else
-        {
-            U8_TRACE_INFO_STR( "CASE: use existing sqlite file", read_only ? "read_only" : "writeable" );
-            /* An sqlite file shall be used */
-            (*this_).auto_writeback_to_json = false;
-            (*this_).delete_db_when_finished = false;
-            err |= utf8stringbuf_copy_str( &((*this_).data_file_name), requested_file_path );
-            err |= utf8stringbuf_copy_str( &((*this_).db_file_name), requested_file_path );
-        }
-    }
-    U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
-    U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
-    if ( err == U8_ERROR_NONE )
-    {
-        if ( read_only )
-        {
-            err |= data_database_open_read_only( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
-        }
-        else
-        {
-            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
-        }
-
-        /* get the sync revision */
-        if ( file_not_readable != U8_ERROR_NONE )
-        {
-            /* new file or access problem */
-            (*this_).sync_revision = DATA_REVISION_VOID;
-        }
-        else
-        {
-            if (( temp_requested )||( ! is_json ))
-            {
-                /* temp file is not in sync by definition */
-                (*this_).sync_revision = DATA_REVISION_VOID;
-            }
-            else
-            {
                 (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
                 U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
             }
         }
-    }
-
-    /* Reading the DATA_HEAD_KEY_DATA_FILE_NAME from the just opened (*this_).db_file_name */
-    /* If found, update (*this_).data_file_name */
-    if ( err == U8_ERROR_NONE )
-    {
-        data_database_head_t head_table;
-        data_database_head_init( &head_table, &((*this_).database) );
-
-        data_head_t head;
-        u8_error_t key_err = data_database_head_read_value_by_key( &head_table, DATA_HEAD_KEY_DATA_FILE_NAME, &head );
-        if ( key_err == U8_ERROR_NONE )
+        else
         {
-            /* case: recovery after abnormal program termination */
-            U8_TRACE_INFO_STR( "DATA_FILE_NAME:", data_head_get_value_const( &head ) );
-            /* set the data_file_name to the read head value */
+            U8_LOG_EVENT( "opening an existing database based on an old sqlite3 filename (cfu1)..." );
+            U8_TRACE_INFO( "CASE: use existing sqlite file, auto-convert it to json" );
+            /* An old sqlite file shall be used, this is automatically converted to json */
+            (*this_).auto_writeback_to_json = true;
+            (*this_).delete_db_when_finished = true;
             err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
-            err |= utf8stringbuf_append_str( &((*this_).data_file_name), data_head_get_value_const( &head ) );
-        }
+            err |= utf8stringbuf_append_view( &((*this_).data_file_name), &req_file_basename );
+            err |= utf8stringbuf_append_str( &((*this_).data_file_name), IO_DATA_FILE_JSON_EXT );
 
-        data_database_head_destroy( &head_table );
+            err |= utf8stringbuf_copy_str( &((*this_).db_file_name), requested_file_path );
+
+            U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
+            U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+
+            /* old file is not in sync to force conversion to json */
+            (*this_).sync_revision = DATA_REVISION_VOID;
+        }
     }
 
     U8_TRACE_END_ERR( err );
@@ -311,6 +324,7 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
             result |= data_database_head_update_value_by_key( &head_table,
                                                               DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME,
                                                               &(hex_time[0]),
+                                                              true,
                                                               NULL
                                                             );
             U8_TRACE_INFO_STR( "io_data_file_sync_to_disk/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );

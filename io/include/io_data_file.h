@@ -59,7 +59,7 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *
  *  It is not allowed to open an already opened database.
  *
- *  Note that this function opens a database either writeable or in read-only mode if the file is read-only.
+ *  Note that this function opens a database either writeable or even in read-only mode if the file is read-only.
  *
  *  \param this_ pointer to own object attributes
  *  \param requested_file_path a relative or absolute file path
@@ -78,7 +78,7 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
  *
  *  Useful for exporting data.
  *
- *  Note that this function opens even a possibly writeable file in read-only mode.
+ *  Note that this function will create (and delete later) a temporary database file nonetheless
  *
  *  \param this_ pointer to own object attributes
  *  \param requested_file_path a relative or absolute file path
@@ -97,7 +97,8 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
  *
  *  It is not allowed to open an already opened database.
  *
- *  Note that this function opens a database either writeable or in read-only mode (if requested or the file is read-only)
+ *  Note that this function opens a database either writeable or in read-only mode (if requested or the file is read-only).
+ *  Note that even in read-only mode, this function will create (and delete later) a temporary database file nonetheless.
  *
  *  \param this_ pointer to own object attributes
  *  \param requested_file_path a relative or absolute file path

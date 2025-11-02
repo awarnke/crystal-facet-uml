@@ -6,6 +6,7 @@
 
 static inline u8_error_t data_database_head_delete_value_by_key ( data_database_head_t *this_,
                                                                   const char *key,
+                                                                  bool ignore_not_found,
                                                                   data_head_t *out_old_head )
 {
     u8_error_t result;
@@ -19,12 +20,24 @@ static inline u8_error_t data_database_head_delete_value_by_key ( data_database_
         }
         result |= data_database_head_delete_value( this_, data_head_get_row_id( &head ), NULL );
     }
+    else if ( result == U8_ERROR_NOT_FOUND )
+    {
+        if ( out_old_head != NULL )
+        {
+            data_head_init_new( out_old_head, key, "" );
+        }
+        if ( ignore_not_found )
+        {
+            result = U8_ERROR_NONE;
+        }
+    }
     return result;
 }
 
 static inline u8_error_t data_database_head_update_value_by_key ( data_database_head_t *this_,
                                                                   const char *key,
                                                                   const char* new_head_value,
+                                                                  bool create_if_not_found,
                                                                   data_head_t *out_old_head )
 {
     u8_error_t result;
@@ -37,6 +50,20 @@ static inline u8_error_t data_database_head_update_value_by_key ( data_database_
             data_head_replace( out_old_head, &head );
         }
         result |= data_database_head_update_value( this_, data_head_get_row_id( &head ), new_head_value, NULL );
+    }
+    else if ( result == U8_ERROR_NOT_FOUND )
+    {
+        if ( out_old_head != NULL )
+        {
+            data_head_init_new( out_old_head, key, "" );
+        }
+        if ( create_if_not_found )
+        {
+            result = U8_ERROR_NONE;
+            data_head_init_new( &head, key, "" );
+            result |= data_database_head_create_value( this_, &head, NULL );
+            data_head_destroy( &head );
+        }
     }
     return result;
 }
