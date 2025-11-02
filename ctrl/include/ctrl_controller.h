@@ -160,6 +160,13 @@ static inline u8_error_t ctrl_controller_get_redo_iterator ( const ctrl_controll
                                                              ctrl_undo_redo_iterator_t *out_redo_iterator
                                                            );
 
+/*!
+ *  \brief resets the undo redo list to empty
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void ctrl_controller_reset_undo_redo_list ( ctrl_controller_t *this_ );
+
 /* ================================ interface for database file ================================ */
 
 /*!

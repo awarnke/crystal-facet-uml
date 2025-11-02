@@ -213,6 +213,9 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 }
                 else
                 {
+                    (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
+                    U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
+
                     /* update head data */
                     data_database_head_t head_table;
                     data_database_head_init( &head_table, &((*this_).database) );
@@ -241,8 +244,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                     }
                     data_database_head_destroy( &head_table );
 
-                    (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
-                    U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
+                    /* restore revision to the one that is stored in the undo redo list */
+                    data_database_set_revision( &((*this_).database), (*this_).sync_revision );
                 }
             }
         }

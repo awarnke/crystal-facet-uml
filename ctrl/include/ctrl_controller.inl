@@ -56,6 +56,11 @@ static inline u8_error_t ctrl_controller_get_redo_iterator ( const ctrl_controll
     return ctrl_undo_redo_list_get_redo_iterator( &((*this_).undo_redo_list), out_redo_iterator );
 }
 
+static inline void ctrl_controller_reset_undo_redo_list ( ctrl_controller_t *this_ )
+{
+    ctrl_undo_redo_list_clear ( &((*this_).undo_redo_list) );
+}
+
 /* ================================ interface for database file ================================ */
 
 static inline u8_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_,

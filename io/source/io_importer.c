@@ -116,6 +116,9 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
     parse_error |= universal_file_input_stream_close( &in_file );
     parse_error |= universal_file_input_stream_destroy( &in_file );
 
+    /* after importing a file, reset the undo redo list */
+    ctrl_controller_reset_undo_redo_list( (*this_).controller );
+
     U8_TRACE_END_ERR( parse_error );
     return parse_error;
 }
