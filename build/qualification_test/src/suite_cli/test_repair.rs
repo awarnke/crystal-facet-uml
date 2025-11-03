@@ -84,7 +84,7 @@ pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(),
     test_repair_or_test(
         Repair::TestOnly,
         "sqlite3_db.cfu1",
-        "error opening database_file",
+        "Errors found: 1",
         environment,
     )
 }

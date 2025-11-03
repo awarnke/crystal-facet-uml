@@ -5,11 +5,8 @@ crystal-facet-uml (1.67.0) UNRELEASED; urgency=medium
   * Snap-to-grid feature does not snap to border anymore, only inner grid
   * No auto-save at close when there are no changes
   * Detection and warning in case of concurrently modified database file
-  * Restore old icon size for Ubuntu 24.10 and OpenSuse Tumbleweed 2025
   * Old sqlite3-based file format is automatically converted to json-based cfuJ
-
-  WARNING! SAVING A NEW DB always returns an error - even if successfully saved
-
+  * Restore X11 icon size for Wayland
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 02 Nov 2025 11:01:00 +0100
 

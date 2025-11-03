@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.66.2"
+    "generator_version": "1.67.0-rc2"
   }
   ,
   "views":
@@ -536,7 +536,7 @@
       "diagram": {
         "id": 45,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Functional Suitability Subcharacteristics",
+        "name": "Functional Suitability",
         "description": [
                 "Functional Suitability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -578,7 +578,7 @@
       "diagram": {
         "id": 4,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Usability Subcharacteristics",
+        "name": "Usability",
         "description": [
                 "Usability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -638,7 +638,7 @@
       "diagram": {
         "id": 43,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Portability Subcharacteristics",
+        "name": "Portability",
         "description": [
                 "Portability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -680,7 +680,7 @@
       "diagram": {
         "id": 49,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Reliability Subcharacteristics",
+        "name": "Reliability",
         "description": [
                 "Reliability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -733,7 +733,7 @@
                 "This diagram shows examples - not aiming for completeness."
         ],
         "list_order": -1073741824,
-        "parent_name": "Reliability Subcharacteristics",
+        "parent_name": "Reliability",
         "parent": "27597ff4-ebe3-43ea-a8ad-9a7c44ecfdfc",
         "uuid": "5ef858cf-9370-41a7-acbe-8b61aa3d2a99",
         "diagramelements":
@@ -867,7 +867,7 @@
                 ""
         ],
         "list_order": -1,
-        "parent_name": "Reliability Subcharacteristics",
+        "parent_name": "Reliability",
         "parent": "27597ff4-ebe3-43ea-a8ad-9a7c44ecfdfc",
         "uuid": "e30b7a57-1bb8-45fd-b877-24a11b72be53",
         "diagramelements":
@@ -965,7 +965,7 @@
       "diagram": {
         "id": 46,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Performance Efficiency Subcharacteristics",
+        "name": "Performance Efficiency",
         "description": [
                 "Performance Efficiency Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -1012,7 +1012,7 @@
                 ""
         ],
         "list_order": -1,
-        "parent_name": "Performance Efficiency Subcharacteristics",
+        "parent_name": "Performance Efficiency",
         "parent": "db0461ff-1999-455f-aa69-d4f7beaf946b",
         "uuid": "b96053fd-1ebe-42e9-a438-95ca88dfe76f",
         "diagramelements":
@@ -1173,7 +1173,7 @@
                 ""
         ],
         "list_order": 1073778687,
-        "parent_name": "Performance Efficiency Subcharacteristics",
+        "parent_name": "Performance Efficiency",
         "parent": "db0461ff-1999-455f-aa69-d4f7beaf946b",
         "uuid": "9458b3ac-ad10-4844-8f43-ec9be7e28d74",
         "diagramelements":
@@ -1381,7 +1381,7 @@
       "diagram": {
         "id": 44,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Compatibility Subcharacteristics",
+        "name": "Compatibility",
         "description": [
                 "Compatibility Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -1417,7 +1417,7 @@
       "diagram": {
         "id": 38,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Maintainability Subcharacteristics",
+        "name": "Maintainability",
         "description": [
                 "Maintainability Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -1476,7 +1476,7 @@
                 "This diagram shows examples - not aiming for completeness."
         ],
         "list_order": -1,
-        "parent_name": "Maintainability Subcharacteristics",
+        "parent_name": "Maintainability",
         "parent": "9d1a7a9e-b4b8-4097-a913-ca06d0ef44f2",
         "uuid": "f05046bc-aaa3-4403-a40f-1f2dee29bc6a",
         "diagramelements":
@@ -1720,7 +1720,7 @@
       "diagram": {
         "id": 20,
         "type": "Requirement Diagram", "diagram_type": 9,
-        "name": "Security Subcharacteristics",
+        "name": "Security",
         "description": [
                 "Security Subcharactersitics of Ext/Int Product Quality \n",
                 "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
@@ -1792,7 +1792,7 @@
                 "the right set of the appropriate mechanisms is crucial."
         ],
         "list_order": -1,
-        "parent_name": "Security Subcharacteristics",
+        "parent_name": "Security",
         "parent": "280222f5-37aa-43fa-8909-506f958f9cfc",
         "uuid": "c4191860-edc2-47a0-8f58-943d55dbb8a4",
         "diagramelements":
@@ -1934,7 +1934,7 @@
                 ""
         ],
         "list_order": 1073741823,
-        "parent_name": "Security Subcharacteristics",
+        "parent_name": "Security",
         "parent": "280222f5-37aa-43fa-8909-506f958f9cfc",
         "uuid": "f8e21f67-c894-4a88-95b4-0e3d3955add8",
         "diagramelements":
@@ -2072,10 +2072,10 @@
       "diagram": {
         "id": 27,
         "type": "Class Diagram", "diagram_type": 34,
-        "name": "Quality in Use Subcharacteristics",
+        "name": "Quality in Use",
         "description": [
-                "Subcharactersitics of quality in use according to ISO/IEC 25010:2011 (C0167), ",
-                "see D0023#name."
+                "Charactersitics and subcharactersitics of quality in use according to ISO/IEC ",
+                "25010:2011 (C0167), see D0023#name."
         ],
         "list_order": 1073790975,
         "parent_name": "Quality Characteristics",
@@ -2184,7 +2184,7 @@
                 ""
         ],
         "list_order": 0,
-        "parent_name": "Quality in Use Subcharacteristics",
+        "parent_name": "Quality in Use",
         "parent": "b03046e4-9489-444b-b3a3-b4b0a4a1dd91",
         "uuid": "7a2c1c6e-8f4b-46a5-9a5b-5f1a4348df08",
         "diagramelements":
