@@ -59,6 +59,10 @@ pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Resul
             .expect("cannot set readonly flag");
     }
 
+    print!(
+        "call: {} -i {} add {}\n",
+        environment.exe_to_test, db_to_use_param, json_to_use_param
+    );
     let output1 = Command::new(environment.exe_to_test)
         .args(&["-i", &db_to_use_param, "add", &json_to_use_param])
         .output()

@@ -275,7 +275,7 @@ static inline u8_error_t data_database_finalize_statement ( data_database_t *thi
 static inline data_revision_t data_database_get_revision ( data_database_t *this_ );
 
 /*!
- *  \brief sets the revision_id
+ *  \brief sets the revision_id and notifies listeners
  *
  *  setting a revision id is useful in case a known, previous state of the database is restored,
  *  e.g. by undo/redo actions

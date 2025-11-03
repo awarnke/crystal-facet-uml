@@ -17,6 +17,7 @@ use std::process::Stdio;
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_version(environment: &mut FixtureCli) -> Result<(), ()> {
+    print!("call: {} -v\n", environment.exe_to_test);
     let output = match std::process::Command::new(environment.exe_to_test)
         .args(&["-v"])
         .output()
@@ -60,6 +61,7 @@ pub(super) fn testcase_version(environment: &mut FixtureCli) -> Result<(), ()> {
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_help(environment: &mut FixtureCli) -> Result<(), ()> {
+    print!("call: {} -h\n", environment.exe_to_test);
     let process = match std::process::Command::new(environment.exe_to_test)
         .args(&["-h"])
         .stdout(Stdio::piped())

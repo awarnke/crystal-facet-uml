@@ -177,6 +177,10 @@ fn test_repair_or_test(
         Repair::TestOnly => "-t",
         Repair::TestAndRepair => "-r",
     };
+    print!(
+        "call: {} {} {}\n",
+        environment.exe_to_test, repair_param, db_to_use_param
+    );
     let output = Command::new(environment.exe_to_test)
         .args(&[repair_param, &db_to_use_param])
         .output()

@@ -69,15 +69,7 @@ void data_database_writer_set_revision ( data_database_writer_t *this_, data_rev
 {
     U8_TRACE_BEGIN();
 
-    U8_LOG_EVENT_INT( "revision:", revision );
     data_database_set_revision( (*this_).database, revision );
-
-    /* notify listeners */
-    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
-                                                     DATA_CHANGE_EVENT_TYPE_REVISION_CHANGED,
-                                                     DATA_TABLE_VOID,
-                                                     DATA_ROW_VOID
-                                                   );
 
     U8_TRACE_END();
 }

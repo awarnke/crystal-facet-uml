@@ -62,6 +62,7 @@ static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
 
 static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors )
 {
+    U8_TRACE_BEGIN();
     assert( sql_command != NULL );
     int sqlite_err;
     char *error_msg = NULL;
@@ -94,6 +95,8 @@ static inline u8_error_t data_database_private_exec_sql( data_database_t *this_,
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
+
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -102,6 +105,7 @@ static inline u8_error_t data_database_prepare_statement ( data_database_t *this
                                                            int string_size,
                                                            sqlite3_stmt **out_statement_ptr )
 {
+    U8_TRACE_BEGIN();
     assert( NULL != string_statement );
     assert( NULL != out_statement_ptr );
     u8_error_t result = U8_ERROR_NONE;
@@ -130,11 +134,13 @@ static inline u8_error_t data_database_prepare_statement ( data_database_t *this
         result |= U8_ERROR_AT_DB;
     }
 
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 static inline u8_error_t data_database_finalize_statement ( data_database_t *this_, sqlite3_stmt *statement_ptr )
 {
+    U8_TRACE_BEGIN();
     assert( NULL != statement_ptr );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -148,6 +154,7 @@ static inline u8_error_t data_database_finalize_statement ( data_database_t *thi
         result |= U8_ERROR_AT_DB;
     }
 
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -167,12 +174,23 @@ static inline data_revision_t data_database_get_revision ( data_database_t *this
 
 static inline void data_database_set_revision ( data_database_t *this_, data_revision_t revision )
 {
+    U8_TRACE_BEGIN();
     u8_error_t locking_error;
     locking_error = data_database_lock_on_write( this_ );
     (*this_).revision = revision;
     locking_error |= data_database_unlock_on_write( this_ );
     assert( locking_error == U8_ERROR_NONE );
     (void) locking_error;  /* ignore errors at lock */
+
+    U8_LOG_EVENT_INT( "revision:", revision );
+
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( &((*this_).notifier),
+                                                     DATA_CHANGE_EVENT_TYPE_REVISION_CHANGED,
+                                                     DATA_TABLE_VOID,
+                                                     DATA_ROW_VOID
+                                                   );
+    U8_TRACE_END();
 }
 
 static inline const char *data_database_get_filename_ptr ( data_database_t *this_ )
