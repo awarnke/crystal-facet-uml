@@ -1,3 +1,15 @@
+crystal-facet-uml (1.67.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Docbook output restructured to allow more compact page rendering
+  * Snap-to-grid feature does not snap to border anymore, only inner grid
+  * No auto-save at close when there are no changes
+  * Detection and warning in case of concurrently modified database file
+  * Old sqlite3-based file format is automatically converted to json-based cfuJ
+  * Restore X11 icon size for Wayland
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 04 Nov 2025 18:30:00 +0100
+
 crystal-facet-uml (1.66.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.66.1"
+    "generator_version": "1.67.0"
   }
   ,
   "views":
@@ -3109,6 +3109,9 @@
         "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Risks",
         "description": [
+                "This section lists the technical risks that shall be addressed by this system ",
+                "architecture.\n",
+                "\n",
                 "Limp Home is a critical functionality of the system.\n",
                 "This diagram lists the system elements that are needed for its execution."
         ],

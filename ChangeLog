@@ -8,7 +8,7 @@ crystal-facet-uml (1.67.0) UNRELEASED; urgency=medium
   * Old sqlite3-based file format is automatically converted to json-based cfuJ
   * Restore X11 icon size for Wayland
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 02 Nov 2025 11:01:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 04 Nov 2025 18:30:00 +0100
 
 crystal-facet-uml (1.66.1) UNRELEASED; urgency=medium
 
