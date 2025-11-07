@@ -31,9 +31,10 @@ cd crystal-facet-uml_${VERSIONSTR}/cmake_build/
 cd ../..
 
 echo "running gcov/lcov on covts"
+SRC_PREFIX=`(cd ../.. && pwd)`
 lcov --capture --directory ./crystal-facet-uml_${VERSIONSTR}/cmake_build/CMakeFiles/gcov_crystal-facet-uml.dir --output-file lcov_covts.info
 lcov --remove lcov_covts.info '*/test_fw/*' '*/test/*' '/usr/*' --output-file lcov_covts_filtered.info
-genhtml --prefix `pwd`/crystal-facet-uml_${VERSIONSTR} lcov_covts_filtered.info --title crystal-facet-uml_v${VERSIONSTR}_covts --output-directory crystal-facet-uml_${VERSIONSTR}_covts_coverage
+genhtml --prefix ${SRC_PREFIX} lcov_covts_filtered.info --title crystal-facet-uml_v${VERSIONSTR}_covts --output-directory crystal-facet-uml_${VERSIONSTR}_covts_coverage
 
 echo "clean up test"
 sleep 10

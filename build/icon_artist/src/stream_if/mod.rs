@@ -3,6 +3,7 @@
 
 pub mod geometry;
 pub mod path_renderer;
+pub mod transform;
 
 /*
 Copyright 2024-2025 Andreas Warnke

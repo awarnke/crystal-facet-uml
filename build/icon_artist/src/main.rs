@@ -10,6 +10,7 @@ use icon_data::gui_edit_icon;
 use icon_data::gui_file_icon;
 use icon_data::gui_sketch_icon;
 use icon_data::gui_view_icon;
+use icon_data::logo_icon;
 use icon_data::message_icon;
 use icon_data::stereotype_icon;
 use icon_data::type_class_icon;
@@ -103,9 +104,18 @@ fn main() {
                 OUT_DIR_USER_MANUAL
             );
         }
+        if arg == "-l" {
+            let stereo_icons: &'static [IconSource<'static>] = logo_icon::get_icons();
+            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_GUI);
+            println!(
+                "Generated files have been written to '{}'.",
+                OUT_DIR_USER_MANUAL
+            );
+        }
 
         if arg == "-h" {
             println!("options are");
+            println!("-l logo icon variants");
             println!("   ");
             println!("-f file icons");
             println!("-v view icons");
