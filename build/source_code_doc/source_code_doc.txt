@@ -1,8 +1,8 @@
 /*!
  *  \mainpage crystal-facet-uml source code doc
  *
- *  \image html crystal_facet_uml_80x80.png
- *  \image latex crystal_facet_uml.pdf "" width=3cm
+ *  \image html crystal_facet_uml.svg
+ *  \image latex crystal_facet_uml.svg "" width=3cm
  *
  *  \section cfu-intro Introduction
  *

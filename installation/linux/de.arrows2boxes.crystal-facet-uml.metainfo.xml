@@ -6,7 +6,7 @@
   <name>crystal-facet-uml</name>
   <summary>crystal-facet-uml creates diagrams to document system and software architecture</summary>
   <project_license>Apache-2.0</project_license>
-  <icon type="remote">https://andreaswarnke.de/crystal-facet-uml/metainfo/crystal_facet_uml_80x80.png</icon>
+  <icon type="remote">https://andreaswarnke.de/crystal-facet-uml/metainfo/crystal-facet-uml.svg</icon>
   <description>
     <p>
       As software architect, you create a set of diagrams describing

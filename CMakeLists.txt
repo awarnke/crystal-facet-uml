@@ -153,7 +153,7 @@ TARGET_LINK_OPTIONS(test_crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 INSTALL(TARGETS crystal-facet-uml DESTINATION "/usr/bin/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/de.arrows2boxes.crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/de.arrows2boxes.crystal-facet-uml.metainfo.xml" DESTINATION "/usr/share/metainfo/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal-facet-uml.png")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml.svg" DESTINATION "/usr/share/icons/hicolor/scalable/apps/" RENAME "crystal-facet-uml.svg")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== gcov Target Settings ==== ==== ==== ==== ==== ==== ==== ====

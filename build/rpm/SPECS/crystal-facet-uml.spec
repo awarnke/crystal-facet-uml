@@ -61,7 +61,7 @@ It runs on your local linux PC and is based on gtk (incl glib, gdk, cairo, pango
 %license LICENSE.txt
 %doc ChangeLog installation/crystal-facet-uml_documentation.pdf
 %{_bindir}/crystal-facet-uml
-%{_datadir}/pixmaps/crystal-facet-uml.png
+%{_datadir}/icons/hicolor/scalable/apps/crystal-facet-uml.svg
 %{_datadir}/applications/de.arrows2boxes.crystal-facet-uml.desktop
 %{_datadir}/metainfo/de.arrows2boxes.crystal-facet-uml.metainfo.xml
 %{_mandir}/man1/crystal-facet-uml.1%{?ext_man}

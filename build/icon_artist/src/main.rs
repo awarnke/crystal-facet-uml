@@ -34,9 +34,9 @@ fn main() {
     for argument in args {
         let arg = argument.as_str();
         if arg == "-e" {
-            let gui_file_icons: &'static [IconSource<'static>] = gui_edit_icon::get_icons();
-            icon_writer::generate_files(gui_file_icons, FileType::Svg, OUT_DIR_GUI);
-            icon_writer::generate_files(gui_file_icons, FileType::PixBuf, OUT_DIR_GUI);
+            let gui_edit_icons: &'static [IconSource<'static>] = gui_edit_icon::get_icons();
+            icon_writer::generate_files(gui_edit_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(gui_edit_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
         if arg == "-f" {
@@ -85,28 +85,29 @@ fn main() {
             );
         }
         if arg == "-g" {
-            let stereo_icons: &'static [IconSource<'static>] = gui_sketch_icon::get_icons();
-            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_GUI);
-            icon_writer::generate_files(stereo_icons, FileType::PixBuf, OUT_DIR_GUI);
+            let sketch_icons: &'static [IconSource<'static>] = gui_sketch_icon::get_icons();
+            icon_writer::generate_files(sketch_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(sketch_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
         if arg == "-m" {
-            let stereo_icons: &'static [IconSource<'static>] = message_icon::get_icons();
-            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_GUI);
-            icon_writer::generate_files(stereo_icons, FileType::PixBuf, OUT_DIR_GUI);
+            let message_icons: &'static [IconSource<'static>] = message_icon::get_icons();
+            icon_writer::generate_files(message_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(message_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
         if arg == "-u" {
-            let stereo_icons: &'static [IconSource<'static>] = user_manual_icon::get_icons();
-            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_USER_MANUAL);
+            let manual_icons: &'static [IconSource<'static>] = user_manual_icon::get_icons();
+            icon_writer::generate_files(manual_icons, FileType::Svg, OUT_DIR_USER_MANUAL);
             println!(
                 "Generated files have been written to '{}'.",
                 OUT_DIR_USER_MANUAL
             );
         }
         if arg == "-l" {
-            let stereo_icons: &'static [IconSource<'static>] = logo_icon::get_icons();
-            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_GUI);
+            let logo_icons: &'static [IconSource<'static>] = logo_icon::get_icons();
+            icon_writer::generate_files(logo_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(logo_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!(
                 "Generated files have been written to '{}'.",
                 OUT_DIR_USER_MANUAL
