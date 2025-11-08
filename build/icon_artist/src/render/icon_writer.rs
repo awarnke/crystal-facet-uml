@@ -2,6 +2,7 @@
 //! and passes it to icon_data for rendering.
 
 use super::render_c::CRenderer;
+use super::render_png::PngRenderer;
 use super::render_svg::VecRenderer;
 use crate::model::icon::IconSource;
 use std::fs;
@@ -93,8 +94,15 @@ pub enum FileType {
     Svg,
     /// An index file in docbook format.
     IndexOfSvg,
-    /// A c struct coontainnig pixbuf data.
+    /// A c struct containig pixbuf data.
     PixBuf,
+    /// A png image.
+    Png,
+    /// A scaled png image.
+    ScaledPng {
+        /// Width and height of the png image.
+        size: i32,
+    },
 }
 
 /// The function creates a file for each icon and triggers the rendering
@@ -111,42 +119,78 @@ pub enum FileType {
 /// This function panics if the vector graphics cannot be written to a file.
 ///
 pub fn generate_files(icons: &[IconSource], out_type: FileType, out_dir: &str) -> () {
-    if out_type == FileType::IndexOfSvg {
-        let mut db_file = open_file_to_write(out_dir, &"stereotype_images.xml");
-        write_db_header(&mut db_file);
+    match out_type {
+        FileType::IndexOfSvg => {
+            let mut db_file = open_file_to_write(out_dir, &"stereotype_images.xml");
+            write_db_header(&mut db_file);
 
-        for icon in icons {
-            /* write an image reference to a docbook file */
-            write_db_icon_entry(icon, &mut db_file);
+            for icon in icons {
+                /* write an image reference to a docbook file */
+                write_db_icon_entry(icon, &mut db_file);
+            }
+
+            write_db_footer(&mut db_file);
         }
 
-        write_db_footer(&mut db_file);
-    }
-
-    if out_type == FileType::Svg {
-        for icon in icons {
-            /* render an svg file */
-            let file_name: String = icon.name.to_owned() + ".svg";
-            let mut svg_file = open_file_to_write(out_dir, &file_name);
-            let mut v_render = VecRenderer {
-                output_file: &mut svg_file,
-                force_colors: true,
-            };
-            v_render.header(&icon.viewport);
-            (icon.generate)(&mut v_render);
-            v_render.footer();
+        FileType::Svg => {
+            for icon in icons {
+                /* render an svg file */
+                let file_name: String = icon.name.to_owned() + ".svg";
+                let mut svg_file = open_file_to_write(out_dir, &file_name);
+                let mut v_render = VecRenderer {
+                    output_file: &mut svg_file,
+                    force_colors: true,
+                };
+                v_render.header(&icon.viewport);
+                (icon.generate)(&mut v_render);
+                v_render.footer();
+            }
         }
-    }
 
-    if out_type == FileType::PixBuf {
-        /* write some c files */
-        for icon in icons {
-            /* render a c file */
-            let file_name: String = icon.name.to_owned() + ".c";
-            let mut c_file = open_file_to_write(out_dir, &file_name);
-            let mut c_render = CRenderer::new(&mut c_file, &icon.name, &icon.viewport);
-            (icon.generate)(&mut c_render);
-            c_render.write_cimpl();
+        FileType::PixBuf => {
+            /* write some c files */
+            for icon in icons {
+                /* render a c file */
+                let file_name: String = icon.name.to_owned() + ".c";
+                let mut c_file = open_file_to_write(out_dir, &file_name);
+                let mut c_render = CRenderer::new(&mut c_file, &icon.name, &icon.viewport);
+                (icon.generate)(&mut c_render);
+                c_render.write_cimpl();
+            }
+        }
+
+        FileType::Png => {
+            /* write some png files */
+            for icon in icons {
+                /* render a png file */
+                let file_name: String = out_dir.to_owned() + "/" + icon.name + ".png";
+                let mut png_render = PngRenderer::new(
+                    &file_name,
+                    icon.viewport.width as i32,
+                    icon.viewport.height as i32,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                );
+                (icon.generate)(&mut png_render);
+                png_render.write_png();
+            }
+        }
+
+        FileType::ScaledPng { size } => {
+            /* write some png files */
+            for icon in icons {
+                /* render a png file */
+                let size_num: &str = &(size.to_string());
+                let file_name: String =
+                    out_dir.to_owned() + "/" + icon.name + "_" + size_num + "x" + size_num + ".png";
+                let scale: f32 = size as f32 / f32::max(icon.viewport.width, icon.viewport.height);
+                let mut png_render =
+                    PngRenderer::new(&file_name, size, size, 0.0, 0.0, scale, scale);
+                (icon.generate)(&mut png_render);
+                png_render.write_png();
+            }
         }
     }
 }

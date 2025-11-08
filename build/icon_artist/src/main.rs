@@ -108,10 +108,10 @@ fn main() {
             let logo_icons: &'static [IconSource<'static>] = logo_icon::get_icons();
             icon_writer::generate_files(logo_icons, FileType::Svg, OUT_DIR_GUI);
             icon_writer::generate_files(logo_icons, FileType::PixBuf, OUT_DIR_GUI);
-            println!(
-                "Generated files have been written to '{}'.",
-                OUT_DIR_USER_MANUAL
-            );
+            icon_writer::generate_files(logo_icons, FileType::Png, OUT_DIR_GUI);
+            icon_writer::generate_files(logo_icons, FileType::ScaledPng { size: 48 }, OUT_DIR_GUI);
+            icon_writer::generate_files(logo_icons, FileType::ScaledPng { size: 64 }, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
 
         if arg == "-h" {

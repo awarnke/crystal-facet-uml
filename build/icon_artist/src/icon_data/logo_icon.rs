@@ -26,9 +26,6 @@ const CX: f32 = 16.0;
 /// icon center y
 const CY: f32 = 16.0;
 
-/// half line width
-const HALFLINE: f32 = 0.5;
-
 /// black line color
 static BLACK: geometry::Color = geometry::Color {
     red: 0x00,
@@ -54,19 +51,6 @@ static GREEN: geometry::Color = geometry::Color {
     red: 0x0,
     green: 0xc0,
     blue: 0x7f,
-};
-
-/// gray line color
-static GRAY: geometry::Color = geometry::Color {
-    red: 0x7f,
-    green: 0x7f,
-    blue: 0x7f,
-};
-
-/// gray pen
-static GRAY_PEN: geometry::Pen = geometry::Pen {
-    color: GRAY,
-    width: 1.0,
 };
 
 /// The function defines the draw directives for the reflections per facet
@@ -223,19 +207,19 @@ pub fn generate_crystal_facet_uml(out: &mut dyn PathRenderer) -> () {
     out.render_path(&facet3, &None, &Some(GREEN));
 
     let facet4: [geometry::DrawDirective; 7] = get_reflections(
-        &[floor_point[0], mid_points[1], mid_points[0], floor_point[0],],
+        &[floor_point[0], mid_points[1], mid_points[0], floor_point[0]],
         0.25,
     );
     out.render_path(&facet4, &None, &Some(GREEN));
 
     let facet5: [geometry::DrawDirective; 7] = get_reflections(
-        &[floor_point[0], mid_points[2], mid_points[1], floor_point[0],],
+        &[floor_point[0], mid_points[2], mid_points[1], floor_point[0]],
         0.3,
     );
     out.render_path(&facet5, &None, &Some(GREEN));
 
     let facet6: [geometry::DrawDirective; 7] = get_reflections(
-        &[floor_point[0], mid_points[3], mid_points[2], floor_point[0],],
+        &[floor_point[0], mid_points[3], mid_points[2], floor_point[0]],
         0.4,
     );
     out.render_path(&facet6, &None, &Some(GREEN));

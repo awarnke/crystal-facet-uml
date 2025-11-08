@@ -4,6 +4,7 @@
 
 pub mod icon_writer;
 pub mod render_c;
+pub mod render_png;
 pub mod render_svg;
 
 /*
