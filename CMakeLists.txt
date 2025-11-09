@@ -154,9 +154,7 @@ INSTALL(TARGETS crystal-facet-uml DESTINATION "/usr/bin/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/de.arrows2boxes.crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/de.arrows2boxes.crystal-facet-uml.metainfo.xml" DESTINATION "/usr/share/metainfo/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml.svg" DESTINATION "/usr/share/icons/hicolor/scalable/apps/" RENAME "crystal-facet-uml.svg")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml.png" DESTINATION "/usr/share/icons/hicolor/32x32/apps/" RENAME "crystal-facet-uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_48x48.png" DESTINATION "/usr/share/icons/hicolor/48x48/apps/" RENAME "crystal-facet-uml.png")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_64x64.png" DESTINATION "/usr/share/icons/hicolor/64x64/apps/" RENAME "crystal-facet-uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== gcov Target Settings ==== ==== ==== ==== ==== ==== ==== ====

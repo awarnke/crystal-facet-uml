@@ -39,6 +39,12 @@ static BLACK_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
+/// black thin pen
+static BLACK_THIN_PEN: geometry::Pen = geometry::Pen {
+    color: BLACK,
+    width: 0.5,
+};
+
 /// white color
 static WHITE: geometry::Color = geometry::Color {
     red: 0xff,
@@ -190,7 +196,7 @@ pub fn generate_crystal_facet_uml(out: &mut dyn PathRenderer) -> () {
 
     let facet1: [geometry::DrawDirective; 7] = get_reflections(
         &[top_points[3], mid_points[3], mid_points[2], top_points[2]],
-        0.4,
+        0.45,
     );
     out.render_path(&facet1, &None, &Some(GREEN));
 
@@ -220,7 +226,7 @@ pub fn generate_crystal_facet_uml(out: &mut dyn PathRenderer) -> () {
 
     let facet6: [geometry::DrawDirective; 7] = get_reflections(
         &[floor_point[0], mid_points[3], mid_points[2], floor_point[0]],
-        0.4,
+        0.45,
     );
     out.render_path(&facet6, &None, &Some(GREEN));
 
@@ -241,7 +247,7 @@ pub fn generate_crystal_facet_uml(out: &mut dyn PathRenderer) -> () {
         Line(mid_points[1]),
         Line(mid_points[0]),
     ];
-    out.render_path(&icon_shape, &Some(BLACK_PEN), &None);
+    out.render_path(&icon_shape, &Some(BLACK_THIN_PEN), &None);
 
     /* draw outer line */
     let icon_shape: [geometry::DrawDirective; 8] = [
