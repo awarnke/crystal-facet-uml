@@ -1,3 +1,10 @@
+crystal-facet-uml (1.67.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * On Linux, app icon is installed to theme icons folder
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 09 Nov 2025 06:00:00 +0100
+
 crystal-facet-uml (1.67.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
