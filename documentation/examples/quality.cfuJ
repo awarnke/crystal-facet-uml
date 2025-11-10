@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.0"
+    "generator_version": "1.67.1"
   }
   ,
   "views":
@@ -344,7 +344,8 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Further Glossary Terms",
         "description": [
-                ""
+                "This section defines the usage of some terms to allow a consistent usage ",
+                "throughout the document."
         ],
         "list_order": 32768,
         "parent_name": "Product Quality Taxonomy",
@@ -609,7 +610,7 @@
           },
           {
             "id": 30,
-            "classifier_name": "Recogni-zability",
+            "classifier_name": "Recognizability",
             "node": "d7e8f130-ce2c-481d-b7a3-9dac989da6cb",
             "uuid": "371173f4-abef-49f8-a3aa-abcddd4f9bd3"
           },
@@ -1305,13 +1306,11 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Memory Management Patterns/Tactics",
         "description": [
-                "This diagram shows patterns\n",
-                "that manage memory\n",
-                "in a way that whoever needs memory\n",
-                "gets unused memory if available.\n",
+                "This diagram shows patterns that manage memory in a way that whoever needs ",
+                "memory gets unused memory if available.\n",
                 "\n",
-                "Concept is, that every software component\n",
-                "only allocates memory that it really needs;\n",
+                "Concept is, that every software component only allocates memory that it really ",
+                "needs;\n",
                 "if no memory is left, something will fail anyhow."
         ],
         "list_order": 32768,
@@ -1383,8 +1382,8 @@
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Compatibility",
         "description": [
-                "Compatibility Subcharactersitics of Ext/Int Product Quality \n",
-                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
+                "Compatibility Subcharactersitics of Ext/Int Product Quality according to ",
+                "ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
         "list_order": 6385630,
         "parent_name": "Quality Characteristics",
@@ -1782,14 +1781,14 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Strategies for Security w/o Integr.",
         "description": [
-                "Functional safety and security are different goals \n",
+                "Functional safety and security are different goals\n",
                 "but have common mechanisms to support these.\n",
                 "\n",
                 "The diagram is not meant to be complete,\n",
                 "it just shows some technical mechanisms support quality goals.\n",
                 "\n",
-                "Especially for safety and security, selecting\n",
-                "the right set of the appropriate mechanisms is crucial."
+                "Especially for safety and security, selecting the right set of the appropriate ",
+                "mechanisms is crucial."
         ],
         "list_order": -1,
         "parent_name": "Security",
@@ -2232,8 +2231,8 @@
                 "This diagram shows examples for measures\n",
                 " - not aiming for completeness.\n",
                 "\n",
-                "Especially for safety and security, selecting\n",
-                "the right set of the appropriate mechanisms is crucial."
+                "Especially for safety and security, selecting the right set of the appropriate ",
+                "mechanisms is crucial."
         ],
         "list_order": 0,
         "parent_name": "Strategies for Safety Risk Mitigation",
@@ -2439,7 +2438,10 @@
         "type": "Activity Diagram", "diagram_type": 11,
         "name": "V Model",
         "description": [
-                ""
+                "The V-model defines an organization of processes that follows the abstraction ",
+                "levels of a project:\n",
+                "- tests are counnerparts to requirements,\n",
+                "- integration is counterpart to architecture."
         ],
         "list_order": 24576,
         "parent_name": "Process Quality",
@@ -2769,7 +2771,16 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Structure of FMEA",
         "description": [
-                ""
+                "This diagram shows the structure of an FMEA analysis:\n",
+                "\n",
+                "Functions of a system are allocated to logical blocks,\n",
+                "logical bocks are implemented by physical elements.\n",
+                "Physical elements shall provide functionalities to the overall system.\n",
+                "\n",
+                "Risks occur at an expected functionality of a physical element.\n",
+                "These then effect the overall function of the system.\n",
+                "Causes of risks need to be identified in order to design mitigations \n",
+                "and evaluate their effectiveness."
         ],
         "list_order": 32768,
         "parent_name": "FMEA",
@@ -2888,7 +2899,9 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Process Documentation",
         "description": [
-                ""
+                "This diagram shows some documents\n",
+                "that may be needed to specify a process\n",
+                "and to show evidence that the process was executed."
         ],
         "list_order": 65536,
         "parent_name": "Process Quality",
@@ -2996,7 +3009,8 @@
         "type": "List", "diagram_type": 0,
         "name": "Bibliography",
         "description": [
-                ""
+                "This section lists books and other sources of information\n",
+                "that was input to this collection of quality expectations and related methods."
         ],
         "list_order": 32768,
         "parent_name": "Quality",
@@ -3086,7 +3100,7 @@
         "type": "Profile Diagram", "diagram_type": 39,
         "name": "Notation",
         "description": [
-                ""
+                "This diagram defines the icons used in this document."
         ],
         "list_order": 32768,
         "parent_name": "Bibliography",
@@ -3121,7 +3135,8 @@
         "type": "Box Overview", "diagram_type": 1,
         "name": "Internet Articles",
         "description": [
-                ""
+                "Thid section lists internet articles\n",
+                "that were input to this collection of quality expectations and methods."
         ],
         "list_order": 65536,
         "parent_name": "Bibliography",
@@ -3350,8 +3365,7 @@
         "type": "Class", "main_type": 125,
         "name": "How",
         "description": [
-                "Guidelines, Checklists,\n",
-                "Templates"
+                "Guidelines, Checklists, Templates"
         ],
         "x_order": -1412890311,
         "y_order": -1996024810,
@@ -3805,7 +3819,7 @@
       "classifier": {
         "id": 30,
         "type": "Class", "main_type": 125,
-        "name": "Recogni-zability",
+        "name": "Recognizability",
         "description": [
                 ""
         ],
@@ -4343,8 +4357,8 @@
             "type": "Property", "main_type": 0,
             "key": "no endless loops",
             "description": [
-                "Every loop shall have a counter to ensures that \n",
-                "after a predefined maximum value the loop is definitely quit"
+                "Every loop shall have a counter (or other mechanism) to ensure that after a ",
+                "predefined maximum value the loop is definitely quit"
             ],
             "list_order": 109810,
             "uuid": "d1fb177a-ea1b-4720-943e-980fabfd5e6a"
@@ -4354,8 +4368,7 @@
             "type": "Property", "main_type": 0,
             "key": "consistent error handling",
             "description": [
-                "Inconsistencies in error handling make \n",
-                "bugs in error handling more likely"
+                "Inconsistencies in error handling make bugs in error handling more likely"
             ],
             "list_order": 129228,
             "uuid": "0a15c0f1-cf6d-40ea-8278-91418a6e894e"
@@ -5195,8 +5208,8 @@
         "stereotype": "principle",
         "name": "Liskov Substitution",
         "description": [
-                "An implementation of an interface can be replaced \n",
-                "by another implementation of the same interface.\n",
+                "An implementation of an interface can be replaced by another implementation of ",
+                "the same interface.\n",
                 "In object oriented design, types can be replaced by subtypes."
         ],
         "x_order": -1759479307,
@@ -6026,7 +6039,7 @@
         "description": [
                 "Create a Multi-Layer security,\n",
                 "where elements of one layer mistrust these of other layers.\n",
-                "If one layer is compromized, the next still holds up.\n",
+                "If one layer is compromized, the next still stands.\n",
                 "\n",
                 "Examples: \n",
                 "1) Internet - DMZ - Intranet\n",
@@ -6353,21 +6366,18 @@
         "stereotype": "concept",
         "name": "Region based Memory Management",
         "description": [
-                "A region/arena/stack is valid while performing\n",
-                "one operation/thread. \n",
+                "A region/arena/stack is valid while performing one operation/thread.\n",
                 "It provides single-threaded access only.\n",
                 "It is either used stack-like\n",
                 "or cleaned up when the operation/thread is finished.\n",
                 "\n",
-                "This concept allows to fast allocate\n",
-                "and completely release memory arenas.\n",
+                "This concept allows to fast allocate and completely release memory arenas.\n",
                 "It prevents fragementation within the stack.\n",
                 "It supports NUMA architectures.\n",
                 "It may be faster than concurrent access to single heap.\n",
                 "It allows to reserve appropriate memory arenas for more important tasks\n",
                 "\n",
-                "see https://en.wikipedia.org/wiki\n",
-                "/Region-based_memory_management\n",
+                "see https://en.wikipedia.org/wiki/Region-based_memory_management\n",
                 "\n",
                 "Implementation support by e.g.\n",
                 "polymorphic_allocator and memory_resource(C++17/20)\n",
@@ -7076,11 +7086,10 @@
         "stereotype": "problem space",
         "name": "Background-Fkt Use-Case2",
         "description": [
-                "This use case is a proxy for use cases\n",
-                "that can be delayed if resources are sparse,\n",
+                "This use case is a proxy for use cases that can be delayed if resources are ",
+                "sparse,\n",
                 "\n",
-                "e.g. polling for software updates or\n",
-                "performing data backups."
+                "e.g. polling for software updates or performing data backups."
         ],
         "x_order": -2145848552,
         "y_order": -2115709988,
@@ -7142,14 +7151,11 @@
         "stereotype": "problem space",
         "name": "Bounded-Fkt Use-Case",
         "description": [
-                "This use case is a proxy for use cases that\n",
-                "allow to produce degraded results\n",
-                "if memory gets low or an upper boundary\n",
-                "of resource-consumption is reached.\n",
+                "This use case is a proxy for use cases that allow to produce degraded results ",
+                "if memory gets low or an upper boundary of resource-consumption is reached.\n",
                 "\n",
-                "This is use-ful e.g. to enhance security \n",
-                "when processing input data of unknown size\n",
-                "or to prevent stealing resources from higher-priority dynamic functions."
+                "This is useful e.g. to enhance security when processing input data of unknown ",
+                "size or to prevent stealing resources from higher-priority dynamic functions."
         ],
         "x_order": 1779850759,
         "y_order": -2115709988,
@@ -7282,8 +7288,7 @@
         "stereotype": "concept",
         "name": "Remote Execution",
         "description": [
-                "Required memory may be provided\n",
-                "on a different hardware, e.g. Cloud"
+                "Required memory may be provided on a different hardware, e.g. Cloud"
         ],
         "x_order": -181822395,
         "y_order": -2060218130,
@@ -8514,9 +8519,8 @@
         "type": "Object", "main_type": 126,
         "name": "Adaptive AUTOSAR Coding Guidelines",
         "description": [
-                "Guidelines for the use of the\n",
-                "C++14 language in critical and\n",
-                "safety-related systems\n",
+                "Guidelines for the use of the C++14 language in critical and safety-related ",
+                "systems\n",
                 "https://www.autosar.org/fileadmin/standards/R18-10/AP/AUTOSAR_RS_CPP14Guidelines.pdf"
         ],
         "x_order": 1595449394,
@@ -9960,7 +9964,7 @@
         ],
         "list_order": 756176,
         "from_classifier_name": "Usability",
-        "to_classifier_name": "Recogni-zability",
+        "to_classifier_name": "Recognizability",
         "from_node": "4872cb70-1542-43f0-88fe-7f3984c5f93c",
         "to_node": "d7e8f130-ce2c-481d-b7a3-9dac989da6cb",
         "uuid": "1ac5ec5f-2585-4367-953f-c1b1e9ee36b4"
