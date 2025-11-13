@@ -53,6 +53,9 @@ ideas for future versions:
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] add test case for opening non-cfuJ files
+  [ ] prohibit to load a .tmp-cfu file (especially the currently open one)
+      - instead auto-find the .tmp-cfu file when opening the regular .cfuJ file.
+      - minimum is to prohibit creating new .tmp-cfu files.
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
