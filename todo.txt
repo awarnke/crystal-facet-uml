@@ -83,5 +83,3 @@ ideas for a version 2
   - support rust in application code
 
 
-
-

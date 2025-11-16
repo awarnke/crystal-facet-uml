@@ -200,7 +200,7 @@ static inline bool utf8stringview_equals_str( const utf8stringview_t *this_, con
         size_t len = strlen( that );
         if ( len == (*this_).length )
         {
-            if ( ( len == 0 )/*&&( this_.length == 0 )*/)
+            if ( len == 0 )  /*&&( this_.length == 0 )*/
             {
                 result = true;
             }
@@ -227,7 +227,7 @@ static inline bool utf8stringview_equals_view( const utf8stringview_t *this_, co
     bool result;
     if ( (*that).length == (*this_).length )
     {
-        if ( ( (*that).length == 0 )/*&&( this_.length == 0 )*/)
+        if ( (*that).length == 0 )  /*&&( this_.length == 0 )*/
         {
             result = true;
         }

@@ -95,11 +95,10 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
             /* do not open a non-existing .tmp-cfu file */
-            /* err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) ); */
+            err = U8_ERROR_FILE_ALREADY_REMOVED;
 
             /* new file is not in sync by definition */
             (*this_).sync_revision = DATA_REVISION_VOID;
-            err = U8_ERROR_FILE_ALREADY_REMOVED;
         }
         else
         {

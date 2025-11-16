@@ -1,0 +1,695 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 2,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.67.2"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "type": "Box Overview", "diagram_type": 1,
+        "name": "Subproject: self_to_rust",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "uuid": "d1255472-f02a-48aa-8b86-63e50702d20c",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "classifier_name": "self_to_rust",
+            "node": "13162062-260b-4732-9c2c-506f4fae1b1d",
+            "uuid": "f7c522f8-64e6-4e52-a9f8-571abc8566c4"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 2,
+        "type": "Requirement Diagram", "diagram_type": 9,
+        "name": "Goal",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "parent_name": "Subproject: self_to_rust",
+        "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
+        "uuid": "9d5dee04-faf6-4ffc-877a-4009be48f4ff",
+        "diagramelements":
+        [
+          {
+            "id": 2,
+            "classifier_name": "convert own c99 code to rust",
+            "node": "db7f3c69-604b-49de-9431-c505142c0b1a",
+            "uuid": "081187fb-08e2-4237-b254-66befc3ff223"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 3,
+        "type": "Requirement Diagram", "diagram_type": 9,
+        "name": "Constraints",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "parent_name": "Subproject: self_to_rust",
+        "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
+        "uuid": "e53a51c6-2d45-4053-855b-3dbab252346d",
+        "diagramelements":
+        [
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 4,
+        "type": "Activity Diagram", "diagram_type": 11,
+        "name": "Context and Scope",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "parent_name": "Subproject: self_to_rust",
+        "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
+        "uuid": "34548e52-cc81-4fc3-8f3a-5487d30128b8",
+        "diagramelements":
+        [
+          {
+            "id": 3,
+            "classifier_name": "This diagram shows the intended workflow",
+            "node": "78acfe20-2b07-446b-a65f-3a4fc8c2f7db",
+            "uuid": "303a83dd-f509-4a3c-b31a-4e65cfb97f42"
+          },
+          {
+            "id": 4,
+            "classifier_name": "start",
+            "node": "a518ea1d-1cce-4ed7-98bf-0ea15612a479",
+            "uuid": "b196d695-2b69-4e25-9a89-cd609c9951fa"
+          },
+          {
+            "id": 5,
+            "classifier_name": "finish",
+            "node": "184075f1-9ab2-4f56-996e-cb5c629202c1",
+            "uuid": "6b3177e1-07bb-4b62-9204-db4c21a7aee0"
+          },
+          {
+            "id": 6,
+            "classifier_name": "configure text replacements",
+            "node": "8cfb5820-4f3b-4cd0-830d-77780d47518a",
+            "uuid": "16b4ca37-234e-40c6-96dd-c53d59889c69"
+          },
+          {
+            "id": 7,
+            "classifier_name": "restructure c-code",
+            "node": "88dc8758-30a8-4e8b-94bd-5d19101d70cc",
+            "uuid": "06d16c30-a258-4c6f-9eda-0052fa6183bb"
+          },
+          {
+            "id": 8,
+            "classifier_name": "fork",
+            "node": "6a392d49-1da7-472f-9256-011e59fedabd",
+            "uuid": "236c80bc-c06c-498d-8520-68f44c8bd91a"
+          },
+          {
+            "id": 9,
+            "classifier_name": "join",
+            "node": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
+            "uuid": "4bbb100a-b68a-4c30-8203-7183270d669c"
+          },
+          {
+            "id": 10,
+            "classifier_name": "run text replacements",
+            "node": "86ec20f6-563a-4ad1-9f78-48ee6073bb6c",
+            "uuid": "4336e590-6fef-4855-bcfd-3d8001f4c076"
+          },
+          {
+            "id": 11,
+            "classifier_name": "errors",
+            "node": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
+            "uuid": "f386c8f9-ba43-495a-9aeb-05b44d0260e6"
+          },
+          {
+            "id": 12,
+            "classifier_name": "run rust compiler",
+            "node": "6c7c717f-4d58-43f8-a769-426e00e1ce2a",
+            "uuid": "ef74328b-c16a-4ffe-841b-1ab400191c93"
+          },
+          {
+            "id": 13,
+            "classifier_name": "works?",
+            "node": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
+            "uuid": "39114dcb-503e-4f01-b80f-f044180c846d"
+          },
+          {
+            "id": 14,
+            "classifier_name": "self-to-rust",
+            "node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
+            "uuid": "77fb3c7b-ef54-4c86-8c98-6e3a95049ad1"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 5,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "Solution Strategy",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "parent_name": "Subproject: self_to_rust",
+        "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
+        "uuid": "980f2acf-0118-42df-bb6f-f1d7dad343f3",
+        "diagramelements":
+        [
+          {
+            "id": 15,
+            "classifier_name": "self-to-rust",
+            "node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
+            "uuid": "11d8deab-ba59-4370-92e4-9dbc4a5065eb"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "type": "Comment", "main_type": 130,
+        "name": "self_to_rust",
+        "description": [
+                ""
+        ],
+        "x_order": -371481763,
+        "y_order": -395421626,
+        "list_order": -395421626,
+        "uuid": "13162062-260b-4732-9c2c-506f4fae1b1d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "type": "Requirement", "main_type": 99,
+        "name": "convert own c99 code to rust",
+        "description": [
+                ""
+        ],
+        "x_order": -439852639,
+        "y_order": -518358123,
+        "list_order": -518358123,
+        "uuid": "db7f3c69-604b-49de-9431-c505142c0b1a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "type": "Comment", "main_type": 130,
+        "name": "This diagram shows the intended workflow",
+        "description": [
+                " to convert own c code to rust"
+        ],
+        "x_order": -1150325364,
+        "y_order": -364961102,
+        "list_order": -1516313212,
+        "uuid": "78acfe20-2b07-446b-a65f-3a4fc8c2f7db",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "type": "Initial Node", "main_type": 151,
+        "name": "start",
+        "description": [
+                ""
+        ],
+        "x_order": -1965830696,
+        "y_order": -364961102,
+        "list_order": -364961102,
+        "uuid": "a518ea1d-1cce-4ed7-98bf-0ea15612a479",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "type": "Final Node", "main_type": 152,
+        "name": "finish",
+        "description": [
+                ""
+        ],
+        "x_order": -1150325364,
+        "y_order": 96882275,
+        "list_order": 159592960,
+        "uuid": "184075f1-9ab2-4f56-996e-cb5c629202c1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 6,
+        "type": "Activity", "main_type": 110,
+        "stereotype": "manual-step",
+        "name": "configure text replacements",
+        "description": [
+                ""
+        ],
+        "x_order": -1640415857,
+        "y_order": -364961102,
+        "list_order": -162459494,
+        "uuid": "8cfb5820-4f3b-4cd0-830d-77780d47518a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 7,
+        "type": "Activity", "main_type": 110,
+        "stereotype": "manual-step",
+        "name": "restructure c-code",
+        "description": [
+                ""
+        ],
+        "x_order": -1640415857,
+        "y_order": -102498807,
+        "list_order": 94913513,
+        "uuid": "88dc8758-30a8-4e8b-94bd-5d19101d70cc",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 8,
+        "type": "Fork", "main_type": 154,
+        "name": "fork",
+        "description": [
+                ""
+        ],
+        "x_order": -1826600937,
+        "y_order": -102498807,
+        "list_order": -88825299,
+        "uuid": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 9,
+        "type": "Join", "main_type": 155,
+        "name": "join",
+        "description": [
+                ""
+        ],
+        "x_order": -1607608458,
+        "y_order": -102498807,
+        "list_order": -108007483,
+        "uuid": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 10,
+        "type": "Activity", "main_type": 110,
+        "name": "run text replacements",
+        "description": [
+                ""
+        ],
+        "x_order": -1150325364,
+        "y_order": -98190842,
+        "list_order": -102498807,
+        "uuid": "86ec20f6-563a-4ad1-9f78-48ee6073bb6c",
+        "features":
+        [
+          {
+            "id": 1,
+            "type": "Input Port", "main_type": 6,
+            "key": "tools",
+            "description": [
+                ""
+            ],
+            "list_order": -1436164213,
+            "uuid": "cf5e2942-ca31-44e8-82b1-674d759dfafc"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 11,
+        "type": "Decision", "main_type": 157,
+        "name": "errors",
+        "description": [
+                ""
+        ],
+        "x_order": -1965830696,
+        "y_order": -98190842,
+        "list_order": 3984580,
+        "uuid": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 12,
+        "type": "Activity", "main_type": 110,
+        "name": "run rust compiler",
+        "description": [
+                ""
+        ],
+        "x_order": -1965830696,
+        "y_order": 96882275,
+        "list_order": -88825299,
+        "uuid": "6c7c717f-4d58-43f8-a769-426e00e1ce2a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 13,
+        "type": "Decision", "main_type": 157,
+        "name": "works?",
+        "description": [
+                ""
+        ],
+        "x_order": -1640415857,
+        "y_order": 96882275,
+        "list_order": 78293017,
+        "uuid": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 14,
+        "type": "Component", "main_type": 121,
+        "name": "self-to-rust",
+        "description": [
+                ""
+        ],
+        "x_order": -354815113,
+        "y_order": -102498807,
+        "list_order": -100671497,
+        "uuid": "45a02402-b0f6-484e-b668-67f2b0e364c1",
+        "features":
+        [
+          {
+            "id": 2,
+            "type": "Input Port", "main_type": 6,
+            "key": "configuration",
+            "description": [
+                ""
+            ],
+            "list_order": 354100960,
+            "uuid": "daa55e71-8711-4ddf-b554-04a71b55ef54"
+          },
+          {
+            "id": 3,
+            "type": "Input Port", "main_type": 6,
+            "key": "c sources",
+            "description": [
+                ""
+            ],
+            "list_order": 720786361,
+            "uuid": "fe705863-2c2d-495a-ae37-e198b8a9b533"
+          },
+          {
+            "id": 4,
+            "type": "Output Port", "main_type": 7,
+            "key": "log",
+            "description": [
+                ""
+            ],
+            "list_order": -1466578227,
+            "uuid": "d1d23bf0-dfdd-416d-a090-a87ed80add83"
+          },
+          {
+            "id": 5,
+            "type": "Output Port", "main_type": 7,
+            "key": "rust sources",
+            "description": [
+                ""
+            ],
+            "list_order": -1790754704,
+            "uuid": "f179f697-98a0-40c8-ac61-1bdfb6cda1d1"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "start",
+        "to_classifier_name": "fork",
+        "from_node": "a518ea1d-1cce-4ed7-98bf-0ea15612a479",
+        "to_node": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "uuid": "3338c9d8-5b7b-4648-8c74-b0e0d1ddb023"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "configure text replacements",
+        "to_classifier_name": "join",
+        "from_node": "8cfb5820-4f3b-4cd0-830d-77780d47518a",
+        "to_node": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
+        "uuid": "bd9e3ecc-fec0-464d-a1ad-cfffc2a37016"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "restructure c-code",
+        "to_classifier_name": "join",
+        "from_node": "88dc8758-30a8-4e8b-94bd-5d19101d70cc",
+        "to_node": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
+        "uuid": "2c8765bf-65af-4dfb-a850-da0d1d2b519d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "fork",
+        "to_classifier_name": "configure text replacements",
+        "from_node": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "to_node": "8cfb5820-4f3b-4cd0-830d-77780d47518a",
+        "uuid": "4e61b1e2-40c1-4b25-8ade-e1de6ed33b9d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "fork",
+        "to_classifier_name": "restructure c-code",
+        "from_node": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "to_node": "88dc8758-30a8-4e8b-94bd-5d19101d70cc",
+        "uuid": "3e5a33e6-029b-4617-8134-77ede69b3f5f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "join",
+        "to_classifier_name": "run text replacements",
+        "from_node": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
+        "to_node": "86ec20f6-563a-4ad1-9f78-48ee6073bb6c",
+        "uuid": "e6152a6b-57e5-4317-9ef7-8f63ed529bb4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 7,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "run text replacements",
+        "to_classifier_name": "errors",
+        "from_node": "86ec20f6-563a-4ad1-9f78-48ee6073bb6c",
+        "to_node": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
+        "uuid": "bf8f97a2-f902-4c7e-b506-7b67b4eb2fd6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 8,
+        "type": "Control Flow", "main_type": 240,
+        "name": "yes",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "errors",
+        "to_classifier_name": "fork",
+        "from_node": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
+        "to_node": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "uuid": "bb0456d7-1ec9-4bf3-8aa6-ff5d5fed02cc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 9,
+        "type": "Control Flow", "main_type": 240,
+        "name": "no",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "errors",
+        "to_classifier_name": "run rust compiler",
+        "from_node": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
+        "to_node": "6c7c717f-4d58-43f8-a769-426e00e1ce2a",
+        "uuid": "e559ccbe-bdae-4ab9-95ef-89f4ef4eda12"
+      }
+    },
+    {
+      "relationship": {
+        "id": 10,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "run rust compiler",
+        "to_classifier_name": "works?",
+        "from_node": "6c7c717f-4d58-43f8-a769-426e00e1ce2a",
+        "to_node": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
+        "uuid": "835f20a3-619f-4a2f-84b4-1e3ca24904e4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 11,
+        "type": "Control Flow", "main_type": 240,
+        "name": "no",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "works?",
+        "to_classifier_name": "fork",
+        "from_node": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
+        "to_node": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "uuid": "e29c86d8-be9c-49ce-90bc-f66e90225b1a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 12,
+        "type": "Control Flow", "main_type": 240,
+        "name": "ok",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "works?",
+        "to_classifier_name": "finish",
+        "from_node": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
+        "to_node": "184075f1-9ab2-4f56-996e-cb5c629202c1",
+        "uuid": "a48dfa55-d7ce-4866-967c-75dc5656cd96"
+      }
+    },
+    {
+      "relationship": {
+        "id": 13,
+        "type": "Association", "main_type": 200,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "self-to-rust",
+        "to_classifier_name": "run text replacements",
+        "to_feature_key": "tools",
+        "from_node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
+        "to_node": "cf5e2942-ca31-44e8-82b1-674d759dfafc",
+        "uuid": "2964a3d9-5312-4c91-85c4-43b9e09969f5"
+      }
+    }
+  ]
+}
