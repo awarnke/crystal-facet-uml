@@ -69,6 +69,12 @@
         "uuid": "e53a51c6-2d45-4053-855b-3dbab252346d",
         "diagramelements":
         [
+          {
+            "id": 16,
+            "classifier_name": "A migration strategy is needed",
+            "node": "e9442c3c-13ae-455a-9de5-aa54948ed3e2",
+            "uuid": "57c720f3-9bef-42aa-b826-9b05c60467c9"
+          }
         ]
       }
     },
@@ -211,6 +217,13 @@
         "type": "Requirement", "main_type": 99,
         "name": "convert own c99 code to rust",
         "description": [
+                "Goal: Switch completely\n",
+                "from the c99 compiler to rust.\n",
+                "\n",
+                "An expected and wanted side effect may be that the cmake build toolchain is ",
+                "replaced by cargo.\n",
+                "\n",
+                "The code shall compile for Windows and Linux.\n",
                 ""
         ],
         "x_order": -439852639,
@@ -460,7 +473,11 @@
             "type": "Output Port", "main_type": 7,
             "key": "log",
             "description": [
-                ""
+                "log output inform the user of self-to-rust in case of errors or warnings in the ",
+                "input data.\n",
+                "\n",
+                "Also in case of limitations of the out put data,\n",
+                "log statements may be issued."
             ],
             "list_order": -1466578227,
             "uuid": "d1d23bf0-dfdd-416d-a090-a87ed80add83"
@@ -474,7 +491,41 @@
             ],
             "list_order": -1790754704,
             "uuid": "f179f697-98a0-40c8-ac61-1bdfb6cda1d1"
+          },
+          {
+            "id": 6,
+            "type": "Output Port", "main_type": 7,
+            "key": "trace",
+            "description": [
+                "Trace output allows to find bugs in the self-to-rust transpiler."
+            ],
+            "list_order": -1274039098,
+            "uuid": "0f7d69ce-8fd8-4cd5-9e6e-443179edbd88"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 15,
+        "type": "Comment", "main_type": 130,
+        "name": "A migration strategy is needed",
+        "description": [
+                "During the transition from c99 code to rust,\n",
+                "it shall always be possible to write\n",
+                "a bugfix or a new feature for the c99 code\n",
+                "and easily take this over to the rust code.\n",
+                "\n",
+                "When the migration is finished,\n",
+                "it shall be possible to apply bugfixes\n",
+                "to the old c99 code."
+        ],
+        "x_order": -487092896,
+        "y_order": -763880492,
+        "list_order": -763880492,
+        "uuid": "e9442c3c-13ae-455a-9de5-aa54948ed3e2",
+        "features":
+        [
         ]
       }
     }
@@ -582,7 +633,7 @@
       "relationship": {
         "id": 7,
         "type": "Control Flow", "main_type": 240,
-        "name": "",
+        "name": "check log",
         "description": [
                 ""
         ],
@@ -630,7 +681,7 @@
       "relationship": {
         "id": 10,
         "type": "Control Flow", "main_type": 240,
-        "name": "",
+        "name": "check result",
         "description": [
                 ""
         ],
