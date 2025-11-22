@@ -62,7 +62,7 @@ sudo zypper install crystal-facet-uml
     </section>
 
     <section>
-        <title>Windows/Wine</title>
+        <title>Windows</title>
         <para>
             Find the latest executable version of crystal-facet-uml at one of the following addresses:
             <itemizedlist>

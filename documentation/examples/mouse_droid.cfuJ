@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.0"
+    "generator_version": "1.67.2"
   }
   ,
   "views":
@@ -1168,13 +1168,13 @@
           },
           {
             "id": 322,
-            "classifier_name": "Strategy planning",
+            "classifier_name": "Main Strategy Planning",
             "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
             "uuid": "075e95b1-23fc-4a9f-9c96-01f9826e33b4"
           },
           {
             "id": 323,
-            "classifier_name": "Tactic execution",
+            "classifier_name": "Base Tactic Execution",
             "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
             "uuid": "6479c3cd-e93b-46a2-aeae-276d1364153e"
           }
@@ -1294,20 +1294,20 @@
           {
             "id": 398,
             "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "Strategy planning",
+            "classifier_name": "Main Strategy Planning",
             "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
             "uuid": "7df34312-8747-45b9-8605-08a522ca6981"
           },
           {
             "id": 399,
             "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "Tactic execution",
+            "classifier_name": "Base Tactic Execution",
             "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
             "uuid": "da7d6a09-87ed-437f-b4f9-9e4fcf054d92"
           },
           {
             "id": 400,
-            "classifier_name": "System Control",
+            "classifier_name": "Base System Control",
             "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
             "uuid": "d06338fd-b9e5-4a7f-97f3-408bdf17dbb9"
           }
@@ -2000,7 +2000,7 @@
           },
           {
             "id": 172,
-            "classifier_name": "System Control",
+            "classifier_name": "Base System Control",
             "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
             "uuid": "a1ef5d0d-caf3-4f49-a0b6-4217d68c274b"
           },
@@ -2067,7 +2067,7 @@
           },
           {
             "id": 167,
-            "classifier_name": "System Control",
+            "classifier_name": "Base System Control",
             "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
             "uuid": "574398cd-b40f-4990-9634-1de063254639"
           },
@@ -2170,7 +2170,7 @@
           },
           {
             "id": 256,
-            "classifier_name": "System Control",
+            "classifier_name": "Base System Control",
             "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
             "uuid": "bf0bfeb7-b81e-48b7-93ca-52343fd6e13b"
           },
@@ -2444,7 +2444,7 @@
           },
           {
             "id": 233,
-            "classifier_name": "System Control",
+            "classifier_name": "Base System Control",
             "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
             "uuid": "26969283-66b0-42a6-bda6-de7d4766d4f7"
           }
@@ -6033,7 +6033,7 @@
         "id": 119,
         "type": "Package", "main_type": 124,
         "stereotype": "base_logic",
-        "name": "System Control",
+        "name": "Base System Control",
         "description": [
                 ""
         ],
@@ -7762,7 +7762,7 @@
         "id": 186,
         "type": "Block", "main_type": 90,
         "stereotype": "locigal_form",
-        "name": "Strategy planning",
+        "name": "Main Strategy Planning",
         "description": [
                 "This system element aggregates functions that have high demands on computation ",
                 "power but less demands on realtime-reactions.\n",
@@ -7782,7 +7782,7 @@
         "id": 187,
         "type": "Block", "main_type": 90,
         "stereotype": "locigal_form",
-        "name": "Tactic execution",
+        "name": "Base Tactic Execution",
         "description": [
                 "This system element aggregates functions that have high demands on realtime ",
                 "observations and reactions; also high demands on availability."
@@ -8212,7 +8212,8 @@
         "type": "Use Case", "main_type": 101,
         "name": "Disposal",
         "description": [
-                "The empty space is a good location for damaged droids (see flow in D0021#name)."
+                "The interstellar space is a good location for damaged droids (see flow in ",
+                "D0021#name)."
         ],
         "x_order": 1173058080,
         "y_order": 1713391668,
@@ -8603,7 +8604,7 @@
       "relationship": {
         "id": 5,
         "type": "Inclusion", "main_type": 261,
-        "name": "1.)",
+        "name": "1.) move",
         "description": [
                 ""
         ],
@@ -8619,7 +8620,7 @@
       "relationship": {
         "id": 6,
         "type": "Inclusion", "main_type": 261,
-        "name": "2.)",
+        "name": "2.) repair",
         "description": [
                 ""
         ],
@@ -8635,7 +8636,7 @@
       "relationship": {
         "id": 284,
         "type": "Inclusion", "main_type": 261,
-        "name": "3.)",
+        "name": "3.) return",
         "description": [
                 ""
         ],
@@ -10233,7 +10234,7 @@
         ],
         "list_order": 524288,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "Strategy planning",
+        "to_classifier_name": "Main Strategy Planning",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
         "uuid": "97b05956-73ad-470a-8f9a-659b48d88f91"
@@ -10363,7 +10364,7 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "Tactic execution",
+        "to_classifier_name": "Base Tactic Execution",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "uuid": "2048e4be-3705-4899-86ac-b566f2391b62"
@@ -11443,7 +11444,7 @@
       "relationship": {
         "id": 132,
         "type": "Dependency", "main_type": 0,
-        "name": "explains the challenge to solve",
+        "name": "refine the challenge to solve",
         "description": [
                 ""
         ],
@@ -11952,7 +11953,7 @@
                 ""
         ],
         "list_order": 131072,
-        "from_classifier_name": "System Control",
+        "from_classifier_name": "Base System Control",
         "to_classifier_name": "Motor Controller",
         "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
@@ -11968,7 +11969,7 @@
                 ""
         ],
         "list_order": -528333121,
-        "from_classifier_name": "System Control",
+        "from_classifier_name": "Base System Control",
         "to_classifier_name": "SW Watchdog",
         "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
@@ -11984,7 +11985,7 @@
                 ""
         ],
         "list_order": 622592,
-        "from_classifier_name": "System Control",
+        "from_classifier_name": "Base System Control",
         "to_classifier_name": "Base Logic Board",
         "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
@@ -13187,7 +13188,7 @@
                 ""
         ],
         "list_order": 163840,
-        "from_classifier_name": "Strategy planning",
+        "from_classifier_name": "Main Strategy Planning",
         "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
@@ -13203,7 +13204,7 @@
                 ""
         ],
         "list_order": 196608,
-        "from_classifier_name": "Strategy planning",
+        "from_classifier_name": "Main Strategy Planning",
         "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
@@ -13219,7 +13220,7 @@
                 ""
         ],
         "list_order": 229376,
-        "from_classifier_name": "Tactic execution",
+        "from_classifier_name": "Base Tactic Execution",
         "to_classifier_name": "Perform movement tactic (L1-Fct)",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
@@ -13235,7 +13236,7 @@
                 ""
         ],
         "list_order": 262144,
-        "from_classifier_name": "Tactic execution",
+        "from_classifier_name": "Base Tactic Execution",
         "to_classifier_name": "Perform repair tactic (L1-Fct)",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",

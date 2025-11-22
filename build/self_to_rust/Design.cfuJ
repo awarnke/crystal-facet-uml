@@ -17,7 +17,14 @@
         "type": "Box Overview", "diagram_type": 1,
         "name": "Subproject: self_to_rust",
         "description": [
-                ""
+                "This subproject is the 3rd try to fnid a solution to convert c99 code to rust.\n",
+                "\n",
+                "The first idea was to use the c2rust transpiler.\n",
+                "\n",
+                "The second approach was to use an artifical intelligence.\n",
+                "\n",
+                "Now another try to do the conversion by a) small adaptions to the c code and b) ",
+                "simple text replacements."
         ],
         "list_order": 0,
         "uuid": "d1255472-f02a-48aa-8b86-63e50702d20c",
@@ -51,6 +58,12 @@
             "classifier_name": "convert own c99 code to rust",
             "node": "db7f3c69-604b-49de-9431-c505142c0b1a",
             "uuid": "081187fb-08e2-4237-b254-66befc3ff223"
+          },
+          {
+            "id": 17,
+            "classifier_name": "allow parallel development",
+            "node": "936c2cb1-1008-44c9-95eb-eb597991a84a",
+            "uuid": "d8547ff7-13f4-4fdb-bf09-f8af4f974c54"
           }
         ]
       }
@@ -528,6 +541,25 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 16,
+        "type": "Requirement", "main_type": 99,
+        "name": "allow parallel development",
+        "description": [
+                "A transition phase of some months or even years should allow the parallel ",
+                "development of the software in order to use the well-know c/cmake tool chain ",
+                "and prepare for a new rust/cargo build enviroment."
+        ],
+        "x_order": -1283927226,
+        "y_order": 1614919768,
+        "list_order": 1163628595,
+        "uuid": "936c2cb1-1008-44c9-95eb-eb597991a84a",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -740,6 +772,22 @@
         "from_node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
         "to_node": "cf5e2942-ca31-44e8-82b1-674d759dfafc",
         "uuid": "2964a3d9-5312-4c91-85c4-43b9e09969f5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 14,
+        "type": "Refinement", "main_type": 400,
+        "name": "side condition",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "allow parallel development",
+        "to_classifier_name": "convert own c99 code to rust",
+        "from_node": "936c2cb1-1008-44c9-95eb-eb597991a84a",
+        "to_node": "db7f3c69-604b-49de-9431-c505142c0b1a",
+        "uuid": "d186e099-1454-438f-a87c-68984e190da0"
       }
     }
   ]
