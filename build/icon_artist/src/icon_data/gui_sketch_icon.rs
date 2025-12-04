@@ -5,6 +5,7 @@ use super::shape::get_rect_abs;
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::CloseRel;
 use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::LineRel;
@@ -25,6 +26,8 @@ const ICON_VIEW_RECT: Rect = Rect {
 
 /// icon center x
 const CX: f32 = 16.0;
+/// icon center y
+const CY: f32 = 8.0;
 
 /// The view rectangle of navigation icons
 const NAVICON_VIEW_RECT: Rect = Rect {
@@ -71,6 +74,12 @@ static GRAY: geometry::Color = geometry::Color {
     red: 0x7f,
     green: 0x7f,
     blue: 0x7f,
+};
+
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 1.0,
 };
 
 /// gray thick pen
@@ -506,7 +515,188 @@ pub fn generate_navigate_open_folder(out: &mut dyn PathRenderer) -> () {
         }),
         Close,
     ];
-    out.render_path(&triangle, &Some(BLACK_PEN), &Some(WHITE));
+    out.render_path(&triangle, &Some(BLACK_PEN), &Some(GREEN));
+}
+
+/// The function defines the draw directives for the name label
+///
+fn get_name_label(left: f32, top: f32) -> [geometry::DrawDirective; 6] {
+    [
+        MoveRel(Offset { dx: left, dy: top }),
+        LineRel(Offset { dx: 10.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: 2.0 }),
+        LineRel(Offset { dx: -2.0, dy: 2.0 }),
+        LineRel(Offset { dx: -8.0, dy: 0.0 }),
+        CloseRel,
+    ]
+}
+
+/// The function generates a selected icon for creating new diagram as child
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_navigate_create_child(out: &mut dyn PathRenderer) -> () {
+    /* paper */
+    let paper: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 2.0 + HALFLINE,
+        top: 2.0 + HALFLINE,
+        width: 24.0,
+        height: 11.0,
+    });
+    out.render_path(&paper, &Some(BLACK_PEN), &Some(WHITE));
+
+    /* label */
+    let label: [geometry::DrawDirective; 6] = get_name_label(2.0 + HALFLINE, 2.0 + HALFLINE);
+    out.render_path(&label, &Some(BLACK_PEN), &Some(GREEN));
+
+    /* plus */
+    let plus: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Move(Point {
+            x: CX + HALFLINE,
+            y: CY - 3.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + HALFLINE,
+            y: CY + 3.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&plus, &Some(BLACK_PEN), &None);
+}
+
+/// The function generates a deselected icon for creating new diagram as child
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_navigate_create_child_0(out: &mut dyn PathRenderer) -> () {
+    /* paper */
+    let paper: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 2.0 + HALFLINE,
+        top: 2.0 + HALFLINE,
+        width: 24.0,
+        height: 11.0,
+    });
+    out.render_path(&paper, &Some(GRAY_PEN), &None);
+
+    /* label */
+    let label: [geometry::DrawDirective; 6] = get_name_label(2.0 + HALFLINE, 2.0 + HALFLINE);
+    out.render_path(&label, &Some(GRAY_PEN), &None);
+
+    /* plus */
+    let plus: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Move(Point {
+            x: CX + HALFLINE,
+            y: CY - 3.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + HALFLINE,
+            y: CY + 3.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&plus, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a deselected icon for creating new diagram as sibling
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_navigate_create_sibling_0(out: &mut dyn PathRenderer) -> () {
+    /* paper */
+    let paper: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 1.0 + HALFLINE,
+        top: 1.0 + HALFLINE,
+        width: 29.0,
+        height: 13.0,
+    });
+    out.render_path(&paper, &Some(GRAY_PEN), &None);
+
+    /* label */
+    let label: [geometry::DrawDirective; 6] = get_name_label(1.0 + HALFLINE, 1.0 + HALFLINE);
+    out.render_path(&label, &Some(GRAY_PEN), &None);
+
+    /* plus */
+    let plus: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Move(Point {
+            x: CX + HALFLINE,
+            y: CY - 3.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + HALFLINE,
+            y: CY + 3.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&plus, &Some(GRAY_PEN), &None);
+}
+
+/// The function generates a selected icon for creating new diagram as sibling
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_navigate_create_sibling(out: &mut dyn PathRenderer) -> () {
+    /* paper */
+    let paper: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 1.0 + HALFLINE,
+        top: 1.0 + HALFLINE,
+        width: 29.0,
+        height: 13.0,
+    });
+    out.render_path(&paper, &Some(BLACK_PEN), &Some(WHITE));
+
+    /* label */
+    let label: [geometry::DrawDirective; 6] = get_name_label(1.0 + HALFLINE, 1.0 + HALFLINE);
+    out.render_path(&label, &Some(BLACK_PEN), &Some(GREEN));
+
+    /* plus */
+    let plus: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 3.0 + HALFLINE,
+            y: CY + HALFLINE,
+        }),
+        Move(Point {
+            x: CX + HALFLINE,
+            y: CY - 3.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + HALFLINE,
+            y: CY + 3.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&plus, &Some(BLACK_PEN), &None);
 }
 
 /// The function returns an array of IconSource
@@ -577,6 +767,26 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "navigate_open_folder",
             viewport: NAVICON_VIEW_RECT,
             generate: generate_navigate_open_folder,
+        },
+        IconSource {
+            name: "navigate_create_child",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_navigate_create_child,
+        },
+        IconSource {
+            name: "navigate_create_child_0",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_navigate_create_child_0,
+        },
+        IconSource {
+            name: "navigate_create_sibling",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_navigate_create_sibling,
+        },
+        IconSource {
+            name: "navigate_create_sibling_0",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_navigate_create_sibling_0,
         },
     ]
 }
