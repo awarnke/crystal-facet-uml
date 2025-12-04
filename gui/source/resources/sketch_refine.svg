@@ -7,5 +7,25 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="none" fill="#bfffbf" d="M 0,0 L 6,0 L 6,16 L 0,16 Z " /><path stroke="none" fill="#bfffbf" d="M 6,7 L 15,7 L 15,16 L 6,16 Z " /><path stroke="#000000" stroke-width="1" fill="none" d="M 1.5,1.5 L 4.5,1.5 L 4.5,4.5 L 1.5,4.5 Z " /><path stroke="#000000" stroke-width="1" fill="none" d="M 1.5,7.5 L 4.5,7.5 L 4.5,10.5 L 1.5,10.5 Z " /><path stroke="#000000" stroke-width="1" fill="none" d="M 7,11.5 l 7,0 m -3.5,-3.5 l 0,7 " /><path stroke="none" fill="#bfffbf" d="M 17,16 L 17,10.5 C 17,7.5 19.5,5 22.5,5 L 25,5 L 25,1 L 32,6.5 L 25,12 L 25,8 L 23.5,8 C 21.5,8 20,9.5 20,12.5 L 20,16 Z " /><path stroke="none" fill="#000000" d="M 18,15 L 18,11 C 18,8 20,6 23,6 L 26,6 L 26,3 L 30.5,6.5 L 26,10 L 26,7 L 23.5,7 C 21.5,7 19,8.5 19,11.5 L 19,15 Z " />
+    <path stroke="none" fill="#bfffbf"
+        d="M 0,0 L 6,0 L 6,16 L 0,16 Z "
+    />
+    <path stroke="none" fill="#bfffbf"
+        d="M 6,7 L 15,7 L 15,16 L 6,16 Z "
+    />
+    <path stroke="#000000" stroke-width="1" fill="none"
+        d="M 1.5,1.5 L 4.5,1.5 L 4.5,4.5 L 1.5,4.5 Z "
+    />
+    <path stroke="#000000" stroke-width="1" fill="none"
+        d="M 1.5,7.5 L 4.5,7.5 L 4.5,10.5 L 1.5,10.5 Z "
+    />
+    <path stroke="#000000" stroke-width="1" fill="none"
+        d="M 7,11.5 l 7,0 m -3.5,-3.5 l 0,7 "
+    />
+    <path stroke="none" fill="#bfffbf"
+        d="M 17,16 L 17,10.5 C 17,7.5 19.5,5 22.5,5 L 25,5 L 25,1 L 32,6.5 L 25,12 L 25,8 L 23.5,8 C 21.5,8 20,9.5 20,12.5 L 20,16 Z "
+    />
+    <path stroke="none" fill="#000000"
+        d="M 18,15 L 18,11 C 18,8 20,6 23,6 L 26,6 L 26,3 L 30.5,6.5 L 26,10 L 26,7 L 23.5,7 C 21.5,7 19,8.5 19,11.5 L 19,15 Z "
+    />
 </svg>

@@ -81,5 +81,7 @@ ideas for future versions:
 
 ideas for a version 2
   - support rust in application code
+  - serve the html rendered version via cgi to an http server
+  - gtk5 support (no GdkPixBuf anymore)
 
 

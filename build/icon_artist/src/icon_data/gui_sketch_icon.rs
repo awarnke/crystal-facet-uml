@@ -1,6 +1,7 @@
 //! The module provides functions to render an icon to vector graphics.
 
-use crate::icon_data::shape::get_rect_abs;
+use super::shape::get_circle_abs;
+use super::shape::get_rect_abs;
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective::Close;
@@ -14,7 +15,7 @@ use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
 
-/// The view rectangle of each icon
+/// The view rectangle of each icon except navigation icons
 const ICON_VIEW_RECT: Rect = Rect {
     left: 0.0,
     top: 0.0,
@@ -24,6 +25,19 @@ const ICON_VIEW_RECT: Rect = Rect {
 
 /// icon center x
 const CX: f32 = 16.0;
+
+/// The view rectangle of navigation icons
+const NAVICON_VIEW_RECT: Rect = Rect {
+    left: 0.0,
+    top: 0.0,
+    width: 12.0,
+    height: 16.0,
+};
+
+/// navicon center x
+const NAV_CX: f32 = 6.0;
+/// navicon center y (plus 2 to move down to baseline of font)
+const NAV_CY: f32 = 10.0;
 
 /// white color
 static WHITE: geometry::Color = geometry::Color {
@@ -64,6 +78,9 @@ static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
     color: GRAY,
     width: 2.0,
 };
+
+/// half line width
+const HALFLINE: f32 = 0.5;
 
 /// The function generates an arrow to vector graphics drawing directives
 ///
@@ -424,6 +441,74 @@ pub fn generate_sketch_page_down_bold(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &Some(GREEN));
 }
 
+/// The function generates a dot for a breadcrumb
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_navigate_breadcrumb_folder(out: &mut dyn PathRenderer) -> () {
+    let small_circle: [geometry::DrawDirective; 5] = get_circle_abs(
+        Point {
+            x: NAV_CX,
+            y: NAV_CY,
+        },
+        1.0 + HALFLINE,
+        1.0 + HALFLINE,
+    );
+    out.render_path(&small_circle, &Some(BLACK_PEN), &Some(WHITE));
+}
+
+/// The function generates an icon for closed folders
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_navigate_closed_folder(out: &mut dyn PathRenderer) -> () {
+    let triangle: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: NAV_CX - 3.0 - HALFLINE,
+            y: NAV_CY - 4.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: NAV_CX + 3.0 + HALFLINE,
+            y: NAV_CY + HALFLINE,
+        }),
+        Line(Point {
+            x: NAV_CX - 3.0 - HALFLINE,
+            y: NAV_CY + 4.0 + HALFLINE,
+        }),
+        Close,
+    ];
+    out.render_path(&triangle, &Some(BLACK_PEN), &Some(WHITE));
+}
+
+/// The function generates an icon for open folders
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_navigate_open_folder(out: &mut dyn PathRenderer) -> () {
+    let triangle: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: NAV_CX - 4.0 - HALFLINE,
+            y: NAV_CY - 2.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: NAV_CX - HALFLINE,
+            y: NAV_CY + 4.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: NAV_CX + 4.0 - HALFLINE,
+            y: NAV_CY - 2.0 - HALFLINE,
+        }),
+        Close,
+    ];
+    out.render_path(&triangle, &Some(BLACK_PEN), &Some(WHITE));
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -477,6 +562,21 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "sketch_page_down_bold",
             viewport: ICON_VIEW_RECT,
             generate: generate_sketch_page_down_bold,
+        },
+        IconSource {
+            name: "navigate_breadcrumb_folder",
+            viewport: NAVICON_VIEW_RECT,
+            generate: generate_navigate_breadcrumb_folder,
+        },
+        IconSource {
+            name: "navigate_closed_folder",
+            viewport: NAVICON_VIEW_RECT,
+            generate: generate_navigate_closed_folder,
+        },
+        IconSource {
+            name: "navigate_open_folder",
+            viewport: NAVICON_VIEW_RECT,
+            generate: generate_navigate_open_folder,
         },
     ]
 }
