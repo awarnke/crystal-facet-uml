@@ -7,5 +7,22 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 0,11.5 l 3,0 " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 29,11.5 l 3,0 " /><path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 5,5 l 0,13 " /><path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 27,5 l 0,13 " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 9.5,5.5 C 9.5,3.875 10.875,2.5 12.5,2.5 L 19.5,2.5 C 21.125,2.5 22.5,3.875 22.5,5.5 L 22.5,6.5 C 22.5,8.125 21.125,9.5 19.5,9.5 L 12.5,9.5 C 10.875,9.5 9.5,8.125 9.5,6.5 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 9.5,16.5 C 9.5,14.875 10.875,13.5 12.5,13.5 L 19.5,13.5 C 21.125,13.5 22.5,14.875 22.5,16.5 L 22.5,17.5 C 22.5,19.125 21.125,20.5 19.5,20.5 L 12.5,20.5 C 10.875,20.5 9.5,19.125 9.5,17.5 Z " />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 0,11.5 l 3,0 "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 29,11.5 l 3,0 "
+    />
+    <path stroke="#7f7f7f" stroke-width="2" fill="none"
+        d="M 5,5 l 0,13 "
+    />
+    <path stroke="#7f7f7f" stroke-width="2" fill="none"
+        d="M 27,5 l 0,13 "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 9.5,5.5 C 9.5,3.875 10.875,2.5 12.5,2.5 L 19.5,2.5 C 21.125,2.5 22.5,3.875 22.5,5.5 L 22.5,6.5 C 22.5,8.125 21.125,9.5 19.5,9.5 L 12.5,9.5 C 10.875,9.5 9.5,8.125 9.5,6.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 9.5,16.5 C 9.5,14.875 10.875,13.5 12.5,13.5 L 19.5,13.5 C 21.125,13.5 22.5,14.875 22.5,16.5 L 22.5,17.5 C 22.5,19.125 21.125,20.5 19.5,20.5 L 12.5,20.5 C 10.875,20.5 9.5,19.125 9.5,17.5 Z "
+    />
 </svg>

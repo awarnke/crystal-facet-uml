@@ -7,5 +7,16 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 1.5,15.5 L 7.5,15.5 L 7.5,21.5 L 1.5,21.5 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 12.5,1.5 L 18.5,1.5 L 18.5,7.5 L 12.5,7.5 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 23.5,15.5 L 29.5,15.5 L 29.5,21.5 L 23.5,21.5 Z " /><path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 15.5,11 l 4.5,6 l -9,0 z " />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 1.5,15.5 L 7.5,15.5 L 7.5,21.5 L 1.5,21.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 12.5,1.5 L 18.5,1.5 L 18.5,7.5 L 12.5,7.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 23.5,15.5 L 29.5,15.5 L 29.5,21.5 L 23.5,21.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="2" fill="none"
+        d="M 15.5,11 l 4.5,6 l -9,0 z "
+    />
 </svg>

@@ -7,5 +7,19 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 9.5,8.5 C 9.5,6.875 10.875,5.5 12.5,5.5 L 19.5,5.5 C 21.125,5.5 22.5,6.875 22.5,8.5 L 22.5,15.5 C 22.5,17.125 21.125,18.5 19.5,18.5 L 12.5,18.5 C 10.875,18.5 9.5,17.125 9.5,15.5 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 9.5,7.5 L 12.5,7.5 L 12.5,10.5 L 9.5,10.5 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 9.5,13.5 L 12.5,13.5 L 12.5,16.5 L 9.5,16.5 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 19.5,10.5 L 22.5,10.5 L 22.5,13.5 L 19.5,13.5 Z " /><path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 1,9 L 8,9 M 1,15 L 8,15 M 24,12 L 31,12 " />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 9.5,8.5 C 9.5,6.875 10.875,5.5 12.5,5.5 L 19.5,5.5 C 21.125,5.5 22.5,6.875 22.5,8.5 L 22.5,15.5 C 22.5,17.125 21.125,18.5 19.5,18.5 L 12.5,18.5 C 10.875,18.5 9.5,17.125 9.5,15.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 9.5,7.5 L 12.5,7.5 L 12.5,10.5 L 9.5,10.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 9.5,13.5 L 12.5,13.5 L 12.5,16.5 L 9.5,16.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="1" fill="none"
+        d="M 19.5,10.5 L 22.5,10.5 L 22.5,13.5 L 19.5,13.5 Z "
+    />
+    <path stroke="#7f7f7f" stroke-width="2" fill="none"
+        d="M 1,9 L 8,9 M 1,15 L 8,15 M 24,12 L 31,12 "
+    />
 </svg>

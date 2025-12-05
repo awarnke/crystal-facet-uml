@@ -7,5 +7,13 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="black" fill="none" d="m 1,24 4,4 22,0 4,-4 " /><path stroke="#00aa00" stroke-width="1" fill="none" d="m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s -3.5625,8 -8,8 s -8,-3.5625 -8,-8 " /><path stroke="#00aa00" stroke-width="1" fill="none" d="m 11,17 l 10,0 m -5,-5 l 0,10 " />
+    <path stroke="black" fill="none"
+        d="m 1,24 4,4 22,0 4,-4 "
+    />
+    <path stroke="#00aa00" stroke-width="1" fill="none"
+        d="m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s -3.5625,8 -8,8 s -8,-3.5625 -8,-8 "
+    />
+    <path stroke="#00aa00" stroke-width="1" fill="none"
+        d="m 11,17 l 10,0 m -5,-5 l 0,10 "
+    />
 </svg>
