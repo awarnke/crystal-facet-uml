@@ -1,13 +1,13 @@
 //! The module provides functions to render an icon to vector graphics.
 
-use super::shape::get_rect_abs;
 use super::shape::get_circle_abs;
+use super::shape::get_rect_abs;
 use super::shape::get_rounded_rect_abs;
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
+use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::Move;
-use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
@@ -126,7 +126,7 @@ pub fn generate_type_feat_operation(out: &mut dyn PathRenderer) -> () {
 
 /// The function defines the draw directives for the name label
 ///
-fn get_rect_with_opening(gap:f32) -> [geometry::DrawDirective; 6] {
+fn get_rect_with_opening(gap: f32) -> [geometry::DrawDirective; 6] {
     [
         Move(Point {
             x: CX + HALFLINE,
@@ -155,16 +155,103 @@ fn get_rect_with_opening(gap:f32) -> [geometry::DrawDirective; 6] {
     ]
 }
 
+/// The function defines the draw directives for the name label
+///
+fn get_rounded_rect_with_opening(gap: f32) -> [geometry::DrawDirective; 10] {
+    [
+        Move(Point {
+            x: CX + HALFLINE,
+            y: CY - gap,
+        }),
+        Line(Point {
+            x: CX + HALFLINE,
+            y: 4.5 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: CX + HALFLINE,
+                y: 2.5 + HALFLINE,
+            },
+            Point {
+                x: CX + 1.5 + HALFLINE,
+                y: 1.0 + HALFLINE,
+            },
+            Point {
+                x: CX + 3.5 + HALFLINE,
+                y: 1.0 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: 26.5 + HALFLINE,
+            y: 1.0 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: 28.5 + HALFLINE,
+                y: 1.0 + HALFLINE,
+            },
+            Point {
+                x: 30.0 + HALFLINE,
+                y: 2.5 + HALFLINE,
+            },
+            Point {
+                x: 30.0 + HALFLINE,
+                y: 4.5 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: 30.0 + HALFLINE,
+            y: 18.5 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: 30.0 + HALFLINE,
+                y: 20.5 + HALFLINE,
+            },
+            Point {
+                x: 28.5 + HALFLINE,
+                y: 22.0 + HALFLINE,
+            },
+            Point {
+                x: 26.5 + HALFLINE,
+                y: 22.0 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: CX + 3.5 + HALFLINE,
+            y: 22.0 + HALFLINE,
+        }),
+        Curve(
+            Point {
+                x: CX + 1.5 + HALFLINE,
+                y: 22.0 + HALFLINE,
+            },
+            Point {
+                x: CX + HALFLINE,
+                y: 20.5 + HALFLINE,
+            },
+            Point {
+                x: CX + HALFLINE,
+                y: 18.5 + HALFLINE,
+            },
+        ),
+        Line(Point {
+            x: CX + HALFLINE,
+            y: CY + gap,
+        }),
+    ]
+}
+
 /// The function generates a type_feat_entry
 ///
 pub fn generate_type_feat_entry(out: &mut dyn PathRenderer) -> () {
     /* object */
-    let icon_object: [geometry::DrawDirective; 6] = get_rect_with_opening(5.0);
+    let icon_object: [geometry::DrawDirective; 10] = get_rounded_rect_with_opening(5.0);
     out.render_path(&icon_object, &Some(GRAY_PEN), &None);
 
     /* port */
     let icon_circle: [geometry::DrawDirective; 5] =
-        get_circle_abs(Point { x: CX, y: CY }, 4.0, 4.0 );
+        get_circle_abs(Point { x: CX + 1.0, y: CY }, 4.0, 4.0);
     out.render_path(&icon_circle, &Some(GRAY_THICK_PEN), &None);
 }
 
@@ -172,29 +259,29 @@ pub fn generate_type_feat_entry(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_type_feat_exit(out: &mut dyn PathRenderer) -> () {
     /* object */
-    let icon_object: [geometry::DrawDirective; 6] = get_rect_with_opening(5.0);
+    let icon_object: [geometry::DrawDirective; 10] = get_rounded_rect_with_opening(5.0);
     out.render_path(&icon_object, &Some(GRAY_PEN), &None);
 
     /* port */
     let icon_circle: [geometry::DrawDirective; 5] =
-    get_circle_abs(Point { x: CX, y: CY }, 4.0, 4.0 );
+        get_circle_abs(Point { x: CX + 1.0, y: CY }, 4.0, 4.0);
     out.render_path(&icon_circle, &Some(GRAY_THICK_PEN), &None);
 
     let icon_feature: [geometry::DrawDirective; 4] = [
         Move(Point {
-            x: CX - 2.0,
+            x: CX - 1.0,
             y: CY - 2.0,
         }),
         Line(Point {
-            x: CX + 2.0,
+            x: CX + 3.0,
             y: CY + 2.0,
         }),
         Move(Point {
-            x: CX + 2.0,
+            x: CX + 3.0,
             y: CY - 2.0,
         }),
         Line(Point {
-            x: CX - 2.0,
+            x: CX - 1.0,
             y: CY + 2.0,
         }),
     ];
@@ -210,7 +297,7 @@ pub fn generate_type_feat_port(out: &mut dyn PathRenderer) -> () {
 
     /* port */
     let icon_feature: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
-        left: CX - 3.0,
+        left: CX - 2.0,
         top: CY - 3.0,
         width: 6.0,
         height: 6.0,
@@ -232,18 +319,10 @@ pub fn generate_type_feat_provide(out: &mut dyn PathRenderer) -> () {
 
     /* port */
     let icon_circle: [geometry::DrawDirective; 5] =
-    get_circle_abs(Point { x: 6.0, y: CY }, 4.0, 4.0 );
+        get_circle_abs(Point { x: 6.0, y: CY }, 4.0, 4.0);
     out.render_path(&icon_circle, &Some(GRAY_THICK_PEN), &None);
-    let icon_feature: [geometry::DrawDirective; 2] = [
-        Move(Point {
-            x: 11.0,
-            y: CY,
-        }),
-        Line(Point {
-            x: CX,
-            y: CY,
-        }),
-    ];
+    let icon_feature: [geometry::DrawDirective; 2] =
+        [Move(Point { x: 11.0, y: CY }), Line(Point { x: CX, y: CY })];
     out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
 }
 
@@ -263,44 +342,35 @@ pub fn generate_type_feat_require(out: &mut dyn PathRenderer) -> () {
     let icon_feature: [geometry::DrawDirective; 5] = [
         Move(Point {
             x: 6.0,
-            y: CY-4.0,
+            y: CY - 4.0,
         }),
         Curve(
             Point {
                 x: 8.2,
-                y: CY-4.0,
+                y: CY - 4.0,
             },
             Point {
                 x: 10.0,
-                y: CY-2.2,
+                y: CY - 2.2,
             },
-            Point {
-                x: 10.0,
-                y: CY,
-            }
+            Point { x: 10.0, y: CY },
         ),
         Curve(
             Point {
                 x: 10.0,
-                y: CY+2.2,
+                y: CY + 2.2,
             },
             Point {
                 x: 8.2,
-                y: CY+4.0,
+                y: CY + 4.0,
             },
             Point {
                 x: 6.0,
-                y: CY+4.0,
-            }
+                y: CY + 4.0,
+            },
         ),
-        Move(Point {
-            x: 11.0,
-            y: CY,
-        }),
-        Line(Point {
-            x: CX,
-            y: CY,
-        }),
+        Move(Point { x: 11.0, y: CY }),
+        Line(Point { x: CX, y: CY }),
     ];
     out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
 }
@@ -319,30 +389,12 @@ pub fn generate_type_feat_life(out: &mut dyn PathRenderer) -> () {
 
     /* line */
     let icon_feature: [geometry::DrawDirective; 6] = [
-        Move(Point {
-            x: CX,
-            y: 8.0,
-        }),
-        Line(Point {
-            x: CX,
-            y: 11.0,
-        }),
-        Move(Point {
-            x: CX,
-            y: 14.0,
-        }),
-        Line(Point {
-            x: CX,
-            y: 17.0,
-        }),
-        Move(Point {
-            x: CX,
-            y: 20.0,
-        }),
-        Line(Point {
-            x: CX,
-            y: 23.0,
-        }),
+        Move(Point { x: CX, y: 8.0 }),
+        Line(Point { x: CX, y: 11.0 }),
+        Move(Point { x: CX, y: 14.0 }),
+        Line(Point { x: CX, y: 17.0 }),
+        Move(Point { x: CX, y: 20.0 }),
+        Line(Point { x: CX, y: 23.0 }),
     ];
     out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
 }
@@ -356,11 +408,27 @@ pub fn generate_type_feat_rx(out: &mut dyn PathRenderer) -> () {
 
     /* port */
     let icon_feature: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
-        left: CX - 3.0,
+        left: CX - 2.0,
         top: CY - 3.0,
         width: 6.0,
         height: 6.0,
     });
+    out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
+
+    /* arrow */
+    let icon_feature: [geometry::DrawDirective; 5] = [
+        Move(Point { x: 1.0, y: CY }),
+        Line(Point { x: CX - 5.0, y: CY }),
+        Line(Point {
+            x: CX - 11.0,
+            y: CY - 4.5,
+        }),
+        Move(Point { x: CX - 5.0, y: CY }),
+        Line(Point {
+            x: CX - 11.0,
+            y: CY + 4.5,
+        }),
+    ];
     out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
 }
 
@@ -368,26 +436,78 @@ pub fn generate_type_feat_rx(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_type_feat_tx(out: &mut dyn PathRenderer) -> () {
     /* object */
-    let icon_object: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
-        left: 16.0 + HALFLINE,
-        top: 1.0 + HALFLINE,
-        width: 14.0,
-        height: 21.0,
-    });
+    let icon_object: [geometry::DrawDirective; 6] = get_rect_with_opening(3.0);
     out.render_path(&icon_object, &Some(GRAY_PEN), &None);
+
+    /* port */
+    let icon_feature: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 2.0,
+        top: CY - 3.0,
+        width: 6.0,
+        height: 6.0,
+    });
+    out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
+
+    /* arrow */
+    let icon_feature: [geometry::DrawDirective; 5] = [
+        Move(Point { x: CX - 4.0, y: CY }),
+        Line(Point { x: 2.0, y: CY }),
+        Line(Point {
+            x: 8.0,
+            y: CY - 4.5,
+        }),
+        Move(Point { x: 2.0, y: CY }),
+        Line(Point {
+            x: 8.0,
+            y: CY + 4.5,
+        }),
+    ];
+    out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a type_feat_tag
 ///
 pub fn generate_type_feat_tag(out: &mut dyn PathRenderer) -> () {
-    /* object */
-    let icon_object: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
-        left: 16.0 + HALFLINE,
-        top: 1.0 + HALFLINE,
-        width: 14.0,
-        height: 21.0,
-    });
-    out.render_path(&icon_object, &Some(GRAY_PEN), &None);
+    /* tag */
+    let icon_feature: [geometry::DrawDirective; 7] = [
+        Move(Point { x: 11.25, y: 12.0 }),
+        Line(Point { x: 7.0, y: 8.75 }),
+        Line(Point { x: 7.0, y: 5.25 }),
+        Line(Point { x: 11.25, y: 2.0 }),
+        Line(Point { x: 30.0, y: 2.0 }),
+        Line(Point { x: 30.0, y: 12.0 }),
+        Line(Point { x: 13.0, y: 12.0 }),
+    ];
+    out.render_path(&icon_feature, &Some(GRAY_THICK_PEN), &None);
+
+    /* thread */
+    let icon_feature: [geometry::DrawDirective; 5] = [
+        Move(Point {
+            x: 2.0 + HALFLINE,
+            y: 21.0,
+        }),
+        Line(Point {
+            x: 7.0 + HALFLINE,
+            y: 11.0,
+        }),
+        Move(Point {
+            x: 11.0,
+            y: 7.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: 10.0 + HALFLINE,
+            y: 7.0,
+        }),
+        Curve(
+            Point { x: 14.0, y: 14.0 },
+            Point { x: 13.0, y: 16.0 },
+            Point {
+                x: 8.0 + HALFLINE,
+                y: 20.0 + HALFLINE,
+            },
+        ),
+    ];
+    out.render_path(&icon_feature, &Some(GRAY_PEN), &None);
 }
 
 /// The function returns an array of IconSource
@@ -438,7 +558,7 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "type_feat_rx",
             viewport: ICON_VIEW_RECT,
             generate: generate_type_feat_rx,
-        },/*
+        },
         IconSource {
             name: "type_feat_tx",
             viewport: ICON_VIEW_RECT,
@@ -449,7 +569,6 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             viewport: ICON_VIEW_RECT,
             generate: generate_type_feat_tag,
         },
-        */
     ]
 }
 
