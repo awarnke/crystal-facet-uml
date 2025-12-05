@@ -1,13 +1,14 @@
 //! This module provides a static data model to be rendered.
 
-pub mod gui_edit_icon;
-pub mod gui_file_icon;
-pub mod gui_sketch_icon;
-pub mod gui_view_icon;
 pub mod logo_icon;
 pub mod message_icon;
 pub mod shape;
+pub mod sketch_icon;
 pub mod stereotype_icon;
+pub mod tool_edit_icon;
+pub mod tool_file_icon;
+pub mod tool_icon;
+pub mod tool_view_icon;
 pub mod type_class_icon;
 pub mod type_diag_icon;
 pub mod type_feat_icon;

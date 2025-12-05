@@ -2432,7 +2432,7 @@
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "list_order": 49152,
         "parent_name": "gui: Black Box View",
         "parent": "d0781a12-5f3c-4f27-beb1-304e32682578",
         "uuid": "65463912-947e-4e45-9d91-38b47fae6ae9",
