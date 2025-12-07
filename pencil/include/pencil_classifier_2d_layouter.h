@@ -11,6 +11,7 @@
 
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
+#include "pencil_error.h"
 #include "layout/layout_visible_set.h"
 #include "layout/layout_visible_classifier_iter.h"
 #include "pencil_feature_layouter.h"
@@ -183,13 +184,13 @@ void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_clas
  *  \param the_relationship the relationship to process: the parent tries to embrace the child
  *  \param move true if the containing parent classifier may move to the child, false if it shall expand only
  *  \param font_layout pango layout object to determine the font metrics if re-layouting titles
- *  \return 0 in case of success, -1 if embracing was not possible
+ *  \return PENCIL_ERROR_NONE in case of success, PENCIL_ERROR_OUT_OF_BOUNDS if embracing was not possible
  */
-int pencil_classifier_2d_layouter_private_try_embrace_child ( pencil_classifier_2d_layouter_t *this_,
-                                                              layout_relationship_t *the_relationship,
-                                                              bool move,
-                                                              PangoLayout *font_layout
-                                                            );
+pencil_error_t pencil_classifier_2d_layouter_private_try_embrace_child ( pencil_classifier_2d_layouter_t *this_,
+                                                                         layout_relationship_t *the_relationship,
+                                                                         bool move,
+                                                                         PangoLayout *font_layout
+                                                                       );
 
 /* ================================ EMBRACE CHILDREN COMMON ================================ */
 

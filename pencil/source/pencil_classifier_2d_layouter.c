@@ -712,13 +712,13 @@ void pencil_classifier_2d_layouter_embrace_children( pencil_classifier_2d_layout
         assert ( rel_data != NULL );
         const data_id_t rel_from_id = data_relationship_get_from_classifier_data_id ( rel_data );
 
-        const int failure
+        const pencil_error_t failure
             = pencil_classifier_2d_layouter_private_try_embrace_child( this_,
                                                                        the_relationship,
                                                                        ! data_small_set_contains( &has_embraced_children, rel_from_id ),
                                                                        font_layout
                                                                      );
-        if ( ! failure )
+        if ( failure == PENCIL_ERROR_NONE )
         {
             /* only in case of success, children are counted as embraced */
             data_small_set_add_obj( &has_embraced_children, rel_from_id );
@@ -762,14 +762,14 @@ void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_clas
     U8_TRACE_END();
 }
 
-int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2d_layouter_t *this_,
-                                                             layout_relationship_t *the_relationship,
-                                                             bool move,
-                                                             PangoLayout *font_layout )
+pencil_error_t pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2d_layouter_t *this_,
+                                                                        layout_relationship_t *the_relationship,
+                                                                        bool move,
+                                                                        PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
     assert( NULL != the_relationship );
-    int result_err = -1;
+    pencil_error_t result_err = PENCIL_ERROR_OUT_OF_BOUNDS;
 
     const data_relationship_type_t the_type
         = data_relationship_get_main_type ( layout_relationship_get_data_const( the_relationship ));
@@ -855,7 +855,7 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
                 }
 
                 layout_visible_classifier_replacemove( from_classifier, &probe_parent_layout );
-                result_err = 0;
+                result_err = PENCIL_ERROR_NONE;
             }
             else
             {

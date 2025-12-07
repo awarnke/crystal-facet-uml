@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.2"
+    "generator_version": "1.67.3"
   }
   ,
   "views":
@@ -5969,12 +5969,14 @@
         "description": [
                 "The functions of the MoD5G are divided onto two logic boards.\n",
                 "The main logic\n",
-                "gets sensor data of the environment and \n",
-                "calculates movement actions to efficiently fulfill the mission (that was ",
-                "programmed before).\n",
+                "- gets sensor data of the environment and \n",
+                "- calculates movement actions\n",
+                "  to efficiently fulfill the mission\n",
+                "  (that was programmed before).\n",
+                "\n",
                 "The base logic\n",
-                "gets local sensor information and \n",
-                "controls things within the system boundary of the MoD5G."
+                "- gets system-internal sensor information and \n",
+                "- controls things within the system boundary of the MoD5G."
         ],
         "x_order": -908657191,
         "y_order": -186501372,
@@ -7531,7 +7533,7 @@
                 ""
         ],
         "x_order": -1680233828,
-        "y_order": -1827732092,
+        "y_order": -1954756479,
         "list_order": -1827732092,
         "uuid": "4037dfd8-7322-4f92-baff-b09701ff86f9",
         "features":
@@ -7543,7 +7545,7 @@
             "description": [
                 ""
             ],
-            "list_order": -991714663,
+            "list_order": -1506263270,
             "uuid": "457cfe4e-a7eb-467c-a92e-af809334591f"
           }
         ]
@@ -7559,7 +7561,7 @@
                 ""
         ],
         "x_order": 1547156011,
-        "y_order": -1827732092,
+        "y_order": -1954756479,
         "list_order": -1335545141,
         "uuid": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
         "features":
@@ -7571,7 +7573,7 @@
             "description": [
                 ""
             ],
-            "list_order": -328972753,
+            "list_order": 488835778,
             "uuid": "d6a693e9-55e4-4cc9-9865-9e81b87942dd"
           }
         ]
@@ -7643,7 +7645,7 @@
           {
             "id": 76,
             "type": "Output Port", "main_type": 7,
-            "key": "list of tool move-ments",
+            "key": "list of tool moves",
             "description": [
                 ""
             ],
@@ -7719,7 +7721,7 @@
           {
             "id": 77,
             "type": "Input Port", "main_type": 6,
-            "key": "list of tool move-ments",
+            "key": "list of tool moves",
             "description": [
                 ""
             ],
@@ -13119,9 +13121,9 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Plan repair strategy (L1-Fct)",
-        "from_feature_key": "list of tool move-ments",
+        "from_feature_key": "list of tool moves",
         "to_classifier_name": "Perform repair tactic (L1-Fct)",
-        "to_feature_key": "list of tool move-ments",
+        "to_feature_key": "list of tool moves",
         "from_node": "3af43353-62e7-4daa-9b1b-06f5d5df69f9",
         "to_node": "047dcc96-a59b-46ba-a14d-8a39b6b738d2",
         "uuid": "c3b5807f-d0ae-454f-b322-c5d37bfa9fcf"

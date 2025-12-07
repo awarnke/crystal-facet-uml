@@ -12,6 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "pencil_feature_painter.h"
+#include "pencil_error.h"
 #include "layout/layout_visible_set.h"
 #include "layout/layout_visible_classifier.h"
 #include "draw/draw_classifier_icon.h"
@@ -76,14 +77,14 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param io_classifier_layout classifier layout of which the box coordinates shall be modified. Must not be NULL.
  *  \return 0 in case of success, 1 in case of additionally needed width by label text
  */
-int pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
-                                              const geometry_rectangle_t *space,
-                                              bool shows_contained_children,
-                                              const data_profile_part_t *profile,
-                                              const pencil_size_t *pencil_size,
-                                              PangoLayout *font_layout,
-                                              layout_visible_classifier_t *io_classifier_layout
-                                            );
+pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
+                                                         const geometry_rectangle_t *space,
+                                                         bool shows_contained_children,
+                                                         const data_profile_part_t *profile,
+                                                         const pencil_size_t *pencil_size,
+                                                         PangoLayout *font_layout,
+                                                         layout_visible_classifier_t *io_classifier_layout
+                                                       );
 
 /*!
  *  \brief resizes the contour, inner drawing space for contained classifiers and features - and the label_box
@@ -100,14 +101,14 @@ int pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
  *  \return 0 in case of success, 1 in case of additionally needed width or height
  */
-int pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *this_,
-                                                  const geometry_rectangle_t *envelope,
-                                                  bool shows_contained_children,
-                                                  const data_profile_part_t *profile,
-                                                  const pencil_size_t *pencil_size,
-                                                  PangoLayout *font_layout,
-                                                  layout_visible_classifier_t *io_classifier_layout
-                                                );
+pencil_error_t pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *this_,
+                                                             const geometry_rectangle_t *envelope,
+                                                             bool shows_contained_children,
+                                                             const data_profile_part_t *profile,
+                                                             const pencil_size_t *pencil_size,
+                                                             PangoLayout *font_layout,
+                                                             layout_visible_classifier_t *io_classifier_layout
+                                                           );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
@@ -126,17 +127,17 @@ int pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *
  *  \param out_label_compartment position and dimensions of label compartment (width as the inner_area if fitting, may contain an icon)
  *  \return 0 in case of success, 1 in case of additionally needed width or height
  */
-int pencil_classifier_composer_private_get_label_box ( pencil_classifier_composer_t *this_,
-                                                       const data_visible_classifier_t *visible_classifier,
-                                                       bool shows_contained_children,
-                                                       bool has_stereotype_icon,
-                                                       const geometry_rectangle_t *space_and_label,
-                                                       const pencil_size_t *pencil_size,
-                                                       PangoLayout *font_layout,
-                                                       geometry_rectangle_t *out_label_box,
-                                                       geometry_rectangle_t *out_icon_box,
-                                                       geometry_rectangle_t *out_label_compartment
-                                                     );
+pencil_error_t pencil_classifier_composer_private_get_label_box ( pencil_classifier_composer_t *this_,
+                                                                  const data_visible_classifier_t *visible_classifier,
+                                                                  bool shows_contained_children,
+                                                                  bool has_stereotype_icon,
+                                                                  const geometry_rectangle_t *space_and_label,
+                                                                  const pencil_size_t *pencil_size,
+                                                                  PangoLayout *font_layout,
+                                                                  geometry_rectangle_t *out_label_box,
+                                                                  geometry_rectangle_t *out_icon_box,
+                                                                  geometry_rectangle_t *out_label_compartment
+                                                                );
 
 #endif  /* PENCIL_CLASSIFIER_COMPOSER_H */
 

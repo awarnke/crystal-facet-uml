@@ -148,7 +148,7 @@ static test_case_result_t test_expand_space( test_fixture_t *fix )
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
         {
             /* run composing method */
-            const int err
+            const pencil_error_t err
                 = pencil_classifier_composer_expand_space( &classifier_composer,
                                                            &in_space,
                                                            (show_children != 0),
@@ -157,7 +157,7 @@ static test_case_result_t test_expand_space( test_fixture_t *fix )
                                                            (*fix).font_layout,
                                                            &(*fix).layout_vis_classifier
                                                          );
-            TEST_EXPECT_EQUAL_INT( 0, err );
+            TEST_EXPECT_EQUAL_INT( PENCIL_ERROR_NONE, err );
 
             /* check that all layouted rectangles are outside space */
             const geometry_rectangle_t *const symbol
@@ -206,7 +206,7 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *fix )
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
         {
             /* run composing method */
-            const int err
+            const pencil_error_t err
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &envelope,
                                                                (show_children != 0),
@@ -215,7 +215,7 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *fix )
                                                                (*fix).font_layout,
                                                                &(*fix).layout_vis_classifier
                                                              );
-            TEST_EXPECT_EQUAL_INT( 0, err );
+            TEST_EXPECT_EQUAL_INT( PENCIL_ERROR_NONE, err );
 
             /* check that all layouted rectangles are within envelope */
             const geometry_rectangle_t *const symbol
@@ -256,7 +256,7 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *fix )
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
         {
             /* run composing method */
-            const int err
+            const pencil_error_t err
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &small_envelope,
                                                                (show_children != 0),
@@ -265,7 +265,7 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *fix )
                                                                (*fix).font_layout,
                                                                &(*fix).layout_vis_classifier
                                                              );
-            TEST_EXPECT_EQUAL_INT( 1, err );
+            TEST_EXPECT_EQUAL_INT( PENCIL_ERROR_OUT_OF_BOUNDS, err );
 
             /* check that actual_envelope rectangle is bigger and is within small_envelope */
             const geometry_rectangle_t actual_envelope

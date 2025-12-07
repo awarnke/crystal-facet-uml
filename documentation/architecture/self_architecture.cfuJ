@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.2"
+    "generator_version": "1.67.3"
   }
   ,
   "views":
@@ -3043,7 +3043,10 @@
         "type": "Component Diagram", "diagram_type": 31,
         "name": "pencil: Black Box View",
         "description": [
-                ""
+                "The pencil package performs the layouting of diagrams and draws these to a ",
+                "cairo drawing context.\n",
+                "\n",
+                "For a glossary on pencil terms like envelope, label or contour, see D0079#name."
         ],
         "list_order": 29440,
         "parent_name": "Building Block View",
@@ -5357,6 +5360,41 @@
             "classifier_name": "ENV_START",
             "node": "d00bd0f8-1c45-491d-a769-79106058a326",
             "uuid": "c1423385-37c7-4174-9c4e-61a24e38777f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 136,
+        "type": "Class Diagram", "diagram_type": 34,
+        "name": "Module-specific errors",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "parent_name": "Error Propagation",
+        "parent": "1585cfe2-15e5-4a7e-ab71-ca5b20be6b82",
+        "uuid": "d5a0ed9c-2ed4-490d-8db4-30f0a771d20f",
+        "diagramelements":
+        [
+          {
+            "id": 1001,
+            "classifier_name": "u8_error",
+            "node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+            "uuid": "bcebdc89-3fc2-4bd2-b0e9-39f9efbd18b2"
+          },
+          {
+            "id": 1002,
+            "classifier_name": "pencil_error",
+            "node": "ef275ce1-ea52-4c54-bfdf-2e8f5cea5092",
+            "uuid": "3f86b7de-0226-4402-b669-507d3d2d7fb0"
+          },
+          {
+            "id": 1003,
+            "classifier_name": "utf8_error",
+            "node": "4f73a56a-af1f-4459-b004-66ae273b5be0",
+            "uuid": "4bf2bb6a-35fd-49c6-8947-fc5b4cfd1516"
           }
         ]
       }
@@ -19301,6 +19339,40 @@
         "y_order": 1398930124,
         "list_order": 1273938051,
         "uuid": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 600,
+        "type": "Class", "main_type": 125,
+        "name": "pencil_error",
+        "description": [
+                ""
+        ],
+        "x_order": -1223544261,
+        "y_order": 977329388,
+        "list_order": 977329388,
+        "uuid": "ef275ce1-ea52-4c54-bfdf-2e8f5cea5092",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 601,
+        "type": "Class", "main_type": 125,
+        "name": "utf8_error",
+        "description": [
+                ""
+        ],
+        "x_order": 191815500,
+        "y_order": 977329388,
+        "list_order": 1301720682,
+        "uuid": "4f73a56a-af1f-4459-b004-66ae273b5be0",
         "features":
         [
         ]
@@ -34282,6 +34354,38 @@
         "from_node": "0a65cedb-7ad2-4ee5-83c2-5f9c2cee1958",
         "to_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
         "uuid": "da1e8601-49c8-4d43-a0df-582202fe7614"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1139,
+        "type": "Generalization", "main_type": 210,
+        "name": "filters and concretizes",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "pencil_error",
+        "to_classifier_name": "u8_error",
+        "from_node": "ef275ce1-ea52-4c54-bfdf-2e8f5cea5092",
+        "to_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "uuid": "8fb36e5b-d089-442d-b893-a2b26490ccc6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1140,
+        "type": "Association", "main_type": 200,
+        "name": "filters and concretizes",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "utf8_error",
+        "to_classifier_name": "u8_error",
+        "from_node": "4f73a56a-af1f-4459-b004-66ae273b5be0",
+        "to_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "uuid": "3870571f-cc32-4e8b-87fa-5adfdd73e1c9"
       }
     }
   ]
