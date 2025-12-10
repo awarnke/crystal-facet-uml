@@ -1446,3 +1446,7 @@ crystal-facet-uml (0.1.0) UNRELEASED; urgency=medium
   * The user can create, rename and navigate diagrams
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Mar 31 20:28:08 2016 +0200
+  test case: layout_good_cases
+    #Diag=432, total=1634 |  ERR=0, W/C=8, W/F=1, W/L=25, W/R=91
+  test case: layout_challenging_cases
+    #Diag=432, total=12440 |  ERR=43, W/C=9799, W/F=490, W/L=6857, W/R=7902

@@ -319,7 +319,9 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
 static inline double layout_quality_debts_conn_class ( const layout_quality_t *this_,
                                                        const geometry_connector_t *probe,
                                                        const layout_visible_classifier_t *other,
+                                                       const bool is_source,
                                                        const bool is_ancestor_of_source,
+                                                       const bool is_destination,
                                                        const bool is_ancestor_of_destination )
 {
     double debts = 0.0;
@@ -336,7 +338,11 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
 
         const geometry_rectangle_t *const classifier_symbol_box
             = layout_visible_classifier_get_symbol_box_const( other );
-        if ( is_ancestor_of_source && is_ancestor_of_destination )
+        if ( is_source && is_destination )
+        {
+            /* do not care if connector is inside or outside */
+        }
+        if ( ( is_ancestor_of_source || is_source ) && ( is_ancestor_of_destination || is_destination ) )
         {
             /* probe is ancestor of both, do not leave the classifiers space area */
             const double unwanted_detour

@@ -298,12 +298,16 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                 = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
             const layout_visible_classifier_t *const from = layout_relationship_get_from_classifier_ptr( current_relation );
             const layout_visible_classifier_t *const to = layout_relationship_get_to_classifier_ptr( current_relation );
+            const bool is_from = layout_visible_classifier_is_equal_diagramelement_id( probe_classifier, from );
             const bool is_ancestor_of_from = layout_visible_set_is_ancestor( (*this_).layout_data, probe_classifier, from );
+            const bool is_to = layout_visible_classifier_is_equal_diagramelement_id( probe_classifier, to );
             const bool is_ancestor_of_to = layout_visible_set_is_ancestor( (*this_).layout_data, probe_classifier, to );
             debts_of_current += layout_quality_debts_conn_class( &quality,
                                                                  current_solution,
                                                                  probe_classifier,
+                                                                 is_from,
                                                                  is_ancestor_of_from,
+                                                                 is_to,
                                                                  is_ancestor_of_to
                                                                );
         }

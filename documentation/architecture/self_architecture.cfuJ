@@ -11867,8 +11867,8 @@
                 "- file names\n",
                 "- traversing the diagram tree"
         ],
-        "x_order": -1685532757,
-        "y_order": -1945105516,
+        "x_order": -1672417630,
+        "y_order": -2042643717,
         "list_order": -1603243720,
         "uuid": "eb2b04c7-1958-4787-a9fe-68696880ccf3",
         "features":
@@ -13725,7 +13725,7 @@
             "description": [
                 ""
             ],
-            "list_order": 2129875998,
+            "list_order": 747007819,
             "uuid": "ed82a8dd-a9ed-419c-9bfc-bd1897985652"
           }
         ]
@@ -13741,8 +13741,8 @@
                 "The diagram traversal walks along the diagram tree starting at the root.\n",
                 "There are other traversal classes implementing other strategies."
         ],
-        "x_order": -1252763971,
-        "y_order": -1937690613,
+        "x_order": -1393607140,
+        "y_order": -1967195711,
         "list_order": 426926088,
         "uuid": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
         "features":
@@ -15680,7 +15680,7 @@
                 "temporary sqlite3 database."
         ],
         "x_order": -1202184480,
-        "y_order": -1945105516,
+        "y_order": -2042643717,
         "list_order": -1945105516,
         "uuid": "b55e8e09-2444-4b2d-8b35-362427467d4e",
         "features":
