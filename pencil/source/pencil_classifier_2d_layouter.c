@@ -848,9 +848,9 @@ pencil_error_t pencil_classifier_2d_layouter_private_try_embrace_child( pencil_c
                 /* trace */
                 {
                     const data_visible_classifier_t *const visible_classifier
-                    = layout_visible_classifier_get_data_const( &probe_parent_layout );
+                        = layout_visible_classifier_get_data_const( &probe_parent_layout );
                     const data_classifier_t *const classifier
-                    = data_visible_classifier_get_classifier_const( visible_classifier );
+                        = data_visible_classifier_get_classifier_const( visible_classifier );
                     U8_TRACE_INFO_STR( "parent classifier:", data_classifier_get_name_const( classifier ) );
                 }
 

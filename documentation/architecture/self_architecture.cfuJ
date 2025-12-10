@@ -5370,7 +5370,15 @@
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Module-specific errors",
         "description": [
-                ""
+                "Modules may use the generic error codes defined by u8_error.\n",
+                "\n",
+                "In case there is a bigger semantic gap like too many or too few or too generic ",
+                "error codes are defined, modules may derive own error codes by\n",
+                "- reducing the set or \n",
+                "- concretizing the generic error descriptions.\n",
+                "\n",
+                "The semantics shall be defined in a way that a typecast from conrete error ",
+                "codes to generic ones is valid."
         ],
         "list_order": 65536,
         "parent_name": "Error Propagation",
@@ -14242,7 +14250,14 @@
         "description": [
                 "the rectangular area of \n",
                 "all contained compartments\n",
-                "(except the label-compartment)\n",
+                "(except the label-compartment).\n",
+                "\n",
+                "These are\n",
+                "- the properties,\n",
+                "- the operations,\n",
+                "- the tagged values\n",
+                "- the contained classifiers\n",
+                "\n",
                 ""
         ],
         "x_order": 1740096155,

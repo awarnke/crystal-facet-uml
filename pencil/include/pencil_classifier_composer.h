@@ -37,6 +37,38 @@
  *
  *  \note This class is stateless.
  *        It may either be instantiated once and used many times or be instantiated per use.
+ *
+ *  The outer encompassing rectangle of the classifier is called
+ *  - envelope
+ *  .
+ *
+ *  There are two general layout schemes, based on the classifier type.
+ *  Layouts with a contour (an outer border) follow the scheme
+ *  - label + optional icon
+ *  - space
+ *  .
+ *  whereas layouts with an icon follow the scheme
+ *  - icon
+ *  - label
+ *  - space
+ *  .
+ *
+ *  The icon is
+ *  - either an indicator of the classifier type
+ *  - or a graphical representation of the stereotype.
+ *  .
+ *
+ *  The label consists of
+ *  - an optional textual representation of the stereotype and
+ *  - the name.
+ *  .
+ *
+ *  The space consists of compartments:
+ *  - properties
+ *  - operations
+ *  - tagged values
+ *  - contained classifiers
+ *  .
  */
 struct pencil_classifier_composer_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
@@ -75,7 +107,8 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout classifier layout of which the box coordinates shall be modified. Must not be NULL.
- *  \return 0 in case of success, 1 in case of additionally needed width by label text
+ *  \return PENCIL_ERROR_NONE in case of success,
+ *          PENCIL_ERROR_OUT_OF_BOUNDS in case of additionally needed width by label text
  */
 pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
                                                          const geometry_rectangle_t *space,
@@ -99,7 +132,8 @@ pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_compo
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
- *  \return 0 in case of success, 1 in case of additionally needed width or height
+ *  \return PENCIL_ERROR_NONE in case of success,
+ *          PENCIL_ERROR_OUT_OF_BOUNDS in case of additionally needed width or height
  */
 pencil_error_t pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *this_,
                                                              const geometry_rectangle_t *envelope,
@@ -117,15 +151,19 @@ pencil_error_t pencil_classifier_composer_set_envelope_box ( pencil_classifier_c
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
- *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
+ *  \param shows_contained_children true if the classifier has contained children
+ *                                  (needed for uml package because the symbol differs)
  *  \param has_stereotype_icon true if no stereotype label shall be printed because an icon is shown instead
- *  \param space_and_label proposed rectangle for the position, width and height of: label and icon and features and contained classifiers
+ *  \param space_and_label proposed rectangle for the position,
+ *                         width and height of: label and icon and features and contained classifiers
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype-as-text and name)
  *  \param out_icon_box position and dimensions of the icon box of the stereotype icon (in case of has_stereotype_icon)
- *  \param out_label_compartment position and dimensions of label compartment (width as the inner_area if fitting, may contain an icon)
- *  \return 0 in case of success, 1 in case of additionally needed width or height
+ *  \param out_label_compartment position and dimensions of label compartment
+ *                               (width as the inner_area if fitting, may contain an icon)
+ *  \return PENCIL_ERROR_NONE in case of success,
+ *          PENCIL_ERROR_OUT_OF_BOUNDS in case of additionally needed width or height
  */
 pencil_error_t pencil_classifier_composer_private_get_label_box ( pencil_classifier_composer_t *this_,
                                                                   const data_visible_classifier_t *visible_classifier,

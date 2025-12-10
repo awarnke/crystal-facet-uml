@@ -62,7 +62,7 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
     U8_TRACE_INFO_INT("expanding bounds of classifier id:", data_classifier_get_row_id( classifier ) );
     U8_TRACE_INFO_INT_INT("expanding bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
-    /* determine border sizes of the main line (label and optionally icon) */
+    /* determine border sizes of the label (and optionally the right-aligned icon) */
     geometry_rectangle_t label_rect;
     geometry_rectangle_init_empty( &label_rect );
     geometry_rectangle_t icon_rect;
@@ -226,7 +226,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                                                    pencil_size
                                                  );
 
-    /* determine border sizes of the main line (label and optionally icon) */
+    /* determine border sizes of the label (and optionally the right-aligned icon) */
     geometry_rectangle_t label_rect;
     geometry_rectangle_init_empty( &label_rect );
     geometry_rectangle_t icon_rect;

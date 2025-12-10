@@ -44,8 +44,11 @@ ideas for future versions:
   [?] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
   [ ] Time axis in timing diagrams missing
   [ ] Asynchronous calls shall be slightly diagonal
-! [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
+  [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
+      --> needs a conceptual change:
+      layout_visible_classifier_t has no attribute for size of contained features yet.
 ! [ ] improve relationship layouting - sometimes not the optimal solution is selected, check weightings...
+      --> could be fixed within layout_quality_t
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

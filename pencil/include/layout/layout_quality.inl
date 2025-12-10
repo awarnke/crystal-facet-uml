@@ -336,9 +336,16 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
 
         const geometry_rectangle_t *const classifier_symbol_box
             = layout_visible_classifier_get_symbol_box_const( other );
-        if ( is_ancestor_of_source == is_ancestor_of_destination )
+        if ( is_ancestor_of_source && is_ancestor_of_destination )
         {
-            /* either probe is no ancestor or ancestor of both */
+            /* probe is ancestor of both, do not leave the classifiers space area */
+            const double unwanted_detour
+                = geometry_connector_get_length( probe ) - geometry_connector_get_transit_length( probe, classifier_space );
+            debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA * unwanted_detour * line_corridor;
+        }
+        else if ( ( ! is_ancestor_of_source )&&( ! is_ancestor_of_destination ) )
+        {
+            /* probe is no ancestor of source or destination */
             debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINE_AREA
                 * geometry_connector_get_transit_length( probe, classifier_symbol_box ) * line_corridor;
         }
