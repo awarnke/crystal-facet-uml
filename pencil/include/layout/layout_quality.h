@@ -146,11 +146,17 @@ static inline double layout_quality_debts_conn_sym ( const layout_quality_t *thi
  *  \param this_ pointer to own object attributes
  *  \param probe a partly layouted relationship
  *  \param other another partly layouted relationship
+ *  \param same_type true if probe and other have the same relationship type
+ *  \param same_source true if probe and other have the same source end (from)
+ *  \param same_destination true if probe and other have the same destination end (to)
  *  \return 0.0 if there are no overlaps, a positive value otherwise
  */
 static inline double layout_quality_debts_conn_conn ( const layout_quality_t *this_,
                                                       const geometry_connector_t *probe,
-                                                      const geometry_connector_t *other
+                                                      const geometry_connector_t *other,
+                                                      bool same_type,
+                                                      bool same_source,
+                                                      bool same_destination
                                                     );
 
 /*!

@@ -1269,7 +1269,7 @@
           },
           {
             "id": 24,
-            "classifier_name": "Electrical Parts and Electronics",
+            "classifier_name": "Electronics",
             "node": "c1419268-c407-4e91-a9de-386c65b7459b",
             "uuid": "832fc35c-812f-483b-9211-19231ddb4e26"
           },
@@ -1329,12 +1329,6 @@
         "uuid": "7a791ba0-d626-4233-91aa-e7a0358155e9",
         "diagramelements":
         [
-          {
-            "id": 40,
-            "classifier_name": "Chassis",
-            "node": "be342de8-62c6-456f-b09a-5160c670dc04",
-            "uuid": "396b5184-4977-4804-9689-009306dc37eb"
-          },
           {
             "id": 41,
             "classifier_name": "Cargo Bin",
@@ -1411,7 +1405,7 @@
           {
             "id": 53,
             "display_tags": "Gray", "display_flags": 33554432,
-            "classifier_name": "Electrical Parts and Electronics",
+            "classifier_name": "Electronics",
             "node": "c1419268-c407-4e91-a9de-386c65b7459b",
             "uuid": "c2fb92ff-666e-499f-9fd9-aa0af277d0c6"
           },
@@ -1461,7 +1455,7 @@
           {
             "id": 54,
             "display_tags": "Emphasis", "display_flags": 16777216,
-            "classifier_name": "Electrical Parts and Electronics",
+            "classifier_name": "Electronics",
             "node": "c1419268-c407-4e91-a9de-386c65b7459b",
             "uuid": "c28e7aec-d085-4a62-a5cc-145585ca16c9"
           },
@@ -3995,13 +3989,13 @@
         "id": 19,
         "type": "Block", "main_type": 90,
         "stereotype": "EE",
-        "name": "Electrical Parts and Electronics",
+        "name": "Electronics",
         "description": [
                 "The main components of the electric parts are:\n",
                 "- a set of cables and connectors\n",
                 "- a set of sensors and actuators\n",
                 "- the energy cell\n",
-                "- two printed circuit boards (PCB) containing the electronic parts"
+                "- two printed circuit boards (PCB) containing the electronics"
         ],
         "x_order": -855507639,
         "y_order": -1168769568,
@@ -4364,24 +4358,6 @@
             "list_order": 44134258,
             "uuid": "56d84592-786a-4c2a-827a-cabe45a074a5"
           }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 35,
-        "type": "Block", "main_type": 90,
-        "stereotype": "mouse-droid",
-        "name": "Chassis",
-        "description": [
-                ""
-        ],
-        "x_order": -1042125167,
-        "y_order": -1054017037,
-        "list_order": -1009293162,
-        "uuid": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "features":
-        [
         ]
       }
     },
@@ -8868,7 +8844,7 @@
         ],
         "list_order": -1161718484,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Electrical Parts and Electronics",
+        "to_classifier_name": "Electronics",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
         "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "uuid": "04bbd0b1-f0ed-4805-bfbc-f6e6969ebfe9"
@@ -8876,18 +8852,242 @@
     },
     {
       "relationship": {
-        "id": 45,
+        "id": 405,
         "type": "Containment", "main_type": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "list_order": 294912,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Chassis",
+        "to_classifier_name": "Skeleton Frame",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
-        "to_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "uuid": "628d0a51-f269-4ed2-b1d9-53701ccc5bbb"
+        "to_node": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
+        "uuid": "fff66baa-e1cb-4581-afb2-4aee03842ff7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 406,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Microphone",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
+        "uuid": "94a64fa3-c152-40dc-957e-817d1a6c17ff"
+      }
+    },
+    {
+      "relationship": {
+        "id": 407,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Camera",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "fb66c906-d06a-4518-8701-229af4169a30",
+        "uuid": "6464d95e-0953-4f0a-8630-7e9136909a50"
+      }
+    },
+    {
+      "relationship": {
+        "id": 408,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Programming and Diagnostic Connector",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
+        "uuid": "734d7e02-a845-47bb-9ec6-247c19d1a273"
+      }
+    },
+    {
+      "relationship": {
+        "id": 409,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Tool-Arm",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
+        "uuid": "0407a745-a106-4be8-9e66-72da83b218f8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 410,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Tool-Window (2)",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
+        "uuid": "09ac1644-66ab-45da-be00-abc4859a2866"
+      }
+    },
+    {
+      "relationship": {
+        "id": 411,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Screw Driver",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "848376fc-1475-4adc-b35f-200e17103025",
+        "uuid": "c91da423-0f2b-4729-a19a-8dad9e6dc822"
+      }
+    },
+    {
+      "relationship": {
+        "id": 412,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Gripper",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "a28d75e1-1447-462b-95f9-9093d65419e7",
+        "uuid": "77d007e2-8c84-4d56-9db2-fdd7dcf82e17"
+      }
+    },
+    {
+      "relationship": {
+        "id": 413,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Cargo Bin",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "fb814893-cb03-454a-96aa-6ae8c313096d",
+        "uuid": "36261953-6c8f-42e1-9d85-9f903f24b28d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 414,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 589824,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Wheels (4)",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
+        "uuid": "965c9534-a73b-44e0-bb74-c630026779ad"
+      }
+    },
+    {
+      "relationship": {
+        "id": 415,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 622592,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Motors",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+        "uuid": "d81ee29f-6d56-491b-b3de-2bc71a146dfa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 416,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 655360,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Fan",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "5e00054a-23a4-4e74-8029-628d165a7c3d",
+        "uuid": "5dbfc1f7-49b3-48f7-932e-322fbdaa80b1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 417,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 688128,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Charging Connector",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "c066d6a7-1959-4300-9aad-a75cb496da36",
+        "uuid": "df932bad-f707-48f7-a691-5c6dc854879c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 418,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 720896,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Loud Speaker",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
+        "uuid": "148415ba-1f1b-4e8e-8388-851be23db853"
+      }
+    },
+    {
+      "relationship": {
+        "id": 419,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 753664,
+        "from_classifier_name": "Mechanical Parts",
+        "to_classifier_name": "Energy Cell",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+        "uuid": "20b32cda-8d16-4d51-afea-abb475a92378"
       }
     },
     {
@@ -8899,7 +9099,7 @@
                 ""
         ],
         "list_order": -1127573923,
-        "from_classifier_name": "Electrical Parts and Electronics",
+        "from_classifier_name": "Electronics",
         "to_classifier_name": "Main Logic Board",
         "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
@@ -8915,7 +9115,7 @@
                 ""
         ],
         "list_order": -1137259057,
-        "from_classifier_name": "Electrical Parts and Electronics",
+        "from_classifier_name": "Electronics",
         "to_classifier_name": "Base Logic Board",
         "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
@@ -9706,262 +9906,6 @@
         "from_node": "56d84592-786a-4c2a-827a-cabe45a074a5",
         "to_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "uuid": "596af305-3404-4228-938f-d4d0b6d704f6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 34,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1054051627,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Cargo Bin",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "fb814893-cb03-454a-96aa-6ae8c313096d",
-        "uuid": "143749d6-eb76-46dd-9238-eda64cd4c174"
-      }
-    },
-    {
-      "relationship": {
-        "id": 35,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1051609196,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Screw Driver",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "848376fc-1475-4adc-b35f-200e17103025",
-        "uuid": "3bea26a0-7e34-4c71-b92d-e5acff3f8438"
-      }
-    },
-    {
-      "relationship": {
-        "id": 36,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1053905027,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Wheels (4)",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
-        "uuid": "445d88c0-4dee-483e-9f71-e57791cf8261"
-      }
-    },
-    {
-      "relationship": {
-        "id": 37,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1051813110,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Fan",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "5e00054a-23a4-4e74-8029-628d165a7c3d",
-        "uuid": "c036146a-7e3f-4735-8a85-e7e675c34fcf"
-      }
-    },
-    {
-      "relationship": {
-        "id": 38,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1053978658,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Motors",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
-        "uuid": "71c9e2a9-b355-411f-bc44-ed012d39f5a6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 39,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1053965549,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Camera",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "fb66c906-d06a-4518-8701-229af4169a30",
-        "uuid": "3bb6e551-e34e-4efc-ba15-36f23cd1ec82"
-      }
-    },
-    {
-      "relationship": {
-        "id": 40,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1054017037,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Microphone",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
-        "uuid": "ecd346bb-d3f9-4768-9014-8f50e72eee26"
-      }
-    },
-    {
-      "relationship": {
-        "id": 41,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1053973790,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Loud Speaker",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
-        "uuid": "da38cda4-c272-466b-b7f0-98606fb76c8b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 42,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1054003895,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Programming and Diagnostic Connector",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
-        "uuid": "96a8c051-6666-48ec-92a6-c14d4742ee3f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 43,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1053968664,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Charging Connector",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "c066d6a7-1959-4300-9aad-a75cb496da36",
-        "uuid": "159f19cc-9785-4257-ba5f-a27d508484e1"
-      }
-    },
-    {
-      "relationship": {
-        "id": 44,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1054007896,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Energy Cell",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
-        "uuid": "cc686288-fd74-427f-83ce-9e34b8218255"
-      }
-    },
-    {
-      "relationship": {
-        "id": 46,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Electrical Parts and Electronics",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
-        "uuid": "caaa01da-ea69-433c-b382-1b8b5a3bf845"
-      }
-    },
-    {
-      "relationship": {
-        "id": 64,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1058861716,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Gripper",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "a28d75e1-1447-462b-95f9-9093d65419e7",
-        "uuid": "c075ca20-cd21-4ced-bfd2-a3bb0311ff3c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 65,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1161718484,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Tool-Window (2)",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
-        "uuid": "052a44ef-4d00-4a84-975f-2b4294369bd0"
-      }
-    },
-    {
-      "relationship": {
-        "id": 228,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1427757613,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Skeleton Frame",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
-        "uuid": "621dd235-698b-4595-afb1-ea76d363fd8f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 327,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1412570674,
-        "from_classifier_name": "Chassis",
-        "to_classifier_name": "Tool-Arm",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
-        "to_node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
-        "uuid": "f86e174e-a7e6-4bf3-9c0e-0ce385dbd8da"
       }
     },
     {

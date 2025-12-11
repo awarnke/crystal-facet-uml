@@ -121,13 +121,13 @@ static inline double layout_quality_debts_class_class( const layout_quality_t *t
     return debts;
 }
 
-static const geometry_3dir_t PENCIL_BAD_V_PATTERN1
+static const geometry_3dir_t LAYOUT_QUALITY_BAD_V_PATTERN1
     = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
-static const geometry_3dir_t PENCIL_BAD_V_PATTERN2
+static const geometry_3dir_t LAYOUT_QUALITY_BAD_V_PATTERN2
     = { .first = GEOMETRY_DIRECTION_RIGHT, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
-static const geometry_3dir_t PENCIL_BAD_H_PATTERN1
+static const geometry_3dir_t LAYOUT_QUALITY_BAD_H_PATTERN1
     = { .first = GEOMETRY_DIRECTION_DOWN,  .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
-static const geometry_3dir_t PENCIL_BAD_H_PATTERN2
+static const geometry_3dir_t LAYOUT_QUALITY_BAD_H_PATTERN2
     = { .first = GEOMETRY_DIRECTION_UP,    .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
 
 static inline double layout_quality_debts_conn_diag( const layout_quality_t *this_,
@@ -209,9 +209,11 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
     /* prefer left-hand angles over right-handed */
     const geometry_3dir_t pattern = geometry_connector_get_directions( probe );
     const bool bad_pattern_v
-        = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
+        = geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_V_PATTERN1 )
+        || geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_V_PATTERN2 );
     const bool bad_pattern_h
-        = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
+        = geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_H_PATTERN1 )
+        || geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_H_PATTERN2 );
     if ( bad_pattern_h || bad_pattern_v )
     {
         const double current_len = length;
@@ -233,38 +235,38 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         {
             if ( connector_is_top )
             {
-                static const geometry_3dir_t PENCIL_BAD_L_PATTERN1
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_L_PATTERN1
                     = { .first = GEOMETRY_DIRECTION_LEFT,  .second = GEOMETRY_DIRECTION_UP,     .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_L_PATTERN2
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_L_PATTERN2
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_UP };
-                static const geometry_3dir_t PENCIL_BAD_L_PATTERN3
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_L_PATTERN3
                     = { .first = GEOMETRY_DIRECTION_DOWN,   .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_L_PATTERN4
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_L_PATTERN4
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_RIGHT };
 
-                if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN1 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN2 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN3 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_L_PATTERN4 ) ))
+                if (( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_L_PATTERN1 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_L_PATTERN2 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_L_PATTERN3 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_L_PATTERN4 ) ))
                 {
                     debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
             else
             {
-                static const geometry_3dir_t PENCIL_BAD_J_PATTERN1
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_J_PATTERN1
                     = { .first = GEOMETRY_DIRECTION_DOWN,   .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_J_PATTERN2
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_J_PATTERN2
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_LEFT };
-                static const geometry_3dir_t PENCIL_BAD_J_PATTERN3
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_J_PATTERN3
                     = { .first = GEOMETRY_DIRECTION_RIGHT,  .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_J_PATTERN4
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_J_PATTERN4
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_UP };
 
-                if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN1 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN2 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN3 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_J_PATTERN4 ) ))
+                if (( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_J_PATTERN1 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_J_PATTERN2 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_J_PATTERN3 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_J_PATTERN4 ) ))
                 {
                     debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
@@ -274,38 +276,38 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
         {
             if ( connector_is_top )
             {
-                static const geometry_3dir_t PENCIL_BAD_r_PATTERN1
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_r_PATTERN1
                     = { .first = GEOMETRY_DIRECTION_UP,     .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_r_PATTERN2
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_r_PATTERN2
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_RIGHT };
-                static const geometry_3dir_t PENCIL_BAD_r_PATTERN3
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_r_PATTERN3
                     = { .first = GEOMETRY_DIRECTION_LEFT,   .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_r_PATTERN4
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_r_PATTERN4
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_DOWN };
 
-                if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN1 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN2 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN3 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_r_PATTERN4 ) ))
+                if (( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_r_PATTERN1 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_r_PATTERN2 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_r_PATTERN3 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_r_PATTERN4 ) ))
                 {
                     debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
             }
             else
             {
-                static const geometry_3dir_t PENCIL_BAD_7_PATTERN1
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_7_PATTERN1
                     = { .first = GEOMETRY_DIRECTION_RIGHT,  .second = GEOMETRY_DIRECTION_DOWN,  .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_7_PATTERN2
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_7_PATTERN2
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_RIGHT, .third = GEOMETRY_DIRECTION_DOWN };
-                static const geometry_3dir_t PENCIL_BAD_7_PATTERN3
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_7_PATTERN3
                     = { .first = GEOMETRY_DIRECTION_UP,     .second = GEOMETRY_DIRECTION_LEFT,  .third = GEOMETRY_DIRECTION_CENTER };
-                static const geometry_3dir_t PENCIL_BAD_7_PATTERN4
+                static const geometry_3dir_t LAYOUT_QUALITY_BAD_7_PATTERN4
                     = { .first = GEOMETRY_DIRECTION_CENTER, .second = GEOMETRY_DIRECTION_UP,    .third = GEOMETRY_DIRECTION_LEFT };
 
-                if (( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN1 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN2 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN3 ) )
-                    || ( geometry_3dir_equals( &pattern, &PENCIL_BAD_7_PATTERN4 ) ))
+                if (( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_7_PATTERN1 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_7_PATTERN2 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_7_PATTERN3 ) )
+                    || ( geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_7_PATTERN4 ) ))
                 {
                     debts += LAYOUT_QUALITY_WEIGHT_AVOID * length * line_corridor;
                 }
@@ -342,7 +344,7 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
         {
             /* do not care if connector is inside or outside */
         }
-        if ( ( is_ancestor_of_source || is_source ) && ( is_ancestor_of_destination || is_destination ) )
+        else if ( ( is_ancestor_of_source || is_source ) && ( is_ancestor_of_destination || is_destination ) )
         {
             /* probe is ancestor of both, do not leave the classifiers space area */
             const double unwanted_detour
@@ -398,37 +400,48 @@ static inline double layout_quality_debts_conn_sym( const layout_quality_t *this
 
 static inline double layout_quality_debts_conn_conn( const layout_quality_t *this_,
                                                      const geometry_connector_t *probe,
-                                                     const geometry_connector_t *other )
+                                                     const geometry_connector_t *other,
+                                                     const bool same_type,
+                                                     const bool same_source,
+                                                     const bool same_destination )
 {
     double debts = 0.0;
 
     const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
     const double line_width = pencil_size_get_standard_line_width( (*this_).pencil_size );
-
-    /* get data on probe */
-    const geometry_3dir_t pattern = geometry_connector_get_directions( probe );
-    const bool bad_pattern_v
-        = geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_V_PATTERN2 );
-    const bool bad_pattern_h
-        = geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN1 ) || geometry_3dir_equals( &pattern, &PENCIL_BAD_H_PATTERN2 );
+    const bool one_same_end = ( same_source != same_destination );
 
     const uint32_t intersects
         = geometry_connector_count_connector_intersects( probe, other );
     debts += LAYOUT_QUALITY_WEIGHT_CROSS_LINES * intersects * ( line_corridor * line_corridor );
-    const double same_path
-        = geometry_connector_get_same_path_length_conn( probe, other, 3.0 * line_width );
-    /* ^ max_distance is 3x line width for 1) own line, 2) minimal gap and 3) other line */
-    debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * same_path * line_corridor;
+
+    /* if probe and current have same type and (same source classifier xor same destination classifier), overlaps are ok */
+    if ( ! ( same_type && one_same_end ) )
+    {
+        const double same_path
+            = geometry_connector_get_same_path_length_conn( probe, other, 3.0 * line_width );
+        /* ^ max_distance is 3x line width for 1) own line, 2) minimal gap and 3) other line */
+        debts += LAYOUT_QUALITY_WEIGHT_SHARED_LINES * same_path * line_corridor;
+    }
+
+    /* get data on probe */
+    const geometry_3dir_t pattern = geometry_connector_get_directions( probe );
+    const bool bad_pattern_v
+        = geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_V_PATTERN1 )
+        || geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_V_PATTERN2 );
+    const bool bad_pattern_h
+        = geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_H_PATTERN1 )
+        || geometry_3dir_equals( &pattern, &LAYOUT_QUALITY_BAD_H_PATTERN2 );
 
     if ( ( bad_pattern_h || bad_pattern_v ) && ( intersects > 0 ) )
     {
         const geometry_3dir_t other_pattern = geometry_connector_get_directions( other );
         const bool bad_other_v
-            = geometry_3dir_equals( &other_pattern, &PENCIL_BAD_V_PATTERN1 )
-            || geometry_3dir_equals( &other_pattern, &PENCIL_BAD_V_PATTERN2 );
+            = geometry_3dir_equals( &other_pattern, &LAYOUT_QUALITY_BAD_V_PATTERN1 )
+            || geometry_3dir_equals( &other_pattern, &LAYOUT_QUALITY_BAD_V_PATTERN2 );
         const bool bad_other_h
-            = geometry_3dir_equals( &other_pattern, &PENCIL_BAD_H_PATTERN1 )
-            || geometry_3dir_equals( &other_pattern, &PENCIL_BAD_H_PATTERN2 );
+            = geometry_3dir_equals( &other_pattern, &LAYOUT_QUALITY_BAD_H_PATTERN1 )
+            || geometry_3dir_equals( &other_pattern, &LAYOUT_QUALITY_BAD_H_PATTERN2 );
         if (( bad_pattern_h && bad_other_v )||( bad_pattern_v && bad_other_h ))
         {
             const geometry_rectangle_t probe_bounds

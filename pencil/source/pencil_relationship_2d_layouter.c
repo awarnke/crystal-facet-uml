@@ -331,30 +331,33 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
         layout_relationship_iter_copy( &relationship_iterator, &((*this_).already_processed) );
         while ( layout_relationship_iter_has_next( &relationship_iterator ) )
         {
-            /* get pointer to relationship */
-            const layout_relationship_t *const probe_relationship = layout_relationship_iter_next_ptr( &relationship_iterator );
-
-            /* add debts if intersects */
-#if 0
+            /* get pointer to relationships */
+            const layout_relationship_t *const probe_relationship
+                = layout_relationship_iter_next_ptr( &relationship_iterator );
             const data_relationship_t *const probe_relation_data
                 = layout_relationship_get_data_const ( probe_relationship );
-            const bool same_type = ( data_relationship_get_main_type( probe_relation_data )
-                                     == data_relationship_get_main_type( current_relation_data ) );
-            const bool same_from = ( data_relationship_get_from_classifier_row_id( probe_relation_data )
-                                     == data_relationship_get_from_classifier_row_id( current_relation_data ) );
-            const bool same_to = ( data_relationship_get_to_classifier_row_id( probe_relation_data )
-                                     == data_relationship_get_to_classifier_row_id( current_relation_data ) );
-            const bool one_same_end = ( same_from != same_to );
-            /* if probe and current have same type and (same source classifier xor same destination classifier), overlaps are ok */
-            if ( ! ( same_type && one_same_end ) )
-#endif
-            {
-                const geometry_connector_t *const probe_shape
-                    = layout_relationship_get_shape_const( probe_relationship );
+            const geometry_connector_t *const probe_shape
+                = layout_relationship_get_shape_const( probe_relationship );
+            const data_relationship_t *const current_relation_data
+                = layout_relationship_get_data_const ( current_relation );
 
-                debts_of_current += layout_quality_debts_conn_conn( &quality, current_solution, probe_shape );
-                /* U8_TRACE_INFO_INT_INT( "solution[idx] vs probe[idx]", solution_idx, probe_index ); */
-            }
+            /* add debts if intersects */
+            const bool same_type
+                = ( data_relationship_get_main_type( probe_relation_data )
+                == data_relationship_get_main_type( current_relation_data ) );
+            const bool same_from
+                = ( data_relationship_get_from_classifier_row_id( probe_relation_data )
+                == data_relationship_get_from_classifier_row_id( current_relation_data ) );
+            const bool same_to
+                = ( data_relationship_get_to_classifier_row_id( probe_relation_data )
+                == data_relationship_get_to_classifier_row_id( current_relation_data ) );
+            debts_of_current += layout_quality_debts_conn_conn( &quality,
+                                                                current_solution,
+                                                                probe_shape,
+                                                                same_type,
+                                                                same_from,
+                                                                same_to
+                                                              );
         }
         layout_relationship_iter_destroy( &relationship_iterator );
 
