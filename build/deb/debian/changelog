@@ -1,3 +1,12 @@
+crystal-facet-uml (1.67.3-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * relationships between children stay sometimes within parent
+  * relationships between self and child stay sometimes within self
+  * relationships may overlap if same type and either same source or same dest.
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 11 Dec 2025 20:00:00 +0100
+
 crystal-facet-uml (1.67.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
