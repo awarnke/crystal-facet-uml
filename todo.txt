@@ -83,5 +83,15 @@ ideas for a version 2
   - support rust in application code
   - serve the html rendered version via cgi to an http server
   - gtk5 support (no GdkPixBuf anymore)
-
+  - re-format the json format, putting more focus on contents and less on cfu data structures
+    "diagramelements" -> "elements";
+    "diagram_type" -> "type_id"
+    "list_order" -> "order"
+    "main_type" -> "type_id"
+    "from_classifier_name" -> "from_name"
+    "from_feature_key" -> "from_key"
+    "from_node" -> "from"
+    "to_classifier_name" -> "to_name"
+    "to_feature_key" -> "to_key"
+    "to_node" -> "to"
 

@@ -73,8 +73,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            To open json-based formats (e.g. <command>.cfuJ</command>), write access to the parent
-                            folder is required.
+                            Note that write access to the parent folder is required.
                         </para>
                     </listitem>
                     <listitem>
@@ -82,8 +81,14 @@
                             If you find a <command>.tmp-cfu</command> file,
                             this indicates that the last session was possibly terminated abnormally.
                             You should open this file to continue from the latest state.
-                            Alternatively, select the <command>.cfuJ</command> to continue from the last save action.
-                            Do not open <command>*-journal</command> files.
+                        </para>
+                        <para>
+                            <inlinemediaobject>
+                                <imageobject><imagedata fileref="3_open_dialog.png" width="9cm"/></imageobject>
+                            </inlinemediaobject>
+                        </para>
+                        <para>
+                            Alternatively, select the <command>.cfuJ</command> to continue from your last save action.
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -499,7 +504,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            Click on the diagram or a classifier or a feature or a relationship
+                            Click on a diagram or classifier or feature or relationship
                             to edit the name, type and description of that object.
                         </para>
                         <para>
