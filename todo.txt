@@ -65,6 +65,7 @@ ideas for future versions:
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
       --> document the limitation (or is it a usability-feature?)
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
+  [ ] as sysml2 preparation: clarify what things are definitions an what are usages. E.g. all part-types should be instances.
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)

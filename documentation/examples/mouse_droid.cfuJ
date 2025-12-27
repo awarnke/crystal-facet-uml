@@ -3542,14 +3542,15 @@
         "description": [
                 "The mouse droid is a repair droid.\n",
                 "\n",
-                "An operation execution department \n",
+                "An operation manager  \n",
                 "defines a mission for the mouse droid.\n",
                 "\n",
                 "The mouse droid autonomously drives to the destination location,\n",
                 "replaces damaged parts, re-configures program logic if needed and\n",
                 "returns to the programming terminal.\n",
                 "\n",
-                "It is easily reprogrammable and can therefore also be used for\n",
+                "The mouse droid is easily reprogrammable\n",
+                "and can therefore also be used for\n",
                 "- cleaning tasks\n",
                 "- spying and surveillance tasks\n",
                 "- message delivery"
@@ -6822,7 +6823,7 @@
             "description": [
                 ""
             ],
-            "list_order": 0,
+            "list_order": -16384,
             "uuid": "490e1e30-6d51-464d-8a01-4e840debf3ca"
           },
           {
@@ -8345,7 +8346,7 @@
         "name": "Caveat of Step Motor",
         "description": [
                 "Note that there are conditions\n",
-                "when the actual number of steps\n",
+                "when the actual number of moved steps\n",
                 "is not equal to the previously requested \n",
                 "number of steps, e.g. when accellerating\n",
                 "or slowing down too fast.\n",
