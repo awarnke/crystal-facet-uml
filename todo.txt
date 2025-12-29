@@ -95,4 +95,6 @@ ideas for a version 2
     "to_classifier_name" -> "to_name"
     "to_feature_key" -> "to_key"
     "to_node" -> "to"
+  - sysml2 support
+
 

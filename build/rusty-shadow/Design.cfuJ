@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 2,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.2"
+    "generator_version": "1.67.3"
   }
   ,
   "views":
@@ -15,7 +15,7 @@
       "diagram": {
         "id": 1,
         "type": "Box Overview", "diagram_type": 1,
-        "name": "Subproject: self_to_rust",
+        "name": "Subproject: rusty-shadow",
         "description": [
                 "This subproject is the 3rd try to fnid a solution to convert c99 code to rust.\n",
                 "\n",
@@ -32,7 +32,7 @@
         [
           {
             "id": 1,
-            "classifier_name": "self_to_rust",
+            "classifier_name": "rusty-shadow-2",
             "node": "13162062-260b-4732-9c2c-506f4fae1b1d",
             "uuid": "f7c522f8-64e6-4e52-a9f8-571abc8566c4"
           }
@@ -48,7 +48,7 @@
                 ""
         ],
         "list_order": 32768,
-        "parent_name": "Subproject: self_to_rust",
+        "parent_name": "Subproject: rusty-shadow",
         "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
         "uuid": "9d5dee04-faf6-4ffc-877a-4009be48f4ff",
         "diagramelements":
@@ -77,7 +77,7 @@
                 ""
         ],
         "list_order": 65536,
-        "parent_name": "Subproject: self_to_rust",
+        "parent_name": "Subproject: rusty-shadow",
         "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
         "uuid": "e53a51c6-2d45-4053-855b-3dbab252346d",
         "diagramelements":
@@ -100,7 +100,7 @@
                 ""
         ],
         "list_order": 98304,
-        "parent_name": "Subproject: self_to_rust",
+        "parent_name": "Subproject: rusty-shadow",
         "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
         "uuid": "34548e52-cc81-4fc3-8f3a-5487d30128b8",
         "diagramelements":
@@ -173,7 +173,7 @@
           },
           {
             "id": 14,
-            "classifier_name": "self-to-rust",
+            "classifier_name": "rusty-shadow",
             "node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
             "uuid": "77fb3c7b-ef54-4c86-8c98-6e3a95049ad1"
           }
@@ -189,14 +189,14 @@
                 ""
         ],
         "list_order": 131072,
-        "parent_name": "Subproject: self_to_rust",
+        "parent_name": "Subproject: rusty-shadow",
         "parent": "d1255472-f02a-48aa-8b86-63e50702d20c",
         "uuid": "980f2acf-0118-42df-bb6f-f1d7dad343f3",
         "diagramelements":
         [
           {
             "id": 15,
-            "classifier_name": "self-to-rust",
+            "classifier_name": "rusty-shadow",
             "node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
             "uuid": "11d8deab-ba59-4370-92e4-9dbc4a5065eb"
           }
@@ -211,7 +211,7 @@
       "classifier": {
         "id": 1,
         "type": "Comment", "main_type": 130,
-        "name": "self_to_rust",
+        "name": "rusty-shadow-2",
         "description": [
                 ""
         ],
@@ -451,7 +451,7 @@
       "classifier": {
         "id": 14,
         "type": "Component", "main_type": 121,
-        "name": "self-to-rust",
+        "name": "rusty-shadow",
         "description": [
                 ""
         ],
@@ -486,7 +486,7 @@
             "type": "Output Port", "main_type": 7,
             "key": "log",
             "description": [
-                "log output inform the user of self-to-rust in case of errors or warnings in the ",
+                "log output inform the user of rusty-shadow in case of errors or warnings in the ",
                 "input data.\n",
                 "\n",
                 "Also in case of limitations of the out put data,\n",
@@ -510,7 +510,7 @@
             "type": "Output Port", "main_type": 7,
             "key": "trace",
             "description": [
-                "Trace output allows to find bugs in the self-to-rust transpiler."
+                "Trace output allows to find bugs in the rusty-shadow transpiler."
             ],
             "list_order": -1274039098,
             "uuid": "0f7d69ce-8fd8-4cd5-9e6e-443179edbd88"
@@ -530,8 +530,7 @@
                 "and easily take this over to the rust code.\n",
                 "\n",
                 "When the migration is finished,\n",
-                "it shall be possible to apply bugfixes\n",
-                "to the old c99 code."
+                "it shall be possible to switch the development to rust."
         ],
         "x_order": -487092896,
         "y_order": -763880492,
@@ -766,7 +765,7 @@
                 ""
         ],
         "list_order": 425984,
-        "from_classifier_name": "self-to-rust",
+        "from_classifier_name": "rusty-shadow",
         "to_classifier_name": "run text replacements",
         "to_feature_key": "tools",
         "from_node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
