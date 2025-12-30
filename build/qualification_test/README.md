@@ -1,14 +1,14 @@
 
 Qualification Tests
-=============
+============
 
 Goal
------------
+------------
 
 Qualification tests shall test the integrated software in the intended operation environment.
 
 Strategy
------------
+------------
 
 Manual and automatic test cases shall be performed.
 It is expected that many releases will have to be tested,
@@ -18,7 +18,7 @@ The software shall be tested on multiple processor architectures and operating s
 To achieve this, the qemu and wine emulation environments are preferred tools.
 
 How To
------------
+------------
 
 qemu:
 

@@ -1,16 +1,10 @@
-#![warn(missing_docs)]
-
-//! This crate converts c99 code to rust.
-
-mod help;
-use crate::help::print_help;
 use std::env;
 
-fn main() {
-    /* promising: */
-    /* https://www.reddit.com/r/rust/comments/11r0ux3/rust_crate_for_reading_and_writing_configuration/ */
-
-    print_help(env::args());
+pub fn print_help(_param_iterator: env::Args) {
+    println!("rusty-shadow [-h] [-i <input_directory>] [-o <output_directory>]");
+    println!("-h:                    help");
+    println!("-i <input_directory>:  define the input directory");
+    println!("-o <output_directory>: define the output directory");
 }
 
 /*
