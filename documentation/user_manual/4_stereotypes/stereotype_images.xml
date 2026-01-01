@@ -91,7 +91,7 @@
       <listitem><para>
         <inlinemediaobject><imageobject><imagedata fileref="gsn_goal.svg" width="1cm"/></imageobject></inlinemediaobject>
       </para><para>
-        <command><![CDATA[    <path stroke="#000099" stroke-width="1"
+        <command><![CDATA[    <path stroke="#000099"
         d="M 1,7 L 31,7 L 31,25 L 1,25 Z "
     />
 ]]></command>
@@ -102,7 +102,7 @@
       <listitem><para>
         <inlinemediaobject><imageobject><imagedata fileref="gsn_context.svg" width="1cm"/></imageobject></inlinemediaobject>
       </para><para>
-        <command><![CDATA[    <path stroke="#000099" stroke-width="1"
+        <command><![CDATA[    <path stroke="#000099"
         d="M 8,25 C 0,25 0,7 8,7 L 24,7 C 32,7 32,25 24,25 Z "
     />
 ]]></command>
@@ -113,7 +113,7 @@
       <listitem><para>
         <inlinemediaobject><imageobject><imagedata fileref="gsn_strategy.svg" width="1cm"/></imageobject></inlinemediaobject>
       </para><para>
-        <command><![CDATA[    <path stroke="#000099" stroke-width="1"
+        <command><![CDATA[    <path stroke="#000099"
         d="M 7,7 L 31,7 L 25,25 L 1,25 Z "
     />
 ]]></command>
@@ -124,10 +124,10 @@
       <listitem><para>
         <inlinemediaobject><imageobject><imagedata fileref="gsn_assumption.svg" width="1cm"/></imageobject></inlinemediaobject>
       </para><para>
-        <command><![CDATA[    <path stroke="#000099" stroke-width="1"
+        <command><![CDATA[    <path stroke="#000099"
         d="M 1,10 C 1,5.625 7.75,2 16,2 S 31,5.625 31,10 S 24.25,18 16,18 S 1,14.375 1,10 "
     />
-    <path stroke="#000099" stroke-width="1"
+    <path stroke="#000099"
         d="M 24,25 L 26.5,19 L 29,25 M 24.75,23.5 L 28.25,23.5 "
     />
 ]]></command>
@@ -138,10 +138,10 @@
       <listitem><para>
         <inlinemediaobject><imageobject><imagedata fileref="gsn_justification.svg" width="1cm"/></imageobject></inlinemediaobject>
       </para><para>
-        <command><![CDATA[    <path stroke="#000099" stroke-width="1"
+        <command><![CDATA[    <path stroke="#000099"
         d="M 1,10 C 1,5.625 7.75,2 16,2 S 31,5.625 31,10 S 24.25,18 16,18 S 1,14.375 1,10 "
     />
-    <path stroke="#000099" stroke-width="1"
+    <path stroke="#000099"
         d="M 25,24 C 25,26 29,26 29,24 L 29,19 L 25,19 "
     />
 ]]></command>
@@ -152,7 +152,7 @@
       <listitem><para>
         <inlinemediaobject><imageobject><imagedata fileref="gsn_solution.svg" width="1cm"/></imageobject></inlinemediaobject>
       </para><para>
-        <command><![CDATA[    <path stroke="#000099" stroke-width="1"
+        <command><![CDATA[    <path stroke="#000099"
         d="M 1,16 C 1,7.75 7.75,1 16,1 S 31,7.75 31,16 S 24.25,31 16,31 S 1,24.25 1,16 "
     />
 ]]></command>
@@ -222,10 +222,10 @@
         <command><![CDATA[    <path
         d="m 1,24 4,4 22,0 4,-4 "
     />
-    <path stroke="#00aa00" stroke-width="1"
+    <path stroke="#00aa00"
         d="m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s -3.5625,8 -8,8 s -8,-3.5625 -8,-8 "
     />
-    <path stroke="#00aa00" stroke-width="1"
+    <path stroke="#00aa00"
         d="m 11,17 l 10,0 m -5,-5 l 0,10 "
     />
 ]]></command>
@@ -239,10 +239,10 @@
         <command><![CDATA[    <path
         d="m 1,24 4,4 22,0 4,-4 "
     />
-    <path stroke="#cc0000" stroke-width="1"
+    <path stroke="#cc0000"
         d="m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s -3.5625,8 -8,8 s -8,-3.5625 -8,-8 "
     />
-    <path stroke="#cc0000" stroke-width="1"
+    <path stroke="#cc0000"
         d="m 11,17 l 10,0 "
     />
 ]]></command>

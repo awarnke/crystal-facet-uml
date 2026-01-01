@@ -93,8 +93,11 @@ impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
             (Some(pen), _, _) => {
                 write!(self.output_file, " stroke=\"#{}\"", pen.color.to_svg())
                     .expect("Error at writing file");
+                /*
+                 * Note that the current version of crstal-facet-uml does not allow stroke-width in stereotype images.
                 write!(self.output_file, " stroke-width=\"{}\"", pen.width)
                     .expect("Error at writing file");
+                */
             }
             (None, Some(_), _) => {
                 write!(self.output_file, " stroke=\"none\"").expect("Error at writing file");

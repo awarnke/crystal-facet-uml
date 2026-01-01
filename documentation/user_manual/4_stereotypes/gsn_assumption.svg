@@ -7,10 +7,10 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#000099" stroke-width="1" fill="none"
+    <path stroke="#000099" fill="none"
         d="M 1,10 C 1,5.625 7.75,2 16,2 S 31,5.625 31,10 S 24.25,18 16,18 S 1,14.375 1,10 "
     />
-    <path stroke="#000099" stroke-width="1" fill="none"
+    <path stroke="#000099" fill="none"
         d="M 24,25 L 26.5,19 L 29,25 M 24.75,23.5 L 28.25,23.5 "
     />
 </svg>
