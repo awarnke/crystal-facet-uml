@@ -156,7 +156,7 @@ static inline bool gui_search_runner_get_result_buffer_more_after ( const gui_se
 
 
 /*
-Copyright 2020-2025 Andreas Warnke
+Copyright 2020-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

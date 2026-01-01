@@ -100,7 +100,7 @@ u8_error_t data_visible_classifier_iterator_private_step_to_next ( data_visible_
 
 
 /*
-Copyright 2024-2025 Andreas Warnke
+Copyright 2024-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

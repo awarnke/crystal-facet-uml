@@ -651,7 +651,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
 
 
 /*
- * Copyright 2018-2025 Andreas Warnke
+ * Copyright 2018-2026 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

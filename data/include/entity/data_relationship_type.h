@@ -78,7 +78,7 @@ const char * data_relationship_type_get_name( data_relationship_type_t this_ );
 
 
 /*
-Copyright 2016-2025 Andreas Warnke
+Copyright 2016-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -165,7 +165,7 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
 
 
 /*
-Copyright 2017-2025 Andreas Warnke
+Copyright 2017-2026 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

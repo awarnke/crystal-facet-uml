@@ -413,7 +413,7 @@ static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, con
 
 
 /*
- * Copyright 2012-2025 Andreas Warnke
+ * Copyright 2012-2026 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

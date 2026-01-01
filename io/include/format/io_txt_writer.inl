@@ -41,7 +41,7 @@ static inline u8_error_t io_txt_writer_fill ( io_txt_writer_t *this_, char patte
 
 
 /*
-Copyright 2019-2025 Andreas Warnke
+Copyright 2019-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -89,7 +89,7 @@ u8_error_t main_commands_export ( main_commands_t *this_,
                                   io_file_format_t export_format,
                                   const char *export_directory,
                                   utf8stream_writer_t *out_english_report
-                               );
+                                );
 
 /*!
  *  \brief imports the data_file in the selected data format to the export_directory
@@ -140,7 +140,7 @@ u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
 
 
 /*
-Copyright 2021-2025 Andreas Warnke
+Copyright 2021-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

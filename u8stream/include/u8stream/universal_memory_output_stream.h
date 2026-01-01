@@ -141,7 +141,7 @@ universal_output_stream_t* universal_memory_output_stream_get_output_stream( uni
 
 
 /*
-Copyright 2020-2025 Andreas Warnke
+Copyright 2020-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -98,7 +98,7 @@ static inline uint32_t universal_array_index_sorter_get_array_index( const unive
 
 
 /*
-Copyright 2017-2025 Andreas Warnke
+Copyright 2017-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

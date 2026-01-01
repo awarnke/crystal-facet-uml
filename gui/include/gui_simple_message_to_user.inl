@@ -57,7 +57,7 @@ static inline void gui_simple_message_to_user_private_set_icon_image ( gui_simpl
 
 
 /*
-Copyright 2016-2025 Andreas Warnke
+Copyright 2016-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

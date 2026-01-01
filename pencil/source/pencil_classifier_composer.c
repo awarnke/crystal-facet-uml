@@ -543,7 +543,7 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
 
 
 /*
-Copyright 2016-2025 Andreas Warnke
+Copyright 2016-2026 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

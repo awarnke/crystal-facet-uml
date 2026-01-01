@@ -70,7 +70,7 @@ static inline u8_error_t xmi_diagram_info_map_get_diagram ( const xmi_diagram_in
 
 
 /*
-Copyright 2022-2025 Andreas Warnke
+Copyright 2022-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

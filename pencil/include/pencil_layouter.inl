@@ -32,7 +32,7 @@ static inline const pencil_size_t *pencil_layouter_get_pencil_size_const ( penci
 
 
 /*
-Copyright 2017-2025 Andreas Warnke
+Copyright 2017-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

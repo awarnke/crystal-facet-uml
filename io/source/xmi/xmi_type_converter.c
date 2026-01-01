@@ -702,7 +702,7 @@ u8_error_t xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi
 
 
 /*
-Copyright 2020-2025 Andreas Warnke
+Copyright 2020-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

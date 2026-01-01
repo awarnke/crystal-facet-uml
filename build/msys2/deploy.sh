@@ -29,7 +29,7 @@ cp /ucrt64/share/glib-2.0/schemas/gschemas.compiled crystal-facet-uml/share/glib
 7z a crystal-facet-uml_${VERSIONSTR}-1_win64.zip crystal-facet-uml
 
 
-# Copyright 2025-2025 Andreas Warnke
+# Copyright 2025-2026 Andreas Warnke
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

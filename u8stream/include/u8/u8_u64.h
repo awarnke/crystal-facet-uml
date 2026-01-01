@@ -51,7 +51,7 @@ static inline void u8_u64_get_dec ( const uint64_t value, u8_u64_dec_t *out_dec 
 
 
 /*
-Copyright 2025-2025 Andreas Warnke
+Copyright 2025-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

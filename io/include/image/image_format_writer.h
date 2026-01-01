@@ -86,7 +86,7 @@ u8_error_t image_format_writer_private_render_surface_to_file( image_format_writ
 
 
 /*
-Copyright 2016-2025 Andreas Warnke
+Copyright 2016-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

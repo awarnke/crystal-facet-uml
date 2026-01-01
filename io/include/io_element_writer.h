@@ -360,7 +360,7 @@ static inline u8_error_t io_element_writer_write_footer( io_element_writer_t *th
 
 
 /*
-Copyright 2021-2025 Andreas Warnke
+Copyright 2021-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

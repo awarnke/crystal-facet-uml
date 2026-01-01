@@ -551,7 +551,7 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
 
 
 /*
-Copyright 2016-2025 Andreas Warnke
+Copyright 2016-2026 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

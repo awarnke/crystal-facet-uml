@@ -142,7 +142,7 @@ static inline void pos_search_result_page_set_button_next_box ( pos_search_resul
 
 
 /*
-Copyright 2025-2025 Andreas Warnke
+Copyright 2025-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

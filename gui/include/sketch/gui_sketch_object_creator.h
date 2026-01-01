@@ -160,7 +160,7 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
 
 
 /*
-Copyright 2017-2025 Andreas Warnke
+Copyright 2017-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

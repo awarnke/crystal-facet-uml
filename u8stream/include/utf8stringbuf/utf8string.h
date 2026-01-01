@@ -141,7 +141,7 @@ utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_
 
 
 /*
- * Copyright 2012-2025 Andreas Warnke
+ * Copyright 2012-2026 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

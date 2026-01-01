@@ -170,7 +170,7 @@ static test_case_result_t test_geometry_anchor_align_biased( test_fixture_t *fix
 }
 
 /*
- * Copyright 2025-2025 Andreas Warnke
+ * Copyright 2025-2026 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

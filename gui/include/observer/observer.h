@@ -55,7 +55,7 @@ static inline void observer_notify ( observer_t *this_, void *call_param );
 
 
 /*
-Copyright 2016-2025 Andreas Warnke
+Copyright 2016-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

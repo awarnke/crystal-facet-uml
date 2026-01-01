@@ -58,7 +58,7 @@ typedef enum utf8stringviewtokenmode_enum utf8stringviewtokenmode_t;
 
 
 /*
-Copyright 2023-2025 Andreas Warnke
+Copyright 2023-2026 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
