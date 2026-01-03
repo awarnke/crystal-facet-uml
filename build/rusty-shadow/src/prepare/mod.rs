@@ -1,16 +1,10 @@
+//! This module scans a c99 source code directory and creates a makefile.
 
-pub fn print_help() {
-    println!("rusty-shadow -h");
-    println!("rusty-shadow -m <source_directory>");
-    println!("rusty-shadow -r [-c <config_file>] <input_file>...");
-    println!("-h:                    help");
-    println!("-m <source_directory>: create a Makefile for the c99 source input directory");
-    println!("-r <input_file>...:    run the c99 to rust converter on the input files");
-    println!("-c <config_file>:      define a configuration file");
-}
+pub mod plan;
+pub mod scandirs;
 
 /*
- * Copyright 2025-2026 Andreas Warnke
+ * Copyright 2026-2026 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
