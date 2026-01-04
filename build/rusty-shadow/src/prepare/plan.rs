@@ -1,10 +1,14 @@
 #![warn(missing_docs)]
 
 use super::scandirs::scan;
+use std::io;
+use log::info;
 
-pub fn makelist(source_directory:&str) {
+pub fn makelist<T: io::Write>(source_directory: &str, make_output: T) {
+    info!("makelist starting...");
     println!("rusty-shadow prepare");
-    scan(source_directory);
+    scan(source_directory, make_output);
+    info!("makelist finished.");
 }
 
 /*

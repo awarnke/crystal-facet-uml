@@ -1,4 +1,3 @@
-
 pub fn print_help() {
     println!("rusty-shadow -h");
     println!("rusty-shadow -m <source_directory>");

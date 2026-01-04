@@ -1,8 +1,12 @@
 #![warn(missing_docs)]
 
-pub fn create_rust(c_source_file:&str) {
+use log::info;
+
+pub fn create_rust(c_source_file: &str) {
+    info!("create_rust starting...");
     println!("rusty-shadow convert");
-    println!("-r {}",c_source_file);
+    println!("-r {}", c_source_file);
+    info!("create_rust fniished.");
 }
 
 /*

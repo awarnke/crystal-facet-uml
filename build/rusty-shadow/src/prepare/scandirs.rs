@@ -1,7 +1,32 @@
+use std::io;
+use std::fs::read_dir;
+use std::fs::ReadDir;
+use std::io::Error;
 
-pub fn scan(source_directory:&str) {
+pub fn scan<T: io::Write>(source_directory: &str, _make_output: T) {
     println!("rusty-shadow scan directories");
-    println!("-m {}",source_directory);
+    println!("-m {}", source_directory);
+
+    let directory_or_not: Result<ReadDir,Error> = read_dir(source_directory);
+    match directory_or_not {
+        Ok(dir) => {
+            for entry_or_not in dir
+            {
+            let entry = entry_or_not.unwrap();
+            let file_name_buf = entry.file_name();
+            let file_name = file_name_buf.to_str().unwrap();
+            if !file_name.starts_with(".") &&
+                entry.file_type().unwrap().is_dir()
+                {
+                    println!("File {:?} has full path {:?}",
+                             file_name, entry.path());
+                }
+            }
+        }
+        Err(_err) => {
+
+        }
+    }
 }
 
 /*
