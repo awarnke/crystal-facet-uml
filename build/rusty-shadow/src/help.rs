@@ -1,7 +1,7 @@
 pub fn print_help() {
-    println!("rusty-shadow -h");
-    println!("rusty-shadow -m <source_directory>");
-    println!("rusty-shadow -r [-c <config_file>] <input_file>...");
+    println!("RUST_LOG=info rusty-shadow -h");
+    println!("RUST_LOG=info rusty-shadow -m <source_directory>");
+    println!("RUST_LOG=info rusty-shadow -r [-c <config_file>] <input_file>...");
     println!("-h:                    help");
     println!("-m <source_directory>: create a Makefile for the c99 source input directory");
     println!("-r <input_file>...:    run the c99 to rust converter on the input files");

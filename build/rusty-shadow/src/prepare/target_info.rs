@@ -1,8 +1,11 @@
-//! This module scans a c99 source code directory and creates a makefile.
 
-pub mod plan;
-pub mod scan_tree;
-pub mod target_info;
+/// Defines a make target and its dependencies
+pub struct TargetInfo {
+    /// The target name (without file extension)
+    pub name: String,
+    /// The file paths to source files
+    pub source_paths: Vec<String>,
+}
 
 /*
  * Copyright 2026-2026 Andreas Warnke

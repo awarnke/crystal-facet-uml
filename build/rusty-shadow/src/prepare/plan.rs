@@ -1,13 +1,26 @@
 #![warn(missing_docs)]
 
-use super::scandirs::scan;
+use super::scan_tree::scan_dir;
+use super::target_info::TargetInfo;
 use std::io;
 use log::info;
 
-pub fn makelist<T: io::Write>(source_directory: &str, make_output: T) {
+pub fn makelist<T: io::Write>(source_directory: &str, mut make_output: T) {
     info!("makelist starting...");
     println!("rusty-shadow prepare");
-    scan(source_directory, make_output);
+    let targets: Vec<TargetInfo> = scan_dir(source_directory);
+    for target in targets
+    {
+        make_output.write_all(target.name.as_bytes()).expect("A target name could not be written");
+        for source_file in target.source_paths
+        {
+            make_output.write_all(" [".as_bytes()).expect("str to utf8 should work");
+            make_output.write_all(source_file.as_bytes()).expect("A target source could not be written");
+            make_output.write_all("]".as_bytes()).expect("str to utf8 should work");
+        }
+        make_output.write_all("\n".as_bytes()).expect("A target source could not be written");
+    }
+    make_output.flush().expect("The target vec could not be written");
     info!("makelist finished.");
 }
 
