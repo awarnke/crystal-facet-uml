@@ -593,7 +593,8 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                                                          utf8stringbuf_get_string( &((*this_).temp_string) )
                                                        );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST ) )
                     {
                         break_at_subelements = true;  /* end the loop */
                     }
@@ -731,7 +732,8 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                         data_relationship_set_from_classifier_row_id ( out_object, parsed_integer );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         U8_TRACE_INFO_STR( "from-classifier name:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
@@ -742,7 +744,8 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                         data_relationship_set_from_feature_row_id ( out_object, parsed_integer );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_PORT_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         U8_TRACE_INFO_STR( "from-feature key:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
@@ -753,7 +756,8 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                         data_relationship_set_to_classifier_row_id ( out_object, parsed_integer );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         U8_TRACE_INFO_STR( "to-classifier name:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
@@ -764,17 +768,20 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
                         data_relationship_set_to_feature_row_id ( out_object, parsed_integer );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_PORT_NAME ) )
                     {
 
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         U8_TRACE_INFO_STR( "to-feature key:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), out_from_node_uuid );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), out_to_node_uuid );
                     }
@@ -1161,7 +1168,8 @@ u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *t
                         result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                         data_diagramelement_set_classifier_row_id ( out_object, parsed_integer );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE_NAME ) )
                     {
                         result = json_element_reader_skip_next_string( this_ );
                     }

@@ -1,7 +1,7 @@
 crystal-facet-uml (1.67.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * add downwards compatibility for a future json format version
+  * downwards compatibility for a future json format version
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 Jan 2026 20:00:00 +0100
 
