@@ -55,8 +55,8 @@
 /* NEW !! */
 #define JSON_EXPORT_FORMAT_2 1
 #define JSON_CONSTANTS_KEY_TYPE_NAME "type"
-#define JSON_CONSTANTS_KEY_NEW_TYPE_ID "type_id"
-#define JSON_CONSTANTS_KEY_NEW_ORDER "order"
+#define JSON_CONSTANTS_KEY_TYPE_ID "type_id"
+#define JSON_CONSTANTS_KEY_ORDER "order"
 
 /* NEW !!
 "diagramelements" -> "elements";
