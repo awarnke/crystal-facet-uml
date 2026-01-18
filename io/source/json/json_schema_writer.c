@@ -237,7 +237,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE " as string, exported for reviews by humans, ignored at import";
     const char *const * D_TYPE_VALUES = json_type_name_map_get_diagram_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME,
+                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
                                                            D_DIAGTYPE_NAME,
                                                            D_TYPE_VALUES
                                                          );
@@ -297,7 +297,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = "name of " JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ", exported for reviews by humans, ignored at import";
     const char *const * C_TYPE_VALUES = json_type_name_map_get_classifier_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME,
+                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
                                                            C_TYPE_NAME,
                                                            C_TYPE_VALUES
                                                          );
@@ -320,7 +320,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = "name of " JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ", exported for reviews by humans, ignored at import";
     const char *const * F_TYPE_VALUES = json_type_name_map_get_feature_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME,
+                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
                                                            F_TYPE_NAME,
                                                            F_TYPE_VALUES
                                                          );
@@ -345,7 +345,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = "name of " JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ", exported for reviews by humans, ignored at import";
     const char *const * R_TYPE_VALUES = json_type_name_map_get_relationship_types_list( &((*this_).enum_map) );
     export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME,
+                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
                                                            R_TYPE_NAME,
                                                            R_TYPE_VALUES
                                                          );

@@ -107,6 +107,7 @@
         [
           {
             "id": 3,
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "This diagram shows the intended workflow",
             "node": "78acfe20-2b07-446b-a65f-3a4fc8c2f7db",
             "uuid": "303a83dd-f509-4a3c-b31a-4e65cfb97f42"

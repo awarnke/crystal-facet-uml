@@ -52,6 +52,25 @@
 #define JSON_CONSTANTS_KEY_EDGES "edges"
 #define JSON_CONSTANTS_KEY_VIEWS "views"
 #define JSON_CONSTANTS_KEY_UUID "uuid"
+/* NEW !! */
+#define JSON_EXPORT_FORMAT_2 1
+#define JSON_CONSTANTS_KEY_TYPE_NAME "type"
+#define JSON_CONSTANTS_KEY_NEW_TYPE_ID "type_id"
+#define JSON_CONSTANTS_KEY_NEW_ORDER "order"
+
+/* NEW !!
+"diagramelements" -> "elements";
+"diagram_type" -> "type_id"
+"list_order" -> "order"
+"main_type" -> "type_id"
+"classifier_name" -> "node_name"
+"from_classifier_name" -> "from_name"
+"from_feature_key" -> "from_port"
+"from_node" -> "from"
+"to_classifier_name" -> "to_name"
+"to_feature_key" -> "to_port"
+"to_node" -> "to"
+*/
 
 #define JSON_CONSTANTS_KEY_DIAGRAM "diagram"
 #define JSON_CONSTANTS_KEY_DIAGRAM_ID "id"
@@ -61,7 +80,7 @@
 /* parent is the uuid of the parent diagram (if not root) */
 #define JSON_CONSTANTS_KEY_DIAGRAM_PARENT "parent"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE "diagram_type"
-#define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME "type"
+//#define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME "type"
 /* new in 1.43.0/1.47.0: stereotype */
 #define JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE "stereotype"
 #define JSON_CONSTANTS_KEY_DIAGRAM_NAME "name"
@@ -70,6 +89,8 @@
 #define JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS "display_flags"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES "display_tags"
 #define JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS "diagramelements"
+/* NEW !! */
+#define JSON_CONSTANTS_KEY_DIAGRAM_NEW_ELEMENTS "elements"
 
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID "id"
 /* deprecated: diagram_id */
@@ -77,6 +98,8 @@
 /* deprecated: classifier_id */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID "classifier_id"
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME "classifier_name"
+/* NEW !! */
+#define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NEW_NODE_NAME "node_name"
 /* deprecated: focused_feature_id */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID "focused_feature_id"
 /* unused because always empty: */
@@ -89,7 +112,7 @@
 #define JSON_CONSTANTS_KEY_CLASSIFIER "classifier"
 #define JSON_CONSTANTS_KEY_CLASSIFIER_ID "id"
 #define JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE "main_type"
-#define JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME "type"
+//#define JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME "type"
 #define JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE "stereotype"
 #define JSON_CONSTANTS_KEY_CLASSIFIER_NAME "name"
 #define JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION "description"
@@ -100,7 +123,7 @@
 
 #define JSON_CONSTANTS_KEY_FEATURE_ID "id"
 #define JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE "main_type"
-#define JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME "type"
+//#define JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME "type"
 #define JSON_CONSTANTS_KEY_FEATURE_KEY "key"
 #define JSON_CONSTANTS_KEY_FEATURE_VALUE "value"
 #define JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION "description"
@@ -125,12 +148,20 @@
 /* to_node is the uuid of either the to_classifier or (if defined) the to_feature */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE "to_node"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE "main_type"
-#define JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME "type"
+//#define JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME "type"
 /* new in 1.43.0/1.47.0: stereotype */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE "stereotype"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_NAME "name"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION "description"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER "list_order"
+/* NEW !! */
+#define JSON_CONSTANTS_KEY_RELATIONSHIP_NEW_FROM_CLASSIFIER_NAME "from_name"
+#define JSON_CONSTANTS_KEY_RELATIONSHIP_NEW_FROM_FEATURE_KEY "from_port"
+#define JSON_CONSTANTS_KEY_RELATIONSHIP_NEW_FROM_NODE "from"
+#define JSON_CONSTANTS_KEY_RELATIONSHIP_NEW_TO_CLASSIFIER_NAME "to_name"
+#define JSON_CONSTANTS_KEY_RELATIONSHIP_NEW_TO_FEATURE_KEY "to_port"
+#define JSON_CONSTANTS_KEY_RELATIONSHIP_NEW_TO_NODE "to"
+
 
 #endif  /* JSON_CONSTANTS_H */
 

@@ -14,39 +14,39 @@ ideas for future versions:
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
   [ ] do not redraw twice, once for deactivating a tool and again for activating another
       (this is still the case in 1.61.2)
-  [ ] a "saveAs" command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] auto-save when losing focus; auto-reload when gaining focus (git support)
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
+  [ ] a "saveAs" command should allow to copy the current db
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [?] to pink-mark several objects - require shift key
-  [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
+! [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
   [ ] In Nav+Search view, no linebreaks are introduced to long words in titles
   @pencil
-  [ ] activity bars on lifelines missing
+! [ ] activity bars on lifelines missing
+  [ ] Time axis in timing diagrams missing
+  [ ] Asynchronous calls shall be slightly diagonal
+  [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
+      --> needs a conceptual change:
+      layout_visible_classifier_t has no attribute for size of contained features yet.
+  [ ] sequence diagrams need if/loop-boxes
+  [ ] activity diagrams need swimlanes/partition
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
   [?] more relationship types needed: one-way x--> and no x--x association (maybe x is a feature?)
   [?] check dot notation at opposite relationship ends
-  [?] sequence diagrams need if/loop-boxes
-  [?] activity diagrams need swimlanes/partition
-  [?] A "contains" relationship towards features shall not influence the grid-layouting.
+  [ ] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
   [?] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] relationship ends at packages or use-cases or choices are sometimes unluckily positioned.
       A simple solution is to consider the type of the classifier when determining the weight for non-centered ends.
   [ ] A comment should only show the first paragraph. Or - like an svg-path - define other delimiters
   [ ] A comment should consider CJK linebreaks - like the json export (or should pango do this?)
-  [ ] An image should show an svg-<path> without a stereotype
-  [ ] An image should have a bigger icon
-  [?] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
-  [?] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
-  [ ] Time axis in timing diagrams missing
-  [ ] Asynchronous calls shall be slightly diagonal
-  [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
-      --> needs a conceptual change:
-      layout_visible_classifier_t has no attribute for size of contained features yet.
+  [ ] An image should show an svg-<path> without a stereotype (needed to easier recognize already known diagrams)
+! [ ] An image should have a bigger icon
+  [ ] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
+  [ ] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -89,11 +89,12 @@ ideas for a version 2
     "diagram_type" -> "type_id"
     "list_order" -> "order"
     "main_type" -> "type_id"
+    "classifier_name" -> "node_name"
     "from_classifier_name" -> "from_name"
-    "from_feature_key" -> "from_key"
+    "from_feature_key" -> "from_port"
     "from_node" -> "from"
     "to_classifier_name" -> "to_name"
-    "to_feature_key" -> "to_key"
+    "to_feature_key" -> "to_port"
     "to_node" -> "to"
   - sysml2 support
 
