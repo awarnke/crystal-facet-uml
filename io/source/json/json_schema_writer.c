@@ -298,10 +298,12 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE_NAME, E_NODE_C_NAME );
 #else
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME, E_NODE_C_NAME );
-#endif
     static const char *const E_NODE_F_NAME
         = "name of " JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE "/feature (if lifeline), optional, exported for reviews by humans, ignored at import";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME, E_NODE_F_NAME );
+#endif
+    static const char *const E_NODE = "the uuid of either the classifier or the feature (type lifeline only)";
+    export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE, E_NODE, true );
     /* generate an enum listing all options */
     static const char *const E_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
@@ -313,8 +315,6 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                          );
     static const char *const E_FLAGS = "set of flags, see source file data/include/entity/data_diagramelement_flag.h";
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS, E_FLAGS );
-    static const char *const E_NODE = "the uuid of either the classifier or the feature (type lifeline only)";
-    export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE, E_NODE, true );
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, false );
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_ELEMENTS_FOOTER );

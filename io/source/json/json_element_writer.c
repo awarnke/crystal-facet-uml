@@ -814,6 +814,24 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                               );
         }
 
+        /* from node ref_uuid */
+        const char *const from_node_ref
+            = ( from_f_valid )
+            ? data_feature_get_uuid_const( from_f )
+            : ( from_c_valid )
+            ? data_classifier_get_uuid_const( from_c )
+            : "";
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID,
+#else
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
+#endif
+                                                    from_node_ref,
+                                                    true
+                                                  );
+
         /* to_classifier_name */
         const char *const to_c_name = to_c_valid ? data_classifier_get_name_const( to_c ) : "";
         out_err |= json_writer_write_plain( &((*this_).json_writer),
@@ -863,24 +881,6 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                 JSON_CONSTANTS_NEXT_NL
                                               );
         }
-
-        /* from node ref_uuid */
-        const char *const from_node_ref
-            = ( from_f_valid )
-            ? data_feature_get_uuid_const( from_f )
-            : ( from_c_valid )
-            ? data_classifier_get_uuid_const( from_c )
-            : "";
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID,
-#else
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
-#endif
-                                                    from_node_ref,
-                                                    true
-                                                  );
 
         /* to node ref_uuid */
         const char *const to_node_ref
@@ -1286,23 +1286,6 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
                                                  true
                                                );
 
-        /* display_tags (flag names) + display_flags */
-        if ( data_diagramelement_get_display_flags( diagramelement_ptr ) != DATA_DIAGRAMELEMENT_FLAG_NONE )
-        {
-            const char *const tag_names
-                = json_type_name_map_get_diagramelement_tags( &((*this_).type_map),
-                                                              data_diagramelement_get_display_flags( diagramelement_ptr )
-                                                            );
-            out_err |= json_writer_write_member_enum( &((*this_).json_writer),
-                                                      6,
-                                                      JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
-                                                      tag_names,
-                                                      JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS,
-                                                      data_diagramelement_get_display_flags( diagramelement_ptr ),
-                                                      true
-                                                    );
-        }
-
         /* classifier_name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     6,
@@ -1333,6 +1316,23 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
                                                     node_ref,
                                                     true
                                                   );
+
+        /* display_tags (flag names) + display_flags */
+        if ( data_diagramelement_get_display_flags( diagramelement_ptr ) != DATA_DIAGRAMELEMENT_FLAG_NONE )
+        {
+            const char *const tag_names
+                = json_type_name_map_get_diagramelement_tags( &((*this_).type_map),
+                                                              data_diagramelement_get_display_flags( diagramelement_ptr )
+                                                            );
+            out_err |= json_writer_write_member_enum( &((*this_).json_writer),
+                                                      6,
+                                                      JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
+                                                      tag_names,
+                                                      JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS,
+                                                      data_diagramelement_get_display_flags( diagramelement_ptr ),
+                                                      true
+                                                    );
+        }
 
         /* uuid */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
