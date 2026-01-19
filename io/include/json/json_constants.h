@@ -53,6 +53,7 @@
 #define JSON_CONSTANTS_KEY_VIEWS "views"
 #define JSON_CONSTANTS_KEY_UUID "uuid"
 /* NEW !! */
+//#define JSON_CONSTANTS_NEW_KEYS 1
 #define JSON_CONSTANTS_KEY_TYPE_NAME "type"
 #define JSON_CONSTANTS_KEY_TYPE_ID "type_id"
 #define JSON_CONSTANTS_KEY_ORDER "order"

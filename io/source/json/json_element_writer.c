@@ -132,9 +132,14 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
     /* two of these 6-byte sequences may form a surrogate pair */
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "structure_format", "rfc-8259 w/o hexadecimal escapes", true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "cfu-json", true );
+#ifdef JSON_CONSTANTS_NEW_KEYS
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 2, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 0, true );
+#else
     /* version 1.1 stores stereotypes for diagrams and relationships */
     out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 1, true );
     out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 2, true );
+#endif
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_name", META_INFO_PROGRAM_ID_STR, true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_version", META_VERSION_STR, false );
 
@@ -307,7 +312,11 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+#else
                                                   JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE,
+#endif
                                                   data_classifier_get_main_type( classifier_ptr ),
                                                   true
                                                 );
@@ -358,7 +367,11 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
         /* list_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                 JSON_CONSTANTS_KEY_ORDER,
+#else
                                                  JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER,
+#endif
                                                  data_classifier_get_list_order( classifier_ptr ),
                                                  true
                                                );
@@ -519,7 +532,11 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                   6,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+#else
                                                   JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE,
+#endif
                                                   data_feature_get_main_type( feature_ptr ),
                                                   true
                                                 );
@@ -554,7 +571,11 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
         /* list_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  6,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                 JSON_CONSTANTS_KEY_ORDER,
+#else
                                                  JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER,
+#endif
                                                  data_feature_get_list_order( feature_ptr ),
                                                  true
                                                );
@@ -695,7 +716,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+#else
                                                   JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE,
+#endif
                                                   data_relationship_get_main_type( relation_ptr ),
                                                   true
                                                 );
@@ -730,7 +755,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
         /* list_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                 JSON_CONSTANTS_KEY_ORDER,
+#else
                                                  JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER,
+#endif
                                                  data_relationship_get_list_order( relation_ptr ),
                                                  true
                                                );
@@ -743,7 +772,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_QUOTE
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_NAME
+#else
                                             JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME
+#endif
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF
                                             JSON_CONSTANTS_QUOTE
@@ -763,7 +796,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                 JSON_CONSTANTS_TAB
                                                 JSON_CONSTANTS_TAB
                                                 JSON_CONSTANTS_QUOTE
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_PORT_NAME
+#else
                                                 JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY
+#endif
                                                 JSON_CONSTANTS_QUOTE
                                                 JSON_CONSTANTS_DEF
                                                 JSON_CONSTANTS_QUOTE
@@ -785,7 +822,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_QUOTE
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_NAME
+#else
                                             JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME
+#endif
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF
                                             JSON_CONSTANTS_QUOTE
@@ -805,7 +846,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                 JSON_CONSTANTS_TAB
                                                 JSON_CONSTANTS_TAB
                                                 JSON_CONSTANTS_QUOTE
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                JSON_CONSTANTS_KEY_RELATIONSHIP_TO_PORT_NAME
+#else
                                                 JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY
+#endif
                                                 JSON_CONSTANTS_QUOTE
                                                 JSON_CONSTANTS_DEF
                                                 JSON_CONSTANTS_QUOTE
@@ -828,7 +873,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
             : "";
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     4,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID,
+#else
                                                     JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
+#endif
                                                     from_node_ref,
                                                     true
                                                   );
@@ -842,7 +891,11 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
             : "";
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     4,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID,
+#else
                                                     JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE,
+#endif
                                                     to_node_ref,
                                                     true
                                                   );
@@ -969,7 +1022,11 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+#else
                                                   JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE,
+#endif
                                                   data_diagram_get_diagram_type( diag_ptr ),
                                                   true
                                                 );
@@ -1004,7 +1061,11 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
         /* list_order */
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                 JSON_CONSTANTS_KEY_ORDER,
+#else
                                                  JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER,
+#endif
                                                  data_diagram_get_list_order( diag_ptr ),
                                                  true
                                                );
@@ -1066,7 +1127,11 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_QUOTE
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                            JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST
+#else
                                             JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS
+#endif
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF_NL
                                             JSON_CONSTANTS_TAB
@@ -1241,7 +1306,11 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
         /* classifier_name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     6,
+#ifdef JSON_CONSTANTS_NEW_KEYS
+                                                    JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE_NAME,
+#else
                                                     JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME,
+#endif
                                                     data_classifier_get_name_const( occurrence ),
                                                     true
                                                   );
