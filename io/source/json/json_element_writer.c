@@ -138,7 +138,7 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
 #else
     /* version 1.1 stores stereotypes for diagrams and relationships */
     out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 1, true );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 2, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 3, true );
 #endif
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_name", META_INFO_PROGRAM_ID_STR, true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_version", META_VERSION_STR, false );

@@ -85,7 +85,7 @@ static const char SCHEMA_DIAGRAM_ELEMENTS_FOOTER[]
 =
 "                  },\n"
 "                  \"additionalProperties\": false\n"
-"                },\n"
+"                }\n"
 "              }\n"
 ;
 
