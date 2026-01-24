@@ -33,7 +33,7 @@ typedef char u8_u64_dec_t[U8_U64_MAX_DEC_SIZE];
  *  \brief gets the hexadecimal representation of an uint_64
  *
  *  \param value a number to render as hexadecimal
- *  \param[out] a character array, 0-terminated, containting the hexadecimal representation of value
+ *  \param[out] out_hex character array, 0-terminated, containting the hexadecimal representation of value
  */
 static inline void u8_u64_get_hex ( const uint64_t value, u8_u64_hex_t *out_hex );
 
@@ -41,7 +41,7 @@ static inline void u8_u64_get_hex ( const uint64_t value, u8_u64_hex_t *out_hex 
  *  \brief gets the decimal representation of an uint_64
  *
  *  \param value a number to render as decimal
- *  \param[out] a character array, 0-terminated, containting the decimal representation of value
+ *  \param[out] out_dec character array, 0-terminated, containting the decimal representation of value
  */
 static inline void u8_u64_get_dec ( const uint64_t value, u8_u64_dec_t *out_dec );
 

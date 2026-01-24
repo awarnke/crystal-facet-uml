@@ -281,5 +281,61 @@
 ]]></command>
       </para></listitem>
     </varlistentry>
+    <varlistentry>
+      <term>landmark_top_left</term>
+      <listitem><para>
+        <inlinemediaobject><imageobject><imagedata fileref="landmark_top_left.svg" width="1cm"/></imageobject></inlinemediaobject>
+      </para><para>
+        <command><![CDATA[    <path stroke="none" fill="#ddccee"
+        d="M 31,6 L 31,1 L 5,1 C 2.75,1 1,2.75 1,5 L 1,31 L 6,31 L 6,6 Z "
+    />
+    <path stroke="none" fill="#ddccee"
+        d="M 31,11 L 31,7 L 7,7 L 7,31 L 11,31 L 11,15 C 9,13.5 8.5,11.5 10,10 C 11.5,8.5 13.5,9 15,11 Z "
+    />
+]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>landmark_top_right</term>
+      <listitem><para>
+        <inlinemediaobject><imageobject><imagedata fileref="landmark_top_right.svg" width="1cm"/></imageobject></inlinemediaobject>
+      </para><para>
+        <command><![CDATA[    <path stroke="none" fill="#ddccee"
+        d="M 26,31 L 31,31 L 31,5 C 31,2.75 29.25,1 27,1 L 1,1 L 1,6 L 26,6 Z "
+    />
+    <path stroke="none" fill="#ddccee"
+        d="M 21,31 L 25,31 L 25,7 L 1,7 L 1,11 L 17,11 C 18.5,9 20.5,8.5 22,10 C 23.5,11.5 23,13.5 21,15 Z "
+    />
+]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>landmark_bottom_left</term>
+      <listitem><para>
+        <inlinemediaobject><imageobject><imagedata fileref="landmark_bottom_left.svg" width="1cm"/></imageobject></inlinemediaobject>
+      </para><para>
+        <command><![CDATA[    <path stroke="none" fill="#ddccee"
+        d="M 31,26 L 31,31 L 5,31 C 2.75,31 1,29.25 1,27 L 1,1 L 6,1 L 6,26 Z "
+    />
+    <path stroke="none" fill="#ddccee"
+        d="M 31,21 L 31,25 L 7,25 L 7,1 L 11,1 L 11,17 C 9,18.5 8.5,20.5 10,22 C 11.5,23.5 13.5,23 15,21 Z "
+    />
+]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>landmark_bottom_right</term>
+      <listitem><para>
+        <inlinemediaobject><imageobject><imagedata fileref="landmark_bottom_right.svg" width="1cm"/></imageobject></inlinemediaobject>
+      </para><para>
+        <command><![CDATA[    <path stroke="none" fill="#ddccee"
+        d="M 26,1 L 31,1 L 31,27 C 31,29.25 29.25,31 27,31 L 1,31 L 1,26 L 26,26 Z "
+    />
+    <path stroke="none" fill="#ddccee"
+        d="M 21,1 L 25,1 L 25,25 L 1,25 L 1,21 L 17,21 C 18.5,23 20.5,23.5 22,22 C 23.5,20.5 23,18.5 21,17 Z "
+    />
+]]></command>
+      </para></listitem>
+    </varlistentry>
   </variablelist>
 </para>

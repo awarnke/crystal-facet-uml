@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.66.2"
+    "generator_version": "1.67.4"
   }
   ,
   "views":
@@ -30,9 +30,9 @@
         [
           {
             "id": 9,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Template structured according to arc42 proposal",
             "node": "7f0b3a66-eecf-4acb-b451-99f5b1eecf82",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "112728ff-3266-48fe-bec4-1f3f9c4e604c"
           },
           {
@@ -281,23 +281,23 @@
           },
           {
             "id": 29,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Model",
             "node": "05bdba2f-48a6-4f7a-bde6-44a1b80c74d5",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "eab2c2ac-4f38-4552-a10e-9483eb135415"
           },
           {
             "id": 30,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "View",
             "node": "064d6ce8-9172-4de4-aac8-7a0402abd3ff",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "9c041e76-9525-472b-b1eb-05cc298f803d"
           },
           {
             "id": 31,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Controller",
             "node": "426cf835-28ee-405c-9ce4-6d07e2d54ed2",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "13bcad97-5aa7-4469-8ed1-92dca03d92c8"
           }
         ]
@@ -537,9 +537,9 @@
           },
           {
             "id": 49,
-            "display_tags": "Named Instance", "display_flags": 1,
             "classifier_name": "The Component T",
             "node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
+            "display_tags": "Named Instance", "display_flags": 1,
             "uuid": "504bc8e2-abaa-4cb1-a30a-2b2eda660f60"
           },
           {
@@ -668,23 +668,23 @@
           },
           {
             "id": 53,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "A-1: XML",
             "node": "93229bca-b0f8-4aef-abb2-cdc6ded006bc",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "3a0bac4c-6113-4916-8f58-f2e2d9daf8e0"
           },
           {
             "id": 54,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "A-2: JSON",
             "node": "694e47ec-7b11-4494-869d-332dc49a158e",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "cf31a16e-2b5c-411c-99d1-6f7a169aace5"
           },
           {
             "id": 55,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "A-3: Binary BLOBs",
             "node": "5d302c54-0b51-464e-8a69-3bc189fb45ff",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "e25a8b39-e914-4166-9717-be281d1767f1"
           },
           {
@@ -1969,8 +1969,8 @@
         ],
         "list_order": 1024,
         "from_classifier_name": "User",
-        "to_classifier_name": "Use System",
         "from_node": "5c7e4c31-2601-48c1-b61f-fd1cd806dbe0",
+        "to_classifier_name": "Use System",
         "to_node": "6d6b18d3-f74e-4e6d-a2fa-4c5c0bbf981c",
         "uuid": "b3c016a3-60b3-46e9-aa8b-d98cfdf16714"
       }
@@ -1985,8 +1985,8 @@
         ],
         "list_order": 2048,
         "from_classifier_name": "User",
-        "to_classifier_name": "Analyze Problem",
         "from_node": "5c7e4c31-2601-48c1-b61f-fd1cd806dbe0",
+        "to_classifier_name": "Analyze Problem",
         "to_node": "56616eee-6205-4288-999b-93592c10f9b6",
         "uuid": "24c9b553-770e-4fe8-acfa-23ef73e41f1c"
       }
@@ -2001,8 +2001,8 @@
         ],
         "list_order": 37888,
         "from_classifier_name": "User",
-        "to_classifier_name": "Report Problem",
         "from_node": "5c7e4c31-2601-48c1-b61f-fd1cd806dbe0",
+        "to_classifier_name": "Report Problem",
         "to_node": "b9ecb08d-d55a-4527-8fea-a5dd0c4d5622",
         "uuid": "06065618-3f98-4fb8-83a8-40c949ae09ec"
       }
@@ -2017,8 +2017,8 @@
         ],
         "list_order": 3072,
         "from_classifier_name": "Service",
-        "to_classifier_name": "Analyze Problem",
         "from_node": "f4abcf18-9905-46a3-a199-70271bda4534",
+        "to_classifier_name": "Analyze Problem",
         "to_node": "56616eee-6205-4288-999b-93592c10f9b6",
         "uuid": "451c2b8d-168a-4aa9-b7d2-725573debbc5"
       }
@@ -2033,8 +2033,8 @@
         ],
         "list_order": 70656,
         "from_classifier_name": "Service",
-        "to_classifier_name": "Report Problem",
         "from_node": "f4abcf18-9905-46a3-a199-70271bda4534",
+        "to_classifier_name": "Report Problem",
         "to_node": "b9ecb08d-d55a-4527-8fea-a5dd0c4d5622",
         "uuid": "25bffd2d-d261-43a6-8925-4f374abf4e5c"
       }
@@ -2049,8 +2049,8 @@
         ],
         "list_order": 4096,
         "from_classifier_name": "System Boundary",
-        "to_classifier_name": "Use System",
         "from_node": "756fed6d-09c5-4057-bd8c-810fcef38938",
+        "to_classifier_name": "Use System",
         "to_node": "6d6b18d3-f74e-4e6d-a2fa-4c5c0bbf981c",
         "uuid": "0d9c2d86-af4e-4cba-a458-2852f60179c8"
       }
@@ -2065,8 +2065,8 @@
         ],
         "list_order": 5120,
         "from_classifier_name": "System Boundary",
-        "to_classifier_name": "Analyze Problem",
         "from_node": "756fed6d-09c5-4057-bd8c-810fcef38938",
+        "to_classifier_name": "Analyze Problem",
         "to_node": "56616eee-6205-4288-999b-93592c10f9b6",
         "uuid": "ec022251-b899-43e9-9ba4-9641b19f804e"
       }
@@ -2081,8 +2081,8 @@
         ],
         "list_order": 1024,
         "from_classifier_name": "Stakeholder",
-        "to_classifier_name": "Understand the Problem",
         "from_node": "dc9ef752-d463-4b54-9c93-17aea066b6f8",
+        "to_classifier_name": "Understand the Problem",
         "to_node": "99623701-1f04-4daf-a214-c8a38c821eb9",
         "uuid": "29e6cdd6-55a6-4451-9d04-d4b827aad037"
       }
@@ -2097,8 +2097,8 @@
         ],
         "list_order": 2048,
         "from_classifier_name": "SW Architect",
-        "to_classifier_name": "Understand the Problem",
         "from_node": "5184bb1b-a807-4b2d-9f81-7278a6e7f195",
+        "to_classifier_name": "Understand the Problem",
         "to_node": "99623701-1f04-4daf-a214-c8a38c821eb9",
         "uuid": "4daa065a-d517-4c91-ad9a-094748b5d219"
       }
@@ -2113,8 +2113,8 @@
         ],
         "list_order": 7168,
         "from_classifier_name": "SW Architect",
-        "to_classifier_name": "Explain Solution",
         "from_node": "5184bb1b-a807-4b2d-9f81-7278a6e7f195",
+        "to_classifier_name": "Explain Solution",
         "to_node": "ce004acc-5b21-4725-869a-a22f9e85fa27",
         "uuid": "2298a649-0ce5-48ff-bc17-aafdf39c9c98"
       }
@@ -2129,8 +2129,8 @@
         ],
         "list_order": 9216,
         "from_classifier_name": "SW Architect",
-        "to_classifier_name": "Decide Alternatives",
         "from_node": "5184bb1b-a807-4b2d-9f81-7278a6e7f195",
+        "to_classifier_name": "Decide Alternatives",
         "to_node": "135b8885-5338-48e5-9338-8d82bfa3fff4",
         "uuid": "fde9940e-0f20-453b-9f56-777cc48699e1"
       }
@@ -2145,8 +2145,8 @@
         ],
         "list_order": -1242470714,
         "from_classifier_name": "SW Architecture",
-        "to_classifier_name": "Understand the Problem",
         "from_node": "9280a4ca-a208-41f7-bef7-90d5b0921fb5",
+        "to_classifier_name": "Understand the Problem",
         "to_node": "99623701-1f04-4daf-a214-c8a38c821eb9",
         "uuid": "c52893dd-5a5e-4d72-9323-17e57ae6100c"
       }
@@ -2161,8 +2161,8 @@
         ],
         "list_order": -1900625787,
         "from_classifier_name": "SW Architecture",
-        "to_classifier_name": "Decide Alternatives",
         "from_node": "9280a4ca-a208-41f7-bef7-90d5b0921fb5",
+        "to_classifier_name": "Decide Alternatives",
         "to_node": "135b8885-5338-48e5-9338-8d82bfa3fff4",
         "uuid": "ed9ee7d4-646d-47a0-a659-ba53cf36983b"
       }
@@ -2177,8 +2177,8 @@
         ],
         "list_order": -1917687294,
         "from_classifier_name": "SW Architecture",
-        "to_classifier_name": "Explain Solution",
         "from_node": "9280a4ca-a208-41f7-bef7-90d5b0921fb5",
+        "to_classifier_name": "Explain Solution",
         "to_node": "ce004acc-5b21-4725-869a-a22f9e85fa27",
         "uuid": "dabd5ea6-078f-4433-a953-e7656c0c6674"
       }
@@ -2193,8 +2193,8 @@
         ],
         "list_order": 3072,
         "from_classifier_name": "SW Integrator",
-        "to_classifier_name": "Understand the Problem",
         "from_node": "8bcdca45-87fa-4f56-b0e4-63e7144032c9",
+        "to_classifier_name": "Understand the Problem",
         "to_node": "99623701-1f04-4daf-a214-c8a38c821eb9",
         "uuid": "175d9fef-20a2-44c4-b26b-5d9d3d2d1c13"
       }
@@ -2209,8 +2209,8 @@
         ],
         "list_order": 8192,
         "from_classifier_name": "SW Integrator",
-        "to_classifier_name": "Explain Solution",
         "from_node": "8bcdca45-87fa-4f56-b0e4-63e7144032c9",
+        "to_classifier_name": "Explain Solution",
         "to_node": "ce004acc-5b21-4725-869a-a22f9e85fa27",
         "uuid": "403df4d2-4eb4-475c-9bdc-cab38cb0c6d2"
       }
@@ -2225,8 +2225,8 @@
         ],
         "list_order": 5120,
         "from_classifier_name": "SW Tester",
-        "to_classifier_name": "Understand the Problem",
         "from_node": "ed8d8fd6-7d5a-45d2-8ee3-f254b5f33f3a",
+        "to_classifier_name": "Understand the Problem",
         "to_node": "99623701-1f04-4daf-a214-c8a38c821eb9",
         "uuid": "15b7d24e-d2c0-4698-a75c-fac0871c88e3"
       }
@@ -2241,8 +2241,8 @@
         ],
         "list_order": 4096,
         "from_classifier_name": "SW Developer",
-        "to_classifier_name": "Understand the Problem",
         "from_node": "368b7857-7a5e-44ba-ba62-88cd87c4d11a",
+        "to_classifier_name": "Understand the Problem",
         "to_node": "99623701-1f04-4daf-a214-c8a38c821eb9",
         "uuid": "4fce2c1a-8f3f-4fc4-b608-f4dcd2c806ae"
       }
@@ -2257,8 +2257,8 @@
         ],
         "list_order": 6144,
         "from_classifier_name": "SW Developer",
-        "to_classifier_name": "Explain Solution",
         "from_node": "368b7857-7a5e-44ba-ba62-88cd87c4d11a",
+        "to_classifier_name": "Explain Solution",
         "to_node": "ce004acc-5b21-4725-869a-a22f9e85fa27",
         "uuid": "85380a03-f1f5-4f17-a73d-c6a84d1165d6"
       }
@@ -2273,8 +2273,8 @@
         ],
         "list_order": -1679158905,
         "from_classifier_name": "System H",
-        "to_classifier_name": "The Component T",
         "from_node": "ca6abcf5-4136-4b37-a13c-fccbdeeb54ed",
+        "to_classifier_name": "The Component T",
         "to_node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
         "uuid": "39e86f55-4a0c-4132-ae82-dbc2f73d7213"
       }
@@ -2289,8 +2289,8 @@
         ],
         "list_order": -390069535,
         "from_classifier_name": "The Component T",
-        "to_classifier_name": "Model",
         "from_node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
+        "to_classifier_name": "Model",
         "to_node": "05bdba2f-48a6-4f7a-bde6-44a1b80c74d5",
         "uuid": "37b8714e-86b7-4e7c-b600-5b2b4688de67"
       }
@@ -2305,8 +2305,8 @@
         ],
         "list_order": -798207847,
         "from_classifier_name": "The Component T",
-        "to_classifier_name": "View",
         "from_node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
+        "to_classifier_name": "View",
         "to_node": "064d6ce8-9172-4de4-aac8-7a0402abd3ff",
         "uuid": "ad8e261c-2daa-4f22-9436-11f5ea41f577"
       }
@@ -2321,8 +2321,8 @@
         ],
         "list_order": -765840599,
         "from_classifier_name": "The Component T",
-        "to_classifier_name": "Controller",
         "from_node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
+        "to_classifier_name": "Controller",
         "to_node": "426cf835-28ee-405c-9ce4-6d07e2d54ed2",
         "uuid": "5e74b3bf-7c8c-4d48-9a75-b2ece2a1f013"
       }
@@ -2337,8 +2337,8 @@
         ],
         "list_order": 1024,
         "from_classifier_name": "The system starts",
-        "to_classifier_name": "The component T waits for event E",
         "from_node": "8b94df3e-857d-493f-a8b5-907847825188",
+        "to_classifier_name": "The component T waits for event E",
         "to_node": "d176acd4-773c-47e6-aa9c-fb1d0a655e69",
         "uuid": "2ed5fa12-a728-4e2d-9b0b-5cf879f0a36b"
       }
@@ -2354,9 +2354,9 @@
         "list_order": -984924092,
         "from_classifier_name": "The system starts",
         "from_feature_key": "",
+        "from_node": "88f91539-1e10-437b-8ed0-a220f0ebe7d5",
         "to_classifier_name": "View",
         "to_feature_key": "",
-        "from_node": "88f91539-1e10-437b-8ed0-a220f0ebe7d5",
         "to_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "uuid": "17f22848-5457-4333-94e6-f31d46042ec4"
       }
@@ -2372,9 +2372,9 @@
         "list_order": -1170004852,
         "from_classifier_name": "The system starts",
         "from_feature_key": "",
+        "from_node": "88f91539-1e10-437b-8ed0-a220f0ebe7d5",
         "to_classifier_name": "Model",
         "to_feature_key": "",
-        "from_node": "88f91539-1e10-437b-8ed0-a220f0ebe7d5",
         "to_node": "d098972e-a0c9-42a3-bb47-01fb9a6f448e",
         "uuid": "e805084d-56dc-4952-8990-2d00e48a68da"
       }
@@ -2389,8 +2389,8 @@
         ],
         "list_order": 3072,
         "from_classifier_name": "The component T performs XY",
-        "to_classifier_name": "The component T waits for event E",
         "from_node": "a3574399-5d67-4c67-b5a9-5748778879f4",
+        "to_classifier_name": "The component T waits for event E",
         "to_node": "d176acd4-773c-47e6-aa9c-fb1d0a655e69",
         "uuid": "8626c12e-d63c-4908-9a9d-7de0870a2bbf"
       }
@@ -2405,8 +2405,8 @@
         ],
         "list_order": 2048,
         "from_classifier_name": "The component T waits for event E",
-        "to_classifier_name": "The component T performs XY",
         "from_node": "d176acd4-773c-47e6-aa9c-fb1d0a655e69",
+        "to_classifier_name": "The component T performs XY",
         "to_node": "a3574399-5d67-4c67-b5a9-5748778879f4",
         "uuid": "107ae2fd-5100-4dfa-b114-e5b97d99bd55"
       }
@@ -2421,8 +2421,8 @@
         ],
         "list_order": 4096,
         "from_classifier_name": "The component T waits for event E",
-        "to_classifier_name": "The system shuts down",
         "from_node": "d176acd4-773c-47e6-aa9c-fb1d0a655e69",
+        "to_classifier_name": "The system shuts down",
         "to_node": "b0366cfe-c2af-4cb8-9548-455a37ac9495",
         "uuid": "4f170e35-5640-4be2-b4bf-fb6b5abe798d"
       }
@@ -2438,9 +2438,9 @@
         "list_order": 1606206551,
         "from_classifier_name": "Model",
         "from_feature_key": "",
+        "from_node": "d098972e-a0c9-42a3-bb47-01fb9a6f448e",
         "to_classifier_name": "View",
         "to_feature_key": "",
-        "from_node": "d098972e-a0c9-42a3-bb47-01fb9a6f448e",
         "to_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "uuid": "d898b186-3714-4e1a-abb0-29bb590a7fc6"
       }
@@ -2456,9 +2456,9 @@
         "list_order": -841907141,
         "from_classifier_name": "View",
         "from_feature_key": "",
+        "from_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "to_classifier_name": "Controller",
         "to_feature_key": "",
-        "from_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "to_node": "4c0cf62e-2d48-4877-8a17-04884210df3b",
         "uuid": "05a8787b-1866-4514-a5af-4ceeff5c0402"
       }
@@ -2474,9 +2474,9 @@
         "list_order": 630326179,
         "from_classifier_name": "View",
         "from_feature_key": "",
+        "from_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "to_classifier_name": "Controller",
         "to_feature_key": "",
-        "from_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "to_node": "4c0cf62e-2d48-4877-8a17-04884210df3b",
         "uuid": "5a420fbc-689b-41c6-ada2-b0b06a8dcb43"
       }
@@ -2492,9 +2492,9 @@
         "list_order": -387618002,
         "from_classifier_name": "View",
         "from_feature_key": "",
+        "from_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "to_classifier_name": "Model",
         "to_feature_key": "",
-        "from_node": "2db988db-75b3-46c7-bb87-474fbf41772b",
         "to_node": "d098972e-a0c9-42a3-bb47-01fb9a6f448e",
         "uuid": "47f45dd2-0d91-4632-bd7c-a6379157c445"
       }
@@ -2510,9 +2510,9 @@
         "list_order": 790168654,
         "from_classifier_name": "Controller",
         "from_feature_key": "",
+        "from_node": "4c0cf62e-2d48-4877-8a17-04884210df3b",
         "to_classifier_name": "Model",
         "to_feature_key": "",
-        "from_node": "4c0cf62e-2d48-4877-8a17-04884210df3b",
         "to_node": "d098972e-a0c9-42a3-bb47-01fb9a6f448e",
         "uuid": "aedf2961-d338-4ac5-b44e-52cf4be9389f"
       }
@@ -2527,8 +2527,8 @@
         ],
         "list_order": 1024,
         "from_classifier_name": "Resource Requirements",
-        "to_classifier_name": "The Component T",
         "from_node": "e9049d42-91fa-464a-9672-c705036011c3",
+        "to_classifier_name": "The Component T",
         "to_node": "cccc2d08-b7f1-4a79-8323-389c11fe8d7a",
         "uuid": "e9a693f1-0f96-462c-b2bb-46be2af2de28"
       }
@@ -2543,8 +2543,8 @@
         ],
         "list_order": -1603852362,
         "from_classifier_name": "Provide data",
-        "to_classifier_name": "get spinlock (1)",
         "from_node": "c07b06d5-7b9c-4f6e-9ff0-762dda3aefbf",
+        "to_classifier_name": "get spinlock (1)",
         "to_node": "8544065e-00a5-4e32-9474-5c54f8f5ca31",
         "uuid": "a9d483ba-68c9-4f58-8a60-bf3345e96d4b"
       }
@@ -2559,8 +2559,8 @@
         ],
         "list_order": -1590980739,
         "from_classifier_name": "Provide data",
-        "to_classifier_name": "write data",
         "from_node": "c07b06d5-7b9c-4f6e-9ff0-762dda3aefbf",
+        "to_classifier_name": "write data",
         "to_node": "7a39dce3-58ed-4c59-acb0-89b5e073b009",
         "uuid": "43c312b4-433b-40d5-a1e7-e419a9c31784"
       }
@@ -2575,8 +2575,8 @@
         ],
         "list_order": -1589982309,
         "from_classifier_name": "Provide data",
-        "to_classifier_name": "set flags for changes",
         "from_node": "c07b06d5-7b9c-4f6e-9ff0-762dda3aefbf",
+        "to_classifier_name": "set flags for changes",
         "to_node": "9b6ac433-ccd9-46b8-ab05-78206f09c927",
         "uuid": "27ec0ff8-2575-4606-94eb-c023802bd1db"
       }
@@ -2591,8 +2591,8 @@
         ],
         "list_order": -1488671003,
         "from_classifier_name": "Provide data",
-        "to_classifier_name": "release lock (1)",
         "from_node": "c07b06d5-7b9c-4f6e-9ff0-762dda3aefbf",
+        "to_classifier_name": "release lock (1)",
         "to_node": "f32e8bb9-f9d5-4432-a732-6bdaf0b58212",
         "uuid": "0e522622-8d27-4627-8a82-007a484ec23a"
       }
@@ -2607,8 +2607,8 @@
         ],
         "list_order": 1024,
         "from_classifier_name": "get spinlock (1)",
-        "to_classifier_name": "set flags for changes",
         "from_node": "8544065e-00a5-4e32-9474-5c54f8f5ca31",
+        "to_classifier_name": "set flags for changes",
         "to_node": "9b6ac433-ccd9-46b8-ab05-78206f09c927",
         "uuid": "7d73be94-87fb-4e83-afbb-0883d9cde29f"
       }
@@ -2623,8 +2623,8 @@
         ],
         "list_order": 3072,
         "from_classifier_name": "write data",
-        "to_classifier_name": "release lock (1)",
         "from_node": "7a39dce3-58ed-4c59-acb0-89b5e073b009",
+        "to_classifier_name": "release lock (1)",
         "to_node": "f32e8bb9-f9d5-4432-a732-6bdaf0b58212",
         "uuid": "5de89a03-db52-49df-a612-c5d765ae9a92"
       }
@@ -2639,8 +2639,8 @@
         ],
         "list_order": 2048,
         "from_classifier_name": "set flags for changes",
-        "to_classifier_name": "write data",
         "from_node": "9b6ac433-ccd9-46b8-ab05-78206f09c927",
+        "to_classifier_name": "write data",
         "to_node": "7a39dce3-58ed-4c59-acb0-89b5e073b009",
         "uuid": "e69ed9a6-6842-430e-8a0e-b4eb6fc38af9"
       }
@@ -2655,8 +2655,8 @@
         ],
         "list_order": -1701344681,
         "from_classifier_name": "Poll for data",
-        "to_classifier_name": "get spinlock (2)",
         "from_node": "4eb380c9-c500-4adc-98e3-8f60578e59a2",
+        "to_classifier_name": "get spinlock (2)",
         "to_node": "0a8760aa-b2e9-4498-be4f-8b10055fc32e",
         "uuid": "d11e885a-58db-4b1b-8b84-9d3dc2bdaa61"
       }
@@ -2671,8 +2671,8 @@
         ],
         "list_order": -1663548683,
         "from_classifier_name": "Poll for data",
-        "to_classifier_name": "read and reset changed-flags",
         "from_node": "4eb380c9-c500-4adc-98e3-8f60578e59a2",
+        "to_classifier_name": "read and reset changed-flags",
         "to_node": "0b61a010-d778-4003-b95f-0fe2cc7edc9f",
         "uuid": "1f8491a4-a8f6-45d0-bc12-f56354a771f8"
       }
@@ -2687,8 +2687,8 @@
         ],
         "list_order": -1667656387,
         "from_classifier_name": "Poll for data",
-        "to_classifier_name": "read data if changed",
         "from_node": "4eb380c9-c500-4adc-98e3-8f60578e59a2",
+        "to_classifier_name": "read data if changed",
         "to_node": "947955a6-1edb-4ce5-a795-68eaa7e12913",
         "uuid": "4cb547f3-b024-4eb1-a3bb-6b82996c99e6"
       }
@@ -2703,8 +2703,8 @@
         ],
         "list_order": -1659836213,
         "from_classifier_name": "Poll for data",
-        "to_classifier_name": "release lock (2)",
         "from_node": "4eb380c9-c500-4adc-98e3-8f60578e59a2",
+        "to_classifier_name": "release lock (2)",
         "to_node": "02084515-ab2e-417f-9350-165d5d322820",
         "uuid": "540d8b35-be53-44a6-a8b0-b8dcf9097eee"
       }
@@ -2719,8 +2719,8 @@
         ],
         "list_order": 4096,
         "from_classifier_name": "get spinlock (2)",
-        "to_classifier_name": "read and reset changed-flags",
         "from_node": "0a8760aa-b2e9-4498-be4f-8b10055fc32e",
+        "to_classifier_name": "read and reset changed-flags",
         "to_node": "0b61a010-d778-4003-b95f-0fe2cc7edc9f",
         "uuid": "b6f9e163-5c73-4ed2-9462-5263c3f478af"
       }
@@ -2735,8 +2735,8 @@
         ],
         "list_order": 5120,
         "from_classifier_name": "read and reset changed-flags",
-        "to_classifier_name": "read data if changed",
         "from_node": "0b61a010-d778-4003-b95f-0fe2cc7edc9f",
+        "to_classifier_name": "read data if changed",
         "to_node": "947955a6-1edb-4ce5-a795-68eaa7e12913",
         "uuid": "4c1cad04-60e7-4038-82a5-6153cdfc9978"
       }
@@ -2751,8 +2751,8 @@
         ],
         "list_order": 6144,
         "from_classifier_name": "read data if changed",
-        "to_classifier_name": "release lock (2)",
         "from_node": "947955a6-1edb-4ce5-a795-68eaa7e12913",
+        "to_classifier_name": "release lock (2)",
         "to_node": "02084515-ab2e-417f-9350-165d5d322820",
         "uuid": "d89237c3-bbe6-4cd5-b9ba-661bc0f265e1"
       }
