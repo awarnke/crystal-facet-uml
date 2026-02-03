@@ -59,7 +59,6 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     U8_TRACE_INFO_INT( "h", (int)(height) );
 
     const double gap = pencil_size_get_standard_object_border( pencil_size );
-    const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
     /* draw diagram border and name */
     {
@@ -92,7 +91,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             const double title_corner_height = geometry_rectangle_get_height( label_box ) + 2.0 * gap;
             const double title_corner_edge45 = 0.4 * title_corner_height;
             double title_corner_width
-                = geometry_rectangle_get_width( label_box ) + 2.0 * gap + 2.0 * f_tab_size + title_corner_edge45;
+                = geometry_rectangle_get_width( label_box ) + 3.0 * gap + title_corner_edge45;
             if ( title_corner_width > width*0.9 )
             {
                 title_corner_width = width*0.9;
@@ -188,10 +187,9 @@ void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
     const double width = geometry_rectangle_get_width ( diagram_bounds );
     const double height = geometry_rectangle_get_height ( diagram_bounds );
     const double gap = pencil_size_get_standard_object_border( pencil_size );
-    const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
     /* calculate label_box */
-    const double text_left = left + 2.0 * gap + f_tab_size;
+    const double text_left = left + 3.0 * gap;
     const double text_top = top + 2.0 * gap;
     const geometry_dimensions_t label_dim_proposal
         = { .width = width, .height = pencil_size_get_standard_font_size( pencil_size ) };

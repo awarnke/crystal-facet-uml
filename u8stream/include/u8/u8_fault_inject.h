@@ -9,7 +9,7 @@
  *  \brief Provides functions and macros to inject faults during unit test cases
  *
  *  The macros shall avoid accidential activation in productive code.
- *  Like asserts, these shall be active during testing.
+ *  Like asserts, these shall be active only during testing.
  *
  *  The macros shall not introduce branches into the code.
  */

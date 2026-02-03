@@ -19773,8 +19773,8 @@
         "stereotype": "pencil_gui_io_bottom_right",
         "name": "      ",
         "description": [
-                "In structural views, this image is indicates the bottom right corner of the ",
-                "area where the application logic is located."
+                "In structural views, this image indicates the bottom right corner of the area ",
+                "where the application logic is located."
         ],
         "x_order": 174309604,
         "y_order": 895326912,
@@ -19792,7 +19792,7 @@
         "stereotype": "pencil_gui_io_bottom_left",
         "name": "     ",
         "description": [
-                "In structural views, this image is indicates the bottom left corner of the area ",
+                "In structural views, this image indicates the bottom left corner of the area ",
                 "where the application logic is located."
         ],
         "x_order": -1995631155,
@@ -19811,7 +19811,7 @@
         "stereotype": "pencil_gui_io_top_right",
         "name": "    ",
         "description": [
-                "In structural views, this image is indicates the top right corner of the area ",
+                "In structural views, this image indicates the top right corner of the area ",
                 "where the application logic is located."
         ],
         "x_order": 174309604,
@@ -19830,8 +19830,8 @@
         "stereotype": "pencil_gui_io_top_left",
         "name": "   ",
         "description": [
-                "In structural views, this image is indicates the top left corner of the area ",
-                "where the application logic is located."
+                "In structural views, this image indicates the top left corner of the area where ",
+                "the application logic is located."
         ],
         "x_order": -1995631155,
         "y_order": -1942370931,

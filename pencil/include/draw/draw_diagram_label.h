@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Draws titles and types of relationships
+ *  \brief Draws types or stereotypes and titles of diagrams
  */
 
 #include "draw/draw_stereotype_icon.h"

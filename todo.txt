@@ -22,7 +22,7 @@ ideas for future versions:
   [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [?] to pink-mark several objects - require shift key
-! [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
+  [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
   [ ] In Nav+Search view, no linebreaks are introduced to long words in titles
   @pencil
 ! [ ] activity bars on lifelines missing
@@ -44,9 +44,12 @@ ideas for future versions:
   [ ] A comment should only show the first paragraph. Or - like an svg-path - define other delimiters
   [ ] A comment should consider CJK linebreaks - like the json export (or should pango do this?)
   [ ] An image should show an svg-<path> without a stereotype (needed to easier recognize already known diagrams)
-! [ ] An image should have a bigger icon
+  [ ] An image should have a bigger icon
   [ ] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
   [ ] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
+! [ ] Diagram types shall be shown when no stereotype defined: bdd, par, ibd, req, act, sd, ...
+  [ ] If a diagram shows only one parent and all other elements are children, maximize the parent
+      (to support the sysml concept of "a diagram explains exactly one element")
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -73,6 +76,7 @@ ideas for future versions:
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the xmi+json export find them)
   @u8stream
+  [ ] universal_array_index_sorter shall provide an iterator interface
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?

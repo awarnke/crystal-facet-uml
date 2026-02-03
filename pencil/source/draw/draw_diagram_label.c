@@ -50,7 +50,7 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
             = has_stereotype_image
             ? draw_stereotype_icon_get_dimensions( &((*this_).image_renderer), pencil_size )
             : (geometry_dimensions_t){ .width = 0.0, .height = 0.0 };
-        const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+        const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
         /* calc name text dimensions */
         /* int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds ); */
@@ -69,7 +69,7 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
         }
 
         *out_label_dim = (geometry_dimensions_t) {
-            .width = geometry_dimensions_get_width( &icon_dim ) + icon_gap + text2_width,
+            .width = geometry_dimensions_get_width( &icon_dim ) + f_tab_size + text2_width + f_tab_size,
             .height = u8_f64_max2( geometry_dimensions_get_height( &icon_dim ), text2_height )
         };
     }
@@ -113,7 +113,7 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
                                             pencil_size
                                           )
         : (geometry_rectangle_t){ .left = 0.0, .top = 0.0, .width = 0.0, .height = 0.0 };
-    const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+    const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
     /* draw stereotype icon */
     if ( has_stereotype_image )
@@ -142,7 +142,7 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
 
     /* define names for input data */
     const double text_left
-        = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + icon_gap;
+        = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + f_tab_size;
     const double text_top = geometry_rectangle_get_top( label_box );
 
     /* draw name text */
