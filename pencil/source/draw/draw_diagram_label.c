@@ -13,18 +13,26 @@
 #include <assert.h>
 
 static const int DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH = -1;
+#define DRAW_DIAGRAM_LEFT_GUILLEMETS "\xc2\xab"
+#define DRAW_DIAGRAM_RIGHT_GUILLEMETS "\xc2\xbb"
 
 void draw_diagram_label_init( draw_diagram_label_t *this_ )
 {
+    utf8stream_writemem_init( &((*this_).text_builder), &((*this_).text_buffer), sizeof( (*this_).text_buffer) );
     draw_stereotype_icon_init( &((*this_).image_renderer) );
 }
 
 void draw_diagram_label_destroy( draw_diagram_label_t *this_ )
 {
+    const u8_error_t text_err = utf8stream_writemem_destroy( &((*this_).text_builder) );
+    if ( text_err != U8_ERROR_NONE )
+    {
+        U8_LOG_WARNING_HEX( "error at draw/draw_diagram_label: buffer too small", text_err );
+    }
     draw_stereotype_icon_destroy( &((*this_).image_renderer) );
 }
 
-void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_t *this_,
+void draw_diagram_label_get_type_and_name_dimensions ( draw_diagram_label_t *this_,
                                                        const data_diagram_t *diagram,
                                                        const data_profile_part_t *profile,
                                                        const geometry_dimensions_t *proposed_bounds,
@@ -50,7 +58,52 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
             = has_stereotype_image
             ? draw_stereotype_icon_get_dimensions( &((*this_).image_renderer), pencil_size )
             : (geometry_dimensions_t){ .width = 0.0, .height = 0.0 };
+        const bool has_stereotype_text
+            = ( ! has_stereotype_image ) && data_diagram_has_stereotype( diagram );
         const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
+
+        /* calc stereotype/type text dimensions (unless has_stereotype_image) */
+        int text1_width = 0;
+        int text1_height = 0;
+        if ( ! has_stereotype_image )
+        {
+            /* prepare text */
+            u8_error_t stereotype_err = U8_ERROR_NONE;
+            utf8stream_writer_t *to_type = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
+            /* build text */
+            if ( has_stereotype_text )
+            {
+                stereotype_err |= utf8stream_writer_write_str( to_type, DRAW_DIAGRAM_LEFT_GUILLEMETS );
+                stereotype_err |= utf8stream_writer_write_str( to_type, diagram_stereotype );
+                stereotype_err |= utf8stream_writer_write_str( to_type, DRAW_DIAGRAM_RIGHT_GUILLEMETS );
+                stereotype_err |= utf8stream_writer_flush( to_type );
+            }
+            else
+            {
+                const char *element_kind = data_diagram_type_get_element_kind( data_diagram_get_diagram_type( diagram ) );
+                stereotype_err |= utf8stream_writer_write_str( to_type, element_kind );
+                stereotype_err |= utf8stream_writer_flush( to_type );
+            }
+            const utf8stringview_t stereotype_text = utf8stream_writemem_get_view( &((*this_).text_builder) );
+
+            /* determine text width and height */
+            pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description( pencil_size ) );
+            pango_layout_set_text( font_layout,
+                                   utf8stringview_get_start( &stereotype_text ),
+                                   utf8stringview_get_length( &stereotype_text )
+                                 );
+            pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
+            text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+            text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
+
+            /* cleanup the text_builder */
+            stereotype_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+            if ( stereotype_err != U8_ERROR_NONE )
+            {
+                U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", stereotype_err );
+            }
+        }
 
         /* calc name text dimensions */
         /* int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds ); */
@@ -69,8 +122,8 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
         }
 
         *out_label_dim = (geometry_dimensions_t) {
-            .width = geometry_dimensions_get_width( &icon_dim ) + f_tab_size + text2_width + f_tab_size,
-            .height = u8_f64_max2( geometry_dimensions_get_height( &icon_dim ), text2_height )
+            .width = geometry_dimensions_get_width( &icon_dim ) + text1_width + f_tab_size + text2_width + f_tab_size,
+            .height = u8_f64_max3( geometry_dimensions_get_height( &icon_dim ), text1_height, text2_height )
         };
     }
     else
@@ -81,7 +134,7 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
     U8_TRACE_END();
 }
 
-void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
+void draw_diagram_label_draw_type_and_name ( draw_diagram_label_t *this_,
                                              const data_diagram_t *diagram,
                                              const data_profile_part_t *profile,
                                              const GdkRGBA *color,
@@ -113,6 +166,8 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
                                             pencil_size
                                           )
         : (geometry_rectangle_t){ .left = 0.0, .top = 0.0, .width = 0.0, .height = 0.0 };
+    const bool has_stereotype_text
+        = ( ! has_stereotype_image ) && data_diagram_has_stereotype( diagram );
     const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
     /* draw stereotype icon */
@@ -140,9 +195,63 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
         }
     }
 
+    /* calc stereotype/type text dimensions (unless has_stereotype_image) */
+    int text1_width = 0;
+    int text1_height = 0;
+    if ( ! has_stereotype_image )
+    {
+        /* prepare text */
+        u8_error_t stereotype_err = U8_ERROR_NONE;
+        utf8stream_writer_t *to_type = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
+        /* build text */
+        if ( has_stereotype_text )
+        {
+            stereotype_err |= utf8stream_writer_write_str( to_type, DRAW_DIAGRAM_LEFT_GUILLEMETS );
+            stereotype_err |= utf8stream_writer_write_str( to_type, diagram_stereotype );
+            stereotype_err |= utf8stream_writer_write_str( to_type, DRAW_DIAGRAM_RIGHT_GUILLEMETS );
+            stereotype_err |= utf8stream_writer_flush( to_type );
+        }
+        else
+        {
+            const char *element_kind = data_diagram_type_get_element_kind( data_diagram_get_diagram_type( diagram ) );
+            stereotype_err |= utf8stream_writer_write_str( to_type, element_kind );
+            stereotype_err |= utf8stream_writer_flush( to_type );
+        }
+        const utf8stringview_t stereotype_text = utf8stream_writemem_get_view( &((*this_).text_builder) );
+
+        /* determine text width and height */
+        pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description( pencil_size ) );
+        pango_layout_set_text( font_layout,
+                               utf8stringview_get_start( &stereotype_text ),
+                               utf8stringview_get_length( &stereotype_text )
+                             );
+        pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
+        text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+        text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
+
+        /* draw */
+        const GdkRGBA grey_color = pencil_size_get_gray_out_color( pencil_size );
+        cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
+        cairo_move_to( cr,
+                       ceil( geometry_rectangle_get_left( label_box ) ),
+                       ceil( geometry_rectangle_get_top( label_box ) )
+                     );  /* align font with pixel border */
+        pango_cairo_show_layout( cr, font_layout );
+        const GdkRGBA black_color = pencil_size_get_standard_color( pencil_size );
+        cairo_set_source_rgba( cr, black_color.red, black_color.green, black_color.blue, black_color.alpha );
+
+        /* cleanup the text_builder */
+        stereotype_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+        if ( stereotype_err != U8_ERROR_NONE )
+        {
+            U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", stereotype_err );
+        }
+    }
+
     /* define names for input data */
     const double text_left
-        = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + f_tab_size;
+        = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + text1_width + f_tab_size;
     const double text_top = geometry_rectangle_get_top( label_box );
 
     /* draw name text */

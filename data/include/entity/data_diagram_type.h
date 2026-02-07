@@ -71,6 +71,14 @@ static inline bool data_diagram_type_is_interaction( data_diagram_type_t this_ )
  */
 const char * data_diagram_type_get_name( data_diagram_type_t this_ );
 
+/*!
+ *  \brief returns the uml element kind name for the diagram type
+ *
+ *  \param this_ enumeration value
+ *  \return element kind name of the type, "" if unknown or void type
+ */
+const char * data_diagram_type_get_element_kind( data_diagram_type_t this_ );
+
 #include "entity/data_diagram_type.inl"
 
 #endif  /* DATA_DIAGRAM_TYPE_H */

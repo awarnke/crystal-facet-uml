@@ -2,6 +2,7 @@ crystal-facet-uml (1.68.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * stereotype icons of diagrams are left-aligned
+  * element_kind of diagrams are displayed
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 03 Feb 2026 21:00:00 +0100
 

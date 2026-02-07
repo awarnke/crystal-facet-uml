@@ -15,8 +15,8 @@
 
 static const int DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH = -1;
 static const int DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH = -1;
-#define DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "\xc2\xab"
-#define DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS "\xc2\xbb"
+#define DRAW_RELATIONSHIP_LEFT_GUILLEMETS "\xc2\xab"
+#define DRAW_RELATIONSHIP_RIGHT_GUILLEMETS "\xc2\xbb"
 
 void draw_relationship_label_init( draw_relationship_label_t *this_ )
 {
@@ -83,7 +83,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_la
                 /* prepare text */
                 char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
                 utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
+                utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMETS );
                 if ( has_stereotype )
                 {
                     utf8stringbuf_append_str( &stereotype_buf, relationship_stereotype );
@@ -92,7 +92,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_la
                 {
                     utf8stringbuf_append_str( &stereotype_buf, pseudo_stereotype );
                 }
-                utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
+                utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMETS );
 
                 /* determine text width and height */
                 pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
@@ -232,7 +232,7 @@ void draw_relationship_label_draw_type_and_name ( draw_relationship_label_t *thi
             /* prepare text */
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
             utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
+            utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMETS );
             if ( has_stereotype )
             {
                 utf8stringbuf_append_str( &stereotype_buf, relationship_stereotype );
@@ -241,7 +241,7 @@ void draw_relationship_label_draw_type_and_name ( draw_relationship_label_t *thi
             {
                 utf8stringbuf_append_str( &stereotype_buf, pseudo_stereotype );
             }
-            utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
+            utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMETS );
 
             int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );

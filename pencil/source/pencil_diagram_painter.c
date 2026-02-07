@@ -27,7 +27,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     U8_TRACE_END();
 }
 
-void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                    const layout_diagram_t *layouted_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
@@ -105,8 +105,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
         else
         {
             /* draw cross line */
-            GdkRGBA standard_color;
-            standard_color = pencil_size_get_standard_color( pencil_size );
+            const GdkRGBA standard_color = pencil_size_get_standard_color( pencil_size );
             cairo_set_source_rgba( cr, standard_color.red, standard_color.green, standard_color.blue, standard_color.alpha );
             cairo_move_to ( cr, left, top );
             cairo_line_to ( cr, right, bottom );
@@ -136,8 +135,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
         text4_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
 
         /* draw text */
-        GdkRGBA grey_color;
-        grey_color = pencil_size_get_gray_out_color( pencil_size );
+        const GdkRGBA grey_color = pencil_size_get_gray_out_color( pencil_size );
         cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
         cairo_move_to( cr,
                        ceil( left + width - text4_width - gap - gap ),
@@ -165,7 +163,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     U8_TRACE_END();
 }
 
-void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
+void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
                                         const data_diagram_t *the_diagram,
                                         const geometry_rectangle_t *diagram_bounds,
                                         const data_profile_part_t *profile,

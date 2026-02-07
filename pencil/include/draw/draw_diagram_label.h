@@ -17,6 +17,7 @@
 #include "geometry/geometry_dimensions.h"
 #include "entity/data_diagram.h"
 #include "set/data_profile_part.h"
+#include "utf8stream/utf8stream_writemem.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -27,6 +28,8 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_diagram_label_struct {
+    char text_buffer[ DATA_DIAGRAM_MAX_STEREOTYPE_SIZE + 4 ];  /*!< +4 for a left and a right guillemets */
+    utf8stream_writemem_t text_builder;  /*!< a pair of utf8stream_writer_t and universal_memory_output_stream_t to build an output text */
     draw_stereotype_icon_t image_renderer;  /*!< own instance of stereotype image renderer */
 };
 
@@ -57,7 +60,7 @@ void draw_diagram_label_destroy( draw_diagram_label_t *this_ );
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_dim width and height of the type and name is returned. NULL is not permitted.
  */
-void draw_diagram_label_get_type_and_name_dimensions( const draw_diagram_label_t *this_,
+void draw_diagram_label_get_type_and_name_dimensions( draw_diagram_label_t *this_,
                                                       const data_diagram_t *diagram,
                                                       const data_profile_part_t *profile,
                                                       const geometry_dimensions_t *proposed_bounds,
@@ -78,7 +81,7 @@ void draw_diagram_label_get_type_and_name_dimensions( const draw_diagram_label_t
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param cr the cairo drawing context.
  */
-void draw_diagram_label_draw_type_and_name( const draw_diagram_label_t *this_,
+void draw_diagram_label_draw_type_and_name( draw_diagram_label_t *this_,
                                             const data_diagram_t *diagram,
                                             const data_profile_part_t *profile,
                                             const GdkRGBA *color,

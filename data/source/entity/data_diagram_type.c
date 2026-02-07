@@ -72,10 +72,62 @@ static const char *const DATA_DIAGRAM_TYPE_NAME_ARRAY [DATA_DIAGRAM_TYPE_HASH_MO
         [ DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM ] = "Profile Diagram",
     };
 
+static const char *const DATA_DIAGRAM_TYPE_ELEMENT_KIND_ARRAY [DATA_DIAGRAM_TYPE_HASH_MOD]
+    = {
+        [ DATA_DIAGRAM_TYPE_LIST ] = "list",
+        [ DATA_DIAGRAM_TYPE_BOX_DIAGRAM ] = "box",
+        [2] = "",
+        [3] = "",
+        [ DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM ] = "bdd",
+        [ DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM ] = "ibd",
+        [6] = "",
+        [ DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM ] = "parametric",
+        [8] = "",
+        [ DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM ] = "requirements",
+        [ DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM ] = "use case",
+        [ DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM ] = "activity",
+        [ DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM ] = "state machine",
+        [ DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM ] = "interaction",
+        [ DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM ] = "interaction",
+        [15] = "",
+        [ DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ] = "interaction",
+        [ DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ] = "interaction",
+        [18] = "",
+        [19] = "",
+        [20] = "",
+        [21] = "",
+        [22] = "",
+        [23] = "",
+        [24] = "",
+        [25] = "",
+        [26] = "",
+        [27] = "",
+        [28] = "",
+        [29] = "",
+        [ DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM ] = "deployment",
+        [ DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM ] = "component",
+        [ DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM ] = "composite",
+        [ DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM ] = "package",
+        [ DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM ] = "class",
+        [35] = "",
+        [36] = "",
+        [37] = "",
+        [38] = "",
+        [ DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM ] = "profile",
+    };
+
 const char * data_diagram_type_get_name( data_diagram_type_t this_ )
 {
     const char * result
         = ( this_ == DATA_DIAGRAM_TYPE_VOID ) ? "" : DATA_DIAGRAM_TYPE_NAME_ARRAY[ this_ % DATA_DIAGRAM_TYPE_HASH_MOD ];
+    assert( result != NULL );
+    return ( result == NULL ) ? "" : result;
+}
+
+const char * data_diagram_type_get_element_kind( data_diagram_type_t this_ )
+{
+    const char * result
+    = ( this_ == DATA_DIAGRAM_TYPE_VOID ) ? "" : DATA_DIAGRAM_TYPE_ELEMENT_KIND_ARRAY[ this_ % DATA_DIAGRAM_TYPE_HASH_MOD ];
     assert( result != NULL );
     return ( result == NULL ) ? "" : result;
 }

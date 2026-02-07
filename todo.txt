@@ -47,7 +47,6 @@ ideas for future versions:
   [ ] An image should have a bigger icon
   [ ] A List-diagram should show symbols on the left, titles on the right. Deviate from the typical classifier layout
   [ ] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
-! [ ] Diagram types shall be shown when no stereotype defined: bdd, par, ibd, req, act, sd, ...
   [ ] If a diagram shows only one parent and all other elements are children, maximize the parent
       (to support the sysml concept of "a diagram explains exactly one element")
   @io

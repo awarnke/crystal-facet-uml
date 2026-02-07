@@ -192,7 +192,8 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                 if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted ) )
                 {
                     const data_row_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
-                    const data_visible_classifier_t *visible_clsfy = data_visible_set_get_visible_classifier_by_id_const ( (*this_).input_data, diagramelement_id );
+                    const data_visible_classifier_t *visible_clsfy
+                        = data_visible_set_get_visible_classifier_by_id_const( (*this_).input_data, diagramelement_id );
                     if ( visible_clsfy != NULL )
                     {
                         if ( data_visible_classifier_is_valid( visible_clsfy ) )

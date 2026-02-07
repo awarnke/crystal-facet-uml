@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.4"
+    "generator_version": "1.68.0"
   }
   ,
   "views":
@@ -2076,7 +2076,7 @@
     {
       "diagram": {
         "id": 27,
-        "type": "Class Diagram", "diagram_type": 34,
+        "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Quality in Use",
         "description": [
                 "Charactersitics and subcharactersitics of quality in use according to ISO/IEC ",
@@ -2406,7 +2406,7 @@
     {
       "diagram": {
         "id": 6,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Standard Process Models",
         "description": [
                 "Process Models that focus on Software Development"
@@ -3255,7 +3255,7 @@
     {
       "classifier": {
         "id": 5,
-        "type": "Class", "main_type": 125,
+        "type": "Activity", "main_type": 110,
         "stereotype": "process",
         "name": "Process",
         "description": [

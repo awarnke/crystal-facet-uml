@@ -17,8 +17,8 @@
 
 static const int DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH = -1;
 static const int DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH = -1;
-#define DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS "\xc2\xab"
-#define DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS "\xc2\xbb"
+#define DRAW_CLASSIFIER_LEFT_GUILLEMETS "\xc2\xab"
+#define DRAW_CLASSIFIER_RIGHT_GUILLEMETS "\xc2\xbb"
 #define DRAW_CLASSIFIER_COLON ':'
 
 void draw_classifier_label_init( draw_classifier_label_t *this_ )
@@ -70,9 +70,9 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
                 /* prepare text */
                 char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
                 utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
+                utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
                 utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
-                utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
+                utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
 
                 /* determine text width and height */
                 pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
@@ -199,9 +199,9 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
             /* prepare text */
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
             utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_POINTING_GUILLEMENTS );
+            utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
             utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
-            utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
+            utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
 
             int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );

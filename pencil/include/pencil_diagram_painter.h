@@ -62,7 +62,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                    const layout_diagram_t *layouted_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
@@ -84,7 +84,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
  *  \param font_layout structure to layout fonts
  *  \param io_layout_diagram bounds, draw_area and label_box are updated. The pointer must not be NULL.
  */
-void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
+void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
                                         const data_diagram_t *the_diagram,
                                         const geometry_rectangle_t *diagram_bounds,
                                         const data_profile_part_t *profile,
