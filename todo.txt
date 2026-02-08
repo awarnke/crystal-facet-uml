@@ -26,7 +26,6 @@ ideas for future versions:
   [ ] In Nav+Search view, no linebreaks are introduced to long words in titles
   @pencil
 ! [ ] activity bars on lifelines missing
-  [ ] Time axis in timing diagrams missing
   [ ] Asynchronous calls shall be slightly diagonal
   [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
       --> needs a conceptual change:

@@ -14,6 +14,7 @@
 #include "layout/layout_diagram.h"
 #include "geometry/geometry_rectangle.h"
 #include "draw/draw_diagram_label.h"
+#include "draw/draw_diagram_ornaments.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
@@ -31,6 +32,7 @@
 struct pencil_diagram_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
     draw_diagram_label_t draw_diagram_label;  /*!< collection of draw label functions */
+    draw_diagram_ornaments_t draw_diagram_ornaments;  /*!< collection of draw ornaments functions like e.g. x-axis scale */
 };
 
 typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;

@@ -13,6 +13,7 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
 
     pencil_marker_init( &((*this_).marker) );
     draw_diagram_label_init( &((*this_).draw_diagram_label) );
+    draw_diagram_ornaments_init( &((*this_).draw_diagram_ornaments) );
 
     U8_TRACE_END();
 }
@@ -21,6 +22,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    draw_diagram_ornaments_destroy( &((*this_).draw_diagram_ornaments) );
     draw_diagram_label_init( &((*this_).draw_diagram_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
@@ -142,6 +144,39 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                        ceil( top + gap )
                      );  /* align font with pixel border */
         pango_cairo_show_layout( cr, font_layout );
+    }
+
+    /* draw ornaments */
+    if ( data_diagram_is_valid( the_diagram ) )
+    {
+        /* draw color */
+        const GdkRGBA fg_color
+            = mark_highlighted
+            ? pencil_size_get_highlight_color( pencil_size )
+            : pencil_size_get_standard_color( pencil_size );
+        cairo_set_source_rgba( cr, fg_color.red, fg_color.green, fg_color.blue, fg_color.alpha );
+
+        /* get locations */
+        const geometry_rectangle_t *const diagram_draw_area = layout_diagram_get_draw_area_const( layouted_diagram );
+        const double draw_left = geometry_rectangle_get_left ( diagram_draw_area );
+        const double draw_bottom = geometry_rectangle_get_bottom ( diagram_draw_area );
+        const double draw_width = geometry_rectangle_get_width ( diagram_draw_area );
+
+        if ( data_diagram_get_diagram_type( the_diagram ) == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
+        {
+            const double obj_dist = pencil_size_get_preferred_object_distance( pencil_size );
+            const double real_draw_width = draw_width - 2.0 * obj_dist;
+            /* const double phi = 1.6180339; */
+            const double minor_ratio = (1.0 - 0.6180339);
+            const double classifier_width = real_draw_width * minor_ratio / 2.0;
+            const geometry_rectangle_t scale_bounds
+                = { .left = draw_left + obj_dist + classifier_width + obj_dist, .top = draw_bottom - obj_dist, .width = real_draw_width - classifier_width - obj_dist, .height = obj_dist };
+            draw_diagram_ornaments_draw_scale( &((*this_).draw_diagram_ornaments),
+                                               &scale_bounds,
+                                               pencil_size,
+                                               cr
+                                             );
+        }
     }
 
     /* mark focused and highlighted */
