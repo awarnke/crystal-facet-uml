@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.4"
+    "generator_version": "1.68.0"
   }
   ,
   "views":
@@ -457,9 +457,9 @@
         [
           {
             "id": 235,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Drive to location",
             "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "964266f7-c823-4607-af35-a7b6e3395b99"
           },
           {
@@ -470,16 +470,16 @@
           },
           {
             "id": 299,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Return to base location",
             "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "27779e91-747a-4fc4-b99e-6d4f9824cd42"
           },
           {
             "id": 448,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Autonomously drive ranges up to 10 km",
             "node": "debef67d-129c-44d1-a944-2e6795df6f7f",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "89bd0494-e393-47be-aeda-9b14e1377e44"
           }
         ]
@@ -508,16 +508,16 @@
           },
           {
             "id": 451,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Autonomously repair, replace things up to 1kg ",
             "node": "3d6dbdac-45d6-4e96-9602-d9473dd32b6b",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "7261803b-7089-49a5-ba33-3b482afb0939"
           },
           {
             "id": 452,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Repair using tools",
             "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "0d6cc887-cf29-43ba-a03c-0b94a222cfbf"
           }
         ]
@@ -621,9 +621,9 @@
         [
           {
             "id": 12,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Maintainability",
             "node": "4aab7076-f6db-449d-af55-9f4d56114445",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "fbbc288b-828d-4630-9ffe-d51ab2d57b42"
           },
           {
@@ -634,9 +634,9 @@
           },
           {
             "id": 14,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "30 years spare-parts supply",
             "node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "9bc8090e-b71a-4a19-9178-49332d298cec"
           },
           {
@@ -647,16 +647,16 @@
           },
           {
             "id": 16,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Self-Diagnosis",
             "node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "b0c5b46c-c5cc-46b4-8d74-6016c21785be"
           },
           {
             "id": 447,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "30 years operation time",
             "node": "70539fe8-361d-40ed-8ab9-20977a9309e7",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "a7eb7d22-3b9a-4c58-b63f-7ea57eb1b762"
           }
         ]
@@ -691,16 +691,16 @@
           },
           {
             "id": 207,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Repairability",
             "node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "2619d6e8-fc62-4368-9b71-0b08b0a40b78"
           },
           {
             "id": 208,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Analyzability",
             "node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "d1fe4abf-e988-4d63-8e51-ba43da520afb"
           }
         ]
@@ -1023,16 +1023,16 @@
           },
           {
             "id": 358,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "L1Req: Position screw driver",
             "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "3ed1c20f-14f5-4fd5-9075-8c440453b416"
           },
           {
             "id": 359,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "L1Req: Recognize paths",
             "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "cf44065e-107b-4162-96bd-b5bf0d5dfa18"
           }
         ]
@@ -1140,30 +1140,30 @@
         [
           {
             "id": 311,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Plan movement strategy (L1-Fct)",
             "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "a5823752-35f7-41c5-ac93-d1f78fcf601f"
           },
           {
             "id": 312,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Plan repair strategy (L1-Fct)",
             "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "34d03598-69ef-48ea-a1a7-a185b9f63991"
           },
           {
             "id": 313,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Perform repair tactic (L1-Fct)",
             "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "8c0b6001-ccb1-416c-811b-55c2552e00f6"
           },
           {
             "id": 314,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Perform movement tactic (L1-Fct)",
             "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "389f4dee-e393-4f37-ac3f-072041769ecb"
           },
           {
@@ -1216,30 +1216,30 @@
           },
           {
             "id": 439,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Recognize environment (L1-Fkt)",
             "node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "7740ba97-5ac7-477e-be53-e1cf52e59002"
           },
           {
             "id": 440,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Motors to move the MoD5G (L1-Fct)",
             "node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "f4ca1017-a00e-481a-a1e9-7403d18fec35"
           },
           {
             "id": 441,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Tools to repair",
             "node": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "f2867da3-0c3f-4df0-a5ce-4e17335aebcb"
           },
           {
             "id": 442,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Recognize objects to repair (L1-Fct)",
             "node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "672d42a7-9409-49a3-8240-60f58e813216"
           }
         ]
@@ -1293,16 +1293,16 @@
           },
           {
             "id": 398,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Main Strategy Planning",
             "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "7df34312-8747-45b9-8605-08a522ca6981"
           },
           {
             "id": 399,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Base Tactic Execution",
             "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "da7d6a09-87ed-437f-b4f9-9e4fcf054d92"
           },
           {
@@ -1397,16 +1397,16 @@
           },
           {
             "id": 52,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Mechanical Parts",
             "node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "83d8d127-7ee0-4fdc-9171-5dde4db8b5fd"
           },
           {
             "id": 53,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Electronics",
             "node": "c1419268-c407-4e91-a9de-386c65b7459b",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "c2fb92ff-666e-499f-9fd9-aa0af277d0c6"
           },
           {
@@ -1454,44 +1454,44 @@
         [
           {
             "id": 54,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Electronics",
             "node": "c1419268-c407-4e91-a9de-386c65b7459b",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "c28e7aec-d085-4a62-a5cc-145585ca16c9"
           },
           {
             "id": 56,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Loud Speaker",
             "node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "e89ba18d-f73c-4c56-b314-d88b81c258a9"
           },
           {
             "id": 57,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Camera",
             "node": "fb66c906-d06a-4518-8701-229af4169a30",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "5c72acc1-82fd-43e1-9a1d-e527765a5870"
           },
           {
             "id": 58,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Microphone",
             "node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "3a3518cb-6dcb-47b5-a894-986a5cdf19f0"
           },
           {
             "id": 59,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Motors",
             "node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "2e42a03e-0d60-4af6-9f58-a446c6ca88a3"
           },
           {
             "id": 61,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Programming and Diagnostic Connector",
             "node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "acfbe624-6022-4b34-a73a-fe824f593148"
           },
           {
@@ -1508,9 +1508,9 @@
           },
           {
             "id": 435,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Step Motor",
             "node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "1e0db230-7976-47e9-be78-a404eca885d2"
           }
         ]
@@ -1683,16 +1683,16 @@
         [
           {
             "id": 75,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Main Performance Controller",
             "node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "1c526fa7-7272-4961-9024-142836bb97d9"
           },
           {
             "id": 76,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Base Micro Controller",
             "node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "1660aed1-5674-4f18-a549-302e808f44c0"
           },
           {
@@ -1748,23 +1748,23 @@
         [
           {
             "id": 83,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Mouse Droid MoD5G",
             "node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "596dda63-adc3-4b3b-983f-342b54ac522e"
           },
           {
             "id": 85,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Drive to location",
             "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "5bf69c4c-8957-476c-8b33-d6c5bbe2d52f"
           },
           {
             "id": 86,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Repair using tools",
             "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "3e63801e-c178-4eaf-ad74-03fef216fb5e"
           },
           {
@@ -1822,30 +1822,30 @@
         [
           {
             "id": 239,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "L1Req: Recognize paths",
             "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "219e094a-fdc9-4be6-9b58-b8bf9ef1a3a7"
           },
           {
             "id": 240,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "L1Req: Position screw driver",
             "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "cb2b67c8-ec3c-46ba-81a1-0de193a00625"
           },
           {
             "id": 241,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Explore environment",
             "node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "9cecfba7-147c-41a5-b857-6a8a65b5a8ac"
           },
           {
             "id": 242,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Operate tools",
             "node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "bc757720-374a-4c34-9ed0-8687c0682c19"
           },
           {
@@ -1856,16 +1856,16 @@
           },
           {
             "id": 244,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Base Logic Board",
             "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "ee4dff4b-3045-4c73-90d0-0eeac1169fac"
           },
           {
             "id": 245,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Main Logic Board",
             "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "e56f474b-4811-4c32-bf6f-1734432fea51"
           },
           {
@@ -1876,16 +1876,16 @@
           },
           {
             "id": 247,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Screw Driver",
             "node": "848376fc-1475-4adc-b35f-200e17103025",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "c24fa607-81ae-4561-be36-3d46224d3c1d"
           },
           {
             "id": 248,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Camera",
             "node": "fb66c906-d06a-4518-8701-229af4169a30",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "0153b79b-ff8b-40b4-b00e-913a8c9b1f30"
           }
         ]
@@ -1957,9 +1957,9 @@
           },
           {
             "id": 431,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Operator",
             "node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "145cce49-a88e-4bf6-bb9f-358de11a93a8"
           }
         ]
@@ -2006,9 +2006,9 @@
           },
           {
             "id": 261,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Main Logic Software",
             "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "74309b27-9d68-4026-a643-66444219f40f"
           }
         ]
@@ -2079,9 +2079,9 @@
           },
           {
             "id": 234,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Main Logic Software",
             "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "fb0b76aa-f394-4886-8563-afb3780d6eec"
           }
         ]
@@ -2203,23 +2203,23 @@
         [
           {
             "id": 98,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "power::booting",
             "node": "b6e14925-4440-4700-b154-d33db39a5949",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "cb3e27f8-1988-4f02-bd82-11236cfe3c73"
           },
           {
             "id": 99,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "power::full_operation",
             "node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "a3759c85-6a24-4819-a20f-3085b29028d4"
           },
           {
             "id": 100,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "power::energy_saving",
             "node": "6af446f7-9194-4af4-aace-cf49c4abe994",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "f26fa0d0-d855-4bb0-9352-a3019e209ae8"
           },
           {
@@ -2380,16 +2380,16 @@
           },
           {
             "id": 151,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Base Logic SW Partition",
             "node": "31139d8b-5ec3-488c-8334-d1a18274fbd7",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "3997344b-a6a4-4c74-8941-e69000b761e8"
           },
           {
             "id": 152,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "General Purpose Partition 2",
             "node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "ed75d8c8-50a3-480c-aad3-0dd00245d23b"
           },
           {
@@ -2406,16 +2406,16 @@
           },
           {
             "id": 155,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "General Purpose Partition 1",
             "node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "adf55c5b-1492-4117-8e6f-56499770f5fb"
           },
           {
             "id": 156,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Real Time Video Processing Chip",
             "node": "be71df16-ded3-4d3a-a7be-a04e142d0dde",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "e2bbe4a3-c3b5-40b6-bfae-d1a36230ac3e"
           },
           {
@@ -2474,9 +2474,9 @@
           },
           {
             "id": 188,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "SW Watchdog",
             "node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "0c179a26-a490-401a-9259-69e658935e49"
           }
         ]
@@ -2506,9 +2506,9 @@
           },
           {
             "id": 192,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Self-Preservation",
             "node": "87950246-9fe2-4acf-ba83-1eb9b813b6d8",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "2863162b-9b89-4f80-8ffe-0498c3b6c9a7"
           }
         ]
@@ -2533,9 +2533,9 @@
         [
           {
             "id": 174,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Compatibility",
             "node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "e2f84f2b-dd08-4467-b956-7a4bf263b3fa"
           },
           {
@@ -2594,9 +2594,9 @@
           },
           {
             "id": 227,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Compatibility",
             "node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "211e5dca-3a70-4cb2-8ba2-2766c6fc0915"
           }
         ]
@@ -2661,9 +2661,9 @@
           },
           {
             "id": 190,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Fault Detection (main logic)",
             "node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "d25444b9-17cd-4a69-9a61-c03deebd0eb7"
           },
           {
@@ -2830,9 +2830,9 @@
           },
           {
             "id": 206,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "power::all",
             "node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "33821e33-5eb0-4fb0-b582-ab800f7cf3e3"
           }
         ]
@@ -2955,9 +2955,9 @@
           },
           {
             "id": 205,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "health::all",
             "node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "86d9e303-5df6-45bc-8124-32c4a6db1ca5"
           }
         ]
@@ -3077,9 +3077,9 @@
           },
           {
             "id": 136,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "Cosmic Rays Information",
             "node": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "ef314d4e-bf2b-4fcf-8c1a-d6b9de19ab96"
           },
           {
@@ -3129,30 +3129,30 @@
           },
           {
             "id": 374,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Energy Cell",
             "node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "11f0438d-d5cf-45d5-82be-81447ffa56f8"
           },
           {
             "id": 375,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Motors",
             "node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "2ed095e3-9dfc-4fe6-84ec-da9bed27e187"
           },
           {
             "id": 376,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Wheels (4)",
             "node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "3e51afc4-bb0b-4050-8557-281192e56b48"
           },
           {
             "id": 377,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Base Logic Board",
             "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "17322118-72f3-429e-a2b9-0a0b061d1273"
           }
         ]
@@ -3244,9 +3244,9 @@
         [
           {
             "id": 141,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "health::limp_home",
             "node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "b3c563c7-d3b0-4b67-9228-af129dac5ad9"
           },
           {
@@ -3321,9 +3321,9 @@
         [
           {
             "id": 288,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "UML:Node",
             "node": "26e2a04a-8d6a-4158-9932-8ba6839c9cb3",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "762dab30-2c8b-42b5-b77b-43343561cfd5"
           },
           {
@@ -3340,9 +3340,9 @@
           },
           {
             "id": 291,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "UML:UseCase",
             "node": "68c95972-7d4d-4e09-8992-a5d8bce3e250",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "8ba03f4b-ae30-4403-b93b-f986ea56cd7d"
           },
           {
@@ -3359,9 +3359,9 @@
           },
           {
             "id": 295,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "UML:Actor",
             "node": "a40c7590-aee5-4ba4-ad33-5e7809f824eb",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "4b61e839-7c24-49a9-8104-e1978d80641a"
           },
           {
@@ -3399,9 +3399,9 @@
         [
           {
             "id": 267,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "UML:Component",
             "node": "658b972a-f9cb-4425-a6de-3b85e7e9fe17",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "3cb448bc-ab7b-4433-ad7a-4c20cca9c4c9"
           },
           {
@@ -3418,9 +3418,9 @@
           },
           {
             "id": 270,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "UML:Class",
             "node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "54f88281-1f84-4690-9e8d-3f3fab707c95"
           },
           {
@@ -3521,9 +3521,9 @@
           },
           {
             "id": 393,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "SysML:block",
             "node": "39d2649c-f238-4622-99e3-d532e043d1d2",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "67125cc6-00a7-4489-be96-e248afe05dc7"
           }
         ]
@@ -6535,7 +6535,7 @@
         ],
         "x_order": 0,
         "y_order": 0,
-        "list_order": -475724679,
+        "list_order": -339152619,
         "uuid": "82662913-b0b6-41cb-8d9a-0a6ee827ea33",
         "features":
         [
@@ -6562,7 +6562,7 @@
         ],
         "x_order": 0,
         "y_order": 0,
-        "list_order": 1067166169,
+        "list_order": 1340146753,
         "uuid": "169543c8-cbe2-4a3a-a35a-c52a13aa1457",
         "features":
         [
@@ -8489,8 +8489,8 @@
         ],
         "list_order": 24715831,
         "from_classifier_name": "Mouse Droid MoD5G",
-        "to_classifier_name": "Perform a 1-day mission",
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_classifier_name": "Perform a 1-day mission",
         "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "uuid": "bc7db11e-92f0-429d-9e70-818f8cbb0299"
       }
@@ -8505,8 +8505,8 @@
         ],
         "list_order": 34386514,
         "from_classifier_name": "Mouse Droid MoD5G",
-        "to_classifier_name": "Drive to location",
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_classifier_name": "Drive to location",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "ac85bcdf-0c9c-44d4-969a-913e5c8ebb73"
       }
@@ -8521,8 +8521,8 @@
         ],
         "list_order": 34386514,
         "from_classifier_name": "Mouse Droid MoD5G",
-        "to_classifier_name": "Repair using tools",
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_classifier_name": "Repair using tools",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "bda8dbdf-98fa-43c3-b427-28111e312f0c"
       }
@@ -8537,8 +8537,8 @@
         ],
         "list_order": 30149766,
         "from_classifier_name": "Mouse Droid MoD5G",
-        "to_classifier_name": "Return to base location",
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_classifier_name": "Return to base location",
         "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "uuid": "db6c2a7c-bdb3-491d-aa87-2cb79180bff9"
       }
@@ -8554,9 +8554,9 @@
         "list_order": 557056,
         "from_classifier_name": "Mouse Droid MoD5G",
         "from_feature_key": "program connector",
+        "from_node": "2fcc78fe-5d3f-442d-a0c6-847565dbc0ee",
         "to_classifier_name": "Programming Terminal",
         "to_feature_key": "program connector",
-        "from_node": "2fcc78fe-5d3f-442d-a0c6-847565dbc0ee",
         "to_node": "0ae553d8-86a0-4f47-886f-e7d21871a9ed",
         "uuid": "8d48401d-39bb-4203-833a-f20f6caccbf6"
       }
@@ -8572,9 +8572,9 @@
         "list_order": 589824,
         "from_classifier_name": "Mouse Droid MoD5G",
         "from_feature_key": "charge connector",
+        "from_node": "055054b6-e39b-4c72-ac46-8043cedddd82",
         "to_classifier_name": "Charging Terminal",
         "to_feature_key": "charge connector",
-        "from_node": "055054b6-e39b-4c72-ac46-8043cedddd82",
         "to_node": "d19c9719-423c-435d-a8c9-281dd9695bf3",
         "uuid": "393d039d-3b15-437a-ba8a-dd68f6350d60"
       }
@@ -8589,8 +8589,8 @@
         ],
         "list_order": 34419282,
         "from_classifier_name": "Perform a 1-day mission",
-        "to_classifier_name": "Drive to location",
         "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "to_classifier_name": "Drive to location",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "ffd14d46-d17c-4bd4-a030-5c13f8872fb5"
       }
@@ -8605,8 +8605,8 @@
         ],
         "list_order": 34452050,
         "from_classifier_name": "Perform a 1-day mission",
-        "to_classifier_name": "Repair using tools",
         "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "to_classifier_name": "Repair using tools",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "7b8ec957-56ad-4d32-89d4-b0ff06c298e7"
       }
@@ -8621,8 +8621,8 @@
         ],
         "list_order": 34484818,
         "from_classifier_name": "Perform a 1-day mission",
-        "to_classifier_name": "Return to base location",
         "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "to_classifier_name": "Return to base location",
         "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "uuid": "c7c79f02-dd82-46a3-aa3e-8b21b68d42df"
       }
@@ -8637,8 +8637,8 @@
         ],
         "list_order": 37910628,
         "from_classifier_name": "Drive to location",
-        "to_classifier_name": "Plan tasks",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_classifier_name": "Plan tasks",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "uuid": "cb91716d-6ed1-4fbf-a7d5-7c9f530ed968"
       }
@@ -8653,8 +8653,8 @@
         ],
         "list_order": 38074468,
         "from_classifier_name": "Drive to location",
-        "to_classifier_name": "Explore environment",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_classifier_name": "Explore environment",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "8c28af62-06e1-45f5-bb40-4e70bc760c24"
       }
@@ -8669,8 +8669,8 @@
         ],
         "list_order": 38107236,
         "from_classifier_name": "Drive to location",
-        "to_classifier_name": "Perform movement",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_classifier_name": "Perform movement",
         "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
         "uuid": "8dc36e54-8ccc-46bb-8b03-9e20d3b30caa"
       }
@@ -8685,8 +8685,8 @@
         ],
         "list_order": 37877860,
         "from_classifier_name": "Repair using tools",
-        "to_classifier_name": "Plan tasks",
         "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "to_classifier_name": "Plan tasks",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "uuid": "56ec89e1-873d-4b98-96b0-26a3b8b17632"
       }
@@ -8701,8 +8701,8 @@
         ],
         "list_order": 38041700,
         "from_classifier_name": "Repair using tools",
-        "to_classifier_name": "Operate tools",
         "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "to_classifier_name": "Operate tools",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "4f6d0591-b868-4f72-ae1a-dc946c5a5e6a"
       }
@@ -8717,8 +8717,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Repairability",
-        "to_classifier_name": "Maintainability",
         "from_node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
+        "to_classifier_name": "Maintainability",
         "to_node": "4aab7076-f6db-449d-af55-9f4d56114445",
         "uuid": "ff8b1117-f496-40af-a8d1-59632ffc8336"
       }
@@ -8733,8 +8733,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "30 years spare-parts supply",
-        "to_classifier_name": "Repairability",
         "from_node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
+        "to_classifier_name": "Repairability",
         "to_node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
         "uuid": "f9460e44-0efb-4a25-a230-3da41dd52c4e"
       }
@@ -8749,8 +8749,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "30 years spare-parts supply",
-        "to_classifier_name": "30 years operation time",
         "from_node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
+        "to_classifier_name": "30 years operation time",
         "to_node": "70539fe8-361d-40ed-8ab9-20977a9309e7",
         "uuid": "146f4f99-c73b-4e2b-8bba-b8a65540eadc"
       }
@@ -8765,8 +8765,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Analyzability",
-        "to_classifier_name": "Maintainability",
         "from_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
+        "to_classifier_name": "Maintainability",
         "to_node": "4aab7076-f6db-449d-af55-9f4d56114445",
         "uuid": "9bbbe53e-cbb4-42e7-8b01-c08c95b8f91d"
       }
@@ -8781,8 +8781,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Self-Diagnosis",
-        "to_classifier_name": "Analyzability",
         "from_node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
+        "to_classifier_name": "Analyzability",
         "to_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
         "uuid": "3838574a-4989-4678-92a7-1524bd67b45a"
       }
@@ -8797,8 +8797,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Self-Diagnosis",
-        "to_classifier_name": "30 years operation time",
         "from_node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
+        "to_classifier_name": "30 years operation time",
         "to_node": "70539fe8-361d-40ed-8ab9-20977a9309e7",
         "uuid": "0f4fe08f-6301-41f8-bb3a-a253b9ab1838"
       }
@@ -8813,8 +8813,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Motor defect",
-        "to_classifier_name": "Analyzability",
         "from_node": "789c1a7d-692b-498f-aae4-f22a7209ab56",
+        "to_classifier_name": "Analyzability",
         "to_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
         "uuid": "89fb4194-5ca1-4d3d-8058-d50e7587040d"
       }
@@ -8829,8 +8829,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Spare Parts Supply",
-        "to_classifier_name": "Repairability",
         "from_node": "9d4af7da-01ca-4f39-a1e8-4bb44062f07d",
+        "to_classifier_name": "Repairability",
         "to_node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
         "uuid": "91888fe4-6e76-4057-a362-2a5a635e14db"
       }
@@ -8845,8 +8845,8 @@
         ],
         "list_order": -1161718484,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Electronics",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Electronics",
         "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "uuid": "04bbd0b1-f0ed-4805-bfbc-f6e6969ebfe9"
       }
@@ -8861,8 +8861,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Skeleton Frame",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Skeleton Frame",
         "to_node": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
         "uuid": "fff66baa-e1cb-4581-afb2-4aee03842ff7"
       }
@@ -8877,8 +8877,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Microphone",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Microphone",
         "to_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "uuid": "94a64fa3-c152-40dc-957e-817d1a6c17ff"
       }
@@ -8893,8 +8893,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Camera",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Camera",
         "to_node": "fb66c906-d06a-4518-8701-229af4169a30",
         "uuid": "6464d95e-0953-4f0a-8630-7e9136909a50"
       }
@@ -8909,8 +8909,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Programming and Diagnostic Connector",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Programming and Diagnostic Connector",
         "to_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "uuid": "734d7e02-a845-47bb-9ec6-247c19d1a273"
       }
@@ -8925,8 +8925,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Tool-Arm",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Tool-Arm",
         "to_node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
         "uuid": "0407a745-a106-4be8-9e66-72da83b218f8"
       }
@@ -8941,8 +8941,8 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Tool-Window (2)",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Tool-Window (2)",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "09ac1644-66ab-45da-be00-abc4859a2866"
       }
@@ -8957,8 +8957,8 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Screw Driver",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Screw Driver",
         "to_node": "848376fc-1475-4adc-b35f-200e17103025",
         "uuid": "c91da423-0f2b-4729-a19a-8dad9e6dc822"
       }
@@ -8973,8 +8973,8 @@
         ],
         "list_order": 524288,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Gripper",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Gripper",
         "to_node": "a28d75e1-1447-462b-95f9-9093d65419e7",
         "uuid": "77d007e2-8c84-4d56-9db2-fdd7dcf82e17"
       }
@@ -8989,8 +8989,8 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Cargo Bin",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Cargo Bin",
         "to_node": "fb814893-cb03-454a-96aa-6ae8c313096d",
         "uuid": "36261953-6c8f-42e1-9d85-9f903f24b28d"
       }
@@ -9005,8 +9005,8 @@
         ],
         "list_order": 589824,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Wheels (4)",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Wheels (4)",
         "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
         "uuid": "965c9534-a73b-44e0-bb74-c630026779ad"
       }
@@ -9021,8 +9021,8 @@
         ],
         "list_order": 622592,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Motors",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Motors",
         "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
         "uuid": "d81ee29f-6d56-491b-b3de-2bc71a146dfa"
       }
@@ -9037,8 +9037,8 @@
         ],
         "list_order": 655360,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Fan",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Fan",
         "to_node": "5e00054a-23a4-4e74-8029-628d165a7c3d",
         "uuid": "5dbfc1f7-49b3-48f7-932e-322fbdaa80b1"
       }
@@ -9053,8 +9053,8 @@
         ],
         "list_order": 688128,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Charging Connector",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Charging Connector",
         "to_node": "c066d6a7-1959-4300-9aad-a75cb496da36",
         "uuid": "df932bad-f707-48f7-a691-5c6dc854879c"
       }
@@ -9069,8 +9069,8 @@
         ],
         "list_order": 720896,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Loud Speaker",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Loud Speaker",
         "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
         "uuid": "148415ba-1f1b-4e8e-8388-851be23db853"
       }
@@ -9085,8 +9085,8 @@
         ],
         "list_order": 753664,
         "from_classifier_name": "Mechanical Parts",
-        "to_classifier_name": "Energy Cell",
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "to_classifier_name": "Energy Cell",
         "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
         "uuid": "20b32cda-8d16-4d51-afea-abb475a92378"
       }
@@ -9101,8 +9101,8 @@
         ],
         "list_order": -1127573923,
         "from_classifier_name": "Electronics",
-        "to_classifier_name": "Main Logic Board",
         "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
+        "to_classifier_name": "Main Logic Board",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "f4bf7478-e188-4576-9118-5f3ccc8e617f"
       }
@@ -9117,8 +9117,8 @@
         ],
         "list_order": -1137259057,
         "from_classifier_name": "Electronics",
-        "to_classifier_name": "Base Logic Board",
         "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
+        "to_classifier_name": "Base Logic Board",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "88d78e6c-2255-4f8e-a827-3bc5bbb245e7"
       }
@@ -9133,8 +9133,8 @@
         ],
         "list_order": 1503481072,
         "from_classifier_name": "Main Logic Software",
-        "to_classifier_name": "Tactics Calculator",
         "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+        "to_classifier_name": "Tactics Calculator",
         "to_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "uuid": "ad9b1c9f-6942-490e-b33a-64c8df88d188"
       }
@@ -9149,8 +9149,8 @@
         ],
         "list_order": 1503644912,
         "from_classifier_name": "Main Logic Software",
-        "to_classifier_name": "Environment Capture",
         "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+        "to_classifier_name": "Environment Capture",
         "to_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
         "uuid": "5bd7e0d9-f98e-45dd-aff9-00153eab914f"
       }
@@ -9165,8 +9165,8 @@
         ],
         "list_order": 589824,
         "from_classifier_name": "Main Logic Software",
-        "to_classifier_name": "Main Logic Board",
         "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+        "to_classifier_name": "Main Logic Board",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "101e4699-563e-45c7-a271-2e767ab23e71"
       }
@@ -9181,8 +9181,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "power::startup",
-        "to_classifier_name": "power::booting",
         "from_node": "1d589448-3619-46f2-9ce5-59a227a1f329",
+        "to_classifier_name": "power::booting",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "e2564716-936b-486d-a254-c94382b2b43b"
       }
@@ -9195,12 +9195,12 @@
         "description": [
                 ""
         ],
-        "list_order": -867565949,
+        "list_order": -901114240,
         "from_classifier_name": "power::startup",
         "from_feature_key": "",
+        "from_node": "836b7e7a-9f82-4194-b786-a8d1abba049f",
         "to_classifier_name": "power::booting",
         "to_feature_key": "",
-        "from_node": "836b7e7a-9f82-4194-b786-a8d1abba049f",
         "to_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "uuid": "3ecc578f-64ec-48fb-9ec2-987917012cde"
       }
@@ -9215,8 +9215,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "power::booting",
-        "to_classifier_name": "power::full_operation",
         "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "to_classifier_name": "power::full_operation",
         "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "uuid": "0917a967-0cb3-4a46-8509-0d6c5a967394"
       }
@@ -9231,8 +9231,8 @@
         ],
         "list_order": -1653556647,
         "from_classifier_name": "power::booting",
-        "to_classifier_name": "sw::boot_base_board",
         "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "to_classifier_name": "sw::boot_base_board",
         "to_node": "d010affc-c9ad-467b-8362-36bd7f0ef848",
         "uuid": "590b5e71-a258-4fac-98d2-2de7df293274"
       }
@@ -9247,8 +9247,8 @@
         ],
         "list_order": -1657885448,
         "from_classifier_name": "power::booting",
-        "to_classifier_name": "sw::boot_main_board",
         "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "to_classifier_name": "sw::boot_main_board",
         "to_node": "ecfd83b5-6546-411c-8e9b-85f6cd8edc91",
         "uuid": "b2b101f7-4bea-4a0d-bca1-7eb8b9b50edf"
       }
@@ -9263,8 +9263,8 @@
         ],
         "list_order": -1658534839,
         "from_classifier_name": "power::booting",
-        "to_classifier_name": "sw::start",
         "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "to_classifier_name": "sw::start",
         "to_node": "b4ec551c-f9a8-46e8-bcb4-59174fb64a9f",
         "uuid": "21c7ab2e-c65a-475b-b9be-4d7d26bf7353"
       }
@@ -9279,8 +9279,8 @@
         ],
         "list_order": -1658534839,
         "from_classifier_name": "power::booting",
-        "to_classifier_name": "sw::par",
         "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "to_classifier_name": "sw::par",
         "to_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "uuid": "fbf99dc0-9fe0-4070-949b-e70fd6f4e015"
       }
@@ -9295,8 +9295,8 @@
         ],
         "list_order": -1658570955,
         "from_classifier_name": "power::booting",
-        "to_classifier_name": "sw::sync",
         "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "to_classifier_name": "sw::sync",
         "to_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "uuid": "3fc23a7f-c302-477f-a19d-4e1f460151e1"
       }
@@ -9311,8 +9311,8 @@
         ],
         "list_order": -1657666120,
         "from_classifier_name": "power::booting",
-        "to_classifier_name": "sw::booted",
         "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "to_classifier_name": "sw::booted",
         "to_node": "d777c836-c542-47d3-ba04-35e9567336e7",
         "uuid": "57ce4af0-9175-4f59-9d4f-cf11381ac1a3"
       }
@@ -9325,12 +9325,12 @@
         "description": [
                 ""
         ],
-        "list_order": -473644113,
+        "list_order": 317200992,
         "from_classifier_name": "power::booting",
         "from_feature_key": "",
+        "from_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
-        "from_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "66a1fe9c-85ee-463d-ad91-86849b4e145c"
       }
@@ -9345,8 +9345,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "power::energy_saving",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "power::energy_saving",
         "to_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "uuid": "6af70f9b-863a-4b43-a80e-67641d63e0cf"
       }
@@ -9361,8 +9361,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "power::off",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "power::off",
         "to_node": "49ac163f-507a-4691-a7cf-fc219bef2a90",
         "uuid": "b3123382-6b09-4763-a944-7016055eca43"
       }
@@ -9377,8 +9377,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "power::booting",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "power::booting",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "871d6d35-4388-4e11-94aa-1c722eb0c20a"
       }
@@ -9393,8 +9393,8 @@
         ],
         "list_order": -1543421817,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "sw::run_main",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "sw::run_main",
         "to_node": "24fc8dc6-4cfa-4b16-983a-7098b8b72b2c",
         "uuid": "9b0994db-ee25-409f-bce6-369eeee93440"
       }
@@ -9409,8 +9409,8 @@
         ],
         "list_order": -1555357337,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "sw::run_base",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "sw::run_base",
         "to_node": "8086e804-ff53-4071-ab12-e4ce5865bc94",
         "uuid": "c3a3aa0e-f2f9-4e30-a8a0-715b320bd72a"
       }
@@ -9425,8 +9425,8 @@
         ],
         "list_order": -1571232108,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "sw::op_start",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "sw::op_start",
         "to_node": "a1e6c113-e4e8-4331-ae8b-4ea2fd7fd98a",
         "uuid": "eb95f651-17c0-4e9c-abae-d04f23c2c3b4"
       }
@@ -9441,8 +9441,8 @@
         ],
         "list_order": -1578849163,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "sw::op_end",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "sw::op_end",
         "to_node": "02871b92-3080-40e5-8b51-f731ca504657",
         "uuid": "e4a885aa-5619-4e06-8f6d-180e880541e1"
       }
@@ -9457,8 +9457,8 @@
         ],
         "list_order": -1578849163,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "sw::op_par",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "sw::op_par",
         "to_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "uuid": "71280c88-27df-481f-8dc3-1c67db74cc1a"
       }
@@ -9473,8 +9473,8 @@
         ],
         "list_order": -1581422690,
         "from_classifier_name": "power::full_operation",
-        "to_classifier_name": "sw::op_sync",
         "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "to_classifier_name": "sw::op_sync",
         "to_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "uuid": "3b78efa8-3a3d-476f-b5e4-71c83d03988a"
       }
@@ -9487,12 +9487,12 @@
         "description": [
                 ""
         ],
-        "list_order": 239166828,
+        "list_order": 811112572,
         "from_classifier_name": "power::full_operation",
         "from_feature_key": "",
+        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_classifier_name": "power::energy_saving",
         "to_feature_key": "",
-        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "uuid": "d014ba6e-959b-4fcf-8c45-17b666551450"
       }
@@ -9505,12 +9505,12 @@
         "description": [
                 ""
         ],
-        "list_order": 1627272346,
+        "list_order": 1860400284,
         "from_classifier_name": "power::full_operation",
         "from_feature_key": "",
+        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_classifier_name": "power::off",
         "to_feature_key": "",
-        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_node": "e88532af-2b15-4e59-be68-757c62d7c351",
         "uuid": "06132a6a-75e0-4490-9228-aa276db965ef"
       }
@@ -9525,8 +9525,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "power::energy_saving",
-        "to_classifier_name": "power::full_operation",
         "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
+        "to_classifier_name": "power::full_operation",
         "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "uuid": "869e4d4b-1e44-48ed-879a-eb33930339e5"
       }
@@ -9541,8 +9541,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "power::energy_saving",
-        "to_classifier_name": "power::booting",
         "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
+        "to_classifier_name": "power::booting",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "18709b2b-1e36-491e-af73-eac1bba16add"
       }
@@ -9557,8 +9557,8 @@
         ],
         "list_order": -688030202,
         "from_classifier_name": "power::energy_saving",
-        "to_classifier_name": "sw::run_base_only",
         "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
+        "to_classifier_name": "sw::run_base_only",
         "to_node": "848ea88a-9063-4390-a8c9-8466065dc460",
         "uuid": "710c3fe7-880f-415c-b59e-ff82ffaafa9e"
       }
@@ -9571,12 +9571,12 @@
         "description": [
                 ""
         ],
-        "list_order": 750615441,
+        "list_order": 1105264357,
         "from_classifier_name": "power::energy_saving",
         "from_feature_key": "",
+        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_classifier_name": "power::energy_saving",
         "to_feature_key": "",
-        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "uuid": "a407128a-fa3b-4863-a2f6-e26fd11b7d28"
       }
@@ -9589,12 +9589,12 @@
         "description": [
                 ""
         ],
-        "list_order": 1009864147,
+        "list_order": 1250145088,
         "from_classifier_name": "power::energy_saving",
         "from_feature_key": "",
+        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
-        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "1e63a9a2-c4e6-4a0b-89b9-42c3fa3c9f90"
       }
@@ -9607,12 +9607,12 @@
         "description": [
                 ""
         ],
-        "list_order": -881634586,
+        "list_order": -907699727,
         "from_classifier_name": "power::off",
         "from_feature_key": "",
+        "from_node": "e88532af-2b15-4e59-be68-757c62d7c351",
         "to_classifier_name": "power::startup",
         "to_feature_key": "",
-        "from_node": "e88532af-2b15-4e59-be68-757c62d7c351",
         "to_node": "836b7e7a-9f82-4194-b786-a8d1abba049f",
         "uuid": "9968734d-3cca-4557-ae48-3ada381265fc"
       }
@@ -9627,9 +9627,9 @@
         ],
         "list_order": 589824,
         "from_classifier_name": "health::factory",
+        "from_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
         "to_classifier_name": "health::operation",
         "to_feature_key": "op_start",
-        "from_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
         "to_node": "56d84592-786a-4c2a-827a-cabe45a074a5",
         "uuid": "0478c6e8-22f3-4db4-a3bc-d8f8ea5b65f1"
       }
@@ -9644,8 +9644,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "health::healthy",
-        "to_classifier_name": "health::slightly_damaged",
         "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
+        "to_classifier_name": "health::slightly_damaged",
         "to_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "uuid": "4b55a0c5-9757-4d25-99c6-396a52829825"
       }
@@ -9660,8 +9660,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "health::healthy",
-        "to_classifier_name": "health::damaged",
         "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
+        "to_classifier_name": "health::damaged",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "74a6c8fe-22fd-4e9b-97d8-6f3e2d8c3138"
       }
@@ -9676,8 +9676,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "health::healthy",
-        "to_classifier_name": "health::limp_home",
         "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
+        "to_classifier_name": "health::limp_home",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "d38fe80f-fff3-4c6d-920d-3826800edbe4"
       }
@@ -9692,8 +9692,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "health::slightly_damaged",
-        "to_classifier_name": "health::limp_home",
         "from_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
+        "to_classifier_name": "health::limp_home",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "8fd094c2-f6db-4f0f-af82-49763a4bc1a5"
       }
@@ -9708,8 +9708,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "health::slightly_damaged",
-        "to_classifier_name": "health::damaged",
         "from_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
+        "to_classifier_name": "health::damaged",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "fd443c3c-d830-416d-98f5-dc3a800ca99f"
       }
@@ -9724,8 +9724,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "health::limp_home",
-        "to_classifier_name": "health::damaged",
         "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_classifier_name": "health::damaged",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "b1bcd5c0-044a-4673-9072-91d83c163437"
       }
@@ -9740,8 +9740,8 @@
         ],
         "list_order": 720896,
         "from_classifier_name": "health::limp_home",
-        "to_classifier_name": "Energy Cell",
         "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_classifier_name": "Energy Cell",
         "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
         "uuid": "0ead1a51-36db-4638-a80a-b0e5aed11500"
       }
@@ -9756,8 +9756,8 @@
         ],
         "list_order": 753664,
         "from_classifier_name": "health::limp_home",
-        "to_classifier_name": "Base Logic Board",
         "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_classifier_name": "Base Logic Board",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "472ecb0f-29e4-4a0d-a222-94cae097f677"
       }
@@ -9772,8 +9772,8 @@
         ],
         "list_order": 786432,
         "from_classifier_name": "health::limp_home",
-        "to_classifier_name": "Motors",
         "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_classifier_name": "Motors",
         "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
         "uuid": "11e4e9bb-8a5f-4a1d-8f34-42b45aa25297"
       }
@@ -9788,8 +9788,8 @@
         ],
         "list_order": 819200,
         "from_classifier_name": "health::limp_home",
-        "to_classifier_name": "Wheels (4)",
         "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "to_classifier_name": "Wheels (4)",
         "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
         "uuid": "6ea4a88f-1be2-4c97-9136-7df6ed208192"
       }
@@ -9804,9 +9804,9 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "health::damaged",
+        "from_node": "8f316599-0438-461d-a03c-720192b86a33",
         "to_classifier_name": "health::operation",
         "to_feature_key": "no_op",
-        "from_node": "8f316599-0438-461d-a03c-720192b86a33",
         "to_node": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d",
         "uuid": "d3677bf6-8988-416d-9efc-2dbe2e800822"
       }
@@ -9821,8 +9821,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "health::operation",
-        "to_classifier_name": "health::limp_home",
         "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
+        "to_classifier_name": "health::limp_home",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "5305dcee-e842-4672-9ec5-912398b4dc10"
       }
@@ -9837,8 +9837,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "health::operation",
-        "to_classifier_name": "health::slightly_damaged",
         "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
+        "to_classifier_name": "health::slightly_damaged",
         "to_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "uuid": "d7d7cbc6-4acd-4fd5-b0ff-b53c256bd3a1"
       }
@@ -9853,8 +9853,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "health::operation",
-        "to_classifier_name": "health::healthy",
         "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
+        "to_classifier_name": "health::healthy",
         "to_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "uuid": "cecfc733-463b-4c6a-bc5a-2f34f2c94100"
       }
@@ -9869,8 +9869,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "health::operation",
-        "to_classifier_name": "health::damaged",
         "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
+        "to_classifier_name": "health::damaged",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "7f270973-e4ae-47b7-aa1c-0ab47cdb9411"
       }
@@ -9886,8 +9886,8 @@
         "list_order": 524288,
         "from_classifier_name": "health::operation",
         "from_feature_key": "no_op",
-        "to_classifier_name": "health::disposal",
         "from_node": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d",
+        "to_classifier_name": "health::disposal",
         "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
         "uuid": "cfcdb1b0-22c2-48b1-9897-03e0b2abf3db"
       }
@@ -9903,8 +9903,8 @@
         "list_order": 622592,
         "from_classifier_name": "health::operation",
         "from_feature_key": "op_start",
-        "to_classifier_name": "health::healthy",
         "from_node": "56d84592-786a-4c2a-827a-cabe45a074a5",
+        "to_classifier_name": "health::healthy",
         "to_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "uuid": "596af305-3404-4228-938f-d4d0b6d704f6"
       }
@@ -9919,8 +9919,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Cargo Bin",
-        "to_classifier_name": "Tool-Window (2)",
         "from_node": "fb814893-cb03-454a-96aa-6ae8c313096d",
+        "to_classifier_name": "Tool-Window (2)",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "15371124-6417-410b-803f-d494c3abea33"
       }
@@ -9935,8 +9935,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Screw Driver",
-        "to_classifier_name": "Tool-Window (2)",
         "from_node": "848376fc-1475-4adc-b35f-200e17103025",
+        "to_classifier_name": "Tool-Window (2)",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "f41ee18f-be0f-45d5-a16a-020aa5db430e"
       }
@@ -9951,8 +9951,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "Motors",
-        "to_classifier_name": "Wheels (4)",
         "from_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+        "to_classifier_name": "Wheels (4)",
         "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
         "uuid": "835bb768-b05d-4e75-875b-85e292230af0"
       }
@@ -9967,9 +9967,9 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Camera",
+        "from_node": "fb66c906-d06a-4518-8701-229af4169a30",
         "to_classifier_name": "Main Logic Board",
         "to_feature_key": "camera connector",
-        "from_node": "fb66c906-d06a-4518-8701-229af4169a30",
         "to_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
         "uuid": "a1b7a0ee-9160-437d-9fdb-53800d02aff5"
       }
@@ -9984,9 +9984,9 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Microphone",
+        "from_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "to_classifier_name": "Main Logic Board",
         "to_feature_key": "microphone connector",
-        "from_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "to_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
         "uuid": "89d87a02-dcf2-41c7-a7a7-221191929da0"
       }
@@ -10001,8 +10001,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Programming and Diagnostic Connector",
-        "to_classifier_name": "Tool-Window (2)",
         "from_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
+        "to_classifier_name": "Tool-Window (2)",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "f1e1f6b6-34dd-485a-b61c-a431b15b570f"
       }
@@ -10017,8 +10017,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Charging Connector",
-        "to_classifier_name": "PMIC",
         "from_node": "c066d6a7-1959-4300-9aad-a75cb496da36",
+        "to_classifier_name": "PMIC",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "e582791f-47e7-40e2-9344-16f6649f0ba1"
       }
@@ -10033,8 +10033,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Energy Cell",
-        "to_classifier_name": "PMIC",
         "from_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+        "to_classifier_name": "PMIC",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "f3ea2829-ac0d-4377-b3d9-d80b82b3c343"
       }
@@ -10049,8 +10049,8 @@
         ],
         "list_order": -1137259057,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "Main Performance Controller",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_classifier_name": "Main Performance Controller",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "f30056ce-e840-4edc-90e9-fccff7b1393b"
       }
@@ -10065,8 +10065,8 @@
         ],
         "list_order": -1228803590,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "RAM",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_classifier_name": "RAM",
         "to_node": "97dfab83-5bc0-48af-93f8-8a21f85de728",
         "uuid": "73f94e6b-885d-4b4c-8cc3-d243f3ed00da"
       }
@@ -10081,8 +10081,8 @@
         ],
         "list_order": -1161996671,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "ROM",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_classifier_name": "ROM",
         "to_node": "d3419f7a-7f72-43ca-aab9-f12aed182f01",
         "uuid": "ff855440-0e50-4341-8ac5-b467adb7f772"
       }
@@ -10098,8 +10098,8 @@
         "list_order": 98304,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "microphone connector",
-        "to_classifier_name": "Main Performance Controller",
         "from_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
+        "to_classifier_name": "Main Performance Controller",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "c93e280a-3f4f-44a3-bb5d-13280c1fc1a6"
       }
@@ -10115,8 +10115,8 @@
         "list_order": 163840,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "camera connector",
-        "to_classifier_name": "Main Performance Controller",
         "from_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
+        "to_classifier_name": "Main Performance Controller",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "fdc3afb0-5d05-4c53-8af3-a8de940d55b4"
       }
@@ -10131,8 +10131,8 @@
         ],
         "list_order": -532286409,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "Motivator",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_classifier_name": "Motivator",
         "to_node": "3d66e55c-081f-43bb-89cd-159e19a83a75",
         "uuid": "1c4c0498-0e03-41ff-a21d-830695fdb688"
       }
@@ -10147,8 +10147,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "L1Req: Recognize paths",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_classifier_name": "L1Req: Recognize paths",
         "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
         "uuid": "72247dc4-fd76-45ac-88c3-42ff6a5a8adb"
       }
@@ -10164,9 +10164,9 @@
         "list_order": 491520,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "base board connector",
+        "from_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "to_classifier_name": "Base Logic Board",
         "to_feature_key": "main board connector",
-        "from_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "to_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
         "uuid": "cf0a4566-874e-451c-af04-e5fb01809094"
       }
@@ -10181,8 +10181,8 @@
         ],
         "list_order": 524288,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "Main Strategy Planning",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_classifier_name": "Main Strategy Planning",
         "to_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
         "uuid": "97b05956-73ad-470a-8f9a-659b48d88f91"
       }
@@ -10197,8 +10197,8 @@
         ],
         "list_order": -1133597166,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "PMIC",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_classifier_name": "PMIC",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "a6110d51-9a2d-4c6a-96dd-e9542fa7e663"
       }
@@ -10213,8 +10213,8 @@
         ],
         "list_order": -1134806008,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "Base Micro Controller",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_classifier_name": "Base Micro Controller",
         "to_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "uuid": "ab7c0329-7c6c-47ba-bc31-aa419d876b47"
       }
@@ -10229,8 +10229,8 @@
         ],
         "list_order": -1134723986,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "Clock",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_classifier_name": "Clock",
         "to_node": "1707b859-1969-4154-8a27-5305053ce042",
         "uuid": "8991880d-d73a-4c1d-bc8b-9ee474f80c84"
       }
@@ -10245,8 +10245,8 @@
         ],
         "list_order": -1081845112,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "Temperature Sensor",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_classifier_name": "Temperature Sensor",
         "to_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "uuid": "bb0baef7-daa3-4b2c-92b9-eb27a8a2da95"
       }
@@ -10261,8 +10261,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "L1Req: Position screw driver",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_classifier_name": "L1Req: Position screw driver",
         "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
         "uuid": "1e8135a0-e8b2-4a4c-8a11-c3ce0ffad788"
       }
@@ -10277,8 +10277,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "Screw Driver",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_classifier_name": "Screw Driver",
         "to_node": "848376fc-1475-4adc-b35f-200e17103025",
         "uuid": "7f8a6afc-2cd9-4ddf-9865-30f290983e5f"
       }
@@ -10294,9 +10294,9 @@
         "list_order": 458752,
         "from_classifier_name": "Base Logic Board",
         "from_feature_key": "main board connector",
+        "from_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
         "to_classifier_name": "Base Micro Controller",
         "to_feature_key": "main board connector",
-        "from_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
         "to_node": "b2533db8-6881-4300-a224-3f8a5724481a",
         "uuid": "d7c66b64-caf8-4ebb-92ed-48048b064385"
       }
@@ -10311,8 +10311,8 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "Base Logic Board",
-        "to_classifier_name": "Base Tactic Execution",
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_classifier_name": "Base Tactic Execution",
         "to_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "uuid": "2048e4be-3705-4899-86ac-b566f2391b62"
       }
@@ -10328,8 +10328,8 @@
         "list_order": 557056,
         "from_classifier_name": "Base Logic Board",
         "from_feature_key": "speaker connector",
-        "to_classifier_name": "Loud Speaker",
         "from_node": "a538b940-007d-4236-991f-b2e674e0c275",
+        "to_classifier_name": "Loud Speaker",
         "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
         "uuid": "1532aebf-a7aa-4898-9605-6de374c62b4c"
       }
@@ -10345,8 +10345,8 @@
         "list_order": 622592,
         "from_classifier_name": "Base Logic Board",
         "from_feature_key": "diagnostic connector",
-        "to_classifier_name": "Programming and Diagnostic Connector",
         "from_node": "21c590d1-efac-448e-b28d-dd2565b86d99",
+        "to_classifier_name": "Programming and Diagnostic Connector",
         "to_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "uuid": "9f9b68cc-2dff-499d-af5a-2b105ff7495b"
       }
@@ -10362,8 +10362,8 @@
         "list_order": 688128,
         "from_classifier_name": "Base Logic Board",
         "from_feature_key": "motor connector",
-        "to_classifier_name": "Motors",
         "from_node": "926d9611-b320-4fa4-abaf-d39b0927bcc9",
+        "to_classifier_name": "Motors",
         "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
         "uuid": "5a36607c-9ff6-46f3-ad85-637c1cd7527e"
       }
@@ -10378,8 +10378,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "PMIC",
-        "to_classifier_name": "Main Logic Board",
         "from_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
+        "to_classifier_name": "Main Logic Board",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "45c714aa-f331-493b-9751-205f6bfa8b8d"
       }
@@ -10395,8 +10395,8 @@
         "list_order": 294912,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "reset cmd",
-        "to_classifier_name": "PMIC",
         "from_node": "fa28faf1-8994-4707-ac83-e9eb11910ccd",
+        "to_classifier_name": "PMIC",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "bccec9c3-2880-4390-9309-d652fe2d9842"
       }
@@ -10412,8 +10412,8 @@
         "list_order": 360448,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "clock comm",
-        "to_classifier_name": "Clock",
         "from_node": "3299de03-94ca-40cf-84c1-236e9026b935",
+        "to_classifier_name": "Clock",
         "to_node": "1707b859-1969-4154-8a27-5305053ce042",
         "uuid": "ce835afb-6979-4602-88c2-ee6b32f59df7"
       }
@@ -10428,8 +10428,8 @@
         ],
         "list_order": -965466140,
         "from_classifier_name": "Base Micro Controller",
-        "to_classifier_name": "Watchdog Execution Environment",
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+        "to_classifier_name": "Watchdog Execution Environment",
         "to_node": "4bdb79a1-504e-48df-9cdc-aa4754b081c6",
         "uuid": "52b244f6-a412-48fb-b6e5-6e6064e0894b"
       }
@@ -10444,8 +10444,8 @@
         ],
         "list_order": -1053092081,
         "from_classifier_name": "Base Micro Controller",
-        "to_classifier_name": "Base Logic SW Partition",
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+        "to_classifier_name": "Base Logic SW Partition",
         "to_node": "31139d8b-5ec3-488c-8334-d1a18274fbd7",
         "uuid": "ea767c7b-de71-4993-a02a-5545f60cf97e"
       }
@@ -10460,8 +10460,8 @@
         ],
         "list_order": 38172772,
         "from_classifier_name": "Base Micro Controller",
-        "to_classifier_name": "Operate tools",
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+        "to_classifier_name": "Operate tools",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "ae2b496b-cc41-4be9-9305-cb51f6f7946e"
       }
@@ -10476,8 +10476,8 @@
         ],
         "list_order": 38205540,
         "from_classifier_name": "Base Micro Controller",
-        "to_classifier_name": "Perform movement",
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+        "to_classifier_name": "Perform movement",
         "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
         "uuid": "53fe9cf0-0ba5-4b34-9c08-981733857162"
       }
@@ -10493,9 +10493,9 @@
         "list_order": 524288,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "speaker",
+        "from_node": "0c7cc002-e769-4914-ac08-cb08a480273b",
         "to_classifier_name": "Base Logic Board",
         "to_feature_key": "speaker connector",
-        "from_node": "0c7cc002-e769-4914-ac08-cb08a480273b",
         "to_node": "a538b940-007d-4236-991f-b2e674e0c275",
         "uuid": "18cdfd5f-4a21-42de-aa78-a0f07ef9897e"
       }
@@ -10511,9 +10511,9 @@
         "list_order": 589824,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "diagnostic port",
+        "from_node": "e4cc1e9e-becc-4254-b397-fd8a4858ba73",
         "to_classifier_name": "Base Logic Board",
         "to_feature_key": "diagnostic connector",
-        "from_node": "e4cc1e9e-becc-4254-b397-fd8a4858ba73",
         "to_node": "21c590d1-efac-448e-b28d-dd2565b86d99",
         "uuid": "f9ea87fb-0095-43e1-94e2-01fd73fbe963"
       }
@@ -10529,9 +10529,9 @@
         "list_order": 655360,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "motor control",
+        "from_node": "001ecb64-b47f-4387-b256-2f50e99c203c",
         "to_classifier_name": "Base Logic Board",
         "to_feature_key": "motor connector",
-        "from_node": "001ecb64-b47f-4387-b256-2f50e99c203c",
         "to_node": "926d9611-b320-4fa4-abaf-d39b0927bcc9",
         "uuid": "ed4041f6-06f2-4d15-ac10-861b0cb0ca7a"
       }
@@ -10546,8 +10546,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "Clock",
-        "to_classifier_name": "PMIC",
         "from_node": "1707b859-1969-4154-8a27-5305053ce042",
+        "to_classifier_name": "PMIC",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "57077faa-ae6a-44af-b713-d5671a5bcb52"
       }
@@ -10562,8 +10562,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Gripper",
-        "to_classifier_name": "Tool-Window (2)",
         "from_node": "a28d75e1-1447-462b-95f9-9093d65419e7",
+        "to_classifier_name": "Tool-Window (2)",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "6bb74aed-4835-4eeb-aa05-b9a5acd421f6"
       }
@@ -10578,8 +10578,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "RAM",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_classifier_name": "RAM",
         "to_node": "97dfab83-5bc0-48af-93f8-8a21f85de728",
         "uuid": "bf0f76f8-e114-489e-abe0-2e3106a3aea6"
       }
@@ -10594,8 +10594,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "ROM",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_classifier_name": "ROM",
         "to_node": "d3419f7a-7f72-43ca-aab9-f12aed182f01",
         "uuid": "244c5c91-9463-4909-9e58-fb92ef614a0c"
       }
@@ -10610,9 +10610,9 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Main Performance Controller",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_classifier_name": "Main Logic Board",
         "to_feature_key": "base board connector",
-        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "uuid": "9908519c-1252-420e-8c43-cb9fa046a308"
       }
@@ -10627,8 +10627,8 @@
         ],
         "list_order": -1171309153,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "Real Time Video Processing Chip",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_classifier_name": "Real Time Video Processing Chip",
         "to_node": "be71df16-ded3-4d3a-a7be-a04e142d0dde",
         "uuid": "ee6cbaac-8535-4b6f-9fda-925584acf272"
       }
@@ -10643,8 +10643,8 @@
         ],
         "list_order": -1162691807,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "General Purpose Partition 1",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_classifier_name": "General Purpose Partition 1",
         "to_node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
         "uuid": "1355737a-274d-41e8-b7db-ef4889b67aaf"
       }
@@ -10659,8 +10659,8 @@
         ],
         "list_order": -1146586199,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "General Purpose Partition 2",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_classifier_name": "General Purpose Partition 2",
         "to_node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
         "uuid": "495e0a46-8acb-49b0-879f-d7a9886c2c49"
       }
@@ -10675,8 +10675,8 @@
         ],
         "list_order": 38238308,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "Explore environment",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_classifier_name": "Explore environment",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "6dd4f27e-2c1e-4876-9597-521749b78497"
       }
@@ -10691,8 +10691,8 @@
         ],
         "list_order": 38271076,
         "from_classifier_name": "Main Performance Controller",
-        "to_classifier_name": "Plan tasks",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_classifier_name": "Plan tasks",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "uuid": "e6cfadc6-18f3-4ffa-9b16-9543a105c827"
       }
@@ -10707,8 +10707,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Motivator",
-        "to_classifier_name": "Main Performance Controller",
         "from_node": "3d66e55c-081f-43bb-89cd-159e19a83a75",
+        "to_classifier_name": "Main Performance Controller",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "88cc0d6e-6904-4ceb-92be-6beda4c2354a"
       }
@@ -10723,9 +10723,9 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "Temperature Sensor",
+        "from_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "to_classifier_name": "Base Micro Controller",
         "to_feature_key": "temperature",
-        "from_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "to_node": "a07bc82b-80cb-4799-a63a-4af05a86abfe",
         "uuid": "db30ce1b-b9ce-4693-8acb-6bf7f6873d3c"
       }
@@ -10740,8 +10740,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "sw::boot_base_board",
-        "to_classifier_name": "sw::sync",
         "from_node": "d010affc-c9ad-467b-8362-36bd7f0ef848",
+        "to_classifier_name": "sw::sync",
         "to_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "uuid": "95ee9601-a79e-483a-9f4d-675f01376cb9"
       }
@@ -10756,8 +10756,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "sw::boot_main_board",
-        "to_classifier_name": "sw::sync",
         "from_node": "ecfd83b5-6546-411c-8e9b-85f6cd8edc91",
+        "to_classifier_name": "sw::sync",
         "to_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "uuid": "91856133-49b7-4349-b673-344f236ab993"
       }
@@ -10772,8 +10772,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "sw::start",
-        "to_classifier_name": "sw::par",
         "from_node": "b4ec551c-f9a8-46e8-bcb4-59174fb64a9f",
+        "to_classifier_name": "sw::par",
         "to_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "uuid": "a1d7e7a7-8733-4215-a6f2-860ce7c53996"
       }
@@ -10788,8 +10788,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "sw::par",
-        "to_classifier_name": "sw::boot_main_board",
         "from_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
+        "to_classifier_name": "sw::boot_main_board",
         "to_node": "ecfd83b5-6546-411c-8e9b-85f6cd8edc91",
         "uuid": "eff99d29-bd5f-49d9-b6a8-6d6074cbe59c"
       }
@@ -10804,8 +10804,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "sw::par",
-        "to_classifier_name": "sw::boot_base_board",
         "from_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
+        "to_classifier_name": "sw::boot_base_board",
         "to_node": "d010affc-c9ad-467b-8362-36bd7f0ef848",
         "uuid": "2681b354-31db-4b93-8616-40c5f6b63b2d"
       }
@@ -10820,8 +10820,8 @@
         ],
         "list_order": 622592,
         "from_classifier_name": "sw::run_main",
-        "to_classifier_name": "sw::op_sync",
         "from_node": "24fc8dc6-4cfa-4b16-983a-7098b8b72b2c",
+        "to_classifier_name": "sw::op_sync",
         "to_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "uuid": "553f0c34-b871-456d-8b35-4c7ae362ec18"
       }
@@ -10836,8 +10836,8 @@
         ],
         "list_order": 589824,
         "from_classifier_name": "sw::run_base",
-        "to_classifier_name": "sw::op_sync",
         "from_node": "8086e804-ff53-4071-ab12-e4ce5865bc94",
+        "to_classifier_name": "sw::op_sync",
         "to_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "uuid": "708209ab-69d7-423b-809c-3c81beff738b"
       }
@@ -10852,8 +10852,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "sw::sync",
-        "to_classifier_name": "sw::booted",
         "from_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
+        "to_classifier_name": "sw::booted",
         "to_node": "d777c836-c542-47d3-ba04-35e9567336e7",
         "uuid": "74ac4d63-f090-42c2-a0e5-c0183773900c"
       }
@@ -10868,8 +10868,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Imperial Operator",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "55aee327-5b7a-4c43-b4bf-b3863738fd38"
       }
@@ -10884,8 +10884,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Imperial Operator",
-        "to_classifier_name": "Operator",
         "from_node": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
+        "to_classifier_name": "Operator",
         "to_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
         "uuid": "bc21ead6-d190-44b5-90d0-5e5141c6dfa2"
       }
@@ -10900,8 +10900,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Operator of the old republic",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "765e3ec8-f4af-4f1d-a86a-8d6860089f57"
       }
@@ -10916,8 +10916,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Operator of the old republic",
-        "to_classifier_name": "Operator",
         "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
+        "to_classifier_name": "Operator",
         "to_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
         "uuid": "94f4faaa-57c3-4c4a-84b4-4c29e36b06b8"
       }
@@ -10932,8 +10932,8 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "sw::op_start",
-        "to_classifier_name": "sw::op_par",
         "from_node": "a1e6c113-e4e8-4331-ae8b-4ea2fd7fd98a",
+        "to_classifier_name": "sw::op_par",
         "to_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "uuid": "638c14b3-855f-4bee-9f85-68dfb7bd7b7c"
       }
@@ -10948,8 +10948,8 @@
         ],
         "list_order": 524288,
         "from_classifier_name": "sw::op_par",
-        "to_classifier_name": "sw::run_main",
         "from_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
+        "to_classifier_name": "sw::run_main",
         "to_node": "24fc8dc6-4cfa-4b16-983a-7098b8b72b2c",
         "uuid": "33375964-b3a6-4910-819c-ce87c2171385"
       }
@@ -10964,8 +10964,8 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "sw::op_par",
-        "to_classifier_name": "sw::run_base",
         "from_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
+        "to_classifier_name": "sw::run_base",
         "to_node": "8086e804-ff53-4071-ab12-e4ce5865bc94",
         "uuid": "5549f546-91de-4092-96fd-94ab48bb2208"
       }
@@ -10980,8 +10980,8 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "sw::op_sync",
-        "to_classifier_name": "sw::op_end",
         "from_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
+        "to_classifier_name": "sw::op_end",
         "to_node": "02871b92-3080-40e5-8b51-f731ca504657",
         "uuid": "08f02a48-2279-4306-9fb7-5651ad4d36ea"
       }
@@ -10996,8 +10996,8 @@
         ],
         "list_order": -949056703,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Build Droid",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_classifier_name": "Build Droid",
         "to_node": "2fb1cd00-6d9e-4d66-bf6c-f93819adbf7b",
         "uuid": "afd97b20-892a-427f-8dcf-70aafb8fd4e6"
       }
@@ -11012,8 +11012,8 @@
         ],
         "list_order": -996447395,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Develop Software",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_classifier_name": "Develop Software",
         "to_node": "41abaace-cc75-4a53-b2d3-76138577dd01",
         "uuid": "9aeb098e-7814-46bf-a492-2181f761893d"
       }
@@ -11028,8 +11028,8 @@
         ],
         "list_order": -1068810697,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Design Hardware",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_classifier_name": "Design Hardware",
         "to_node": "0e8065c4-c3bc-4e42-b344-a39cf9b201d8",
         "uuid": "bf49c597-a5d5-44a7-b0f5-c36e7718f61a"
       }
@@ -11044,8 +11044,8 @@
         ],
         "list_order": -1068982191,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Electrical Engineering",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_classifier_name": "Electrical Engineering",
         "to_node": "a62eeadb-6d02-4d47-a22b-f78570a4019d",
         "uuid": "02d8a073-4e15-47b8-ac2e-6a36a557d194"
       }
@@ -11060,8 +11060,8 @@
         ],
         "list_order": -947899389,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Factory Worker",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_classifier_name": "Factory Worker",
         "to_node": "f71312af-5aa2-4a5b-93ee-1f39cd762554",
         "uuid": "9717a97a-03f5-4358-992c-40f7d66d5f4b"
       }
@@ -11076,8 +11076,8 @@
         ],
         "list_order": -712770999,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Factory Robot",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_classifier_name": "Factory Robot",
         "to_node": "a1701e19-8001-4317-aedb-7557d1cc8fc4",
         "uuid": "baf13393-9e66-4ae2-8fe1-043515f94e15"
       }
@@ -11092,8 +11092,8 @@
         ],
         "list_order": -525697330,
         "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Factory Test System",
         "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_classifier_name": "Factory Test System",
         "to_node": "9f3bacda-c043-4931-81fb-cfce1abf049a",
         "uuid": "cda7bb9c-8a1e-44f1-9736-49fa2ed38cad"
       }
@@ -11108,8 +11108,8 @@
         ],
         "list_order": -1104892992,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Operate Droid",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Operate Droid",
         "to_node": "c2fa0c36-72a8-45d5-8f02-9c2d49316e9e",
         "uuid": "5da7839a-7f13-463a-b556-ed1c9d8d0a4e"
       }
@@ -11124,8 +11124,8 @@
         ],
         "list_order": -1111229670,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Repair Droid",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Repair Droid",
         "to_node": "f737a6a7-13f7-42a4-9b2a-1c805cd2a628",
         "uuid": "2c59bc66-7333-4725-a91e-d8c7e4c3ec32"
       }
@@ -11140,8 +11140,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Disposal",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Disposal",
         "to_node": "d0e738fb-79e3-4cb0-a6aa-e88cd3d3fb24",
         "uuid": "55dc87c5-470c-4997-92f6-768ce85caaec"
       }
@@ -11156,8 +11156,8 @@
         ],
         "list_order": -1118328092,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Environment",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Environment",
         "to_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
         "uuid": "6dc47c15-f8e7-478f-81fa-a1f2d39e98cc"
       }
@@ -11172,8 +11172,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Charging Terminal",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Charging Terminal",
         "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
         "uuid": "53618f34-c27b-4894-9c80-62209ebca5a8"
       }
@@ -11188,8 +11188,8 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Programming Terminal",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Programming Terminal",
         "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
         "uuid": "1204e24e-c417-4a36-b6ff-c303454df725"
       }
@@ -11204,8 +11204,8 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Maintenance Booth",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Maintenance Booth",
         "to_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
         "uuid": "41e952e8-5c10-416a-b1aa-f9804d633a1a"
       }
@@ -11220,8 +11220,8 @@
         ],
         "list_order": -503850824,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Malfunctioning Terminal",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Malfunctioning Terminal",
         "to_node": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
         "uuid": "ce100cf7-7731-4753-9c13-8d13a674f288"
       }
@@ -11236,8 +11236,8 @@
         ],
         "list_order": -486463803,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Operator",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Operator",
         "to_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
         "uuid": "e1f5b5d3-22ba-4923-b70a-5f2b7ceb5e63"
       }
@@ -11252,8 +11252,8 @@
         ],
         "list_order": -96285833,
         "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Service Worker",
         "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_classifier_name": "Service Worker",
         "to_node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
         "uuid": "da68d793-fca6-4143-b04e-509b3e0fb17c"
       }
@@ -11268,8 +11268,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Outer World",
-        "to_classifier_name": "Main Logic Board",
         "from_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
+        "to_classifier_name": "Main Logic Board",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "ffece27b-82a0-4e44-9086-7c2ed62bf06e"
       }
@@ -11284,8 +11284,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Space Station",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "67e24e2b-a356-4062-9ad2-35fdac85982e"
       }
@@ -11300,8 +11300,8 @@
         ],
         "list_order": -596786423,
         "from_classifier_name": "Space Station",
-        "to_classifier_name": "Programming Terminal",
         "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_classifier_name": "Programming Terminal",
         "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
         "uuid": "b9aa4979-1315-4027-a922-9e7b215d7755"
       }
@@ -11316,8 +11316,8 @@
         ],
         "list_order": -539740535,
         "from_classifier_name": "Space Station",
-        "to_classifier_name": "Charging Terminal",
         "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_classifier_name": "Charging Terminal",
         "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
         "uuid": "960697b2-5434-4152-91da-edd98bb8a08d"
       }
@@ -11332,8 +11332,8 @@
         ],
         "list_order": -501102168,
         "from_classifier_name": "Space Station",
-        "to_classifier_name": "Maintenance Booth",
         "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_classifier_name": "Maintenance Booth",
         "to_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
         "uuid": "bd7cf063-5e1d-4917-b24f-51e03e9c0230"
       }
@@ -11348,8 +11348,8 @@
         ],
         "list_order": 720896,
         "from_classifier_name": "Maintenance Booth",
-        "to_classifier_name": "Service Worker",
         "from_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
+        "to_classifier_name": "Service Worker",
         "to_node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
         "uuid": "cd913284-70fc-4722-bd04-ed63552ee3ed"
       }
@@ -11364,8 +11364,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Motor Type",
-        "to_classifier_name": "Step Motor",
         "from_node": "17e88f00-df0e-4c0a-a400-a2ead53b9265",
+        "to_classifier_name": "Step Motor",
         "to_node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
         "uuid": "9b787b3a-ca7e-417b-808e-4470d21d6f2b"
       }
@@ -11381,8 +11381,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "2 of 3 Voter",
-        "to_classifier_name": "Cosmic Rays",
         "from_node": "d08d2864-7bfb-40b8-aadf-7d7e195bc9e2",
+        "to_classifier_name": "Cosmic Rays",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "a7d1fd4d-e9cb-4f06-b532-7178dbccc276"
       }
@@ -11397,8 +11397,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Cosmic Rays Information",
-        "to_classifier_name": "Cosmic Rays",
         "from_node": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
+        "to_classifier_name": "Cosmic Rays",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "86e3bc92-1cca-433a-a021-0114280dcd3e"
       }
@@ -11413,8 +11413,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Watchdog Supervision",
-        "to_classifier_name": "Cosmic Rays",
         "from_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
+        "to_classifier_name": "Cosmic Rays",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "5aab167f-5707-4b60-adad-02ee0eb214b3"
       }
@@ -11429,8 +11429,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Decision: Watchdog",
-        "to_classifier_name": "Watchdog Supervision",
         "from_node": "2d660d61-d795-4421-823d-32f81de44f8a",
+        "to_classifier_name": "Watchdog Supervision",
         "to_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
         "uuid": "81ab804c-8321-41af-92b4-128c9e9e957a"
       }
@@ -11445,8 +11445,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Video Capture",
-        "to_classifier_name": "Environment Model Composer",
         "from_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
+        "to_classifier_name": "Environment Model Composer",
         "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "uuid": "fadf2130-41d5-4e6e-8e45-2d9ca5fa93c3"
       }
@@ -11463,9 +11463,9 @@
         "list_order": -123736531,
         "from_classifier_name": "Video Capture",
         "from_feature_key": "",
+        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
-        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "a4d9f587-4173-4d6a-b21e-9597da0f828c"
       }
@@ -11482,9 +11482,9 @@
         "list_order": -1039624980,
         "from_classifier_name": "Video Capture",
         "from_feature_key": "",
+        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_classifier_name": "Video Capture",
         "to_feature_key": "",
-        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "uuid": "d519f284-d315-4815-ac09-ed6df3441250"
       }
@@ -11499,8 +11499,8 @@
         ],
         "list_order": 1503350000,
         "from_classifier_name": "Video Capture",
-        "to_classifier_name": "Real Time Video Processing Chip",
         "from_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
+        "to_classifier_name": "Real Time Video Processing Chip",
         "to_node": "be71df16-ded3-4d3a-a7be-a04e142d0dde",
         "uuid": "c9ebf3f6-00b5-4024-8e0f-585fb1bd3db5"
       }
@@ -11515,8 +11515,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Audio Capture",
-        "to_classifier_name": "Environment Model Composer",
         "from_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
+        "to_classifier_name": "Environment Model Composer",
         "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "uuid": "5a5967f0-9063-4b18-a0a6-2c4f1f250c54"
       }
@@ -11533,9 +11533,9 @@
         "list_order": -606459065,
         "from_classifier_name": "Audio Capture",
         "from_feature_key": "",
+        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
-        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "02680ac7-e0c3-47bf-b965-e2a5b9e4ada1"
       }
@@ -11552,9 +11552,9 @@
         "list_order": -1259438208,
         "from_classifier_name": "Audio Capture",
         "from_feature_key": "",
+        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_classifier_name": "Audio Capture",
         "to_feature_key": "",
-        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "uuid": "0fc5e1a2-52c9-464e-b4cd-b319b5662cd7"
       }
@@ -11569,8 +11569,8 @@
         ],
         "list_order": 1503448304,
         "from_classifier_name": "Audio Capture",
-        "to_classifier_name": "General Purpose Partition 1",
         "from_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
+        "to_classifier_name": "General Purpose Partition 1",
         "to_node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
         "uuid": "37ddb462-7adc-4860-bde9-076582d8c7b5"
       }
@@ -11586,9 +11586,9 @@
         "list_order": 1204301721,
         "from_classifier_name": "Tactics Calculator",
         "from_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_classifier_name": "Motor Controller",
         "to_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "uuid": "c4bdeafe-45e7-4c08-856d-d3b2745a922f"
       }
@@ -11604,9 +11604,9 @@
         "list_order": 1762993675,
         "from_classifier_name": "Tactics Calculator",
         "from_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_classifier_name": "Motor Controller",
         "to_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "uuid": "cfb942c8-c705-4821-91a9-5bb0bfef7bd5"
       }
@@ -11622,9 +11622,9 @@
         "list_order": 792757196,
         "from_classifier_name": "Tactics Calculator",
         "from_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_classifier_name": "Tactics Calculator",
         "to_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "uuid": "9dc21798-2013-4878-a2a8-fe7472986a3b"
       }
@@ -11639,8 +11639,8 @@
         ],
         "list_order": 1503382768,
         "from_classifier_name": "Tactics Calculator",
-        "to_classifier_name": "General Purpose Partition 2",
         "from_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
+        "to_classifier_name": "General Purpose Partition 2",
         "to_node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
         "uuid": "d08a663c-b0d0-45bd-9747-1ed5c3bdfe6b"
       }
@@ -11655,8 +11655,8 @@
         ],
         "list_order": 1503677680,
         "from_classifier_name": "Tactics Calculator",
-        "to_classifier_name": "Motor Controller",
         "from_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
+        "to_classifier_name": "Motor Controller",
         "to_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "uuid": "b495b469-4904-4a55-8d55-7c00b70b9211"
       }
@@ -11672,9 +11672,9 @@
         "list_order": -399951781,
         "from_classifier_name": "Motor Controller",
         "from_feature_key": "",
+        "from_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
-        "from_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "bd14d37f-c52c-41e8-9fc4-d01b950cfb69"
       }
@@ -11689,8 +11689,8 @@
         ],
         "list_order": 1503317232,
         "from_classifier_name": "Motor Controller",
-        "to_classifier_name": "Base Logic SW Partition",
         "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
+        "to_classifier_name": "Base Logic SW Partition",
         "to_node": "31139d8b-5ec3-488c-8334-d1a18274fbd7",
         "uuid": "2e038ce1-094f-45c6-8ec0-57789722499a"
       }
@@ -11705,8 +11705,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Motor Controller",
-        "to_classifier_name": "L3Req: Operate motors of tool-arm",
         "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
+        "to_classifier_name": "L3Req: Operate motors of tool-arm",
         "to_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
         "uuid": "17ddf792-952d-49aa-933c-7b7c8c64a082"
       }
@@ -11721,8 +11721,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Situation Model",
-        "to_classifier_name": "MoD5G-Status Model",
         "from_node": "05605867-3b88-4e38-935d-719cb370309e",
+        "to_classifier_name": "MoD5G-Status Model",
         "to_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
         "uuid": "1fa2f07e-fa81-413b-958c-64e00b6a802a"
       }
@@ -11737,8 +11737,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Situation Model",
-        "to_classifier_name": "Environment Model",
         "from_node": "05605867-3b88-4e38-935d-719cb370309e",
+        "to_classifier_name": "Environment Model",
         "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "uuid": "217e33dd-3393-410d-aeea-dfe8a4acdf4a"
       }
@@ -11754,8 +11754,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Environment Model",
-        "to_classifier_name": "Real Environment",
         "from_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
+        "to_classifier_name": "Real Environment",
         "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
         "uuid": "5db71ce3-952c-4436-839f-a12848b31d06"
       }
@@ -11773,8 +11773,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "MoD5G-Status Model",
-        "to_classifier_name": "MoD5G Real Status",
         "from_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
+        "to_classifier_name": "MoD5G Real Status",
         "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
         "uuid": "cc3a6e31-ac95-4ef7-b958-e3f2acbf7d64"
       }
@@ -11789,8 +11789,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Real Situation",
-        "to_classifier_name": "MoD5G Real Status",
         "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
+        "to_classifier_name": "MoD5G Real Status",
         "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
         "uuid": "675d7584-39b7-4102-ae0c-284c1e952595"
       }
@@ -11805,8 +11805,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Real Situation",
-        "to_classifier_name": "Real Environment",
         "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
+        "to_classifier_name": "Real Environment",
         "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
         "uuid": "c975f85c-f312-4c32-b913-553b52e18967"
       }
@@ -11821,8 +11821,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Inner World",
-        "to_classifier_name": "Base Logic Board",
         "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
+        "to_classifier_name": "Base Logic Board",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "2ecf274d-34ed-482e-88ef-f910857534ed"
       }
@@ -11837,8 +11837,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Environment Capture",
-        "to_classifier_name": "Video Capture",
         "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_classifier_name": "Video Capture",
         "to_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "uuid": "bc58625b-6849-4b48-b78d-fad57b67cba9"
       }
@@ -11853,8 +11853,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Environment Capture",
-        "to_classifier_name": "Audio Capture",
         "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_classifier_name": "Audio Capture",
         "to_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
         "uuid": "571c2fb7-0789-4863-8994-8762141bd562"
       }
@@ -11869,8 +11869,8 @@
         ],
         "list_order": -1030764179,
         "from_classifier_name": "Environment Capture",
-        "to_classifier_name": "Environment Model Composer",
         "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_classifier_name": "Environment Model Composer",
         "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "uuid": "8978d39d-6e61-4525-a9ba-22f05e855e48"
       }
@@ -11885,8 +11885,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "Environment Capture",
-        "to_classifier_name": "Environment Model",
         "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_classifier_name": "Environment Model",
         "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "uuid": "03659026-f35e-4e4c-be81-c7a9e3af4e49"
       }
@@ -11901,8 +11901,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Base System Control",
-        "to_classifier_name": "Motor Controller",
         "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "to_classifier_name": "Motor Controller",
         "to_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "uuid": "ea046a8f-edfe-42e3-ab48-7a287736d5f2"
       }
@@ -11917,8 +11917,8 @@
         ],
         "list_order": -528333121,
         "from_classifier_name": "Base System Control",
-        "to_classifier_name": "SW Watchdog",
         "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "to_classifier_name": "SW Watchdog",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
         "uuid": "355b3284-2a12-4a43-b697-7fa982b01ae5"
       }
@@ -11933,8 +11933,8 @@
         ],
         "list_order": 622592,
         "from_classifier_name": "Base System Control",
-        "to_classifier_name": "Base Logic Board",
         "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "to_classifier_name": "Base Logic Board",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "2fddddfe-e867-4b0a-8483-1a367d8f9f7b"
       }
@@ -11949,8 +11949,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "Environment Model Composer",
-        "to_classifier_name": "Tactics Calculator",
         "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+        "to_classifier_name": "Tactics Calculator",
         "to_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "uuid": "f46735a1-7050-4be9-891a-8aa11bf56d9e"
       }
@@ -11966,9 +11966,9 @@
         "list_order": 426506026,
         "from_classifier_name": "Environment Model Composer",
         "from_feature_key": "",
+        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_classifier_name": "Tactics Calculator",
         "to_feature_key": "",
-        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "uuid": "d4c6c61b-85d1-4231-abc4-08c4725e2420"
       }
@@ -11984,9 +11984,9 @@
         "list_order": 114394466,
         "from_classifier_name": "Environment Model Composer",
         "from_feature_key": "",
+        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
-        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "d9bf2137-066d-4b8c-bfb0-e98924ebd666"
       }
@@ -12001,8 +12001,8 @@
         ],
         "list_order": 1503415536,
         "from_classifier_name": "Environment Model Composer",
-        "to_classifier_name": "General Purpose Partition 1",
         "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+        "to_classifier_name": "General Purpose Partition 1",
         "to_node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
         "uuid": "c5632eed-a27a-4d02-b0ca-d32c2523b7ff"
       }
@@ -12017,8 +12017,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "Environment Model Composer",
-        "to_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
         "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+        "to_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
         "to_node": "691d5030-5e11-4e65-b478-759ce31584fa",
         "uuid": "03921b7a-16d8-4576-bdd2-b91f0725cca1"
       }
@@ -12033,8 +12033,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "Environment Model Composer",
-        "to_classifier_name": "Environment Model",
         "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+        "to_classifier_name": "Environment Model",
         "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "uuid": "00d08a97-40d9-45d8-873a-dbf7adf339a2"
       }
@@ -12049,8 +12049,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Interoperability",
-        "to_classifier_name": "Compatibility",
         "from_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
+        "to_classifier_name": "Compatibility",
         "to_node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
         "uuid": "31266638-3cc2-4564-9ff8-24f5ab33b1fe"
       }
@@ -12065,8 +12065,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Old Republic Programming IF",
-        "to_classifier_name": "Interoperability",
         "from_node": "ec82be00-93a7-42eb-a240-e5f2f73c958f",
+        "to_classifier_name": "Interoperability",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "16c2efa0-4fc1-4a29-aa9d-7a30c22b933f"
       }
@@ -12081,8 +12081,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Imperial Programming IF",
-        "to_classifier_name": "Interoperability",
         "from_node": "1f827014-6814-42b3-8e92-f0550b149d34",
+        "to_classifier_name": "Interoperability",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "9c486d97-aba6-4e45-8453-983896b0f9aa"
       }
@@ -12097,8 +12097,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Universial Charging IF",
-        "to_classifier_name": "Interoperability",
         "from_node": "49173762-e41f-4356-a6a3-20a40868c6bb",
+        "to_classifier_name": "Interoperability",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "76cd8d53-f3f3-4e6d-9200-a20cd2f3ad2c"
       }
@@ -12113,8 +12113,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Fault Detection (main logic)",
-        "to_classifier_name": "SW Watchdog",
         "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
+        "to_classifier_name": "SW Watchdog",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
         "uuid": "348357bd-55b5-48a2-a9c5-5c1f5d32b522"
       }
@@ -12129,9 +12129,9 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Fault Detection (main logic)",
+        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
         "to_classifier_name": "Wrong tactic is calculated",
         "to_feature_key": "Detect",
-        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
         "to_node": "2edcd3dc-d79b-4be6-83b0-97bccc9cc73a",
         "uuid": "4782f74a-8461-4f80-b48b-2f7c97850609"
       }
@@ -12146,8 +12146,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Fault Detection (base logic)",
-        "to_classifier_name": "SW Watchdog",
         "from_node": "4a86e419-4afe-42f3-8846-51e7f81c61c3",
+        "to_classifier_name": "SW Watchdog",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
         "uuid": "4ad1d7ba-bfb0-4268-af6e-abb12ed779e4"
       }
@@ -12162,8 +12162,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Fault Detection Strategy may fail",
-        "to_classifier_name": "Wrong tactic is calculated",
         "from_node": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
+        "to_classifier_name": "Wrong tactic is calculated",
         "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
         "uuid": "b41b769a-acb5-4088-98bb-a9eca232f154"
       }
@@ -12178,8 +12178,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Wookiee Detection",
-        "to_classifier_name": "Self-Preservation",
         "from_node": "1b626973-c1cb-4234-a2cb-16a21e42e4f1",
+        "to_classifier_name": "Self-Preservation",
         "to_node": "87950246-9fe2-4acf-ba83-1eb9b813b6d8",
         "uuid": "8ae2b48a-cbed-4d31-920c-f2e365c4cc8f"
       }
@@ -12194,8 +12194,8 @@
         ],
         "list_order": 786432,
         "from_classifier_name": "Risk: MoD5G does not drive back (logic board)",
-        "to_classifier_name": "Base Logic Board",
         "from_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
+        "to_classifier_name": "Base Logic Board",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "0fe618d5-949d-4d44-b016-e823e58b2d71"
       }
@@ -12210,8 +12210,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Wrong tactic is calculated",
-        "to_classifier_name": "Tactics Calculator",
         "from_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
+        "to_classifier_name": "Tactics Calculator",
         "to_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "uuid": "11988a12-22d5-4a2b-8479-ec4722cb75fb"
       }
@@ -12226,8 +12226,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "health::all",
-        "to_classifier_name": "health::factory",
         "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+        "to_classifier_name": "health::factory",
         "to_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
         "uuid": "3b69965e-8ec7-4c1c-8429-eae5418af8ce"
       }
@@ -12242,8 +12242,8 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "health::all",
-        "to_classifier_name": "health::operation",
         "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+        "to_classifier_name": "health::operation",
         "to_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "uuid": "05476435-2f82-4a75-b3be-58803fc44b9f"
       }
@@ -12258,8 +12258,8 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "health::all",
-        "to_classifier_name": "health::disposal",
         "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+        "to_classifier_name": "health::disposal",
         "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
         "uuid": "6a8d21c4-845b-4fd8-b05d-f1221620b211"
       }
@@ -12274,8 +12274,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "power::all",
-        "to_classifier_name": "power::booting",
         "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_classifier_name": "power::booting",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "864b55b9-ab53-40ff-8e08-02b6b0cfd32e"
       }
@@ -12290,8 +12290,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "power::all",
-        "to_classifier_name": "power::energy_saving",
         "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_classifier_name": "power::energy_saving",
         "to_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "uuid": "d995d2b3-c999-4215-b71d-9b23e1e76019"
       }
@@ -12306,8 +12306,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "power::all",
-        "to_classifier_name": "power::full_operation",
         "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_classifier_name": "power::full_operation",
         "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "uuid": "246532d5-1895-415c-824e-728a0f7a94c0"
       }
@@ -12322,8 +12322,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "power::all",
-        "to_classifier_name": "power::startup",
         "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_classifier_name": "power::startup",
         "to_node": "1d589448-3619-46f2-9ce5-59a227a1f329",
         "uuid": "fe3abb15-6add-49cc-a1ef-18bd330c3903"
       }
@@ -12338,8 +12338,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "power::all",
-        "to_classifier_name": "power::off",
         "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_classifier_name": "power::off",
         "to_node": "49ac163f-507a-4691-a7cf-fc219bef2a90",
         "uuid": "50219fa5-98e4-4925-a9d9-3d56b9859989"
       }
@@ -12352,12 +12352,12 @@
         "description": [
                 ""
         ],
-        "list_order": -440817294,
+        "list_order": 321591317,
         "from_classifier_name": "max 2300 msec",
         "from_feature_key": "",
+        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
-        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "8aedb309-11fa-4e10-8341-b1f6b4c8dabc"
       }
@@ -12373,9 +12373,9 @@
         "list_order": -900392769,
         "from_classifier_name": "max 2300 msec",
         "from_feature_key": "",
+        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_classifier_name": "power::booting",
         "to_feature_key": "",
-        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "uuid": "daaef58e-cb15-4e26-b7e9-a94d32a0f0a3"
       }
@@ -12388,12 +12388,12 @@
         "description": [
                 ""
         ],
-        "list_order": 1043023866,
+        "list_order": 1252340250,
         "from_classifier_name": "max 500 msec",
         "from_feature_key": "",
+        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
-        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "d571d3d4-8257-423d-a75d-b7b219db887d"
       }
@@ -12406,12 +12406,12 @@
         "description": [
                 ""
         ],
-        "list_order": 681281484,
+        "list_order": 1026238505,
         "from_classifier_name": "max 500 msec",
         "from_feature_key": "",
+        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_classifier_name": "power::energy_saving",
         "to_feature_key": "",
-        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "uuid": "d17a7d43-fb59-4ca6-a2d1-7772e3926aac"
       }
@@ -12427,9 +12427,9 @@
         "list_order": 957011840,
         "from_classifier_name": "Persist List",
         "from_feature_key": "",
+        "from_node": "e5887445-90e2-4d11-9976-82c1b073577b",
         "to_classifier_name": "Tactics Calculator",
         "to_feature_key": "",
-        "from_node": "e5887445-90e2-4d11-9976-82c1b073577b",
         "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "uuid": "249dceb6-328e-4362-8919-d02d00d5e1e8"
       }
@@ -12444,8 +12444,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Environmental Constraints",
-        "to_classifier_name": "Cosmic Rays",
         "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
+        "to_classifier_name": "Cosmic Rays",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "2479a725-5c2d-4086-be52-d0f55e45c6bc"
       }
@@ -12460,8 +12460,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Environmental Constraints",
-        "to_classifier_name": "Operating Temperatures",
         "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
+        "to_classifier_name": "Operating Temperatures",
         "to_node": "2e172d70-2eba-49b0-9241-7385878ccb2f",
         "uuid": "6403c948-b92a-4da5-a1b4-0c76f7c53ab2"
       }
@@ -12476,8 +12476,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Mixed standards of terminals",
-        "to_classifier_name": "Interoperability",
         "from_node": "9775e560-28b8-4ec2-a97d-999f2126a3e6",
+        "to_classifier_name": "Interoperability",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "63132724-fe64-4f55-afbf-c267ef8d7cf7"
       }
@@ -12492,8 +12492,8 @@
         ],
         "list_order": 753664,
         "from_classifier_name": "Risk: MoD5G does not drive back (energy)",
-        "to_classifier_name": "Energy Cell",
         "from_node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
+        "to_classifier_name": "Energy Cell",
         "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
         "uuid": "01bb0ca2-4de4-461f-8543-5fe4bef7574c"
       }
@@ -12508,8 +12508,8 @@
         ],
         "list_order": 851968,
         "from_classifier_name": "Risk: MoD5G does not drive back (motors)",
-        "to_classifier_name": "Motors",
         "from_node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
+        "to_classifier_name": "Motors",
         "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
         "uuid": "452d0800-dbb8-4736-b31c-07cfc9cd4078"
       }
@@ -12524,8 +12524,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "L1Req: Recognize paths",
-        "to_classifier_name": "Drive to location",
         "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "to_classifier_name": "Drive to location",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "b9891529-89d9-4aa9-9c26-3f32d80fc132"
       }
@@ -12540,8 +12540,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "L1Req: Recognize paths",
-        "to_classifier_name": "Return to base location",
         "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "to_classifier_name": "Return to base location",
         "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "uuid": "ba0553c5-9971-4a2b-aed3-71b3d94596ab"
       }
@@ -12556,8 +12556,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "L1Req: Recognize paths",
-        "to_classifier_name": "Autonomously drive ranges up to 10 km",
         "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "to_classifier_name": "Autonomously drive ranges up to 10 km",
         "to_node": "debef67d-129c-44d1-a944-2e6795df6f7f",
         "uuid": "b9ab1b52-413f-4ff2-861e-85eedef53bcd"
       }
@@ -12572,8 +12572,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "L1Req: Position screw driver",
-        "to_classifier_name": "Repair using tools",
         "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "to_classifier_name": "Repair using tools",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "ff4c421b-3f79-4cae-8217-19284a6649c4"
       }
@@ -12588,8 +12588,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "L1Req: Position screw driver",
-        "to_classifier_name": "Autonomously repair, replace things up to 1kg ",
         "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "to_classifier_name": "Autonomously repair, replace things up to 1kg ",
         "to_node": "3d6dbdac-45d6-4e96-9602-d9473dd32b6b",
         "uuid": "5e7dad80-4bf8-485b-bd85-dea0570879a7"
       }
@@ -12604,8 +12604,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
-        "to_classifier_name": "Explore environment",
         "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "to_classifier_name": "Explore environment",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "bcabd929-6e0b-4bf3-9c7b-86a800ffe8d4"
       }
@@ -12620,8 +12620,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
-        "to_classifier_name": "L1Req: Recognize paths",
         "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "to_classifier_name": "L1Req: Recognize paths",
         "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
         "uuid": "ba2a26ba-adbf-4f2c-aedc-7384190e58a0"
       }
@@ -12636,8 +12636,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "L3Req: Operate motors of tool-arm",
-        "to_classifier_name": "L1Req: Position screw driver",
         "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+        "to_classifier_name": "L1Req: Position screw driver",
         "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
         "uuid": "84058634-84cf-435b-bd03-7caa0559a48c"
       }
@@ -12652,8 +12652,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "L3Req: Operate motors of tool-arm",
-        "to_classifier_name": "Operate tools",
         "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+        "to_classifier_name": "Operate tools",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "3a931cae-b951-439f-a5a5-a75b4ac9c0b9"
       }
@@ -12669,9 +12669,9 @@
         "list_order": 32768,
         "from_classifier_name": "start operation",
         "from_feature_key": "",
+        "from_node": "7f6ac622-aad8-4ebc-a143-d8c781e8671a",
         "to_classifier_name": "orthogonal",
         "to_feature_key": "",
-        "from_node": "7f6ac622-aad8-4ebc-a143-d8c781e8671a",
         "to_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "uuid": "c6bc73ee-6869-4fe6-a819-c7d2bf2ba1a2"
       }
@@ -12687,9 +12687,9 @@
         "list_order": 65536,
         "from_classifier_name": "orthogonal",
         "from_feature_key": "",
+        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_classifier_name": "Health States",
         "to_feature_key": "",
-        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_node": "972434aa-e165-4a40-b79d-e01d495fc4b7",
         "uuid": "ee88c556-de22-4a0e-b6a8-5047e7ce87a9"
       }
@@ -12705,9 +12705,9 @@
         "list_order": 98304,
         "from_classifier_name": "orthogonal",
         "from_feature_key": "",
+        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_classifier_name": "Power States",
         "to_feature_key": "",
-        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
         "uuid": "46084291-15d8-4b38-bfc2-01ea3d4fc46e"
       }
@@ -12723,9 +12723,9 @@
         "list_order": 131072,
         "from_classifier_name": "orthogonal",
         "from_feature_key": "",
+        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_classifier_name": "Operation Modes",
         "to_feature_key": "",
-        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
         "uuid": "1df1e353-d9bd-4d64-a54e-9b9bb39bf9bd"
       }
@@ -12740,8 +12740,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "env-perception",
-        "to_classifier_name": "UML:Component",
         "from_node": "791caace-aac4-448b-8fd7-5157db967221",
+        "to_classifier_name": "UML:Component",
         "to_node": "658b972a-f9cb-4425-a6de-3b85e7e9fe17",
         "uuid": "76b78ad4-b0ef-43cd-998f-47dd9e901738"
       }
@@ -12756,8 +12756,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "env-perception",
-        "to_classifier_name": "env-image",
         "from_node": "791caace-aac4-448b-8fd7-5157db967221",
+        "to_classifier_name": "env-image",
         "to_node": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
         "uuid": "db97ae88-a2ab-4bac-bb8c-84128e9e5eae"
       }
@@ -12772,8 +12772,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "decision",
-        "to_classifier_name": "UML:Class",
         "from_node": "23e07b1b-c30b-40ba-8aeb-ad0e53399c38",
+        "to_classifier_name": "UML:Class",
         "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
         "uuid": "498d1d84-5288-43d3-b990-14281e2d89e2"
       }
@@ -12788,8 +12788,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "decision",
-        "to_classifier_name": "decision-img",
         "from_node": "23e07b1b-c30b-40ba-8aeb-ad0e53399c38",
+        "to_classifier_name": "decision-img",
         "to_node": "05913b69-be1c-4610-896a-8b77c386ce88",
         "uuid": "f3d94e64-0915-4b29-84d9-205c1a722f91"
       }
@@ -12804,8 +12804,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "data",
-        "to_classifier_name": "UML:Class",
         "from_node": "ed720ac0-2ba6-42e9-a97a-a45b30712d69",
+        "to_classifier_name": "UML:Class",
         "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
         "uuid": "d017ea60-6229-4a4d-b1e8-7b584c6c5d1a"
       }
@@ -12820,8 +12820,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "data",
-        "to_classifier_name": "data-img",
         "from_node": "ed720ac0-2ba6-42e9-a97a-a45b30712d69",
+        "to_classifier_name": "data-img",
         "to_node": "5deefbf7-53cd-494a-957b-bbee7f4e2bc0",
         "uuid": "74abc465-1940-4b9e-abaf-6affa699b773"
       }
@@ -12836,8 +12836,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "mouse-droid",
-        "to_classifier_name": "mouse-img",
         "from_node": "3dd8657e-8c3e-4f9b-8ddb-4ddea30bdc18",
+        "to_classifier_name": "mouse-img",
         "to_node": "f229d3e0-e2f8-4e0f-a289-35958aa1020a",
         "uuid": "4d8f7b51-a535-450f-92f3-9c5f22d85c0e"
       }
@@ -12852,8 +12852,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "mouse-droid",
-        "to_classifier_name": "UML:Node",
         "from_node": "3dd8657e-8c3e-4f9b-8ddb-4ddea30bdc18",
+        "to_classifier_name": "UML:Node",
         "to_node": "26e2a04a-8d6a-4158-9932-8ba6839c9cb3",
         "uuid": "de9a79c7-9f67-49c7-a00e-9dc8d1f7b321"
       }
@@ -12868,8 +12868,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "rejected_alternative",
-        "to_classifier_name": "rejected",
         "from_node": "07a0312a-ac58-4830-b3da-740991311fa4",
+        "to_classifier_name": "rejected",
         "to_node": "69559964-ce56-452b-b2ff-0fa61b38a2ea",
         "uuid": "65b052df-c093-4ee9-8b8d-86314ee797b3"
       }
@@ -12884,8 +12884,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "rejected_alternative",
-        "to_classifier_name": "UML:Class",
         "from_node": "07a0312a-ac58-4830-b3da-740991311fa4",
+        "to_classifier_name": "UML:Class",
         "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
         "uuid": "dc258c42-72b2-4dc3-8990-784e8523f388"
       }
@@ -12900,8 +12900,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "chosen_alternative",
-        "to_classifier_name": "chosen",
         "from_node": "d8519566-7593-4c20-96b0-8848e9f5aab8",
+        "to_classifier_name": "chosen",
         "to_node": "d37609cd-0039-41e2-add0-fb6367dceeff",
         "uuid": "279a754c-f391-414e-ad24-bc684d74f229"
       }
@@ -12916,8 +12916,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "chosen_alternative",
-        "to_classifier_name": "UML:Class",
         "from_node": "d8519566-7593-4c20-96b0-8848e9f5aab8",
+        "to_classifier_name": "UML:Class",
         "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
         "uuid": "9a6bcfe0-9483-4afb-8f3e-d444dee654ea"
       }
@@ -12932,8 +12932,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "goal",
-        "to_classifier_name": "UML:UseCase",
         "from_node": "cb8b0ab1-9a22-4167-80ac-7fa9332a9fe4",
+        "to_classifier_name": "UML:UseCase",
         "to_node": "68c95972-7d4d-4e09-8992-a5d8bce3e250",
         "uuid": "b0a79694-6de8-4aac-a15d-8698b402ca50"
       }
@@ -12948,8 +12948,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "goal",
-        "to_classifier_name": "flag",
         "from_node": "cb8b0ab1-9a22-4167-80ac-7fa9332a9fe4",
+        "to_classifier_name": "flag",
         "to_node": "86f4bde2-1367-45b0-9f63-60230cd088a3",
         "uuid": "510ac168-8c3f-43db-b2db-7119e63b7afa"
       }
@@ -12964,8 +12964,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "environment",
-        "to_classifier_name": "UML:Actor",
         "from_node": "513e2c1c-cfa3-42e2-8260-c13177a8f48b",
+        "to_classifier_name": "UML:Actor",
         "to_node": "a40c7590-aee5-4ba4-ad33-5e7809f824eb",
         "uuid": "e81d0ff6-f8ae-4415-8705-85f73de8348e"
       }
@@ -12980,8 +12980,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "environment",
-        "to_classifier_name": "env-img",
         "from_node": "513e2c1c-cfa3-42e2-8260-c13177a8f48b",
+        "to_classifier_name": "env-img",
         "to_node": "edff4c72-ece2-4ccb-9db4-279dbea3cc96",
         "uuid": "ead0253b-1998-41ed-8244-4acfb7842a48"
       }
@@ -12997,9 +12997,9 @@
         "list_order": 32768,
         "from_classifier_name": "Recognize environment (L1-Fkt)",
         "from_feature_key": "sensor data",
+        "from_node": "457cfe4e-a7eb-467c-a92e-af809334591f",
         "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "to_feature_key": "sensor data",
-        "from_node": "457cfe4e-a7eb-467c-a92e-af809334591f",
         "to_node": "0217c6e6-45af-4fd6-8178-aa2ec084ac4e",
         "uuid": "a05b6b55-c63b-4ecc-9ed3-0091ff6ed891"
       }
@@ -13015,9 +13015,9 @@
         "list_order": 65536,
         "from_classifier_name": "Recognize objects to repair (L1-Fct)",
         "from_feature_key": "objects",
+        "from_node": "d6a693e9-55e4-4cc9-9865-9e81b87942dd",
         "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "to_feature_key": "objects",
-        "from_node": "d6a693e9-55e4-4cc9-9865-9e81b87942dd",
         "to_node": "932c6170-d7be-4029-a51d-4026d3520ecc",
         "uuid": "d5e2143e-4c29-4641-a62a-e37e8a9bc776"
       }
@@ -13032,8 +13032,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Plan movement strategy (L1-Fct)",
-        "to_classifier_name": "L1Req: Recognize paths",
         "from_node": "55b579a4-2727-4027-b366-a74a871c92b9",
+        "to_classifier_name": "L1Req: Recognize paths",
         "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
         "uuid": "2941ef53-8601-450e-8e7f-4d723c2479f2"
       }
@@ -13049,9 +13049,9 @@
         "list_order": 262144,
         "from_classifier_name": "Plan movement strategy (L1-Fct)",
         "from_feature_key": "list of way-points",
+        "from_node": "814486ff-f48e-4a3e-b89a-f6bbd8914c49",
         "to_classifier_name": "Perform movement tactic (L1-Fct)",
         "to_feature_key": "list of way-points",
-        "from_node": "814486ff-f48e-4a3e-b89a-f6bbd8914c49",
         "to_node": "90d2f43c-8ff4-4ade-b0b5-1a24cf2b484a",
         "uuid": "e5eb9ca5-12e3-4af8-91ef-a56fa3cfae42"
       }
@@ -13067,9 +13067,9 @@
         "list_order": 229376,
         "from_classifier_name": "Plan repair strategy (L1-Fct)",
         "from_feature_key": "list of tool moves",
+        "from_node": "3af43353-62e7-4daa-9b1b-06f5d5df69f9",
         "to_classifier_name": "Perform repair tactic (L1-Fct)",
         "to_feature_key": "list of tool moves",
-        "from_node": "3af43353-62e7-4daa-9b1b-06f5d5df69f9",
         "to_node": "047dcc96-a59b-46ba-a14d-8a39b6b738d2",
         "uuid": "c3b5807f-d0ae-454f-b322-c5d37bfa9fcf"
       }
@@ -13085,9 +13085,9 @@
         "list_order": 163840,
         "from_classifier_name": "Perform movement tactic (L1-Fct)",
         "from_feature_key": "ctrl",
+        "from_node": "465e8534-ba80-467d-838e-bfc598b8b192",
         "to_classifier_name": "Motors to move the MoD5G (L1-Fct)",
         "to_feature_key": "ctrl",
-        "from_node": "465e8534-ba80-467d-838e-bfc598b8b192",
         "to_node": "ce62d2c3-c8b1-4018-8daf-916c64a1d085",
         "uuid": "e8483bd4-d3f9-4059-97d9-f32e91ebe089"
       }
@@ -13103,9 +13103,9 @@
         "list_order": 196608,
         "from_classifier_name": "Perform repair tactic (L1-Fct)",
         "from_feature_key": "ctrl",
+        "from_node": "412eae12-077c-4483-b1e9-d63e73d4985a",
         "to_classifier_name": "Tools to repair",
         "to_feature_key": "ctrl",
-        "from_node": "412eae12-077c-4483-b1e9-d63e73d4985a",
         "to_node": "9ca8de70-0834-4e53-a7c6-08dd5ac2e0eb",
         "uuid": "a6823b0d-10bd-4c2e-8b5c-fee6c8512157"
       }
@@ -13120,8 +13120,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Perform repair tactic (L1-Fct)",
-        "to_classifier_name": "L1Req: Position screw driver",
         "from_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+        "to_classifier_name": "L1Req: Position screw driver",
         "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
         "uuid": "cfc32ea6-d5f6-4f49-85fc-a57ca5a22c17"
       }
@@ -13136,8 +13136,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Main Strategy Planning",
-        "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
         "uuid": "e8411628-810a-4dcc-903a-3cb98a7237fb"
       }
@@ -13152,8 +13152,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Main Strategy Planning",
-        "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
         "uuid": "41653eca-df57-4bb0-8060-81590942fa12"
       }
@@ -13168,8 +13168,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Base Tactic Execution",
-        "to_classifier_name": "Perform movement tactic (L1-Fct)",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "to_classifier_name": "Perform movement tactic (L1-Fct)",
         "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
         "uuid": "3649e486-6ee2-4207-8c63-f66ed13a90e6"
       }
@@ -13184,8 +13184,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "Base Tactic Execution",
-        "to_classifier_name": "Perform repair tactic (L1-Fct)",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "to_classifier_name": "Perform repair tactic (L1-Fct)",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "uuid": "66eeb5c2-c638-4426-9cb4-f987c09923cb"
       }
@@ -13200,8 +13200,8 @@
         ],
         "list_order": -938783025,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Charging",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Charging",
         "to_node": "53562cf7-31db-4120-9eae-82666d6b8435",
         "uuid": "2e4d7528-3269-4a4d-b86f-60477b3cc6d8"
       }
@@ -13216,8 +13216,8 @@
         ],
         "list_order": -1353975493,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Programming",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Programming",
         "to_node": "baacb7c2-779d-435c-a8db-a488d079c75f",
         "uuid": "24887abf-725a-4c8e-b288-e3a25982c8e2"
       }
@@ -13232,8 +13232,8 @@
         ],
         "list_order": -938783025,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Moving",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Moving",
         "to_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
         "uuid": "c278678d-d1d3-44c0-a9ad-bd9307f94fc1"
       }
@@ -13248,8 +13248,8 @@
         ],
         "list_order": -1353975493,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Using Tools",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Using Tools",
         "to_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
         "uuid": "08f74752-2297-4fff-a993-e3e8109690e9"
       }
@@ -13264,8 +13264,8 @@
         ],
         "list_order": -1090115455,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Waiting",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Waiting",
         "to_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
         "uuid": "bbb43a17-c382-4804-b874-f44e101ddf05"
       }
@@ -13280,8 +13280,8 @@
         ],
         "list_order": -688698802,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Being Repaired",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Being Repaired",
         "to_node": "580f3aaa-a590-43f1-bd18-0b608951290d",
         "uuid": "0cb5ee39-c596-40f5-9d44-462017bdfef8"
       }
@@ -13296,8 +13296,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Waiting",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Waiting",
         "to_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
         "uuid": "bcdd8078-515d-4f11-9ca0-77f0d2d3ff5a"
       }
@@ -13312,8 +13312,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Being Repaired",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Being Repaired",
         "to_node": "580f3aaa-a590-43f1-bd18-0b608951290d",
         "uuid": "71333758-5a6a-43ee-884e-c41166835b53"
       }
@@ -13328,8 +13328,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Charging",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Charging",
         "to_node": "53562cf7-31db-4120-9eae-82666d6b8435",
         "uuid": "1202ad34-b668-434a-8b91-8ebdfb47d575"
       }
@@ -13344,8 +13344,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Programming",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Programming",
         "to_node": "baacb7c2-779d-435c-a8db-a488d079c75f",
         "uuid": "7e9447e0-9e9e-4344-a91b-0e91e830efe1"
       }
@@ -13360,8 +13360,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Moving",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Moving",
         "to_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
         "uuid": "361b62a1-a45d-41b4-909f-708d96e6e84a"
       }
@@ -13376,8 +13376,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Op::Modes",
-        "to_classifier_name": "Using Tools",
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_classifier_name": "Using Tools",
         "to_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
         "uuid": "9c0cd8c5-f4f5-4159-ad9a-881202dc0ced"
       }
@@ -13392,8 +13392,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Moving",
-        "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
         "uuid": "346d8022-7d2c-4f79-bab2-082bf88b3fc6"
       }
@@ -13408,8 +13408,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Moving",
-        "to_classifier_name": "Perform movement tactic (L1-Fct)",
         "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_classifier_name": "Perform movement tactic (L1-Fct)",
         "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
         "uuid": "ce2d2f5c-ee0a-4efb-97b2-260d59cbab37"
       }
@@ -13424,8 +13424,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Moving",
-        "to_classifier_name": "Drive to location",
         "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_classifier_name": "Drive to location",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "2db13a94-2a86-44a3-9a96-a747b2410b32"
       }
@@ -13440,8 +13440,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Moving",
-        "to_classifier_name": "Return to base location",
         "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_classifier_name": "Return to base location",
         "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "uuid": "cb64bff4-552d-41e1-b6fe-3668c05d6a5b"
       }
@@ -13456,8 +13456,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Using Tools",
-        "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
         "uuid": "8007e303-b941-467d-b8fb-9036d94ad236"
       }
@@ -13472,8 +13472,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Using Tools",
-        "to_classifier_name": "Perform repair tactic (L1-Fct)",
         "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "to_classifier_name": "Perform repair tactic (L1-Fct)",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "uuid": "d1682e0e-347b-4259-a6d5-12799258d3ad"
       }
@@ -13488,8 +13488,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Using Tools",
-        "to_classifier_name": "Repair using tools",
         "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "to_classifier_name": "Repair using tools",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "917b38c5-2107-406f-b09d-4c8a8b7126dd"
       }
@@ -13504,8 +13504,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Waiting",
-        "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "from_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+        "to_classifier_name": "Plan repair strategy (L1-Fct)",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
         "uuid": "23324a67-267a-41d9-b731-6a6dff866947"
       }
@@ -13520,8 +13520,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Waiting",
-        "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "from_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+        "to_classifier_name": "Plan movement strategy (L1-Fct)",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
         "uuid": "9e76cbbd-7c42-4fc7-9a69-9276fa32983f"
       }
@@ -13537,9 +13537,9 @@
         "list_order": 163840,
         "from_classifier_name": "Operation Modes",
         "from_feature_key": "",
+        "from_node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
         "to_classifier_name": "Power States",
         "to_feature_key": "",
-        "from_node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
         "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
         "uuid": "5984e61e-aa4c-4e5a-be6a-52b27e6a8b77"
       }
@@ -13554,8 +13554,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "SW",
-        "to_classifier_name": "SW-img",
         "from_node": "c46afe48-7549-42c9-8992-e90e63c8613e",
+        "to_classifier_name": "SW-img",
         "to_node": "c225b5d5-37b5-4816-a6e0-cb51b1f6a37e",
         "uuid": "afacc0d3-87ff-4101-b7a7-5f72494c1aad"
       }
@@ -13570,8 +13570,8 @@
         ],
         "list_order": 655360,
         "from_classifier_name": "SW",
-        "to_classifier_name": "SysML:block",
         "from_node": "c46afe48-7549-42c9-8992-e90e63c8613e",
+        "to_classifier_name": "SysML:block",
         "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
         "uuid": "1003a9e6-0a05-4582-8929-338557e7f6da"
       }
@@ -13586,8 +13586,8 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "HW",
-        "to_classifier_name": "HW-img",
         "from_node": "66cc5d17-4a3f-4756-9fda-5094bbbb6034",
+        "to_classifier_name": "HW-img",
         "to_node": "2fc8a02c-5537-4bd3-acbd-a7158c39889d",
         "uuid": "5f658e9e-c822-4109-95b1-61c073238871"
       }
@@ -13602,8 +13602,8 @@
         ],
         "list_order": 622592,
         "from_classifier_name": "HW",
-        "to_classifier_name": "SysML:block",
         "from_node": "66cc5d17-4a3f-4756-9fda-5094bbbb6034",
+        "to_classifier_name": "SysML:block",
         "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
         "uuid": "8a6d9ec1-f0e2-48d3-9660-2187b8bf4ab1"
       }
@@ -13618,8 +13618,8 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "EE",
-        "to_classifier_name": "EE-img",
         "from_node": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
+        "to_classifier_name": "EE-img",
         "to_node": "9046bd5b-70c4-45e4-b894-36e31a67de97",
         "uuid": "76c83dc1-4828-4d26-800e-5a15ee45d4d2"
       }
@@ -13634,8 +13634,8 @@
         ],
         "list_order": 589824,
         "from_classifier_name": "EE",
-        "to_classifier_name": "SysML:block",
         "from_node": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
+        "to_classifier_name": "SysML:block",
         "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
         "uuid": "ef31ba50-f11b-410e-87e6-a98ddd076d76"
       }
@@ -13650,8 +13650,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Tool-Arm",
-        "to_classifier_name": "Tool-Window (2)",
         "from_node": "0941b93b-7db7-40bc-bdb5-ee231d6c8826",
+        "to_classifier_name": "Tool-Window (2)",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "1eb8d183-7cf6-41cb-8257-3816471429e5"
       }
@@ -13666,8 +13666,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Limp Home",
-        "to_classifier_name": "health::limp_home",
         "from_node": "f1edf890-12d3-4248-afac-d908287df3b7",
+        "to_classifier_name": "health::limp_home",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "af285ca1-9c80-45c3-8123-4c58a5d4085f"
       }
@@ -13682,8 +13682,8 @@
         ],
         "list_order": 524288,
         "from_classifier_name": "locigal_form",
-        "to_classifier_name": "Logical-img",
         "from_node": "dd089494-8ef7-413e-8634-1718be66330e",
+        "to_classifier_name": "Logical-img",
         "to_node": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
         "uuid": "245d83fe-07b0-4f52-8444-b5abd2740b36"
       }
@@ -13698,8 +13698,8 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "locigal_form",
-        "to_classifier_name": "SysML:block",
         "from_node": "dd089494-8ef7-413e-8634-1718be66330e",
+        "to_classifier_name": "SysML:block",
         "to_node": "39d2649c-f238-4622-99e3-d532e043d1d2",
         "uuid": "835082e0-31a1-4f7a-84b6-1838cd9a0053"
       }
@@ -13714,8 +13714,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "Factory Worker",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "f71312af-5aa2-4a5b-93ee-1f39cd762554",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "282de731-0fb6-4fa9-a100-f5bfac2ad827"
       }
@@ -13731,8 +13731,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "Factory Robot",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "a1701e19-8001-4317-aedb-7557d1cc8fc4",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "91b35e08-f640-40cf-b424-2b9ca5e9a592"
       }
@@ -13749,8 +13749,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "Factory Test System",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "9f3bacda-c043-4931-81fb-cfce1abf049a",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "847e4bea-8b65-4819-afc4-c6f372969834"
       }
@@ -13766,8 +13766,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "Environment",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "927b8b07-d189-43a7-b2b3-5b5590fe3051"
       }
@@ -13783,8 +13783,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "Environment",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "8b8558ed-a039-48ff-8a9e-350157fa882f"
       }
@@ -13799,8 +13799,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "Environment",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "3ed59344-b9e0-40a8-a15e-52d3b7c496d3",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "0642f2f2-0fbb-4e13-8f34-d6cb31c1bff1"
       }
@@ -13815,8 +13815,8 @@
         ],
         "list_order": 655360,
         "from_classifier_name": "Malfunctioning Terminal",
-        "to_classifier_name": "Charging Terminal",
         "from_node": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
+        "to_classifier_name": "Charging Terminal",
         "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
         "uuid": "9df1549a-fb72-4317-8338-33f1b9465e31"
       }
@@ -13831,8 +13831,8 @@
         ],
         "list_order": 688128,
         "from_classifier_name": "Malfunctioning Terminal",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "68fdb0cc-2ec1-4e2f-89e2-d995cdc8d31c",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "fdc5943f-4172-4eff-8a21-dbc51a88aaea"
       }
@@ -13847,8 +13847,8 @@
         ],
         "list_order": 753664,
         "from_classifier_name": "Operator",
-        "to_classifier_name": "Programming Terminal",
         "from_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "to_classifier_name": "Programming Terminal",
         "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
         "uuid": "3fc6f892-92f7-40e2-8775-76925530aeee"
       }
@@ -13863,8 +13863,8 @@
         ],
         "list_order": 34517586,
         "from_classifier_name": "Operator",
-        "to_classifier_name": "Perform a 1-day mission",
         "from_node": "dec68b5e-64ac-457b-ae00-53bba7645d85",
+        "to_classifier_name": "Perform a 1-day mission",
         "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "uuid": "990b368d-8155-489e-a02b-148227cb2fe4"
       }
@@ -13879,8 +13879,8 @@
         ],
         "list_order": 786432,
         "from_classifier_name": "Service Worker",
-        "to_classifier_name": "Mouse Droid MoD5G",
         "from_node": "4bcddee7-ec53-4fbd-a706-e58c97047233",
+        "to_classifier_name": "Mouse Droid MoD5G",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "f1bb00c1-28ae-4d41-b0b7-d70a2fd36dbf"
       }
@@ -13895,8 +13895,8 @@
         ],
         "list_order": 720896,
         "from_classifier_name": "Step Motor",
-        "to_classifier_name": "Motors",
         "from_node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
+        "to_classifier_name": "Motors",
         "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
         "uuid": "b915fd4f-e1a3-4f50-b22d-c7fa955065c9"
       }
@@ -13911,8 +13911,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Caveat of Step Motor",
-        "to_classifier_name": "Step Motor",
         "from_node": "e38af5e6-79d4-4f9b-ad89-0348cdba121e",
+        "to_classifier_name": "Step Motor",
         "to_node": "6e38835f-aa86-4249-b5c3-eba1bd81c5bb",
         "uuid": "7e143010-390f-42df-9d46-c6527ac62cc7"
       }
@@ -13927,8 +13927,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Wheels with Engine",
-        "to_classifier_name": "Motors to move the MoD5G (L1-Fct)",
         "from_node": "7b74542b-1c58-49df-a502-e58cc4ff5777",
+        "to_classifier_name": "Motors to move the MoD5G (L1-Fct)",
         "to_node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
         "uuid": "00470ab5-9f9d-4a9d-bcf6-e087cb590616"
       }
@@ -13943,8 +13943,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Tool-Arm with Motors",
-        "to_classifier_name": "Tools to repair",
         "from_node": "af39338e-c11f-4641-b1d3-d8d1cdc49a22",
+        "to_classifier_name": "Tools to repair",
         "to_node": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
         "uuid": "49167bc5-30f1-4b95-bff5-2e8b8e2c446a"
       }
@@ -13959,8 +13959,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Camera Subsystem",
-        "to_classifier_name": "Recognize environment (L1-Fkt)",
         "from_node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+        "to_classifier_name": "Recognize environment (L1-Fkt)",
         "to_node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
         "uuid": "801d4e4d-fe66-4a24-a26a-4513052a36b6"
       }
@@ -13975,8 +13975,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Camera Subsystem",
-        "to_classifier_name": "Recognize objects to repair (L1-Fct)",
         "from_node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+        "to_classifier_name": "Recognize objects to repair (L1-Fct)",
         "to_node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
         "uuid": "7d41a34d-4402-4e86-83bd-075c125ae617"
       }

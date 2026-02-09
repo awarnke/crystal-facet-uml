@@ -165,12 +165,16 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         if ( data_diagram_get_diagram_type( the_diagram ) == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
         {
             const double obj_dist = pencil_size_get_preferred_object_distance( pencil_size );
-            const double real_draw_width = draw_width - 2.0 * obj_dist;
+            const double used_draw_width = draw_width - 2.0 * obj_dist;
             /* const double phi = 1.6180339; */
             const double minor_ratio = (1.0 - 0.6180339);
-            const double classifier_width = real_draw_width * minor_ratio / 2.0;
+            const double classifier_width = used_draw_width * minor_ratio / 2.0;
             const geometry_rectangle_t scale_bounds
-                = { .left = draw_left + obj_dist + classifier_width + obj_dist, .top = draw_bottom - obj_dist, .width = real_draw_width - classifier_width - obj_dist, .height = obj_dist };
+                = { .left = draw_left + obj_dist + classifier_width + obj_dist,
+                    .top = draw_bottom - obj_dist,
+                    .width = used_draw_width - classifier_width - obj_dist,
+                    .height = obj_dist
+                  };
             draw_diagram_ornaments_draw_scale( &((*this_).draw_diagram_ornaments),
                                                &scale_bounds,
                                                pencil_size,

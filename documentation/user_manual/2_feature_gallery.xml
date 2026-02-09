@@ -101,8 +101,12 @@
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0018_Requirements.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0019_Block_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0019_Block_Diagram.png" width="840px"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0019_Block_Definition.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0019_Block_Definition.png" width="840px"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0027_Internal_Block.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0027_Internal_Block.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0022_Parametric_Diagram.pdf" width="12cm"/></imageobject>

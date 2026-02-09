@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.4"
+    "generator_version": "1.68.0"
   }
   ,
   "views":
@@ -47,7 +47,7 @@
     {
       "diagram": {
         "id": 2,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Diagram Features",
         "description": [
                 "This diagram shows the feature categories of crystal_facet_uml"
@@ -82,7 +82,7 @@
     {
       "diagram": {
         "id": 3,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Classifiers",
         "description": [
                 "This diagram shows supported classifier features"
@@ -313,7 +313,7 @@
     {
       "diagram": {
         "id": 4,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Relationships",
         "description": [
                 ""
@@ -522,7 +522,7 @@
     {
       "diagram": {
         "id": 25,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Use Case Diagram",
         "description": [
                 ""
@@ -1253,7 +1253,7 @@
       "diagram": {
         "id": 19,
         "type": "Block Definition Diagram", "diagram_type": 4,
-        "name": "Block Diagram",
+        "name": "Block Definition",
         "description": [
                 ""
         ],
@@ -1316,6 +1316,57 @@
             "classifier_name": "CPU",
             "node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
             "uuid": "ae0d267d-aa9c-4e30-9f04-705fb8b9f2df"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 27,
+        "type": "Internal Block Diagram", "diagram_type": 5,
+        "name": "Internal Block",
+        "description": [
+                ""
+        ],
+        "list_order": 507904,
+        "parent_name": "Examples",
+        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
+        "uuid": "d80d6ad6-d730-4380-b29f-c7ce7cead772",
+        "diagramelements":
+        [
+          {
+            "id": 192,
+            "classifier_name": "RAM",
+            "node": "236a9734-4a1c-41f9-bf7b-0605aec78a5e",
+            "display_tags": "Named Instance", "display_flags": 1,
+            "uuid": "06e960e0-cabe-44b8-9d3b-632300254f8a"
+          },
+          {
+            "id": 193,
+            "classifier_name": "ROM",
+            "node": "8368e3af-6362-46e3-ab5a-e1c7cacb3f20",
+            "display_tags": "Named Instance", "display_flags": 1,
+            "uuid": "410e285d-01b0-4331-99eb-46eb2ad156ff"
+          },
+          {
+            "id": 194,
+            "classifier_name": "CPU Cores",
+            "node": "a9fad778-dff6-4967-83b6-fbca5a35f374",
+            "display_tags": "Named Instance", "display_flags": 1,
+            "uuid": "63436da1-f33c-4332-b85e-f95744d447be"
+          },
+          {
+            "id": 195,
+            "classifier_name": "I/O",
+            "node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+            "display_tags": "Named Instance", "display_flags": 1,
+            "uuid": "a09c8212-573e-47cb-b852-d8ebbba6f76d"
+          },
+          {
+            "id": 196,
+            "classifier_name": "CPU",
+            "node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+            "uuid": "4d8de8fb-ca4e-4a5c-9b2d-4e6efebc765c"
           }
         ]
       }
@@ -3140,7 +3191,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1284207372,
+            "list_order": 1177259540,
             "uuid": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461"
           }
         ]
@@ -3283,7 +3334,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1437518804,
+            "list_order": -1475452356,
             "uuid": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b"
           }
         ]
@@ -3348,17 +3399,6 @@
         "features":
         [
           {
-            "id": 20,
-            "type": "Property", "main_type": 0,
-            "key": "kind",
-            "value": "octacore, 64 bit",
-            "description": [
-                ""
-            ],
-            "list_order": 17408,
-            "uuid": "28fa1e31-acb9-4261-9fac-4fac097c53d5"
-          },
-          {
             "id": 72,
             "type": "Output Port", "main_type": 7,
             "key": "audio_out",
@@ -3366,7 +3406,7 @@
             "description": [
                 ""
             ],
-            "list_order": 313115795,
+            "list_order": 283259424,
             "uuid": "cd460687-2492-4a76-b831-68c1c7eea81b"
           },
           {
@@ -3379,6 +3419,26 @@
             ],
             "list_order": 1421646088,
             "uuid": "ac28a630-1679-4693-8001-25e109ad1bc9"
+          },
+          {
+            "id": 98,
+            "type": "Output Port", "main_type": 7,
+            "key": "LVDS_out",
+            "description": [
+                ""
+            ],
+            "list_order": -198938728,
+            "uuid": "6d236dd5-5ecd-47de-a2cb-d53f5919b680"
+          },
+          {
+            "id": 99,
+            "type": "Input Port", "main_type": 6,
+            "key": "SPI",
+            "description": [
+                ""
+            ],
+            "list_order": -1004017175,
+            "uuid": "30503e33-e7bf-40ff-abbb-45206fa222c7"
           }
         ]
       }
@@ -4891,6 +4951,74 @@
         "y_order": 1335553338,
         "list_order": 1335553338,
         "uuid": "77bac38d-5c3f-4e5b-bfc0-65097a0fcccd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 159,
+        "type": "Block", "main_type": 90,
+        "name": "RAM",
+        "description": [
+                ""
+        ],
+        "x_order": 673138540,
+        "y_order": -955455590,
+        "list_order": -942039042,
+        "uuid": "236a9734-4a1c-41f9-bf7b-0605aec78a5e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 160,
+        "type": "Block", "main_type": 90,
+        "name": "ROM",
+        "description": [
+                ""
+        ],
+        "x_order": 673138540,
+        "y_order": -1014345845,
+        "list_order": -1014345845,
+        "uuid": "8368e3af-6362-46e3-ab5a-e1c7cacb3f20",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 161,
+        "type": "Block", "main_type": 90,
+        "name": "CPU Cores",
+        "description": [
+                ""
+        ],
+        "x_order": 673138540,
+        "y_order": -986188067,
+        "list_order": -1014345845,
+        "uuid": "a9fad778-dff6-4967-83b6-fbca5a35f374",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 162,
+        "type": "Block", "main_type": 90,
+        "name": "I/O",
+        "description": [
+                ""
+        ],
+        "x_order": -62023891,
+        "y_order": -1014345845,
+        "list_order": -942039042,
+        "uuid": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
         "features":
         [
         ]
@@ -6498,19 +6626,20 @@
     },
     {
       "relationship": {
-        "id": 107,
+        "id": 213,
         "type": "Communication Path", "main_type": 230,
         "name": "touch input",
         "description": [
                 ""
         ],
-        "list_order": 25600,
+        "list_order": 2004058767,
         "from_classifier_name": "Dial Pad",
         "from_feature_key": "coordinates",
         "from_node": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461",
         "to_classifier_name": "CPU",
-        "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "uuid": "814777e8-eafe-4ae1-bdc9-9cbbc83cf625"
+        "to_feature_key": "SPI",
+        "to_node": "30503e33-e7bf-40ff-abbb-45206fa222c7",
+        "uuid": "9cb9b455-23c6-468e-b74c-ed8e1927d969"
       }
     },
     {
@@ -6599,23 +6728,6 @@
     },
     {
       "relationship": {
-        "id": 108,
-        "type": "Communication Path", "main_type": 230,
-        "name": "display signal",
-        "description": [
-                ""
-        ],
-        "list_order": 26624,
-        "from_classifier_name": "CPU",
-        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "to_classifier_name": "Display",
-        "to_feature_key": "video_1",
-        "to_node": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b",
-        "uuid": "5f049be4-9bf5-43fb-88b8-ada2d7f762d6"
-      }
-    },
-    {
-      "relationship": {
         "id": 149,
         "type": "Communication Path", "main_type": 230,
         "name": "amp out",
@@ -6630,6 +6742,122 @@
         "to_feature_key": "in",
         "to_node": "2fd25990-9b40-460a-8659-ba2aba7fe4d8",
         "uuid": "859f57c9-e56b-46e5-9f61-09990fcd1024"
+      }
+    },
+    {
+      "relationship": {
+        "id": 206,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "CPU",
+        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_classifier_name": "CPU Cores",
+        "to_node": "a9fad778-dff6-4967-83b6-fbca5a35f374",
+        "uuid": "5f94e80f-7cd6-411b-9688-9d6b9b82de85"
+      }
+    },
+    {
+      "relationship": {
+        "id": 207,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "CPU",
+        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_classifier_name": "ROM",
+        "to_node": "8368e3af-6362-46e3-ab5a-e1c7cacb3f20",
+        "uuid": "6e781fdd-3e64-4796-be80-b0b3fa27694a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 208,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "CPU",
+        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_classifier_name": "RAM",
+        "to_node": "236a9734-4a1c-41f9-bf7b-0605aec78a5e",
+        "uuid": "107abb0a-5695-4544-954e-b66a20bd98b3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 209,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "CPU",
+        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_classifier_name": "I/O",
+        "to_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+        "uuid": "73f75f84-dce8-4dc3-8033-d4dcd1fe7bd9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 210,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "CPU",
+        "from_feature_key": "audio_in",
+        "from_node": "ac28a630-1679-4693-8001-25e109ad1bc9",
+        "to_classifier_name": "I/O",
+        "to_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+        "uuid": "94bd584b-315f-4ce4-8fd7-2dc0c75b04c1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 214,
+        "type": "Communication Path", "main_type": 230,
+        "name": "display signal",
+        "description": [
+                ""
+        ],
+        "list_order": 2004091535,
+        "from_classifier_name": "CPU",
+        "from_feature_key": "LVDS_out",
+        "from_node": "6d236dd5-5ecd-47de-a2cb-d53f5919b680",
+        "to_classifier_name": "Display",
+        "to_feature_key": "video_1",
+        "to_node": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b",
+        "uuid": "8e2deeb9-aac6-4874-863d-6ba491b462c2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 215,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "CPU",
+        "from_feature_key": "SPI",
+        "from_node": "30503e33-e7bf-40ff-abbb-45206fa222c7",
+        "to_classifier_name": "I/O",
+        "to_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+        "uuid": "d6ce40ea-be8a-473d-98fa-846dc6c0903b"
       }
     },
     {
@@ -7474,6 +7702,88 @@
         "to_classifier_name": "Authentication DB",
         "to_node": "4f0a8a06-9bf7-415a-9b98-056f120d47f0",
         "uuid": "0ff7b5bb-ffaf-4f09-868e-17645aba17e6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 199,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "CPU Cores",
+        "from_node": "a9fad778-dff6-4967-83b6-fbca5a35f374",
+        "to_classifier_name": "RAM",
+        "to_node": "236a9734-4a1c-41f9-bf7b-0605aec78a5e",
+        "uuid": "2df90045-ef01-4f3f-8025-628267c95979"
+      }
+    },
+    {
+      "relationship": {
+        "id": 200,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "CPU Cores",
+        "from_node": "a9fad778-dff6-4967-83b6-fbca5a35f374",
+        "to_classifier_name": "ROM",
+        "to_node": "8368e3af-6362-46e3-ab5a-e1c7cacb3f20",
+        "uuid": "f2c01667-d6ef-47ae-83cd-36045d55daae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 201,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "CPU Cores",
+        "from_node": "a9fad778-dff6-4967-83b6-fbca5a35f374",
+        "to_classifier_name": "I/O",
+        "to_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+        "uuid": "bdc4f25b-5178-4120-95b7-a2606643515d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 211,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "I/O",
+        "from_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+        "to_classifier_name": "CPU",
+        "to_feature_key": "audio_out",
+        "to_node": "cd460687-2492-4a76-b831-68c1c7eea81b",
+        "uuid": "5a93a752-c62e-4be8-a3ad-d2dc1484fa49"
+      }
+    },
+    {
+      "relationship": {
+        "id": 212,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "I/O",
+        "from_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+        "to_classifier_name": "CPU",
+        "to_feature_key": "LVDS_out",
+        "to_node": "6d236dd5-5ecd-47de-a2cb-d53f5919b680",
+        "uuid": "1be9fc04-bbf3-4782-a74c-ecc050bdb862"
       }
     }
   ]
