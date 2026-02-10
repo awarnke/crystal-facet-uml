@@ -5,7 +5,7 @@ crystal-facet-uml (1.68.0) UNRELEASED; urgency=medium
   * element_kind of diagrams are displayed
   * time axis in timing diagrams added
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 03 Feb 2026 21:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 10 Feb 2026 20:00:00 +0100
 
 crystal-facet-uml (1.67.4) UNRELEASED; urgency=medium
 

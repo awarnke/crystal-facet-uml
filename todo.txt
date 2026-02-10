@@ -56,6 +56,7 @@ ideas for future versions:
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] add test case for opening non-cfuJ files
+  [ ] json export: skip empty entries: key, description and order of lifelines, classifiers without features
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"

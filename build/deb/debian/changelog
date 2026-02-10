@@ -1,3 +1,12 @@
+crystal-facet-uml (1.68.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * stereotype icons of diagrams are left-aligned
+  * element_kind of diagrams are displayed
+  * time axis in timing diagrams added
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 10 Feb 2026 20:00:00 +0100
+
 crystal-facet-uml (1.67.4-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
