@@ -75,7 +75,6 @@ ideas for future versions:
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the xmi+json export find them)
   @u8stream
-  [ ] universal_array_index_sorter shall provide an iterator interface
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?

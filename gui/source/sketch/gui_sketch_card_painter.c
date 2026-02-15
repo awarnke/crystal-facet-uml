@@ -1,6 +1,8 @@
 /* File: gui_sketch_card_painter.c; Copyright and License: see below */
 
 #include "sketch/gui_sketch_card_painter.h"
+#include "u8list/universal_array_index_iterator.h"
+#include "u8list/universal_array_index_sorter.h"
 #include "u8/u8_trace.h"
 #include "gui_gtk.h"
 #include <assert.h>
@@ -418,10 +420,12 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         double planned_pos_x = x;
         double planned_pos_y = top;  /* the planned next y - may be superseded by the next classifier */
         cairo_move_to( cr, x, top );
-        const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
-        for ( uint32_t idx_of_idx = 0; idx_of_idx < count_sorted; idx_of_idx ++ )
+
+        universal_array_index_iterator_t sorted_index_iter;
+        universal_array_index_iterator_init( &sorted_index_iter, &sorted );
+        while ( universal_array_index_iterator_has_next( &sorted_index_iter ) )
         {
-            const uint32_t idx = universal_array_index_sorter_get_array_index( &sorted, idx_of_idx );
+            const uint32_t idx = universal_array_index_iterator_next( &sorted_index_iter );
             const layout_visible_classifier_t *const classifier
                 = layout_visible_set_get_visible_classifier_const( layout_data, idx );
 
@@ -503,6 +507,8 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                 }
             }
         }
+        universal_array_index_iterator_destroy( &sorted_index_iter );
+
         /* draw end of last pass-by (if any) */
         if ( (( planned_pos_x < ( x - 0.001 ) )||( planned_pos_x > ( x + 0.001 ) ))
             && ( planned_pos_y + ( 1 * curve_space ) < bottom ) )
@@ -562,10 +568,12 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         double planned_pos_x = left;  /* the planned next x - may be superseded by the next classifier */
         double planned_pos_y = y;
         cairo_move_to( cr, left, y );
-        const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
-        for ( uint32_t idx_of_idx = 0; idx_of_idx < count_sorted; idx_of_idx ++ )
+
+        universal_array_index_iterator_t sorted_index_iter;
+        universal_array_index_iterator_init( &sorted_index_iter, &sorted );
+        while ( universal_array_index_iterator_has_next( &sorted_index_iter ) )
         {
-            const uint32_t idx = universal_array_index_sorter_get_array_index( &sorted, idx_of_idx );
+            const uint32_t idx = universal_array_index_iterator_next( &sorted_index_iter );
             const layout_visible_classifier_t *const classifier
                 = layout_visible_set_get_visible_classifier_const( layout_data, idx );
 
@@ -647,6 +655,8 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                 }
             }
         }
+        universal_array_index_iterator_destroy( &sorted_index_iter );
+
         /* draw end of last pass-by (if any) */
         if ( (( planned_pos_y < ( y - 0.001 ) )||( planned_pos_y > ( y + 0.001 ) ))
             && ( planned_pos_x + ( 1 * curve_space ) < right ) )
