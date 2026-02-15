@@ -58,6 +58,7 @@
 #include "integration/io_export_model_traversal_test.h"
 /* u8stream */
 #include "unit/u8__test.h"
+#include "unit/universal_array_index_iterator_test.h"
 #include "unit/universal_array_index_sorter_test.h"
 #include "unit/universal_array_list_test.h"
 #include "unit/universal_memory_output_stream_test.h"
@@ -194,6 +195,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, u8__test_get_suite() );
         test_runner_run_suite( &runner, u8dir_file_test_get_suite() );
         test_runner_run_suite( &runner, universal_array_index_sorter_test_get_suite() );
+        test_runner_run_suite( &runner, universal_array_index_iterator_test_get_suite() );
         test_runner_run_suite( &runner, universal_array_list_test_get_suite() );
         test_runner_run_suite( &runner, universal_memory_output_stream_test_get_suite() );
         test_runner_run_suite( &runner, universal_escaping_output_stream_test_get_suite() );

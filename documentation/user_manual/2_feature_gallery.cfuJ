@@ -6886,7 +6886,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1754839735,
+        "list_order": 1791796797,
         "from_classifier_name": "starting applications",
         "from_feature_key": "",
         "from_node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
@@ -6904,7 +6904,7 @@
         "description": [
                 ""
         ],
-        "list_order": 69814931,
+        "list_order": -50615730,
         "from_classifier_name": "starting operating system",
         "from_feature_key": "",
         "from_node": "18411ac8-d373-4180-89f4-a3067c555857",
@@ -6922,7 +6922,7 @@
         "description": [
                 ""
         ],
-        "list_order": -566897250,
+        "list_order": -787580741,
         "from_classifier_name": "initializing hardware",
         "from_feature_key": "",
         "from_node": "2fa49589-316d-4472-96db-34b9fbb8b128",
@@ -6940,7 +6940,7 @@
         "description": [
                 ""
         ],
-        "list_order": -656575911,
+        "list_order": -909058490,
         "from_classifier_name": "unpowered",
         "from_feature_key": "",
         "from_node": "1dcfc895-6759-41bc-982b-874a981e5791",
@@ -7550,7 +7550,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1454280535,
+        "list_order": 1249196185,
         "from_classifier_name": "<2 secs",
         "from_feature_key": "",
         "from_node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
