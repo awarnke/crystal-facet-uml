@@ -12,6 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "layout/layout_feature.h"
+#include "layout/layout_relationship_iter.h"
 #include "draw/draw_feature_label.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
@@ -58,6 +59,7 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param gray_out true if the object is to be marked as grayed out. Is ignored in case mark_highlighted is true.
+ *  \param relationships an iterator over relationships, to adapt the feature layout to associations or messages
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param layout structure to layout fonts
@@ -69,6 +71,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    bool gray_out,
+                                   layout_relationship_iter_t *relationships,
                                    const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size,
                                    PangoLayout *layout,
@@ -81,12 +84,14 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param layouted_feature pointer to the layout-information and data to be drawn
  *  \param marked true if mark_highlighted
+ *  \param relationships an iterator over relationships, to adapt the feature layout to associations or messages
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_t *this_,
                                                          const layout_feature_t *layouted_feature,
                                                          bool marked,
+                                                         layout_relationship_iter_t *relationships,
                                                          const pencil_size_t *pencil_size,
                                                          cairo_t *cr
                                                        );

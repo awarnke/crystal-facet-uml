@@ -127,7 +127,24 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const ( &((*this_).layouter) );
+    const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*this_).layouter) );
+
+    /* create an iterator over a sorted list of layout_relationship_t */
+    universal_array_index_sorter_init( &((*this_).temp_order) );
+    const uint32_t rel_count = layout_visible_set_get_relationship_count ( layout_data );
+    for ( uint32_t rel_index = 0; rel_index < rel_count; rel_index ++ )
+    {
+        const layout_relationship_t *const relationship_layout = layout_visible_set_get_relationship_const( layout_data, rel_index );
+        const data_relationship_t *const the_relationship = layout_relationship_get_data_const( relationship_layout );
+        const int32_t order = data_relationship_get_list_order( the_relationship );
+        const u8_error_t full = universal_array_index_sorter_insert( &((*this_).temp_order), rel_index, (int64_t)order );
+        if ( full != U8_ERROR_NONE )
+        {
+            U8_LOG_ERROR("There are more relationships than can be sorted");
+        }
+    }
+    layout_relationship_iter_t relationships;
+    layout_relationship_iter_init( &relationships, layout_data, &((*this_).temp_order) );
 
     /* iterate over all features */
     const uint32_t count = layout_visible_set_get_feature_count ( layout_data );
@@ -137,7 +154,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
         const layout_feature_t *const the_feature = layout_visible_set_get_feature_const( layout_data, f_idx );
 
         /* determine display flags of diagramelement */
-        const layout_visible_classifier_t *const classifier_layout = layout_feature_get_classifier_const ( the_feature );
+        const layout_visible_classifier_t *const classifier_layout = layout_feature_get_classifier_const( the_feature );
         const data_diagramelement_t *const diagramelement = layout_visible_classifier_get_diagramelement_const( classifier_layout );
         const data_diagramelement_flag_t display_flags = data_diagramelement_get_display_flags( diagramelement );
 
@@ -148,12 +165,19 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                       data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
                                       data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
                                       (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT )),
+                                      &relationships,
                                       (*this_).profile,
                                       pencil_layouter_get_pencil_size_const( &((*this_).layouter) ),
                                       layout,
                                       cr
                                     );
+
+        /* reset for next loop */
+        layout_relationship_iter_reset( &relationships );
     }
+
+    layout_relationship_iter_destroy( &relationships );
+    universal_array_index_sorter_destroy( &((*this_).temp_order) );
 
     U8_TRACE_END();
 }

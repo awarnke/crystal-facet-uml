@@ -64,6 +64,12 @@ static inline void layout_relationship_iter_copy( layout_relationship_iter_t *th
                                                 );
 
 /*!
+ *  \brief resets the layout_relationship_iter_t struct to the start of the list
+ *  \param this_ pointer to own object attributes
+ */
+static inline void layout_relationship_iter_reset ( layout_relationship_iter_t *this_ );
+
+/*!
  *  \brief destroys the layout_relationship_iter_t
  *
  *  \param this_ pointer to own object attributes

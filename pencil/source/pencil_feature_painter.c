@@ -38,6 +38,7 @@ void pencil_feature_painter_draw( pencil_feature_painter_t *this_,
                                   bool mark_highlighted,
                                   bool mark_selected,
                                   bool gray_out,
+                                  layout_relationship_iter_t *relationships,
                                   const data_profile_part_t *profile,
                                   const pencil_size_t *pencil_size,
                                   PangoLayout *layout,
@@ -101,7 +102,13 @@ void pencil_feature_painter_draw( pencil_feature_painter_t *this_,
 
             case DATA_FEATURE_TYPE_LIFELINE:
             {
-                pencil_feature_painter_private_draw_lifeline_icon( this_, layouted_feature, mark_highlighted, pencil_size, cr );
+                pencil_feature_painter_private_draw_lifeline_icon( this_,
+                                                                   layouted_feature,
+                                                                   mark_highlighted,
+                                                                   relationships,
+                                                                   pencil_size,
+                                                                   cr
+                                                                 );
             }
             break;
 
@@ -154,6 +161,7 @@ void pencil_feature_painter_draw( pencil_feature_painter_t *this_,
 void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_t *this_,
                                                          const layout_feature_t *layouted_feature,
                                                          bool marked,
+                                                         layout_relationship_iter_t *relationships,
                                                          const pencil_size_t *pencil_size,
                                                          cairo_t *cr )
 {
@@ -176,7 +184,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
 
     if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
-        /* lineline in timing diagrams */
+        /* lifeline in timing diagrams */
         const double center_y = geometry_rectangle_get_center_y ( feature_symbol_box );
 
         cairo_move_to ( cr, left, center_y );

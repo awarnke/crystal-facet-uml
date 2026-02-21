@@ -33,6 +33,11 @@ static inline void layout_relationship_iter_copy( layout_relationship_iter_t *th
     (*this_).order = (*original).order;
 }
 
+static inline void layout_relationship_iter_reset ( layout_relationship_iter_t *this_ )
+{
+    (*this_).next_idx = 0;
+}
+
 static inline void layout_relationship_iter_destroy( layout_relationship_iter_t *this_ )
 {
     (*this_).next_idx = 0;
