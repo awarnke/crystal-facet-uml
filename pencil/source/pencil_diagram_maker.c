@@ -128,6 +128,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
     assert( NULL != cr );
 
     const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*this_).layouter) );
+    layout_visible_set_t *const layout_data_mod = pencil_layouter_get_layout_data_ptr( &((*this_).layouter) );
 
     /* create an iterator over a sorted list of layout_relationship_t */
     universal_array_index_sorter_init( &((*this_).temp_order) );
@@ -144,7 +145,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
         }
     }
     layout_relationship_iter_t relationships;
-    layout_relationship_iter_init( &relationships, layout_data, &((*this_).temp_order) );
+    layout_relationship_iter_init( &relationships, layout_data_mod, &((*this_).temp_order) );
 
     /* iterate over all features */
     const uint32_t count = layout_visible_set_get_feature_count ( layout_data );

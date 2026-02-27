@@ -68,6 +68,19 @@ static inline layout_relationship_t *layout_relationship_iter_next_ptr( layout_r
     return result;
 }
 
+static inline const layout_relationship_t *layout_relationship_iter_next( layout_relationship_iter_t *this_ )
+{
+    const layout_relationship_t *result = NULL;
+    if ( layout_relationship_iter_has_next( this_ ) )
+    {
+        uint32_t array_index = universal_array_index_sorter_get_array_index( (*this_).order, (*this_).next_idx );
+        assert( array_index < layout_visible_set_get_relationship_count( (*this_).items ) );
+        result = layout_visible_set_get_relationship_const( (*this_).items, array_index );
+        (*this_).next_idx ++;
+    }
+    return result;
+}
+
 
 /*
 Copyright 2025-2026 Andreas Warnke

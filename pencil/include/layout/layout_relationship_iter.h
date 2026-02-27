@@ -94,6 +94,14 @@ static inline bool layout_relationship_iter_has_next( const layout_relationship_
  */
 static inline layout_relationship_t *layout_relationship_iter_next_ptr( layout_relationship_iter_t *this_ );
 
+/*!
+ *  \brief gets the next layout_relationship_t if there are more, NULL otherwise.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the next layout_relationship_t
+ */
+static inline const layout_relationship_t *layout_relationship_iter_next( layout_relationship_iter_t *this_ );
+
 #include "layout_relationship_iter.inl"
 
 #endif  /* LAYOUT_RELATIONSHIP_ITER_H */
