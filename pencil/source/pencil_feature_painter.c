@@ -18,6 +18,7 @@ void pencil_feature_painter_init( pencil_feature_painter_t *this_ )
 
     pencil_marker_init( &((*this_).marker) );
     draw_feature_label_init( &((*this_).draw_feature_label) );
+    draw_feature_symbol_init( &((*this_).draw_feature_symbol) );
 
     U8_TRACE_END();
 }
@@ -26,6 +27,7 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    draw_feature_symbol_destroy( &((*this_).draw_feature_symbol) );
     draw_feature_label_destroy( &((*this_).draw_feature_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
@@ -172,49 +174,40 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
 
     const geometry_rectangle_t *const feature_symbol_box = layout_feature_get_symbol_box_const( layouted_feature );
 
-    const double left = geometry_rectangle_get_left ( feature_symbol_box );
-    const double top = geometry_rectangle_get_top ( feature_symbol_box );
-    const double width = geometry_rectangle_get_width ( feature_symbol_box );
-    const double height = geometry_rectangle_get_height ( feature_symbol_box );
-
-    double dashes[2];
-    dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
-    dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
-    cairo_set_dash ( cr, dashes, 2, 0.0 );
-
     if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in timing diagrams */
-        const double center_y = geometry_rectangle_get_center_y ( feature_symbol_box );
-
-        cairo_move_to ( cr, left, center_y );
-        cairo_line_to ( cr, left + width, center_y );
-        cairo_stroke (cr);
+        draw_feature_symbol_draw_timeline( &((*this_).draw_feature_symbol),
+                                           feature_symbol_box,
+                                           INT32_MAX,  /* int32_t from_order */
+                                           INT32_MIN,   /* int32_t to_order */
+                                           false,  /* bool active */
+                                           pencil_size,
+                                           cr
+                                         );
     }
     else if ( GEOMETRY_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in sequence diagrams */
-        const double center_x = geometry_rectangle_get_center_x ( feature_symbol_box );
-
-        cairo_move_to ( cr, center_x, top );
-        cairo_line_to ( cr, center_x, top + height );
-        cairo_stroke (cr);
+        draw_feature_symbol_draw_execution_spec( &((*this_).draw_feature_symbol),
+                                                 feature_symbol_box,
+                                                 INT32_MAX,  /* int32_t from_order */
+                                                 INT32_MIN,   /* int32_t to_order */
+                                                 1,  /* uint32_t depth */
+                                                 pencil_size,
+                                                 cr
+                                               );
     }
     else
     {
-        /* lifeline in communication diagrams, only drawn if highlighted: */
-        if ( marked )
-        {
-            cairo_move_to ( cr, left, top );
-            cairo_line_to ( cr, left, top + height );
-            cairo_line_to ( cr, left + width, top + height );
-            cairo_line_to ( cr, left + width, top );
-            cairo_line_to ( cr, left, top );
-            cairo_stroke (cr);
-        }
+        /* lifeline in communication and interaction overview diagrams, only drawn if highlighted (marked): */
+        draw_feature_symbol_draw_life_rectangle( &((*this_).draw_feature_symbol),
+                                                 feature_symbol_box,
+                                                 marked,
+                                                 pencil_size,
+                                                 cr
+                                               );
     }
-
-    cairo_set_dash ( cr, NULL, 0, 0.0 );
 
     U8_TRACE_END();
 }

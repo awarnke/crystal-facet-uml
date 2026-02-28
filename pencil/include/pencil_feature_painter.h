@@ -14,6 +14,7 @@
 #include "layout/layout_feature.h"
 #include "layout/layout_relationship_iter.h"
 #include "draw/draw_feature_label.h"
+#include "draw/draw_feature_symbol.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "set/data_small_set.h"
@@ -32,6 +33,7 @@
 struct pencil_feature_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
     draw_feature_label_t draw_feature_label;  /*!< collection of draw label functions */
+    draw_feature_symbol_t draw_feature_symbol;  /*!< collection of draw symbol functions */
 };
 
 typedef struct pencil_feature_painter_struct pencil_feature_painter_t;
@@ -59,7 +61,7 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param gray_out true if the object is to be marked as grayed out. Is ignored in case mark_highlighted is true.
- *  \param relationships an iterator over relationships, to adapt the feature layout to associations or messages
+ *  \param relationships an iterator over relationships in backwards order, to adapt the feature layout to associations or messages
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param layout structure to layout fonts
@@ -84,7 +86,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param layouted_feature pointer to the layout-information and data to be drawn
  *  \param marked true if mark_highlighted
- *  \param relationships an iterator over relationships, to adapt the feature layout to associations or messages
+ *  \param relationships an iterator over relationships in backwards order, to adapt the feature layout to associations or messages
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */

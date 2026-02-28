@@ -130,15 +130,17 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
     const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*this_).layouter) );
     layout_visible_set_t *const layout_data_mod = pencil_layouter_get_layout_data_ptr( &((*this_).layouter) );
 
-    /* create an iterator over a sorted list of layout_relationship_t */
+    /* create an iterator over a backwards-sorted list of layout_relationship_t */
+    /* Assuming that there is a chance that layout_data is already ordered, traverse it reverse to speed up sorting */
     universal_array_index_sorter_init( &((*this_).temp_order) );
     const uint32_t rel_count = layout_visible_set_get_relationship_count ( layout_data );
-    for ( uint32_t rel_index = 0; rel_index < rel_count; rel_index ++ )
+    for ( uint32_t rel_index = rel_count; rel_index > 0; rel_index -- )
     {
-        const layout_relationship_t *const relationship_layout = layout_visible_set_get_relationship_const( layout_data, rel_index );
+        const layout_relationship_t *const relationship_layout = layout_visible_set_get_relationship_const( layout_data, ( rel_index - 1 ) );
         const data_relationship_t *const the_relationship = layout_relationship_get_data_const( relationship_layout );
         const int32_t order = data_relationship_get_list_order( the_relationship );
-        const u8_error_t full = universal_array_index_sorter_insert( &((*this_).temp_order), rel_index, (int64_t)order );
+        const int64_t backwards = ( -order );
+        const u8_error_t full = universal_array_index_sorter_insert( &((*this_).temp_order), rel_index, backwards );
         if ( full != U8_ERROR_NONE )
         {
             U8_LOG_ERROR("There are more relationships than can be sorted");
