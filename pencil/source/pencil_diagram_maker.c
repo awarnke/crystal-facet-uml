@@ -134,9 +134,10 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
     /* Assuming that there is a chance that layout_data is already ordered, traverse it reverse to speed up sorting */
     universal_array_index_sorter_init( &((*this_).temp_order) );
     const uint32_t rel_count = layout_visible_set_get_relationship_count ( layout_data );
-    for ( uint32_t rel_index = rel_count; rel_index > 0; rel_index -- )
+    for ( uint32_t rel_index_top = rel_count; rel_index_top > 0; rel_index_top -- )
     {
-        const layout_relationship_t *const relationship_layout = layout_visible_set_get_relationship_const( layout_data, ( rel_index - 1 ) );
+        const uint32_t rel_index = rel_index_top - 1;
+        const layout_relationship_t *const relationship_layout = layout_visible_set_get_relationship_const( layout_data, rel_index );
         const data_relationship_t *const the_relationship = layout_relationship_get_data_const( relationship_layout );
         const int32_t order = data_relationship_get_list_order( the_relationship );
         const int64_t backwards = ( -order );

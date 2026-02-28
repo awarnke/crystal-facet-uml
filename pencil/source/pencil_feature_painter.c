@@ -172,16 +172,65 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     assert( NULL != layouted_feature );
     assert( NULL != cr );
 
+    /* reset the draw_feature_symbol helper class */
+    draw_feature_symbol_reinit( &((*this_).draw_feature_symbol) );
+
     const geometry_rectangle_t *const feature_symbol_box = layout_feature_get_symbol_box_const( layouted_feature );
+    const data_feature_t *const feature_data = layout_feature_get_data_const( layouted_feature );
+    const data_id_t feature_id = data_feature_get_data_id( feature_data );
 
     if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in timing diagrams */
+        bool past_active = false;
+        while ( layout_relationship_iter_has_next( relationships ) )
+        {
+            const layout_relationship_t *const message_layout = layout_relationship_iter_next( relationships );
+            const data_relationship_t *const message_data = layout_relationship_get_data_const( message_layout );
+            const data_relationship_type_t message_type = data_relationship_get_main_type( message_data );
+            const data_id_t from_feat = data_relationship_get_from_feature_data_id( message_data );
+            const data_id_t to_feat = data_relationship_get_to_feature_data_id( message_data );
+            const bool depart_from_here = data_id_equals( &feature_id, &from_feat );
+            const bool arrive_here = data_id_equals( &feature_id, &to_feat );
+
+            if ((( message_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )
+                || ( message_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL ))
+                && ( depart_from_here || arrive_here ))
+            {
+                /* determine x location */
+                const geometry_connector_t *const conn = layout_relationship_get_shape_const( message_layout );
+                if ( arrive_here )
+                {
+                    const double x1 = geometry_connector_get_destination_end_x( conn );
+                    draw_feature_symbol_draw_timeline( &((*this_).draw_feature_symbol),
+                                                       feature_symbol_box,
+                                                       x1,   /* to_x */
+                                                       true,  /* active */
+                                                       pencil_size,
+                                                       cr
+                                                     );
+                    past_active = false;  /* note that we are traversing backwards in time */
+                }
+                if ( depart_from_here )
+                {
+                    const double x2 = geometry_connector_get_source_end_x( conn );
+                    draw_feature_symbol_draw_timeline( &((*this_).draw_feature_symbol),
+                                                       feature_symbol_box,
+                                                       x2,   /* to_x */
+                                                       false,  /* active */
+                                                       pencil_size,
+                                                       cr
+                                                     );
+                    past_active = true;  /* note that we are traversing backwards in time */
+                }
+
+
+            }
+        }
         draw_feature_symbol_draw_timeline( &((*this_).draw_feature_symbol),
                                            feature_symbol_box,
-                                           INT32_MAX,  /* int32_t from_order */
-                                           INT32_MIN,   /* int32_t to_order */
-                                           false,  /* bool active */
+                                           -INFINITY,   /* to_x */
+                                           past_active,  /* active */
                                            pencil_size,
                                            cr
                                          );
@@ -189,18 +238,63 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     else if ( GEOMETRY_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in sequence diagrams */
+        uint32_t past_depth = 0;
+        while ( layout_relationship_iter_has_next( relationships ) )
+        {
+            const layout_relationship_t *const message_layout = layout_relationship_iter_next( relationships );
+            const data_relationship_t *const message_data = layout_relationship_get_data_const( message_layout );
+            const data_relationship_type_t message_type = data_relationship_get_main_type( message_data );
+            const data_id_t from_feat = data_relationship_get_from_feature_data_id( message_data );
+            const data_id_t to_feat = data_relationship_get_to_feature_data_id( message_data );
+            const bool depart_from_here = data_id_equals( &feature_id, &from_feat );
+            const bool arrive_here = data_id_equals( &feature_id, &to_feat );
+
+            if ((( message_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )
+                || ( message_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL ))
+                && ( depart_from_here || arrive_here ))
+            {
+                /* determine y location */
+                const geometry_connector_t *const conn = layout_relationship_get_shape_const( message_layout );
+                if ( arrive_here && ( message_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL ))
+                {
+                    past_depth = ( past_depth == 0 ) ? 1 : past_depth;
+                    const double y1 = geometry_connector_get_destination_end_y( conn );
+                    draw_feature_symbol_draw_execution_spec( &((*this_).draw_feature_symbol),
+                                                             feature_symbol_box,
+                                                             y1,   /* to_y */
+                                                             past_depth,  /* depth */
+                                                             pencil_size,
+                                                             cr
+                                                           );
+                    past_depth = ( past_depth > 0 ) ? ( past_depth - 1 ) : 0;
+                }
+                if ( depart_from_here && ( message_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL ) )
+                {
+                    const double y2 = geometry_connector_get_source_end_y( conn );
+                    draw_feature_symbol_draw_execution_spec( &((*this_).draw_feature_symbol),
+                                                             feature_symbol_box,
+                                                             y2,   /* to_y */
+                                                             past_depth,  /* depth */
+                                                             pencil_size,
+                                                             cr
+                                                           );
+                    past_depth = past_depth + 1;
+                }
+            }
+        }
         draw_feature_symbol_draw_execution_spec( &((*this_).draw_feature_symbol),
                                                  feature_symbol_box,
-                                                 INT32_MAX,  /* int32_t from_order */
-                                                 INT32_MIN,   /* int32_t to_order */
-                                                 1,  /* uint32_t depth */
+                                                 -INFINITY,   /* to_y */
+                                                 past_depth,  /* depth */
                                                  pencil_size,
                                                  cr
                                                );
     }
     else
     {
-        /* lifeline in communication and interaction overview diagrams, only drawn if highlighted (marked): */
+        /* lifeline in communication and interaction overview diagrams, */
+        /* or comments in other interaction diagrams */
+        /* are only drawn if highlighted (marked): */
         draw_feature_symbol_draw_life_rectangle( &((*this_).draw_feature_symbol),
                                                  feature_symbol_box,
                                                  marked,

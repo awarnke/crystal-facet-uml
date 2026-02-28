@@ -26,6 +26,7 @@
  */
 struct draw_feature_symbol_struct {
     uint32_t last_depth;  /*!< This last depth of the execution order of the current lifeline */
+    double last_location;   /*!< This last y coordinate of the execution order or the last x coordinate of the timeline */
 };
 
 typedef struct draw_feature_symbol_struct draw_feature_symbol_t;
@@ -58,16 +59,14 @@ void draw_feature_symbol_destroy( draw_feature_symbol_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param bounds bounding rectangle of the lifeline
- *  \param from_order start order of the section to be drawn
- *  \param to_order end order of the section to be drawn
- *  \param depth depth of the execution specifications on the section
+ *  \param to_y upper end coordinate of the section to be drawn
+ *  \param depth depth of execution specifications on the section
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
 void draw_feature_symbol_draw_execution_spec ( draw_feature_symbol_t *this_,
                                                const geometry_rectangle_t *bounds,
-                                               int32_t from_order,
-                                               int32_t to_order,
+                                               double to_y,
                                                uint32_t depth,
                                                const pencil_size_t *pencil_size,
                                                cairo_t *cr
@@ -80,16 +79,14 @@ void draw_feature_symbol_draw_execution_spec ( draw_feature_symbol_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param bounds bounding rectangle of the lifeline
- *  \param from_order start order of the section to be drawn
- *  \param to_order end order of the section to be drawn
+ *  \param to_x left end coordinate of the section to be drawn
  *  \param active true if a timeline shall be shown
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_feature_symbol_draw_timeline ( const draw_feature_symbol_t *this_,
+void draw_feature_symbol_draw_timeline ( draw_feature_symbol_t *this_,
                                          const geometry_rectangle_t *bounds,
-                                         int32_t from_order,
-                                         int32_t to_order,
+                                         double to_x,
                                          bool active,
                                          const pencil_size_t *pencil_size,
                                          cairo_t *cr

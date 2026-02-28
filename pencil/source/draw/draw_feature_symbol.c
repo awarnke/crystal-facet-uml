@@ -2,6 +2,7 @@
 
 #include "draw/draw_feature_symbol.h"
 #include "u8/u8_trace.h"
+#include "u8/u8_f64.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -12,6 +13,7 @@ void draw_feature_symbol_init( draw_feature_symbol_t *this_ )
     U8_TRACE_BEGIN();
 
     (*this_).last_depth = 0;
+    (*this_).last_location = INFINITY;
 
     U8_TRACE_END();
 }
@@ -21,6 +23,7 @@ void draw_feature_symbol_reinit( draw_feature_symbol_t *this_ )
     U8_TRACE_BEGIN();
 
     (*this_).last_depth = 0;
+    (*this_).last_location = INFINITY;
 
     U8_TRACE_END();
 }
@@ -34,8 +37,7 @@ void draw_feature_symbol_destroy( draw_feature_symbol_t *this_ )
 
 void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
                                               const geometry_rectangle_t *bounds,
-                                              int32_t from_order,
-                                              int32_t to_order,
+                                              double to_y,
                                               uint32_t depth,
                                               const pencil_size_t *pencil_size,
                                               cairo_t *cr )
@@ -49,26 +51,35 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
     const double top = geometry_rectangle_get_top ( bounds );
     const double bottom = geometry_rectangle_get_bottom ( bounds );
 
-    double dashes[2];
-    dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
-    dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
-    cairo_set_dash ( cr, dashes, 2, 0.0 );
+    if ( depth == 0 )
+    {
+        double dashes[2];
+        dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
+        dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
+        cairo_set_dash ( cr, dashes, 2, 0.0 );
+    }
 
-    cairo_move_to ( cr, x + 2.0 * depth, top );
-    cairo_line_to ( cr, x + 2.0 * depth, bottom );
+    cairo_move_to ( cr, x - 2.0 * depth, u8_f64_min2( (*this_).last_location, bottom ) );
+    cairo_line_to ( cr, x - 2.0 * depth, u8_f64_max2( to_y, top ) );
     cairo_stroke (cr);
-
-    (*this_).last_depth = depth;
+    for ( int depth_run = 0; depth_run < depth; depth_run ++ )
+    {
+        cairo_move_to ( cr, x + depth_run * 2.0 * depth, u8_f64_min2( (*this_).last_location, bottom ) );
+        cairo_line_to ( cr, x + depth_run * 2.0 * depth, u8_f64_max2( to_y, top ) );
+        cairo_stroke (cr);
+    }
 
     cairo_set_dash ( cr, NULL, 0, 0.0 );
+
+    (*this_).last_depth = depth;
+    (*this_).last_location = u8_f64_max2( to_y, top );
 
     U8_TRACE_END();
 }
 
-void draw_feature_symbol_draw_timeline( const draw_feature_symbol_t *this_,
+void draw_feature_symbol_draw_timeline( draw_feature_symbol_t *this_,
                                         const geometry_rectangle_t *bounds,
-                                        int32_t from_order,
-                                        int32_t to_order,
+                                        double to_x,
                                         bool active,
                                         const pencil_size_t *pencil_size,
                                         cairo_t *cr )
@@ -82,16 +93,21 @@ void draw_feature_symbol_draw_timeline( const draw_feature_symbol_t *this_,
     const double right = geometry_rectangle_get_right ( bounds );
     const double y = geometry_rectangle_get_center_y ( bounds );
 
-    double dashes[2];
-    dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
-    dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
-    cairo_set_dash ( cr, dashes, 2, 0.0 );
+    if ( ! active )
+    {
+        double dashes[2];
+        dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
+        dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
+        cairo_set_dash ( cr, dashes, 2, 0.0 );
+    }
 
-    cairo_move_to ( cr, left, y );
-    cairo_line_to ( cr, right, y );
+    cairo_move_to ( cr, u8_f64_min2( (*this_).last_location, right ), y );
+    cairo_line_to ( cr, u8_f64_max2( to_x, left ), y );
     cairo_stroke (cr);
 
     cairo_set_dash ( cr, NULL, 0, 0.0 );
+
+    (*this_).last_location = u8_f64_max2( to_x, left );
 
     U8_TRACE_END();
 }

@@ -25,7 +25,6 @@ ideas for future versions:
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
   [ ] In Nav+Search view, no linebreaks are introduced to long words in titles
   @pencil
-! [ ] activity bars on lifelines missing
   [ ] Asynchronous calls shall be slightly diagonal
   [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
       --> needs a conceptual change:
