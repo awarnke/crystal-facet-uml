@@ -25,8 +25,8 @@
  *        Only all segments of the same lifeline are expected to be drawn in one backwards-directed sequence.
  */
 struct draw_feature_symbol_struct {
-    uint32_t last_depth;  /*!< This last depth of the execution order of the current lifeline */
-    double last_location;   /*!< This last y coordinate of the execution order or the last x coordinate of the timeline */
+    uint32_t last_depth;  /*!< This is the last depth of the execution order of the current lifeline */
+    double last_location;   /*!< This is the last y coordinate of an execution order or the last x coordinate of a timeline */
 };
 
 typedef struct draw_feature_symbol_struct draw_feature_symbol_t;

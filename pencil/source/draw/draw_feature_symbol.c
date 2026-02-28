@@ -50,6 +50,7 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
     const double x = geometry_rectangle_get_center_x ( bounds );
     const double top = geometry_rectangle_get_top ( bounds );
     const double bottom = geometry_rectangle_get_bottom ( bounds );
+    const double half_gap = 0.5 * pencil_size_get_preferred_object_distance( pencil_size );
 
     if ( depth == 0 )
     {
@@ -59,15 +60,15 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
         cairo_set_dash ( cr, dashes, 2, 0.0 );
     }
 
-    cairo_move_to ( cr, x - 2.0 * depth, u8_f64_min2( (*this_).last_location, bottom ) );
-    cairo_line_to ( cr, x - 2.0 * depth, u8_f64_max2( to_y, top ) );
-    cairo_stroke (cr);
     for ( int depth_run = 0; depth_run < depth; depth_run ++ )
     {
-        cairo_move_to ( cr, x + depth_run * 2.0 * depth, u8_f64_min2( (*this_).last_location, bottom ) );
-        cairo_line_to ( cr, x + depth_run * 2.0 * depth, u8_f64_max2( to_y, top ) );
+        cairo_move_to ( cr, x - half_gap + depth_run * half_gap, u8_f64_min2( (*this_).last_location, bottom ) );
+        cairo_line_to ( cr, x - half_gap + depth_run * half_gap, u8_f64_max2( to_y, top ) );
         cairo_stroke (cr);
     }
+    cairo_move_to ( cr, x + half_gap * depth, u8_f64_min2( (*this_).last_location, bottom ) );
+    cairo_line_to ( cr, x + half_gap * depth, u8_f64_max2( to_y, top ) );
+    cairo_stroke (cr);
 
     cairo_set_dash ( cr, NULL, 0, 0.0 );
 
@@ -100,12 +101,17 @@ void draw_feature_symbol_draw_timeline( draw_feature_symbol_t *this_,
         dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
         cairo_set_dash ( cr, dashes, 2, 0.0 );
     }
+    else
+    {
+        cairo_set_line_width( cr, pencil_size_get_bold_line_width( pencil_size ) );
+    }
 
     cairo_move_to ( cr, u8_f64_min2( (*this_).last_location, right ), y );
     cairo_line_to ( cr, u8_f64_max2( to_x, left ), y );
     cairo_stroke (cr);
 
     cairo_set_dash ( cr, NULL, 0, 0.0 );
+    cairo_set_line_width( cr, pencil_size_get_standard_line_width( pencil_size ) );
 
     (*this_).last_location = u8_f64_max2( to_x, left );
 
