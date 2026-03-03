@@ -48,11 +48,12 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
     assert ( NULL != cr );
 
     const double x = geometry_rectangle_get_center_x ( bounds );
-    const double top = geometry_rectangle_get_top ( bounds );
-    const double bottom = geometry_rectangle_get_bottom ( bounds );
-    const double half_gap = 0.5 * pencil_size_get_preferred_object_distance( pencil_size );
+    double top = geometry_rectangle_get_top ( bounds );
+    double bottom = geometry_rectangle_get_bottom ( bounds );
+    const double gap = pencil_size_get_preferred_object_distance( pencil_size );
+    const double half_gap = 0.5 * gap;
 
-    if ( depth == 0 )
+    /* DRAW THE NON EXECUTION SPEC LIFELINES (DASHED LINE) */
     {
         double dashes[2];
         dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
@@ -60,17 +61,59 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
         cairo_set_dash ( cr, dashes, 2, 0.0 );
     }
 
+    /* do not fill the top gap with an execution specification bar */
+    if (( to_y == ( -INFINITY ) )&&( depth != 0 ))
+    {
+        const double start_exec_bar = ( (*this_).last_location > ( top + gap ) ) ? ( top + gap ) : u8_f64_max2( (*this_).last_location, top );
+
+        cairo_move_to ( cr, x, start_exec_bar );
+        cairo_line_to ( cr, x, top );
+        cairo_stroke (cr);
+
+        /* overwrite top value by start_exec_bar */
+        top = start_exec_bar;
+    }
+
+    /* do not fill the bottom gap with an execution specification bar */
+    if (( (*this_).last_location == ( INFINITY ) )&&( depth != 0 ))
+    {
+        const double end_exec_bar = ( to_y < ( bottom - gap ) ) ? ( bottom - gap ) : u8_f64_min2( to_y, bottom );
+
+        cairo_move_to ( cr, x, bottom );
+        cairo_line_to ( cr, x, end_exec_bar );
+        cairo_stroke (cr);
+
+        /* overwrite bottom value by end_exec_bar */
+        bottom = end_exec_bar;
+    }
+
+    /* draw a normal, dashed lifeline */
+    if ( depth == 0 )
+    {
+        cairo_move_to ( cr, x, u8_f64_min2( (*this_).last_location, bottom ) );
+        cairo_line_to ( cr, x, u8_f64_max2( to_y, top ) );
+        cairo_stroke (cr);
+    }
+
+    /* restore cr drawing context */
+    {
+        cairo_set_dash ( cr, NULL, 0, 0.0 );
+    }
+
+    /* DRAW THE EXECUTION SPECIFICATION */
+
     for ( int depth_run = 0; depth_run < depth; depth_run ++ )
     {
         cairo_move_to ( cr, x - half_gap + depth_run * half_gap, u8_f64_min2( (*this_).last_location, bottom ) );
         cairo_line_to ( cr, x - half_gap + depth_run * half_gap, u8_f64_max2( to_y, top ) );
         cairo_stroke (cr);
     }
-    cairo_move_to ( cr, x + half_gap * depth, u8_f64_min2( (*this_).last_location, bottom ) );
-    cairo_line_to ( cr, x + half_gap * depth, u8_f64_max2( to_y, top ) );
-    cairo_stroke (cr);
-
-    cairo_set_dash ( cr, NULL, 0, 0.0 );
+    if ( depth > 0 )
+    {
+        cairo_move_to ( cr, x + half_gap * depth, u8_f64_min2( (*this_).last_location, bottom ) );
+        cairo_line_to ( cr, x + half_gap * depth, u8_f64_max2( to_y, top ) );
+        cairo_stroke (cr);
+    }
 
     (*this_).last_depth = depth;
     (*this_).last_location = u8_f64_max2( to_y, top );
