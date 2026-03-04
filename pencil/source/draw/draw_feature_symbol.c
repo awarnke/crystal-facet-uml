@@ -102,6 +102,7 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
 
     /* DRAW THE EXECUTION SPECIFICATION */
 
+    /* draw the stacked activity bars */
     for ( int depth_run = 0; depth_run < depth; depth_run ++ )
     {
         cairo_move_to ( cr, x - half_gap + depth_run * half_gap, u8_f64_min2( (*this_).last_location, bottom ) );
@@ -112,6 +113,24 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
     {
         cairo_move_to ( cr, x + half_gap * depth, u8_f64_min2( (*this_).last_location, bottom ) );
         cairo_line_to ( cr, x + half_gap * depth, u8_f64_max2( to_y, top ) );
+        cairo_stroke (cr);
+    }
+
+    /* draw the top line of activity bars */
+    if (( to_y == ( -INFINITY ) )&&( depth != 0 ))
+    {
+        cairo_move_to ( cr, x - half_gap * half_gap, top );
+        cairo_line_to ( cr, x + depth * half_gap, top );
+        cairo_stroke (cr);
+    }
+
+    /* draw the bottom line of activity bars */
+    const int32_t keep_depth = u8_i32_min2( depth, (*this_).last_depth );
+    const int32_t total_depth = u8_i32_max2( depth, (*this_).last_depth );
+    if ( total_depth > keep_depth )
+    {
+        cairo_move_to ( cr, x - half_gap + keep_depth * half_gap, u8_f64_min2( (*this_).last_location, bottom ) );
+        cairo_line_to ( cr, x + total_depth * half_gap, u8_f64_min2( (*this_).last_location, bottom ) );
         cairo_stroke (cr);
     }
 

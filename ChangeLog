@@ -1,4 +1,4 @@
-crystal-facet-uml (1.68.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.69.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * activity bars (execution specification) on lifelines in sequence and timing
