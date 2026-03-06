@@ -132,6 +132,7 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
             const double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
             /* is interaction relation */
+            /*
             const data_relationship_type_t rel_type
                 = data_relationship_get_main_type( the_relationdata );
             const bool is_interaction
@@ -141,20 +142,21 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
                 || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW )
                 || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW )
                 || ( rel_type == DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL );
+            */
 
             const double src_from_y
                = ( y_value < src_top ) ? src_top : ( y_value > src_bottom ) ? src_bottom : y_value;
             const double dst_to_y
                = ( y_value < dst_top ) ? dst_top : ( y_value > dst_bottom ) ? dst_bottom : y_value;
             const double src_from_x
-                = (( y_value < src_top )||( y_value > src_bottom )|| is_interaction )
-                ? src_center_x
+                = (( y_value < src_top )||( y_value > src_bottom )/*|| is_interaction*/ )
+                ? src_center_x /* activity bars are assumed to have depth 1 */
                 : ( src_center_x < dst_center_x )
                 ? src_right
                 : src_left;
             const double dst_to_x
-                = (( y_value < dst_top )||( y_value > dst_bottom )|| is_interaction )
-                ? dst_center_x
+                = (( y_value < dst_top )||( y_value > dst_bottom )/*|| is_interaction*/ )
+                ? dst_center_x /* activity bars are assumed to have depth 1 */
                 : ( src_center_x < dst_center_x )
                 ? dst_left
                 : dst_right;

@@ -768,7 +768,6 @@
                                 <para>Lifelines are managed automatically, one cannot create, modify or delete them.</para>
                                 <para>Limitations: One lifeline is visible only in one diagram.</para>
                                 <para>Limitations: Lifelines start and end only at diagram border.</para>
-                                <para>Limitations: ExecutionSpecification (ActivityBar) are not supported.</para>
                             </entry>
                         </row>
                     </tbody>

@@ -117,10 +117,11 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
     }
 
     /* draw the top line of activity bars */
+    const double half_line = 0.5 * pencil_size_get_standard_line_width( pencil_size );
     if (( to_y == ( -INFINITY ) )&&( depth != 0 ))
     {
-        cairo_move_to ( cr, x - half_gap * half_gap, top );
-        cairo_line_to ( cr, x + depth * half_gap, top );
+        cairo_move_to ( cr, x - half_gap - half_line, top );
+        cairo_line_to ( cr, x + depth * half_gap + half_line, top );
         cairo_stroke (cr);
     }
 
@@ -129,8 +130,8 @@ void draw_feature_symbol_draw_execution_spec( draw_feature_symbol_t *this_,
     const int32_t total_depth = u8_i32_max2( depth, (*this_).last_depth );
     if ( total_depth > keep_depth )
     {
-        cairo_move_to ( cr, x - half_gap + keep_depth * half_gap, u8_f64_min2( (*this_).last_location, bottom ) );
-        cairo_line_to ( cr, x + total_depth * half_gap, u8_f64_min2( (*this_).last_location, bottom ) );
+        cairo_move_to ( cr, x - half_gap + keep_depth * half_gap - half_line, u8_f64_min2( (*this_).last_location, bottom ) );
+        cairo_line_to ( cr, x + total_depth * half_gap + half_line, u8_f64_min2( (*this_).last_location, bottom ) );
         cairo_stroke (cr);
     }
 
