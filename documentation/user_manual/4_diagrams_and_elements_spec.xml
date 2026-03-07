@@ -1041,7 +1041,7 @@
                                 <para>UML, SysML (?)</para>
                                 <para>/ Sequence, Timing, Communication, Interaction overview</para>
                             </entry>
-                            <entry><para></para></entry>
+                            <entry><para>In sequence diagrams, an activation bar (execution specification) is shown above return calls </para></entry>
                         </row>
                         <row>
                             <entry><para>

@@ -257,7 +257,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
                 const geometry_connector_t *const conn = layout_relationship_get_shape_const( message_layout );
                 if ( arrive_here && ( message_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL ))
                 {
-                    //past_depth = ( past_depth == 0 ) ? 1 : past_depth;  /* adjust the estimation when there is an arriving edge */
+                    /* past_depth = ( past_depth == 0 ) ? 1 : past_depth; */  /* adjust the estimation when there is an arriving edge */
                     const double y1 = geometry_connector_get_destination_end_y( conn );
                     draw_feature_symbol_draw_execution_spec( &((*this_).draw_feature_symbol),
                                                              feature_symbol_box,
