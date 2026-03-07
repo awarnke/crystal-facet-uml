@@ -182,7 +182,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in timing diagrams */
-        bool past_active = false;
+        bool past_active = false;  /* flag that tells if the line left of the current drawing position is active (bold) or inactive (dashed) */
         while ( layout_relationship_iter_has_next( relationships ) )
         {
             const layout_relationship_t *const message_layout = layout_relationship_iter_next( relationships );
@@ -238,7 +238,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     else if ( GEOMETRY_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in sequence diagrams */
-        uint32_t past_depth = 0;
+        uint32_t past_depth = 0;  /* estimated depth of activity bars above the current drawing position */
         while ( layout_relationship_iter_has_next( relationships ) )
         {
             const layout_relationship_t *const message_layout = layout_relationship_iter_next( relationships );
@@ -257,7 +257,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
                 const geometry_connector_t *const conn = layout_relationship_get_shape_const( message_layout );
                 if ( arrive_here && ( message_type == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL ))
                 {
-                    past_depth = ( past_depth == 0 ) ? 1 : past_depth;
+                    //past_depth = ( past_depth == 0 ) ? 1 : past_depth;  /* adjust the estimation when there is an arriving edge */
                     const double y1 = geometry_connector_get_destination_end_y( conn );
                     draw_feature_symbol_draw_execution_spec( &((*this_).draw_feature_symbol),
                                                              feature_symbol_box,
@@ -266,7 +266,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
                                                              pencil_size,
                                                              cr
                                                            );
-                    past_depth = ( past_depth > 0 ) ? ( past_depth - 1 ) : 0;
+                    past_depth = ( past_depth > 0 ) ? ( past_depth - 1 ) : 0;  /* decrease the depth of activity bars */
                 }
                 if ( depart_from_here && ( message_type == DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL ) )
                 {
@@ -278,7 +278,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
                                                              pencil_size,
                                                              cr
                                                            );
-                    past_depth = past_depth + 1;
+                    past_depth = past_depth + 1;  /* increase the depth of activity bars */
                 }
             }
         }

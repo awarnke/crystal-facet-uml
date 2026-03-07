@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.68.0"
+    "generator_version": "1.69.0"
   }
   ,
   "views":
@@ -4600,7 +4600,7 @@
         ],
         "x_order": 0,
         "y_order": 0,
-        "list_order": -861436766,
+        "list_order": -1024365009,
         "uuid": "a3cd8172-13f7-4dcc-9caf-c8ed9aa65a6c",
         "features":
         [
@@ -4627,7 +4627,7 @@
         ],
         "x_order": 0,
         "y_order": 0,
-        "list_order": 1060344248,
+        "list_order": 909054087,
         "uuid": "01927545-6bd0-4f8f-b357-be9f22ba9609",
         "features":
         [
@@ -6881,7 +6881,7 @@
     {
       "relationship": {
         "id": 116,
-        "type": "Asynchronous Call", "main_type": 220,
+        "type": "Synchronous Call", "main_type": 221,
         "name": "system up and running (2500 ms)",
         "description": [
                 ""
@@ -6899,7 +6899,7 @@
     {
       "relationship": {
         "id": 115,
-        "type": "Asynchronous Call", "main_type": 220,
+        "type": "Synchronous Call", "main_type": 221,
         "name": "load and start applications (800 ms)",
         "description": [
                 ""
@@ -6917,7 +6917,7 @@
     {
       "relationship": {
         "id": 106,
-        "type": "Asynchronous Call", "main_type": 220,
+        "type": "Synchronous Call", "main_type": 221,
         "name": "load and start OS (100 ms)",
         "description": [
                 ""
@@ -6935,7 +6935,7 @@
     {
       "relationship": {
         "id": 114,
-        "type": "Asynchronous Call", "main_type": 220,
+        "type": "Synchronous Call", "main_type": 221,
         "name": "power up (0 sec)",
         "description": [
                 ""
@@ -6953,12 +6953,12 @@
     {
       "relationship": {
         "id": 105,
-        "type": "Asynchronous Call", "main_type": 220,
+        "type": "Synchronous Call", "main_type": 221,
         "name": "increase volume",
         "description": [
                 ""
         ],
-        "list_order": -933213649,
+        "list_order": -1149325668,
         "from_classifier_name": "User",
         "from_feature_key": "",
         "from_node": "87de2766-3cbd-4614-8993-b05453bb9007",
@@ -6971,12 +6971,12 @@
     {
       "relationship": {
         "id": 110,
-        "type": "Asynchronous Call", "main_type": 220,
+        "type": "Synchronous Call", "main_type": 221,
         "name": "increase volume",
         "description": [
                 ""
         ],
-        "list_order": -246956624,
+        "list_order": -444686393,
         "from_classifier_name": "GUI",
         "from_feature_key": "",
         "from_node": "f2e9a281-239f-4414-996d-56803b605733",
@@ -6994,7 +6994,7 @@
         "description": [
                 ""
         ],
-        "list_order": 300059845,
+        "list_order": 231653379,
         "from_classifier_name": "GUI",
         "from_feature_key": "",
         "from_node": "f2e9a281-239f-4414-996d-56803b605733",
@@ -7012,7 +7012,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1387303465,
+        "list_order": 1221455736,
         "from_classifier_name": "GUI",
         "from_feature_key": "",
         "from_node": "f2e9a281-239f-4414-996d-56803b605733",
@@ -7024,13 +7024,67 @@
     },
     {
       "relationship": {
+        "id": 216,
+        "type": "Return", "main_type": 222,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -361379286,
+        "from_classifier_name": "GUI",
+        "from_feature_key": "",
+        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_classifier_name": "User",
+        "to_feature_key": "",
+        "to_node": "87de2766-3cbd-4614-8993-b05453bb9007",
+        "uuid": "9487ebbc-7563-4d65-8667-29debde18dec"
+      }
+    },
+    {
+      "relationship": {
+        "id": 217,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "cyclic activation",
+        "description": [
+                ""
+        ],
+        "list_order": -47059619,
+        "from_classifier_name": "GUI",
+        "from_feature_key": "",
+        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
+        "to_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "uuid": "8f9c5320-c818-4b95-8d9d-6a3b37a8bf4a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 218,
+        "type": "Return", "main_type": 222,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1485261573,
+        "from_classifier_name": "GUI",
+        "from_feature_key": "",
+        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
+        "to_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "uuid": "0714e69f-f9a3-4a84-ba8c-7bd93471bf3c"
+      }
+    },
+    {
+      "relationship": {
         "id": 112,
         "type": "Return", "main_type": 222,
         "name": "volume",
         "description": [
                 ""
         ],
-        "list_order": 568595202,
+        "list_order": 365650013,
         "from_classifier_name": "Audio Manager",
         "from_feature_key": "",
         "from_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
@@ -7514,7 +7568,7 @@
         "description": [
                 ""
         ],
-        "list_order": -145098385,
+        "list_order": -392619451,
         "from_classifier_name": "<100 ms",
         "from_feature_key": "",
         "from_node": "51da12aa-60bc-47ee-9562-e20245d6f815",
@@ -7532,7 +7586,7 @@
         "description": [
                 ""
         ],
-        "list_order": -861633617,
+        "list_order": -1010480491,
         "from_classifier_name": "<100 ms",
         "from_feature_key": "",
         "from_node": "51da12aa-60bc-47ee-9562-e20245d6f815",
