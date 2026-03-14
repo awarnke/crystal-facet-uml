@@ -54,12 +54,16 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ )
     const u8_error_t d_err = data_database_text_search_destroy ( &((*this_).db_searcher) );
     if ( U8_ERROR_NONE != d_err )
     {
-        U8_LOG_WARNING_HEX( "data_database_text_search_t could not be destructed.", d_err );
+        U8_LOG_WARNING_HEX( "data_database_text_search_t could not be destroyed.", d_err );
     }
     observer_destroy( &((*this_).result_consumer) );
 
     /* request data */
-    utf8stream_writemem_destroy( &((*this_).search_string_writer) );
+    const u8_error_t str_err = utf8stream_writemem_destroy( &((*this_).search_string_writer) );
+    if ( U8_ERROR_NONE != str_err )
+    {
+        U8_LOG_WARNING_HEX( "utf8stream_writemem_t could not be destroyed cleanly.", d_err );
+    }
 
     /* result data */
     (*this_).result_buffer_start = 0;

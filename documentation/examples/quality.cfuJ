@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.68.0"
+    "generator_version": "1.69.1"
   }
   ,
   "views":
@@ -673,6 +673,50 @@
             "classifier_name": "Installability",
             "node": "aec51b22-c57f-4694-a1ed-6b719fc1e0be",
             "uuid": "9a1ada36-fffa-4a2b-8c25-b7381276d834"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 52,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "Strategies for Portability",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "parent_name": "Portability",
+        "parent": "4d044711-4804-4cc8-aadf-644b43e27429",
+        "uuid": "86ec1e61-2f84-460a-92ec-b491dff68fb5",
+        "diagramelements":
+        [
+          {
+            "id": 489,
+            "classifier_name": "Declare all interfaces",
+            "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+            "uuid": "b7ec132d-acec-4ac3-86fa-1b06f138f60a"
+          },
+          {
+            "id": 490,
+            "classifier_name": "Installability",
+            "node": "aec51b22-c57f-4694-a1ed-6b719fc1e0be",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "af21d21b-02b6-45d0-b4df-925823255b9b"
+          },
+          {
+            "id": 491,
+            "classifier_name": "Adaptability",
+            "node": "24ef8550-935f-4806-bbde-1a2bff8a0356",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "b6061180-578b-4e49-9465-6f61829788d3"
+          },
+          {
+            "id": 492,
+            "classifier_name": "Replaceability",
+            "node": "90277e08-7cd6-4299-bac6-6ebb4c75333e",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "62f17bab-385b-4e54-a689-ddf093948ae2"
           }
         ]
       }
@@ -1393,13 +1437,13 @@
         [
           {
             "id": 444,
-            "classifier_name": "Inter-operability",
+            "classifier_name": "Interoperability",
             "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
             "uuid": "87bc0b58-3a3e-42e0-84ad-fec9fe25e05e"
           },
           {
             "id": 445,
-            "classifier_name": "Co-existence",
+            "classifier_name": "Coexistence",
             "node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
             "uuid": "c43bffab-c772-4a69-9cb9-24c15c509cf4"
           },
@@ -1408,6 +1452,43 @@
             "classifier_name": "Compatibility",
             "node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
             "uuid": "a8800df3-f900-48d4-b48b-619cb817cc4f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 51,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "Strategies for Compatibility",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "parent_name": "Compatibility",
+        "parent": "8f014900-1583-4df5-ba1f-50a7b43fc006",
+        "uuid": "5d649ca6-f9e5-480e-a8fb-6349297c5d65",
+        "diagramelements":
+        [
+          {
+            "id": 486,
+            "classifier_name": "Declare all interfaces",
+            "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+            "uuid": "adce6bd3-60d0-41af-86a2-041235787797"
+          },
+          {
+            "id": 487,
+            "classifier_name": "Coexistence",
+            "node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "cd440d40-4f3d-4a8a-9ec9-2c2f760e62b2"
+          },
+          {
+            "id": 488,
+            "classifier_name": "Interoperability",
+            "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "31764c20-7866-43ea-a085-da78de181ec8"
           }
         ]
       }
@@ -1556,6 +1637,12 @@
             "classifier_name": "automated Tests",
             "node": "d8b8bc49-d4bc-477e-b7aa-1444ddc3397a",
             "uuid": "53a2a553-27a5-4ea1-92d4-031bf6132019"
+          },
+          {
+            "id": 485,
+            "classifier_name": "Declare all interfaces",
+            "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+            "uuid": "3748912f-c561-46f9-86ad-ee072f81ad24"
           }
         ]
       }
@@ -1884,6 +1971,12 @@
             "node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "0450b2b5-369b-452d-a851-769519f3e91d"
+          },
+          {
+            "id": 493,
+            "classifier_name": "Declare all interfaces",
+            "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+            "uuid": "66df2f46-e540-4327-b83b-9007e1533e0f"
           }
         ]
       }
@@ -1992,6 +2085,12 @@
             "classifier_name": "Least Priviledge",
             "node": "e55acb1b-b8f0-4669-b8c2-65f479e6d312",
             "uuid": "9dcfbcad-46d8-461f-abda-659aaff6a13f"
+          },
+          {
+            "id": 494,
+            "classifier_name": "Declare all interfaces",
+            "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+            "uuid": "0af7b3fb-9efb-4927-9cd3-43448a820779"
           }
         ]
       }
@@ -3774,7 +3873,7 @@
       "classifier": {
         "id": 27,
         "type": "Class", "main_type": 125,
-        "name": "Co-existence",
+        "name": "Coexistence",
         "description": [
                 ""
         ],
@@ -3791,7 +3890,7 @@
       "classifier": {
         "id": 28,
         "type": "Class", "main_type": 125,
-        "name": "Inter-operability",
+        "name": "Interoperability",
         "description": [
                 ""
         ],
@@ -9466,6 +9565,26 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 300,
+        "type": "Component", "main_type": 121,
+        "stereotype": "principle",
+        "name": "Declare all interfaces",
+        "description": [
+                "For a software module,\n",
+                "declare all interfaces that are provided and that are required.\n",
+                ""
+        ],
+        "x_order": 1744077574,
+        "y_order": 1545780897,
+        "list_order": -824988934,
+        "uuid": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -10314,7 +10433,7 @@
         "list_order": 751056,
         "from_classifier_name": "Compatibility",
         "from_node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
-        "to_classifier_name": "Co-existence",
+        "to_classifier_name": "Coexistence",
         "to_node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
         "uuid": "560461b5-63dc-4f25-890f-9535d7c5e60e"
       }
@@ -10330,7 +10449,7 @@
         "list_order": 752080,
         "from_classifier_name": "Compatibility",
         "from_node": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
-        "to_classifier_name": "Inter-operability",
+        "to_classifier_name": "Interoperability",
         "to_node": "237779b9-5980-48c3-91dd-8e55562cac2e",
         "uuid": "db9c142e-6dff-4dad-b376-a78add343466"
       }
@@ -11583,6 +11702,22 @@
         "to_classifier_name": "Least Priviledge",
         "to_node": "e55acb1b-b8f0-4669-b8c2-65f479e6d312",
         "uuid": "95f3791f-7445-4695-8fde-55e8f87ddd10"
+      }
+    },
+    {
+      "relationship": {
+        "id": 363,
+        "type": "Association", "main_type": 200,
+        "name": "needs",
+        "description": [
+                ""
+        ],
+        "list_order": 970192,
+        "from_classifier_name": "Reduce Attack Surface",
+        "from_node": "1c0235e9-cc6c-4b9c-aaca-3cf0e5602c10",
+        "to_classifier_name": "Declare all interfaces",
+        "to_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "uuid": "5dd25dad-7c64-4d22-babf-80312bdc915b"
       }
     },
     {
@@ -14207,6 +14342,118 @@
         "to_classifier_name": "Modularity",
         "to_node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
         "uuid": "e61f4843-17c3-4ffa-86f4-44e2537843e9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 356,
+        "type": "Association", "main_type": 200,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 853456,
+        "from_classifier_name": "Declare all interfaces",
+        "from_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "to_classifier_name": "Reusability",
+        "to_node": "b56e8134-a6da-4fa8-bb27-617964b34c14",
+        "uuid": "e0f7d534-7088-4a01-9e8c-2db917401dc0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 357,
+        "type": "Association", "main_type": 200,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 886224,
+        "from_classifier_name": "Declare all interfaces",
+        "from_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "to_classifier_name": "Modularity",
+        "to_node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
+        "uuid": "3e31daa0-6afb-4920-810e-99e019fe74e4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 358,
+        "type": "Association", "main_type": 200,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 918992,
+        "from_classifier_name": "Declare all interfaces",
+        "from_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "to_classifier_name": "Testability",
+        "to_node": "c478e381-c500-4b3e-9305-57822f04e064",
+        "uuid": "dce08d9f-187b-4d09-ba3b-6d3831f4775f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 359,
+        "type": "Association", "main_type": 200,
+        "name": "prerequisite",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Declare all interfaces",
+        "from_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "to_classifier_name": "Coexistence",
+        "to_node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
+        "uuid": "0166bc9b-5edf-47e5-9d1c-ec17aa13b1a2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 360,
+        "type": "Association", "main_type": 200,
+        "name": "prerequisite",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Declare all interfaces",
+        "from_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "to_classifier_name": "Interoperability",
+        "to_node": "237779b9-5980-48c3-91dd-8e55562cac2e",
+        "uuid": "09bea08b-5501-484a-85ee-e48ddbb5c2eb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 361,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Declare all interfaces",
+        "from_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "to_classifier_name": "Replaceability",
+        "to_node": "90277e08-7cd6-4299-bac6-6ebb4c75333e",
+        "uuid": "8ee9c674-dae8-4fb2-8c55-21a2eaabe7b4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 362,
+        "type": "Association", "main_type": 200,
+        "name": "to identify communication paths",
+        "description": [
+                ""
+        ],
+        "list_order": 981456,
+        "from_classifier_name": "Declare all interfaces",
+        "from_node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
+        "to_classifier_name": "Confidentiality",
+        "to_node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
+        "uuid": "7e7da2ae-662e-43e1-8ef3-d1ab3a9f82bd"
       }
     }
   ]

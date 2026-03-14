@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.68.0"
+    "generator_version": "1.69.1"
   }
   ,
   "views":
@@ -3200,7 +3200,7 @@
                 "\n",
                 "For a glossary on pencil terms like envelope, label or contour, see D0079#name."
         ],
-        "list_order": 29440,
+        "list_order": 28800,
         "parent_name": "Building Block View",
         "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
         "uuid": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
