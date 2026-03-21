@@ -9465,6 +9465,16 @@
             ],
             "list_order": 14336,
             "uuid": "996f9781-1282-4e7a-9b06-58f03bbf3adf"
+          },
+          {
+            "id": 180,
+            "type": "Property", "main_type": 0,
+            "key": "stereotype",
+            "description": [
+                ""
+            ],
+            "list_order": 13824,
+            "uuid": "1a1e063e-4f8b-4adc-b00b-fa9d4beff2d5"
           }
         ]
       }
@@ -9637,6 +9647,16 @@
             ],
             "list_order": 23552,
             "uuid": "4534b3e4-da04-42b8-b0f8-f55a9735d2b8"
+          },
+          {
+            "id": 179,
+            "type": "Property", "main_type": 0,
+            "key": "stereotype",
+            "description": [
+                ""
+            ],
+            "list_order": 23040,
+            "uuid": "b711a0cb-6c64-422c-87fe-ce4faf12d3e6"
           }
         ]
       }
@@ -23032,7 +23052,7 @@
       "relationship": {
         "id": 100,
         "type": "Association", "main_type": 200,
-        "name": "",
+        "name": "in",
         "description": [
                 ""
         ],

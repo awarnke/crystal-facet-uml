@@ -3,19 +3,23 @@
 #include <assert.h>
 
 static inline void ctrl_classifier_trigger_init ( ctrl_classifier_trigger_t *this_,
-                                                  consistency_drop_invisibles_t *drop_invisibles,
-                                                  consistency_lifeline_t *lifeline )
+                                                  consistency_classifier_t *classifier,
+                                                  consistency_lifeline_t *lifeline,
+                                                  consistency_relationship_t *relationship )
 {
-    assert( drop_invisibles != NULL );
+    assert( classifier != NULL );
     assert( lifeline != NULL );
-    (*this_).drop_invisibles = drop_invisibles;
+    assert( relationship != NULL );
+    (*this_).classifier = classifier;
     (*this_).lifeline = lifeline;
+    (*this_).relationship = relationship;
 }
 
 static inline void ctrl_classifier_trigger_destroy ( ctrl_classifier_trigger_t *this_ )
 {
-    (*this_).drop_invisibles = NULL;
+    (*this_).classifier = NULL;
     (*this_).lifeline = NULL;
+    (*this_).relationship = NULL;
 }
 
 static inline u8_error_t ctrl_classifier_trigger_post_delete_feature( ctrl_classifier_trigger_t *this_,

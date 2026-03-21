@@ -1,6 +1,6 @@
-/* File: consistency_drop_invisibles_test.c; Copyright and License: see below */
+/* File: consistency_relationship_test.c; Copyright and License: see below */
 
-#include "consistency_drop_invisibles_test.h"
+#include "consistency_relationship_test.h"
 #include "ctrl_controller.h"
 #include "tvec/tvec_setup.h"
 #include "storage/data_database.h"
@@ -16,11 +16,11 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t no_hidden_relationships( test_fixture_t *fix );
 
-test_suite_t consistency_drop_invisibles_test_get_suite(void)
+test_suite_t consistency_relationship_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "consistency_drop_invisibles_test",
+                     "consistency_relationship_test",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

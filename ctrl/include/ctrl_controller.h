@@ -16,8 +16,10 @@
 #include "ctrl_diagram_trigger.h"
 #include "ctrl_undo_redo_list.h"
 #include "ctrl_undo_redo_iterator.h"
-#include "consistency/consistency_drop_invisibles.h"
+#include "consistency/consistency_classifier.h"
+#include "consistency/consistency_feature.h"
 #include "consistency/consistency_lifeline.h"
+#include "consistency/consistency_relationship.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -37,8 +39,10 @@ struct ctrl_controller_struct {
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_undo_redo_list_t undo_redo_list;  /*!< own instance of a ctrl_undo_redo_list_t */
     ctrl_consistency_checker_t consistency_checker;  /* own instance of a consistency checker */
-    consistency_drop_invisibles_t consistency_drop_invisibles;  /*!< own instance of consistency_drop_invisibles_t */
+    consistency_classifier_t consistency_classifier;  /*!< own instance of consistency_classifier_t */
+    consistency_feature_t consistency_feature;  /*!< own instance of consistency_feature_t */
     consistency_lifeline_t consistency_lifeline;  /*!< own instance of consistency_lifeline_t */
+    consistency_relationship_t consistency_relationship;  /*!< own instance of consistency_relationship_t */
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t */
                                               /*!< which wraps ctrl_controller_db_change_callback */

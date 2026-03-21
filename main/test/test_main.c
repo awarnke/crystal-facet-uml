@@ -32,7 +32,7 @@
 #include "integration/ctrl_consistency_checker_test.h"
 #include "integration/ctrl_undo_redo_list_test.h"
 #include "integration/consistency_lifeline_test.h"
-#include "integration/consistency_drop_invisibles_test.h"
+#include "integration/consistency_relationship_test.h"
 #include "unit/ctrl_undo_redo_iterator_test.h"
 /* pencil */
 #include "unit/geometry__test.h"
@@ -257,7 +257,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_consistency_checker_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_undo_redo_list_test_get_suite() );
         test_runner_run_suite( &runner, consistency_lifeline_test_get_suite() );
-        test_runner_run_suite( &runner, consistency_drop_invisibles_test_get_suite() );
+        test_runner_run_suite( &runner, consistency_relationship_test_get_suite() );
 
         /* pencil */
         test_runner_run_suite( &runner, geometry__test_get_suite() );

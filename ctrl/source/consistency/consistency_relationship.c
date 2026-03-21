@@ -1,15 +1,15 @@
-/* File: consistency_drop_invisibles.c; Copyright and License: see below */
+/* File: consistency_relationship.c; Copyright and License: see below */
 
-#include "consistency/consistency_drop_invisibles.h"
+#include "consistency/consistency_relationship.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 
-void consistency_drop_invisibles_init( consistency_drop_invisibles_t *this_,
-                                       data_database_reader_t *db_reader,
-                                       struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                       struct ctrl_diagram_controller_struct *diag_ctrl )
+void consistency_relationship_init( consistency_relationship_t *this_,
+                                    data_database_reader_t *db_reader,
+                                    struct ctrl_classifier_controller_struct *clfy_ctrl,
+                                    struct ctrl_diagram_controller_struct *diag_ctrl )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -23,7 +23,7 @@ void consistency_drop_invisibles_init( consistency_drop_invisibles_t *this_,
     U8_TRACE_END();
 }
 
-void consistency_drop_invisibles_destroy( consistency_drop_invisibles_t *this_ )
+void consistency_relationship_destroy( consistency_relationship_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -34,41 +34,8 @@ void consistency_drop_invisibles_destroy( consistency_drop_invisibles_t *this_ )
     U8_TRACE_END();
 }
 
-/* ================================ NO ABANDONED CLASSIFIERS ================================ */
-
-u8_error_t consistency_drop_invisibles_delete_unreferenced_classifier( consistency_drop_invisibles_t *this_,
-                                                                       const data_diagramelement_t *deleted_diagramelement )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != deleted_diagramelement );
-    u8_error_t result = U8_ERROR_NONE;
-
-    /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
-    u8_error_t my_ctrl_result;
-
-    my_ctrl_result = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
-                                                                   data_diagramelement_get_classifier_row_id( deleted_diagramelement ),
-                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                 );
-
-    if ( u8_error_contains( my_ctrl_result, U8_ERROR_OBJECT_STILL_REFERENCED ) )
-    {
-        U8_LOG_EVENT( "The classifier cannot be deleted because it is still referenced." );
-    }
-    else
-    {
-        /* report this unexpected error */
-        result |= my_ctrl_result;
-    }
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
-/* ================================ NO INVISIBLE RELATIONSHIPS ================================ */
-
-u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consistency_drop_invisibles_t *this_,
-                                                                       const data_diagramelement_t *deleted_diagramelement )
+u8_error_t consistency_relationship_delete_invisible_relationships( consistency_relationship_t *this_,
+                                                                    const data_diagramelement_t *deleted_diagramelement )
 {
     U8_TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
@@ -93,7 +60,7 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
 
             bool visible = true;
             const u8_error_t vis_err
-                = consistency_drop_invisibles_private_has_relationship_a_diagram( this_, &((*this_).temp_relationship_buf), &visible );
+                = consistency_relationship_private_has_relationship_a_diagram( this_, &((*this_).temp_relationship_buf), &visible );
 
             if ( vis_err == U8_ERROR_NONE )
             {
@@ -137,9 +104,9 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
     return result;
 }
 
-u8_error_t consistency_drop_invisibles_private_has_relationship_a_diagram( consistency_drop_invisibles_t *this_,
-                                                                           const data_relationship_t *relation,
-                                                                           bool *out_result )
+u8_error_t consistency_relationship_private_has_relationship_a_diagram( consistency_relationship_t *this_,
+                                                                        const data_relationship_t *relation,
+                                                                        bool *out_result )
 {
     U8_TRACE_BEGIN();
     assert( NULL != relation );

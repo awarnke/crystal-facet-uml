@@ -717,6 +717,12 @@
             "node": "90277e08-7cd6-4299-bac6-6ebb4c75333e",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "62f17bab-385b-4e54-a689-ddf093948ae2"
+          },
+          {
+            "id": 505,
+            "classifier_name": "Domain Driven Design",
+            "node": "0bb85a84-f553-405f-a64b-8197dabbdf30",
+            "uuid": "ecd6a8ea-8dbf-4330-82cc-6264361464f4"
           }
         ]
       }
@@ -1643,6 +1649,12 @@
             "classifier_name": "Declare all interfaces",
             "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
             "uuid": "3748912f-c561-46f9-86ad-ee072f81ad24"
+          },
+          {
+            "id": 504,
+            "classifier_name": "Domain Driven Design",
+            "node": "0bb85a84-f553-405f-a64b-8197dabbdf30",
+            "uuid": "c7630bbe-10ab-4b66-b975-6ff366797e41"
           }
         ]
       }
@@ -3000,6 +3012,77 @@
     },
     {
       "diagram": {
+        "id": 53,
+        "type": "Use Case Diagram", "diagram_type": 10,
+        "name": "Domain Driven Design",
+        "description": [
+                "Domain Driven Design (DDD) was introduced by Eric Evans, see D0023#name.\n",
+                "\n",
+                "This diagram shows some basic concepts."
+        ],
+        "list_order": 163840,
+        "parent_name": "Standard Methods",
+        "parent": "85fd634f-20cc-4db0-b17c-ebec3bacb9d5",
+        "uuid": "4db4169f-3eda-48f2-8ff1-c5103f99a5b2",
+        "diagramelements":
+        [
+          {
+            "id": 496,
+            "classifier_name": "Domain",
+            "node": "4dbc5ecc-055e-4648-b2c8-47a0d5748dfd",
+            "uuid": "53d05af2-8e51-4938-867c-75641a492129"
+          },
+          {
+            "id": 497,
+            "classifier_name": "Model Driven Design",
+            "node": "9b7b2c43-b5fd-48a0-bb83-fc12f32ffc9a",
+            "uuid": "5d105362-a613-4aa6-876a-b8379497f2ce"
+          },
+          {
+            "id": 498,
+            "classifier_name": "Ubiquitous Language",
+            "node": "a7879c2a-95b9-42ed-a50a-ee588e044f18",
+            "uuid": "29ef21d2-a58b-42d1-a93a-e28dab9287fc"
+          },
+          {
+            "id": 499,
+            "classifier_name": "Bounded Context",
+            "node": "6a3d496f-fbc3-496e-af6f-7629078581e5",
+            "uuid": "17d43d72-c05a-4e6d-a584-7925b593051b"
+          },
+          {
+            "id": 500,
+            "classifier_name": "Value Objects",
+            "node": "2502a654-c44e-45d0-93b3-3fb73d0fe198",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "19a0c3ec-0b1c-479c-a6bd-90afef07fc4c"
+          },
+          {
+            "id": 501,
+            "classifier_name": "Entities",
+            "node": "83be13ad-37cb-4a06-af98-6959162f173b",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "786a9b22-3ca2-4bb4-9b39-d37f922f9a47"
+          },
+          {
+            "id": 502,
+            "classifier_name": "Modules",
+            "node": "1a60fdee-c08e-42b5-9df2-5e09e3a1807f",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "cafeae90-efca-455b-b70a-98a523db44d7"
+          },
+          {
+            "id": 503,
+            "classifier_name": "Services",
+            "node": "a7beb48e-c8b5-472f-9fb7-ec026c3df6c3",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "0e44818f-ad15-41c9-89bf-4cc28646a9a6"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 33,
         "type": "Class Diagram", "diagram_type": 34,
         "name": "Process Documentation",
@@ -3195,6 +3278,12 @@
             "classifier_name": "SEBoK",
             "node": "4ac68b21-af74-4bd9-aadd-60782f09aaf1",
             "uuid": "a4c37936-4db1-4201-8086-6590bd9beeef"
+          },
+          {
+            "id": 495,
+            "classifier_name": "Domain-Driven Design",
+            "node": "5809b4b0-77aa-4921-a976-5bcae51a264a",
+            "uuid": "4378462e-565c-4863-ad8b-c75b5374e94f"
           }
         ]
       }
@@ -9585,6 +9674,185 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 301,
+        "type": "Object", "main_type": 126,
+        "name": "Domain-Driven Design",
+        "description": [
+                "Domain-Driven Design - Tackling Complexity in the Heart of Software\n",
+                "by\n",
+                "Eric Evans\n",
+                "Pearson Education, Inc., 2003\n",
+                "ISBN 0-321-12521-5"
+        ],
+        "x_order": 80689269,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "5809b4b0-77aa-4921-a976-5bcae51a264a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 302,
+        "type": "Use Case", "main_type": 101,
+        "name": "Domain",
+        "description": [
+                ""
+        ],
+        "x_order": 1477146349,
+        "y_order": -1025856271,
+        "list_order": -950183719,
+        "uuid": "4dbc5ecc-055e-4648-b2c8-47a0d5748dfd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 303,
+        "type": "Use Case", "main_type": 101,
+        "name": "Model Driven Design",
+        "description": [
+                ""
+        ],
+        "x_order": 1477146349,
+        "y_order": -805420033,
+        "list_order": -805420033,
+        "uuid": "9b7b2c43-b5fd-48a0-bb83-fc12f32ffc9a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 304,
+        "type": "Use Case", "main_type": 101,
+        "name": "Ubiquitous Language",
+        "description": [
+                "A common, omnipresent language between developers and architects."
+        ],
+        "x_order": -942808868,
+        "y_order": -805420033,
+        "list_order": -805420033,
+        "uuid": "a7879c2a-95b9-42ed-a50a-ee588e044f18",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 305,
+        "type": "Use Case", "main_type": 101,
+        "name": "Bounded Context",
+        "description": [
+                ""
+        ],
+        "x_order": -942808868,
+        "y_order": -1025856271,
+        "list_order": 288937036,
+        "uuid": "6a3d496f-fbc3-496e-af6f-7629078581e5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 306,
+        "type": "Use Case", "main_type": 101,
+        "name": "Value Objects",
+        "description": [
+                ""
+        ],
+        "x_order": -606803797,
+        "y_order": 288937036,
+        "list_order": -1105265188,
+        "uuid": "2502a654-c44e-45d0-93b3-3fb73d0fe198",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 307,
+        "type": "Use Case", "main_type": 101,
+        "name": "Entities",
+        "description": [
+                ""
+        ],
+        "x_order": 1085095788,
+        "y_order": 288937036,
+        "list_order": -950183719,
+        "uuid": "83be13ad-37cb-4a06-af98-6959162f173b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 308,
+        "type": "Use Case", "main_type": 101,
+        "name": "Modules",
+        "description": [
+                ""
+        ],
+        "x_order": 1340079000,
+        "y_order": 22759212,
+        "list_order": -805420033,
+        "uuid": "1a60fdee-c08e-42b5-9df2-5e09e3a1807f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 309,
+        "type": "Use Case", "main_type": 101,
+        "name": "Services",
+        "description": [
+                ""
+        ],
+        "x_order": -791879637,
+        "y_order": 22759212,
+        "list_order": -1049935192,
+        "uuid": "a7beb48e-c8b5-472f-9fb7-ec026c3df6c3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 310,
+        "type": "Package", "main_type": 124,
+        "stereotype": "principle",
+        "name": "Domain Driven Design",
+        "description": [
+                "DDD is a set of develpment principles. At its core is an \"Ubiquitous Language\" ",
+                "which is valid within a \"Bounded Context\". This language allows technical ",
+                "engineers to communicate the design and the implementation based on the domain ",
+                "for which a subsystem is defined. See D0053#name for more details.\n",
+                ""
+        ],
+        "x_order": 1198229110,
+        "y_order": 1545780897,
+        "list_order": 1545780897,
+        "uuid": "0bb85a84-f553-405f-a64b-8197dabbdf30",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -14454,6 +14722,182 @@
         "to_classifier_name": "Confidentiality",
         "to_node": "111f7cf4-c0d3-4bc1-bb39-f711347c95bf",
         "uuid": "7e7da2ae-662e-43e1-8ef3-d1ab3a9f82bd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 364,
+        "type": "Aggregation", "main_type": 201,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Model Driven Design",
+        "from_node": "9b7b2c43-b5fd-48a0-bb83-fc12f32ffc9a",
+        "to_classifier_name": "Entities",
+        "to_node": "83be13ad-37cb-4a06-af98-6959162f173b",
+        "uuid": "f6339285-2768-48de-b010-50bb41e04e3e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 365,
+        "type": "Aggregation", "main_type": 201,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Model Driven Design",
+        "from_node": "9b7b2c43-b5fd-48a0-bb83-fc12f32ffc9a",
+        "to_classifier_name": "Modules",
+        "to_node": "1a60fdee-c08e-42b5-9df2-5e09e3a1807f",
+        "uuid": "b879b733-812c-4074-9957-dbb139d98042"
+      }
+    },
+    {
+      "relationship": {
+        "id": 366,
+        "type": "Aggregation", "main_type": 201,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Model Driven Design",
+        "from_node": "9b7b2c43-b5fd-48a0-bb83-fc12f32ffc9a",
+        "to_classifier_name": "Value Objects",
+        "to_node": "2502a654-c44e-45d0-93b3-3fb73d0fe198",
+        "uuid": "5a9ccfcc-d755-4550-9e0e-1cd176ffec22"
+      }
+    },
+    {
+      "relationship": {
+        "id": 367,
+        "type": "Aggregation", "main_type": 201,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Model Driven Design",
+        "from_node": "9b7b2c43-b5fd-48a0-bb83-fc12f32ffc9a",
+        "to_classifier_name": "Services",
+        "to_node": "a7beb48e-c8b5-472f-9fb7-ec026c3df6c3",
+        "uuid": "b0b6be04-e22a-4a11-bb04-762244f6441a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 373,
+        "type": "Inclusion", "main_type": 261,
+        "name": "use and modify",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "Bounded Context",
+        "from_node": "6a3d496f-fbc3-496e-af6f-7629078581e5",
+        "to_classifier_name": "Ubiquitous Language",
+        "to_node": "a7879c2a-95b9-42ed-a50a-ee588e044f18",
+        "uuid": "13e7e767-c1e3-432f-b1a3-29457d8b6810"
+      }
+    },
+    {
+      "relationship": {
+        "id": 368,
+        "type": "Inclusion", "main_type": 261,
+        "name": "use and modify",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Value Objects",
+        "from_node": "2502a654-c44e-45d0-93b3-3fb73d0fe198",
+        "to_classifier_name": "Ubiquitous Language",
+        "to_node": "a7879c2a-95b9-42ed-a50a-ee588e044f18",
+        "uuid": "064c29e8-1044-49e4-a8b7-841a65df5280"
+      }
+    },
+    {
+      "relationship": {
+        "id": 371,
+        "type": "Inclusion", "main_type": 261,
+        "name": "use and modify",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "Entities",
+        "from_node": "83be13ad-37cb-4a06-af98-6959162f173b",
+        "to_classifier_name": "Ubiquitous Language",
+        "to_node": "a7879c2a-95b9-42ed-a50a-ee588e044f18",
+        "uuid": "c748928f-1d82-4abd-8e1c-d997765c84f6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 370,
+        "type": "Inclusion", "main_type": 261,
+        "name": "use and modify",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Modules",
+        "from_node": "1a60fdee-c08e-42b5-9df2-5e09e3a1807f",
+        "to_classifier_name": "Ubiquitous Language",
+        "to_node": "a7879c2a-95b9-42ed-a50a-ee588e044f18",
+        "uuid": "d1b418e3-61fa-4eeb-949e-d66582b3d166"
+      }
+    },
+    {
+      "relationship": {
+        "id": 369,
+        "type": "Inclusion", "main_type": 261,
+        "name": "use and modify",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Services",
+        "from_node": "a7beb48e-c8b5-472f-9fb7-ec026c3df6c3",
+        "to_classifier_name": "Ubiquitous Language",
+        "to_node": "a7879c2a-95b9-42ed-a50a-ee588e044f18",
+        "uuid": "1a3ddfd7-c49e-4631-9422-4f35cea710da"
+      }
+    },
+    {
+      "relationship": {
+        "id": 374,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 951760,
+        "from_classifier_name": "Domain Driven Design",
+        "from_node": "0bb85a84-f553-405f-a64b-8197dabbdf30",
+        "to_classifier_name": "Modifyability",
+        "to_node": "aa863c2c-3274-4ec3-a028-5468d2c10f3e",
+        "uuid": "33ab2e2d-1b13-4086-bbd8-3975db58736d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 375,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                "see "
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Domain Driven Design",
+        "from_node": "0bb85a84-f553-405f-a64b-8197dabbdf30",
+        "to_classifier_name": "Adaptability",
+        "to_node": "24ef8550-935f-4806-bbde-1a2bff8a0356",
+        "uuid": "b65922a0-bcf2-4af4-bd6f-e611acda1b7e"
       }
     }
   ]

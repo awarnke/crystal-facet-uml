@@ -3,19 +3,23 @@
 #include <assert.h>
 
 static inline void ctrl_diagram_trigger_init ( ctrl_diagram_trigger_t *this_,
-                                               consistency_drop_invisibles_t *drop_invisibles,
-                                               consistency_lifeline_t *lifeline )
+                                               consistency_classifier_t *classifier,
+                                               consistency_lifeline_t *lifeline,
+                                               consistency_relationship_t *relationship )
 {
-    assert( drop_invisibles != NULL );
+    assert( classifier != NULL );
     assert( lifeline != NULL );
-    (*this_).drop_invisibles = drop_invisibles;
+    assert( relationship != NULL );
+    (*this_).classifier = classifier;
     (*this_).lifeline = lifeline;
+    (*this_).relationship = relationship;
 }
 
 static inline void ctrl_diagram_trigger_destroy ( ctrl_diagram_trigger_t *this_ )
 {
-    (*this_).drop_invisibles = NULL;
+    (*this_).classifier = NULL;
     (*this_).lifeline = NULL;
+    (*this_).relationship = NULL;
 }
 
 static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_diagram_trigger_t *this_,
@@ -43,8 +47,8 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_d
 {
     u8_error_t result_err = U8_ERROR_NONE;
     result_err |= consistency_lifeline_delete_a_lifeline ( (*this_).lifeline, deleted_diagramelement );
-    result_err |= consistency_drop_invisibles_delete_unreferenced_classifier ( (*this_).drop_invisibles, deleted_diagramelement );
-    result_err |= consistency_drop_invisibles_delete_invisible_relationships ( (*this_).drop_invisibles, deleted_diagramelement );
+    result_err |= consistency_classifier_delete_unreferenced_classifier ( (*this_).classifier, deleted_diagramelement );
+    result_err |= consistency_relationship_delete_invisible_relationships ( (*this_).relationship, deleted_diagramelement );
     return result_err;
 }
 

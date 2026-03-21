@@ -5,6 +5,7 @@
 #include "layout/layout_relationship_iter.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "u8/u8_trace.h"
+#include "u8/u8_f64.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>

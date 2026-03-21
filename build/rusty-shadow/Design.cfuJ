@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.67.3"
+    "generator_version": "1.69.1"
   }
   ,
   "views":
@@ -32,7 +32,7 @@
         [
           {
             "id": 1,
-            "classifier_name": "rusty-shadow-2",
+            "classifier_name": "rusty-shadow introduction",
             "node": "13162062-260b-4732-9c2c-506f4fae1b1d",
             "uuid": "f7c522f8-64e6-4e52-a9f8-571abc8566c4"
           }
@@ -45,7 +45,7 @@
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Goal",
         "description": [
-                ""
+                "This diagram sketches the main goal of rusty-shadow"
         ],
         "list_order": 32768,
         "parent_name": "Subproject: rusty-shadow",
@@ -107,9 +107,9 @@
         [
           {
             "id": 3,
-            "display_tags": "Emphasis", "display_flags": 16777216,
             "classifier_name": "This diagram shows the intended workflow",
             "node": "78acfe20-2b07-446b-a65f-3a4fc8c2f7db",
+            "display_tags": "Emphasis", "display_flags": 16777216,
             "uuid": "303a83dd-f509-4a3c-b31a-4e65cfb97f42"
           },
           {
@@ -212,9 +212,12 @@
       "classifier": {
         "id": 1,
         "type": "Comment", "main_type": 130,
-        "name": "rusty-shadow-2",
+        "name": "rusty-shadow introduction",
         "description": [
-                ""
+                "This design document shows\n",
+                "- the goals and\n",
+                "- the designed solution\n",
+                "of the c-to-rust converter rusty-shadow."
         ],
         "x_order": -371481763,
         "y_order": -395421626,
@@ -575,8 +578,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "start",
-        "to_classifier_name": "fork",
         "from_node": "a518ea1d-1cce-4ed7-98bf-0ea15612a479",
+        "to_classifier_name": "fork",
         "to_node": "6a392d49-1da7-472f-9256-011e59fedabd",
         "uuid": "3338c9d8-5b7b-4648-8c74-b0e0d1ddb023"
       }
@@ -591,8 +594,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "configure text replacements",
-        "to_classifier_name": "join",
         "from_node": "8cfb5820-4f3b-4cd0-830d-77780d47518a",
+        "to_classifier_name": "join",
         "to_node": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
         "uuid": "bd9e3ecc-fec0-464d-a1ad-cfffc2a37016"
       }
@@ -607,8 +610,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "restructure c-code",
-        "to_classifier_name": "join",
         "from_node": "88dc8758-30a8-4e8b-94bd-5d19101d70cc",
+        "to_classifier_name": "join",
         "to_node": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
         "uuid": "2c8765bf-65af-4dfb-a850-da0d1d2b519d"
       }
@@ -623,8 +626,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "fork",
-        "to_classifier_name": "configure text replacements",
         "from_node": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "to_classifier_name": "configure text replacements",
         "to_node": "8cfb5820-4f3b-4cd0-830d-77780d47518a",
         "uuid": "4e61b1e2-40c1-4b25-8ade-e1de6ed33b9d"
       }
@@ -639,8 +642,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "fork",
-        "to_classifier_name": "restructure c-code",
         "from_node": "6a392d49-1da7-472f-9256-011e59fedabd",
+        "to_classifier_name": "restructure c-code",
         "to_node": "88dc8758-30a8-4e8b-94bd-5d19101d70cc",
         "uuid": "3e5a33e6-029b-4617-8134-77ede69b3f5f"
       }
@@ -655,8 +658,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "join",
-        "to_classifier_name": "run text replacements",
         "from_node": "326efb5c-5251-4ac2-bc1f-6ba0efed3778",
+        "to_classifier_name": "run text replacements",
         "to_node": "86ec20f6-563a-4ad1-9f78-48ee6073bb6c",
         "uuid": "e6152a6b-57e5-4317-9ef7-8f63ed529bb4"
       }
@@ -671,8 +674,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "run text replacements",
-        "to_classifier_name": "errors",
         "from_node": "86ec20f6-563a-4ad1-9f78-48ee6073bb6c",
+        "to_classifier_name": "errors",
         "to_node": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
         "uuid": "bf8f97a2-f902-4c7e-b506-7b67b4eb2fd6"
       }
@@ -687,8 +690,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "errors",
-        "to_classifier_name": "fork",
         "from_node": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
+        "to_classifier_name": "fork",
         "to_node": "6a392d49-1da7-472f-9256-011e59fedabd",
         "uuid": "bb0456d7-1ec9-4bf3-8aa6-ff5d5fed02cc"
       }
@@ -703,8 +706,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "errors",
-        "to_classifier_name": "run rust compiler",
         "from_node": "a5fec5c1-2802-44b3-b14f-722aa6665c38",
+        "to_classifier_name": "run rust compiler",
         "to_node": "6c7c717f-4d58-43f8-a769-426e00e1ce2a",
         "uuid": "e559ccbe-bdae-4ab9-95ef-89f4ef4eda12"
       }
@@ -719,8 +722,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "run rust compiler",
-        "to_classifier_name": "works?",
         "from_node": "6c7c717f-4d58-43f8-a769-426e00e1ce2a",
+        "to_classifier_name": "works?",
         "to_node": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
         "uuid": "835f20a3-619f-4a2f-84b4-1e3ca24904e4"
       }
@@ -735,8 +738,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "works?",
-        "to_classifier_name": "fork",
         "from_node": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
+        "to_classifier_name": "fork",
         "to_node": "6a392d49-1da7-472f-9256-011e59fedabd",
         "uuid": "e29c86d8-be9c-49ce-90bc-f66e90225b1a"
       }
@@ -751,8 +754,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "works?",
-        "to_classifier_name": "finish",
         "from_node": "65e70c48-da3c-48e9-92f4-d5b3488132c3",
+        "to_classifier_name": "finish",
         "to_node": "184075f1-9ab2-4f56-996e-cb5c629202c1",
         "uuid": "a48dfa55-d7ce-4866-967c-75dc5656cd96"
       }
@@ -767,9 +770,9 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "rusty-shadow",
+        "from_node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
         "to_classifier_name": "run text replacements",
         "to_feature_key": "tools",
-        "from_node": "45a02402-b0f6-484e-b668-67f2b0e364c1",
         "to_node": "cf5e2942-ca31-44e8-82b1-674d759dfafc",
         "uuid": "2964a3d9-5312-4c91-85c4-43b9e09969f5"
       }
@@ -784,8 +787,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "allow parallel development",
-        "to_classifier_name": "convert own c99 code to rust",
         "from_node": "936c2cb1-1008-44c9-95eb-eb597991a84a",
+        "to_classifier_name": "convert own c99 code to rust",
         "to_node": "db7f3c69-604b-49de-9431-c505142c0b1a",
         "uuid": "d186e099-1454-438f-a87c-68984e190da0"
       }

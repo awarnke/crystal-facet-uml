@@ -1,7 +1,7 @@
-/* File: consistency_drop_invisibles.h; Copyright and License: see below */
+/* File: consistency_relationship.h; Copyright and License: see below */
 
-#ifndef CONSISTENCY_DROP_INVISIBLES_H
-#define CONSISTENCY_DROP_INVISIBLES_H
+#ifndef CONSISTENCY_RELATIONSHIP_H
+#define CONSISTENCY_RELATIONSHIP_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -29,7 +29,7 @@ struct ctrl_diagram_controller_struct;
  *  The policy enforcer works on a similar abstraction level as the gui module.
  *  Therefore it references the same ctrl and data objects as the gui module.
  */
-struct consistency_drop_invisibles_struct {
+struct consistency_relationship_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
@@ -38,49 +38,28 @@ struct consistency_drop_invisibles_struct {
     data_relationship_t temp_relationship_buf;
 };
 
-typedef struct consistency_drop_invisibles_struct consistency_drop_invisibles_t;
+typedef struct consistency_relationship_struct consistency_relationship_t;
 
 /*!
- *  \brief initializes the consistency_drop_invisibles_t struct
+ *  \brief initializes the consistency_relationship_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param clfy_ctrl pointer to classifier controller to create and delete features and to delete relationships
  *  \param diag_ctrl pointer to diagram controller to modify diagramelements
  */
-void consistency_drop_invisibles_init ( consistency_drop_invisibles_t *this_,
-                                        data_database_reader_t *db_reader,
-                                        struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                        struct ctrl_diagram_controller_struct *diag_ctrl
-                                      );
+void consistency_relationship_init ( consistency_relationship_t *this_,
+                                     data_database_reader_t *db_reader,
+                                     struct ctrl_classifier_controller_struct *clfy_ctrl,
+                                     struct ctrl_diagram_controller_struct *diag_ctrl
+                                   );
 
 /*!
- *  \brief destroys the consistency_drop_invisibles_t struct
+ *  \brief destroys the consistency_relationship_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void consistency_drop_invisibles_destroy ( consistency_drop_invisibles_t *this_ );
-
-/* ================================ NO ABANDONED CLASSIFIERS ================================ */
-
-/*!
- *  \brief executes policies involved in deleting a diagramelement.
- *
- *  Current rules are:
- *  - after deleting a diagramelement,
- *    delete the classifier (if now unreferenced)
- *
- *  Rows are deleted in an order that enables an always consistent database structure.
- *
- *  \param this_ pointer to own object attributes
- *  \param deleted_diagramelement data of the deleted diagramelement.
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
- */
-u8_error_t consistency_drop_invisibles_delete_unreferenced_classifier ( consistency_drop_invisibles_t *this_,
-                                                                        const data_diagramelement_t *deleted_diagramelement
-                                                                      );
-
-/* ================================ NO INVISIBLE RELATIONSHIPS ================================ */
+void consistency_relationship_destroy ( consistency_relationship_t *this_ );
 
 /*!
  *  \brief executes policies involved in deleting a diagramelement.
@@ -93,9 +72,9 @@ u8_error_t consistency_drop_invisibles_delete_unreferenced_classifier ( consiste
  *  \param deleted_diagramelement data of the deleted diagramelement.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t consistency_drop_invisibles_delete_invisible_relationships ( consistency_drop_invisibles_t *this_,
-                                                                        const data_diagramelement_t *deleted_diagramelement
-                                                                      );
+u8_error_t consistency_relationship_delete_invisible_relationships ( consistency_relationship_t *this_,
+                                                                     const data_diagramelement_t *deleted_diagramelement
+                                                                   );
 
 /*!
  *  \brief checks if a relationship is visible in a diagram.
@@ -106,12 +85,12 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships ( consiste
  *                         (except diagram-type-specific filtering).
  *  \return error id in case of an error, e.g. U8_ERROR_ARRAY_BUFFER_EXCEEDED; U8_ERROR_NONE in case of success
  */
-u8_error_t consistency_drop_invisibles_private_has_relationship_a_diagram ( consistency_drop_invisibles_t *this_,
-                                                                            const data_relationship_t *relation,
-                                                                            bool *out_result
-                                                                          );
+u8_error_t consistency_relationship_private_has_relationship_a_diagram ( consistency_relationship_t *this_,
+                                                                         const data_relationship_t *relation,
+                                                                         bool *out_result
+                                                                       );
 
-#endif  /* CONSISTENCY_DROP_INVISIBLES_H */
+#endif  /* CONSISTENCY_RELATIONSHIP_H */
 
 
 /*
