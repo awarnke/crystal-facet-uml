@@ -32,10 +32,6 @@ struct ctrl_diagram_controller_struct;
 struct consistency_classifier_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
-    struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
-
-    data_diagramelement_t temp_diagelement_buf;  /*!< be aware of reentrancy by recursion! */
-    data_relationship_t temp_relationship_buf;
 };
 
 typedef struct consistency_classifier_struct consistency_classifier_t;
@@ -46,12 +42,10 @@ typedef struct consistency_classifier_struct consistency_classifier_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param clfy_ctrl pointer to classifier controller to create and delete features and to delete relationships
- *  \param diag_ctrl pointer to diagram controller to modify diagramelements
  */
 void consistency_classifier_init ( consistency_classifier_t *this_,
                                    data_database_reader_t *db_reader,
-                                   struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                   struct ctrl_diagram_controller_struct *diag_ctrl
+                                   struct ctrl_classifier_controller_struct *clfy_ctrl
                                  );
 
 /*!
@@ -62,7 +56,7 @@ void consistency_classifier_init ( consistency_classifier_t *this_,
 void consistency_classifier_destroy ( consistency_classifier_t *this_ );
 
 /*!
- *  \brief executes policies involved in deleting a diagramelement.
+ *  \brief executes policies on classifiers triggered by deleting a diagramelement.
  *
  *  Current rules are:
  *  - after deleting a diagramelement,

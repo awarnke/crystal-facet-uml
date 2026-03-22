@@ -64,7 +64,7 @@ void consistency_lifeline_init ( consistency_lifeline_t *this_,
 void consistency_lifeline_destroy ( consistency_lifeline_t *this_ );
 
 /*!
- *  \brief executes policies involved in changing the diagram type.
+ *  \brief executes policies on lifelines triggered by changing the diagram type.
  *
  *  Current rules are:
  *  - when changing a diagram type to a non-interaction/non-scenario type,
@@ -83,7 +83,7 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
                                                  );
 
 /*!
- *  \brief executes policies involved in changing the diagram type.
+ *  \brief executes policies on lifelines triggered by changing the diagram type.
  *
  *  Current rules are:
  *  - when changing a diagram type to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
@@ -102,7 +102,7 @@ u8_error_t consistency_lifeline_create_lifelines ( consistency_lifeline_t *this_
                                                  );
 
 /*!
- *  \brief executes policies involved in creating a diagramelement.
+ *  \brief executes policies on lifelines triggered by creating a diagramelement.
  *
  *  Current rules are:
  *  - when creating a diagramelement
@@ -133,7 +133,7 @@ u8_error_t consistency_lifeline_private_create_one_lifeline ( consistency_lifeli
                                                             );
 
 /*!
- *  \brief executes policies involved in deleting a diagramelement.
+ *  \brief executes policies on lifelines triggered by deleting a diagramelement.
  *
  *  Current rules are:
  *  - when deleting a diagramelement,

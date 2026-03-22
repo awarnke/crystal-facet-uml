@@ -16,6 +16,7 @@
 
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
+#include "data_rules.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -32,7 +33,7 @@ struct ctrl_diagram_controller_struct;
 struct consistency_relationship_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
-    struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
+    data_rules_t rules;  /*!< visibility rules for relationships, depending on diagram type */
 
     data_diagramelement_t temp_diagelement_buf;  /*!< be aware of reentrancy by recursion! */
     data_relationship_t temp_relationship_buf;
@@ -46,12 +47,10 @@ typedef struct consistency_relationship_struct consistency_relationship_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param clfy_ctrl pointer to classifier controller to create and delete features and to delete relationships
- *  \param diag_ctrl pointer to diagram controller to modify diagramelements
  */
 void consistency_relationship_init ( consistency_relationship_t *this_,
                                      data_database_reader_t *db_reader,
-                                     struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                     struct ctrl_diagram_controller_struct *diag_ctrl
+                                     struct ctrl_classifier_controller_struct *clfy_ctrl
                                    );
 
 /*!
@@ -62,7 +61,7 @@ void consistency_relationship_init ( consistency_relationship_t *this_,
 void consistency_relationship_destroy ( consistency_relationship_t *this_ );
 
 /*!
- *  \brief executes policies involved in deleting a diagramelement.
+ *  \brief executes policies on relationships triggered by deleting a diagramelement.
  *
  *  Current rules are:
  *  - after deleting a diagramelement,

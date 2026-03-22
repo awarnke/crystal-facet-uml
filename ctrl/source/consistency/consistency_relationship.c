@@ -8,17 +8,15 @@
 
 void consistency_relationship_init( consistency_relationship_t *this_,
                                     data_database_reader_t *db_reader,
-                                    struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                    struct ctrl_diagram_controller_struct *diag_ctrl )
+                                    struct ctrl_classifier_controller_struct *clfy_ctrl )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != clfy_ctrl );
-    assert( NULL != diag_ctrl );
 
     (*this_).db_reader = db_reader;
     (*this_).clfy_ctrl = clfy_ctrl;
-    (*this_).diag_ctrl = diag_ctrl;
+    data_rules_init( &((*this_).rules) );
 
     U8_TRACE_END();
 }
@@ -29,7 +27,7 @@ void consistency_relationship_destroy( consistency_relationship_t *this_ )
 
     (*this_).db_reader = NULL;
     (*this_).clfy_ctrl = NULL;
-    (*this_).diag_ctrl = NULL;
+    data_rules_destroy( &((*this_).rules) );
 
     U8_TRACE_END();
 }

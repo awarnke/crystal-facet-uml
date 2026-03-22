@@ -37,10 +37,10 @@ void consistency_lifeline_destroy( consistency_lifeline_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    data_rules_destroy( &((*this_).rules) );
     (*this_).db_reader = NULL;
     (*this_).clfy_ctrl = NULL;
     (*this_).diag_ctrl = NULL;
+    data_rules_destroy( &((*this_).rules) );
 
     U8_TRACE_END();
 }

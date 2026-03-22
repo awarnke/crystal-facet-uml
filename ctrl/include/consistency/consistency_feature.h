@@ -16,6 +16,7 @@
 
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
+#include "data_rules.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -32,7 +33,7 @@ struct ctrl_diagram_controller_struct;
 struct consistency_feature_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
-    struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
+    data_rules_t rules;  /*!< visibility rules for features, depending on diagram type */
 
     data_diagramelement_t temp_diagelement_buf;  /*!< be aware of reentrancy by recursion! */
     data_relationship_t temp_relationship_buf;
@@ -46,12 +47,10 @@ typedef struct consistency_feature_struct consistency_feature_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param clfy_ctrl pointer to classifier controller to create and delete features and to delete relationships
- *  \param diag_ctrl pointer to diagram controller to modify diagramelements
  */
 void consistency_feature_init ( consistency_feature_t *this_,
                                 data_database_reader_t *db_reader,
-                                struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                struct ctrl_diagram_controller_struct *diag_ctrl
+                                struct ctrl_classifier_controller_struct *clfy_ctrl
                               );
 
 /*!
@@ -60,6 +59,32 @@ void consistency_feature_init ( consistency_feature_t *this_,
  *  \param this_ pointer to own object attributes
  */
 void consistency_feature_destroy ( consistency_feature_t *this_ );
+
+/*!
+ *  \brief executes policies on features triggered by changing the diagram type.
+ *
+ *  Note: lifelines are excluded, these are handled by consistency_lifeline_t.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param updated_diagram the updated diagram.
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t consistency_feature_delete_invisibles_in_diagram ( consistency_feature_t *this_,
+                                                              const data_diagram_t *updated_diagram
+                                                            );
+
+/*!
+ *  \brief executes policies on features triggered by deleting a diagramelement.
+ *
+ *  Note: lifelines are excluded, these are handled by consistency_lifeline_t.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param deleted_diagramelement the deleted diagramelement.
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t consistency_feature_delete_invisibles_of_classifier ( consistency_feature_t *this_,
+                                                                 const data_diagramelement_t *deleted_diagramelement
+                                                               );
 
 #endif  /* CONSISTENCY_FEATURE_H */
 

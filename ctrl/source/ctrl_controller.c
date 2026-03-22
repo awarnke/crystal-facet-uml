@@ -13,10 +13,10 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
     data_database_reader_init( &((*this_).db_reader), database );
     data_database_writer_init( &((*this_).db_writer), &((*this_).db_reader), database );
     ctrl_undo_redo_list_init( &((*this_).undo_redo_list), &((*this_).db_reader), &((*this_).db_writer) );
-    consistency_classifier_init( &((*this_).consistency_classifier), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
-    consistency_feature_init( &((*this_).consistency_feature), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
+    consistency_classifier_init( &((*this_).consistency_classifier), &((*this_).db_reader), &((*this_).classifiers) );
+    consistency_feature_init( &((*this_).consistency_feature), &((*this_).db_reader), &((*this_).classifiers) );
     consistency_lifeline_init( &((*this_).consistency_lifeline), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
-    consistency_relationship_init( &((*this_).consistency_relationship), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
+    consistency_relationship_init( &((*this_).consistency_relationship), &((*this_).db_reader), &((*this_).classifiers) );
     ctrl_classifier_trigger_init( &((*this_).classifier_trigger),
                                   &((*this_).consistency_classifier),
                                   &((*this_).consistency_lifeline),
