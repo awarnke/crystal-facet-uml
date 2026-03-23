@@ -32,6 +32,29 @@ void consistency_feature_destroy( consistency_feature_t *this_ )
     U8_TRACE_END();
 }
 
+u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature_t *this_,
+                                                             const data_diagram_t *updated_diagram )
+{
+    U8_TRACE_BEGIN();
+
+    u8_error_t result = U8_ERROR_NOT_YET_IMPLEMENTED;
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feature_t *this_,
+                                                                const data_diagramelement_t *deleted_diagramelement )
+
+{
+    U8_TRACE_BEGIN();
+
+    u8_error_t result = U8_ERROR_NOT_YET_IMPLEMENTED;
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2026-2026 Andreas Warnke

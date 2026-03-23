@@ -61,6 +61,17 @@ void consistency_relationship_init ( consistency_relationship_t *this_,
 void consistency_relationship_destroy ( consistency_relationship_t *this_ );
 
 /*!
+ *  \brief executes policies on relationships triggered by changing the diagram type.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param updated_diagram the updated diagram.
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t consistency_relationship_delete_invisibles_in_diagram ( consistency_relationship_t *this_,
+                                                                   const data_diagram_t *updated_diagram
+                                                                 );
+
+/*!
  *  \brief executes policies on relationships triggered by deleting a diagramelement.
  *
  *  Current rules are:
@@ -71,9 +82,9 @@ void consistency_relationship_destroy ( consistency_relationship_t *this_ );
  *  \param deleted_diagramelement data of the deleted diagramelement.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t consistency_relationship_delete_invisible_relationships ( consistency_relationship_t *this_,
-                                                                     const data_diagramelement_t *deleted_diagramelement
-                                                                   );
+u8_error_t consistency_relationship_delete_invisibles_at_classifier ( consistency_relationship_t *this_,
+                                                                      const data_diagramelement_t *deleted_diagramelement
+                                                                    );
 
 /*!
  *  \brief checks if a relationship is visible in a diagram.

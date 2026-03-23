@@ -32,8 +32,19 @@ void consistency_relationship_destroy( consistency_relationship_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t consistency_relationship_delete_invisible_relationships( consistency_relationship_t *this_,
-                                                                    const data_diagramelement_t *deleted_diagramelement )
+u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_relationship_t *this_,
+                                                                  const data_diagram_t *updated_diagram )
+{
+    U8_TRACE_BEGIN();
+
+    u8_error_t result = U8_ERROR_NOT_YET_IMPLEMENTED;
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency_relationship_t *this_,
+                                                                     const data_diagramelement_t *deleted_diagramelement )
 {
     U8_TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );

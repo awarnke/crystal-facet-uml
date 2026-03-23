@@ -10,9 +10,7 @@
  */
 
 #include "u8/u8_error.h"
-#include "consistency/consistency_classifier.h"
 #include "consistency/consistency_lifeline.h"
-#include "consistency/consistency_relationship.h"
 
 /*!
  *  \brief all data attributes needed for the database trigger
@@ -20,9 +18,7 @@
  *  This module is called, triggerd by database changes, to re-establish consistency
  */
 struct ctrl_classifier_trigger_struct {
-    consistency_classifier_t *classifier;  /*!< pointer to external consistency routines */
     consistency_lifeline_t *lifeline;  /*!< pointer to external consistency routines */
-    consistency_relationship_t *relationship;  /*!< pointer to external consistency routines */
 };
 
 typedef struct ctrl_classifier_trigger_struct ctrl_classifier_trigger_t;
@@ -31,14 +27,10 @@ typedef struct ctrl_classifier_trigger_struct ctrl_classifier_trigger_t;
  *  \brief initializes the ctrl_classifier_trigger_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier pointer to external consistency routines for dropping invisible classifiers
  *  \param lifeline pointer to external consistency routines for creating and destroying lifelines and their references
- *  \param relationship pointer to external consistency routines for dropping invisible relationships
  */
 static inline void ctrl_classifier_trigger_init ( ctrl_classifier_trigger_t *this_,
-                                                  consistency_classifier_t *classifier,
-                                                  consistency_lifeline_t *lifeline,
-                                                  consistency_relationship_t *relationship
+                                                  consistency_lifeline_t *lifeline
                                                 );
 
 /*!

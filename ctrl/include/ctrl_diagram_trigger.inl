@@ -4,13 +4,16 @@
 
 static inline void ctrl_diagram_trigger_init ( ctrl_diagram_trigger_t *this_,
                                                consistency_classifier_t *classifier,
+                                               consistency_feature_t *feature,
                                                consistency_lifeline_t *lifeline,
                                                consistency_relationship_t *relationship )
 {
     assert( classifier != NULL );
+    assert( feature != NULL );
     assert( lifeline != NULL );
     assert( relationship != NULL );
     (*this_).classifier = classifier;
+    (*this_).feature = feature;
     (*this_).lifeline = lifeline;
     (*this_).relationship = relationship;
 }
@@ -18,6 +21,7 @@ static inline void ctrl_diagram_trigger_init ( ctrl_diagram_trigger_t *this_,
 static inline void ctrl_diagram_trigger_destroy ( ctrl_diagram_trigger_t *this_ )
 {
     (*this_).classifier = NULL;
+    (*this_).feature = NULL;
     (*this_).lifeline = NULL;
     (*this_).relationship = NULL;
 }
@@ -28,6 +32,8 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_dia
     u8_error_t result = U8_ERROR_NONE;
     result |= consistency_lifeline_delete_lifelines( (*this_).lifeline, updated_diagram );
     result |= consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram );
+    result |= consistency_feature_delete_invisibles_in_diagram( (*this_).feature, updated_diagram );
+    result |= consistency_relationship_delete_invisibles_in_diagram( (*this_).relationship, updated_diagram );
     return result;
 }
 
@@ -46,9 +52,10 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_d
                                                                           const data_diagramelement_t *deleted_diagramelement )
 {
     u8_error_t result_err = U8_ERROR_NONE;
-    result_err |= consistency_lifeline_delete_a_lifeline ( (*this_).lifeline, deleted_diagramelement );
-    result_err |= consistency_classifier_delete_unreferenced_classifier ( (*this_).classifier, deleted_diagramelement );
-    result_err |= consistency_relationship_delete_invisible_relationships ( (*this_).relationship, deleted_diagramelement );
+    result_err |= consistency_lifeline_delete_a_lifeline( (*this_).lifeline, deleted_diagramelement );
+    result_err |= consistency_classifier_delete_unreferenced_classifier( (*this_).classifier, deleted_diagramelement );
+    result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, deleted_diagramelement );
+    result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship, deleted_diagramelement );
     return result_err;
 }
 

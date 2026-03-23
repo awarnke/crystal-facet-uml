@@ -17,13 +17,10 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
     consistency_feature_init( &((*this_).consistency_feature), &((*this_).db_reader), &((*this_).classifiers) );
     consistency_lifeline_init( &((*this_).consistency_lifeline), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
     consistency_relationship_init( &((*this_).consistency_relationship), &((*this_).db_reader), &((*this_).classifiers) );
-    ctrl_classifier_trigger_init( &((*this_).classifier_trigger),
-                                  &((*this_).consistency_classifier),
-                                  &((*this_).consistency_lifeline),
-                                  &((*this_).consistency_relationship)
-                                );
+    ctrl_classifier_trigger_init( &((*this_).classifier_trigger), &((*this_).consistency_lifeline) );
     ctrl_diagram_trigger_init( &((*this_).diagram_trigger),
                                &((*this_).consistency_classifier),
+                               &((*this_).consistency_feature),
                                &((*this_).consistency_lifeline),
                                &((*this_).consistency_relationship)
                              );
