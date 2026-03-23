@@ -1,6 +1,6 @@
-/* File: ctrl_consistency_checker_test.c; Copyright and License: see below */
+/* File: consistency_checker_test.c; Copyright and License: see below */
 
-#include "ctrl_consistency_checker_test.h"
+#include "consistency_checker_test.h"
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
@@ -27,7 +27,7 @@ static test_case_result_t repair_invalid_feature_parent( test_fixture_t *fix );
 static test_case_result_t repair_invalid_relationship( test_fixture_t *fix );
 static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix );
 
-test_suite_t ctrl_consistency_checker_test_get_suite(void)
+test_suite_t consistency_checker_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,

@@ -15,10 +15,10 @@
  */
 
 #include "u8/u8_error.h"
-#include "ctrl_consistency_checker.h"
 #include "ctrl_classifier_trigger.h"
 #include "ctrl_undo_redo_list.h"
 #include "ctrl_undo_redo_action_boundary.h"
+#include "consistency/consistency_checker.h"
 #include "consistency/consistency_classifier.h"
 #include "consistency/consistency_lifeline.h"
 #include "consistency/consistency_relationship.h"
@@ -41,7 +41,7 @@ struct ctrl_classifier_controller_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    ctrl_consistency_checker_t consistency_checker;  /*!< own instance of a consistency checker */
+    consistency_checker_t consistency_checker;  /*!< own instance of a consistency checker */
     ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
     ctrl_classifier_trigger_t *policy_enforcer;  /*!< pointer to external ctrl_classifier_trigger_t */
 

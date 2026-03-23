@@ -1,16 +1,16 @@
-/* File: ctrl_consistency_checker.c; Copyright and License: see below */
+/* File: consistency_checker.c; Copyright and License: see below */
 
-#include "ctrl_consistency_checker.h"
+#include "consistency/consistency_checker.h"
 #include "storage/data_database_consistency_checker.h"
 #include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <assert.h>
 
-void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_,
-                                     data_database_t *database,
-                                     data_database_reader_t *db_reader,
-                                     data_database_writer_t *db_writer )
+void consistency_checker_init( consistency_checker_t *this_,
+                               data_database_t *database,
+                               data_database_reader_t *db_reader,
+                               data_database_writer_t *db_writer )
 {
     U8_TRACE_BEGIN();
     assert( NULL != database );
@@ -26,7 +26,7 @@ void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_,
     U8_TRACE_END();
 }
 
-void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
+void consistency_checker_destroy( consistency_checker_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -39,11 +39,11 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
-                                                      bool modify_db,
-                                                      uint32_t *out_err,
-                                                      uint32_t *out_fix,
-                                                      utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_repair_database( consistency_checker_t *this_,
+                                                bool modify_db,
+                                                uint32_t *out_err,
+                                                uint32_t *out_fix,
+                                                utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_english_report );
@@ -64,30 +64,30 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
     /* == find inconsistencies in drawings == */
 
     /* get all root diagrams */
-    err_result |= ctrl_consistency_checker_private_ensure_single_root_diagram( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_single_root_diagram( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* find invalid and circular diagram parent links */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_diagram_parents( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_valid_diagram_parents( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* find nonreferencing diagramelements */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_diagramelements( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_valid_diagramelements( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* find illreferencing diagramelements */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_diagele_features( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_valid_diagele_features( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* find unreferenced, invisible classifiers */
-    err_result |= ctrl_consistency_checker_private_ensure_referenced_classifiers( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_referenced_classifiers( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* == find inconsistencies in meta model == */
 
     /* find nonreferencing features */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_feature_parents( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_valid_feature_parents( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* find nonreferencing relationships */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_relationship_classifiers( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_valid_relationship_classifiers( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* find illreferencing relationships */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_relationship_features( this_, modify_db, &error_count, &fix_count, out_english_report );
+    err_result |= consistency_checker_private_ensure_valid_relationship_features( this_, modify_db, &error_count, &fix_count, out_english_report );
 
     /* prepare results and return */
     if ( NULL != out_err )
@@ -123,11 +123,11 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
     return err_result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_consistency_checker_t *this_,
-                                                                         bool modify_db,
-                                                                         uint32_t *io_err,
-                                                                         uint32_t *io_fix,
-                                                                         utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_single_root_diagram( consistency_checker_t *this_,
+                                                                   bool modify_db,
+                                                                   uint32_t *io_err,
+                                                                   uint32_t *io_fix,
+                                                                   utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -222,11 +222,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
     return result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
-                                                                           bool modify_db,
-                                                                           uint32_t *io_err,
-                                                                           uint32_t *io_fix,
-                                                                           utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_valid_diagram_parents( consistency_checker_t *this_,
+                                                                     bool modify_db,
+                                                                     uint32_t *io_err,
+                                                                     uint32_t *io_fix,
+                                                                     utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -284,11 +284,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                     data_id_t diagram_id = data_small_set_get_id( &circ_ref, list_pos );
                     data_row_t diagram_row_id = data_id_get_row_id( &diagram_id );
 
-                    data_err = data_database_writer_update_diagram_parent_id ( (*this_).db_writer,
-                                                                               diagram_row_id,
-                                                                               root_diag_id,
-                                                                               NULL /*out_old_diagram*/
-                                                                             );
+                    data_err = data_database_writer_update_diagram_parent_id( (*this_).db_writer,
+                                                                              diagram_row_id,
+                                                                              root_diag_id,
+                                                                              NULL /*out_old_diagram*/
+                                                                            );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Diagram " );
@@ -318,11 +318,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
     return err_result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_consistency_checker_t *this_,
-                                                                           bool modify_db,
-                                                                           uint32_t *io_err,
-                                                                           uint32_t *io_fix,
-                                                                           utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_valid_diagramelements( consistency_checker_t *this_,
+                                                                     bool modify_db,
+                                                                     uint32_t *io_err,
+                                                                     uint32_t *io_fix,
+                                                                     utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -388,11 +388,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
     return err_result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
-                                                                            bool modify_db,
-                                                                            uint32_t *io_err,
-                                                                            uint32_t *io_fix,
-                                                                            utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_valid_diagele_features( consistency_checker_t *this_,
+                                                                      bool modify_db,
+                                                                      uint32_t *io_err,
+                                                                      uint32_t *io_fix,
+                                                                      utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -458,11 +458,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
     return err_result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
-                                                                            bool modify_db,
-                                                                            uint32_t *io_err,
-                                                                            uint32_t *io_fix,
-                                                                            utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_referenced_classifiers( consistency_checker_t *this_,
+                                                                      bool modify_db,
+                                                                      uint32_t *io_err,
+                                                                      uint32_t *io_fix,
+                                                                      utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -527,11 +527,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
     return err_result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
-                                                                           bool modify_db,
-                                                                           uint32_t *io_err,
-                                                                           uint32_t *io_fix,
-                                                                           utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_valid_feature_parents( consistency_checker_t *this_,
+                                                                     bool modify_db,
+                                                                     uint32_t *io_err,
+                                                                     uint32_t *io_fix,
+                                                                     utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -597,11 +597,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
     return err_result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
-                                                                                    bool modify_db,
-                                                                                    uint32_t *io_err,
-                                                                                    uint32_t *io_fix,
-                                                                                    utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_valid_relationship_classifiers( consistency_checker_t *this_,
+                                                                              bool modify_db,
+                                                                              uint32_t *io_err,
+                                                                              uint32_t *io_fix,
+                                                                              utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -667,11 +667,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
     return err_result;
 }
 
-u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
-                                                                                 bool modify_db,
-                                                                                 uint32_t *io_err,
-                                                                                 uint32_t *io_fix,
-                                                                                 utf8stream_writer_t *out_english_report )
+u8_error_t consistency_checker_private_ensure_valid_relationship_features( consistency_checker_t *this_,
+                                                                           bool modify_db,
+                                                                           uint32_t *io_err,
+                                                                           uint32_t *io_fix,
+                                                                           utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );

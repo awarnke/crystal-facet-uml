@@ -38,7 +38,7 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
                                    &((*this_).db_reader),
                                    &((*this_).db_writer)
                                  );
-    ctrl_consistency_checker_init ( &((*this_).consistency_checker), database, &((*this_).db_reader), &((*this_).db_writer) );
+    consistency_checker_init ( &((*this_).consistency_checker), database, &((*this_).db_reader), &((*this_).db_writer) );
 
     /* listen on db open and prepare_close events: */
     data_database_listener_init ( &((*this_).me_as_listener),
@@ -60,7 +60,7 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
     /* destroy member attributes */
     ctrl_classifier_trigger_destroy( &((*this_).classifier_trigger) );
     ctrl_diagram_trigger_destroy( &((*this_).diagram_trigger) );
-    ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
+    consistency_checker_destroy ( &((*this_).consistency_checker) );
     ctrl_diagram_controller_destroy ( &((*this_).diagrams) );
     ctrl_classifier_controller_destroy ( &((*this_).classifiers) );
     consistency_classifier_destroy ( &((*this_).consistency_classifier) );

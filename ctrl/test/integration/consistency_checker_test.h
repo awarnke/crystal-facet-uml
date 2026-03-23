@@ -1,19 +1,19 @@
-/* File: ctrl_consistency_checker_test.h; Copyright and License: see below */
+/* File: consistency_checker_test.h; Copyright and License: see below */
 
-#ifndef CTRL_CONSISTENCY_CHECKER_TEST_H
-#define CTRL_CONSISTENCY_CHECKER_TEST_H
+#ifndef CONSISTENCY_CHECKER_TEST_H
+#define CONSISTENCY_CHECKER_TEST_H
 
 /*!
  *  \file
  *  \brief MODULE TEST for data_database_consistency_checker, data_database_writer, data_database_sql_builder,
- *                         data_database, data_database_reader, ctrl_consistency_checker
+ *                         data_database, data_database_reader, consistency_checker
  */
 
 #include "test_suite.h"
 
-test_suite_t ctrl_consistency_checker_test_get_suite(void);
+test_suite_t consistency_checker_test_get_suite(void);
 
-#endif  /* CTRL_CONSISTENCY_CHECKER_TEST_H */
+#endif  /* CONSISTENCY_CHECKER_TEST_H */
 
 
 /*

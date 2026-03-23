@@ -38,6 +38,9 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature
     U8_TRACE_BEGIN();
 
     u8_error_t result = U8_ERROR_NOT_YET_IMPLEMENTED;
+    U8_LOG_ERROR("U8_ERROR_NOT_YET_IMPLEMENTED");
+
+    result = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -50,6 +53,9 @@ u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feat
     U8_TRACE_BEGIN();
 
     u8_error_t result = U8_ERROR_NOT_YET_IMPLEMENTED;
+    U8_LOG_ERROR("U8_ERROR_NOT_YET_IMPLEMENTED");
+
+    result = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR( result );
     return result;

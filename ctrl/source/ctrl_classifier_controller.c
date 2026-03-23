@@ -18,7 +18,7 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
     (*this_).database = database;
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
-    ctrl_consistency_checker_init ( &((*this_).consistency_checker), database, db_reader, db_writer );
+    consistency_checker_init ( &((*this_).consistency_checker), database, db_reader, db_writer );
 
     U8_TRACE_END();
 }
@@ -27,7 +27,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
+    consistency_checker_destroy ( &((*this_).consistency_checker) );
     (*this_).undo_redo_list = NULL;
     (*this_).policy_enforcer = NULL;
     (*this_).database = NULL;

@@ -29,7 +29,7 @@
 #include "integration/ctrl_diagram_controller_test.h"
 #include "integration/ctrl_multi_step_changer_test.h"
 #include "integration/ctrl_classifier_controller_test.h"
-#include "integration/ctrl_consistency_checker_test.h"
+#include "integration/consistency_checker_test.h"
 #include "integration/ctrl_undo_redo_list_test.h"
 #include "integration/consistency_lifeline_test.h"
 #include "integration/consistency_relationship_test.h"
@@ -254,7 +254,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_multi_step_changer_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_classifier_controller_test_get_suite() );
-        test_runner_run_suite( &runner, ctrl_consistency_checker_test_get_suite() );
+        test_runner_run_suite( &runner, consistency_checker_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_undo_redo_list_test_get_suite() );
         test_runner_run_suite( &runner, consistency_lifeline_test_get_suite() );
         test_runner_run_suite( &runner, consistency_relationship_test_get_suite() );

@@ -1,7 +1,7 @@
-/* File: ctrl_consistency_checker.h; Copyright and License: see below */
+/* File: consistency_checker.h; Copyright and License: see below */
 
-#ifndef CTRL_CONSISTENCY_CHECKER_H
-#define CTRL_CONSISTENCY_CHECKER_H
+#ifndef CONSISTENCY_CHECKER_H
+#define CONSISTENCY_CHECKER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -46,7 +46,7 @@
 /*!
  *  \brief data attributes needed for the consistency functions
  */
-struct ctrl_consistency_checker_struct {
+struct consistency_checker_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
@@ -55,24 +55,24 @@ struct ctrl_consistency_checker_struct {
     data_diagram_t temp_diagram;  /*!< buffer for reading one diagram after another */
 };
 
-typedef struct ctrl_consistency_checker_struct ctrl_consistency_checker_t;
+typedef struct consistency_checker_struct consistency_checker_t;
 
 /*!
- *  \brief initializes the ctrl_consistency_checker_t struct
+ *  \brief initializes the consistency_checker_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param database pointer to database
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
-void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
+void consistency_checker_init ( consistency_checker_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
 
 /*!
- *  \brief destroys the ctrl_consistency_checker_t struct
+ *  \brief destroys the consistency_checker_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
+void consistency_checker_destroy ( consistency_checker_t *this_ );
 
 /*!
  *  \brief checks and repairs the database
@@ -86,12 +86,12 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted and is not fully fixed yet
  */
-u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
-                                                      bool modify_db,
-                                                      uint32_t *out_err,
-                                                      uint32_t *out_fix,
-                                                      utf8stream_writer_t *out_english_report
-                                                    );
+u8_error_t consistency_checker_repair_database ( consistency_checker_t *this_,
+                                                 bool modify_db,
+                                                 uint32_t *out_err,
+                                                 uint32_t *out_fix,
+                                                 utf8stream_writer_t *out_english_report
+                                               );
 
 /*!
  *  \brief checks and repairs the database with regards to providing a single root diagram
@@ -105,12 +105,12 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_consistency_checker_t *this_,
-                                                                         bool modify_db,
-                                                                         uint32_t *io_err,
-                                                                         uint32_t *io_fix,
-                                                                         utf8stream_writer_t *out_english_report
-                                                                       );
+u8_error_t consistency_checker_private_ensure_single_root_diagram ( consistency_checker_t *this_,
+                                                                    bool modify_db,
+                                                                    uint32_t *io_err,
+                                                                    uint32_t *io_fix,
+                                                                    utf8stream_writer_t *out_english_report
+                                                                  );
 
 /*!
  *  \brief checks the database with regards to invalid and circular references to parent diagrams
@@ -124,12 +124,12 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
-                                                                           bool modify_db,
-                                                                           uint32_t *io_err,
-                                                                           uint32_t *io_fix,
-                                                                           utf8stream_writer_t *out_english_report
-                                                                         );
+u8_error_t consistency_checker_private_ensure_valid_diagram_parents ( consistency_checker_t *this_,
+                                                                      bool modify_db,
+                                                                      uint32_t *io_err,
+                                                                      uint32_t *io_fix,
+                                                                      utf8stream_writer_t *out_english_report
+                                                                    );
 
 /*!
  *  \brief checks and repairs the database with regards to diagramelements having a valid references to diagrams and classifiers
@@ -143,12 +143,12 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_consistency_checker_t *this_,
-                                                                           bool modify_db,
-                                                                           uint32_t *io_err,
-                                                                           uint32_t *io_fix,
-                                                                           utf8stream_writer_t *out_english_report
-                                                                         );
+u8_error_t consistency_checker_private_ensure_valid_diagramelements ( consistency_checker_t *this_,
+                                                                      bool modify_db,
+                                                                      uint32_t *io_err,
+                                                                      uint32_t *io_fix,
+                                                                      utf8stream_writer_t *out_english_report
+                                                                    );
 
 /*!
  *  \brief checks and repairs the database with regards to diagramelements having NULL or valid references to focused features
@@ -162,12 +162,12 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
-                                                                            bool modify_db,
-                                                                            uint32_t *io_err,
-                                                                            uint32_t *io_fix,
-                                                                            utf8stream_writer_t *out_english_report
-                                                                          );
+u8_error_t consistency_checker_private_ensure_valid_diagele_features ( consistency_checker_t *this_,
+                                                                       bool modify_db,
+                                                                       uint32_t *io_err,
+                                                                       uint32_t *io_fix,
+                                                                       utf8stream_writer_t *out_english_report
+                                                                     );
 
 /*!
  *  \brief checks and repairs the database with regards to classifiers being referenced by diagramelements
@@ -181,12 +181,12 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
-                                                                            bool modify_db,
-                                                                            uint32_t *io_err,
-                                                                            uint32_t *io_fix,
-                                                                            utf8stream_writer_t *out_english_report
-                                                                          );
+u8_error_t consistency_checker_private_ensure_referenced_classifiers ( consistency_checker_t *this_,
+                                                                       bool modify_db,
+                                                                       uint32_t *io_err,
+                                                                       uint32_t *io_fix,
+                                                                       utf8stream_writer_t *out_english_report
+                                                                     );
 
 /*!
  *  \brief checks and repairs the database with regards to features having a valid parent classifier
@@ -200,12 +200,12 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
-                                                                           bool modify_db,
-                                                                           uint32_t *io_err,
-                                                                           uint32_t *io_fix,
-                                                                           utf8stream_writer_t *out_english_report
-                                                                         );
+u8_error_t consistency_checker_private_ensure_valid_feature_parents ( consistency_checker_t *this_,
+                                                                      bool modify_db,
+                                                                      uint32_t *io_err,
+                                                                      uint32_t *io_fix,
+                                                                      utf8stream_writer_t *out_english_report
+                                                                    );
 
 /*!
  *  \brief checks and repairs the database with regards to relationships referencing valid to and from classifiers
@@ -219,12 +219,12 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
-                                                                                    bool modify_db,
-                                                                                    uint32_t *io_err,
-                                                                                    uint32_t *io_fix,
-                                                                                    utf8stream_writer_t *out_english_report
-                                                                                  );
+u8_error_t consistency_checker_private_ensure_valid_relationship_classifiers ( consistency_checker_t *this_,
+                                                                               bool modify_db,
+                                                                               uint32_t *io_err,
+                                                                               uint32_t *io_fix,
+                                                                               utf8stream_writer_t *out_english_report
+                                                                             );
 
 /*!
  *  \brief checks and repairs the database with regards to relationships referencing NULL or valid to and from features
@@ -238,14 +238,14 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
  *          U8_ERROR_NO_DB if database not open/loaded,
  *          U8_ERROR_DB_STRUCTURE if database was corrupted
  */
-u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
-                                                                                 bool modify_db,
-                                                                                 uint32_t *io_err,
-                                                                                 uint32_t *io_fix,
-                                                                                 utf8stream_writer_t *out_english_report
-                                                                               );
+u8_error_t consistency_checker_private_ensure_valid_relationship_features ( consistency_checker_t *this_,
+                                                                            bool modify_db,
+                                                                            uint32_t *io_err,
+                                                                            uint32_t *io_fix,
+                                                                            utf8stream_writer_t *out_english_report
+                                                                          );
 
-#endif  /* CTRL_CONSISTENCY_CHECKER_H */
+#endif  /* CONSISTENCY_CHECKER_H */
 
 
 /*

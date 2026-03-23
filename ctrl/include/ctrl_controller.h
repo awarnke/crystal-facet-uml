@@ -38,7 +38,7 @@ struct ctrl_controller_struct {
     data_database_writer_t db_writer;  /*!< own instance of a database writer */
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_undo_redo_list_t undo_redo_list;  /*!< own instance of a ctrl_undo_redo_list_t */
-    ctrl_consistency_checker_t consistency_checker;  /* own instance of a consistency checker */
+    consistency_checker_t consistency_checker;  /* own instance of a consistency checker */
     consistency_classifier_t consistency_classifier;  /*!< own instance of consistency_classifier_t */
     consistency_feature_t consistency_feature;  /*!< own instance of consistency_feature_t */
     consistency_lifeline_t consistency_lifeline;  /*!< own instance of consistency_lifeline_t */
