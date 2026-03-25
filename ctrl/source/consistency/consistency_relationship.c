@@ -36,11 +36,43 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
                                                                   const data_diagram_t *updated_diagram )
 {
     U8_TRACE_BEGIN();
+    assert( updated_diagram != NULL );
+    u8_error_t result = U8_ERROR_NONE;
 
-    u8_error_t result = U8_ERROR_NOT_YET_IMPLEMENTED;
-    U8_LOG_ERROR("U8_ERROR_NOT_YET_IMPLEMENTED");
+    const data_diagram_type_t new_diagram_type = data_diagram_get_diagram_type( updated_diagram );
+    const bool new_diagram_shows_rel = data_rules_diagram_shows_uncond_relationships( &((*this_).rules), new_diagram_type );
+    /*
+    const bool new_diagram_is_scenario = data_rules_diagram_is_scenario( &((*this_).rules), new_diagram_type );
+    const bool new_diagram_shows_msg = data_rules_diagram_shows_scenario_relationships( &((*this_).rules), new_diagram_type );
+    assert( new_diagram_is_scenario == new_diagram_shows_msg );
+    */
 
-    result = U8_ERROR_NONE;
+    if ( ! new_diagram_shows_rel )
+    {
+        U8_LOG_ERROR("U8_ERROR_NOT_YET_IMPLEMENTED");
+
+        const data_row_t diagram_id = data_diagram_get_row_id( updated_diagram );
+        data_diagramelement_iterator_t diagramelement_iterator;
+        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+        result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
+                                                                          diagram_id,
+                                                                          &diagramelement_iterator
+                                                                        );
+        if ( result == U8_ERROR_NONE )
+        {
+            while ( data_diagramelement_iterator_has_next( &diagramelement_iterator ) )
+            {
+                data_diagramelement_t diagelement_buf;
+                result |= data_diagramelement_iterator_next( &diagramelement_iterator, &diagelement_buf );
+                result |= consistency_relationship_delete_invisibles_at_classifier( this_, &diagelement_buf );
+            }
+        }
+        result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
+    }
+    else
+    {
+        U8_TRACE_INFO("All unconditional relationships are visible, no need to check for invisibility.");
+    }
 
     U8_TRACE_END_ERR( result );
     return result;

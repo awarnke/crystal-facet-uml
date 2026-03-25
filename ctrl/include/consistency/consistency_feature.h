@@ -35,8 +35,9 @@ struct consistency_feature_struct {
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     data_rules_t rules;  /*!< visibility rules for features, depending on diagram type */
 
-    data_diagramelement_t temp_diagelement_buf;  /*!< be aware of reentrancy by recursion! */
-    data_relationship_t temp_relationship_buf;
+    data_diagram_t temp_diagram_buf;  /*!< be aware of reentrancy by recursion! */
+    data_feature_t temp_feature_buf;  /*!< be aware of reentrancy by recursion! */
+    data_diagramelement_t temp_diagramelement_buf;  /*!< be aware of reentrancy by recursion! */
 };
 
 typedef struct consistency_feature_struct consistency_feature_t;

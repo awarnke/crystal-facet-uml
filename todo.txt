@@ -73,14 +73,6 @@ ideas for future versions:
   [ ] as sysml2 preparation: clarify what things are definitions an what are usages. E.g. all part-types should be instances.
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
-  [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
-      (rationale: the xmi+json export find them)
-      TODO: When changing diagram types, check which feature is not visible anymore
-      info: When deleting diagrams, check which feature is not visible anymore
-            NOTE: This is done implicity because the classifier-occurrence is deleted first
-      TODO: When deleting classifier-occurrences, check which feature is not visible anymore
-      TODO: This list may not be complete...
-      see: data_database_diagram_reader_get_diagrams_by_classifier_id
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the xmi+json export find them)
       TODO: When changing diagram types, check which relationship is not visible anymore
