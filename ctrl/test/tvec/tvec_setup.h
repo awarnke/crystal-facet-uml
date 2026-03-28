@@ -42,9 +42,10 @@ static inline void tvec_setup_destroy( tvec_setup_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram or DATA_ROW_VOID to create a root diagram
  *  \param name name of the newly created element
+ *  \param d_type type of the newly created element
  *  \return id of newly created diagram
  */
-static data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_diagram_id, const char* name );
+static inline data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_diagram_id, const char* name, data_diagram_type_t d_type );
 
 /*!
  *  \brief helper function to initialize the database
@@ -53,7 +54,7 @@ static data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_dia
  *  \param name name of the newly created element
  *  \return id of newly created classifier
  */
-static data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name );
+static inline data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name );
 
 /*!
  *  \brief helper function to initialize the database
@@ -64,11 +65,11 @@ static data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name )
  *  \param focused_feature_id id of the lifeline if applicable, DATA_ROW_VOID otherwise
  *  \return id of newly created diagramelement
  */
-static data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
-                                             data_row_t diagram_id,
-                                             data_row_t classifier_id,
-                                             data_row_t focused_feature_id
-                                           );
+static inline data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
+                                                    data_row_t diagram_id,
+                                                    data_row_t classifier_id,
+                                                    data_row_t focused_feature_id
+                                                  );
 
 /*!
  *  \brief helper function to initialize the database
@@ -78,7 +79,7 @@ static data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
  *  \param name name of the newly created element
  *  \return id of newly created feature
  */
-static data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name );
+static inline data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name );
 
 /*!
  *  \brief helper function to initialize the database
@@ -91,13 +92,13 @@ static data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_cla
  *  \param name name of the newly created element
  *  \return id of newly created relationship
  */
-static data_row_t tvec_setup_relationship( tvec_setup_t *this_,
-                                           data_row_t from_classifier_id,
-                                           data_row_t from_feature_id,
-                                           data_row_t to_classifier_id,
-                                           data_row_t to_feature_id,
-                                           const char* name
-                                         );
+static inline data_row_t tvec_setup_relationship( tvec_setup_t *this_,
+                                                  data_row_t from_classifier_id,
+                                                  data_row_t from_feature_id,
+                                                  data_row_t to_classifier_id,
+                                                  data_row_t to_feature_id,
+                                                  const char* name
+                                                );
 
 #include "tvec_setup.inl"
 

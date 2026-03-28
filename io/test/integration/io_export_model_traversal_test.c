@@ -107,7 +107,7 @@ static void create_mini_model( ctrl_controller_t *controller,
     tvec_setup_t test_env;
     tvec_setup_init( &test_env, controller );
 
-    *out_root_diagram = tvec_setup_diagram( &test_env, DATA_ROW_VOID, "root diag" );
+    *out_root_diagram = tvec_setup_diagram( &test_env, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
 
     *out_from_classifier_parent = tvec_setup_classifier( &test_env, "from parent" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier_parent, DATA_ROW_VOID );

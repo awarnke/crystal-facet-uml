@@ -1,6 +1,6 @@
-/* File: consistency_relationship_test.c; Copyright and License: see below */
+/* File: consistency_feature_test.c; Copyright and License: see below */
 
-#include "consistency_relationship_test.h"
+#include "consistency_feature_test.h"
 #include "ctrl_controller.h"
 #include "tvec/tvec_setup.h"
 #include "storage/data_database.h"
@@ -17,11 +17,11 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t change_diagram_type( test_fixture_t *fix );
 static test_case_result_t delete_diagramelement( test_fixture_t *fix );
 
-test_suite_t consistency_relationship_test_get_suite(void)
+test_suite_t consistency_feature_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "consistency_relationship_test",
+                     "consistency_feature_test",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
@@ -78,7 +78,7 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
 
     /* create 2 diagrams */
     const data_row_t root_diagram
-        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
     const data_row_t local_diagram
         = tvec_setup_diagram( &test_environ, root_diagram, "local diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
 
@@ -98,17 +98,6 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     /* create 1 feature */
     const data_row_t test_feature = tvec_setup_feature( &test_environ, test_classifier, "test feature" );
 
-    /* create 2 relationships */
-    const data_row_t double_rel = tvec_setup_relationship( &test_environ,
-                                                           test_classifier, test_feature,
-                                                           omni_classifier, DATA_ROW_VOID,
-                                                           "double relation"
-                                                         );
-    const data_row_t local_rel = tvec_setup_relationship( &test_environ,
-                                                          test_classifier, test_feature,
-                                                          local_classifier, DATA_ROW_VOID,
-                                                          "local relation"
-                                                        );
     tvec_setup_destroy( &test_environ );
 
     /* root diag / DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
@@ -126,16 +115,12 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_local_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err );
 
-    /* is local rel deleted? */
-    data_relationship_t probe;
+    /* is test_feature deleted? */
+    data_feature_t probe;
     const u8_error_t local_err
-        = data_database_reader_get_relationship_by_id( &((*fix).db_reader), local_rel, &probe );
+        = data_database_reader_get_feature_by_id( &((*fix).db_reader), test_feature, &probe );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, local_err );
 
-    /* is double rel existing? */
-    const u8_error_t double_err
-        = data_database_reader_get_relationship_by_id( &((*fix).db_reader), double_rel, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, double_err );  /* U8_ERROR_DB_STRUCTURE is expected now ... */
     return TEST_CASE_RESULT_OK;
 }
 

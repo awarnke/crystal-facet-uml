@@ -22,7 +22,7 @@ static inline void tvec_setup_destroy( tvec_setup_t *this_ )
     (*this_).controller = NULL;
 }
 
-static data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_diagram_id, const char* name )
+static data_row_t inline tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_diagram_id, const char* name, data_diagram_type_t d_type )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -36,7 +36,7 @@ static data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_dia
         data_err = data_diagram_init( &new_diagram,
                                       DATA_ROW_VOID, /* diagram_id is ignored */
                                       parent_diagram_id,
-                                      DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,  /* default is an interaction diagram */
+                                      d_type,
                                       "diag:stereo_t", /* stereotype */
                                       name,
                                       "diagram_description-root",
@@ -60,7 +60,7 @@ static data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_dia
     return root_diag_id;
 }
 
-static data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name )
+static inline data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -96,10 +96,10 @@ static data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name )
     return classifier_id;
 }
 
-static data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
-                                             data_row_t diagram_id,
-                                             data_row_t classifier_id,
-                                             data_row_t focused_feature_id )
+static data_row_t inline tvec_setup_diagramelement( tvec_setup_t *this_,
+                                                    data_row_t diagram_id,
+                                                    data_row_t classifier_id,
+                                                    data_row_t focused_feature_id )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -132,7 +132,7 @@ static data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
     return diagele_id;
 }
 
-static data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name )
+static inline data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -168,12 +168,12 @@ static data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_cla
     return new_feature_id;
 }
 
-static data_row_t tvec_setup_relationship( tvec_setup_t *this_,
-                                           data_row_t from_classifier_id,
-                                           data_row_t from_feature_id,
-                                           data_row_t to_classifier_id,
-                                           data_row_t to_feature_id,
-                                           const char* name )
+static inline data_row_t tvec_setup_relationship( tvec_setup_t *this_,
+                                                  data_row_t from_classifier_id,
+                                                  data_row_t from_feature_id,
+                                                  data_row_t to_classifier_id,
+                                                  data_row_t to_feature_id,
+                                                  const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;

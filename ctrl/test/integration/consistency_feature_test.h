@@ -1,22 +1,22 @@
-/* File: consistency_relationship_test.h; Copyright and License: see below */
+/* File: consistency_feature_test.h; Copyright and License: see below */
 
-#ifndef CONSISTENCY_RELATIONSHIP_TEST_H
-#define CONSISTENCY_RELATIONSHIP_TEST_H
+#ifndef CONSISTENCY_FEATURE_TEST_H
+#define CONSISTENCY_FEATURE_TEST_H
 
 /*!
  *  \file
- *  \brief MODULE TEST for consistency_relationship
+ *  \brief MODULE TEST for consistency_feature
  */
 
 #include "test_suite.h"
 
-test_suite_t consistency_relationship_test_get_suite(void);
+test_suite_t consistency_feature_test_get_suite(void);
 
-#endif  /* CONSISTENCY_RELATIONSHIP_TEST_H */
+#endif  /* CONSISTENCY_FEATURE_TEST_H */
 
 
 /*
- * Copyright 2018-2026 Andreas Warnke
+ * Copyright 2026-2026 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

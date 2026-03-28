@@ -175,7 +175,7 @@ u8_error_t consistency_relationship_private_is_shown_by_a_diagram( consistency_r
                 result |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram_buf) );
                 const data_diagram_type_t diagram_type = data_diagram_get_diagram_type( &((*this_).temp_diagram_buf) );
                 a_diagram_shows_uncond_relationship |= data_rules_diagram_shows_uncond_relationships( &((*this_).rules), diagram_type );
-                /* Note that get_diagrams_by_relationship_id() returns scenario-based diagrams only if the relationship is visible there: */
+                /* Note that ..get_diagrams_by_relationship_id() returns scenario-based diagrams only if the relationship is visible there: */
                 a_diagram_shows_scenario_relationship |= data_rules_diagram_shows_scenario_relationships( &((*this_).rules), diagram_type );
             }
         }

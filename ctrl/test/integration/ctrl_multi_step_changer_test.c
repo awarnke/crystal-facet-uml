@@ -69,8 +69,9 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
     tvec_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_t root_diagram = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
-    tvec_setup_diagram( &test_environ, root_diagram, "test diag" );
+    const data_row_t root_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    tvec_setup_diagram( &test_environ, root_diagram, "test diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
 
     /* create 1 classifiers */
     const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
@@ -126,8 +127,10 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
     tvec_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_t root_diagram = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
-    const data_row_t test_diagram = tvec_setup_diagram( &test_environ, root_diagram, "test diag" );
+    const data_row_t root_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    const data_row_t test_diagram
+        = tvec_setup_diagram( &test_environ, root_diagram, "test diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
 
     /* create 3 classifiers */
     const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
