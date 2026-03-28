@@ -49,8 +49,6 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
 
     if ( ! new_diagram_shows_rel )
     {
-        U8_LOG_ERROR("U8_ERROR_NOT_YET_IMPLEMENTED");
-
         const data_row_t diagram_id = data_diagram_get_row_id( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
         result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
@@ -104,7 +102,7 @@ u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency
 
             bool visible = true;
             const u8_error_t vis_err
-                = consistency_relationship_private_has_relationship_a_diagram( this_, &((*this_).temp_relationship_buf), &visible );
+                = consistency_relationship_private_is_shown_by_a_diagram( this_, &((*this_).temp_relationship_buf), &visible );
 
             if ( vis_err == U8_ERROR_NONE )
             {
@@ -148,6 +146,50 @@ u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency
     return result;
 }
 
+u8_error_t consistency_relationship_private_is_shown_by_a_diagram( consistency_relationship_t *this_,
+                                                                   const data_relationship_t *relation,
+                                                                   bool *out_result )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != relation );
+    assert( NULL != out_result );
+    u8_error_t result = U8_ERROR_NONE;
+
+    const data_row_t relationship_id = data_relationship_get_row_id( relation );
+    bool a_diagram_shows_uncond_relationship = false;  /* tells if a diagram is found where unconditional relationships are visible */
+    bool a_diagram_shows_scenario_relationship = false;  /* tells if a diagram is found where scenario relationships are visible */
+
+    {
+        data_diagram_iterator_t diagram_iterator;
+        result |= data_diagram_iterator_init_empty( &diagram_iterator );
+
+        result |= data_database_reader_get_diagrams_by_relationship_id( (*this_).db_reader,
+                                                                        relationship_id,
+                                                                        &diagram_iterator
+                                                                      );
+
+        if ( result == U8_ERROR_NONE )
+        {
+            while ( data_diagram_iterator_has_next( &diagram_iterator ) )
+            {
+                result |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram_buf) );
+                const data_diagram_type_t diagram_type = data_diagram_get_diagram_type( &((*this_).temp_diagram_buf) );
+                a_diagram_shows_uncond_relationship |= data_rules_diagram_shows_uncond_relationships( &((*this_).rules), diagram_type );
+                /* Note that get_diagrams_by_relationship_id() returns scenario-based diagrams only if the relationship is visible there: */
+                a_diagram_shows_scenario_relationship |= data_rules_diagram_shows_scenario_relationships( &((*this_).rules), diagram_type );
+            }
+        }
+
+        result |= data_diagram_iterator_destroy( &diagram_iterator );
+    }
+
+    *out_result = ( a_diagram_shows_uncond_relationship || a_diagram_shows_scenario_relationship );
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+#if 0
 u8_error_t consistency_relationship_private_has_relationship_a_diagram( consistency_relationship_t *this_,
                                                                         const data_relationship_t *relation,
                                                                         bool *out_result )
@@ -232,6 +274,7 @@ u8_error_t consistency_relationship_private_has_relationship_a_diagram( consiste
     U8_TRACE_END_ERR( result );
     return result;
 }
+#endif
 
 
 /*

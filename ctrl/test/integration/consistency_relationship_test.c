@@ -88,17 +88,27 @@ static test_case_result_t no_hidden_relationships( test_fixture_t *fix )
     const data_row_t test_feature = tvec_setup_feature( &test_environ, test_classifier, "test feature" );
 
     /* create 2 relationships */
-    const data_row_t double_rel
-        = tvec_setup_relationship( &test_environ,
-                                                   test_classifier, test_feature,
-                                                   omni_classifier, DATA_ROW_VOID,
-                                                   "double relation" );
-    const data_row_t local_rel
-        = tvec_setup_relationship( &test_environ,
-                                                   test_classifier, test_feature,
-                                                   local_classifier, DATA_ROW_VOID,
-                                                   "local relation" );
+    const data_row_t double_rel = tvec_setup_relationship( &test_environ,
+                                                           test_classifier, test_feature,
+                                                           omni_classifier, DATA_ROW_VOID,
+                                                           "double relation"
+                                                         );
+    const data_row_t local_rel = tvec_setup_relationship( &test_environ,
+                                                          test_classifier, test_feature,
+                                                          local_classifier, DATA_ROW_VOID,
+                                                          "local relation"
+                                                        );
     tvec_setup_destroy( &test_environ );
+
+    /* root diag / DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
+    /*     test classifier */
+    /*         test feature  ----, */
+    /*     omni classifier  <----' */
+    /* local diag / DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
+    /*     test classifier   (< will be deleted) */
+    /*         test feature  ----,  ----, */
+    /*     omni classifier  <----'      | */
+    /*     local classifier  <----------' */
 
     /* delete the local diagramelement of the test classifier */
     const u8_error_t c_err
@@ -114,7 +124,7 @@ static test_case_result_t no_hidden_relationships( test_fixture_t *fix )
     /* is double rel existing? */
     const u8_error_t double_err
         = data_database_reader_get_relationship_by_id( &((*fix).db_reader), double_rel, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, double_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, double_err );  /* U8_ERROR_DB_STRUCTURE is expected now ... */
     return TEST_CASE_RESULT_OK;
 }
 

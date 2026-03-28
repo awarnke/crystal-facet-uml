@@ -148,10 +148,10 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
 /*!
  *  \brief reads all relationship-displaying diagrams from the database
  *
- *  If a relationship is scenario-specific, only the corresponding diagram is returned.
- *  Otherwise the scenario-specific diagrams are skipped.
+ *  If a relationship is scenario-specific, only the one corresponding scenario diagram and all non-scenario diagrams are returned.
+ *  Otherwise the scenario-specific diagrams are skipped, all non-scenario diagrams are returned.
  *
- *  If a diagram shows the relationship multiple times, the diagram is returned just once (DISTINCT).
+ *  If a diagram shows the relationship multiple times, the diagram is returned just once (using GROUP-BY).
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship
