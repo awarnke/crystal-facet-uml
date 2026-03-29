@@ -64,8 +64,82 @@ static void tear_down( test_fixture_t *fix )
 static test_case_result_t change_diagram_type( test_fixture_t *fix )
 {
     assert( fix != NULL );
+    ctrl_diagram_controller_t *diagram_ctrl;
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
+    tvec_setup_t test_environ;
+    tvec_setup_init( &test_environ, &((*fix).controller) );
 
-    return TEST_CASE_RESULT_ERR;
+    /* create 3 diagrams */
+    const data_row_t test_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "test diag", DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
+    const data_row_t seq_diagram
+        = tvec_setup_diagram( &test_environ, test_diagram, "seq diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    const data_row_t class_diagram
+        = tvec_setup_diagram( &test_environ, test_diagram, "class diag", DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
+
+    /* create 1 classifier and 3 diagramelements */
+    const data_row_t semi_classifier = tvec_setup_classifier( &test_environ, "semi classifier" );
+    tvec_setup_diagramelement( &test_environ, test_diagram, semi_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, seq_diagram, semi_classifier, DATA_ROW_VOID );
+
+    /* create 1 feature */
+    const data_row_t semi_feature = tvec_setup_feature( &test_environ, semi_classifier, "semi feature" );
+
+    /* create 1 classifier and 3 diagramelements */
+    const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
+    tvec_setup_diagramelement( &test_environ, test_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, seq_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, class_diagram, omni_classifier, DATA_ROW_VOID );
+
+    /* create 1 feature */
+    const data_row_t omni_feature = tvec_setup_feature( &test_environ, omni_classifier, "omni feature" );
+
+    tvec_setup_destroy( &test_environ );
+
+    /* test diag / DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM (< change to DATA_DIAGRAM_TYPE_BOX_DIAGRAM ) */
+    /*     semi classifier */
+    /*         semi feature */
+    /*     omni classifier */
+    /*         omni feature */
+    /* seq diag / DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
+    /*     semi classifier */
+    /*         semi feature */
+    /*     omni classifier */
+    /*         omni feature */
+    /* class diag / DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
+    /*     omni classifier */
+    /*         omni feature */
+
+    /* change the type of the test diagram */
+    data_stat_t statistics;
+    data_stat_init( &statistics );
+    const u8_error_t c_err
+        = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
+                                                       test_diagram,
+                                                       DATA_DIAGRAM_TYPE_BOX_DIAGRAM,
+                                                       &statistics
+                                                     );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err );
+
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_MODIFIED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_DELETED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &statistics, DATA_STAT_TABLE_DIAGRAM ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &statistics, DATA_STAT_TABLE_FEATURE ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count( &statistics ) );
+    data_stat_destroy( &statistics );
+
+    /* is semi_feature deleted? */
+    data_feature_t probe;
+    const u8_error_t semi_err
+        = data_database_reader_get_feature_by_id( &((*fix).db_reader), semi_feature, &probe );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, semi_err );
+
+    /* is omni_feature deleted? */
+    const u8_error_t omni_err
+        = data_database_reader_get_feature_by_id( &((*fix).db_reader), omni_feature, &probe );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, omni_err );
+
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t delete_diagramelement( test_fixture_t *fix )
@@ -76,50 +150,72 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     tvec_setup_t test_environ;
     tvec_setup_init( &test_environ, &((*fix).controller) );
 
-    /* create 2 diagrams */
-    const data_row_t root_diagram
-        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
-    const data_row_t local_diagram
-        = tvec_setup_diagram( &test_environ, root_diagram, "local diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    /* create 3 diagrams */
+    const data_row_t box_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "box diag", DATA_DIAGRAM_TYPE_BOX_DIAGRAM );
+    const data_row_t seq_diagram
+        = tvec_setup_diagram( &test_environ, box_diagram, "seq diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    const data_row_t class_diagram
+        = tvec_setup_diagram( &test_environ, box_diagram, "class diag", DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
 
-    /* create 3 classifiers */
+    /* create 1 classifier and 3 diagramelements */
     const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
-    const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
-    const data_row_t local_classifier = tvec_setup_classifier( &test_environ, "local classifier" );
-
-    /* create 5 diagramelements */
-    const data_row_t test_local_diagele
-        = tvec_setup_diagramelement( &test_environ, local_diagram, test_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, local_diagram, omni_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, local_diagram, local_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, box_diagram, test_classifier, DATA_ROW_VOID );
+    const data_row_t test_seq_diagele
+        = tvec_setup_diagramelement( &test_environ, seq_diagram, test_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, class_diagram, test_classifier, DATA_ROW_VOID );
 
     /* create 1 feature */
     const data_row_t test_feature = tvec_setup_feature( &test_environ, test_classifier, "test feature" );
 
+    /* create 1 classifier and 3 diagramelements */
+    const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
+    tvec_setup_diagramelement( &test_environ, box_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, seq_diagram, omni_classifier, DATA_ROW_VOID );
+    const data_row_t omni_class_diagele
+        = tvec_setup_diagramelement( &test_environ, class_diagram, omni_classifier, DATA_ROW_VOID );
+
+    /* create 1 feature */
+    const data_row_t omni_feature = tvec_setup_feature( &test_environ, omni_classifier, "omni feature" );
+
     tvec_setup_destroy( &test_environ );
 
-    /* root diag / DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
+    /* box diag / DATA_DIAGRAM_TYPE_BOX_DIAGRAM */
     /*     test classifier */
-    /*         test feature  ----, */
-    /*     omni classifier  <----' */
-    /* local diag / DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
-    /*     test classifier   (< will be deleted) */
-    /*         test feature  ----,  ----, */
-    /*     omni classifier  <----'      | */
-    /*     local classifier  <----------' */
+    /*         test feature */
+    /*     omni classifier */
+    /*         omni feature */
+    /* seq diag / DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
+    /*     test classifier   (< diagramelement will be deleted) */
+    /*         test feature */
+    /*     omni classifier */
+    /*         omni feature */
+    /* class diag / DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
+    /*     test classifier */
+    /*         test feature */
+    /*     omni classifier (< diagramelement will be deleted) */
+    /*         omni feature */
 
-    /* delete the local diagramelement of the test classifier */
-    const u8_error_t c_err
-        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_local_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err );
+    /* delete the test diagramelement @ seq diag */
+    const u8_error_t c_err1
+        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_seq_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err1 );
 
     /* is test_feature deleted? */
     data_feature_t probe;
-    const u8_error_t local_err
+    const u8_error_t test_err
         = data_database_reader_get_feature_by_id( &((*fix).db_reader), test_feature, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, local_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+
+    /* delete the omni diagramelement @ class diag */
+    const u8_error_t c_err2
+        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, omni_class_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err2 );
+
+    /* is omni_feature deleted? */
+    const u8_error_t omni_err
+    = data_database_reader_get_feature_by_id( &((*fix).db_reader), omni_feature, &probe );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, omni_err );
 
     return TEST_CASE_RESULT_OK;
 }
