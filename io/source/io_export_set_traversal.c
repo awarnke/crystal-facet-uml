@@ -211,7 +211,7 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
         }
 
         data_feature_iterator_t feature_iterator;
-        read_error |= data_feature_iterator_init_empty( &feature_iterator );
+        data_feature_iterator_init_empty( &feature_iterator );
         read_error |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, classifier_id, &feature_iterator );
         if ( read_error == U8_ERROR_NONE )
         {
@@ -285,7 +285,7 @@ u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_trav
                                                           );
 
     data_feature_iterator_t feature_iterator;
-    read_error |= data_feature_iterator_init_empty( &feature_iterator );
+    data_feature_iterator_init_empty( &feature_iterator );
     read_error |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, data_id_get_row_id( &id ), &feature_iterator );
     if ( read_error == U8_ERROR_NONE )
     {

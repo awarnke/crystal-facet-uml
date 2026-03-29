@@ -111,8 +111,7 @@ static test_case_result_t no_results( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, text_init_err );
 
     data_search_result_iterator_t data_search_result_iterator;
-    const u8_error_t init_err = data_search_result_iterator_init_empty( &data_search_result_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
+    data_search_result_iterator_init_empty( &data_search_result_iterator );
 
     const u8_error_t src_err
     = data_database_text_search_get_objects_by_text_fragment( &txt_src,
@@ -142,8 +141,7 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, text_init_err );
 
     data_search_result_iterator_t data_search_result_iterator;
-    const u8_error_t init_err = data_search_result_iterator_init_empty( &data_search_result_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
+    data_search_result_iterator_init_empty( &data_search_result_iterator );
 
     const u8_error_t src_err
         = data_database_text_search_get_objects_by_text_fragment( &txt_src,

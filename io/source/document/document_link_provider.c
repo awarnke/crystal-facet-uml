@@ -59,7 +59,7 @@ u8_error_t document_link_provider_write_occurrences( document_link_provider_t *t
 
     /* read from database */
     data_diagram_iterator_t diagram_iterator;
-    db_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+    data_diagram_iterator_init_empty( &diagram_iterator );
     db_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
                                                                   data_id_get_row_id( &classifier_id ),
                                                                   &diagram_iterator

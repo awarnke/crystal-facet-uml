@@ -142,7 +142,7 @@ u8_error_t consistency_checker_private_ensure_single_root_diagram( consistency_c
     data_small_set_t all_roots;
     data_small_set_init( &all_roots );
     data_diagram_iterator_t diagram_iterator;
-    result |= data_diagram_iterator_init_empty( &diagram_iterator );
+    data_diagram_iterator_init_empty( &diagram_iterator );
 
     result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                               DATA_ROW_VOID,
@@ -256,7 +256,7 @@ u8_error_t consistency_checker_private_ensure_valid_diagram_parents( consistency
             data_row_t root_diag_id = DATA_ROW_VOID;
             {
                 data_diagram_iterator_t diagram_iterator;
-                err_result |= data_diagram_iterator_init_empty( &diagram_iterator );
+                data_diagram_iterator_init_empty( &diagram_iterator );
                 err_result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                                               DATA_ROW_VOID,
                                                                               &diagram_iterator

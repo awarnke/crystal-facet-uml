@@ -101,7 +101,7 @@ u8_error_t io_export_flat_traversal_private_traverse_classifier( io_export_flat_
 
         /* write the features */
         data_feature_iterator_t feature_iterator;
-        data_err_3 |= data_feature_iterator_init_empty( &feature_iterator );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err_3 |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
                                                                           data_classifier_get_row_id( classifier ),
                                                                           &feature_iterator
@@ -111,7 +111,7 @@ u8_error_t io_export_flat_traversal_private_traverse_classifier( io_export_flat_
 
         /* write the relationships */
         data_relationship_iterator_t rel_iterator;
-        data_err_3 |= data_relationship_iterator_init_empty( &rel_iterator );
+        data_relationship_iterator_init_empty( &rel_iterator );
         data_err_3 |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
                                                                                data_classifier_get_row_id( classifier ),
                                                                                &rel_iterator

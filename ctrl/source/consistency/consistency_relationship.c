@@ -51,7 +51,7 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
     {
         const data_row_t diagram_id = data_diagram_get_row_id( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
-        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+        data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
                                                                           diagram_id,
                                                                           &diagramelement_iterator
@@ -89,7 +89,7 @@ u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency
 
     /* load relationships to be checked */
     data_relationship_iterator_t relationship_iterator;
-    result |= data_relationship_iterator_init_empty( &relationship_iterator );
+    data_relationship_iterator_init_empty( &relationship_iterator );
     result |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
                                                                        classifier_id,
                                                                        &relationship_iterator
@@ -114,10 +114,7 @@ u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency
                     result |= data_small_set_add_obj( &relations_to_delete, relation_to_delete );
                 }
             }
-            else
-            {
-                result |= vis_err;
-            }
+            result |= vis_err;
         }
     }
     else
@@ -161,7 +158,7 @@ u8_error_t consistency_relationship_private_is_shown_by_a_diagram( consistency_r
 
     {
         data_diagram_iterator_t diagram_iterator;
-        result |= data_diagram_iterator_init_empty( &diagram_iterator );
+        data_diagram_iterator_init_empty( &diagram_iterator );
 
         result |= data_database_reader_get_diagrams_by_relationship_id( (*this_).db_reader,
                                                                         relationship_id,

@@ -55,9 +55,8 @@ extern const char *const DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_FEAT
  *  \brief initializes the data_relationship_iterator_t struct to an empty set
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t data_relationship_iterator_init_empty ( data_relationship_iterator_t *this_ );
+void data_relationship_iterator_init_empty ( data_relationship_iterator_t *this_ );
 
 /*!
  *  \brief re-initializes the data_relationship_iterator_t struct to iterate over a db-result-set of classifiers
@@ -67,8 +66,8 @@ u8_error_t data_relationship_iterator_init_empty ( data_relationship_iterator_t 
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_relationship_iterator_reinit ( data_relationship_iterator_t *this_,
-                                             data_database_borrowed_stmt_t statement
-                                           );
+                                               data_database_borrowed_stmt_t statement
+                                             );
 
 /*!
  *  \brief destroys the data_relationship_iterator_t struct

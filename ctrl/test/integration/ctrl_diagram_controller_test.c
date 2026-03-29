@@ -118,8 +118,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
     /* search several records */
     {
         data_diagram_iterator_t diagram_iterator;
-        data_err = data_diagram_iterator_init_empty( &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_diagram_iterator_init_empty( &diagram_iterator );
         data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader), PARENT_ID, &diagram_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( true, data_diagram_iterator_has_next( &diagram_iterator ) );
@@ -228,8 +227,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
     /* get the id of the diagramelement */
     {
         data_visible_classifier_iterator_t visible_classifier_iterator;
-        data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
         data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
                                                                                diagram_id,
                                                                                &visible_classifier_iterator
@@ -262,8 +260,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
     /* get all diagrams by classifier id */
     {
         data_diagram_iterator_t diagram_iterator;
-        data_err = data_diagram_iterator_init_empty( &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_diagram_iterator_init_empty( &diagram_iterator );
 
         data_err = data_database_reader_get_diagrams_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
@@ -304,8 +301,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
     /* get all diagrams by classifier id */
     {
         data_diagram_iterator_t diagram_iterator;
-        data_err = data_diagram_iterator_init_empty( &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_diagram_iterator_init_empty( &diagram_iterator );
 
         data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader), classifier_id, &diagram_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );

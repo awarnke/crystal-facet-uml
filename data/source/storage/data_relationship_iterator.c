@@ -103,27 +103,25 @@ static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 11;
  */
 static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 12;
 
-u8_error_t data_relationship_iterator_init_empty ( data_relationship_iterator_t *this_ )
+void data_relationship_iterator_init_empty ( data_relationship_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
 
     data_database_borrowed_stmt_init_void( &((*this_).statement) );
     (*this_).is_at_end = true;
 
-    U8_TRACE_END_ERR(result);
-    return result;
+    U8_TRACE_END();
 }
 
 u8_error_t data_relationship_iterator_reinit ( data_relationship_iterator_t *this_,
-                                             data_database_borrowed_stmt_t statement )
+                                               data_database_borrowed_stmt_t statement )
 {
     U8_TRACE_BEGIN();
     assert( data_database_borrowed_stmt_is_valid( &statement ) );
     u8_error_t result = U8_ERROR_NONE;
 
     /* destroy old state */
-    result = data_relationship_iterator_destroy( this_ );
+    result |= data_relationship_iterator_destroy( this_ );
 
     /* init new state */
     (*this_).statement = statement;

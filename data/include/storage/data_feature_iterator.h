@@ -52,9 +52,8 @@ extern const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID;
  *  \brief initializes the data_feature_iterator_t struct to an empty set
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t data_feature_iterator_init_empty ( data_feature_iterator_t *this_ );
+void data_feature_iterator_init_empty ( data_feature_iterator_t *this_ );
 
 /*!
  *  \brief re-initializes the data_feature_iterator_t struct to iterate over a db-result-set of classifiers

@@ -91,7 +91,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_
             u8_error_t c_err = U8_ERROR_NONE;
             (*this_).visible_classifier_count = 0;
             data_visible_classifier_iterator_t visible_classifier_iterator;
-            c_err |= data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
+            data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
             c_err |= data_database_reader_get_visible_classifiers_by_diagram_id( db_reader,
                                                                                  diagram_id,
                                                                                  &visible_classifier_iterator
@@ -126,7 +126,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_
             u8_error_t f_err = U8_ERROR_NONE;
             (*this_).feature_count = 0;
             data_feature_iterator_t feature_iterator;
-            f_err |= data_feature_iterator_init_empty( &feature_iterator );
+            data_feature_iterator_init_empty( &feature_iterator );
             f_err |= data_database_reader_get_features_by_diagram_id( db_reader,
                                                                       diagram_id,
                                                                       &feature_iterator
@@ -186,7 +186,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_
             u8_error_t r_err = U8_ERROR_NONE;
             (*this_).relationship_count = 0;
             data_relationship_iterator_t rel_iterator;
-            r_err |= data_relationship_iterator_init_empty( &rel_iterator );
+            data_relationship_iterator_init_empty( &rel_iterator );
             r_err |= data_database_reader_get_relationships_by_diagram_id( db_reader,
                                                                            diagram_id,
                                                                            &rel_iterator

@@ -51,7 +51,7 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature
     {
         const data_row_t diagram_id = data_diagram_get_row_id( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
-        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+        data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
                                                                           diagram_id,
                                                                           &diagramelement_iterator
@@ -87,7 +87,7 @@ u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feat
 
     {
         data_diagram_iterator_t diagram_iterator;
-        result |= data_diagram_iterator_init_empty( &diagram_iterator );
+        data_diagram_iterator_init_empty( &diagram_iterator );
         result |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
                                                                       classifier_id,
                                                                       &diagram_iterator
@@ -108,7 +108,7 @@ u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feat
     if ( ! a_diagram_shows_uncond_feature )
     {
         data_feature_iterator_t feature_iterator;
-        result |= data_feature_iterator_init_empty( &feature_iterator );
+        data_feature_iterator_init_empty( &feature_iterator );
         result |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
                                                                       classifier_id,
                                                                       &feature_iterator

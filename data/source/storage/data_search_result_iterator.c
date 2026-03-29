@@ -8,10 +8,9 @@
 #include <assert.h>
 #include <stdint.h>
 
-u8_error_t data_search_result_iterator_init_empty ( data_search_result_iterator_t *this_ )
+void data_search_result_iterator_init_empty ( data_search_result_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
 
     data_database_borrowed_stmt_init_void( &((*this_).diagram_statement) );
     data_database_borrowed_stmt_init_void( &((*this_).classifier_statement) );
@@ -28,8 +27,7 @@ u8_error_t data_search_result_iterator_init_empty ( data_search_result_iterator_
     (*this_).last_relationship_id = DATA_ROW_VOID;
     (*this_).last_relationship_was_scenario = false;
 
-    U8_TRACE_END_ERR(result);
-    return result;
+    U8_TRACE_END();
 }
 
 u8_error_t data_search_result_iterator_reinit ( data_search_result_iterator_t *this_,

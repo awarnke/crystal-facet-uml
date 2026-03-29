@@ -159,8 +159,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
     /* check what is in the database */
     {
         data_visible_classifier_iterator_t visible_classifier_iterator;
-        data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
         data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
                                                                                root_diagram_id,
                                                                                &visible_classifier_iterator
@@ -242,8 +241,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
         data_visible_classifier_t read_vis_classifier;
 
         data_visible_classifier_iterator_t visible_classifier_iterator;
-        data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
         data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
                                                                                root_diagram_id,
                                                                                &visible_classifier_iterator

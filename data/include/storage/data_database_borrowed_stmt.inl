@@ -11,31 +11,27 @@ static inline void data_database_borrowed_stmt_init_void ( data_database_borrowe
     (*this_).borrow_flag = NULL;
 }
 
-static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrowed_stmt_t *this_,
-                                                            data_database_t *database,
-                                                            sqlite3_stmt *db_statement,
-                                                            bool *borrow_flag )
+static inline void data_database_borrowed_stmt_init ( data_database_borrowed_stmt_t *this_,
+                                                      data_database_t *database,
+                                                      sqlite3_stmt *db_statement,
+                                                      bool *borrow_flag )
 {
     U8_TRACE_BEGIN();
     assert( database != NULL );
     assert( db_statement != NULL );
     assert( borrow_flag != NULL );
-    u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = database;
     (*this_).db_statement = db_statement;
     (*this_).borrow_flag = borrow_flag;
     if ( *borrow_flag == true )
     {
-        result = U8_ERROR_WRONG_STATE;
+        U8_LOG_ERROR( "data_database_borrowed_stmt is initialized using an already borrowed statement." );
+        assert( false ); /* noone else should have borrowed the statement */
     }
-    else
-    {
-        *((*this_).borrow_flag) = true;
-    }
+    *((*this_).borrow_flag) = true;
 
-    U8_TRACE_END_ERR( result );
-    return result;
+    U8_TRACE_END();
 }
 
 static inline u8_error_t data_database_borrowed_stmt_destroy ( data_database_borrowed_stmt_t *this_ )

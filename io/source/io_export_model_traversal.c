@@ -334,7 +334,7 @@ u8_error_t io_export_model_traversal_private_get_containments( io_export_model_t
 
     /* search containments in relationships */
     data_relationship_iterator_t rel_iterator;
-    result |= data_relationship_iterator_init_empty( &rel_iterator );
+    data_relationship_iterator_init_empty( &rel_iterator );
     result |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
                                                                        data_classifier_get_row_id( classifier ),
                                                                        &rel_iterator
@@ -445,7 +445,7 @@ u8_error_t io_export_model_traversal_private_iterate_node_features ( io_export_m
 
     /* iterate over all features */
     data_feature_iterator_t feature_iterator;
-    data_err |= data_feature_iterator_init_empty( &feature_iterator );
+    data_feature_iterator_init_empty( &feature_iterator );
     data_err |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
                                                                     data_classifier_get_row_id( classifier ),
                                                                     &feature_iterator
@@ -506,7 +506,7 @@ u8_error_t io_export_model_traversal_private_iterate_node_relationships ( io_exp
 
     /* iterate over all relationships */
     data_relationship_iterator_t rel_iterator;
-    data_err |= data_relationship_iterator_init_empty( &rel_iterator );
+    data_relationship_iterator_init_empty( &rel_iterator );
     data_err |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
                                                                          data_classifier_get_row_id( classifier ),
                                                                          &rel_iterator
@@ -712,7 +712,7 @@ u8_error_t io_export_model_traversal_private_fake_interactions_of_node ( io_expo
 
     /* iterate over all features, search for lifelines */
     data_feature_iterator_t feature_iterator;
-    data_err |= data_feature_iterator_init_empty( &feature_iterator );
+    data_feature_iterator_init_empty( &feature_iterator );
     data_err |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
                                                                     data_classifier_get_row_id( classifier ),
                                                                     &feature_iterator

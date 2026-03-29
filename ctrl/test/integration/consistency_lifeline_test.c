@@ -152,8 +152,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     {
         data_feature_t the_feature;
         data_feature_iterator_t feature_iterator;
-        data_err = data_feature_iterator_init_empty( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
                                                                        &feature_iterator
@@ -416,8 +415,7 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
     data_feature_t the_feature;
     {
         data_feature_iterator_t feature_iterator;
-        data_err = data_feature_iterator_init_empty( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
                                                                        &feature_iterator
@@ -461,8 +459,7 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
     /* check that the feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
     {
         data_feature_iterator_t feature_iterator;
-        data_err = data_feature_iterator_init_empty( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
                                                                        &feature_iterator
@@ -589,8 +586,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
     data_feature_t the_feature;
     {
         data_feature_iterator_t feature_iterator;
-        data_err = data_feature_iterator_init_empty( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
                                                                        &feature_iterator
@@ -620,8 +616,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
     /* check that one feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
     {
         data_feature_iterator_t feature_iterator;
-        data_err = data_feature_iterator_init_empty( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
                                                                        &feature_iterator

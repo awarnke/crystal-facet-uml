@@ -100,7 +100,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
     bool is_still_referenced = true;
     {
         data_diagram_iterator_t diagram_iterator;
-        result |= data_diagram_iterator_init_empty( &diagram_iterator );
+        data_diagram_iterator_init_empty( &diagram_iterator );
         result |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
                                                                       obj_id,
                                                                       &diagram_iterator
@@ -138,7 +138,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
         /* delete all features */
         {
             data_feature_iterator_t feature_iterator;
-            result |= data_feature_iterator_init_empty( &feature_iterator );
+            data_feature_iterator_init_empty( &feature_iterator );
             result |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
                                                                           obj_id,
                                                                           &feature_iterator
@@ -166,7 +166,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
         /* delete all relationships */
         {
             data_relationship_iterator_t relationship_iterator;
-            result |= data_relationship_iterator_init_empty( &relationship_iterator );
+            data_relationship_iterator_init_empty( &relationship_iterator );
             result |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
                                                                                obj_id,
                                                                                &relationship_iterator
@@ -538,7 +538,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
     /* delete all relationships to and/or from this feature */
     {
         data_relationship_iterator_t relationship_iterator;
-        result |= data_relationship_iterator_init_empty( &relationship_iterator );
+        data_relationship_iterator_init_empty( &relationship_iterator );
         result |= data_database_reader_get_relationships_by_feature_id( (*this_).db_reader,
                                                                         obj_id,
                                                                         &relationship_iterator

@@ -45,9 +45,8 @@ extern const char *const DATA_VISIBLE_CLASSIFIER_ITERATOR_SELECT_BY_DIAGRAM_ID;
  *  \brief initializes the data_visible_classifier_iterator_t struct to an empty set
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t data_visible_classifier_iterator_init_empty ( data_visible_classifier_iterator_t *this_ );
+void data_visible_classifier_iterator_init_empty ( data_visible_classifier_iterator_t *this_ );
 
 /*!
  *  \brief re-initializes the data_visible_classifier_iterator_t struct to iterate over a db-result-set of classifiers

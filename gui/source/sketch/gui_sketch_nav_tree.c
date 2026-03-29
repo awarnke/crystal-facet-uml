@@ -110,7 +110,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t dia
             : data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
 
         data_diagram_iterator_t diagram_iterator;
-        db_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+        data_diagram_iterator_init_empty( &diagram_iterator );
         db_err |= data_database_reader_get_diagrams_by_parent_id( db_reader,
                                                                   parent_id,
                                                                   &diagram_iterator
@@ -138,7 +138,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t dia
     if ( db_err == U8_ERROR_NONE )
     {
         data_diagram_iterator_t diagram_iterator;
-        db_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+        data_diagram_iterator_init_empty( &diagram_iterator );
         db_err |= data_database_reader_get_diagrams_by_parent_id( db_reader,
                                                                   diagram_id,
                                                                   &diagram_iterator

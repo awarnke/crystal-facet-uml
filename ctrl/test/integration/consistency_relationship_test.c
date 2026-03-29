@@ -16,6 +16,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t change_diagram_type( test_fixture_t *fix );
 static test_case_result_t delete_diagramelement( test_fixture_t *fix );
+static test_case_result_t borrowed_statement_error( test_fixture_t *fix );
 
 test_suite_t consistency_relationship_test_get_suite(void)
 {
@@ -28,6 +29,7 @@ test_suite_t consistency_relationship_test_get_suite(void)
                    );
     test_suite_add_test_case( &result, "change_diagram_type", &change_diagram_type );
     test_suite_add_test_case( &result, "delete_diagramelement", &delete_diagramelement );
+    //test_suite_add_test_case( &result, "borrowed_statement_error", &borrowed_statement_error );
     return result;
 }
 
@@ -226,6 +228,55 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, rel_err2 );
 
     return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t borrowed_statement_error( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    ctrl_diagram_controller_t *diagram_ctrl;
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
+    tvec_setup_t test_environ;
+    tvec_setup_init( &test_environ, &((*fix).controller) );
+
+    /* create 1 diagram */
+    const data_row_t box_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "box diag", DATA_DIAGRAM_TYPE_BOX_DIAGRAM );
+
+    /* create 1 classifier and 1 diagramelement */
+    const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
+    const data_row_t test_at_box
+        = tvec_setup_diagramelement( &test_environ, box_diagram, test_classifier, DATA_ROW_VOID );
+
+    /* create 1 relationship */
+    tvec_setup_relationship( &test_environ,
+                             test_classifier, DATA_ROW_VOID,
+                             test_classifier, DATA_ROW_VOID,
+                             "a relation"
+                           );
+
+    tvec_setup_destroy( &test_environ );
+
+    /* box diag / DATA_DIAGRAM_TYPE_BOX_DIAGRAM */
+    /*     test classifier <----o */
+
+    data_relationship_iterator_t relationship_iterator;
+    data_relationship_iterator_init_empty( &relationship_iterator );
+    u8_error_t iterator_err;
+    iterator_err = data_database_reader_get_relationships_by_classifier_id( &((*fix).controller.db_reader),  /* TODO: do not access member attributes */
+                                                                             test_classifier,
+                                                                             &relationship_iterator
+                                                                           );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == iterator_err );
+
+    /* delete the test diagramelement @ box diag */
+    const u8_error_t c_err
+        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_at_box, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, c_err );
+
+    iterator_err |= data_relationship_iterator_destroy( &relationship_iterator );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == iterator_err );
+
+    return TEST_CASE_RESULT_ERR;  /* do not run this test, it causes an assertion */
 }
 
 

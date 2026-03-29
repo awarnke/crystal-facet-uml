@@ -134,7 +134,7 @@ u8_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists( ctrl_diagr
 
     /* load all without parent */
     data_diagram_iterator_t diagram_iterator;
-    result |= data_diagram_iterator_init_empty( &diagram_iterator );
+    data_diagram_iterator_init_empty( &diagram_iterator );
     result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                               DATA_ROW_VOID,
                                                               &diagram_iterator
@@ -503,7 +503,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controlle
     }
     else
     {
-        result |= (u8_error_t) current_result;
+        result |= current_result;
     }
 
     U8_TRACE_END_ERR( result );

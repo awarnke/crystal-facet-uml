@@ -322,7 +322,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
     if ( d_err == U8_ERROR_NONE )
     {
         data_search_result_iterator_t data_search_result_iterator;
-        d_err |= data_search_result_iterator_init_empty( &data_search_result_iterator );
+        data_search_result_iterator_init_empty( &data_search_result_iterator );
         d_err = data_database_text_search_get_objects_by_text_fragment( &((*this_).db_searcher),
                                                                         search_string,
                                                                         &data_search_result_iterator
@@ -383,7 +383,7 @@ u8_error_t gui_search_runner_private_add_diagrams_of_object( gui_search_runner_t
 
     /* initialize an iterator to fetch all diagrams where result_template occurs: */
     data_diagram_iterator_t diagram_iterator;
-    d_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+    data_diagram_iterator_init_empty( &diagram_iterator );
     const data_table_t object_type = data_id_get_table( data_search_result_get_match_id_const( result_template ));
     switch ( object_type )
     {

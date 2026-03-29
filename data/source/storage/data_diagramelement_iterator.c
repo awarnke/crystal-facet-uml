@@ -52,16 +52,14 @@ static const int RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN = 4;
  */
 static const int RESULT_DIAGRAMELEMENT_UUID_COLUMN = 5;
 
-u8_error_t data_diagramelement_iterator_init_empty ( data_diagramelement_iterator_t *this_ )
+void data_diagramelement_iterator_init_empty ( data_diagramelement_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
 
     data_database_borrowed_stmt_init_void( &((*this_).statement) );
     (*this_).is_at_end = true;
 
-    U8_TRACE_END_ERR(result);
-    return result;
+    U8_TRACE_END();
 }
 
 u8_error_t data_diagramelement_iterator_reinit ( data_diagramelement_iterator_t *this_,

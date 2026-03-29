@@ -130,13 +130,13 @@ u8_error_t data_database_writer_delete_diagram( data_database_writer_t *this_,
 
     /* Note: This function fails if the diagram is still referenced. */
     data_diagram_iterator_t diagram_iterator;
-    result |= data_diagram_iterator_init_empty( &diagram_iterator );
+    data_diagram_iterator_init_empty( &diagram_iterator );
     result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader, obj_id, &diagram_iterator );
     const bool has_child_diagrams = data_diagram_iterator_has_next( &diagram_iterator );
     result |= data_diagram_iterator_destroy( &diagram_iterator );
 
     data_diagramelement_iterator_t diagramelement_iterator;
-    result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+    data_diagramelement_iterator_init_empty( &diagramelement_iterator );
     result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
                                                                       obj_id,
                                                                       &diagramelement_iterator
@@ -439,7 +439,7 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
 
     /* Note: This function fails if the classifier is still referenced. */
     data_diagram_iterator_t diagram_iterator;
-    result |= data_diagram_iterator_init_empty( &diagram_iterator );
+    data_diagram_iterator_init_empty( &diagram_iterator );
     result |= data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader, obj_id, &diagram_iterator );
     const bool has_occurrences = data_diagram_iterator_has_next( &diagram_iterator );
     result |= data_diagram_iterator_destroy( &diagram_iterator );
@@ -451,7 +451,7 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
     else
     {
         data_feature_iterator_t feature_iterator;
-        result |= data_feature_iterator_init_empty( &feature_iterator );
+        data_feature_iterator_init_empty( &feature_iterator );
         result |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, obj_id, &feature_iterator );
         const bool has_next_feature = data_feature_iterator_has_next( &feature_iterator );
         result |= data_feature_iterator_destroy( &feature_iterator );
@@ -462,7 +462,7 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
         else
         {
             data_relationship_iterator_t rel_iterator;
-            result |= data_relationship_iterator_init_empty( &rel_iterator );
+            data_relationship_iterator_init_empty( &rel_iterator );
             result |= data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader, obj_id, &rel_iterator );
             const bool has_next_rel = data_relationship_iterator_has_next( &rel_iterator );
             result |= data_relationship_iterator_destroy( &rel_iterator );

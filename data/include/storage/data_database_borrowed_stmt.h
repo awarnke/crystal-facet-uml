@@ -36,17 +36,18 @@ static inline void data_database_borrowed_stmt_init_void ( data_database_borrowe
 /*!
  *  \brief initializes the data_database_borrowed_stmt_t struct
  *
+ *  This function asserts that the statement is not yet borrowed.
+ *
  *  \param this_ pointer to own object attributes
  *  \param database database on which the statement operates
  *  \param db_statement sql statement that can be used
  *  \param borrow_flag  borrow_flag of the sql statement; not thread-safe
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if db_statement is already borrowed
  */
-static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrowed_stmt_t *this_,
-                                                            data_database_t *database,
-                                                            sqlite3_stmt *db_statement,
-                                                            bool *borrow_flag
-                                                          );
+static inline void data_database_borrowed_stmt_init ( data_database_borrowed_stmt_t *this_,
+                                                      data_database_t *database,
+                                                      sqlite3_stmt *db_statement,
+                                                      bool *borrow_flag
+                                                    );
 
 /*!
  *  \brief destroys the data_database_borrowed_stmt_t struct

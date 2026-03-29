@@ -78,16 +78,14 @@ static const int RESULT_CLASSIFIER_UUID_COLUMN = 8;
  */
 static const int RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN = 9;
 
-u8_error_t data_classifier_iterator_init_empty ( data_classifier_iterator_t *this_ )
+void data_classifier_iterator_init_empty ( data_classifier_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
 
     data_database_borrowed_stmt_init_void( &((*this_).statement) );
     (*this_).is_at_end = true;
 
-    U8_TRACE_END_ERR(result);
-    return result;
+    U8_TRACE_END();
 }
 
 u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,

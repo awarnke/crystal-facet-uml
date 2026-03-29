@@ -189,8 +189,7 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
                               );
 
         data_visible_classifier_iterator_t visible_classifier_iterator;
-        data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
         data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
                                                                                diagram_id,
                                                                                &visible_classifier_iterator

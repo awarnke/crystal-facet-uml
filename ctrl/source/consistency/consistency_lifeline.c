@@ -63,7 +63,7 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
         /* search all contained diagramelements */
         const data_row_t diagram_id = data_diagram_get_row_id ( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
-        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+        data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
                                                                           diagram_id,
                                                                           &diagramelement_iterator
@@ -132,7 +132,7 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
         /* search all contained diagramelements */
         const data_row_t diagram_id = data_diagram_get_row_id ( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
-        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+        data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
                                                                           diagram_id,
                                                                           &diagramelement_iterator
@@ -299,7 +299,7 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
 
         /* search all diagramelements of the classifier */
         data_diagramelement_iterator_t diagramelement_iterator;
-        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+        data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
                                                                              classifier_id,
                                                                              &diagramelement_iterator

@@ -317,8 +317,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
 
     /* test 2 */
     data_diagram_iterator_t diagram_iterator;
-    data_err = data_diagram_iterator_init_empty( &diagram_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_diagram_iterator_init_empty( &diagram_iterator );
     data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader),
                                                                 6,
                                                                 &diagram_iterator
@@ -342,8 +341,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
 
     /* test 4 */
-    data_err = data_diagram_iterator_init_empty( &diagram_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_diagram_iterator_init_empty( &diagram_iterator );
     data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader),
                                                                     12,
                                                                     &diagram_iterator
@@ -411,8 +409,7 @@ static test_case_result_t test_search_classifiers( test_fixture_t *fix )
 
     /* test 2 */
     data_visible_classifier_iterator_t visible_classifier_iterator;
-    data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
     data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
                                                                            7,
                                                                            &visible_classifier_iterator
@@ -468,8 +465,7 @@ static test_case_result_t test_search_features( test_fixture_t *fix )
     {
         data_feature_t the_feature;
         data_feature_iterator_t feature_iterator;
-        data_err = data_feature_iterator_init_empty( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
                                                                        13, /* classifier_id*/
                                                                        &feature_iterator
@@ -489,8 +485,7 @@ static test_case_result_t test_search_features( test_fixture_t *fix )
     {
         data_feature_t the_feature;
         data_feature_iterator_t feature_iterator;
-        data_err = data_feature_iterator_init_empty( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_feature_iterator_init_empty( &feature_iterator );
         data_err = data_database_reader_get_features_by_diagram_id( &((*fix).db_reader),
                                                                     7, /* diagram_id */
                                                                     &feature_iterator
@@ -533,8 +528,7 @@ static test_case_result_t test_search_relationships( test_fixture_t *fix )
     {
         data_relationship_t the_relationship;
         data_relationship_iterator_t relationship_iterator;
-        data_err = data_relationship_iterator_init_empty( &relationship_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_relationship_iterator_init_empty( &relationship_iterator );
         data_err = data_database_reader_get_relationships_by_classifier_id( &((*fix).db_reader),
                                                                             13, /*classifier_id*/
                                                                             &relationship_iterator
@@ -554,8 +548,7 @@ static test_case_result_t test_search_relationships( test_fixture_t *fix )
     {
         data_relationship_t the_relationship;
         data_relationship_iterator_t relationship_iterator;
-        data_err = data_relationship_iterator_init_empty( &relationship_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_relationship_iterator_init_empty( &relationship_iterator );
         data_err = data_database_reader_get_relationships_by_diagram_id( &((*fix).db_reader),
                                                                          7, /* diagram_id */
                                                                          &relationship_iterator
