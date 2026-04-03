@@ -48,13 +48,12 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
     assert( NULL != new_classifier );
     data_classifier_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_row_t new_id;
 
     data_classifier_copy( &to_be_created, new_classifier );
 
-    data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
+    if ( U8_ERROR_NONE == result )
     {
         /* store new id to data_classifier_t object */
         data_classifier_set_row_id( &to_be_created, new_id );
@@ -80,7 +79,6 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
             *out_new_id = new_id;
         }
     }
-    result = data_result;
 
     data_classifier_destroy( &to_be_created );
 
@@ -233,11 +231,10 @@ u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classif
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, &old_classifier );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, &old_classifier );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -250,7 +247,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classif
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -262,11 +258,10 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype, &old_classifier );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype, &old_classifier );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -279,7 +274,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -291,11 +285,10 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name, &old_classifier );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name, &old_classifier );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -308,7 +301,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -320,11 +312,10 @@ u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_class
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, &old_classifier );
-    if (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, &old_classifier );
+    if (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -337,7 +328,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_class
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -349,11 +339,10 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifie
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -366,7 +355,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifie
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -378,11 +366,10 @@ u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifie
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, &old_classifier );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, &old_classifier );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -395,7 +382,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifie
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -408,14 +394,13 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_c
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
+    if ( U8_ERROR_NONE == result )
     {
-        data_result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, NULL );
-        if ( U8_ERROR_NONE == data_result )
+        result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, NULL );
+        if ( U8_ERROR_NONE == result )
         {
             /* prepare the new classifier */
             data_classifier_t new_classifier;
@@ -430,7 +415,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_c
         }
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -442,11 +426,10 @@ u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classi
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_list_order( (*this_).db_writer, classifier_id, new_classifier_list_order, &old_classifier );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_classifier_list_order( (*this_).db_writer, classifier_id, new_classifier_list_order, &old_classifier );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -459,7 +442,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classi
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -476,13 +458,12 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
     assert( NULL != new_feature );
     data_feature_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_row_t new_id;
 
     data_feature_copy( &to_be_created, new_feature );
 
-    data_result = data_database_writer_create_feature( (*this_).db_writer, &to_be_created, &new_id );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_create_feature( (*this_).db_writer, &to_be_created, &new_id );
+    if ( U8_ERROR_NONE == result )
     {
         /* store new id to data_feature_t object */
         data_feature_set_row_id( &to_be_created, new_id );
@@ -508,7 +489,12 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
             *out_new_id = new_id;
         }
     }
-    result = data_result;
+
+    /* apply policy rules */
+    if ( U8_ERROR_NONE == result )
+    {
+        result |= ctrl_classifier_trigger_post_create_feature ( (*this_).policy_enforcer, &to_be_created );
+    }
 
     data_feature_destroy( &to_be_created );
 
@@ -599,11 +585,10 @@ u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_feature_t old_feature;
 
-    data_result = data_database_writer_update_feature_main_type( (*this_).db_writer, feature_id, new_feature_type, &old_feature );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_feature_main_type( (*this_).db_writer, feature_id, new_feature_type, &old_feature );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -616,7 +601,6 @@ u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -628,11 +612,10 @@ u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_contr
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_feature_t old_feature;
 
-    data_result = data_database_writer_update_feature_key( (*this_).db_writer, feature_id, new_feature_key, &old_feature );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_feature_key( (*this_).db_writer, feature_id, new_feature_key, &old_feature );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -645,7 +628,6 @@ u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_contr
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -657,11 +639,10 @@ u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_con
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_feature_t old_feature;
 
-    data_result = data_database_writer_update_feature_value( (*this_).db_writer, feature_id, new_feature_value, &old_feature );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_feature_value( (*this_).db_writer, feature_id, new_feature_value, &old_feature );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -674,7 +655,6 @@ u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_con
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -686,11 +666,10 @@ u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifi
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_feature_t old_feature;
 
-    data_result = data_database_writer_update_feature_description( (*this_).db_writer, feature_id, new_feature_description, &old_feature );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_feature_description( (*this_).db_writer, feature_id, new_feature_description, &old_feature );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -703,7 +682,6 @@ u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifi
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -715,11 +693,10 @@ u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifie
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_feature_t old_feature;
 
-    data_result = data_database_writer_update_feature_list_order( (*this_).db_writer, feature_id, new_feature_list_order, &old_feature );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_feature_list_order( (*this_).db_writer, feature_id, new_feature_list_order, &old_feature );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -732,7 +709,6 @@ u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifie
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -749,13 +725,12 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
     assert( NULL != new_relationship );
     data_relationship_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_row_t new_id;
 
     data_relationship_copy( &to_be_created, new_relationship );
 
-    data_result = data_database_writer_create_relationship( (*this_).db_writer, &to_be_created, &new_id );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_create_relationship( (*this_).db_writer, &to_be_created, &new_id );
+    if ( U8_ERROR_NONE == result )
     {
         /* store new id to data_relationship_t object */
         data_relationship_set_row_id( &to_be_created, new_id );
@@ -781,7 +756,12 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
             *out_new_id = new_id;
         }
     }
-    result = data_result;
+
+    /* apply policy rules */
+    if ( U8_ERROR_NONE == result )
+    {
+        result |= ctrl_classifier_trigger_post_create_relationship ( (*this_).policy_enforcer, &to_be_created );
+    }
 
     data_relationship_destroy( &to_be_created );
 
@@ -798,10 +778,9 @@ u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_cont
 
     /* delete relationship */
     data_relationship_t old_relation;
-    u8_error_t current_result5;
-    current_result5 = data_database_writer_delete_relationship( (*this_).db_writer, obj_id, &old_relation );
+    result = data_database_writer_delete_relationship( (*this_).db_writer, obj_id, &old_relation );
 
-    if ( U8_ERROR_NONE == current_result5 )
+    if ( U8_ERROR_NONE == result )
     {
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
@@ -821,8 +800,6 @@ u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_cont
         data_relationship_destroy( &old_relation );
     }
 
-    result |= current_result5;
-
     U8_TRACE_END_ERR( result );
     return result;
 }
@@ -833,11 +810,10 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_relationship_t old_relation;
 
-    data_result = data_database_writer_update_relationship_main_type( (*this_).db_writer, relationship_id, new_relationship_type, &old_relation );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_relationship_main_type( (*this_).db_writer, relationship_id, new_relationship_type, &old_relation );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -850,7 +826,6 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -862,11 +837,10 @@ u8_error_t ctrl_classifier_controller_update_relationship_stereotype ( ctrl_clas
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_relationship_t old_relation;
 
-    data_result = data_database_writer_update_relationship_stereotype( (*this_).db_writer, relationship_id, new_relationship_stereotype, &old_relation );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_relationship_stereotype( (*this_).db_writer, relationship_id, new_relationship_stereotype, &old_relation );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -879,7 +853,6 @@ u8_error_t ctrl_classifier_controller_update_relationship_stereotype ( ctrl_clas
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -891,11 +864,10 @@ u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_relationship_t old_relation;
 
-    data_result = data_database_writer_update_relationship_name( (*this_).db_writer, relationship_id, new_relationship_name, &old_relation );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_relationship_name( (*this_).db_writer, relationship_id, new_relationship_name, &old_relation );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -908,7 +880,6 @@ u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -920,11 +891,10 @@ u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_cla
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_relationship_t old_relation;
 
-    data_result = data_database_writer_update_relationship_description( (*this_).db_writer, relationship_id, new_relationship_description, &old_relation );
-    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    result = data_database_writer_update_relationship_description( (*this_).db_writer, relationship_id, new_relationship_description, &old_relation );
+    if  (( U8_ERROR_NONE == result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == result ))
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -937,7 +907,6 @@ u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_cla
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -949,11 +918,10 @@ u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_clas
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_relationship_t old_relation;
 
-    data_result = data_database_writer_update_relationship_list_order( (*this_).db_writer, relationship_id, new_relationship_list_order, &old_relation );
-    if ( U8_ERROR_NONE == data_result )
+    result = data_database_writer_update_relationship_list_order( (*this_).db_writer, relationship_id, new_relationship_list_order, &old_relation );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -966,7 +934,6 @@ u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_clas
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;

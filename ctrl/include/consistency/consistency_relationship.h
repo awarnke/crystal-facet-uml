@@ -35,9 +35,6 @@ struct consistency_relationship_struct {
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     data_rules_t rules;  /*!< visibility rules for relationships, depending on diagram type */
 
-#if 0
-    data_diagramelement_t temp_diagelement_buf;  /*!< be aware of reentrancy by recursion! */
-#endif
     data_diagram_t temp_diagram_buf;
     data_relationship_t temp_relationship_buf;  /*!< be aware of reentrancy by recursion! */
 };
@@ -82,11 +79,11 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram ( consistency_r
  *    delete relationships where from classifier and to classifier have no diagram in common
  *
  *  \param this_ pointer to own object attributes
- *  \param deleted_diagramelement data of the deleted diagramelement.
+ *  \param classifier_id id of the classifier to check, e,g, due to a deleted diagramelement.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_relationship_delete_invisibles_at_classifier ( consistency_relationship_t *this_,
-                                                                      const data_diagramelement_t *deleted_diagramelement
+                                                                      data_row_t classifier_id
                                                                     );
 
 /*!
@@ -101,22 +98,6 @@ u8_error_t consistency_relationship_private_is_shown_by_a_diagram ( consistency_
                                                                     const data_relationship_t *relation,
                                                                     bool *out_result
                                                                   );
-
-#if 0
-/*!
- *  \brief checks if a relationship is visible in a diagram.
- *
- *  \param this_ pointer to own object attributes
- *  \param relation relationship to be checked for visibility.
- *  \param[out] out_result true if both relationship end classifiers are visible in the same diagram
- *                         (except diagram-type-specific filtering).
- *  \return error id in case of an error, e.g. U8_ERROR_ARRAY_BUFFER_EXCEEDED; U8_ERROR_NONE in case of success
- */
-u8_error_t consistency_relationship_private_has_relationship_a_diagram ( consistency_relationship_t *this_,
-                                                                         const data_relationship_t *relation,
-                                                                         bool *out_result
-                                                                       );
-#endif
 
 #endif  /* CONSISTENCY_RELATIONSHIP_H */
 

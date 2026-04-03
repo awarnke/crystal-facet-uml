@@ -62,7 +62,8 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
             {
                 data_diagramelement_t diagelement_buf;
                 result |= data_diagramelement_iterator_next( &diagramelement_iterator, &diagelement_buf );
-                result |= consistency_relationship_delete_invisibles_at_classifier( this_, &diagelement_buf );
+                const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( &diagelement_buf );
+                result |= consistency_relationship_delete_invisibles_at_classifier( this_, classifier_id);
             }
         }
         result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
@@ -77,13 +78,12 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
 }
 
 u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency_relationship_t *this_,
-                                                                     const data_diagramelement_t *deleted_diagramelement )
+                                                                     data_row_t classifier_id )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != deleted_diagramelement );
+    assert( classifier_id != DATA_ROW_VOID );
     u8_error_t result = U8_ERROR_NONE;
 
-    data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
     data_small_set_t relations_to_delete;
     data_small_set_init( &relations_to_delete );
 
@@ -185,93 +185,6 @@ u8_error_t consistency_relationship_private_is_shown_by_a_diagram( consistency_r
     U8_TRACE_END_ERR( result );
     return result;
 }
-
-#if 0
-u8_error_t consistency_relationship_private_has_relationship_a_diagram( consistency_relationship_t *this_,
-                                                                        const data_relationship_t *relation,
-                                                                        bool *out_result )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != relation );
-    assert( NULL != out_result );
-    u8_error_t result = U8_ERROR_NONE;
-
-    const data_row_t from_classifier_id = data_relationship_get_from_classifier_row_id( relation );
-    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
-
-    if ( from_classifier_id == to_classifier_id )
-    {
-        /* relationship is visible in one diagram because source and destination are identical */
-        *out_result = true;
-    }
-    else
-    {
-        bool same_diag = false;
-        data_small_set_t from_diagrams;
-        data_small_set_init( &from_diagrams );
-
-        /* load diagramelements that are referenced by the relationships from end */
-        {
-            data_diagramelement_iterator_t diagramelement_iterator;
-            result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
-            result |= data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
-                                                                                 from_classifier_id,
-                                                                                 &diagramelement_iterator
-                                                                               );
-            if ( result == U8_ERROR_NONE )
-            {
-                while ( data_diagramelement_iterator_has_next( &diagramelement_iterator ) )
-                {
-                    result |= data_diagramelement_iterator_next( &diagramelement_iterator, &((*this_).temp_diagelement_buf) );
-                    const data_id_t from_diag_id
-                        = data_diagramelement_get_diagram_data_id ( &((*this_).temp_diagelement_buf) );
-                    const u8_error_t ins_err
-                        = data_small_set_add_obj( &from_diagrams, from_diag_id );
-                    if ( ins_err == U8_ERROR_DUPLICATE_ID )
-                    {
-                        /* not an error */
-                    }
-                    else
-                    {
-                        result |= ins_err;
-                    }
-                }
-            }
-            result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
-        }
-
-        /* load diagramelements that are referenced by the relationships to end */
-        data_diagramelement_iterator_t diagramelement_iterator2;
-        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator2 );
-        result |= data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
-                                                                             to_classifier_id,
-                                                                             &diagramelement_iterator2
-                                                                           );
-
-        /* check for same diagram */
-        if ( result == U8_ERROR_NONE )
-        {
-            while ( data_diagramelement_iterator_has_next( &diagramelement_iterator2 ) )
-            {
-                result |= data_diagramelement_iterator_next( &diagramelement_iterator2, &((*this_).temp_diagelement_buf) );
-                const data_id_t to_diag_id
-                    = data_diagramelement_get_diagram_data_id ( &((*this_).temp_diagelement_buf) );
-                if ( data_small_set_contains( &from_diagrams, to_diag_id ) )
-                {
-                    same_diag = true;
-                }
-            }
-        }
-        result |= data_diagramelement_iterator_destroy( &diagramelement_iterator2 );
-        data_small_set_destroy( &from_diagrams );
-
-        *out_result = same_diag;
-    }
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-#endif
 
 
 /*

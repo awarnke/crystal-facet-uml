@@ -54,8 +54,9 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_d
     u8_error_t result_err = U8_ERROR_NONE;
     result_err |= consistency_lifeline_delete_a_lifeline( (*this_).lifeline, deleted_diagramelement );
     result_err |= consistency_classifier_delete_unreferenced_classifier( (*this_).classifier, deleted_diagramelement );
-    result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, deleted_diagramelement );
-    result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship, deleted_diagramelement );
+    const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
+    result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id );
+    result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship, classifier_id );
     return result_err;
 }
 

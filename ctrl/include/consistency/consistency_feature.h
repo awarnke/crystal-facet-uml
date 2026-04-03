@@ -80,11 +80,11 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram ( consistency_featur
  *  Note: lifelines are excluded, these are handled by consistency_lifeline_t.
  *
  *  \param this_ pointer to own object attributes
- *  \param deleted_diagramelement the deleted diagramelement.
+ *  \param classifier_id the classifier to check, e.g. due to a deleted diagramelement.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_feature_delete_invisibles_of_classifier ( consistency_feature_t *this_,
-                                                                 const data_diagramelement_t *deleted_diagramelement
+                                                                 data_row_t classifier_id
                                                                );
 
 #endif  /* CONSISTENCY_FEATURE_H */

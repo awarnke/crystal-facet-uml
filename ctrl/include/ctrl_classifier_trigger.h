@@ -10,7 +10,9 @@
  */
 
 #include "u8/u8_error.h"
+#include "consistency/consistency_feature.h"
 #include "consistency/consistency_lifeline.h"
+#include "consistency/consistency_relationship.h"
 
 /*!
  *  \brief all data attributes needed for the database trigger
@@ -18,7 +20,9 @@
  *  This module is called, triggerd by database changes, to re-establish consistency
  */
 struct ctrl_classifier_trigger_struct {
+    consistency_feature_t *feature;  /*!< pointer to external consistency routines */
     consistency_lifeline_t *lifeline;  /*!< pointer to external consistency routines */
+    consistency_relationship_t *relationship;  /*!< pointer to external consistency routines */
 };
 
 typedef struct ctrl_classifier_trigger_struct ctrl_classifier_trigger_t;
@@ -27,10 +31,14 @@ typedef struct ctrl_classifier_trigger_struct ctrl_classifier_trigger_t;
  *  \brief initializes the ctrl_classifier_trigger_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param feature pointer to external consistency routines for dropping invisible features
  *  \param lifeline pointer to external consistency routines for creating and destroying lifelines and their references
+ *  \param relationship pointer to external consistency routines for dropping invisible relationships
  */
 static inline void ctrl_classifier_trigger_init ( ctrl_classifier_trigger_t *this_,
-                                                  consistency_lifeline_t *lifeline
+                                                  consistency_feature_t *feature,
+                                                  consistency_lifeline_t *lifeline,
+                                                  consistency_relationship_t *relationship
                                                 );
 
 /*!
@@ -52,6 +60,42 @@ static inline void ctrl_classifier_trigger_destroy ( ctrl_classifier_trigger_t *
 static inline u8_error_t ctrl_classifier_trigger_post_delete_feature ( ctrl_classifier_trigger_t *this_,
                                                                        const data_feature_t *deleted_feature
                                                                      );
+
+/*!
+ *  \brief triggers the execution of policies involved in creating a feature.
+ *
+ *  This trigger ensures that a feature is immediately deleted after being created
+ *  if it is not visible in any diagram.
+ *
+ *  Note that it would be nicer to not even create the feature in the first place
+ *  but this use case is anyhow rare and the database query for cleaning up afterwards
+ *  already exists.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param create_feature data of the soon to be created feature.
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+static inline u8_error_t ctrl_classifier_trigger_post_create_feature ( ctrl_classifier_trigger_t *this_,
+                                                                       const data_feature_t *create_feature
+                                                                     );
+
+/*!
+ *  \brief triggers the execution of policies involved in creating a relationship.
+ *
+ *  This trigger ensures that a relationship is immediately deleted after being created
+ *  if it is not visible in any diagram.
+ *
+ *  Note that it would be nicer to not even create the relationship in the first place
+ *  but this use case is anyhow rare and the database query for cleaning up afterwards
+ *  already exists.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param create_relationship data of the soon to be created relationship.
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+static inline u8_error_t ctrl_classifier_trigger_post_create_relationship ( ctrl_classifier_trigger_t *this_,
+                                                                            const data_relationship_t *create_relationship
+                                                                          );
 
 #include "ctrl_classifier_trigger.inl"
 

@@ -34,7 +34,7 @@ typedef struct ctrl_diagram_trigger_struct ctrl_diagram_trigger_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier pointer to external consistency routines for dropping invisible classifiers
- *  \param classifier pointer to external consistency routines for dropping invisible features
+ *  \param feature pointer to external consistency routines for dropping invisible features
  *  \param lifeline pointer to external consistency routines for creating and destroying lifelines and their references
  *  \param relationship pointer to external consistency routines for dropping invisible relationships
  */

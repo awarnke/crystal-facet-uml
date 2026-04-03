@@ -149,13 +149,13 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
     /* create 2 relationships */
     const data_row_t test_rel
         = tvec_setup_relationship( &test_environ,
-                                                   omni_classifier, DATA_ROW_VOID,
-                                                   omni_classifier, omni_feature,
-                                                   "test relation" );
+                                   omni_classifier, DATA_ROW_VOID,
+                                   omni_classifier, omni_feature,
+                                   "test relation" );
     tvec_setup_relationship( &test_environ,
-                                             test_classifier, test_feature,
-                                             omni_classifier, DATA_ROW_VOID,
-                                             "collateral relation" );
+                             test_classifier, test_feature,
+                             omni_classifier, DATA_ROW_VOID,
+                             "collateral relation" );
 
     tvec_setup_destroy( &test_environ );
 
