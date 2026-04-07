@@ -154,7 +154,7 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
                                    "test relation" );
     const data_row_t collateral_rel
         = tvec_setup_relationship( &test_environ,
-                                   test_classifier, DATA_ROW_VOID,
+                                   omni_classifier, omni_feature,
                                    omni_classifier, testatomni_feature,
                                    "collateral relation" );
     tvec_setup_relationship( &test_environ,
@@ -170,6 +170,7 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
         u8_error_t add_ok;
         data_small_set_init( &small_set );
 
+        /* orphaned_classifier is needed because only if orphaned, these can be deleted */
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, orphaned_classifier );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, testatomni_feature );
@@ -191,30 +192,13 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
 
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
-        {
-            data_relationship_t check4;
-            const u8_error_t data_err4
-                = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), test_rel, &check4 );
-            TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err4 );
-        }
-        {
-            data_relationship_t check5;
-            const u8_error_t data_err5
-                = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), collateral_rel, &check5 );
-            TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err5 );
-        }
-
-        //ctrl_controller_undo( &((*fix).controller), &stat );
-        //data_stat_init(&stat);
-        //ctrl_controller_redo( &((*fix).controller), &stat );
-
         /* expected deleted classifiers: orphaned_classifier, test_classifier (via test_diagram ) */
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
         /* expected deleted features: test_feature */
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         /* The diagram type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM - therefore 1 lifeline is additionally deleted: */
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED )); /* TODO possibly these are deleted but not reported? */
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 8, data_stat_get_total_count ( &stat ));
@@ -235,6 +219,18 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
         const u8_error_t data_err3
             = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), test_diagele, &check3 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err3 );
+    }
+    {
+        data_relationship_t check4;
+        const u8_error_t data_err4
+            = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), test_rel, &check4 );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err4 );
+    }
+    {
+        data_relationship_t check5;
+        const u8_error_t data_err5
+            = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), collateral_rel, &check5 );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err5 );
     }
     return TEST_CASE_RESULT_OK;
 }

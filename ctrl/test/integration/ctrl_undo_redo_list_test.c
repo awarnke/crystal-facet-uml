@@ -7,6 +7,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
 #include "u8/u8_fault_inject.h"
+#include "tvec/tvec_setup.h"
 #include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
@@ -455,6 +456,20 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
     assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
+
+    /* create a diagram, 2 classifiers, 2 diagramemelements and a feature needed for consistency */
+    tvec_setup_t test_environ;
+    tvec_setup_init( &test_environ, &((*fix).controller) );
+    const data_row_t root_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM );
+    const data_row_t first_classifier = tvec_setup_classifier( &test_environ, "first classifier" );
+    const data_row_t second_classifier = tvec_setup_classifier( &test_environ, "second classifier" );
+    tvec_setup_diagramelement( &test_environ, root_diagram, first_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, second_classifier, DATA_ROW_VOID );
+    const data_row_t second_feature = tvec_setup_feature( &test_environ, second_classifier, "2nd feature" );
+    tvec_setup_destroy( &test_environ );
+    ctrl_controller_reset_undo_redo_list( &((*fix).controller) );  /* clear the undo redo list */
+
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
     data_feature_t check_f;
@@ -465,7 +480,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
     data_err = data_feature_init( &step1,
                                   17, /* feature_id */
                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                  35000, /* classifier_id */
+                                  first_classifier, /* classifier_id */
                                   "startup_time", /* feature_key */
                                   "uint64_t", /* feature_value */
                                   "time in nano seconds to start", /* feature_description */
@@ -501,10 +516,10 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
     data_relationship_t step3b;
     data_err = data_relationship_init( &step3b,
                                        34, /* relationship_id */
-                                       86000, /* from_classifier_id */
+                                       first_classifier, /* from_classifier_id */
                                        DATA_ROW_VOID, /* from_feature_id */
-                                       86001, /* to_classifier_id */
-                                       150160, /* to_feature_id */
+                                       second_classifier, /* to_classifier_id */
+                                       second_feature, /* to_feature_id */
                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                        "rel:stereo_t", /* stereotype */
                                        "the composition is more", /* name */
@@ -579,7 +594,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
-        TEST_EXPECT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check_f ) );
+        TEST_EXPECT_EQUAL_INT( first_classifier, data_feature_get_classifier_row_id( &check_f ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_const( &check_f ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_const( &check_f ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_const( &check_f ) ) );
@@ -590,14 +605,14 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( first_classifier, data_relationship_get_from_classifier_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( second_classifier, data_relationship_get_to_classifier_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "rel:stereo_t", data_relationship_get_stereotype_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
         TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( second_feature, data_relationship_get_to_feature_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "57d93512-91d6-41eb-860f-0408b79a9aaf", data_relationship_get_uuid_const( &check_r ) ) );
     }
 
@@ -764,7 +779,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
-        TEST_EXPECT_EQUAL_INT( 35000, data_feature_get_classifier_row_id( &check_f ) );
+        TEST_EXPECT_EQUAL_INT( first_classifier, data_feature_get_classifier_row_id( &check_f ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_const( &check_f ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_const( &check_f ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_const( &check_f ) ) );
@@ -775,14 +790,14 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( first_classifier, data_relationship_get_from_classifier_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( second_classifier, data_relationship_get_to_classifier_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "rel:stereo_t", data_relationship_get_stereotype_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
         TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( second_feature, data_relationship_get_to_feature_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "57d93512-91d6-41eb-860f-0408b79a9aaf", data_relationship_get_uuid_const( &check_r ) ) );
     }
 

@@ -75,7 +75,7 @@ ideas for future versions:
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] user manual updates needed
   [ ] using "paste", it is possible to paste relationships into the model that are not visible
-  [ ] some classifier types cannot have features (e.g. choice) - this is ignored when chaning the classifier type
+  [ ] some classifier types cannot have features (e.g. choice) - this is ignored when changing the classifier type
   @u8stream
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
