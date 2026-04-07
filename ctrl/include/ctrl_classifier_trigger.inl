@@ -46,10 +46,8 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_feature( ctrl_class
     if ( f_type != DATA_FEATURE_TYPE_LIFELINE )
     {
         /* if a non-lifeline was created, check if it is visible */
-#if 0
         const data_row_t classifier_id = data_feature_get_classifier_row_id( create_feature );
         result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id );
-#endif
     }
 
     return result_err;
@@ -60,10 +58,8 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_relationship( ctrl_
 {
     u8_error_t result_err = U8_ERROR_NONE;
 
-#if 0
     const data_row_t classifier_id = data_relationship_get_from_classifier_row_id( create_relationship );
     result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship, classifier_id );
-#endif
 
     return result_err;
 }

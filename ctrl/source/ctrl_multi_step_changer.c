@@ -56,7 +56,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
         ctrl_classifier_controller_t *const classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
         ctrl_diagram_controller_t *const diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
-        /* STEP ZERO: Delete all objects that can be immediately deleted */
+        /* STEP ONE: Delete all objects that can be immediately deleted */
 
         for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
         {
@@ -66,7 +66,64 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    /* see step two */
+                    /* see step FOUR */
+                }
+                break;
+
+                case DATA_TABLE_FEATURE:
+                {
+                    /* see step TWO */
+                }
+                break;
+
+                case DATA_TABLE_RELATIONSHIP:
+                {
+                    result |= ctrl_classifier_controller_delete_relationship ( classifier_ctrl,
+                                                                               data_id_get_row_id( &current_id ),
+                                                                               (*this_).is_first_step
+                    );
+                    if ( result == U8_ERROR_NONE )
+                    {
+                        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
+                    }
+                    else
+                    {
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+                    }
+                }
+                break;
+
+                case DATA_TABLE_DIAGRAMELEMENT:
+                {
+                    /* see step THREE */
+                }
+                break;
+
+                case DATA_TABLE_DIAGRAM:
+                {
+                    /* see step FOUR */
+                }
+                break;
+
+                default:
+                {
+                    result |= U8_ERROR_VALUE_OUT_OF_RANGE;
+                }
+                break;
+            }
+        }
+
+        /* STEP TWO: Delete all objects that can be deleted after relationships are gone */
+
+        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
+        {
+            data_id_t current_id;
+            current_id = data_small_set_get_id( objects, index );
+            switch ( data_id_get_table( &current_id ) )
+            {
+                case DATA_TABLE_CLASSIFIER:
+                {
+                    /* see step FOUR */
                 }
                 break;
 
@@ -89,30 +146,19 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    result |= ctrl_classifier_controller_delete_relationship ( classifier_ctrl,
-                                                                               data_id_get_row_id( &current_id ),
-                                                                               (*this_).is_first_step
-                                                                             );
-                    if ( result == U8_ERROR_NONE )
-                    {
-                        (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
-                    }
-                    else
-                    {
-                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
-                    }
+                    /* see step ONE */
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
-                    /* see step one */
+                    /* see step THREE */
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAM:
                 {
-                    /* see step two */
+                    /* see step FOUR */
                 }
                 break;
 
@@ -124,7 +170,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
             }
         }
 
-        /* STEP ONE: Delete all objects that can be deleted after relationships and features are gone */
+        /* STEP THREE: Delete all objects that can be deleted after relationships and features are gone */
 
         for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
         {
@@ -134,19 +180,19 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    /* see step two */
+                    /* see step FOUR */
                 }
                 break;
 
                 case DATA_TABLE_FEATURE:
                 {
-                    /* see step zero */
+                    /* see step TWO */
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    /* see step zero */
+                    /* see step ONE */
                 }
                 break;
 
@@ -169,7 +215,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
                 case DATA_TABLE_DIAGRAM:
                 {
-                    /* see step two */
+                    /* see step FOUR */
                 }
                 break;
 
@@ -181,7 +227,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
             }
         }
 
-        /* STEP TWO: Delete all objects that can be deleted after step one */
+        /* STEP FOUR: Delete all objects that can be deleted after step THREE */
 
         for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
         {
@@ -208,19 +254,19 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
                 case DATA_TABLE_FEATURE:
                 {
-                    /* see step zero */
+                    /* see step TWO */
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    /* see step zero */
+                    /* see step ONE */
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
-                    /* see step one */
+                    /* see step THREE */
                 }
                 break;
 
