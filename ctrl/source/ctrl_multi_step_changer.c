@@ -732,6 +732,25 @@ u8_error_t ctrl_multi_step_changer_private_propose_classifier_name ( ctrl_multi_
     return result;
 }
 
+/* ================================ get statistics ================================ */
+
+u8_error_t ctrl_multi_step_changer_collect_statistics( ctrl_multi_step_changer_t *this_, data_stat_t *io_stat )
+{
+    U8_TRACE_BEGIN();
+
+    ctrl_undo_redo_iterator_t undo_iterator;
+    ctrl_undo_redo_iterator_init_empty( &undo_iterator );
+    const u8_error_t err = ctrl_controller_get_undo_iterator( (*this_).controller, &undo_iterator );
+    if ( err == U8_ERROR_NONE )
+    {
+        ctrl_undo_redo_iterator_collect_statistics( &undo_iterator, false /* undo */, io_stat );
+    }
+    ctrl_undo_redo_iterator_destroy( &undo_iterator );
+
+    U8_TRACE_END_ERR( err );
+    return err;
+}
+
 
 /*
 Copyright 2016-2026 Andreas Warnke

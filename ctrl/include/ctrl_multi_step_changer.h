@@ -197,6 +197,19 @@ u8_error_t ctrl_multi_step_changer_private_propose_classifier_name ( ctrl_multi_
                                                                      utf8stringbuf_t out_name
                                                                    );
 
+/* ================================ get statistics ================================ */
+
+/*!
+ *  \brief collects statistics
+ *
+ *  This function finds types DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED, DATA_STAT_SERIES_DELETED.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] io_stat *io_stat shall be initialized by caller, statistics are added to initial values
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED in case not all changes are in the undo history anymore, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_multi_step_changer_collect_statistics ( ctrl_multi_step_changer_t *this_, data_stat_t *io_stat );
+
 #endif  /* CTRL_MULTI_STEP_CHANGER_H */
 
 

@@ -6,8 +6,9 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines a pair of a) a pointer to a concrete instance of an interface
- *  and b) a pointer to objectdata that implements the interface.
+ *  \brief This class handles the elements that were read by an importer.
+ *         Depending on the mode, these are ignored (just syntax-checked)
+ *         or checked for duplicates and imported to the database.
  */
 
 #include "io_import_mode.h"
