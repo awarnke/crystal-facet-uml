@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -37,9 +37,9 @@
           },
           {
             "id": 3,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Example-DB",
             "node": "ab6d7b53-3170-4703-b97f-8700f5792938",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "1717a422-520f-4883-93ac-9e9bbf980aab"
           },
           {
@@ -165,8 +165,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "database",
-        "to_classifier_name": "Component",
         "from_node": "20587e28-788f-4817-a25a-f0be7af7c098",
+        "to_classifier_name": "Component",
         "to_node": "1abe459d-2d6d-4ed2-9202-2eee0b5d02e4",
         "uuid": "a5c5ea89-d33e-48d3-baa9-22b62966f4e0"
       }
@@ -181,8 +181,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "database",
-        "to_classifier_name": "DB-img",
         "from_node": "20587e28-788f-4817-a25a-f0be7af7c098",
+        "to_classifier_name": "DB-img",
         "to_node": "b6cb3c24-3ff6-43f3-9693-2588bcc95962",
         "uuid": "56fbe951-8153-4697-aec3-d637a73a1659"
       }

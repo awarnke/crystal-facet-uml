@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -241,8 +241,8 @@
         ],
         "list_order": -1858272165,
         "from_classifier_name": "AngleSteering",
-        "to_classifier_name": "InputValidation 3",
         "from_node": "8190a2ed-df2e-4427-8eaa-0272cd62149a",
+        "to_classifier_name": "InputValidation 3",
         "to_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
         "uuid": "d0c2d1b7-bdb5-48cc-ae76-edffa39a039d"
       }
@@ -258,9 +258,9 @@
         "list_order": 32768,
         "from_classifier_name": "AngleSteering",
         "from_feature_key": "in_direction",
+        "from_node": "b1e21fc9-7aca-44ea-85fa-a46ac7af7f01",
         "to_classifier_name": "AngleSteering",
         "to_feature_key": "8443",
-        "from_node": "b1e21fc9-7aca-44ea-85fa-a46ac7af7f01",
         "to_node": "a657415a-8f4a-4326-a321-31bd65a136bc",
         "uuid": "a4bbeb87-40e4-4b6b-8be3-c4265913bbc9"
       }
@@ -276,8 +276,8 @@
         "list_order": 98304,
         "from_classifier_name": "AngleSteering",
         "from_feature_key": "8443",
-        "to_classifier_name": "InputValidation 3",
         "from_node": "a657415a-8f4a-4326-a321-31bd65a136bc",
+        "to_classifier_name": "InputValidation 3",
         "to_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
         "uuid": "c6380424-5b38-469e-ba6f-bcb174c1d651"
       }
@@ -292,8 +292,8 @@
         ],
         "list_order": -1930640142,
         "from_classifier_name": "AngleSteering",
-        "to_classifier_name": "Controller 3",
         "from_node": "8190a2ed-df2e-4427-8eaa-0272cd62149a",
+        "to_classifier_name": "Controller 3",
         "to_node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
         "uuid": "97a9f4a5-8249-40e1-a29c-20a9e113be0a"
       }
@@ -309,9 +309,9 @@
         "list_order": 196608,
         "from_classifier_name": "AngleSteering",
         "from_feature_key": "Motor Control",
+        "from_node": "9c6a12b4-fa76-419c-b2cd-a8842527dc9e",
         "to_classifier_name": "AngleSteering",
         "to_feature_key": "8851",
-        "from_node": "9c6a12b4-fa76-419c-b2cd-a8842527dc9e",
         "to_node": "16d642ad-1f28-4c3a-859e-de400fa737e7",
         "uuid": "2fc07347-edbb-4578-a839-bae60c0dae92"
       }
@@ -327,8 +327,8 @@
         "list_order": 294912,
         "from_classifier_name": "AngleSteering",
         "from_feature_key": "8847",
-        "to_classifier_name": "InputValidation 3",
         "from_node": "c0c78363-1861-4d25-a394-33ce9916bf06",
+        "to_classifier_name": "InputValidation 3",
         "to_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
         "uuid": "65c738f0-33d7-4aed-84aa-b33050c07b2c"
       }
@@ -344,9 +344,9 @@
         "list_order": 327680,
         "from_classifier_name": "AngleSteering",
         "from_feature_key": "actual_time",
+        "from_node": "af341dd3-43c8-4d58-a8aa-52797ad7b08e",
         "to_classifier_name": "AngleSteering",
         "to_feature_key": "8847",
-        "from_node": "af341dd3-43c8-4d58-a8aa-52797ad7b08e",
         "to_node": "c0c78363-1861-4d25-a394-33ce9916bf06",
         "uuid": "f0409432-a9a5-44bd-8ff0-d89dcf31a266"
       }
@@ -361,8 +361,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "InputValidation 3",
-        "to_classifier_name": "Controller 3",
         "from_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
+        "to_classifier_name": "Controller 3",
         "to_node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
         "uuid": "0899459f-2751-4804-8417-26a0299879ea"
       }
@@ -378,9 +378,9 @@
         "list_order": 229376,
         "from_classifier_name": "Monitor",
         "from_feature_key": "Emergency Stop",
+        "from_node": "80c36a9a-2ec6-421b-b55b-e3e62a3067e7",
         "to_classifier_name": "Monitor",
         "to_feature_key": "8852",
-        "from_node": "80c36a9a-2ec6-421b-b55b-e3e62a3067e7",
         "to_node": "1dffa6f4-f251-4c1a-935f-ee9b3046515f",
         "uuid": "ad5c3039-92f1-4ea1-9d7a-00aebb991d13"
       }
@@ -396,9 +396,9 @@
         "list_order": 262144,
         "from_classifier_name": "Monitor",
         "from_feature_key": "in_direction",
+        "from_node": "1c8c3d53-571e-407a-8e17-1cc0541ea909",
         "to_classifier_name": "Monitor",
         "to_feature_key": "9000",
-        "from_node": "1c8c3d53-571e-407a-8e17-1cc0541ea909",
         "to_node": "8f1dbfaf-e59a-44fc-b8d8-4d9d51fa9f63",
         "uuid": "e0e2367c-c62b-4ed4-9e81-9d3d8b872be0"
       }
@@ -413,9 +413,9 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Controller 3",
+        "from_node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
         "to_classifier_name": "AngleSteering",
         "to_feature_key": "8851",
-        "from_node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
         "to_node": "16d642ad-1f28-4c3a-859e-de400fa737e7",
         "uuid": "9040a4d0-16c9-47d2-b14c-530e9517668d"
       }

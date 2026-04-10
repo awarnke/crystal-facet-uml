@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -25,9 +25,9 @@
         [
           {
             "id": 1,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Event Queue States",
             "node": "0798ed6a-e59c-4e9f-aa9d-a0c235dcb550",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "e0dba5c3-a31b-4354-8077-2bb75e5ad74e"
           },
           {
@@ -137,8 +137,8 @@
         ],
         "list_order": -148682013,
         "from_classifier_name": "Event Queue States",
-        "to_classifier_name": "queue::idle",
         "from_node": "0798ed6a-e59c-4e9f-aa9d-a0c235dcb550",
+        "to_classifier_name": "queue::idle",
         "to_node": "72e7170a-7c42-4def-a3fb-00e314f93bac",
         "uuid": "2ed8a53f-bcd3-4828-85c0-b73ca7714aa7"
       }
@@ -153,8 +153,8 @@
         ],
         "list_order": -267949958,
         "from_classifier_name": "Event Queue States",
-        "to_classifier_name": "queue::init",
         "from_node": "0798ed6a-e59c-4e9f-aa9d-a0c235dcb550",
+        "to_classifier_name": "queue::init",
         "to_node": "3817cad2-26de-48d6-8f5b-bed1c54e6dce",
         "uuid": "b6d68223-1c84-4bef-9f38-bea4fd54b51a"
       }
@@ -169,8 +169,8 @@
         ],
         "list_order": -283181256,
         "from_classifier_name": "Event Queue States",
-        "to_classifier_name": "queue::end",
         "from_node": "0798ed6a-e59c-4e9f-aa9d-a0c235dcb550",
+        "to_classifier_name": "queue::end",
         "to_node": "4ba2152a-93f7-4bd5-994d-d6c7efa4c937",
         "uuid": "43d340c0-0317-439f-be00-54b3ec3c9c57"
       }
@@ -185,8 +185,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "queue::idle",
-        "to_classifier_name": "queue::end",
         "from_node": "72e7170a-7c42-4def-a3fb-00e314f93bac",
+        "to_classifier_name": "queue::end",
         "to_node": "4ba2152a-93f7-4bd5-994d-d6c7efa4c937",
         "uuid": "855700a3-6fb7-43c5-8392-4cc5cc55f982"
       }
@@ -201,8 +201,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "queue::init",
-        "to_classifier_name": "queue::idle",
         "from_node": "3817cad2-26de-48d6-8f5b-bed1c54e6dce",
+        "to_classifier_name": "queue::idle",
         "to_node": "72e7170a-7c42-4def-a3fb-00e314f93bac",
         "uuid": "6ab28de8-db41-47a5-bf23-9d0bfcfe9490"
       }

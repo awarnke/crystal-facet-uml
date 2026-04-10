@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -158,8 +158,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Cow",
-        "to_classifier_name": "Grass",
         "from_node": "e4ed4476-96b1-409b-bdcd-26ee94fe5b7f",
+        "to_classifier_name": "Grass",
         "to_node": "1b2ce18f-77e2-47ab-bd33-8133e9dd7b59",
         "uuid": "ae76fcc7-c7cc-4508-a7d2-7ded2baddc9a"
       }
@@ -174,8 +174,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Cow",
-        "to_classifier_name": "Animal",
         "from_node": "e4ed4476-96b1-409b-bdcd-26ee94fe5b7f",
+        "to_classifier_name": "Animal",
         "to_node": "c18dc8ab-07da-4dc4-8f05-5d59d6f92122",
         "uuid": "b56bb346-8879-41cd-a3c8-8fbdd9d6f098"
       }
@@ -190,8 +190,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Grass",
-        "to_classifier_name": "Roots",
         "from_node": "1b2ce18f-77e2-47ab-bd33-8133e9dd7b59",
+        "to_classifier_name": "Roots",
         "to_node": "36474e57-c6cc-43df-96d5-e3e2d89915da",
         "uuid": "e1c8bac0-324a-429f-a15e-e4473db39c24"
       }
