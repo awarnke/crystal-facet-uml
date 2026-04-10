@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -90,9 +90,9 @@
           },
           {
             "id": 9,
-            "display_tags": "Gray", "display_flags": 33554432,
             "classifier_name": "Activity containing interaction elements",
             "node": "4f8a52a1-cd5d-4a89-a347-1bdc50398794",
+            "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "3698dd71-f46f-4907-8fdf-5c3fecf2f41e"
           },
           {
@@ -284,9 +284,9 @@
         "list_order": 32768,
         "from_classifier_name": "start",
         "from_feature_key": "",
+        "from_node": "e6edd43d-df15-4b4c-8217-86ee2eee890d",
         "to_classifier_name": "Authenticate and Authorize",
         "to_feature_key": "",
-        "from_node": "e6edd43d-df15-4b4c-8217-86ee2eee890d",
         "to_node": "50eeb509-4dd1-49d6-9f37-da9741be6640",
         "uuid": "8e483300-12a1-413b-b16f-e1b5a5647eac"
       }
@@ -302,9 +302,9 @@
         "list_order": 65536,
         "from_classifier_name": "Authenticate and Authorize",
         "from_feature_key": "",
+        "from_node": "50eeb509-4dd1-49d6-9f37-da9741be6640",
         "to_classifier_name": "valid?",
         "to_feature_key": "",
-        "from_node": "50eeb509-4dd1-49d6-9f37-da9741be6640",
         "to_node": "fbf6e8bf-2508-4792-afa4-97c0a4e87169",
         "uuid": "7a7316c3-43f1-49c5-b63a-12099751405e"
       }
@@ -320,9 +320,9 @@
         "list_order": 98304,
         "from_classifier_name": "valid?",
         "from_feature_key": "",
+        "from_node": "fbf6e8bf-2508-4792-afa4-97c0a4e87169",
         "to_classifier_name": "Open Door",
         "to_feature_key": "",
-        "from_node": "fbf6e8bf-2508-4792-afa4-97c0a4e87169",
         "to_node": "9f66e8f5-6c15-44c2-b57d-6a23fddf7532",
         "uuid": "34c585d5-6896-4b79-9f1e-96b2422a1f66"
       }
@@ -338,9 +338,9 @@
         "list_order": 131072,
         "from_classifier_name": "valid?",
         "from_feature_key": "",
+        "from_node": "fbf6e8bf-2508-4792-afa4-97c0a4e87169",
         "to_classifier_name": "finish",
         "to_feature_key": "",
-        "from_node": "fbf6e8bf-2508-4792-afa4-97c0a4e87169",
         "to_node": "71f867ec-9034-4ff3-ade2-d6b50e71b024",
         "uuid": "173923f0-4b55-42a1-9ac6-c895516fb6de"
       }
@@ -356,9 +356,9 @@
         "list_order": 163840,
         "from_classifier_name": "Open Door",
         "from_feature_key": "",
+        "from_node": "9f66e8f5-6c15-44c2-b57d-6a23fddf7532",
         "to_classifier_name": "finish",
         "to_feature_key": "",
-        "from_node": "9f66e8f5-6c15-44c2-b57d-6a23fddf7532",
         "to_node": "71f867ec-9034-4ff3-ade2-d6b50e71b024",
         "uuid": "59546db3-cce4-4ff6-8b7e-f6e8089fe714"
       }
@@ -373,8 +373,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Activity containing interaction elements",
-        "to_classifier_name": "start",
         "from_node": "4f8a52a1-cd5d-4a89-a347-1bdc50398794",
+        "to_classifier_name": "start",
         "to_node": "ae6247f8-5cae-4147-a243-045b77089d01",
         "uuid": "b0037fb6-a12f-43b6-9ca4-1e177ebad408"
       }
@@ -389,8 +389,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Activity containing interaction elements",
-        "to_classifier_name": "valid?",
         "from_node": "4f8a52a1-cd5d-4a89-a347-1bdc50398794",
+        "to_classifier_name": "valid?",
         "to_node": "1b57df01-ec69-4cd3-a66e-d65bca47dd04",
         "uuid": "6a728510-5e01-481b-9f62-4045c450f76a"
       }
@@ -405,8 +405,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Activity containing interaction elements",
-        "to_classifier_name": "finish",
         "from_node": "4f8a52a1-cd5d-4a89-a347-1bdc50398794",
+        "to_classifier_name": "finish",
         "to_node": "968637dd-bfbe-4172-93a1-2eb0e9cb87f7",
         "uuid": "e157430a-dd05-47db-997e-32539db9e29a"
       }

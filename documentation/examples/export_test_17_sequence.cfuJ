@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -25,30 +25,30 @@
         [
           {
             "id": 1,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "User",
             "node": "e351bb52-f59d-476b-977b-ebcbb8acff5b",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "643f90f2-dc20-48b9-b696-66a07812b7f7"
           },
           {
             "id": 2,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "GUI",
             "node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "dbbbe1b5-bd08-4e9b-8ff3-80fcc695d0f4"
           },
           {
             "id": 3,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Logic",
             "node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "7cb83cd3-2c80-45c6-9f12-4e73752c2f56"
           },
           {
             "id": 4,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Database",
             "node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "717cf0ef-9892-4da2-a513-8e4e35aa428e"
           }
         ]
@@ -181,9 +181,9 @@
         "list_order": -726107949,
         "from_classifier_name": "User",
         "from_feature_key": "",
+        "from_node": "e351bb52-f59d-476b-977b-ebcbb8acff5b",
         "to_classifier_name": "GUI",
         "to_feature_key": "",
-        "from_node": "e351bb52-f59d-476b-977b-ebcbb8acff5b",
         "to_node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
         "uuid": "1cb73387-6a46-47c2-a4df-2cbe56675efb"
       }
@@ -199,9 +199,9 @@
         "list_order": -27429982,
         "from_classifier_name": "GUI",
         "from_feature_key": "",
+        "from_node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
         "to_classifier_name": "Logic",
         "to_feature_key": "",
-        "from_node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
         "to_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
         "uuid": "dd9bc8fe-6429-4a60-8126-ba53dfe7065f"
       }
@@ -217,9 +217,9 @@
         "list_order": 337097652,
         "from_classifier_name": "Logic",
         "from_feature_key": "",
+        "from_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
         "to_classifier_name": "Database",
         "to_feature_key": "",
-        "from_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
         "to_node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
         "uuid": "b9dc0aba-cbde-4e4b-bcb6-27b37e51c879"
       }
@@ -235,9 +235,9 @@
         "list_order": 1299045577,
         "from_classifier_name": "Logic",
         "from_feature_key": "",
+        "from_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
         "to_classifier_name": "GUI",
         "to_feature_key": "",
-        "from_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
         "to_node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
         "uuid": "c14d91ef-8708-4c0e-ad09-789d43e910e4"
       }
@@ -253,9 +253,9 @@
         "list_order": 853511801,
         "from_classifier_name": "Database",
         "from_feature_key": "",
+        "from_node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
         "to_classifier_name": "Logic",
         "to_feature_key": "",
-        "from_node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
         "to_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
         "uuid": "159bd8f5-fcf0-4650-83d8-b42ff779dbb4"
       }

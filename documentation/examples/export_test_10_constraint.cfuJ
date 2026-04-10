@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -171,9 +171,9 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "config:min",
+        "from_node": "c6f7fa07-7992-44eb-a689-60f531ab73bd",
         "to_classifier_name": "Emergency Cutoff",
         "to_feature_key": "config_min",
-        "from_node": "c6f7fa07-7992-44eb-a689-60f531ab73bd",
         "to_node": "a141fc9e-adb9-4800-aa0c-ae18ace67cb6",
         "uuid": "204195ef-92f4-49b1-a32a-692f654a0dfe"
       }
@@ -188,9 +188,9 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "config:max",
+        "from_node": "d9880f03-4d65-4e3c-ab46-41303582bcc7",
         "to_classifier_name": "Emergency Cutoff",
         "to_feature_key": "config_max",
-        "from_node": "d9880f03-4d65-4e3c-ab46-41303582bcc7",
         "to_node": "89c1ce0d-1bc3-45c7-b2d1-f775d121dbb7",
         "uuid": "c446348d-c609-4f1e-ad8f-ebbbe9ad9e31"
       }

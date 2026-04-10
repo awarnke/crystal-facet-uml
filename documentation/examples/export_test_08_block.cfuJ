@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -43,23 +43,23 @@
           },
           {
             "id": 4,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "Flash Memory",
             "node": "a15c0338-a4c5-4456-82fd-df51942b9099",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "ab82864f-0d5b-4dbf-9d88-372090c27f89"
           },
           {
             "id": 5,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "CPU",
             "node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "d8e79c48-cf68-4bf0-8671-79f2e0cd6874"
           },
           {
             "id": 6,
-            "display_tags": "Anonymous Instance", "display_flags": 2,
             "classifier_name": "RAM",
             "node": "d57992a4-64bd-4e5a-b936-c12f682939f8",
+            "display_tags": "Anonymous Instance", "display_flags": 2,
             "uuid": "d4948363-1cc1-4cd5-8c8b-393bc70f1311"
           }
         ]
@@ -230,9 +230,9 @@
         "list_order": 32768,
         "from_classifier_name": "Dial Pad",
         "from_feature_key": "keypress_out",
+        "from_node": "32e0542b-8ecf-491a-93de-b472205e50ee",
         "to_classifier_name": "Microcontroller",
         "to_feature_key": "keypress_in",
-        "from_node": "32e0542b-8ecf-491a-93de-b472205e50ee",
         "to_node": "7b4eb669-1d5e-4a6e-91b5-ae7192b1f48f",
         "uuid": "7573aa09-d5c6-4da2-bea6-06e9888aa545"
       }
@@ -247,8 +247,8 @@
         ],
         "list_order": -533377464,
         "from_classifier_name": "Microcontroller",
-        "to_classifier_name": "Flash Memory",
         "from_node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+        "to_classifier_name": "Flash Memory",
         "to_node": "a15c0338-a4c5-4456-82fd-df51942b9099",
         "uuid": "cdd7db08-5610-49f1-9075-3fe62f4f8bd8"
       }
@@ -263,8 +263,8 @@
         ],
         "list_order": -665626488,
         "from_classifier_name": "Microcontroller",
-        "to_classifier_name": "CPU",
         "from_node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+        "to_classifier_name": "CPU",
         "to_node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
         "uuid": "c3e6ad52-b1f1-4e22-98d4-e992735df936"
       }
@@ -279,8 +279,8 @@
         ],
         "list_order": -588299419,
         "from_classifier_name": "Microcontroller",
-        "to_classifier_name": "RAM",
         "from_node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+        "to_classifier_name": "RAM",
         "to_node": "d57992a4-64bd-4e5a-b936-c12f682939f8",
         "uuid": "dbee96c6-71c2-466f-9c7c-6c8e20a32a74"
       }
@@ -296,9 +296,9 @@
         "list_order": 65536,
         "from_classifier_name": "Microcontroller",
         "from_feature_key": "video_out",
+        "from_node": "e09c6d18-5ea1-429a-90d6-0251fe633aa3",
         "to_classifier_name": "New Perform Transaction-1",
         "to_feature_key": "video_in",
-        "from_node": "e09c6d18-5ea1-429a-90d6-0251fe633aa3",
         "to_node": "9f925924-cc59-4b3d-9dd4-bb45af74ccd8",
         "uuid": "9d3b9637-cda9-46c4-80b7-ee5fc0a742af"
       }
@@ -313,8 +313,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "CPU",
-        "to_classifier_name": "Flash Memory",
         "from_node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+        "to_classifier_name": "Flash Memory",
         "to_node": "a15c0338-a4c5-4456-82fd-df51942b9099",
         "uuid": "5eae1e94-8a02-442c-bee8-aa305c798c96"
       }
@@ -329,8 +329,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "CPU",
-        "to_classifier_name": "RAM",
         "from_node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+        "to_classifier_name": "RAM",
         "to_node": "d57992a4-64bd-4e5a-b936-c12f682939f8",
         "uuid": "ad895053-9677-4d47-9d22-487b5660c234"
       }
