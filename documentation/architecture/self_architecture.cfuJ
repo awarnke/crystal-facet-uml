@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.69.1"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -26472,22 +26472,6 @@
         "to_feature_key": "",
         "to_node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
         "uuid": "32104155-9994-475c-9768-900dc94b0cde"
-      }
-    },
-    {
-      "relationship": {
-        "id": 271,
-        "type": "Association", "main_type": 200,
-        "name": "data",
-        "description": [
-                ""
-        ],
-        "list_order": 1411955141,
-        "from_classifier_name": "layout_diagram",
-        "from_node": "a17e7252-9d30-44b4-96a4-4c46278cf393",
-        "to_classifier_name": "diagrams",
-        "to_node": "7671f0cf-fae4-4efd-88df-947f35d44466",
-        "uuid": "d8f6664a-d072-404c-a183-ad8e43274e70"
       }
     },
     {
