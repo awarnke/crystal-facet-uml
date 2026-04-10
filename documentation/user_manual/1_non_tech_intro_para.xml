@@ -3,71 +3,69 @@
 
 crystal-facet-uml provides a graphical user interface to
 <itemizedlist>
-    <listitem><para>create, modify and delete diagrams,</para>
+    <listitem><para>create, modify and delete diagrams and UML/SysML elements</para>
     </listitem>
-    <listitem><para>create, modify and delete UML/SysML elements,</para>
+    <listitem><para>cut, copy, paste elements between diagrams</para>
     </listitem>
-    <listitem><para>create, modify and delete relationships,</para>
+    <listitem><para>undo and redo are supported</para>
     </listitem>
-    <listitem><para>cut, copy, paste elements between diagrams,</para>
+    <listitem><para>multiple windows can show different or same parts of the uml model</para>
     </listitem>
-    <listitem><para>undo and redo are supported,</para>
-    </listitem>
-    <listitem><para>multiple windows can show different or same parts of the uml model,</para>
-    </listitem>
-    <listitem><para>search for elements.</para>
+    <listitem><para>search for elements</para>
     </listitem>
 </itemizedlist>
 
 Diagrams are layouted part-automatically:
 <itemizedlist>
-    <listitem><para>The user chooses the relative location of elements towards others,</para>
+    <listitem><para>The user chooses the relative location of elements towards others</para>
     </listitem>
-    <listitem><para>crystal-facet-uml defines the exact locations of shown elements.</para>
+    <listitem><para>crystal-facet-uml defines the exact locations of shown elements</para>
     </listitem>
-    <listitem><para>The user controls the positions of messages/transitions in sequence and timing diagrams,</para>
+    <listitem><para>The user controls the positions of messages/transitions in sequence and timing diagrams</para>
     </listitem>
-    <listitem><para>crystal-facet-uml auto-layouts relationships in other diagrams.</para>
+    <listitem><para>crystal-facet-uml auto-layouts relationships in other diagrams</para>
     </listitem>
 </itemizedlist>
 
 crystal-facet-uml manages a meta model:
 <itemizedlist>
-    <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents;</para>
+    <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents</para>
     </listitem>
-    <listitem><para>Uml(TM)/SysML(TM) elements exist only once even if shown in many diagrams;</para>
+    <listitem><para>Uml(TM)/SysML(TM) elements exist only once even if shown in many diagrams</para>
     </listitem>
-    <listitem><para>Relationships and features are consistent between all diagrams;</para>
-    </listitem>
-    <listitem>
-        <para>Diagram-local messages/transitions are supported in interaction diagrams:
-            sequence, communication, timing, interaction overview.
-        </para>
+    <listitem><para>Relationships and features are consistent between all diagrams</para>
     </listitem>
     <listitem>
-        <para>These extension mechanisms of UML are supported: Tagged values and stereotypes
-            including stereotype images.
-        </para>
+        <para>Diagram-local messages/transitions are supported in interaction diagrams:</para>
+        <para>sequence, communication, timing, interaction overview</para>
+    </listitem>
+    <listitem>
+        <para>Elements are automatically deleted when not visible anymore</para>
+        <para>WARNING: Since version 1.70.0, crystal-facet-uml deletes invisible elements automatically without furtner notice</para>
+    </listitem>
+    <listitem>
+        <para>These extension mechanisms of UML are supported:</para>
+        <para>Tagged values and stereotypes including stereotype images</para>
     </listitem>
 </itemizedlist>
 
 Diagrams can be exported as
 <itemizedlist>
-    <listitem><para>images: pdf, ps, svg, png,</para>
+    <listitem><para>images: pdf, ps, svg, png</para>
     </listitem>
-    <listitem><para>text: utf-8, DocBook, html,</para>
+    <listitem><para>text: utf-8, DocBook, html</para>
     </listitem>
-    <listitem><para>machine-readable model: json, xmi(TM).</para>
+    <listitem><para>machine-readable model: json, xmi(TM)</para>
     </listitem>
 </itemizedlist>
 
 crystal-facet-uml can also be started from command line
 <itemizedlist>
-    <listitem><para>to export all diagrams automatically or</para>
+    <listitem><para>to export all diagrams automatically</para>
     </listitem>
-    <listitem><para>to import a previously exported json file or</para>
+    <listitem><para>to import a previously exported json file</para>
     </listitem>
-    <listitem><para>to check and repair database files.</para>
+    <listitem><para>to check and repair database files</para>
     </listitem>
 </itemizedlist>
 

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.69.1"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -11858,38 +11858,6 @@
         "to_classifier_name": "Partitioning",
         "to_node": "152cb739-2190-47bc-9579-a24389e1fb5e",
         "uuid": "d0f27a12-d545-4531-bb8b-3e9bf990607c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 142,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 0,
-        "from_classifier_name": "FMEA (Technical Risk Management)",
-        "from_node": "37a49d1d-1c9b-4c25-a988-da9c5beb14d8",
-        "to_classifier_name": "TARA (Security Analysis)",
-        "to_node": "eb13495d-aed6-4fbd-9636-991873ff1dcb",
-        "uuid": "cc59300f-ffb2-45d8-b74f-2fd8de783dc6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 143,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 0,
-        "from_classifier_name": "FMEA (Technical Risk Management)",
-        "from_node": "37a49d1d-1c9b-4c25-a988-da9c5beb14d8",
-        "to_classifier_name": "Safety Case (Goal Structured Notation)",
-        "to_node": "f5ee6c07-8ac1-46b7-aad9-c93c54b0ee9d",
-        "uuid": "ebd09ab3-b512-478b-88fc-2adfe783b805"
       }
     },
     {
