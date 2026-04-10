@@ -12,6 +12,7 @@
  */
 
 #include "io_import_mode.h"
+#include "io_import_step.h"
 #include "entity/data_classifier.h"
 #include "entity/data_feature.h"
 #include "entity/data_relationship.h"
@@ -39,6 +40,7 @@ struct io_import_elements_struct {
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
     io_import_mode_t mode;  /*!< the import mode */
+    io_import_step_t step;  /*!< the import step */
     data_row_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
     data_row_t root_diagram;  /*!< the root diagram */
     ctrl_multi_step_changer_t multi_step_changer;  /*!< own instance of a controller */
@@ -105,8 +107,10 @@ void io_import_elements_destroy( io_import_elements_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param mode import mode to set
+ *  \param step import step to set; IO_IMPORT_STEP_CHECK if IO_IMPORT_MODE_CHECK; IO_IMPORT_STEP_CREATE if IO_IMPORT_MODE_PASTE,
+ *              any in case of IO_IMPORT_MODE_IMPORT
  */
-void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t mode );
+void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t mode, io_import_step_t step );
 
 /*!
  *  \brief synchronizes a diagram with the database

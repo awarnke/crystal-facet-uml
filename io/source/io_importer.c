@@ -149,12 +149,12 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     /* check json structure */
     if ( parse_error == U8_ERROR_NONE )
     {
-        U8_TRACE_INFO("scanning file...");
+        U8_TRACE_INFO("scanning file... (IO_IMPORT_STEP_CHECK)");
         static const char *const PASS_CHECK_TITLE
             = "PASS: Check that the file structure is valid\n      ";
         utf8stream_writer_write_str( out_english_report, PASS_CHECK_TITLE );
 
-        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CHECK );
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CHECK, IO_IMPORT_STEP_CHECK );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
                                                    in_stream,
                                                    out_err_info
@@ -173,14 +173,29 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     parse_error |= ctrl_controller_transaction_begin( (*this_).controller );
 
     /* import: create elements */
-    if (( import_mode != IO_IMPORT_MODE_CHECK )&&( parse_error == U8_ERROR_NONE ))
+    if (( import_mode == IO_IMPORT_MODE_PASTE )&&( parse_error == U8_ERROR_NONE ))
     {
-        U8_TRACE_INFO("importing file...");
+        U8_TRACE_INFO("importing file... (IO_IMPORT_MODE_PASTE/IO_IMPORT_STEP_CREATE)");
+        static const char *const PASS_CREATE_ALL_TITLE
+            = "PASS: Create diagrams, classifiers, lifelines, features and relationships\n      ";
+        utf8stream_writer_write_str( out_english_report, PASS_CREATE_ALL_TITLE );
+
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_PASTE, IO_IMPORT_STEP_CREATE );
+        parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
+                                                   in_stream,
+                                                   out_err_info
+                                                 );
+
+        utf8stream_writer_write_str( out_english_report, "\n" );
+    }
+    else if (( import_mode == IO_IMPORT_MODE_IMPORT )&&( parse_error == U8_ERROR_NONE ))
+    {
+        U8_TRACE_INFO("importing file... (IO_IMPORT_MODE_IMPORT/IO_IMPORT_STEP_CREATE)");
         static const char *const PASS_CREATE_TITLE
-            = "PASS: Create diagrams, classifiers and features\n      ";
+            = "PASS: Create diagrams, classifiers and lifelines\n      ";
         utf8stream_writer_write_str( out_english_report, PASS_CREATE_TITLE );
 
-        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CREATE );
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_IMPORT, IO_IMPORT_STEP_CREATE );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
                                                    in_stream,
                                                    out_err_info
@@ -196,14 +211,59 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     }
 
     /* import: create elements */
-    if (( import_mode != IO_IMPORT_MODE_CHECK )&&( parse_error == U8_ERROR_NONE ))
+    if (( import_mode == IO_IMPORT_MODE_IMPORT )&&( parse_error == U8_ERROR_NONE ))
     {
-        U8_TRACE_INFO("importing file...");
+        U8_TRACE_INFO("importing file... (IO_IMPORT_STEP_LINK_VIEWS)");
         static const char *const PASS_LINK_TITLE
-            = "PASS: Link diagrams to parents, classifiers to diagrams, create relationships\n      ";
+            = "PASS: Link diagrams to parents, classifiers to diagrams\n      ";
         utf8stream_writer_write_str( out_english_report, PASS_LINK_TITLE );
 
-        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_LINK );
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_IMPORT, IO_IMPORT_STEP_LINK_VIEWS );
+        parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
+                                                   in_stream,
+                                                   out_err_info
+                                                 );
+
+        utf8stream_writer_write_str( out_english_report, "\n" );
+    }
+    /* reset file once more */
+    if ( parse_error == U8_ERROR_NONE )
+    {
+        parse_error |= universal_input_stream_reset( in_stream );
+    }
+
+    /* import: create elements */
+    if (( import_mode == IO_IMPORT_MODE_IMPORT )&&( parse_error == U8_ERROR_NONE ))
+    {
+        U8_TRACE_INFO("importing file... (IO_IMPORT_STEP_ADD_FEATURES)");
+        static const char *const PASS_LINK_TITLE
+            = "PASS: Add features\n      ";
+        utf8stream_writer_write_str( out_english_report, PASS_LINK_TITLE );
+
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_IMPORT, IO_IMPORT_STEP_ADD_FEATURES );
+        parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
+                                                   in_stream,
+                                                   out_err_info
+                                                 );
+
+        utf8stream_writer_write_str( out_english_report, "\n" );
+    }
+
+    /* reset file once more */
+    if ( parse_error == U8_ERROR_NONE )
+    {
+        parse_error |= universal_input_stream_reset( in_stream );
+    }
+
+    /* import: create elements */
+    if (( import_mode == IO_IMPORT_MODE_IMPORT )&&( parse_error == U8_ERROR_NONE ))
+    {
+        U8_TRACE_INFO("importing file... (IO_IMPORT_STEP_RELATE_NODES)");
+        static const char *const PASS_LINK_TITLE
+            = "PASS: Add relationships\n      ";
+        utf8stream_writer_write_str( out_english_report, PASS_LINK_TITLE );
+
+        io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_IMPORT, IO_IMPORT_STEP_RELATE_NODES );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
                                                    in_stream,
                                                    out_err_info

@@ -813,7 +813,7 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
 
         u8_error_info_t read_pos;
         data_err = io_importer_import_stream( &importer,
-                                              IO_IMPORT_MODE_CREATE | IO_IMPORT_MODE_LINK,
+                                              IO_IMPORT_MODE_IMPORT,
                                               universal_memory_input_stream_get_input_stream( &mem_json ),
                                               &stat,
                                               &read_pos,

@@ -213,11 +213,11 @@ io_import_mode_t main_execute_private_get_selected_mode( char *arg_fmt )
     }
     else if ( utf8string_equals_str( arg_fmt, "add" ) )
     {
-        result = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
+        result = IO_IMPORT_MODE_IMPORT;
     }
     else if ( utf8string_equals_str( arg_fmt, "update" ) )  /* legacy option */
     {
-        result = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
+        result = IO_IMPORT_MODE_IMPORT;
     }
 
     U8_TRACE_END();

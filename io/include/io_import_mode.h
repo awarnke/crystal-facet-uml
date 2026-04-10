@@ -10,13 +10,12 @@
  */
 
 /*!
- *  \brief mode/pass of the json import
+ *  \brief mode of the json import
  */
 enum io_import_mode_enum {
-    IO_IMPORT_MODE_CHECK  = 0x00,  /*!< nothing shall be imported, just evaluate the input stream for errors */
-    IO_IMPORT_MODE_PASTE  = 0x01,  /*!< the clipboard data is imported(pasted) */
-    IO_IMPORT_MODE_CREATE = 0x10,  /*!< after the first pass, all objects shall exist */
-    IO_IMPORT_MODE_LINK   = 0x20,  /*!< after the second pass, all objects shall linked */
+    IO_IMPORT_MODE_CHECK = 0,  /*!< nothing shall be imported, just evaluate the input stream for errors */
+    IO_IMPORT_MODE_PASTE = 1,  /*!< the clipboard data is imported(pasted), non-fitting items are dropped */
+    IO_IMPORT_MODE_IMPORT = 2,  /*!< all data is imported in multiple passes to allow correct linking */
 };
 
 typedef enum io_import_mode_enum io_import_mode_t;

@@ -26,6 +26,7 @@ void io_import_elements_init( io_import_elements_t *this_,
     (*this_).english_report = out_english_report;
 
     (*this_).mode = IO_IMPORT_MODE_CHECK;
+    (*this_).step = IO_IMPORT_STEP_CHECK;
     (*this_).paste_to_diagram = DATA_ROW_VOID;
 
     ctrl_multi_step_changer_init( &((*this_).multi_step_changer), controller, db_reader );
@@ -75,6 +76,7 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
 
     io_import_elements_init( this_, db_reader, controller, io_stat, out_english_report );
     (*this_).mode = IO_IMPORT_MODE_PASTE;
+    (*this_).step = IO_IMPORT_STEP_CREATE;
 
     /* check if diagram id exists */
     {
@@ -126,11 +128,14 @@ void io_import_elements_destroy( io_import_elements_t *this_ )
     U8_TRACE_END();
 }
 
-void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t mode )
+void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t mode, io_import_step_t step )
 {
     U8_TRACE_BEGIN();
+    assert( ( step == IO_IMPORT_STEP_CHECK ) || ( mode != IO_IMPORT_MODE_CHECK ) );
+    assert( ( step == IO_IMPORT_STEP_CREATE ) || ( mode != IO_IMPORT_MODE_PASTE ) );
 
     (*this_).mode = mode;
+    (*this_).step = step;
 
     U8_TRACE_END();
 }
@@ -141,7 +146,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagram_ptr );
-     /* parent_uuid is NULL if root diagram */
+    /* parent_uuid is NULL if root diagram */
     u8_error_t sync_error = U8_ERROR_NONE;
 
     /* ANY MODE: determine parent id */
@@ -228,7 +233,8 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     }
 
     /* if CREATE/LINK */
-    if ((( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
+    if (( (*this_).mode == IO_IMPORT_MODE_IMPORT )
+        &&(( (*this_).step == IO_IMPORT_STEP_CREATE )||( (*this_).step == IO_IMPORT_STEP_LINK_VIEWS ))
         &&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed diagram already exists in this database; if not, create it */
@@ -242,7 +248,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
 
         if ( diagram_exists )
         {
-            if ( (*this_).mode == IO_IMPORT_MODE_LINK )
+            if ( (*this_).step == IO_IMPORT_STEP_LINK_VIEWS )
             {
                 /* if (*this_).temp_diagram is the only valid root, set parent_row_id to DATA_ROW_VOID */
                 if ( data_diagram_get_row_id( &((*this_).temp_diagram) ) == (*this_).root_diagram )
@@ -333,12 +339,14 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     assert( NULL != diagram_uuid );
     assert( NULL != node_uuid );
     u8_error_t sync_error = U8_ERROR_NONE;
+    const bool do_sync = ( (*this_).step == IO_IMPORT_STEP_LINK_VIEWS );
+    const bool do_check = ( (*this_).step == IO_IMPORT_STEP_CHECK );
 
     /* ANY MODE: determine classifier/feature id */
     data_row_t node_classifier_id = DATA_ROW_VOID;
     data_row_t node_feature_id = DATA_ROW_VOID;
     data_feature_type_t node_feature_type = DATA_FEATURE_TYPE_VOID;
-    if ( node_uuid != NULL )
+    if (( do_check || do_sync )&&( node_uuid != NULL ))
     {
         if ( ! utf8string_equals_str( node_uuid, "" ) )
         {
@@ -382,7 +390,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
 
     /* ANY MODE: determine diagram id */
     data_row_t diagram_row_id = DATA_ROW_VOID;
-    if (( diagram_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
+    if (( do_check || do_sync )&&( diagram_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
     {
         if ( ! utf8string_equals_str( diagram_uuid, "" ) )
         {
@@ -409,7 +417,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     }
 
     /* check preconditions */
-    if ( (*this_).mode == IO_IMPORT_MODE_LINK )
+    if ( do_sync )
     {
         if ( node_classifier_id == DATA_ROW_VOID )
         {
@@ -428,7 +436,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
         }
     }
 
-    if (( (*this_).mode == IO_IMPORT_MODE_LINK )&&( sync_error == U8_ERROR_NONE ))
+    if ( do_sync && ( sync_error == U8_ERROR_NONE ) )
     {
         /* check if the parsed diagramelement already exists in this database; if not, create it */
         data_diagramelement_init_empty( &((*this_).temp_diagramelement ) );
@@ -540,6 +548,8 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != classifier_ptr );
     u8_error_t sync_error = U8_ERROR_NONE;
+    const bool do_sync = (( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).step == IO_IMPORT_STEP_CREATE ));
+    /* const bool do_check = ( (*this_).step == IO_IMPORT_STEP_CHECK ); */
 
     if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
     {
@@ -550,8 +560,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
         }
     }
 
-    if ((( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_PASTE ))
-        &&( sync_error == U8_ERROR_NONE ))
+    if ( do_sync &&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed classifier already exists in this database; if not, create it */
         data_classifier_init_empty( &((*this_).temp_classifier ) );
@@ -632,19 +641,24 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     assert( NULL != feature_ptr );
     assert( NULL != classifier_uuid );
     u8_error_t sync_error = U8_ERROR_NONE;
+    const bool is_lifeline
+        = data_rules_feature_is_scenario_cond( &((*this_).data_rules), data_feature_get_main_type( feature_ptr ) );
+    const bool do_sync = (( (*this_).mode == IO_IMPORT_MODE_PASTE )
+        ||( is_lifeline ? ( (*this_).step == IO_IMPORT_STEP_CREATE ) : ( (*this_).step == IO_IMPORT_STEP_ADD_FEATURES ) ));
+    const bool do_check = ( (*this_).step == IO_IMPORT_STEP_CHECK );
 
     /* ANY MODE: determine classifier id */
     data_row_t classifier_row_id = DATA_ROW_VOID;
-    if ( classifier_uuid != NULL )
+    if (( do_check || do_sync )&&( classifier_uuid != NULL ))
     {
         if ( ! utf8string_equals_str( classifier_uuid, "" ) )
         {
             data_classifier_init_empty( &((*this_).temp_classifier ) );
             const u8_error_t read_error1
                 = data_database_reader_get_classifier_by_uuid( (*this_).db_reader,
-                                                                      classifier_uuid,
-                                                                      &((*this_).temp_classifier)
-                                                                    );
+                                                               classifier_uuid,
+                                                               &((*this_).temp_classifier)
+                                                             );
             if ( read_error1 == U8_ERROR_NOT_FOUND )
             {
                 U8_TRACE_INFO_STR( "no classifier found, uuid:", classifier_uuid );
@@ -662,7 +676,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     }
 
     /* check preconditions */
-    if (( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_PASTE ))
+    if ( do_sync )
     {
         if ( classifier_row_id == DATA_ROW_VOID )
         {
@@ -671,8 +685,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
         }
     }
 
-    if ((( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_PASTE ))
-        &&( sync_error == U8_ERROR_NONE ))
+    if ( do_sync && ( sync_error == U8_ERROR_NONE ) )
     {
         /* check if the parsed feature already exists in this database; if not, create it */
         data_feature_init_empty( &((*this_).temp_feature ) );
@@ -695,9 +708,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
         else
         {
             /* filter lifelines */
-            const bool is_lifeline
-                = data_rules_feature_is_scenario_cond( &((*this_).data_rules), data_feature_get_main_type( feature_ptr ) );
-            if (( (*this_).mode == IO_IMPORT_MODE_CREATE )||( ! is_lifeline ))
+            if (( (*this_).mode == IO_IMPORT_MODE_IMPORT )||( ! is_lifeline ))
             {
                 /* create feature */
                 data_feature_copy( &((*this_).temp_feature ), feature_ptr );
@@ -759,12 +770,14 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     assert( NULL != from_node_uuid );
     assert( NULL != to_node_uuid );
     u8_error_t sync_error = U8_ERROR_NONE;
+    const bool do_sync = (( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).step == IO_IMPORT_STEP_RELATE_NODES ));
+    const bool do_check = ( (*this_).step == IO_IMPORT_STEP_CHECK );
 
     /* ANY MODE: determine from classifier/feature */
     data_row_t from_classifier_id = DATA_ROW_VOID;
     data_row_t from_feature_id = DATA_ROW_VOID;
     data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
-    if ( from_node_uuid != NULL )
+    if (( do_check || do_sync )&&( from_node_uuid != NULL ))
     {
         if ( ! utf8string_equals_str( from_node_uuid, "" ) )
         {
@@ -810,7 +823,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     data_row_t to_classifier_id = DATA_ROW_VOID;
     data_row_t to_feature_id = DATA_ROW_VOID;
     data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
-    if ( to_node_uuid != NULL )
+    if (( do_check || do_sync )&&( to_node_uuid != NULL ))
     {
         if ( ! utf8string_equals_str( to_node_uuid, "" ) )
         {
@@ -853,7 +866,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     }
 
     /* check preconditions */
-    if (( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
+    if ( do_sync )
     {
         if ( from_classifier_id == DATA_ROW_VOID )
         {
@@ -875,8 +888,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
         }
     }
 
-    if ((( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
-        &&( sync_error == U8_ERROR_NONE ))
+    if ( do_sync && ( sync_error == U8_ERROR_NONE ) )
     {
         /* check if the parsed relationship already exists in this database; if not, create it */
         data_relationship_init_empty( &((*this_).temp_relationship ) );
