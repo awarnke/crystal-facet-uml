@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 2,
+    "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.64.0"
+    "generator_version": "1.70.0-pre2"
   }
   ,
   "views":
@@ -182,8 +182,8 @@
         ],
         "list_order": -160186731,
         "from_classifier_name": "The Cloud",
-        "to_classifier_name": "Web-App 1",
         "from_node": "bb1cd799-8676-4612-8d74-fa83ffc6e0ad",
+        "to_classifier_name": "Web-App 1",
         "to_node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
         "uuid": "79f4a4b0-d243-4c55-8369-4e2b02c89cf3"
       }
@@ -198,8 +198,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Web-App 1",
-        "to_classifier_name": "User-Settings App",
         "from_node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
+        "to_classifier_name": "User-Settings App",
         "to_node": "619c4e53-d53b-4791-b6f3-d4476a24944d",
         "uuid": "c2f50544-b94c-4786-8b1c-8868c996bc18"
       }
@@ -214,8 +214,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Web-App 1",
-        "to_classifier_name": "Online Help App",
         "from_node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
+        "to_classifier_name": "Online Help App",
         "to_node": "19bb26b4-a6ff-48de-ad8d-42771d134389",
         "uuid": "73db421e-dbea-4ff2-b2dc-efb994d8f55a"
       }
@@ -230,8 +230,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "User Settings",
-        "to_classifier_name": "The Cloud",
         "from_node": "b4736129-f4ee-493b-ae24-4045cdfbd476",
+        "to_classifier_name": "The Cloud",
         "to_node": "bb1cd799-8676-4612-8d74-fa83ffc6e0ad",
         "uuid": "00c1131a-5a6b-44ee-82e8-ef4fbda5d652"
       }
@@ -246,8 +246,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "User Settings",
-        "to_classifier_name": "Local Computer",
         "from_node": "b4736129-f4ee-493b-ae24-4045cdfbd476",
+        "to_classifier_name": "Local Computer",
         "to_node": "197135ae-2efc-42a3-b052-35dcc523cd6d",
         "uuid": "22f05f98-37ed-4340-aff6-a1ee738778fd"
       }
