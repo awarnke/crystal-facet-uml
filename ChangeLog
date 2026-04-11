@@ -5,7 +5,7 @@ crystal-facet-uml (1.70.0) UNRELEASED; urgency=medium
     (lifelines work since 1.52.0)
   * delete relationships immediately when they become invisible in all diagrams
     (partly works since 1.27.3)
-  * Deleting a relation and a feature always show the statistics (Closes: #6)
+  * deleting a relation and a feature always show the statistics (Closes: #6)
   * via copy and paste, no invisible elements can be created
   * invisible elements are deleted automatically without furtner notice
 

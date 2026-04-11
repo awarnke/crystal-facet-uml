@@ -991,6 +991,25 @@ void io_import_elements_private_report_name_differs( io_import_elements_t *this_
     U8_TRACE_END();
 }
 
+u8_error_t io_import_elements_private_collect_statistics ( io_import_elements_t *this_, data_stat_t *io_stat )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != io_stat );
+
+    /* update the stats from undo redo */
+    const u8_error_t overfull = ctrl_multi_step_changer_collect_statistics( &((*this_).multi_step_changer), io_stat );
+    if ( overfull != U8_ERROR_NONE )
+    {
+        U8_TRACE_INFO("U8_ERROR_ARRAY_BUFFER_EXCEEDED at ctrl_multi_step_changer_collect_statistics!");
+    }
+
+    /* add own stats */
+    data_stat_add( io_stat, (*this_).stat );
+
+    U8_TRACE_END_ERR( overfull );
+    return overfull;
+}
+
 
 /*
 Copyright 2021-2026 Andreas Warnke

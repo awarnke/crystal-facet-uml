@@ -120,7 +120,14 @@ static data_row_t set_mode_paste_to_root_diag( test_fixture_t *fix )
     data_diagram_destroy ( &root_diagram );
 
     io_import_elements_destroy( &((*fix).elements_importer) );
-    io_import_elements_init_for_paste( &((*fix).elements_importer), root_diag_id, &((*fix).db_reader), &((*fix).controller), &((*fix).stats), &((*fix).out_writer) );
+
+    io_import_elements_init_for_paste( &((*fix).elements_importer),
+                                       root_diag_id,
+                                       &((*fix).db_reader),
+                                       &((*fix).controller),
+                                       &((*fix).stats),
+                                       &((*fix).out_writer)
+                                     );
 
     return root_diag_id;
     return TEST_CASE_RESULT_OK;
@@ -132,6 +139,7 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
     data_row_t root_diag_id = set_mode_paste_to_root_diag( fix );
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );
     u8_error_t err;
+    data_stat_t step_stats;
 
     data_classifier_t my_classifier;
     const u8_error_t data_err_1
@@ -150,14 +158,22 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &my_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_init( &step_stats );
+    err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
+    TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );  /* fetching statistics is not part of the test */
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_destroy( &step_stats );
 
     /* duplicate id, name and uuid */
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &my_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_table_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_init( &step_stats );
+    err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
+    TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_table_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_destroy( &step_stats );
 
     /* duplicate name */
     data_classifier_t cloned_classifier;
@@ -177,9 +193,13 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &cloned_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_table_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_init( &step_stats );
+    err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
+    TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_table_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_destroy( &step_stats );
 
     /* duplicate id and name */
     const u8_error_t d_err_3
@@ -191,9 +211,13 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &cloned_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
-    TEST_EXPECT_EQUAL_INT( 3, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 6, data_stat_get_table_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_init( &step_stats );
+    err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
+    TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
+    TEST_EXPECT_EQUAL_INT( 3, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 6, data_stat_get_table_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_destroy( &step_stats );
 
     /* duplicate id and uuid */
     const u8_error_t d_err_1
@@ -205,9 +229,14 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &cloned_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
-    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ) );
-    TEST_EXPECT_EQUAL_INT( 7, data_stat_get_table_count( &((*fix).stats), DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_init( &step_stats );
+    err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
+    TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ) );
+    TEST_EXPECT_EQUAL_INT( 7, data_stat_get_table_count( &step_stats, DATA_STAT_TABLE_CLASSIFIER ) );
+    data_stat_destroy( &step_stats );
+
     return TEST_CASE_RESULT_OK;
 }
 

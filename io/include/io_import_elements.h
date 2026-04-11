@@ -209,6 +209,19 @@ void io_import_elements_private_report_id_differs( io_import_elements_t *this_, 
  */
 void io_import_elements_private_report_name_differs( io_import_elements_t *this_, const char *req_name, const char *act_name );
 
+/*!
+ *  \brief collects statistics
+ *
+ *  This function retrieves intermediate statistics on types DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED, DATA_STAT_SERIES_DELETED
+ *  for testing purposes.
+ *  Calling this function multiple times will add the statistics multiple times to io_stat.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] io_stat *io_stat shall be initialized by caller, statistics are added to initial values
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED in case not all changes are in the undo history anymore, U8_ERROR_NONE otherwise
+ */
+u8_error_t io_import_elements_private_collect_statistics ( io_import_elements_t *this_, data_stat_t *io_stat );
+
 #endif  /* IO_IMPORT_ELEMENTS_H */
 
 
