@@ -126,63 +126,64 @@ static void create_mini_model( ctrl_controller_t *controller,
     /* from child has parent */
     {
         data_row_t from_parent_rel_id = tvec_setup_relationship( &test_env,
-                                                                                    *out_from_classifier_parent,
-                                                                                    DATA_ROW_VOID,
-                                                                                    *out_from_classifier,
-                                                                                    DATA_ROW_VOID,
-                                                                                    "from child rel"
-                                                                                  );
-        c_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
-                                                                           from_parent_rel_id,
-                                                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
-                                                                         );
+                                                                 *out_from_classifier_parent,
+                                                                 DATA_ROW_VOID,
+                                                                 *out_from_classifier,
+                                                                 DATA_ROW_VOID,
+                                                                 "from child rel"
+                                                               );
+        TEST_ENVIRONMENT_ASSERT( from_parent_rel_id != DATA_ROW_VOID );
+        c_err = ctrl_classifier_controller_update_relationship_main_type( classifier_ctrl,
+                                                                          from_parent_rel_id,
+                                                                          DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
+                                                                        );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
     }
 
     /* to child has parent */
     {
         data_row_t to_parent_rel_id = tvec_setup_relationship( &test_env,
-                                                                                  *out_to_classifier_parent,
-                                                                                  DATA_ROW_VOID,
-                                                                                  *out_to_classifier,
-                                                                                  DATA_ROW_VOID,
-                                                                                  "to child rel"
-                                                                                );
-        c_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
-                                                                           to_parent_rel_id,
-                                                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
-                                                                         );
+                                                               *out_to_classifier_parent,
+                                                               DATA_ROW_VOID,
+                                                               *out_to_classifier,
+                                                               DATA_ROW_VOID,
+                                                               "to child rel"
+                                                             );
+        c_err = ctrl_classifier_controller_update_relationship_main_type( classifier_ctrl,
+                                                                          to_parent_rel_id,
+                                                                          DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
+                                                                        );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
     }
 
     *out_relation_clas_clas = tvec_setup_relationship( &test_env,
-                                                                       *out_from_classifier_parent,
-                                                                       DATA_ROW_VOID,
-                                                                       *out_to_classifier,
-                                                                       DATA_ROW_VOID,
-                                                                       "from classifier to classifier"
-                                                                     );
+                                                       *out_from_classifier_parent,
+                                                       DATA_ROW_VOID,
+                                                       *out_to_classifier,
+                                                       DATA_ROW_VOID,
+                                                       "from classifier to classifier"
+                                                     );
     *out_relation_clas_feat = tvec_setup_relationship( &test_env,
-                                                                       *out_from_classifier_parent,
-                                                                       DATA_ROW_VOID,
-                                                                       *out_to_classifier,
-                                                                       *out_to_feature,
-                                                                       "from classifier to feature"
-                                                                     );
+                                                       *out_from_classifier_parent,
+                                                       DATA_ROW_VOID,
+                                                       *out_to_classifier,
+                                                       *out_to_feature,
+                                                       "from classifier to feature"
+                                                     );
     *out_relation_feat_clas = tvec_setup_relationship( &test_env,
-                                                                       *out_from_classifier_parent,
-                                                                       *out_from_feature,
-                                                                       *out_to_classifier,
-                                                                       DATA_ROW_VOID,
-                                                                       "from feature to classifier"
-                                                                     );
+                                                       *out_from_classifier_parent,
+                                                       *out_from_feature,
+                                                       *out_to_classifier,
+                                                       DATA_ROW_VOID,
+                                                       "from feature to classifier"
+                                                     );
     *out_relation_feat_feat = tvec_setup_relationship( &test_env,
-                                                                       *out_from_classifier_parent,
-                                                                       *out_from_feature,
-                                                                       *out_to_classifier,
-                                                                       *out_to_feature,
-                                                                       "from feature to feature"
-                                                                     );
+                                                       *out_from_classifier_parent,
+                                                       *out_from_feature,
+                                                       *out_to_classifier,
+                                                       *out_to_feature,
+                                                       "from feature to feature"
+                                                     );
 
     tvec_setup_destroy( &test_env );
 }

@@ -23,7 +23,7 @@ static test_case_result_t insert_invalid_parent_diag( test_fixture_t *fix );
 static test_case_result_t insert_empty_set( test_fixture_t *fix );
 static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *fix );
 static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *fix );
-static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *fix );
+static test_case_result_t insert_existing_feature_to_existing_classifier( test_fixture_t *fix );
 static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *fix );
 static test_case_result_t insert_unconditional_relationships( test_fixture_t *fix );
 static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *fix );
@@ -45,7 +45,7 @@ test_suite_t io_importer_test_get_suite(void)
     test_suite_add_test_case( &result, "insert_empty_set", &insert_empty_set );
     test_suite_add_test_case( &result, "insert_new_classifier_to_existing_diagram", &insert_new_classifier_to_existing_diagram );
     test_suite_add_test_case( &result, "insert_new_classifier_to_new_diagram", &insert_new_classifier_to_new_diagram );
-    test_suite_add_test_case( &result, "insert_existing_feature_to_other_classifier", &insert_existing_feature_to_other_classifier );
+    test_suite_add_test_case( &result, "insert_existing_feature_to_existing_classifier", &insert_existing_feature_to_existing_classifier );
     test_suite_add_test_case( &result, "insert_existing_classifier_to_new_diagram", &insert_existing_classifier_to_new_diagram );
     test_suite_add_test_case( &result, "insert_unconditional_relationships", &insert_unconditional_relationships );
     test_suite_add_test_case( &result, "insert_relationships_to_non_scenario", &insert_relationships_to_non_scenario );
@@ -219,7 +219,8 @@ static const char *const test_json_own_diagram =
     "            \"key\": \"new_get_state\",\n"
     "            \"value\": \"enum\",\n"
     "            \"description\": [ \"\" ],\n"
-    "            \"list_order\": 425984\n"
+    "            \"list_order\": 425984,\n"
+    "            \"uuid\": \"4444bc6d-ddc7-458a-80f1-be353c194444\"\n"
     "          }\n"
     "        ]\n"
     "      }\n"
@@ -271,7 +272,7 @@ static const char *const test_json_no_diag =
     "        \"x_order\": -1087446901,\n"
     "        \"y_order\": 359417528,\n"
     "        \"list_order\": 446877143,\n"
-    "        \"uuid\": \"7689bc6d-ddc7-458a-80f1-be353c199876\"\n"
+    "        \"uuid\": \"7689bc6d-ddc7-458a-80f1-be353c199876\",\n"
     "        \"features\": \n"
     "        [\n"
     "          {\n"
@@ -305,374 +306,19 @@ static const char *const test_json_no_diag =
     "        \"description\": [ \"LINE-1\\nLINE-2\" ],\n"
     "        \"list_order\": -244244146,\n"
     "        \"from_classifier_id\": 13,\n"
-    "        \"from_classifier_name\": \"New||RingBuffer{⅞[\\]}\",\n"
+    "        \"from_classifier_name\": \"\\\"the Serializer\\\"\",\n"
     "        \"to_classifier_id\": 13,\n"
-    "        \"to_classifier_name\": \"New||RingBuffer{⅞[\\]}\",\n"
-    "        \"from_feature_id\": 11,\n"
-    "        \"from_feature_key\": \"new_get_mode\",\n"
+    "        \"to_classifier_name\": \"\\\"the Serializer\\\"\",\n"
+    "        \"from_feature_id\": -1,\n"
+    "        \"from_feature_key\": \"\",\n"
     "        \"to_feature_id\": 11,\n"
-    "        \"to_feature_key\": \"new_get_mode\",\n"
-    "        \"from_node\": \"7689bc6d-ddc7-458a-80f1-be353c199876\",\n"
-    "        \"to_node\": \"67c2bc6d-ddc7-458a-80f1-be353c197381\"\n"
+    "        \"to_feature_key\": \"new_get_state\",\n"
+    "        \"from_node\": \"0967dfbf-7df0-458e-addc-85ef7be06067\",\n"
+    "        \"to_node\": \"4444bc6d-ddc7-458a-80f1-be353c194444\"\n"
     "      }\n"
     "    }\n"
     "  ]\n"
     "}\n";
-
-static test_case_result_t insert_invalid_json( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    data_stat_t stat;
-    data_stat_init(&stat);
-    u8_error_info_t read_line;
-    static const char *json_text_p = "{\"head\":{},\"views\":[{\n\"unknown-type\"\n:{}}]}";
-    data_err = io_importer_import_clipboard( &importer,
-                                             json_text_p,
-                                             root_diag_id,
-                                             &stat,
-                                             &read_line
-                                           );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count( &stat ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
-
-    /* error happens at char 24 according to the log */
-    /* but this happens in json_element_reader_get_type_of_next_element which does not advance the read pos */
-
-    static const char *json_text_l = "{\"head\":{},\"views\":[{\"diagram\":\nnullnul\n}]}";
-    data_err = io_importer_import_clipboard( &importer,
-                                             json_text_l,
-                                             root_diag_id,
-                                             &stat,
-                                             &read_line
-                                           );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
-
-    data_stat_destroy(&stat);
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t insert_invalid_parent_diag( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    data_stat_t stat;
-    data_stat_init(&stat);
-    u8_error_info_t read_line;
-    data_err = io_importer_import_clipboard( &importer,
-                                             test_json_no_diag,
-                                             root_diag_id+1, /* does not exist */
-                                             &stat,
-                                             &read_line
-                                           );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_FOCUS_EMPTY, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, u8_error_info_get_error( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 20, u8_error_info_get_line( &read_line ) );
-
-    data_stat_destroy(&stat);
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t insert_empty_set( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    data_stat_t stat;
-    data_stat_init(&stat);
-    u8_error_info_t read_line;
-    static const char *json_text = "{\"head\":{},\"views\":[],\"nodes\":[],\"edges\":[]}\n";
-    data_err = io_importer_import_clipboard( &importer,
-                                             json_text,
-                                             root_diag_id,
-                                             &stat,
-                                             &read_line
-                                           );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
-
-    data_stat_destroy(&stat);
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    data_stat_t stat;
-    data_stat_init(&stat);
-    u8_error_info_t read_pos;
-    data_err = io_importer_import_clipboard( &importer,
-                                             test_json_no_diag,
-                                             root_diag_id,
-                                             &stat,
-                                             &read_pos
-                                           );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE+123, data_err, u8_error_get_name );  /* source of relationship does not exist */
-    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
-     /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped, because mode is PASTE to clipboard */
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
-    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_line( &read_pos ) );
-
-    data_stat_destroy(&stat);
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    data_stat_t stat;
-    data_stat_init(&stat);
-    u8_error_info_t read_pos;
-    data_err = io_importer_import_clipboard( &importer,
-                                             test_json_own_diagram,
-                                             root_diag_id,
-                                             &stat,
-                                             &read_pos
-                                           );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );  /* provided */
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
-    /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
-
-    data_stat_destroy(&stat);
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    {
-        data_stat_t stat;
-        data_stat_init(&stat);
-        u8_error_info_t read_pos;
-        data_err = io_importer_import_clipboard( &importer,
-                                                 test_json_no_diag,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
-        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE+123, data_err, u8_error_get_name );  /* source of relationship does not exist */
-        TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_line( &read_pos ) );
-
-        data_stat_destroy(&stat);
-    }
-    {
-        data_stat_t stat;
-        data_stat_init(&stat);
-        u8_error_info_t read_pos;
-        data_err = io_importer_import_clipboard( &importer,
-                                                 test_json_no_diag,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
-        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, data_err, u8_error_get_name );  /* source of relationship does not exist */
-        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-        /* duplicate name for classifier */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
-        /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
-        /* DATA_TABLE_FEATURE an already existing feature of an other classifier is dropped */
-        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
-        /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
-        TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_line( &read_pos ) );
-
-        data_stat_destroy(&stat);
-    }
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    {
-        data_stat_t stat;
-        data_stat_init(&stat);
-        u8_error_info_t read_pos;
-        data_err = io_importer_import_clipboard( &importer,
-                                                 test_json_own_diagram,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
-        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE+123, data_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
-
-        data_stat_destroy(&stat);
-    }
-    {
-        data_stat_t stat;
-        data_stat_init(&stat);
-        u8_error_info_t read_pos;
-        data_err = io_importer_import_clipboard( &importer,
-                                                 test_json_own_diagram,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
-        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE+123, data_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
-        /* a diagramelement is created when pasting an existing classifier */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
-        /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
-        /* DATA_TABLE_FEATURE a new feature to an already existing classifier is created */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
-        /* DATA_TABLE_RELATIONSHIP: duplicate */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED ) );
-        /*data_stat_trace(&stat);*/
-        TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
-
-        data_stat_destroy(&stat);
-    }
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t insert_unconditional_relationships( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
-
-    io_importer_t importer;
-    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
-
-    u8_error_t data_err;
-    {
-        data_stat_t stat;
-        data_stat_init(&stat);
-        u8_error_info_t read_pos;
-        data_err = io_importer_import_clipboard( &importer,
-                                                 test_json_own_diagram,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
-        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram: some ignored, some implicit */
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
-
-        data_stat_destroy(&stat);
-    }
-    {
-        data_stat_t stat;
-        data_stat_init(&stat);
-        u8_error_info_t read_pos;
-        data_err = io_importer_import_clipboard( &importer,
-                                                 test_json_no_diag,
-                                                 root_diag_id,
-                                                 &stat,
-                                                 &read_pos
-                                               );
-        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE+123, data_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
-        /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ) );  /* not visible */
-        TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 66, u8_error_info_get_line( &read_pos ) );
-
-        data_stat_destroy(&stat);
-    }
-    io_importer_destroy ( &importer );
-    return TEST_CASE_RESULT_OK;
-}
 
 static const char *const test_non_scenario_relationship =
     "{\n"
@@ -750,6 +396,383 @@ static const char *const test_non_scenario_relationship =
     "    }\n"
     "  ]\n"
     "}\n";
+
+static test_case_result_t insert_invalid_json( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    data_stat_t stat;
+    data_stat_init(&stat);
+    u8_error_info_t read_line;
+    static const char *json_text_p = "{\"head\":{},\"views\":[{\n\"unknown-type\"\n:{}}]}";
+    data_err = io_importer_import_clipboard( &importer,
+                                             json_text_p,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_line
+                                           );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
+
+    /* error happens at char 24 according to the log */
+    /* but this happens in json_element_reader_get_type_of_next_element which does not advance the read pos */
+
+    static const char *json_text_l = "{\"head\":{},\"views\":[{\"diagram\":\nnullnul\n}]}";
+    data_err = io_importer_import_clipboard( &importer,
+                                             json_text_l,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_line
+                                           );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
+
+    data_stat_destroy(&stat);
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t insert_invalid_parent_diag( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    data_stat_t stat;
+    data_stat_init(&stat);
+    u8_error_info_t read_line;
+    data_err = io_importer_import_clipboard( &importer,
+                                             test_json_no_diag,
+                                             root_diag_id+1, /* does not exist */
+                                             &stat,
+                                             &read_line
+                                           );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_FOCUS_EMPTY, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 21, u8_error_info_get_line( &read_line ) );
+
+    data_stat_destroy(&stat);
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t insert_empty_set( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    data_stat_t stat;
+    data_stat_init(&stat);
+    u8_error_info_t read_line;
+    static const char *json_text = "{\"head\":{},\"views\":[],\"nodes\":[],\"edges\":[]}\n";
+    data_err = io_importer_import_clipboard( &importer,
+                                             json_text,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_line
+                                           );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
+
+    data_stat_destroy(&stat);
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    data_stat_t stat;
+    data_stat_init(&stat);
+    u8_error_info_t read_pos;
+    data_err = io_importer_import_clipboard( &importer,
+                                             test_json_no_diag,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_pos
+                                           );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, data_err, u8_error_get_name ); /* no valid DATA_STAT_TABLE_RELATIONSHIP */
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+     /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped, because mode is PASTE to clipboard */
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 63, u8_error_info_get_line( &read_pos ) );
+
+    data_stat_destroy(&stat);
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    data_stat_t stat;
+    data_stat_init(&stat);
+    u8_error_info_t read_pos;
+    data_err = io_importer_import_clipboard( &importer,
+                                             test_json_own_diagram,
+                                             root_diag_id,
+                                             &stat,
+                                             &read_pos
+                                           );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );  /* provided */
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+    /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 128, u8_error_info_get_line( &read_pos ) );
+
+    data_stat_destroy(&stat);
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t insert_existing_feature_to_existing_classifier( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        u8_error_info_t read_pos;
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_no_diag,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, data_err, u8_error_get_name );  /* source of relationship does not exist, no relationship */
+        TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 63, u8_error_info_get_line( &read_pos ) );
+
+        data_stat_destroy(&stat);
+    }
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        u8_error_info_t read_pos;
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_no_diag,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, data_err, u8_error_get_name );  /* source of relationship does not exist */
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
+        /* classifier already exists */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+        /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
+        /* DATA_TABLE_FEATURE an already existing feature of an other classifier is dropped */
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
+        TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 63, u8_error_info_get_line( &read_pos ) );
+
+        data_stat_destroy(&stat);
+    }
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        u8_error_info_t read_pos;
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_non_scenario_relationship,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
+        /* duplicate name for one of the 2 classifiers */
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 76, u8_error_info_get_line( &read_pos ) );
+
+        data_stat_destroy(&stat);
+    }
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        u8_error_info_t read_pos;
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_own_diagram,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 128, u8_error_info_get_line( &read_pos ) );
+
+        data_stat_destroy(&stat);
+    }
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        u8_error_info_t read_pos;
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_own_diagram,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
+        /* a diagramelement is created when pasting an existing classifier, there is only 1 classifier and this exists already */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+        /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
+        /* DATA_TABLE_FEATURE a new feature to an already existing classifier is created */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        /* DATA_TABLE_RELATIONSHIP: duplicate */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED ) );
+        /*data_stat_trace(&stat);*/
+        TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 128, u8_error_info_get_line( &read_pos ) );
+
+        data_stat_destroy(&stat);
+    }
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t insert_unconditional_relationships( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    data_row_t root_diag_id = create_root_diag( &((*fix).controller) );
+
+    io_importer_t importer;
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
+
+    u8_error_t data_err;
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        u8_error_info_t read_pos;
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_own_diagram,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram: some ignored, some implicit */
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 128, u8_error_info_get_line( &read_pos ) );
+
+        data_stat_destroy(&stat);
+    }
+    {
+        data_stat_t stat;
+        data_stat_init(&stat);
+        u8_error_info_t read_pos;
+        data_err = io_importer_import_clipboard( &importer,
+                                                 test_json_no_diag,
+                                                 root_diag_id,
+                                                 &stat,
+                                                 &read_pos
+                                               );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+        /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 67, u8_error_info_get_line( &read_pos ) );
+
+        data_stat_destroy(&stat);
+    }
+    io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
+}
 
 static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *fix )
 {
@@ -850,10 +873,10 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
                                               &report
                                             );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 8, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram */
+        TEST_EXPECT_EQUAL_INT( 8, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram becuse database empty */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 128, u8_error_info_get_line( &read_pos ) );
 
         universal_memory_input_stream_destroy( &mem_json );
         utf8stream_writer_destroy( &report );
