@@ -76,26 +76,26 @@ static test_case_result_t test_insert_regular( test_fixture_t *fix )
     /* write */
     const char test_1[] = "Hello";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), test_1 ) );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* reset */
     err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* write */
     const char test_2[] = "Hel";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* write */
     const char test_3[] = "lo!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), "Hello!" ) );
     return TEST_CASE_RESULT_OK;
 }
@@ -112,30 +112,30 @@ static test_case_result_t test_insert_border_cases( test_fixture_t *fix )
 
     /* reset */
     err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* write */
     const char test_1[] = "123456";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), test_1 ) );
 
     /* write */
     const char test_2[] = "7890abc";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
 
     /* write */
     const char test_3[] = "lo!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
 
     /* write */
     const char test_4[] = "";
     err = universal_output_stream_write ( my_out_stream, test_4, 0 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
     return TEST_CASE_RESULT_OK;
 }
@@ -148,43 +148,43 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     /* write */
     const char test_1[] = "123456";
     err = universal_memory_output_stream_write ( &((*fix).mem_out_stream), test_1, strlen(test_1) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), test_1 ) );
 
     /* write null term */
     err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_1, sizeof(test_1) /* incl 0-term */) );
 
     /* write */
     const char test_2[] = "7890abc";
     err = universal_memory_output_stream_write ( &((*fix).mem_out_stream), test_2, strlen(test_2) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
 
     /* write null term, overwrite end automatically by UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 mode */
     err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456789" "\0", sizeof((*fix).out_buffer) ) );
 
     /* double flush shall not repeat an error code: */
     err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456789" "\0", sizeof((*fix).out_buffer) ) );
 
     /* reset */
     err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* write */
     const char test_3[] = "123456\xf0\x92\x80\x80";
     err = universal_memory_output_stream_write ( &((*fix).mem_out_stream), test_3, strlen(test_3) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_3, sizeof((*fix).out_buffer) ) );
 
     /* write null term, overwrite end so that last code point is not cut */
     err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "\x92\x80\x80", sizeof((*fix).out_buffer) ) );
 
     /* try to write null term on zero-size buffer */
@@ -192,7 +192,7 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     universal_memory_output_stream_t empty_stream;
     universal_memory_output_stream_init( &empty_stream, &no_change, 0, UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 );
     err = universal_memory_output_stream_flush( &empty_stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_CONFIG_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_CONFIG_OUT_OF_RANGE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( -1, no_change );
 
     /* null term mode UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_BYTE */
@@ -200,17 +200,17 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     universal_memory_output_stream_t ascii_stream;
     universal_memory_output_stream_init( &ascii_stream, &ascii, sizeof(ascii), UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_BYTE );
     err = universal_memory_output_stream_flush( &ascii_stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( '\0', ascii[0] );
 
     /* write to UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_BYTE and flush when full */
     const char test_4[] = "1234";
     err = universal_memory_output_stream_write ( &ascii_stream, test_4, strlen(test_4) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &ascii, test_4, sizeof(ascii) ) );
 
     err = universal_memory_output_stream_flush( &ascii_stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &ascii, "123", sizeof(ascii) ) );
 
     /* null term mode UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_NONE */
@@ -218,7 +218,7 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     universal_memory_output_stream_t simple_stream;
     universal_memory_output_stream_init( &simple_stream, &simple, sizeof(simple), UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_NONE );
     err = universal_memory_output_stream_flush( &simple_stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( '1', ascii[0] );
 
     return TEST_CASE_RESULT_OK;

@@ -88,15 +88,15 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
         data_small_set_init( &small_set );
 
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, test_classifier );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, (data_row_t)50000 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, (data_row_t)50000 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, (data_row_t)50000 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, root_diagram );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
 
         ctrl_multi_step_changer_t multi_stepper;
         ctrl_multi_step_changer_init( &multi_stepper, &((*fix).controller), &((*fix).db_reader) );
@@ -106,7 +106,7 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
         const u8_error_t ctrl_err
             = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
 
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE | U8_ERROR_OBJECT_STILL_REFERENCED, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE | U8_ERROR_OBJECT_STILL_REFERENCED, ctrl_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ));
@@ -172,15 +172,15 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
 
         /* orphaned_classifier is needed because only if orphaned, these can be deleted */
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, orphaned_classifier );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, testatomni_feature );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, test_rel );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, test_diagele );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, test_diagram );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
 
         ctrl_multi_step_changer_t multi_stepper;
         ctrl_multi_step_changer_init( &multi_stepper, &((*fix).controller), &((*fix).db_reader) );
@@ -190,7 +190,7 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
         const u8_error_t ctrl_err
             = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
 
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         /* expected deleted classifiers: orphaned_classifier, test_classifier (via test_diagram ) */
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
@@ -212,25 +212,25 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
         data_feature_t check2;
         const u8_error_t data_err2
             = data_database_reader_get_feature_by_id ( &((*fix).db_reader), testatomni_feature, &check2 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err2 );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, data_err2, u8_error_get_name );
     }
     {
         data_diagramelement_t check3;
         const u8_error_t data_err3
             = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), test_diagele, &check3 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err3 );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, data_err3, u8_error_get_name );
     }
     {
         data_relationship_t check4;
         const u8_error_t data_err4
             = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), test_rel, &check4 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err4 );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, data_err4, u8_error_get_name );
     }
     {
         data_relationship_t check5;
         const u8_error_t data_err5
             = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), collateral_rel, &check5 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err5 );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, data_err5, u8_error_get_name );
     }
     return TEST_CASE_RESULT_OK;
 }

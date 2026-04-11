@@ -108,7 +108,7 @@ static test_case_result_t no_results( test_fixture_t *fix )
 
     data_database_text_search_t txt_src;
     const u8_error_t text_init_err = data_database_text_search_init( &txt_src, &((*fix).database) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, text_init_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, text_init_err, u8_error_get_name );
 
     data_search_result_iterator_t data_search_result_iterator;
     data_search_result_iterator_init_empty( &data_search_result_iterator );
@@ -118,16 +118,16 @@ static test_case_result_t no_results( test_fixture_t *fix )
                                                               "\\\xef\xbc\x8e&_",
                                                               &data_search_result_iterator
     );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, src_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, src_err, u8_error_get_name );
 
     const bool next_0 = data_search_result_iterator_has_next( &data_search_result_iterator );
     TEST_EXPECT_EQUAL_INT( false, next_0 );
 
     const u8_error_t destr_err = data_search_result_iterator_destroy( &data_search_result_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, destr_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, destr_err, u8_error_get_name );
 
     const u8_error_t text_destr_err = data_database_text_search_destroy( &txt_src );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, text_destr_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, text_destr_err, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -138,7 +138,7 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
 
     data_database_text_search_t txt_src;
     const u8_error_t text_init_err = data_database_text_search_init( &txt_src, &((*fix).database) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, text_init_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, text_init_err, u8_error_get_name );
 
     data_search_result_iterator_t data_search_result_iterator;
     data_search_result_iterator_init_empty( &data_search_result_iterator );
@@ -148,7 +148,7 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
                                                                   "&_\\\xef\xbc\x8e",
                                                                   &data_search_result_iterator
                                                                 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, src_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, src_err, u8_error_get_name );
 
     const bool next_0 = data_search_result_iterator_has_next( &data_search_result_iterator );
     TEST_EXPECT_EQUAL_INT( true, next_0 );
@@ -156,7 +156,7 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
     data_search_result_t current_search_result;
     const u8_error_t load_err_0
         = data_search_result_iterator_next( &data_search_result_iterator, &current_search_result );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, load_err_0 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, load_err_0, u8_error_get_name );
     const int eq_0 = utf8string_equals_str( "root AAA&_\\\xef\xbc\x8eZZZ",
                                             data_search_result_get_match_name_const( &current_search_result )
                                           );
@@ -167,7 +167,7 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
 
     const u8_error_t load_err_1
         = data_search_result_iterator_next( &data_search_result_iterator, &current_search_result );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, load_err_1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, load_err_1, u8_error_get_name );
     const int eq_1 = utf8string_equals_str( "The-Blue-Stone",
                                             data_search_result_get_match_name_const( &current_search_result )
                                           );
@@ -178,7 +178,7 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
 
     const u8_error_t load_err_2
         = data_search_result_iterator_next( &data_search_result_iterator, &current_search_result );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, load_err_2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, load_err_2, u8_error_get_name );
     const int eq_2 = utf8string_equals_str( "The-Blue-Stone Feature",
                                             data_search_result_get_match_name_const( &current_search_result )
                                           );
@@ -189,7 +189,7 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
 
     const u8_error_t load_err_3
         = data_search_result_iterator_next( &data_search_result_iterator, &current_search_result );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, load_err_3 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, load_err_3, u8_error_get_name );
     const int eq_3 = utf8string_equals_str( "feature-to-classifier",
                                             data_search_result_get_match_name_const( &current_search_result )
                                           );
@@ -199,10 +199,10 @@ static test_case_result_t search_no_filter( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( false, next_4 );
 
     const u8_error_t destr_err = data_search_result_iterator_destroy( &data_search_result_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, destr_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, destr_err, u8_error_get_name );
 
     const u8_error_t text_destr_err = data_database_text_search_destroy( &txt_src );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, text_destr_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, text_destr_err, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }

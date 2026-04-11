@@ -305,14 +305,14 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
 
     /* test 1 */
     data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), 7, &diagram );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 1b */
     data_err = data_database_reader_get_diagram_by_uuid ( &((*fix).db_reader),
                                                           "f6d0084a-5d5b-4c26-8c64-782c150feec8",
                                                           &diagram
                                                         );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 7, data_diagram_get_row_id( &diagram ) );
 
     /* test 2 */
@@ -322,13 +322,13 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
                                                                 6,
                                                                 &diagram_iterator
                                                               );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
     data_err = data_diagram_iterator_destroy( &diagram_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 3 */
     data_small_set_t out_diagram_ids;
@@ -337,7 +337,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
                                                                    6,
                                                                    &out_diagram_ids
                                                                  );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
 
     /* test 4 */
@@ -346,15 +346,15 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
                                                                     12,
                                                                     &diagram_iterator
                                                                   );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
     data_err = data_diagram_iterator_destroy( &diagram_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 5 */
     data_small_set_t out_showing_diagram_ids;
@@ -363,7 +363,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
                                                                        12,
                                                                        &out_showing_diagram_ids
                                                                      );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 2, data_small_set_get_count( &out_showing_diagram_ids ) );
     return TEST_CASE_RESULT_OK;
 }
@@ -376,14 +376,14 @@ static test_case_result_t test_search_diagramelements( test_fixture_t *fix )
 
     /* test 1 */
     data_err = data_database_reader_get_diagramelement_by_id( &((*fix).db_reader), 130, &out_diagramelement );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 1b */
     data_err = data_database_reader_get_diagramelement_by_uuid( &((*fix).db_reader),
                                                                 "02088b41-e71d-466d-a413-2551ba3bf10a",
                                                                 &out_diagramelement
                                                               );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
     return TEST_CASE_RESULT_OK;
 }
@@ -397,14 +397,14 @@ static test_case_result_t test_search_classifiers( test_fixture_t *fix )
 
     /* test 1 */
     data_err = data_database_reader_get_classifier_by_id( &((*fix).db_reader), 13, &out_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 1b */
     data_err = data_database_reader_get_classifier_by_uuid( &((*fix).db_reader),
                                                             "b9495b71-99c3-406d-88d5-1aa233b09e2d",
                                                             &out_classifier
                                                           );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 2 */
@@ -414,24 +414,24 @@ static test_case_result_t test_search_classifiers( test_fixture_t *fix )
                                                                            7,
                                                                            &visible_classifier_iterator
                                                                          );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
     data_err = data_visible_classifier_iterator_destroy( &visible_classifier_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 3 */
     data_err = data_database_reader_get_classifier_by_name( &((*fix).db_reader),
                                                             "name-12",
                                                             &out_classifier
                                                           );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 4 */
@@ -439,7 +439,7 @@ static test_case_result_t test_search_classifiers( test_fixture_t *fix )
                                                             "does not exist",
                                                             &out_classifier
                                                           );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NOT_FOUND, data_err, u8_error_get_name );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -451,14 +451,14 @@ static test_case_result_t test_search_features( test_fixture_t *fix )
     /* test 1 */
     data_feature_t feature_0;
     data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), 19, &feature_0 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 1b */
     data_err = data_database_reader_get_feature_by_uuid ( &((*fix).db_reader),
                                                           "17d8377a-cf84-402c-b4d8-0dbfc8f8222e",
                                                           &feature_0
                                                         );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 18, data_feature_get_row_id( &feature_0 ) );
 
     /* test 2 */
@@ -470,15 +470,15 @@ static test_case_result_t test_search_features( test_fixture_t *fix )
                                                                        13, /* classifier_id*/
                                                                        &feature_iterator
                                                                      );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         const bool others = data_feature_iterator_has_next( &feature_iterator );
         TEST_EXPECT_EQUAL_INT( false, others );
         data_err = data_feature_iterator_destroy( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* test 3 */
@@ -490,17 +490,17 @@ static test_case_result_t test_search_features( test_fixture_t *fix )
                                                                     7, /* diagram_id */
                                                                     &feature_iterator
                                                                   );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
         data_err = data_feature_iterator_destroy( &feature_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -514,14 +514,14 @@ static test_case_result_t test_search_relationships( test_fixture_t *fix )
     /* test 1 */
     data_relationship_t relationship_0;
     data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), 34, &relationship_0 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test 1b */
     data_err = data_database_reader_get_relationship_by_uuid ( &((*fix).db_reader),
                                                                "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113",
                                                                &relationship_0
                                                              );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 34, data_relationship_get_row_id( &relationship_0 ) );
 
     /* test 2 */
@@ -533,15 +533,15 @@ static test_case_result_t test_search_relationships( test_fixture_t *fix )
                                                                             13, /*classifier_id*/
                                                                             &relationship_iterator
                                                                           );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
         data_err = data_relationship_iterator_destroy( &relationship_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* test 3 */
@@ -553,15 +553,15 @@ static test_case_result_t test_search_relationships( test_fixture_t *fix )
                                                                          7, /* diagram_id */
                                                                          &relationship_iterator
                                                                        );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         const bool another = data_relationship_iterator_has_next( &relationship_iterator );
         TEST_EXPECT_EQUAL_INT( false, another );
         data_err = data_relationship_iterator_destroy( &relationship_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -578,31 +578,31 @@ static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix )
     /* test the iterator, init */
     data_classifier_iterator_init_empty( &classifier_iterator );
     data_err = data_database_reader_get_all_classifiers ( &((*fix).db_reader), true, &classifier_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test the iterator, step 1 */
     has_next = data_classifier_iterator_has_next( &classifier_iterator );
     TEST_EXPECT( has_next );
     data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 2 */
     has_next = data_classifier_iterator_has_next( &classifier_iterator );
     TEST_EXPECT( has_next );
     data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 3 */
     has_next = data_classifier_iterator_has_next( &classifier_iterator );
     TEST_EXPECT( ! has_next );
     data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
 
     /* test the iterator, destroy */
     data_err = data_classifier_iterator_destroy( &classifier_iterator );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     return TEST_CASE_RESULT_OK;
 }
 

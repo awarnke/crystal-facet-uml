@@ -154,6 +154,14 @@ static inline bool u8_error_contains ( const u8_error_t this_, const u8_error_t 
  */
 static inline bool u8_error_more_than ( const u8_error_t this_, const u8_error_t that );
 
+/*!
+ *  \brief returns a short name for the error
+ *
+ *  \param this_ enumeration value
+ *  \return name of the error, "U8_ERROR_&lt;multiple&gt;" if unknown
+ */
+const char * u8_error_get_name( u8_error_t this_ );
+
 #include "u8/u8_error.inl"
 
 #endif  /* U8_ERROR_H */

@@ -195,15 +195,15 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     /* sub test case 15 */
     u8_error_t result_15 = data_diagramelement_set_uuid( &testee, "wrong" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, result_15 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, result_15, u8_error_get_name );
 
     /* sub test case 16 */
     u8_error_t result_16 = data_diagramelement_set_uuid( &testee, "too long text ...   too long text ...   " );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_16 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_16, u8_error_get_name );
 
     /* sub test case 17 */
     u8_error_t result_17 = data_diagramelement_set_uuid( &testee, "1652f338-5011-4775-9b56-8c08caaa2663" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_17 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_17, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "1652f338-5011-4775-9b56-8c08caaa2663", data_diagramelement_get_uuid_const( &testee ) );
 
     data_diagramelement_destroy( &testee );

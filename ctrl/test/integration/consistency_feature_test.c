@@ -119,7 +119,7 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
                                                        DATA_DIAGRAM_TYPE_BOX_DIAGRAM,
                                                        &statistics
                                                      );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err, u8_error_get_name );
 
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_MODIFIED ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_DELETED ) );
@@ -132,12 +132,12 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
     data_feature_t probe;
     const u8_error_t semi_err
         = data_database_reader_get_feature_by_id( &((*fix).db_reader), semi_feature, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, semi_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, semi_err, u8_error_get_name );
 
     /* is omni_feature deleted? */
     const u8_error_t omni_err
         = data_database_reader_get_feature_by_id( &((*fix).db_reader), omni_feature, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, omni_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, omni_err, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -199,23 +199,23 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     /* delete the test diagramelement @ seq diag */
     const u8_error_t c_err1
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_seq_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err1, u8_error_get_name );
 
     /* is test_feature deleted? */
     data_feature_t probe;
     const u8_error_t test_err
         = data_database_reader_get_feature_by_id( &((*fix).db_reader), test_feature, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* delete the omni diagramelement @ class diag */
     const u8_error_t c_err2
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, omni_class_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err2, u8_error_get_name );
 
     /* is omni_feature deleted? */
     const u8_error_t omni_err
     = data_database_reader_get_feature_by_id( &((*fix).db_reader), omni_feature, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, omni_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, omni_err, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }

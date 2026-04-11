@@ -77,23 +77,23 @@ static test_case_result_t test_write_regular( test_fixture_t *fix )
     /* write */
     const char test_1[] = "&";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), "&amp;" ) );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* write */
     const char test_2[] = "---4\n";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), "&amp;- - -4  \n" ) );
 
     /* write */
     const char test_3[] = "";
     err = universal_output_stream_write ( my_out_stream, test_3, strlen(test_3) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), "&amp;- - -4  \n" ) );
     return TEST_CASE_RESULT_OK;
 }
@@ -111,23 +111,23 @@ static test_case_result_t test_write_border_cases( test_fixture_t *fix )
     /* write */
     const char test_1[] = "0123456789abcdef";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_1, sizeof((*fix).out_buffer) ) );
 
     /* reset underlying memory output stream */
     err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* write */
     const char test_2[] = "&&-----";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "&amp;&amp;- - - ", sizeof((*fix).out_buffer) ) );
 
     /* write */
     const char test_3[] = "\n";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "&amp;&amp;- - - ", sizeof((*fix).out_buffer) ) );
     return TEST_CASE_RESULT_OK;
 }

@@ -77,7 +77,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                     1080,
                                     24
                                   );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_1, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_classifier_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_classifier_get_row_id( &testee ) );
     const char* uuid_1 = data_classifier_get_uuid_const( &testee );
@@ -102,7 +102,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                     9,
                                     47
                                   );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_classifier_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_classifier_get_row_id( &testee ) );
     const char* uuid_2 = data_classifier_get_uuid_const( &testee );
@@ -143,7 +143,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                 24,
                                 "1ff2be8d-c46a-4777-8017-e073a41cc680"
                               );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_4 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_4, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_classifier_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1234, data_classifier_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_classifier_get_uuid_const( &testee ) );
@@ -168,7 +168,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   47,
                                   "097498ef-e43b-4b79-b26a-df6f23590165"
                                 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_classifier_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 54, data_classifier_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_classifier_get_uuid_const( &testee ) );
@@ -219,43 +219,43 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* sub test case 4 */
     TEST_EXPECT_EQUAL_INT( false, data_classifier_has_stereotype( &testee ) );
     const u8_error_t result_4 = data_classifier_set_stereotype( &testee, "2ch" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_4 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_4, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "2ch", data_classifier_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, data_classifier_has_stereotype( &testee ) );
 
     /* sub test case 5 */
     const u8_error_t result_5 = data_classifier_set_stereotype( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_classifier_get_stereotype_const( &testee ), "too long text" ) );
 
     /* sub test case 6 */
     const u8_error_t result_6 = data_classifier_set_name( &testee, "Amplifier" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_6 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_6, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "Amplifier", data_classifier_get_name_const( &testee ) );
 
     /* sub test case 7 */
     const u8_error_t result_7 = data_classifier_set_name( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_7 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_7, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_classifier_get_stereotype_const( &testee ), "too long text" ) );
 
     /* sub test case 8 */
     const u8_error_t result_8 = data_classifier_set_description( &testee, "The " );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_8 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_8, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "The ", data_classifier_get_description_const( &testee ) );
 
     /* sub test case 9 */
     const u8_error_t result_9 = data_classifier_append_description( &testee, "amplifier " );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_9 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_9, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "The amplifier ", data_classifier_get_description_const( &testee ) );
 
     /* sub test case 10 */
     const u8_error_t result_10 = data_classifier_append_description( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_10 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_10, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_classifier_get_description_const( &testee ), "The amplifier too long" ) );
 
     /* sub test case 11 */
     const u8_error_t result_11 = data_classifier_set_description( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_11 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_11, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_classifier_get_description_const( &testee ), "too long text" ) );
 
     /* sub test case 12 */
@@ -272,15 +272,15 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     /* sub test case 15 */
     u8_error_t result_15 = data_classifier_set_uuid( &testee, "wrong" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, result_15 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, result_15, u8_error_get_name );
 
     /* sub test case 16 */
     u8_error_t result_16 = data_classifier_set_uuid( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_16 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_16, u8_error_get_name );
 
     /* sub test case 17 */
     u8_error_t result_17 = data_classifier_set_uuid( &testee, "1652f338-5011-4775-9b56-8c08caaa2663" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_17 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_17, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "1652f338-5011-4775-9b56-8c08caaa2663", data_classifier_get_uuid_const( &testee ) );
 
     data_classifier_destroy( &testee );

@@ -157,7 +157,7 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err_1 );
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &my_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     data_stat_init( &step_stats );
     err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
     TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );  /* fetching statistics is not part of the test */
@@ -167,7 +167,7 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
 
     /* duplicate id, name and uuid */
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &my_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     data_stat_init( &step_stats );
     err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
     TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
@@ -192,7 +192,7 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err_2 );
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &cloned_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     data_stat_init( &step_stats );
     err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
     TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
@@ -210,7 +210,7 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == d_err_0 );
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &cloned_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     data_stat_init( &step_stats );
     err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
     TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
@@ -228,7 +228,7 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *fix )
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == d_err_2 );
 
     err = io_import_elements_sync_classifier( &((*fix).elements_importer), &cloned_classifier );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     data_stat_init( &step_stats );
     err = io_import_elements_private_collect_statistics( &((*fix).elements_importer), &step_stats );
     TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );

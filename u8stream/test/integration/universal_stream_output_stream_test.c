@@ -79,14 +79,14 @@ static test_case_result_t test_stream_write( test_fixture_t *fix )
         TEST_EXPECT( NULL != base_class );
         const char content[] = "123";
         file_err = universal_stream_output_stream_write( &out_2_mem, &content, sizeof( content ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_stream_output_stream_flush( &out_2_mem );
 #ifdef _WIN32
         /* no check on win */
 #else
         TEST_EXPECT_EQUAL_INT( 0, memcmp( &content, (*fix).membuf, sizeof( content ) ) );
 #endif
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         universal_stream_output_stream_destroy( &out_2_mem );
     }
 
@@ -105,7 +105,7 @@ static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix 
     {
         const char content[] = "123";
         file_err = universal_stream_output_stream_write( &out_2_mem, &content, sizeof(content) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, file_err, u8_error_get_name );
     }
     U8_FAULT_INJECT_RESET();
 
@@ -113,7 +113,7 @@ static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix 
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_FFLUSH );
     {
         file_err = universal_stream_output_stream_flush( &out_2_mem );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, file_err, u8_error_get_name );
     }
     U8_FAULT_INJECT_RESET();
 

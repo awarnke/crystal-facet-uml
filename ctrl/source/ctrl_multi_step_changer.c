@@ -737,15 +737,20 @@ u8_error_t ctrl_multi_step_changer_private_propose_classifier_name ( ctrl_multi_
 u8_error_t ctrl_multi_step_changer_collect_statistics( ctrl_multi_step_changer_t *this_, data_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
+    u8_error_t err = U8_ERROR_NONE;
 
-    ctrl_undo_redo_iterator_t undo_iterator;
-    ctrl_undo_redo_iterator_init_empty( &undo_iterator );
-    const u8_error_t err = ctrl_controller_get_undo_iterator( (*this_).controller, &undo_iterator );
-    if ( err == U8_ERROR_NONE )
+    if ( (*this_).is_first_step == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
     {
-        ctrl_undo_redo_iterator_collect_statistics( &undo_iterator, false /* undo */, io_stat );
+        /* if at least one item was added to the undo redo list, the statistics can be collected from there */
+        ctrl_undo_redo_iterator_t undo_iterator;
+        ctrl_undo_redo_iterator_init_empty( &undo_iterator );
+        err = ctrl_controller_get_undo_iterator( (*this_).controller, &undo_iterator );
+        if ( err == U8_ERROR_NONE )
+        {
+            ctrl_undo_redo_iterator_collect_statistics( &undo_iterator, false /* undo */, io_stat );
+        }
+        ctrl_undo_redo_iterator_destroy( &undo_iterator );
     }
-    ctrl_undo_redo_iterator_destroy( &undo_iterator );
 
     U8_TRACE_END_ERR( err );
     return err;

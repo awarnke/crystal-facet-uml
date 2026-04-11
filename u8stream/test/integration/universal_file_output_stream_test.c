@@ -77,15 +77,15 @@ static test_case_result_t test_file_write( test_fixture_t *fix )
         TEST_EXPECT( NULL != base_class );
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
         const char content[] = "123";
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_write( &create_file, &content, sizeof(content) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_flush( &create_file);
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_close( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_destroy( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     /* read and check the file */
@@ -94,15 +94,15 @@ static test_case_result_t test_file_write( test_fixture_t *fix )
         universal_file_input_stream_init( &in_file );
         u8_error_t file_err = U8_ERROR_NONE;
         file_err = universal_file_input_stream_open( &in_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         char content[8];
         size_t read_bytes;
         file_err = universal_file_input_stream_read( &in_file, &content, sizeof(content), &read_bytes );
         TEST_EXPECT_EQUAL_INT( 4, read_bytes );
         TEST_EXPECT_EQUAL_INT( 0, memcmp( &content, "123", sizeof("123") ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_destroy( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -121,23 +121,23 @@ static test_case_result_t test_wrong_mode( test_fixture_t *fix )
     {
         const char content[] = "123";
         file_err = universal_file_output_stream_write( &create_file, &content, sizeof(content) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_flush( &create_file);
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_close( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
     }
     /* open twice */
     {
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
     }
     /* destroy without close */
     {
         file_err = universal_file_output_stream_destroy( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -154,39 +154,39 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
         u8_error_t file_err = U8_ERROR_NONE;
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
         const char content[] = "123";
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_write( &create_file, &content, sizeof(content) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_close( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_destroy( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
     /* open the already existing file */
     {
         universal_file_output_stream_init( &create_file );
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         const char new_content[] = "ab";
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_write( &create_file, &new_content, sizeof(new_content) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_close( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_destroy( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
     /* open a directory */
     {
         universal_file_output_stream_init( &create_file );
         const u8dir_file_t directory = ".";
         file_err = universal_file_output_stream_open( &create_file, directory );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, file_err, u8_error_get_name );
         char bad_content[] = "oh no";
         file_err = universal_file_output_stream_write( &create_file, &bad_content, sizeof(bad_content) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_close( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
     }
     /* open an existing file without write-permissions */
 #ifdef _WIN32
@@ -199,7 +199,7 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
 
         universal_file_output_stream_init( &create_file );
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, file_err, u8_error_get_name );
 
         mode_err = chmod( (*fix).test_file_name, (mode_t)0777 );
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
@@ -208,7 +208,7 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
     /* destroy */
     {
         file_err = universal_file_output_stream_destroy( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -224,16 +224,16 @@ static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix 
     {
         universal_file_output_stream_init( &create_file );
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     /* write to the file */
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_FWRITE );
     {
         const char content[] = "123";
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_write( &create_file, &content, sizeof(content) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, file_err, u8_error_get_name );
     }
     U8_FAULT_INJECT_RESET();
 
@@ -241,7 +241,7 @@ static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix 
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_FFLUSH );
     {
         file_err = universal_file_output_stream_flush( &create_file);
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, file_err, u8_error_get_name );
     }
     U8_FAULT_INJECT_RESET();
 
@@ -249,9 +249,9 @@ static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix 
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_FCLOSE );
     {
         file_err = universal_file_output_stream_close( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, file_err, u8_error_get_name );
         file_err = universal_file_output_stream_destroy( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
     U8_FAULT_INJECT_RESET();
 

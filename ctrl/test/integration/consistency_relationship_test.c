@@ -128,7 +128,7 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
                                                    DATA_DIAGRAM_TYPE_BOX_DIAGRAM,
                                                    &statistics
     );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err, u8_error_get_name );
 
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_MODIFIED ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_DELETED ) );
@@ -141,12 +141,12 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
     data_relationship_t probe;
     const u8_error_t rel_err1
         = data_database_reader_get_relationship_by_id( &((*fix).db_reader), semi_rel, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, rel_err1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, rel_err1, u8_error_get_name );
 
     /* is omni_relationship deleted? */
     const u8_error_t rel_err2
         = data_database_reader_get_relationship_by_id( &((*fix).db_reader), omni_rel, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, rel_err2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, rel_err2, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -209,23 +209,23 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     /* delete the test diagramelement @ seq diag */
     const u8_error_t c_err1
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_seq_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err1, u8_error_get_name );
 
     /* is the rel deleted? */
     data_relationship_t probe;
     const u8_error_t rel_err1
         = data_database_reader_get_relationship_by_id( &((*fix).db_reader), a_rel, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, rel_err1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, rel_err1, u8_error_get_name );
 
     /* delete the omni diagramelement @ class diag */
     const u8_error_t c_err2
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, omni_class_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, c_err2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err2, u8_error_get_name );
 
     /* is the rel deleted? */
     const u8_error_t rel_err2
         = data_database_reader_get_relationship_by_id( &((*fix).db_reader), a_rel, &probe );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, rel_err2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, rel_err2, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -273,7 +273,7 @@ static test_case_result_t consistency_check_error( test_fixture_t *fix )
     /* delete the test diagramelement @ box diag */
     const u8_error_t c_err
         = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_at_box, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_DB, c_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_DB, c_err, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }

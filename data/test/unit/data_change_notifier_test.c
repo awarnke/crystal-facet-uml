@@ -62,35 +62,35 @@ static test_case_result_t test_notifier_list_insert_and_remove( test_fixture_t *
 
     /* remove from empty list */
     result = data_change_notifier_remove_listener( &((*fix).notifier), &((*fix).test_object[0]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, result, u8_error_get_name );
 
     /* add one to list */
     result = data_change_notifier_add_listener( &((*fix).notifier), &((*fix).test_object[0]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result, u8_error_get_name );
 
     /* add another to list */
     result = data_change_notifier_add_listener( &((*fix).notifier), &((*fix).test_object[1]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result, u8_error_get_name );
 
     /* add the same again to list */
     result = data_change_notifier_add_listener( &((*fix).notifier), &((*fix).test_object[1]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, result, u8_error_get_name );
 
     /* remove not-contained from list */
     result = data_change_notifier_remove_listener( &((*fix).notifier), &((*fix).test_object[2]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, result, u8_error_get_name );
 
     /* remove second from list */
     result = data_change_notifier_remove_listener( &((*fix).notifier), &((*fix).test_object[1]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result, u8_error_get_name );
 
     /* remove second again from list */
     result = data_change_notifier_remove_listener( &((*fix).notifier), &((*fix).test_object[1]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, result, u8_error_get_name );
 
     /* remove first from list */
     result = data_change_notifier_remove_listener( &((*fix).notifier), &((*fix).test_object[0]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result, u8_error_get_name );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -103,23 +103,23 @@ static test_case_result_t test_notifier_list_full( test_fixture_t *fix )
     for ( int idx = 0; idx < (*fix).max_list_len; idx ++ )
     {
         result = data_change_notifier_add_listener( &((*fix).notifier), &((*fix).test_object[idx]));
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result, u8_error_get_name );
     }
 
     /* add one more */
     result = data_change_notifier_add_listener( &((*fix).notifier), &((*fix).test_object[(*fix).max_list_len]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, result, u8_error_get_name );
 
     /* remove max_list_len */
     for ( int idx = 0; idx < (*fix).max_list_len; idx ++ )
     {
         result = data_change_notifier_remove_listener( &((*fix).notifier), &((*fix).test_object[idx]));
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result, u8_error_get_name );
     }
 
     /* remove one more */
     result = data_change_notifier_remove_listener( &((*fix).notifier), &((*fix).test_object[(*fix).max_list_len]));
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, result, u8_error_get_name );
 
     /* check that memory was not overwritten */
     TEST_EXPECT_EQUAL_INT( 0x4343f9f5u, (*fix).guard_1 );

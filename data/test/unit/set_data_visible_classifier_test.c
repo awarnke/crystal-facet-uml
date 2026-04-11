@@ -75,7 +75,7 @@ static test_case_result_t test_init_copy_get( test_fixture_t *test_env )
                                   47,
                                   "097498ef-e43b-4b79-b26a-df6f23590165"
                                 );     
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, reinit_result );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, reinit_result, u8_error_get_name );
     data_diagramelement_reinit( diagele_mod,
                                 12345,
                                 103,

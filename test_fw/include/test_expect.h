@@ -28,6 +28,13 @@ if (!(COND)) \
 #EXPECTED,exp,exp,act,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }
 
+#define TEST_EXPECT_EQUAL_ENUM(EXPECTED,ACTUAL,NAME_FUNCTION)\
+{const int exp = (EXPECTED); const int act = (ACTUAL); if (exp!=act) \
+{const char * const act_as_str = NAME_FUNCTION(act);\
+fprintf(stderr,"TEST FAILED ((%s)==0x%x==%d!=%d==0x%x==%s==(%s)) at %s:%d\n",\
+#EXPECTED,exp,exp,act,act,act_as_str,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
+}
+
 #define TEST_EXPECT_EQUAL_PTR(EXPECTED,ACTUAL)\
 {const void *exp = (EXPECTED); const void *act = (ACTUAL); if (exp!=act) \
 {fprintf(stderr,"TEST FAILED ((%s)==%p!=%p==(%s)) at %s:%d\n",\

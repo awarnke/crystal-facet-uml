@@ -58,7 +58,7 @@ static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix )
 
     /* insert first */
     err = universal_array_index_sorter_insert( &((*fix).testee), 17001, -17 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     count = universal_array_index_sorter_get_count( &((*fix).testee) );
     TEST_EXPECT_EQUAL_INT( 1, count );
     unsorted_index = universal_array_index_sorter_get_array_index( &((*fix).testee), 0 /* = sort_index */ );
@@ -66,7 +66,7 @@ static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix )
 
     /* insert second in front */
     err = universal_array_index_sorter_insert( &((*fix).testee), 23000, -19 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     count = universal_array_index_sorter_get_count( &((*fix).testee) );
     TEST_EXPECT_EQUAL_INT( 2, count );
     unsorted_index = universal_array_index_sorter_get_array_index( &((*fix).testee), 0 /* = sort_index */ );
@@ -74,13 +74,13 @@ static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix )
 
     /* insert third at end */
     err = universal_array_index_sorter_insert( &((*fix).testee), 45022, 11 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     count = universal_array_index_sorter_get_count( &((*fix).testee) );
     TEST_EXPECT_EQUAL_INT( 3, count );
 
     /* insert fourth in middle */
     err = universal_array_index_sorter_insert( &((*fix).testee), 99900, -18 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     count = universal_array_index_sorter_get_count( &((*fix).testee) );
     TEST_EXPECT_EQUAL_INT( 4, count );
 
@@ -108,7 +108,7 @@ static test_case_result_t test_insert_too_many( test_fixture_t *fix )
     for ( uint_fast32_t idx = 0; idx < UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE; idx ++ )
     {
         err = universal_array_index_sorter_insert( &((*fix).testee), idx*10, UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE-idx );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
         count = universal_array_index_sorter_get_count( &((*fix).testee) );
         TEST_EXPECT_EQUAL_INT( 1+idx, count );
         unsorted_index = universal_array_index_sorter_get_array_index( &((*fix).testee), 0 /* = sort_index */ );
@@ -117,7 +117,7 @@ static test_case_result_t test_insert_too_many( test_fixture_t *fix )
 
     /* insert one too many */
     err = universal_array_index_sorter_insert( &((*fix).testee), 99900, -18 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err, u8_error_get_name );
     count = universal_array_index_sorter_get_count( &((*fix).testee) );
     TEST_EXPECT_EQUAL_INT( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE, count );
 

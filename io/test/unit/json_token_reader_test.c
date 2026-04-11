@@ -122,7 +122,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 1, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the value */
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_OBJECT, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* JSON_VALUE_TYPE_ARRAY */
     const char test_str_2[4] = " [\t";
@@ -132,7 +132,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 1, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the value */
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_ARRAY, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* JSON_VALUE_TYPE_NUMBER */
     const char test_str_3[4] = "-12";
@@ -142,7 +142,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_NUMBER, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* JSON_VALUE_TYPE_STRING */
     const char test_str_4[4] = "\"s\"";
@@ -152,7 +152,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_STRING, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* JSON_VALUE_TYPE_NULL */
     const char test_str_5[4] = "nul";
@@ -162,7 +162,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the value */
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_NULL, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* JSON_VALUE_TYPE_BOOLEAN */
     const char test_str_6[4] = "fal";
@@ -172,7 +172,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 0, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_BOOLEAN, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* JSON_VALUE_TYPE_BOOLEAN */
     const char test_str_7[4] = "\n\tt";
@@ -182,7 +182,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 2, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_BOOLEAN, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* JSON_VALUE_TYPE_UNDEF */
     const char test_str_8[4] = " ]}";
@@ -192,7 +192,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 1, json_token_reader_get_input_pos( &tok ) );  /* there is a whitespace in front of the not-value */
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_UNDEF, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, test_err, u8_error_get_name );
 
     /* EOF */
     const char test_str_9[4] = "  \r";
@@ -202,7 +202,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *fix )
     test_err = json_token_reader_get_value_type ( &tok, &value_type );
     TEST_EXPECT_EQUAL_INT( 3, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( JSON_VALUE_TYPE_UNDEF, value_type );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, test_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, test_err, u8_error_get_name );
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
@@ -311,7 +311,7 @@ static test_case_result_t test_skip_number( test_fixture_t *fix )
         json_token_reader_reinit( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
         test_err = json_token_reader_private_skip_number( &tok );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, test_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( 6, json_token_reader_get_input_pos( &tok ) );  /* all numbers have 6 digits */
     }
 
@@ -350,159 +350,159 @@ static test_case_result_t test_parse( test_fixture_t *fix )
     json_token_reader_init( &tok, universal_memory_input_stream_get_input_stream( &test_input ) );
 
     res = json_token_reader_expect_begin_object ( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 2, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_check_end_object ( &tok, &cond );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 5, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( false, cond );
 
     res = json_token_reader_read_member_name ( &tok, my_string );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 11, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( "data", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 12, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_expect_begin_array ( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 14, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_check_end_array ( &tok, &cond );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 19, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( false, cond );
 
     res = json_token_reader_expect_begin_object ( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 20, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_check_end_object ( &tok, &cond );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 27, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( false, cond );
 
     res = json_token_reader_read_member_name ( &tok, my_string );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 39, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( "classifier", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 41, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_expect_begin_object ( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 43, json_token_reader_get_input_pos( &tok ) );
 
     /* skip test for end object here */
 
     res = json_token_reader_read_member_name ( &tok, my_string );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 56, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( "id", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 61, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_read_int_value ( &tok, &my_int );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 64, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( -99, my_int );
 
     /* skip test for end object here */
 
     res = json_token_reader_expect_value_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 65, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_read_member_name ( &tok, my_string );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 85, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( "main_type", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 91, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_read_number_value ( &tok, &my_double );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_YET_IMPLEMENTED, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NOT_YET_IMPLEMENTED, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 99, json_token_reader_get_input_pos( &tok ) );
 
     /* skip test for end object here */
 
     res = json_token_reader_read_member_name ( &tok, my_string );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 129, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( "stereotype\r/\"\\", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_expect_name_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 130, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_read_string_value ( &tok, my_string );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 149, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( "\f\n\t\b\r/\"\\", utf8stringbuf_get_string( &my_string )) );
 
     res = json_token_reader_check_end_object ( &tok, &cond );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 157, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( true, cond );
 
     res = json_token_reader_check_end_object ( &tok, &cond );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 163, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( true, cond );
 
     /* skip test for end array here */
 
     res = json_token_reader_expect_value_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 164, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_expect_null_value ( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 173, json_token_reader_get_input_pos( &tok ) );
 
     /* skip test for end array here */
 
     res = json_token_reader_expect_value_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 174, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_read_boolean_value ( &tok, &my_bool );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 183, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( true, my_bool );
 
     /* skip test for end array here */
 
     res = json_token_reader_expect_value_separator( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 184, json_token_reader_get_input_pos( &tok ) );
 
     res = json_token_reader_read_boolean_value ( &tok, &my_bool );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 194, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( false, my_bool );
 
     res = json_token_reader_check_end_array ( &tok, &cond );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 198, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( true, cond );
 
     res = json_token_reader_check_end_object ( &tok, &cond );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 200, json_token_reader_get_input_pos( &tok ) );
     TEST_EXPECT_EQUAL_INT( true, cond );
 
     res = json_token_reader_expect_eof ( &tok );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, res );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, res, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 201, json_token_reader_get_input_pos( &tok ) );
 
     json_token_reader_destroy( &tok );

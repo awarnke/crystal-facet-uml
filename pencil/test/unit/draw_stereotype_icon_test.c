@@ -79,7 +79,7 @@ static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *fix )
                                                    &view_rect,
                                                    &svg_err_info
                                                  );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, svg_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, svg_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &svg_err_info ) );
         TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_left( &view_rect ) );
         TEST_EXPECT_EQUAL_DOUBLE( is_arc ? -5.0 : 0.0, geometry_rectangle_get_top( &view_rect ) );
@@ -128,7 +128,7 @@ static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *fix )
                                                &svg_err_info
                                              );
 
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, svg_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, svg_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &svg_err_info ) );
     TEST_EXPECT_EQUAL_DOUBLE( -3.0, geometry_rectangle_get_left( &view_rect ) );
     TEST_EXPECT_EQUAL_DOUBLE( -3.0, geometry_rectangle_get_top( &view_rect ) );

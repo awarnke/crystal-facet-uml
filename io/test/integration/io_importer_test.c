@@ -152,8 +152,36 @@ static const char *const test_json_own_diagram =
     "            \"focused_feature_name\": \"\",\n"
     "            \"display_flags\": 0,\n"
     "            \"display_tags\": \"\",\n"
-    "            \"node\": \"0967dfbf-7df0-458e-addc-85ef7be06067\",\n"
+    "            \"node\": \"67c2bc6d-ddc7-458a-80f1-be353c197381\",\n"
     "            \"uuid\": \"7fa23aed-0e92-4f00-9fb4-9b97930d58f2\"\n"
+    "          }\n"
+    "        ]\n"
+    "      }\n"
+    "    },\n"
+    "    {\n"
+    "      \"diagram\": {\n"
+    "        \"id\": 4,\n"
+    "        \"parent_name\": \"Sequence 1\",\n"
+    "        \"diagram_type\": 33,\n"
+    "        \"type\": \"DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM\",\n"
+    "        \"name\": \"Package 1\",\n"
+    "        \"description\": [ \"\" ],\n"
+    "        \"list_order\": 60000,\n"
+    "        \"display_flags\": 0,\n"
+    "        \"display_tags\": \"\",\n"
+    "        \"uuid\": \"1234bd97-bfe4-4788-9ae8-0c57640f4321\",\n"
+    "        \"diagramelements\": \n"
+    "        [\n"
+    "          {\n"
+    "            \"id\": 90,\n"
+    "            \"classifier_id\": 15,\n"
+    "            \"classifier_name\": \"\\\"the Serializer\\\"\",\n"
+    "            \"focused_feature_id\": -1,\n"
+    "            \"focused_feature_name\": \"\",\n"
+    "            \"display_flags\": 0,\n"
+    "            \"display_tags\": \"\",\n"
+    "            \"node\": \"0967dfbf-7df0-458e-addc-85ef7be06067\",\n"
+    "            \"uuid\": \"11113aed-0e92-4f00-9fb4-9b97930d1111\"\n"
     "          }\n"
     "        ]\n"
     "      }\n"
@@ -243,6 +271,7 @@ static const char *const test_json_no_diag =
     "        \"x_order\": -1087446901,\n"
     "        \"y_order\": 359417528,\n"
     "        \"list_order\": 446877143,\n"
+    "        \"uuid\": \"7689bc6d-ddc7-458a-80f1-be353c199876\"\n"
     "        \"features\": \n"
     "        [\n"
     "          {\n"
@@ -275,15 +304,15 @@ static const char *const test_json_no_diag =
     "        \"name\": \"ping\",\n"
     "        \"description\": [ \"LINE-1\\nLINE-2\" ],\n"
     "        \"list_order\": -244244146,\n"
-    "        \"from_classifier_id\": 15,\n"
-    "        \"from_classifier_name\": \"\\\"the Serializer\\\"\",\n"
+    "        \"from_classifier_id\": 13,\n"
+    "        \"from_classifier_name\": \"New||RingBuffer{⅞[\\]}\",\n"
     "        \"to_classifier_id\": 13,\n"
     "        \"to_classifier_name\": \"New||RingBuffer{⅞[\\]}\",\n"
     "        \"from_feature_id\": 11,\n"
     "        \"from_feature_key\": \"new_get_mode\",\n"
     "        \"to_feature_id\": 11,\n"
     "        \"to_feature_key\": \"new_get_mode\",\n"
-    "        \"from_node\": \"0967dfbf-7df0-458e-addc-85ef7be06067\",\n"
+    "        \"from_node\": \"7689bc6d-ddc7-458a-80f1-be353c199876\",\n"
     "        \"to_node\": \"67c2bc6d-ddc7-458a-80f1-be353c197381\"\n"
     "      }\n"
     "    }\n"
@@ -309,8 +338,8 @@ static test_case_result_t insert_invalid_json( test_fixture_t *fix )
                                              &stat,
                                              &read_line
                                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
-    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count( &stat ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
     TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
@@ -325,7 +354,7 @@ static test_case_result_t insert_invalid_json( test_fixture_t *fix )
                                              &stat,
                                              &read_line
                                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
@@ -354,7 +383,7 @@ static test_case_result_t insert_invalid_parent_diag( test_fixture_t *fix )
                                              &stat,
                                              &read_line
                                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_FOCUS_EMPTY, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
@@ -384,7 +413,7 @@ static test_case_result_t insert_empty_set( test_fixture_t *fix )
                                              &stat,
                                              &read_line
                                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
@@ -413,7 +442,7 @@ static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixtur
                                              &stat,
                                              &read_pos
                                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE+123, data_err, u8_error_get_name );  /* source of relationship does not exist */
     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
@@ -448,19 +477,19 @@ static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *
                                              &stat,
                                              &read_pos
                                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );  /* provided */
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
     /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -486,7 +515,7 @@ static test_case_result_t insert_existing_feature_to_other_classifier( test_fixt
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE+123, data_err, u8_error_get_name );  /* source of relationship does not exist */
         TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
@@ -504,7 +533,7 @@ static test_case_result_t insert_existing_feature_to_other_classifier( test_fixt
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, data_err, u8_error_get_name );  /* source of relationship does not exist */
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
@@ -546,11 +575,11 @@ static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixtur
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE+123, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -564,7 +593,7 @@ static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixtur
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE+123, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
         /* a diagramelement is created when pasting an existing classifier */
@@ -580,7 +609,7 @@ static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixtur
         TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -607,11 +636,11 @@ static test_case_result_t insert_unconditional_relationships( test_fixture_t *fi
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 9, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram: some ignored, some implicit */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -625,14 +654,15 @@ static test_case_result_t insert_unconditional_relationships( test_fixture_t *fi
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE+123, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ) );  /* not visible */
         TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
@@ -739,7 +769,7 @@ static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *
                                              &stat,
                                              &read_pos
                                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
     TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
@@ -819,11 +849,11 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
                                               &read_pos,
                                               &report
                                             );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram */
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 8, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 127, u8_error_info_get_line( &read_pos ) );
 
         universal_memory_input_stream_destroy( &mem_json );
         utf8stream_writer_destroy( &report );
@@ -840,7 +870,7 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT ) );

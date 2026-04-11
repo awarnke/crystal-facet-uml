@@ -71,19 +71,19 @@ static test_case_result_t test_read_chunks( test_fixture_t *fix )
     size_t len;
     char buf5[5];
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( sizeof(buf5), len );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "12345", sizeof(buf5) ) );
 
     /* read last 5 */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( sizeof(buf5), len );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_END_OF_STREAM, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, len );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
     return TEST_CASE_RESULT_OK;
@@ -103,23 +103,23 @@ static test_case_result_t test_read_all( test_fixture_t *fix )
     size_t len;
     char buf12[12];
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( sizeof((*fix).in_buffer), len );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof((*fix).in_buffer) ) );
 
     /* reset */
     err = universal_memory_input_stream_reset ( &((*fix).mem_in_stream) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* read first 12 */
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( sizeof((*fix).in_buffer), len );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof((*fix).in_buffer) ) );
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_END_OF_STREAM, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, len );
     return TEST_CASE_RESULT_OK;
 }

@@ -74,7 +74,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
     {
         diagram_id = DATA_ROW_VOID;
         ctrl_err = ctrl_diagram_controller_private_create_child_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         TEST_EXPECT( DATA_ROW_VOID != diagram_id );
     }
 
@@ -82,7 +82,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
     {
         data_diagram_init_empty( &(read_diagram) );
         data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), diagram_id, &(read_diagram) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagram) ) );
         TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagram) ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagram) ) );
@@ -94,10 +94,10 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
     /* modify this record */
     {
         ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, diagram_id, "'new' diagram\ndescription" );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, diagram_id, "\"new\" diagram name" );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         data_stat_t stat;
         data_stat_init(&stat);
@@ -106,13 +106,13 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
                                                                 DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM,
                                                                 &stat
                                                               );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
 
         ctrl_err = ctrl_diagram_controller_update_diagram_list_order ( diag_ctrl, diagram_id, -4321 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* search several records */
@@ -120,11 +120,11 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
         data_diagram_iterator_t diagram_iterator;
         data_diagram_iterator_init_empty( &diagram_iterator );
         data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader), PARENT_ID, &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( true, data_diagram_iterator_has_next( &diagram_iterator ) );
         /* check that new data is available */
         data_err = data_diagram_iterator_next( &diagram_iterator, &(read_diagram) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagram) ) );
         TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagram) ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagram) ) );
@@ -134,7 +134,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
         /* check for end */
         TEST_EXPECT_EQUAL_INT( false, data_diagram_iterator_has_next( &diagram_iterator ) );
         data_err = data_diagram_iterator_destroy( &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* search several record ids to a result set */
@@ -142,7 +142,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
         data_small_set_t the_set;
         data_small_set_init( &the_set );
         data_err = data_database_reader_get_diagram_ids_by_parent_id ( &((*fix).db_reader), PARENT_ID, &the_set );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &the_set ) );
         /* check that new data is available */
         data_id_t the_set_entry = data_small_set_get_id( &the_set, 0 );
@@ -178,7 +178,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                                                                "root_diagram",
                                                                                &diagram_id
                                                                              );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         TEST_EXPECT( DATA_ROW_VOID != diagram_id );
     }
 
@@ -194,13 +194,13 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                               8800,
                                               880000
                                             );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
                                                                 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         data_classifier_destroy ( &new_classifier );
         TEST_EXPECT( DATA_ROW_VOID != classifier_id );
     }
@@ -219,7 +219,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &diag_element_id
                                                                  );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         data_diagramelement_destroy ( &new_diagele );
         TEST_EXPECT( DATA_ROW_VOID != diag_element_id );
     }
@@ -232,11 +232,11 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                                                                diagram_id,
                                                                                &visible_classifier_iterator
                                                                              );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
 
         data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &read_vis_classifier );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         diag_element_ptr = data_visible_classifier_get_diagramelement_ptr( &read_vis_classifier );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( diag_element_ptr ) );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( diag_element_ptr ) );
@@ -244,13 +244,13 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
 
         TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
         data_err = data_visible_classifier_iterator_destroy( &visible_classifier_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* get the data_diagramelement_t by id */
     {
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), diag_element_id, &diag_element );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( &diag_element ) );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( &diag_element ) );
         TEST_EXPECT_EQUAL_INT( diag_element_id, data_diagramelement_get_row_id( &diag_element ) );
@@ -266,11 +266,11 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                                                        classifier_id,
                                                                        &diagram_iterator
                                                                      );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( true, data_diagram_iterator_has_next( &diagram_iterator ) );
 
         data_err = data_diagram_iterator_next( &diagram_iterator, &(out_diagram) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram) ) );
         TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &(out_diagram) ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram) ) );
@@ -280,7 +280,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
 
         TEST_EXPECT_EQUAL_INT( false, data_diagram_iterator_has_next( &diagram_iterator ) );
         data_err = data_diagram_iterator_destroy( &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* delete the diagramelement */
@@ -289,13 +289,13 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                                                   diag_element_id,
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* get the deleted data_diagramelement_t */
     {
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), diag_element_id, &diag_element );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, data_err, u8_error_get_name );
     }
 
     /* get all diagrams by classifier id */
@@ -304,11 +304,11 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
         data_diagram_iterator_init_empty( &diagram_iterator );
 
         data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader), classifier_id, &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( false, data_diagram_iterator_has_next( &diagram_iterator ) );
 
         data_err = data_diagram_iterator_destroy( &diagram_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
     return TEST_CASE_RESULT_OK;
 }

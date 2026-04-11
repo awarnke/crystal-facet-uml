@@ -61,13 +61,13 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
     /* case: non_existant */
     const u8dir_file_t non_existant = "non_existant.file";
     err = u8dir_file_remove( non_existant );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_FILE_ALREADY_REMOVED, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_FILE_ALREADY_REMOVED, err, u8_error_get_name );
 
     /* case: existant */
     const u8dir_file_t existant = "existant.file";
     (void) create_a_file( existant );
     err = u8dir_file_remove( existant );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     /* case: non_removable */
 #ifdef _WIN32
@@ -85,7 +85,7 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
     }
     err = u8dir_file_remove( non_removable );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     {
         mode_err = chmod( temp_dir, (mode_t)0777 );
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
@@ -108,15 +108,15 @@ static test_case_result_t test_file_stat( test_fixture_t *fix )
     const u8dir_file_t non_existant = "non_existant.file";
 
     err = u8dir_file_get_size( non_existant, &out_value );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 17, out_value );
 
     err = u8dir_file_get_modification_time( non_existant, &out_value );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 17, out_value );
 
     err = u8dir_file_get_creation_time( non_existant, &out_value );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 17, out_value );
 
     /* case: existant */
@@ -124,16 +124,16 @@ static test_case_result_t test_file_stat( test_fixture_t *fix )
     const uint64_t f_size = create_a_file( existant );
 
     err = u8dir_file_get_size( existant, &out_value );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( f_size, out_value );
 
     err = u8dir_file_get_modification_time( existant, &out_value );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT( out_value > 1000000000 );  /* 1000000000 was Sep 09 2001 */
 
     uint64_t out_create_time = 17;
     err = u8dir_file_get_creation_time( existant, &out_create_time );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( out_value, out_create_time );
 
     err = u8dir_file_remove( existant );

@@ -92,13 +92,13 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
                                               4500,
                                               450000
                                             );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
                                                                 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         data_classifier_destroy ( &new_classifier );
         TEST_EXPECT( DATA_ROW_VOID != classifier_id );
     }
@@ -111,7 +111,7 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
                                                                                "root_diagram",
                                                                                &diagram_id
                                                                              );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         TEST_EXPECT( DATA_ROW_VOID != diagram_id );
     }
 
@@ -129,7 +129,7 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &diagele_id
                                                                  );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
         data_diagramelement_destroy ( &new_diagele );
         TEST_EXPECT( DATA_ROW_VOID != diagele_id );
     }
@@ -138,7 +138,7 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
     {
         data_classifier_init_empty( &read_classifier );
         data_err = data_database_reader_get_classifier_by_id ( &((*fix).db_reader), classifier_id, &read_classifier );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_classifier_get_row_id( &read_classifier ) );
         TEST_EXPECT_EQUAL_INT( DATA_CLASSIFIER_TYPE_COMPONENT, data_classifier_get_main_type( &read_classifier ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_classifier_get_stereotype_const( &read_classifier ) ) );
@@ -152,22 +152,22 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
     /* modify this record */
     {
         ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( classifier_ctrl, classifier_id, "my_new_stereotype" );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_classifier_description ( classifier_ctrl, classifier_id, "my_new_classifier_description" );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_classifier_name ( classifier_ctrl, classifier_id, "my_node" );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( classifier_ctrl, classifier_id, DATA_CLASSIFIER_TYPE_NODE );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_classifier_x_order ( classifier_ctrl, classifier_id, 6789 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_classifier_y_order ( classifier_ctrl, classifier_id, 789 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* search a record */
@@ -200,7 +200,7 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
         /* check that new data is available */
         data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &read_vis_classifier );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_classifier_get_row_id( first_classifier ) );
         TEST_EXPECT_EQUAL_INT( DATA_CLASSIFIER_TYPE_NODE, data_classifier_get_main_type( first_classifier ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "my_new_stereotype", data_classifier_get_stereotype_const( first_classifier ) ) );
@@ -211,7 +211,7 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
 
         TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
         data_err = data_visible_classifier_iterator_destroy( &visible_classifier_iterator );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
     return TEST_CASE_RESULT_OK;
 }
@@ -251,21 +251,21 @@ static test_case_result_t features_CRURDR( test_fixture_t *fix )
                                        5000000, /* list order */
                                        data_uuid_get_string( &uuid )
                                      );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                                &probe,
                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                &new_feature_id
                                                              );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* check what was written to the database */
     {
         data_feature_t check;
         data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check ) );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check ) );
         TEST_EXPECT_EQUAL_INT( the_classifier, data_feature_get_classifier_row_id( &check ) );
@@ -282,38 +282,38 @@ static test_case_result_t features_CRURDR( test_fixture_t *fix )
                                                                          new_feature_id,
                                                                          DATA_FEATURE_TYPE_OPERATION
                                                                        );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_feature_key ( classifier_ctrl,
                                                                    new_feature_id,
                                                                    "get_startup_time()"
                                                                  );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_feature_value ( classifier_ctrl,
                                                                      new_feature_id,
                                                                      "(void)->(uint64_t)"
                                                                    );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_feature_description ( classifier_ctrl,
                                                                            new_feature_id,
                                                                            "gets the startup time in nanoseconds"
                                                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_feature_list_order ( classifier_ctrl,
                                                                           new_feature_id,
                                                                           -40
                                                                         );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* check what was changed in the database */
     {
         data_feature_t check2;
         data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check2 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check2 ) );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check2 ) );
         TEST_EXPECT_EQUAL_INT( the_classifier, data_feature_get_classifier_row_id( &check2 ) );
@@ -330,14 +330,14 @@ static test_case_result_t features_CRURDR( test_fixture_t *fix )
                                                                new_feature_id,
                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                              );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* check what was deleted in the database */
     {
         data_feature_t check3;
         data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check3 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, data_err, u8_error_get_name );
     }
 
     data_uuid_destroy( &uuid );
@@ -385,21 +385,21 @@ static test_case_result_t relationship_CRURDR( test_fixture_t *fix )
                                             -66000, /* list_order */
                                             data_uuid_get_string( &uuid )
                                           );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
                                                                     &probe,
                                                                     CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                     &new_relationship_id
                                                                   );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* check what was written to the database */
     {
         data_relationship_t check;
         data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check ) );
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check ) );
         TEST_EXPECT_EQUAL_INT( first_classifier, data_relationship_get_from_classifier_row_id( &check ) );
@@ -419,38 +419,38 @@ static test_case_result_t relationship_CRURDR( test_fixture_t *fix )
                                                                               new_relationship_id,
                                                                               DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL
                                                                             );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_relationship_stereotype ( classifier_ctrl,
                                                                                new_relationship_id,
                                                                                "stereo_2"
                                                                              );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_relationship_name ( classifier_ctrl,
                                                                          new_relationship_id,
                                                                          "async message"
                                                                        );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_relationship_description ( classifier_ctrl,
                                                                                 new_relationship_id,
                                                                                 "good for modularization"
                                                                               );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
         ctrl_err = ctrl_classifier_controller_update_relationship_list_order ( classifier_ctrl,
                                                                                new_relationship_id,
                                                                                -88000
                                                                              );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* check what was changed in the database */
     {
         data_relationship_t check2;
         data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check2 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check2 ) );
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, data_relationship_get_main_type( &check2 ) );
         TEST_EXPECT_EQUAL_INT( first_classifier, data_relationship_get_from_classifier_row_id( &check2 ) );
@@ -470,14 +470,14 @@ static test_case_result_t relationship_CRURDR( test_fixture_t *fix )
                                                                    new_relationship_id,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                  );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     }
 
     /* check what was deleted in the database */
     {
         data_relationship_t check3;
         data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check3 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, data_err, u8_error_get_name );
     }
 
     data_uuid_destroy( &uuid );

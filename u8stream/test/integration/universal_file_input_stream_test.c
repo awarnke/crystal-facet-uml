@@ -90,7 +90,7 @@ static test_case_result_t test_file_read( test_fixture_t *fix )
         universal_input_stream_t *base_class = universal_file_input_stream_get_input_stream( &in_file );
         TEST_EXPECT( NULL != base_class );
         file_err = universal_file_input_stream_open( &in_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
     /* read an existing and readable file */
     {
@@ -99,32 +99,32 @@ static test_case_result_t test_file_read( test_fixture_t *fix )
         file_err = universal_file_input_stream_read( &in_file, &content, sizeof(content), &read_bytes );
         TEST_EXPECT_EQUAL_INT( sizeof(content), read_bytes );
         TEST_EXPECT_EQUAL_INT( 0, memcmp( &content, "12", sizeof(content) ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_read( &in_file, &content, sizeof(content), &read_bytes );
         TEST_EXPECT_EQUAL_INT( sizeof(content), read_bytes );
         TEST_EXPECT_EQUAL_INT( 0, memcmp( &content, "3", sizeof(content) ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_read( &in_file, &content, sizeof(content), &read_bytes );
         TEST_EXPECT_EQUAL_INT( 0, read_bytes );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_END_OF_STREAM, file_err, u8_error_get_name );
     }
     /* re-read an existing and readable file */
     {
         file_err = universal_file_input_stream_reset( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         char content2[2];
         size_t read_bytes2;
         file_err = universal_file_input_stream_read( &in_file, &content2, sizeof(content2), &read_bytes2 );
         TEST_EXPECT_EQUAL_INT( sizeof(content2), read_bytes2 );
         TEST_EXPECT_EQUAL_INT( 0, memcmp( &content2, "12", sizeof(content2) ) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
     /* close a file */
     {
         file_err = universal_file_input_stream_close( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_destroy( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -144,23 +144,23 @@ static test_case_result_t test_wrong_mode( test_fixture_t *fix )
         char content[2];
         size_t read_bytes;
         file_err = universal_file_input_stream_read( &in_file, &content, sizeof(content), &read_bytes );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_reset( &in_file);
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_close( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
     }
     /* open twice */
     {
         file_err = universal_file_input_stream_open( &in_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_open( &in_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
     }
     /* destroy without close */
     {
         file_err = universal_file_input_stream_destroy( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -176,7 +176,7 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
         universal_file_input_stream_init( &in_file );
         const u8dir_file_t non_existant = "non_existant.file";
         file_err = universal_file_input_stream_open( &in_file, non_existant );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, file_err, u8_error_get_name );
     }
     /* open a directory */
     {
@@ -184,23 +184,23 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
         const u8dir_file_t directory = ".";
         file_err = universal_file_input_stream_open( &in_file, directory );
 #ifdef _WIN32
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, file_err, u8_error_get_name );
 #else
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
 #endif
         char content[4];
         size_t read_bytes;
         file_err = universal_file_input_stream_read( &in_file, &content, sizeof(content), &read_bytes );
 #ifdef _WIN32
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
 #else
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_END_OF_STREAM, file_err, u8_error_get_name );
 #endif
         file_err = universal_file_input_stream_close( &in_file );
 #ifdef _WIN32
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_WRONG_STATE, file_err, u8_error_get_name );
 #else
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
 #endif
     }
     /* open an existing file without read-permissions */
@@ -213,7 +213,7 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
 
         file_err = universal_file_input_stream_open( &in_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, file_err, u8_error_get_name );
 
         mode_err = chmod( (*fix).test_file_name, (mode_t)0777 );
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
@@ -222,7 +222,7 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
     /* destroy */
     {
         file_err = universal_file_input_stream_destroy( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     return TEST_CASE_RESULT_OK;
@@ -238,14 +238,14 @@ static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix 
     {
         universal_file_input_stream_init( &in_file );
         file_err = universal_file_input_stream_open( &in_file, (*fix).test_file_name );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
 
     /* reset (seek to 0) an existing and readable file */
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_FSEEK );
     {
         file_err = universal_file_input_stream_reset( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, file_err, u8_error_get_name );
     }
     U8_FAULT_INJECT_RESET();
 
@@ -253,9 +253,9 @@ static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix 
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_FCLOSE );
     {
         file_err = universal_file_input_stream_close( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, file_err, u8_error_get_name );
         file_err = universal_file_input_stream_destroy( &in_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, file_err, u8_error_get_name );
     }
     U8_FAULT_INJECT_RESET();
 

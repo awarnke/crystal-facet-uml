@@ -287,51 +287,51 @@ static test_case_result_t test_to_stream( test_fixture_t *test_env )
 
     data_id_init( &testee, DATA_TABLE_FEATURE, 123 );
     u8err = utf8stream_writemem_reset( &stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8err, u8_error_get_name );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "F0123" ) );
 
     data_id_reinit( &testee, DATA_TABLE_RELATIONSHIP, DATA_ROW_VOID );
     u8err = utf8stream_writemem_reset( &stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8err, u8_error_get_name );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "R-1" ) );
 
     data_id_reinit( &testee, DATA_TABLE_CLASSIFIER, 1234567 );
     u8err = utf8stream_writemem_reset( &stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8err, u8_error_get_name );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );
     err |= utf8stream_writer_flush( utf8stream_writemem_get_writer( &stream ) ); /* flush now to not get the error later */
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_WRITE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "C123456" ) );
 
     data_id_reinit( &testee, DATA_TABLE_DIAGRAM, 0 );
     u8err = utf8stream_writemem_reset( &stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8err, u8_error_get_name );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "D0000" ) );
 
     data_id_reinit( &testee, DATA_TABLE_DIAGRAMELEMENT, 40 );
     u8err = utf8stream_writemem_reset( &stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8err, u8_error_get_name );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "E0040" ) );
 
     data_id_reinit_void( &testee );
     u8err = utf8stream_writemem_reset( &stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8err, u8_error_get_name );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "void" ) );
 
     data_id_destroy( &testee );
 
     const u8_error_t err0 = utf8stream_writemem_destroy( &stream );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err0 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err0, u8_error_get_name );
 
     return TEST_CASE_RESULT_OK;
 }

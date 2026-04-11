@@ -111,7 +111,7 @@ static test_case_result_t no_results( test_fixture_t *fix )
             data_profile_part_init( &profile );
 
             const u8_error_t fetch_err = data_profile_part_load( &profile, &((*fix).loaded_elements), &((*fix).db_reader) );
-            TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, fetch_err );
+            TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, fetch_err, u8_error_get_name );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
             TEST_EXPECT_EQUAL_INT( 0, count );
@@ -192,7 +192,7 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
             data_profile_part_init( &profile );
 
             const u8_error_t fetch_err = data_profile_part_load( &profile, &((*fix).loaded_elements), &((*fix).db_reader) );
-            TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, fetch_err );
+            TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, fetch_err, u8_error_get_name );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
             TEST_EXPECT_EQUAL_INT( 1, count );
@@ -266,7 +266,7 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
             data_profile_part_init( &profile );
 
             const u8_error_t fetch_err = data_profile_part_load( &profile, &((*fix).loaded_elements), &((*fix).db_reader) );
-            TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, fetch_err );
+            TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, fetch_err, u8_error_get_name );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
             TEST_EXPECT_EQUAL_INT( DATA_PROFILE_PART_MAX_STEREOTYPES, count );

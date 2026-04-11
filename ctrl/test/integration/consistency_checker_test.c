@@ -202,30 +202,30 @@ static test_case_result_t diagram_two_roots_consistency( test_fixture_t *fix )
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "89b87e06-2a0f-43bc-97cd-a0395b3d40be"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagram ( &((*fix).db_writer), &current_diagram, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* two roots, not fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* two roots, not fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* two roots */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* two roots */
     TEST_EXPECT_EQUAL_INT( 1, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );  /* ok */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -257,10 +257,10 @@ static test_case_result_t diagram_missing_parent_consistency( test_fixture_t *fi
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "725903d8-3001-4e3c-8208-2937c75def3b"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagram ( &((*fix).db_writer), &second_diagram, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create another diagram */
@@ -277,30 +277,30 @@ static test_case_result_t diagram_missing_parent_consistency( test_fixture_t *fi
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "2955514a-5083-4cfc-a0bc-5cc965f0fb0e"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagram ( &((*fix).db_writer), &third_diagram, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_EXPECT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -332,10 +332,10 @@ static test_case_result_t diagram_circular_referenced_diagrams_consistency( test
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "af9f23c6-f92c-4d30-bf43-901606bbfd1a"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagram ( &((*fix).db_writer), &second_diagram, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create another diagram */
@@ -352,30 +352,30 @@ static test_case_result_t diagram_circular_referenced_diagrams_consistency( test
                                       DATA_DIAGRAM_FLAG_NONE,
                                       "48190baf-4748-4573-a963-16bd84954c06"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagram ( &((*fix).db_writer), &third_diagram, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_EXPECT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -404,10 +404,10 @@ static test_case_result_t diagram_nonreferencing_diagramelements_consistency( te
                                              DATA_ROW_VOID,
                                              "038a9a09-a9c1-46a2-83b2-57152e84511c"
                                            );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &second_diagramelement, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create diagramelement without diagram */
@@ -421,10 +421,10 @@ static test_case_result_t diagram_nonreferencing_diagramelements_consistency( te
                                              DATA_ROW_VOID,
                                              "ffc3a760-820f-4d97-9e73-69d50ca23a22"
                                            );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &third_diagramelement, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create diagramelement without diagram and without classifier */
@@ -438,30 +438,30 @@ static test_case_result_t diagram_nonreferencing_diagramelements_consistency( te
                                              DATA_ROW_VOID,
                                              "a9caa99a-6f38-488d-aea4-5669835c6b1e"
                                            );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &fourth_diagramelement, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-15,17,19 */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-15,17,19 */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -492,10 +492,10 @@ static test_case_result_t diagram_illreferencing_diagramelements_consistency( te
                                        5000000 /* list order */,
                                        "3c7d1e4b-c067-4d1f-a143-f048507e5aba"
                                      );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_feature ( &((*fix).db_writer), &v_feature, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create 2nd diagramelement with non-existing focused feature */
@@ -509,10 +509,10 @@ static test_case_result_t diagram_illreferencing_diagramelements_consistency( te
                                    18 /*=focused_feature_id*/,
                                    "ea4f0c24-85fc-4418-a513-ba21d0d6a60f"
                                  );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &second_diagramelement, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create a second valid classifier */
@@ -529,10 +529,10 @@ static test_case_result_t diagram_illreferencing_diagramelements_consistency( te
                                           -7000 /*=list_order*/,
                                           "1695c1e8-f978-4b20-9a5f-10d45b904608"
                                         );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_classifier( &((*fix).db_writer), &current_classifier, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create 3rd diagramelement with existing focused feature but wrong, inconsistent classifier */
@@ -546,30 +546,30 @@ static test_case_result_t diagram_illreferencing_diagramelements_consistency( te
                                              17 /*=focused_feature_id*/,
                                              "2200e7cf-edae-4da9-9c4c-dd6db50339fa"
                                            );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &third_diagramelement, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the diagramelements */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* 2nd and 3rd diagramelements have non-healthy references */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagramelements */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* 2nd and 3rd diagramelements have non-healthy references */
     TEST_EXPECT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagramelements */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -601,30 +601,30 @@ static test_case_result_t repair_unreferenced_classifiers( test_fixture_t *fix )
                                           -7000 /*=list_order*/,
                                           "59de3f30-d8d6-4223-b864-29d7dcda9529"
                                         );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_classifier( &((*fix).db_writer), &current_classifier, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-13 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-13 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 1, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -656,10 +656,10 @@ static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *fix
                                           -7000 /*=list_order*/,
                                           "b131d8ba-aa6b-4574-b72d-ca14034dde38"
                                         );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_classifier( &((*fix).db_writer), &second_classifier, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create a valid feature */
@@ -675,10 +675,10 @@ static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *fix
                                        5000000 /* list order */,
                                        "f3db90fb-871c-4e57-b8a5-987a248e90e5"
                                      );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_feature ( &((*fix).db_writer), &v_feature, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define a valid relationship */
@@ -697,30 +697,30 @@ static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *fix
                                            -66000, /* list_order */
                                            "8ea7faa0-d01e-4862-903b-f2ab3e3ba40f"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &v_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-6 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-6 is unreferenced, after deleting, also the relationship and the feature are unreferenced. */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -751,10 +751,10 @@ static test_case_result_t repair_invalid_feature_parent( test_fixture_t *fix )
                                       5000000, /* list order */
                                       "1653515a-d06e-4c65-a2b3-375343471573"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_feature ( &((*fix).db_writer), &v_feature, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create an invalid feature */
@@ -770,30 +770,30 @@ static test_case_result_t repair_invalid_feature_parent( test_fixture_t *fix )
                                        5000000, /* list order */
                                        "051a1c7a-f445-454d-bf3a-e5e22523a9bc"
                                      );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_feature ( &((*fix).db_writer), &i_feature, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 1, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -827,10 +827,10 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
                                            -66000, /* list_order */
                                            "04ee369e-f3c9-4ead-9377-280917050bc4"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &v_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define first invalid relationship */
@@ -849,10 +849,10 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
                                            -66000, /* list_order */
                                            "43da4f41-dede-48f2-bd38-29694d2cb332"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &i1_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define second invalid relationship */
@@ -871,10 +871,10 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
                                            -66000, /* list_order */
                                            "2851e7db-19cc-484c-9cb9-f76562ac3ca5"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &i2_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define third invalid relationship */
@@ -893,30 +893,30 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
                                            -66000, /* list_order */
                                            "40db1fee-8342-4c12-8d2d-60b937c87628"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &i3_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;
@@ -948,10 +948,10 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                          -7000, /*=list_order*/
                                          "2287cc58-dcf9-4e77-95f2-ce8b2e847faf"
                                        );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_classifier( &((*fix).db_writer), &second_classifier, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create a first valid feature */
@@ -967,10 +967,10 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                       500, /* list order */
                                       "7d07b607-4d30-42db-9d22-0190441bd9f5"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_feature ( &((*fix).db_writer), &first_feature, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create a second valid feature */
@@ -986,10 +986,10 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                       1500, /* list order */
                                       "5bb9bc75-4b22-47c4-877d-9a6c28a5235b"
                                     );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_feature ( &((*fix).db_writer), &second_feature, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* create a diagramelement for the second classifier */
@@ -1003,10 +1003,10 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                              17, /*=focused_feature_id*/
                                              "31479db9-080e-48dc-b5cd-664006deb406"
                                            );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &second_diagramelement, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define a valid relationship */
@@ -1025,10 +1025,10 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                            1600, /* list_order */
                                            "e87416fc-c792-4d9d-b267-914517343318"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &first_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define a relationship where source feature does not exist*/
@@ -1047,10 +1047,10 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                            1700, /* list_order */
                                            "213f7bae-c694-420b-9afe-6b6bfa32e638"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &second_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define a relationship where destination feature has illegal classifier */
@@ -1069,10 +1069,10 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                            1800, /* list_order */
                                            "d2d6858e-b670-46b7-8a6e-296b83f87c71"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &third_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* define a relationship where source has illegal classifier and destination feature non-existant */
@@ -1091,30 +1091,30 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
                                            1900, /* list_order */
                                            "a7ad15b5-5815-46e8-a069-7c8fc49b6f6b"
                                          );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
         data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &first_relation, NULL /*=out_new_id*/ );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
 
     /* check the relationships */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, ctrl_err, u8_error_get_name );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /*! illegal: relationships 35, 36 and 37 */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the relationships */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), FIX_ERRORS, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /*! illegal: relationships 35, 36 and 37 */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the relationships */
     ctrl_err = ctrl_controller_repair_database ( &((*fix).controller), TEST_ONLY, &found_errors, &fixed_errors, &((*fix).out_report) );
     utf8stream_writer_flush( &((*fix).out_report) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
     return TEST_CASE_RESULT_OK;

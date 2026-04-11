@@ -87,7 +87,7 @@ static test_case_result_t no_results( test_fixture_t *fix )
 
         /* load #13 */
         const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), 13 /* = diagram_id */, &((*fix).db_reader) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, init_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DB_STRUCTURE, init_err, u8_error_get_name );
         const uint32_t diag_classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) );
         TEST_EXPECT_EQUAL_INT( 0, diag_classifier_count );
 
@@ -96,7 +96,7 @@ static test_case_result_t no_results( test_fixture_t *fix )
                                                                 DATA_ROW_VOID /* = diagram_id */,
                                                                 &((*fix).db_reader)
                                                               );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_void_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, init_void_err, u8_error_get_name );
         const uint32_t diag_void_classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) );
         TEST_EXPECT_EQUAL_INT( 0, diag_void_classifier_count );
 
@@ -139,7 +139,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
 
             const u8_error_t modify_err
                 = data_visible_set_replace_diagram( &((*fix).test_me), &diag );
-            TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, modify_err );
+            TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, modify_err, u8_error_get_name );
             TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( data_visible_set_get_diagram_const( &((*fix).test_me) ) ) );    
             TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_valid(  &((*fix).test_me) ) );    
 
@@ -182,14 +182,14 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             const u8_error_t append_err = data_visible_set_append_classifier( &((*fix).test_me), &vis_classfy );
             if ( index < DATA_VISIBLE_SET_MAX_CLASSIFIERS )
             {
-                TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, append_err );
+                TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, append_err, u8_error_get_name );
                 const data_visible_classifier_t *readback_vc = data_visible_set_get_visible_classifier_const( &((*fix).test_me), index );
                 const data_classifier_t *readback_c = data_visible_classifier_get_classifier_const( readback_vc );
                 TEST_EXPECT_EQUAL_INT( 1000+index, data_classifier_get_row_id( readback_c ) );
             }
             else
             {
-                TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, append_err );
+                TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, append_err, u8_error_get_name );
                 TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, data_visible_set_get_visible_classifier_count( &((*fix).test_me) ) );
             }
 
@@ -216,13 +216,13 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             const u8_error_t append_err = data_visible_set_append_feature( &((*fix).test_me), &feat );
             if ( index < DATA_VISIBLE_SET_MAX_FEATURES )
             {
-                TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, append_err );
+                TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, append_err, u8_error_get_name );
                 const data_feature_t *readback = data_visible_set_get_feature_const( &((*fix).test_me), index );
                 TEST_EXPECT_EQUAL_INT( 10000+index, data_feature_get_row_id( readback ) );
             }
             else
             {
-                TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, append_err );
+                TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, append_err, u8_error_get_name );
                 TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_FEATURES, data_visible_set_get_feature_count( &((*fix).test_me) ) );
             }
 
@@ -252,13 +252,13 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             const u8_error_t append_err = data_visible_set_append_relationship(  &((*fix).test_me), &rel );
             if ( index < DATA_VISIBLE_SET_MAX_RELATIONSHIPS )
             {
-                TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, append_err );
+                TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, append_err, u8_error_get_name );
                 const data_relationship_t *readback = data_visible_set_get_relationship_const( &((*fix).test_me), index );
                 TEST_EXPECT_EQUAL_INT( 40000+index, data_relationship_get_row_id( readback ) );
             }
             else
             {
-                TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, append_err );
+                TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, append_err, u8_error_get_name );
                 TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_RELATIONSHIPS, data_visible_set_get_relationship_count( &((*fix).test_me) ) );
             }
 
@@ -385,7 +385,7 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
         data_visible_set_init( &((*fix).test_me) );
 
         const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), root_diag_id, &((*fix).db_reader) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, init_err, u8_error_get_name );
 
         /* test diagram */
 
@@ -602,7 +602,7 @@ static test_case_result_t filter_foreign_lifelines( test_fixture_t *fix )
         data_visible_set_init( &((*fix).test_me) );
 
         const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), diag_local, &((*fix).db_reader) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, init_err, u8_error_get_name );
 
         TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_valid(  &((*fix).test_me) ) );
 
@@ -718,7 +718,7 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
         data_visible_set_init( &((*fix).test_me) );
 
         const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), root_diag_id, &((*fix).db_reader) );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, init_err );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, init_err, u8_error_get_name );
 
         TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_valid(  &((*fix).test_me) ) );
 

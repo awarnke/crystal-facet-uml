@@ -79,7 +79,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                  24,
                                  DATA_DIAGRAM_FLAG_GRAY_OUT
                                );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_1, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
     const char* uuid_1 = data_diagram_get_uuid_const( &testee );
@@ -104,7 +104,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                  47,
                                  DATA_DIAGRAM_FLAG_EMPHASIS
                                );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
     const char* uuid_2 = data_diagram_get_uuid_const( &testee );
@@ -145,7 +145,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                              DATA_DIAGRAM_FLAG_GRAY_OUT,
                              "1ff2be8d-c46a-4777-8017-e073a41cc680"
                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_4 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_4, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1234, data_diagram_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 990, data_diagram_get_parent_row_id( &testee ) );
@@ -170,7 +170,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                              DATA_DIAGRAM_FLAG_EMPHASIS,
                              "097498ef-e43b-4b79-b26a-df6f23590165"
                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 12345, data_diagram_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_diagram_get_uuid_const( &testee ) );
@@ -222,47 +222,47 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* sub test case 4 */
     TEST_EXPECT_EQUAL_INT( false, data_diagram_has_stereotype( &testee ) );
     const u8_error_t result_4 = data_diagram_set_stereotype( &testee, "2ch" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_4 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_4, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "2ch", data_diagram_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_has_stereotype( &testee ) );
 
     /* sub test case 5, work on copy, do not modify original */
     data_diagram_copy( &testee_copy, &testee );
     const u8_error_t result_5 = data_diagram_set_stereotype( &testee_copy, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_stereotype_const( &testee_copy ), "too long text" ) );
     TEST_EXPECT_EQUAL_STRING( "2ch", data_diagram_get_stereotype_const( &testee ) );
 
     /* sub test case 6, work on copy, do not modify original */
     data_diagram_replace( &testee_copy, &testee );
     const u8_error_t result_6 = data_diagram_set_name( &testee_copy, "Amplifier" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_6 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_6, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "Amplifier", data_diagram_get_name_const( &testee_copy ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_name_const( &testee ) );
 
     /* sub test case 7 */
     const u8_error_t result_7 = data_diagram_set_name( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_7 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_7, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_name_const( &testee ), "too long text" ) );
 
     /* sub test case 8 */
     const u8_error_t result_8 = data_diagram_set_description( &testee, "The " );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_8 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_8, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "The ", data_diagram_get_description_const( &testee ) );
 
     /* sub test case 9 */
     const u8_error_t result_9 = data_diagram_append_description( &testee, "amplifier " );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_9 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_9, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "The amplifier ", data_diagram_get_description_const( &testee ) );
 
     /* sub test case 10 */
     const u8_error_t result_10 = data_diagram_append_description( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_10 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_10, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_description_const( &testee ), "The amplifier too long" ) );
 
     /* sub test case 11 */
     const u8_error_t result_11 = data_diagram_set_description( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_11 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_11, u8_error_get_name );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_description_const( &testee ), "too long text" ) );
 
     /* sub test case 12 */
@@ -282,15 +282,15 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     /* sub test case 15 */
     u8_error_t result_15 = data_diagram_set_uuid( &testee, "wrong" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, result_15 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, result_15, u8_error_get_name );
 
     /* sub test case 16 */
     u8_error_t result_16 = data_diagram_set_uuid( &testee, (*test_env).too_long );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_16 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_16, u8_error_get_name );
 
     /* sub test case 17 */
     u8_error_t result_17 = data_diagram_set_uuid( &testee, "1652f338-5011-4775-9b56-8c08caaa2663" );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_17 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_17, u8_error_get_name );
     TEST_EXPECT_EQUAL_STRING( "1652f338-5011-4775-9b56-8c08caaa2663", data_diagram_get_uuid_const( &testee ) );
 
     data_diagram_destroy( &testee );

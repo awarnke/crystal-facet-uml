@@ -46,10 +46,10 @@ static test_case_result_t test_type_convertion_wrapper( test_fixture_t *test_env
     TEST_EXPECT_EQUAL_INT( true, empty1 );
 
     d_err = data_full_id_list_add_all( &unit_under_test, &unit_under_test );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
 
     d_err = data_full_id_list_add( &unit_under_test, &void_full_id );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
 
     data_full_id_t *first_mod = data_full_id_list_get_ptr( &unit_under_test, 0 );
     TEST_EXPECT_EQUAL_PTR( &(buffer[0]), first_mod );

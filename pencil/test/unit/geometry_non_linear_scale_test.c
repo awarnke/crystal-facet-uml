@@ -61,7 +61,7 @@ static test_case_result_t test_get_grid( test_fixture_t *fix )
 
     geometry_non_linear_scale_init ( &my_scale, -250.0, 0.0 );
     const u8_error_t err = geometry_non_linear_scale_add_order( &my_scale, 512 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
 
     const double one_quarter = geometry_non_linear_scale_get_location( &my_scale, INT32_MIN );
     TEST_EXPECT_EQUAL_FLOAT( -250.0, one_quarter );
@@ -153,10 +153,10 @@ static test_case_result_t test_buffer_exceeded( test_fixture_t *fix )
     for ( int32_t step = 0; step < ( GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS - 2 ); step ++ )
     {
         const u8_error_t err0 = geometry_non_linear_scale_add_order( &my_scale, step + 1 );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err0 );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err0, u8_error_get_name );
     }
     const u8_error_t err1 = geometry_non_linear_scale_add_order( &my_scale, GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS - 1 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err1, u8_error_get_name );
 
     const bool on_grid = geometry_non_linear_scale_is_order_on_grid( &my_scale, GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS - 2 );
     TEST_EXPECT_EQUAL_INT( true, on_grid );

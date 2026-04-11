@@ -64,42 +64,42 @@ static test_case_result_t test_append( test_fixture_t *fix )
     /* get memory from arena */
     double *ele_1;
     u8_error_t err1 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_1 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err1, u8_error_get_name );
     *ele_1 = 34.5;
 
     /* append 1st by getting memory from arena */
     err1 = universal_arena_list_append( &test_me, ele_1 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err1 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err1, u8_error_get_name );
 
     /* get memory from arena */
     double *ele_2;
     u8_error_t err2 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_2 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err2, u8_error_get_name );
     *ele_2 = 35.5;
 
     /* append 2nd by getting memory from arena */
     err2 = universal_arena_list_append( &test_me, ele_2 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err2 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err2, u8_error_get_name );
 
     /* get memory from arena */
     double *ele_3;
     u8_error_t err3 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_3 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err3 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err3, u8_error_get_name );
     *ele_3 = 36.5;
 
     /* append 3rd by getting memory from arena */
     err3 = universal_arena_list_append( &test_me, ele_3 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err3 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err3, u8_error_get_name );
 
     /* get memory from arena */
     double *ele_4;
     u8_error_t err4 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_4 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err4 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err4, u8_error_get_name );
     *ele_4 = 17.25;
 
     /* fail to append 4th by getting memory from arena */
     err4 = universal_arena_list_append( &test_me, ele_4 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err4 );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err4, u8_error_get_name );
 
     /* check non-empty iterator */
     universal_arena_list_element_t *it2 = universal_arena_list_get_begin( &test_me );
