@@ -509,6 +509,7 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
     assert( feature_ptr != NULL );
     assert( parent != NULL );
     u8_error_t out_err = U8_ERROR_NONE;
+    const bool is_lifeline = ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature_ptr ) );
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
@@ -541,13 +542,16 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                   true
                                                 );
 
-        /* key */
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    6,
-                                                    JSON_CONSTANTS_KEY_FEATURE_KEY,
-                                                    data_feature_get_key_const( feature_ptr ),
-                                                    true
-                                                  );
+        if (( ! is_lifeline )||( 0 != utf8string_get_length( data_feature_get_key_const( feature_ptr ) ) ))
+        {
+            /* key */
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        6,
+                                                        JSON_CONSTANTS_KEY_FEATURE_KEY,
+                                                        data_feature_get_key_const( feature_ptr ),
+                                                        true
+                                                      );
+        }
 
         /* value */
         if ( data_feature_has_value( feature_ptr ) )
@@ -560,25 +564,31 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                       );
         }
 
-        /* description */
-        out_err |= json_writer_write_member_string_array( &((*this_).json_writer) ,
-                                                          6,
-                                                          JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION,
-                                                          data_feature_get_description_const( feature_ptr ),
-                                                          true
-                                                        );
+        if (( ! is_lifeline )||( 0 != utf8string_get_length( data_feature_get_description_const( feature_ptr ) ) ))
+        {
+          /* description */
+            out_err |= json_writer_write_member_string_array( &((*this_).json_writer) ,
+                                                              6,
+                                                              JSON_CONSTANTS_KEY_FEATURE_DESCRIPTION,
+                                                              data_feature_get_description_const( feature_ptr ),
+                                                              true
+                                                            );
+        }
 
-        /* list_order */
-        out_err |= json_writer_write_member_int( &((*this_).json_writer),
-                                                 6,
+        if (( ! is_lifeline )||( 0 != data_feature_get_list_order( feature_ptr ) ))
+        {
+          /* list_order */
+            out_err |= json_writer_write_member_int( &((*this_).json_writer),
+                                                    6,
 #ifdef JSON_CONSTANTS_NEW_KEYS
-                                                 JSON_CONSTANTS_KEY_ORDER,
+                                                    JSON_CONSTANTS_KEY_ORDER,
 #else
-                                                 JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER,
+                                                    JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER,
 #endif
-                                                 data_feature_get_list_order( feature_ptr ),
-                                                 true
-                                               );
+                                                    data_feature_get_list_order( feature_ptr ),
+                                                    true
+                                                  );
+        }
 
         /* uuid */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1098,7 +1108,7 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                         JSON_CONSTANTS_KEY_DIAGRAM_PARENT_NAME,
                                                         data_diagram_get_name_const( parent ),
                                                         true
-                                                    );
+                                                      );
         }
 
         /* parent uuid */
