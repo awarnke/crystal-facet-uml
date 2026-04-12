@@ -3,7 +3,7 @@
 
 crystal-facet-uml provides a graphical user interface to
 <itemizedlist>
-    <listitem><para>create, modify and delete diagrams and UML/SysML elements</para>
+    <listitem><para>create, modify and delete diagrams and UML™/SysML™ elements</para>
     </listitem>
     <listitem><para>cut, copy, paste elements between diagrams</para>
     </listitem>
@@ -31,7 +31,7 @@ crystal-facet-uml manages a meta model:
 <itemizedlist>
     <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents</para>
     </listitem>
-    <listitem><para>Uml(TM)/SysML(TM) elements exist only once even if shown in many diagrams</para>
+    <listitem><para>UML™/SysML™ elements exist only once even if shown in many diagrams</para>
     </listitem>
     <listitem><para>Relationships and features are consistent between all diagrams</para>
     </listitem>
@@ -41,10 +41,10 @@ crystal-facet-uml manages a meta model:
     </listitem>
     <listitem>
         <para>Elements are automatically deleted when not visible anymore</para>
-        <para>WARNING: Since version 1.70.0, crystal-facet-uml deletes invisible elements automatically without furtner notice</para>
+        <para>Since version 1.70.0, crystal-facet-uml deletes invisible elements automatically without further notice</para>
     </listitem>
     <listitem>
-        <para>These extension mechanisms of UML are supported:</para>
+        <para>These extension mechanisms of UML™ are supported:</para>
         <para>Tagged values and stereotypes including stereotype images</para>
     </listitem>
 </itemizedlist>
@@ -53,9 +53,9 @@ Diagrams can be exported as
 <itemizedlist>
     <listitem><para>images: pdf, ps, svg, png</para>
     </listitem>
-    <listitem><para>text: utf-8, DocBook, html</para>
+    <listitem><para>text: utf-8, DocBook™, html</para>
     </listitem>
-    <listitem><para>machine-readable model: json, xmi(TM)</para>
+    <listitem><para>machine-readable model: json, xmi™</para>
     </listitem>
 </itemizedlist>
 
