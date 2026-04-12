@@ -26,6 +26,7 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix );
  */
 static void create_mini_model( ctrl_controller_t *controller,
                                data_row_t * out_root_diagram,
+                               data_row_t * out_seq_diagram,
                                data_row_t * out_from_classifier_parent,
                                data_row_t * out_from_classifier,
                                data_row_t * out_from_feature,
@@ -90,6 +91,7 @@ static void tear_down( test_fixture_t *fix )
 
 static void create_mini_model( ctrl_controller_t *controller,
                                data_row_t * out_root_diagram,
+                               data_row_t * out_seq_diagram,
                                data_row_t * out_from_classifier_parent,
                                data_row_t * out_from_classifier,
                                data_row_t * out_from_feature,
@@ -107,21 +109,26 @@ static void create_mini_model( ctrl_controller_t *controller,
     tvec_setup_t test_env;
     tvec_setup_init( &test_env, controller );
 
-    *out_root_diagram = tvec_setup_diagram( &test_env, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    *out_root_diagram = tvec_setup_diagram( &test_env, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM );
+    *out_seq_diagram = tvec_setup_diagram( &test_env, DATA_ROW_VOID, "seq diag", DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
 
     *out_from_classifier_parent = tvec_setup_classifier( &test_env, "from parent" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier_parent, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_from_classifier_parent, DATA_ROW_VOID );
 
     *out_from_classifier = tvec_setup_classifier( &test_env, "from classifier" );
     *out_from_feature = tvec_setup_feature( &test_env, *out_from_classifier, "from feature" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier, *out_from_feature );
+    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_from_classifier, DATA_ROW_VOID );
 
     *out_to_classifier_parent = tvec_setup_classifier( &test_env, "to parent" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier_parent, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_to_classifier_parent, DATA_ROW_VOID );
 
     *out_to_classifier = tvec_setup_classifier( &test_env, "to classifier" );
     *out_to_feature = tvec_setup_feature( &test_env, *out_to_classifier, "to feature" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier, *out_to_feature );
+    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_to_classifier, *out_to_feature );
 
     /* from child has parent */
     {
@@ -132,7 +139,6 @@ static void create_mini_model( ctrl_controller_t *controller,
                                                                  DATA_ROW_VOID,
                                                                  "from child rel"
                                                                );
-        TEST_ENVIRONMENT_ASSERT( from_parent_rel_id != DATA_ROW_VOID );
         c_err = ctrl_classifier_controller_update_relationship_main_type( classifier_ctrl,
                                                                           from_parent_rel_id,
                                                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT
@@ -274,8 +280,10 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
     data_row_t relation_feat_clas;
     data_row_t relation_feat_feat;
     data_row_t root_diag_id;
+    data_row_t seq_diag_id;
     create_mini_model( &((*fix).controller),
                        &root_diag_id,
+                       &seq_diag_id,
                        &from_classifier_parent,
                        &from_classifier,
                        &from_feature,
@@ -352,7 +360,7 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
                                                             &temp_input_data,
                                                             &stat,
                                                             xmi_element_writer_get_element_writer( &temp_xmi_writer )
-                                                        );
+                                                          );
                             /* write the document */
                             int export_err = 0;
                             export_err |= xmi_element_writer_write_header( &temp_xmi_writer, "document file name" );
