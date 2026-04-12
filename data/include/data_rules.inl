@@ -29,65 +29,6 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
 
 /* ================================ FEATURE ================================ */
 
-static inline bool data_rules_classifier_has_uncond_features ( const data_rules_t *this_, data_classifier_type_t classifier_type )
-{
-    bool result;
-
-    switch ( classifier_type )
-    {
-        case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
-        case DATA_CLASSIFIER_TYPE_REQUIREMENT: /* for requirements, there is a predefined set of: id, text, ... */
-        case DATA_CLASSIFIER_TYPE_INTERFACE:
-        case DATA_CLASSIFIER_TYPE_CLASS:
-        case DATA_CLASSIFIER_TYPE_OBJECT:
-        case DATA_CLASSIFIER_TYPE_USE_CASE:
-        case DATA_CLASSIFIER_TYPE_NODE:
-        case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
-        case DATA_CLASSIFIER_TYPE_COMPONENT:
-        case DATA_CLASSIFIER_TYPE_PART:
-        case DATA_CLASSIFIER_TYPE_PACKAGE:
-        case DATA_CLASSIFIER_TYPE_ARTIFACT:
-        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
-        case DATA_CLASSIFIER_TYPE_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_STATE:
-        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
-        {
-            result = true;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_ACTOR:
-        case DATA_CLASSIFIER_TYPE_INTERACTION_USE:
-        case DATA_CLASSIFIER_TYPE_COMMENT:
-        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
-        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
-        case DATA_CLASSIFIER_TYPE_IMAGE:
-        {
-            result = false;
-        }
-        break;
-
-        default:
-        {
-            U8_LOG_ANOMALY("data_classifier_type_t out of range in data_rules_has_features");
-            result = true;
-            /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
-        }
-        break;
-    }
-
-    return result;
-}
-
 static inline bool data_rules_feature_is_scenario_cond ( const data_rules_t *this_, data_feature_type_t feature_type )
 {
     bool result;
@@ -131,8 +72,7 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
     const bool belongs = ( data_feature_get_classifier_row_id( feature ) == data_classifier_get_row_id( clasfy ) );
     const bool scenario = data_rules_feature_is_scenario_cond( this_, data_feature_get_main_type( feature ) );
     const bool focused = ( data_diagramelement_get_focused_feature_row_id( diagele ) == data_feature_get_row_id( feature ) );
-    const bool visible = data_rules_classifier_has_uncond_features( this_, data_classifier_get_main_type( clasfy ) );
-    return valid && belongs && (((!scenario)&&visible) || (scenario&&focused));
+    return valid && belongs && ( ( ! scenario ) || ( scenario && focused ) );
 }
 
 static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_,
@@ -193,21 +133,6 @@ static inline bool data_rules_diagram_shows_scenario_relationships ( const data_
            || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
     return show;
 }
-
-/*
-static inline bool data_rules_is_relationship_compliant ( const data_rules_t *this_,
-                                                          data_relationship_type_t relation_type,
-                                                          data_classifier_type_t from_c_type,
-                                                          data_feature_type_t from_f_type,
-                                                          data_classifier_type_t to_c_type,
-                                                          data_feature_type_t to_f_type )
-{
-    bool comply;
-    comply = true;
-    TODO
-    return comply;
-}
-*/
 
 
 /*

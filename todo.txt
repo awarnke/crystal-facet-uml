@@ -72,10 +72,7 @@ ideas for future versions:
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
   [ ] as sysml2 preparation: clarify what things are definitions an what are usages. E.g. all part-types should be instances.
   @ctrl
-      Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
-  [ ] user manual updates needed
-  [ ] using "paste", it is possible to paste relationships into the model that are not visible
-  [ ] some classifier types cannot have features (e.g. choice) - this is ignored when changing the classifier type
+  [ ] ctrl_multi_step_changer_t should count an own statistics instead of reading the undo_redo_list afterwards (which fails if too many actions done)
   @u8stream
   @main
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.

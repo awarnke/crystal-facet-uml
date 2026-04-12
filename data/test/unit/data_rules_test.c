@@ -95,10 +95,9 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
 
         data_row_t classifier_id = TEST_CLASSIFIER_ID_OFFSET + (vc_idx/2);
         if ( (vc_idx/2) == TEST_CLASSIFIER_ID_GAP ) { classifier_id = classifier_id+1; }
-        const bool with_feat = ( 0 == (classifier_id & 0x00000001) );
         data_err = data_classifier_init( classifier,
                                          classifier_id,
-                                         with_feat ? DATA_CLASSIFIER_TYPE_CLASS: DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE,
+                                         DATA_CLASSIFIER_TYPE_CLASS,
                                          "stereotype",
                                          "name",
                                          "description",
@@ -270,10 +269,6 @@ static test_case_result_t test_data_rules_filter_box_and_list( test_fixture_t *t
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
     TEST_EXPECT( show == false );
 
-    /* valid feature(non-lifeline) at decision-node */
-    show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
-    TEST_EXPECT( show == false );
-
     /* valid feature(non-lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+3 );
     TEST_EXPECT( show == false );
@@ -330,10 +325,6 @@ static test_case_result_t test_data_rules_filter_standard( test_fixture_t *test_
 
     /* valid feature(lifeline) which is not referenced */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
-    TEST_EXPECT( show == false );
-
-    /* valid feature(non-lifeline) at decision-node */
-    show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
     TEST_EXPECT( show == false );
 
     /* valid feature(non-lifeline) at class */

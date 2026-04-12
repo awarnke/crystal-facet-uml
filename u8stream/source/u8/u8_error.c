@@ -30,7 +30,6 @@ const char * u8_error_get_name( u8_error_t this_ )
         case U8_ERROR_OBJECT_STILL_REFERENCED: { result = "U8_ERROR_OBJECT_STILL_REFERENCED"; }; break;
         case U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS: { result = "U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS"; }; break;
         case U8_ERROR_DIAGRAM_HIDES_FEATURES: { result = "U8_ERROR_DIAGRAM_HIDES_FEATURES"; }; break;
-        case U8_ERROR_CLASSIFIER_REFUSES_FEATURE: { result = "U8_ERROR_CLASSIFIER_REFUSES_FEATURE"; }; break;
         case U8_ERROR_FOCUS_EMPTY: { result = "U8_ERROR_FOCUS_EMPTY"; }; break;
         case U8_ERROR_STRING_BUFFER_EXCEEDED: { result = "U8_ERROR_STRING_BUFFER_EXCEEDED"; }; break;
         case U8_ERROR_ARRAY_BUFFER_EXCEEDED: { result = "U8_ERROR_ARRAY_BUFFER_EXCEEDED"; }; break;

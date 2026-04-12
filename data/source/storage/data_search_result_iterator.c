@@ -436,10 +436,8 @@ u8_error_t data_search_result_iterator_private_get_feature( data_search_result_i
     }
     else
     {
-        /* evaluate filter */
-        const bool vis_by_classifier = data_rules_classifier_has_uncond_features ( &((*this_).data_rules), c_type );
-        const bool vis_by_diagram = data_rules_diagram_shows_uncond_features ( &((*this_).data_rules), d_type );
-        filter = !( vis_by_classifier && vis_by_diagram );
+        /* evaluate diagram filter */
+        filter = ! data_rules_diagram_shows_uncond_features ( &((*this_).data_rules), d_type );
     }
 
     if ( filter )

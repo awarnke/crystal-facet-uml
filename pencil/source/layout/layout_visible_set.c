@@ -250,7 +250,7 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
                         layout_visible_classifier_t *probe4_classifier;
                         probe4_classifier = &((*this_).visible_classifier_layout[c_idx4]);
 
-                        const bool one_to_classifier_found =  ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) );
+                        const bool one_to_classifier_found = ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) );
                         if ( one_to_classifier_found )
                         {
                             if ( (*this_).relationship_count < LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )

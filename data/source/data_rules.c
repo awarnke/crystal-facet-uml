@@ -21,52 +21,38 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
     const data_feature_t *feat_ptr = data_visible_set_get_feature_by_id_const ( diagram_set, feature_id );  /* SEARCH */
     assert( feat_ptr != NULL );
     assert( data_feature_is_valid( feat_ptr ) );
-    const data_row_t classifier_id = data_feature_get_classifier_row_id( feat_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type ( feat_ptr );
 
-    const data_classifier_t *classifier_ptr = data_visible_set_get_classifier_by_id_const ( diagram_set, classifier_id );  /* SEARCH */
-    if ( classifier_ptr != NULL )
+    const bool is_feat_scenario = data_rules_feature_is_scenario_cond ( this_, feature_type );
+
+    if ( is_feat_scenario )
     {
-        assert( data_classifier_is_valid( classifier_ptr ) );
-        const data_classifier_type_t classifier_type = data_classifier_get_main_type ( classifier_ptr );
-        const bool is_feat_scenario = data_rules_feature_is_scenario_cond ( this_, feature_type );
-
-        if ( is_feat_scenario )
+        /* a scenario-typed feature(=lifeline) that belongs to a different diagram is always filtered */
+        bool is_foreign_scenario = true;
+        const uint32_t vc_count = data_visible_set_get_visible_classifier_count ( diagram_set );
+        for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )  /* SEARCH */
         {
-            /* a scenario-typed feature(=lifeline) that belongs to a different diagram is always filtered */
-            bool is_foreign_scenario = true;
-            const uint32_t vc_count = data_visible_set_get_visible_classifier_count ( diagram_set );
-            for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )  /* SEARCH */
+            const data_visible_classifier_t *vc_probe = data_visible_set_get_visible_classifier_const ( diagram_set, vc_idx );
+            assert ( NULL != vc_probe );
+            const data_diagramelement_t *diag_ele = data_visible_classifier_get_diagramelement_const ( vc_probe );
+            assert ( NULL != diag_ele );
+            const data_row_t diag_ele_feat_id = data_diagramelement_get_focused_feature_row_id( diag_ele );
+            if ( feature_id == diag_ele_feat_id )
             {
-                const data_visible_classifier_t *vc_probe = data_visible_set_get_visible_classifier_const ( diagram_set, vc_idx );
-                assert ( NULL != vc_probe );
-                const data_diagramelement_t *diag_ele = data_visible_classifier_get_diagramelement_const ( vc_probe );
-                assert ( NULL != diag_ele );
-                const data_row_t diag_ele_feat_id = data_diagramelement_get_focused_feature_row_id( diag_ele );
-                if ( feature_id == diag_ele_feat_id )
-                {
-                    is_foreign_scenario = false;
-                    break;
-                }
+                is_foreign_scenario = false;
+                break;
             }
+        }
 
-            /* evaluate filter */
-            const bool ok_by_diagram = data_rules_diagram_shows_scenario_features ( this_, diagram_type );
-            const bool ok_by_scenario = ! is_foreign_scenario;
-            result = ok_by_diagram && ok_by_scenario;
-        }
-        else
-        {
-            /* evaluate filter */
-            const bool ok_by_classifier = data_rules_classifier_has_uncond_features ( this_, classifier_type );
-            const bool ok_by_diagram = data_rules_diagram_shows_uncond_features ( this_, diagram_type );
-            result = ok_by_classifier && ok_by_diagram;
-        }
+        /* evaluate filter */
+        const bool ok_by_diagram = data_rules_diagram_shows_scenario_features ( this_, diagram_type );
+        const bool ok_by_scenario = ! is_foreign_scenario;
+        result = ok_by_diagram && ok_by_scenario;
     }
     else
     {
-        /* maybe the data_visible_set_t was full and the classifier could not be stored? */
-        U8_LOG_ANOMALY_INT( "data_visible_set_t contains a feature but not the related classifier.", feature_id );
+        /* evaluate diagram filter */
+        result = data_rules_diagram_shows_uncond_features ( this_, diagram_type );
     }
 
     U8_TRACE_END();

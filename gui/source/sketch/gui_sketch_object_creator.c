@@ -456,14 +456,13 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
     }
 
     /* check preconditions */
-    const bool classifier_ok = data_rules_classifier_has_uncond_features ( &((*this_).data_rules), parent_class_type );
     const bool is_scenario = data_rules_feature_is_scenario_cond ( &((*this_).data_rules), new_feature_type );
     assert ( ! is_scenario );  /* lifelines should not be created by this function */
     const bool diagram_ok = is_scenario
                             ? data_rules_diagram_shows_scenario_features ( &((*this_).data_rules), diag_type )
                             : data_rules_diagram_shows_uncond_features ( &((*this_).data_rules), diag_type );
 
-    if ( diagram_ok && classifier_ok )
+    if ( diagram_ok )
     {
         /* create feature */
         c_result = ctrl_classifier_controller_create_feature( classifier_control,
@@ -479,15 +478,6 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
                                                      GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                    );
         }
-    }
-    else if ( ! classifier_ok )
-    {
-        /* notify error to user */
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER
-                                               );
-        c_result = U8_ERROR_CLASSIFIER_REFUSES_FEATURE;
     }
     else
     {

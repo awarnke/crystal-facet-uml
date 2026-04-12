@@ -67,7 +67,7 @@ static inline void data_rules_destroy ( data_rules_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_set the data_visible_set_t containing the cached diagram data for pencil
- *  \param feature_id the id of the feature
+ *  \param feature_id the id of the feature, needed in case the feature is a lifeline
  *  \return true if the feature shall be visible according to the data_rules
  *          (and the diagram_set contains the feature and the related classifier)
  */
@@ -111,17 +111,6 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
 /* ================================ CLASSIFIER ================================ */
 
 /* ================================ FEATURE ================================ */
-
-/*!
- *  \brief determines if the classifier type has unconditional features
- *
- *  This method implements a guideline.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_type the classifier type
- *  \return true if the classifier type may have features, false otherwise. false also if classifier_type is invalid.
- */
-static inline bool data_rules_classifier_has_uncond_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
 /*!
  *  \brief determines if the feature type is scenario-conditional (applicable only to the 4 interaction diagram types)
@@ -249,27 +238,6 @@ static inline bool data_rules_diagram_shows_uncond_relationships ( const data_ru
  *  \return true if a scenario-specific relationship (start or end at lifeline) shall be visible, false otherwise.
  */
 static inline bool data_rules_diagram_shows_scenario_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type );
-
-/*!
- *  \brief determines if the relationships complies to the specification
- *
- *  \param this_ pointer to own object attributes
- *  \param relation_type the type of relationship for which compliance shall be checked
- *  \param from_c_type the type of classifier at source end for which compliance shall be checked
- *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \param to_c_type the type of classifier at target end for which compliance shall be checked
- *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \return true if relationship type betweeen classifiers is compliant to spec, false otherwise.
- */
-/*
-static inline bool data_rules_is_relationship_compliant ( const data_rules_t *this_,
-                                                          data_relationship_type_t relation_type,
-                                                          data_classifier_type_t from_c_type,
-                                                          data_feature_type_t from_f_type,
-                                                          data_classifier_type_t to_c_type,
-                                                          data_feature_type_t to_f_type
-                                                        );
-*/
 
 #include "data_rules.inl"
 

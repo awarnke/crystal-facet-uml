@@ -90,8 +90,6 @@ enum u8_error_enum {
                                       /*!< the diagram type does not show the relationship type */
     U8_ERROR_DIAGRAM_HIDES_FEATURES = U8_ERROR_CAT_USE_MODE      + U8_ERROR_ORIG_DATA + 0x04,
                                       /*!< the diagram type does not show the feature type */
-    U8_ERROR_CLASSIFIER_REFUSES_FEATURE = U8_ERROR_CAT_USE_MODE  + U8_ERROR_ORIG_DATA + 0x08,
-                                      /*!< the classifier type does not allow the feature type */
     U8_ERROR_FOCUS_EMPTY            = U8_ERROR_CAT_USE_MODE      + U8_ERROR_ORIG_MISS + 0x01,
                                       /*!< no focused diagram or focused object */
 
