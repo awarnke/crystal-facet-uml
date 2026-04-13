@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.0-pre2"
+    "generator_version": "1.70.0"
   }
   ,
   "views":
@@ -131,11 +131,6 @@
           {
             "id": 1,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "e6edd43d-df15-4b4c-8217-86ee2eee890d"
           }
         ]
@@ -159,11 +154,6 @@
           {
             "id": 2,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "50eeb509-4dd1-49d6-9f37-da9741be6640"
           }
         ]
@@ -186,11 +176,6 @@
           {
             "id": 3,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "fbf6e8bf-2508-4792-afa4-97c0a4e87169"
           }
         ]
@@ -213,11 +198,6 @@
           {
             "id": 4,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "9f66e8f5-6c15-44c2-b57d-6a23fddf7532"
           }
         ]
@@ -240,11 +220,6 @@
           {
             "id": 5,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "71f867ec-9034-4ff3-ade2-d6b50e71b024"
           }
         ]

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.0-pre3"
+    "generator_version": "1.70.0"
   }
   ,
   "views":
@@ -4045,11 +4045,6 @@
           {
             "id": 16,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "9813878d-d7a7-4045-ab91-93b2b18e916b"
           }
         ]
@@ -4072,11 +4067,6 @@
           {
             "id": 17,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "972434aa-e165-4a40-b79d-e01d495fc4b7"
           }
         ]
@@ -4099,11 +4089,6 @@
           {
             "id": 22,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "836b7e7a-9f82-4194-b786-a8d1abba049f"
           }
         ]
@@ -4127,11 +4112,6 @@
           {
             "id": 23,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "40697816-a89d-417e-a194-62aaa0262f65"
           }
         ]
@@ -4155,11 +4135,6 @@
           {
             "id": 21,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071"
           }
         ]
@@ -4183,11 +4158,6 @@
           {
             "id": 24,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "5e4e496f-db00-4592-a7d8-a2f8f5e94845"
           }
         ]
@@ -4211,11 +4181,6 @@
           {
             "id": 20,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "e88532af-2b15-4e59-be68-757c62d7c351"
           }
         ]
@@ -5734,11 +5699,6 @@
           {
             "id": 15,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "6a4b3169-b5d8-4d44-87ed-79057d1653f9"
           }
         ]
@@ -5762,11 +5722,6 @@
           {
             "id": 14,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "b27df345-c804-4482-b0db-63feb48d11d6"
           }
         ]
@@ -5790,11 +5745,6 @@
           {
             "id": 12,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "e12195e1-14a6-4cb4-8982-2b29a62f622e"
           }
         ]
@@ -5817,11 +5767,6 @@
           {
             "id": 11,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878"
           }
         ]
@@ -6042,11 +5987,6 @@
           {
             "id": 13,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "4e804abc-7686-4527-834f-699e8d185e43"
           }
         ]
@@ -6541,11 +6481,6 @@
           {
             "id": 25,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109"
           }
         ]
@@ -6568,11 +6503,6 @@
           {
             "id": 26,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "389deb95-fef0-40bf-84c9-ac6e18332309"
           }
         ]
@@ -6619,11 +6549,6 @@
           {
             "id": 27,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "e5887445-90e2-4d11-9976-82c1b073577b"
           }
         ]
@@ -6951,11 +6876,6 @@
           {
             "id": 28,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "7f6ac622-aad8-4ebc-a143-d8c781e8671a"
           }
         ]
@@ -6979,11 +6899,6 @@
           {
             "id": 29,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5"
           }
         ]
@@ -7896,11 +7811,6 @@
           {
             "id": 45,
             "type": "Lifeline", "main_type": 3,
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
             "uuid": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315"
           }
         ]
