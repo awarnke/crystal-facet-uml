@@ -11,7 +11,7 @@ crystal-facet-uml (1.70.0) UNRELEASED; urgency=medium
     (except containment-relationships in box diagrams)
   * all classifiers can have features, especially tagged values may be useful
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 12 Apr 2026 20:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 13 Apr 2026 19:00:00 +0200
 
 crystal-facet-uml (1.69.0) UNRELEASED; urgency=medium
 

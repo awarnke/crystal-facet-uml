@@ -1,3 +1,18 @@
+crystal-facet-uml (1.70.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * delete features immediately when they become invisible in all diagrams
+    (lifelines work since 1.52.0)
+  * delete relationships immediately when they become invisible in all diagrams
+    (partly works since 1.27.3)
+  * deleting a relation and a feature always show the statistics (Closes: #6)
+  * via copy and paste, no invisible elements can be created
+  * invisible elements are deleted automatically without furtner notice
+    (except containment-relationships in box diagrams)
+  * all classifiers can have features, especially tagged values may be useful
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 13 Apr 2026 19:00:00 +0200
+
 crystal-facet-uml (1.69.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
