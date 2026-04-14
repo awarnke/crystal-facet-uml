@@ -188,9 +188,6 @@
                                 </inlinemediaobject>
                                 Comment</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry>
-                                <para><parameter>hides</parameter> features</para>
-                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -208,7 +205,6 @@
                                     The description field is reserved.
                                     Use an additional comment if needed.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -256,9 +252,6 @@
                                 <para>UML, SysML<!--spec 1.5 chapter 14.2--></para>
                                 <para>/ Use Case, Sequence </para>
                             </entry>
-                            <entry>
-                                <para><parameter>hides</parameter> features</para>
-                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -288,7 +281,6 @@
                                     this object may only occur in interaction diagrams: interaction overview,
                                     communication, sequence and timing.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -341,7 +333,6 @@
                                     XMI-Export: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -358,7 +349,6 @@
                                 <para>XMI-Export: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -375,7 +365,6 @@
                                 <para>XMI-Export: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -390,7 +379,6 @@
                                 <para>XMI-Export: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -407,7 +395,6 @@
                                 <para>XMI-Export: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -431,7 +418,6 @@
                                 <para>XMI-Export/Activity-context: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -455,7 +441,6 @@
                                 <para>XMI-Export/Activity-context: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -480,7 +465,6 @@
                                 <para>XMI-Export/Activity-context: For xmi export,
                                     all activity-nodes belonging to the same set of activities need an outer, enclosing activity.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -518,7 +502,6 @@
                             </entry>
                             <entry>
                                 <para>XMI-Export: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.</para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -537,7 +520,6 @@
                             <entry>
                                 <para>XMI-Export: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.
                                 </para>
-                                <para><parameter>hides</parameter> features</para>
                             </entry>
                         </row>
                         <row>
@@ -1191,7 +1173,6 @@
                             <entry><para>-</para></entry>
                             <entry>
                                 <para>This is an overview diagram showing only classifiers as a list.</para>
-                                <para>This diagram hides any feature and any relationship.</para>
                                 <para><parameter>hides</parameter> features, relationships</para>
                             </entry>
                         </row>
@@ -1204,7 +1185,6 @@
                             <entry><para>-</para></entry>
                             <entry>
                                 <para>This is an overview diagram showing only 2-dimension-layouted classifiers.</para>
-                                <para>This diagram hides any feature and any relationship.</para>
                                 <para><parameter>hides</parameter> features, relationships</para>
                             </entry>
                         </row>
@@ -1317,10 +1297,8 @@
                             <entry>
                                 <para>Limitations: There is no link from Diagram-References to referenced Diagrams</para>
                                 <para>Containments cannot be shown in this diagram type</para>
-                                <para>This diagram hides any feature</para>
-                                <para>This diagram hides relationships except the messages of the shown scenario</para>
                                 <para><parameter>hides</parameter> features (except lifelines)</para>
-                                <para><parameter>hides</parameter> relationships (except between lifelines)</para>
+                                <para><parameter>hides</parameter> relationships (except messages between lifelines)</para>
                             </entry>
                         </row>
                         <row>
@@ -1350,10 +1328,8 @@
                             <entry><para>UML</para></entry>
                             <entry>
                                 <para>Containments cannot be shown in this diagram type</para>
-                                <para>This diagram hides any feature</para>
-                                <para>This diagram hides relationships except the messages of the shown scenario</para>
                                 <para><parameter>hides</parameter> features (except lifelines)</para>
-                                <para><parameter>hides</parameter> relationships (except between lifelines)</para>
+                                <para><parameter>hides</parameter> relationships (except messages between lifelines)</para>
                             </entry>
                         </row>
                         <row>
@@ -1364,10 +1340,8 @@
                                 Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry>
-                                <para>This diagram hides any feature</para>
-                                <para>This diagram hides relationships except the messages of the shown scenario</para>
                                 <para><parameter>hides</parameter> features (except lifelines)</para>
-                                <para><parameter>hides</parameter> relationships (except between lifelines)</para>
+                                <para><parameter>hides</parameter> relationships (except messages between lifelines)</para>
                             </entry>
                         </row>
                         <row>
@@ -1378,10 +1352,8 @@
                                 Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry>
-                                <para>This diagram hides any feature</para>
-                                <para>This diagram hides relationships except the messages of the shown scenario</para>
                                 <para><parameter>hides</parameter> features (except lifelines)</para>
-                                <para><parameter>hides</parameter> relationships (except between lifelines)</para>
+                                <para><parameter>hides</parameter> relationships (except messages between lifelines)</para>
                             </entry>
                         </row>
                     </tbody>
