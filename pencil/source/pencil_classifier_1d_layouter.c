@@ -22,7 +22,7 @@ void pencil_classifier_1d_layouter_init( pencil_classifier_1d_layouter_t *this_,
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     pencil_classifier_composer_init( &((*this_).classifier_composer) );
-    data_rules_init( &((*this_).rules) );
+    data_guidelines_init( &((*this_).guidelines) );
 
     /* get draw area */
     {
@@ -38,7 +38,7 @@ void pencil_classifier_1d_layouter_destroy( pencil_classifier_1d_layouter_t *thi
 {
     U8_TRACE_BEGIN();
 
-    data_rules_destroy( &((*this_).rules) );
+    data_guidelines_destroy( &((*this_).guidelines) );
     pencil_classifier_composer_destroy( &((*this_).classifier_composer) );
 
     U8_TRACE_END();
@@ -175,10 +175,10 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             int insert_err = 0;
             const double weight = (const double) data_classifier_get_list_order( classifier1 );
             const bool c1_type_is_scenario
-                = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
-                                                                DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
-                                                                c1_type
-                                                              );
+                = data_guidelines_classifier_has_scenario_semantics( &((*this_).guidelines),
+                                                                     DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                                                     c1_type
+                                                                   );
             if ( c1_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )
             {
                 insert_err = universal_array_index_sorter_insert( &sorted_diag_refs, plain_idx, weight );
@@ -313,10 +313,10 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
             int insert_err = 0;
             const double weight = (const double) data_classifier_get_list_order( classifier1 );
             const bool c1_type_is_scenario
-                = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
-                                                                DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                                                c1_type
-                                                              );
+                = data_guidelines_classifier_has_scenario_semantics( &((*this_).guidelines),
+                                                                     DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                                                     c1_type
+                                                                   );
             if ( ! c1_type_is_scenario )
             {
                 insert_err = universal_array_index_sorter_insert( &sorted_notes_reqs, plain_idx, weight );

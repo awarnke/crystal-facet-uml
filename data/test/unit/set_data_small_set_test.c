@@ -197,6 +197,13 @@ static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
     empty = data_small_set_is_empty ( &my_set );
     TEST_EXPECT_EQUAL_INT( true, empty );
 
+    /* test re-init on filled set */
+    d_err = data_small_set_add_obj ( &my_set, row_id );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
+    data_small_set_reinit ( &my_set );
+    empty = data_small_set_is_empty ( &my_set );
+    TEST_EXPECT_EQUAL_INT( true, empty );
+
     /* clean up */
 
     data_small_set_destroy ( &my_set );

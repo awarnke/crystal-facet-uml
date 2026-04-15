@@ -19,7 +19,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
     pencil_size_init_empty( &((*this_).pencil_size) );
     geometry_grid_init( &((*this_).grid), GEOMETRY_GRID_KIND_0 );
     geometry_dimensions_init_empty( &((*this_).default_classifier_size) );
-    data_rules_init( &((*this_).rules) );
+    data_guidelines_init( &((*this_).guidelines) );
 
     /* initialize the layout data objects */
     layout_visible_set_init( &((*this_).layout_data), input_data );
@@ -97,7 +97,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     pencil_size_destroy( &((*this_).pencil_size) );
     geometry_grid_destroy( &((*this_).grid) );
     geometry_dimensions_destroy( &((*this_).default_classifier_size) );
-    data_rules_destroy( &((*this_).rules) );
+    data_guidelines_destroy( &((*this_).guidelines) );
 
     layout_visible_set_destroy( &((*this_).layout_data) );
 
@@ -372,10 +372,10 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
 
     /* get the classifier type */
     const bool scenario_semantics
-        = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
-                                                        diag_type,
-                                                        c_type
-                                                      );
+        = data_guidelines_classifier_has_scenario_semantics( &((*this_).guidelines),
+                                                             diag_type,
+                                                             c_type
+                                                           );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {

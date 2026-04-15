@@ -127,7 +127,7 @@ const char * data_diagram_type_get_name( data_diagram_type_t this_ )
 const char * data_diagram_type_get_element_kind( data_diagram_type_t this_ )
 {
     const char * result
-    = ( this_ == DATA_DIAGRAM_TYPE_VOID ) ? "" : DATA_DIAGRAM_TYPE_ELEMENT_KIND_ARRAY[ this_ % DATA_DIAGRAM_TYPE_HASH_MOD ];
+        = ( this_ == DATA_DIAGRAM_TYPE_VOID ) ? "" : DATA_DIAGRAM_TYPE_ELEMENT_KIND_ARRAY[ this_ % DATA_DIAGRAM_TYPE_HASH_MOD ];
     assert( result != NULL );
     return ( result == NULL ) ? "" : result;
 }

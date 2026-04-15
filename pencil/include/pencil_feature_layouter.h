@@ -19,7 +19,7 @@
 #include "set/data_visible_set.h"
 #include "set/data_small_set.h"
 #include "entity/data_id.h"
-#include "data_rules.h"
+#include "data_guidelines.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -35,7 +35,7 @@ struct pencil_feature_layouter_struct {
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
     const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
                                        /*!< defining pen sizes, gap sizes, font sizes and colors */
-    data_rules_t rules;  /*!< own instance of modelling rules */
+    data_guidelines_t guidelines;  /*!< own instance of modelling guidelines */
     bool label_dimensions_initialized;  /*!< true if the widths and heights of labels in layout_data are already initialized */
 
     pencil_feature_painter_t feature_painter;  /*!< own instance of a painter object to ask for display dimensions */

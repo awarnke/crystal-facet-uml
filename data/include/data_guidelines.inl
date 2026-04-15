@@ -1,21 +1,21 @@
-/* File: data_rules.inl; Copyright and License: see below */
+/* File: data_guidelines.inl; Copyright and License: see below */
 
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <assert.h>
 
-static inline void data_rules_init ( data_rules_t *this_ )
+static inline void data_guidelines_init ( data_guidelines_t *this_ )
 {
     (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
-static inline void data_rules_destroy ( data_rules_t *this_ )
+static inline void data_guidelines_destroy ( data_guidelines_t *this_ )
 {
 }
 
 /* ================================ DIAGRAM ================================ */
 
-static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+static inline bool data_guidelines_diagram_is_scenario ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
 {
     bool result;
     result = (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
@@ -29,14 +29,14 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
 
 /* ================================ FEATURE ================================ */
 
-static inline bool data_rules_feature_is_scenario_cond ( const data_rules_t *this_, data_feature_type_t feature_type )
+static inline bool data_guidelines_feature_is_scenario_cond ( const data_guidelines_t *this_, data_feature_type_t feature_type )
 {
     bool result;
     result = ( feature_type == DATA_FEATURE_TYPE_LIFELINE );
     return result;
 }
 
-static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+static inline bool data_guidelines_diagram_shows_uncond_features ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
 {
     bool hide;
     hide = (( diagram_type == DATA_DIAGRAM_TYPE_LIST )
@@ -48,7 +48,7 @@ static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t
     return ( ! hide );
 }
 
-static inline bool data_rules_diagram_shows_scenario_features ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+static inline bool data_guidelines_diagram_shows_scenario_features ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
 {
     bool show;
     show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
@@ -58,7 +58,7 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
     return show;
 }
 
-static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *this_,
+static inline bool data_guidelines_vis_classifier_has_feature ( const data_guidelines_t *this_,
                                                            const data_visible_classifier_t *vis_classifier,
                                                            const data_feature_t *feature )
 {
@@ -70,14 +70,38 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
     assert( clasfy != NULL );
     assert( diagele != NULL );
     const bool belongs = ( data_feature_get_classifier_row_id( feature ) == data_classifier_get_row_id( clasfy ) );
-    const bool scenario = data_rules_feature_is_scenario_cond( this_, data_feature_get_main_type( feature ) );
+    const bool scenario = data_guidelines_feature_is_scenario_cond( this_, data_feature_get_main_type( feature ) );
     const bool focused = ( data_diagramelement_get_focused_feature_row_id( diagele ) == data_feature_get_row_id( feature ) );
     return valid && belongs && ( ( ! scenario ) || ( scenario && focused ) );
 }
 
+static inline bool data_guidelines_classifier_has_scenario_semantics ( const data_guidelines_t *this_,
+                                                                  data_diagram_type_t diagram_type,
+                                                                  data_classifier_type_t classifier_type )
+{
+    const bool lifeline_has_no_semantics
+        = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
+        || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+        && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )));
+    return ( ! lifeline_has_no_semantics);
+}
+
+static inline bool data_guidelines_feature_value_is_stereotype ( const data_guidelines_t *this_, data_feature_type_t feature_type )
+{
+    bool has_value;
+    has_value = (( feature_type == DATA_FEATURE_TYPE_PROPERTY )
+           || ( feature_type == DATA_FEATURE_TYPE_OPERATION )
+           || ( feature_type == DATA_FEATURE_TYPE_TAGGED_VALUE ));
+    return ( ! has_value );
+}
+
 /* ================================ RELATIONSHIP ================================ */
 
-static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_,
+static inline bool data_guidelines_relationship_is_scenario_cond ( const data_guidelines_t *this_,
                                                               data_feature_type_t from_feature_type,
                                                               data_feature_type_t to_feature_type
                                                             )
@@ -88,7 +112,7 @@ static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t
     return result;
 }
 
-static inline bool data_rules_diagram_shows_uncond_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+static inline bool data_guidelines_diagram_shows_uncond_relationships ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
 {
     bool hide;
     hide = (( diagram_type == DATA_DIAGRAM_TYPE_LIST )
@@ -100,7 +124,7 @@ static inline bool data_rules_diagram_shows_uncond_relationships ( const data_ru
     return ( ! hide );
 }
 
-static inline bool data_rules_diagram_shows_scenario_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+static inline bool data_guidelines_diagram_shows_scenario_relationships ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
 {
     bool show;
     show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )

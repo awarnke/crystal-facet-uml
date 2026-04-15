@@ -34,7 +34,7 @@
 #include "set/data_visible_set.h"
 #include "entity/data_diagram.h"
 #include "entity/data_id.h"
-#include "data_rules.h"
+#include "data_guidelines.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -49,7 +49,7 @@ struct pencil_layouter_struct {
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_grid_t grid;  /*!< own instance of a pair of scale objects to calculate positions from order numbers */
     geometry_dimensions_t default_classifier_size;  /*!< own instance of a classifier default size */
-    data_rules_t rules;  /*!< own instance of modelling rules */
+    data_guidelines_t guidelines;  /*!< own instance of modelling guidelines */
 
     pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
 

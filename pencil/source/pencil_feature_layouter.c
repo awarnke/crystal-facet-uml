@@ -21,7 +21,7 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
     (*this_).layout_data = layout_data;
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
-    data_rules_init( &((*this_).rules) );
+    data_guidelines_init( &((*this_).guidelines) );
     (*this_).label_dimensions_initialized = false;
     pencil_feature_painter_init( &((*this_).feature_painter) );
 
@@ -41,7 +41,7 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    data_rules_destroy( &((*this_).rules) );
+    data_guidelines_destroy( &((*this_).guidelines) );
     (*this_).label_dimensions_initialized = false;
     pencil_feature_painter_destroy( &((*this_).feature_painter) );
 
@@ -282,10 +282,10 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     const double feature_width = obj_dist;
 
     const bool lifeline_has_semantics
-        = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
-                                                        diagram_type,
-                                                        classifier_type
-                                                      );
+        = data_guidelines_classifier_has_scenario_semantics( &((*this_).guidelines),
+                                                             diagram_type,
+                                                             classifier_type
+                                                           );
 
     if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type ) && lifeline_has_semantics )
     {

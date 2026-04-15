@@ -17,7 +17,6 @@
 #include "geometry/geometry_v_align.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
-#include "data_rules.h"
 #include "set/data_visible_classifier.h"
 #include "utf8stream/utf8stream_writemem.h"
 #include <cairo.h>

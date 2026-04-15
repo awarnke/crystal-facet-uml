@@ -25,7 +25,7 @@
 #include "json/json_type_name_map.h"
 #include "entity/data_diagram.h"
 #include "entity/data_classifier.h"
-#include "data_rules.h"
+#include "data_guidelines.h"
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
@@ -46,7 +46,7 @@ struct document_element_writer_struct {
                                   /*!< increases with every call to document_element_writer_start_diagram() */
 
     json_type_name_map_t type_map;  /*!< own instance of a mapping from type ids to type names */
-    data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
+    data_guidelines_t data_guidelines;  /*!< own instance of uml and sysml consistency guidelines */
     document_link_provider_t link_provider;  /*!< own instance of a document_link_provider_t */
     io_txt_icon_t txt_icon;  /*!< own instance of a io_txt_icon provider for relationship types */
 

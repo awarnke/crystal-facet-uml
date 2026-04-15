@@ -376,7 +376,7 @@ void document_element_writer_init ( document_element_writer_t *this_,
     (*this_).current_tree_depth = 0;
 
     json_type_name_map_init( &((*this_).type_map) );
-    data_rules_init( &((*this_).data_rules) );
+    data_guidelines_init( &((*this_).data_guidelines) );
     io_txt_icon_init( &((*this_).txt_icon) );
 
     io_txt_writer_init( &((*this_).txt_writer), output );
@@ -470,7 +470,7 @@ void document_element_writer_destroy( document_element_writer_t *this_ )
     io_txt_writer_destroy( &((*this_).txt_writer) );
 
     io_txt_icon_destroy( &((*this_).txt_icon) );
-    data_rules_destroy( &((*this_).data_rules) );
+    data_guidelines_destroy( &((*this_).data_guidelines) );
     json_type_name_map_destroy( &((*this_).type_map) );
 
     (*this_).export_stat = NULL;
@@ -1058,7 +1058,7 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const char *const feature_type_name
         = json_type_name_map_get_feature_type( &((*this_).type_map), feature_type );
-    const bool has_stereotype = data_rules_feature_value_is_stereotype( &((*this_).data_rules), feature_type );
+    const bool has_stereotype = data_guidelines_feature_value_is_stereotype( &((*this_).data_guidelines), feature_type );
 
     switch ( (*this_).export_type )
     {

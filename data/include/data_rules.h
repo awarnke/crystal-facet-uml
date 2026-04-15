@@ -10,20 +10,16 @@
  *
  *  There are several levels of constraints:
  *  - On the deepest level, the database structure itself, there exist must-have rules, checked by the data_database_consistency_checker.
+ *    These rules ensure the consistency of the entities and relationships in the database.
  *    For example a relationship must have a valid classifier at each end.
- *  - On the next level, there are must-have rules about which model element is existant in which diagram (implemented here in data_rules).
+ *  - On the next level, there are must-have rules about which model element is existant in which diagram
+ *    (defined here in data_rules any implemented by ctrl_classifier_trigger and ctrl_diagram_trigger).
+ *    These rules ensure that all model elements are visible in at least one diagram.
  *    For example a relationship exists in a diagram only if source and destination classifiers are contained in the diagram.
- *  - On the third level, there are nice-to-have guidelines about what could be hidden but which is possibly not consistent
- *    between versions of crystal_facet_uml, between usage and export/import functions (implemented here in data_rules).
- *    For example a list-diagram-type may hide relationships, an actor-classifier may hide ports.
- *  - Another level is implemented in the pencil package, which decides if to hide elements,
- *    like containment relationships if the containment is visible by inclusion already.
- *  .
- *
- *  Which method implements a guideline and which implements a rule is annotated in the corresponding doxygen comment.
- *  A rule-of-thumb is:
- *  - If a condition makes no sense, a rule states that it must not be.
- *  - If a condition is currently not wanted but could be changed in the future, a guideline proposes to avoid it.
+ *    For example a list-diagram-type hides relationships and features.
+ *  - On the third level, there are nice-to-have guidelines implemented in the pencil package, which decides how to show elements,
+ *    like containment relationships if the containment is visible by inclusion already
+ *    or like hiding lifelines if the classifier is a comment or ineraction-use.
  *  .
  */
 
@@ -63,7 +59,7 @@ static inline void data_rules_destroy ( data_rules_t *this_ );
 /*!
  *  \brief determines if the feature shall be visible in the diagram of the data_visible_set_t
  *
- *  This method implements a combination of guidelines and rules.
+ *  This method implements a rule.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_set the data_visible_set_t containing the cached diagram data for pencil
@@ -79,7 +75,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_,
 /*!
  *  \brief determines if the relationship shall be visible in the diagram of the data_visible_set_t
  *
- *  This method implements a combination of guidelines and rules.
+ *  This method implements a rule.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_set the data_visible_set_t containing the cached diagram data for pencil
@@ -100,6 +96,7 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_,
  *
  *  This method implements a definition of "scenario"
  *  which corresponds to a uml interaction.
+ *  This classification is the basis for a rule on visibility.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
@@ -116,6 +113,7 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
  *  \brief determines if the feature type is scenario-conditional (applicable only to the 4 interaction diagram types)
  *
  *  This method implements a definition of "scenario".
+ *  This classification is the basis for a rule on visibility.
  *
  *  \param this_ pointer to own object attributes
  *  \param feature_type the feature type
@@ -126,7 +124,7 @@ static inline bool data_rules_feature_is_scenario_cond ( const data_rules_t *thi
 /*!
  *  \brief determines if the unconditional features shall be visible in the given diagram
  *
- *  This method implements a guideline.
+ *  This method implements a rule.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
@@ -150,7 +148,7 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
  *
  *  This method does not take into account if the diagram shows this kind of feature.
  *
- *  This method implements a combination of guidelines and rules.
+ *  This method implements a rule.
  *
  *  \param this_ pointer to own object attributes
  *  \param vis_classifier the visible classifier
@@ -164,48 +162,13 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
                                                            const data_feature_t *feature
                                                          );
 
-/*!
- *  \brief determines if lifelines have semantics
- *
- *  In a scenario-typed diagram, every visible classifier has a lifeline.
- *  This is necessary because the classifier type can be changed (which shall not invalidate relationships).
- *  But a lifeline does not make sense for comments, requirements and (in sequences) also diagram-references.
- *
- *  This method implements a guideline.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_type the diagram type
- *  \param classifier_type the classifier type
- *  \return true if the classifier type is DATA_CLASSIFIER_TYPE_REQUIREMENT
- *          or DATA_CLASSIFIER_TYPE_COMMENT
- *          or DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE
- *          or ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
- *          and ( DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_INTERACTION_USE )).
- */
-static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_,
-                                                                  data_diagram_type_t diagram_type,
-                                                                  data_classifier_type_t classifier_type
-                                                                );
-
-/*!
- *  \brief determines if the feature value is a stereotype
- *
- *  Properties, Operations and Tagges Values do not have stereotypes, the value is the value.
- *  Other types do not have a value, the value stores the stereotype instead.
- *
- *  \param this_ pointer to own object attributes
- *  \param feature_type the feature type
- *  \return true if the feature type is not DATA_FEATURE_TYPE_PROPERTY, DATA_FEATURE_TYPE_OPERATION,
- *          DATA_FEATURE_TYPE_TAGGED_VALUE.
- */
-static inline bool data_rules_feature_value_is_stereotype ( const data_rules_t *this_, data_feature_type_t feature_type );
-
 /* ================================ RELATIONSHIP ================================ */
 
 /*!
  *  \brief determines if the relationship type is scenario-conditional
  *
  *  This method implements a definition of "scenario".
+ *  This classification is the basis for a rule on visibility.
  *
  *  \param this_ pointer to own object attributes
  *  \param from_feature_type the feature type of the source end, DATA_FEATURE_TYPE_VOID if source is not a feature
@@ -220,7 +183,7 @@ static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t
 /*!
  *  \brief determines if the unconditional relationships shall be visible in the given diagram
  *
- *  This method implements a guideline.
+ *  This method implements a rule.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type

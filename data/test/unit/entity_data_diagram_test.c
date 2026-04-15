@@ -218,6 +218,7 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     const data_diagram_type_t m_type_1 = data_diagram_get_diagram_type( &testee );
     TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, m_type_1 );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_type_is_interaction( m_type_1 ) );
+    TEST_EXPECT_EQUAL_STRING( "sd", data_diagram_type_get_element_kind( m_type_1 ) );
 
     /* sub test case 4 */
     TEST_EXPECT_EQUAL_INT( false, data_diagram_has_stereotype( &testee ) );

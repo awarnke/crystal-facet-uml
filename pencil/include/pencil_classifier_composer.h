@@ -28,7 +28,6 @@
 #include "set/data_profile_part.h"
 #include "set/data_visible_set.h"
 #include "entity/data_id.h"
-#include "data_rules.h"
 #include <cairo.h>
 #include <stdint.h>
 
