@@ -25,7 +25,6 @@ void io_import_elements_init( io_import_elements_t *this_,
     (*this_).stat = io_stat;
     (*this_).english_report = out_english_report;
 
-    (*this_).mode = IO_IMPORT_MODE_CHECK;
     (*this_).step = IO_IMPORT_STEP_CHECK;
     (*this_).paste_to_diagram = DATA_ROW_VOID;
 
@@ -75,7 +74,6 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
     U8_TRACE_BEGIN();
 
     io_import_elements_init( this_, db_reader, controller, io_stat, out_english_report );
-    (*this_).mode = IO_IMPORT_MODE_PASTE;
     (*this_).step = IO_IMPORT_STEP_CREATE_D_C_F_R;
 
     /* check if diagram id exists */
@@ -135,7 +133,6 @@ void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t 
     assert( ( step == IO_IMPORT_STEP_CREATE_D_C_F_R ) || ( mode != IO_IMPORT_MODE_PASTE ) );
     assert( ( step == IO_IMPORT_STEP_CREATE_D_C_L ) || ( step == IO_IMPORT_STEP_ADD_E_DP_F_R ) || ( mode != IO_IMPORT_MODE_IMPORT ) );
 
-    (*this_).mode = mode;
     (*this_).step = step;
 
     U8_TRACE_END();
@@ -178,7 +175,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     }
 
     /* update default parent diagram id */
-    if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )&&( sync_error == U8_ERROR_NONE ))
+    if (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )&&( sync_error == U8_ERROR_NONE ))
     {
         if ( (*this_).paste_to_diagram == DATA_ROW_VOID )
         {
@@ -193,7 +190,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     }
 
     /* if PASTE */
-    if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )&&( sync_error == U8_ERROR_NONE ))
+    if (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )&&( sync_error == U8_ERROR_NONE ))
     {
         data_diagram_copy( &((*this_).temp_diagram), diagram_ptr );
         data_diagram_set_parent_row_id( &((*this_).temp_diagram), parent_row_id );
@@ -234,8 +231,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     }
 
     /* if CREATE/LINK */
-    if (( (*this_).mode == IO_IMPORT_MODE_IMPORT )
-        &&(( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_L )||( (*this_).step == IO_IMPORT_STEP_ADD_E_DP_F_R ))
+    if ((( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_L )||( (*this_).step == IO_IMPORT_STEP_ADD_E_DP_F_R ))
         &&( sync_error == U8_ERROR_NONE ))
     {
         /* check if the parsed diagram already exists in this database; if not, create it */
@@ -492,7 +488,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
         data_diagramelement_destroy( &((*this_).temp_diagramelement ) );
     }
 
-    if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
+    if ( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )
     {
         /* in paste mode, ignore diagramelements */
         data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
@@ -508,7 +504,7 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
     assert( DATA_ROW_VOID != classifier_id );
     u8_error_t sync_error = U8_ERROR_NONE;
 
-    if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
+    if ( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )
     {
         /* link the classifier to the current diagram */
         data_diagramelement_init_new( &((*this_).temp_diagramelement ),
@@ -552,7 +548,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
     const bool do_sync = (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )||( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_L ));
     /* const bool do_check = ( (*this_).step == IO_IMPORT_STEP_CHECK ); */
 
-    if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
+    if ( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )
     {
         if ( (*this_).paste_to_diagram == DATA_ROW_VOID )
         {
@@ -620,7 +616,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
             }
         }
 
-        if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error == U8_ERROR_NONE ))
+        if (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )&&( sync_error == U8_ERROR_NONE ))
         {
             /* in paste mode, create a diagramelement in the current diagram */
             /* after IO_IMPORT_STEP_CREATE_D_C_F_R there comes no other step to perform this. */
@@ -645,7 +641,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     u8_error_t sync_error = U8_ERROR_NONE;
     const bool is_lifeline
         = data_rules_feature_is_scenario_cond( &((*this_).data_rules), data_feature_get_main_type( feature_ptr ) );
-    const bool do_sync = (( (*this_).mode == IO_IMPORT_MODE_PASTE )
+    const bool do_sync = (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )
         ||( is_lifeline ? ( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_L ) : ( (*this_).step == IO_IMPORT_STEP_ADD_E_DP_F_R ) ));
     const bool do_check = ( (*this_).step == IO_IMPORT_STEP_CHECK );
 
@@ -710,7 +706,16 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
         else
         {
             /* filter lifelines */
-            if (( (*this_).mode == IO_IMPORT_MODE_IMPORT )||( ! is_lifeline ))
+            if (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )&&( is_lifeline ))
+            {
+                /* lifeline in paste mode */
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_STAT_TABLE_LIFELINE, /* is_lifeline is true */
+                                     DATA_STAT_SERIES_IGNORED
+                                   );
+                U8_TRACE_INFO( "lifeline dropped at json import." );
+            }
+            else
             {
                 /* create feature */
                 data_feature_copy( &((*this_).temp_feature ), feature_ptr );
@@ -745,15 +750,6 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                 }
 
                 data_feature_destroy( &((*this_).temp_feature ) );
-            }
-            else  /* lifeline in paste mode */
-            {
-                assert( is_lifeline );
-                data_stat_inc_count( (*this_).stat,
-                                     DATA_STAT_TABLE_LIFELINE, /* is_lifeline is true */
-                                     DATA_STAT_SERIES_IGNORED
-                                   );
-                U8_TRACE_INFO( "lifeline dropped at json import." );
             }
         }
     }

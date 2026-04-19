@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.0"
+    "generator_version": "1.70.1"
   }
   ,
   "views":
@@ -4192,7 +4192,9 @@
         "type": "Initial Node", "main_type": 151,
         "name": "health::factory",
         "description": [
-                ""
+                "The health state when leaving the factory.\n",
+                "A sound manufacturing where each step is tested for faults ensures a healthy ",
+                "state."
         ],
         "x_order": -1408053593,
         "y_order": -1547710079,
@@ -4209,7 +4211,7 @@
         "type": "Final Node", "main_type": 152,
         "name": "health::disposal",
         "description": [
-                ""
+                "The MoD5G is disassembled."
         ],
         "x_order": 557710743,
         "y_order": -316525372,
@@ -4226,7 +4228,8 @@
         "type": "State", "main_type": 111,
         "name": "health::healthy",
         "description": [
-                ""
+                "The MoD5G is healthy,\n",
+                "the own HW parts work as expected."
         ],
         "x_order": 388228871,
         "y_order": -1547710079,
@@ -4243,7 +4246,10 @@
         "type": "State", "main_type": 111,
         "name": "health::slightly_damaged",
         "description": [
-                ""
+                "The MoD5G is not fully healthy anymore,\n",
+                "some of the own HW parts may not work as expected.\n",
+                "These impediments are minor, the functionality of the MoD5G is not severely ",
+                "impacted."
         ],
         "x_order": 557710743,
         "y_order": -1547710079,
@@ -4260,8 +4266,10 @@
         "type": "State", "main_type": 111,
         "name": "health::limp_home",
         "description": [
-                "In case the full operation is not possible anymore, the MoD5G shall drive back ",
-                "to the home charging station."
+                "The MoD5G is not fully healthy anymore,\n",
+                "some of the own HW parts may not work as expected.\n",
+                "In this case where the full operation is not possible anymore, the MoD5G shall ",
+                "drive back to the home charging station."
         ],
         "x_order": 452796978,
         "y_order": -1494769192,
@@ -4278,7 +4286,8 @@
         "type": "State", "main_type": 111,
         "name": "health::damaged",
         "description": [
-                ""
+                "The MoD5G is not healthy anymore,\n",
+                "relevant own HW parts do not work as expected."
         ],
         "x_order": 388228871,
         "y_order": -1317410890,
@@ -4295,7 +4304,7 @@
         "type": "State", "main_type": 111,
         "name": "health::operation",
         "description": [
-                ""
+                "The MoD5G is being operated, the health state is monitored."
         ],
         "x_order": 452796978,
         "y_order": -1544459240,
@@ -4308,7 +4317,7 @@
             "type": "Exit", "main_type": 9,
             "key": "no_op",
             "description": [
-                ""
+                "The MoD5Gis taken out of service."
             ],
             "list_order": 1116559325,
             "uuid": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d"
@@ -4318,7 +4327,9 @@
             "type": "Entry", "main_type": 8,
             "key": "op_start",
             "description": [
-                ""
+                "When finishing the manufacturing process, a final test demonstrates full ",
+                "functionality.\n",
+                "After that, the MoD5G is ready to be operated."
             ],
             "list_order": 44134258,
             "uuid": "56d84592-786a-4c2a-827a-cabe45a074a5"

@@ -39,7 +39,6 @@ struct io_import_elements_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
-    io_import_mode_t mode;  /*!< the import mode */
     io_import_step_t step;  /*!< the import step */
     data_row_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
     data_row_t root_diagram;  /*!< the root diagram */
