@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines constraints, invariants and recommendations for uml/sysml models
+ *  \brief Defines recommendations for usage of data-attributes in uml/sysml models
  *
  *  There are several levels of constraints:
  *  - On the deepest level, the database structure itself, there exist must-have rules, checked by the data_database_consistency_checker.
@@ -79,9 +79,9 @@ static inline void data_guidelines_destroy ( data_guidelines_t *this_ );
  *          and ( DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_INTERACTION_USE )).
  */
 static inline bool data_guidelines_classifier_has_scenario_semantics ( const data_guidelines_t *this_,
-                                                                  data_diagram_type_t diagram_type,
-                                                                  data_classifier_type_t classifier_type
-                                                                );
+                                                                       data_diagram_type_t diagram_type,
+                                                                       data_classifier_type_t classifier_type
+                                                                     );
 
 /*!
  *  \brief determines if the feature value is a stereotype

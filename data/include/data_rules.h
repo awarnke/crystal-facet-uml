@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines constraints, invariants and recommendations for uml/sysml models
+ *  \brief Defines constraints and invariants for visibility of uml/sysml models
  *
  *  There are several levels of constraints:
  *  - On the deepest level, the database structure itself, there exist must-have rules, checked by the data_database_consistency_checker.

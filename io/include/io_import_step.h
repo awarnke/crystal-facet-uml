@@ -14,10 +14,16 @@
  */
 enum io_import_step_enum {
     IO_IMPORT_STEP_CHECK = 0,  /*!< just evaluate the input stream for errors */
-    IO_IMPORT_STEP_CREATE = 1,  /*!< after this first pass, all diagrams and classifiers shall exist, also lifelines */
-    IO_IMPORT_STEP_LINK_VIEWS = 2,  /*!< after this second pass, all diagramelements and diagram_parents shall be linked */
-    IO_IMPORT_STEP_ADD_FEATURES = 3,  /*!< after this pass, all features shall exist */
-    IO_IMPORT_STEP_RELATE_NODES = 4,  /*!< after this pass, all relationships shall exist */
+    IO_IMPORT_STEP_CREATE_D_C_F_R = 1,  /*!< after this first pass, all elements are imported, */
+                                        /*!< ignored are diagram-parents, diagramelements, lifelines */
+    IO_IMPORT_STEP_CREATE_D_C_L = 2,  /*!< after this first pass, all diagrams and classifiers shall exist, */
+                                      /*!<  also lifelines but no other features (which are invalid without diagramelement) */
+    IO_IMPORT_STEP_ADD_E_DP_F_R = 3,  /*!< after this second pass, all diagramelements and diagram_parents shall be linked, */
+                                      /*!< features (non-lifelines) and relationships be created */
+    /* the following order would be more logical but needs too many passes which takes time */
+    /* IO_IMPORT_STEP_LINK_VIEWS = 2,*/  /*!< after this second pass, all diagramelements and diagram_parents shall be linked */
+    /* IO_IMPORT_STEP_ADD_FEATURES = 3,*/  /*!< after this pass, all features shall exist */
+    /* IO_IMPORT_STEP_RELATE_NODES = 4,*/  /*!< after this pass, all relationships shall exist */
 };
 
 typedef enum io_import_step_enum io_import_step_t;

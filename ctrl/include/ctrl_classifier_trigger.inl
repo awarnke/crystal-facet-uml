@@ -58,6 +58,7 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_relationship( ctrl_
 {
     u8_error_t result_err = U8_ERROR_NONE;
 
+    /* delete immediately if not visible */
     const data_row_t classifier_id = data_relationship_get_from_classifier_row_id( create_relationship );
     result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship, classifier_id );
 
