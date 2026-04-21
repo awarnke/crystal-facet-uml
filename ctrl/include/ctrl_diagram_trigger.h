@@ -70,10 +70,12 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type ( ctrl_di
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement.
+ *  \param[out] out_lifeline_created true if a lifeline was created.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement ( ctrl_diagram_trigger_t *this_,
-                                                                           const data_diagramelement_t *new_diagramelement
+                                                                           const data_diagramelement_t *new_diagramelement,
+                                                                           bool *out_lifeline_created
                                                                          );
 
 /*!

@@ -115,10 +115,12 @@ u8_error_t consistency_lifeline_create_lifelines ( consistency_lifeline_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement.
+ *  \param[out] out_lifeline_created true if a lifeline was created.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_lifeline_create_a_lifeline ( consistency_lifeline_t *this_,
-                                                    const data_diagramelement_t *new_diagramelement
+                                                    const data_diagramelement_t *new_diagramelement,
+                                                    bool *out_lifeline_created
                                                   );
 
 /*!

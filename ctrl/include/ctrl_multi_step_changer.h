@@ -105,11 +105,13 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
  *  \param[in,out] new_diagramelement data of the new diagramelement to be created; the id is taken as proposal.
  *                                    The id may be changed when returning from this function.
  *  \param[out] out_info U8_ERROR_DUPLICATE_ID if an alternative id was created, U8_ERROR_NONE in case of success.
+ *  \param[out] out_lifeline_created true if not only a diagramelement but also a lifeline was created.
  *  \return error id in case of an unhandled error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_changer_t *this_,
                                                            data_diagramelement_t *new_diagramelement,
-                                                           u8_error_t* out_info
+                                                           u8_error_t* out_info,
+                                                           bool* out_lifeline_created
                                                          );
 
 

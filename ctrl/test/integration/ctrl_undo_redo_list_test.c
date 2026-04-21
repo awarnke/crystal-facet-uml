@@ -121,12 +121,15 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
                                          "98e479f0-9112-483e-b64f-251d55a50c13"
                                        );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+    bool lifeline_created;
     ctrl_err = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
                                                               &new_diagele,
                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
-                                                              &diagele_id
+                                                              &diagele_id,
+                                                              &lifeline_created
                                                             );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( false, lifeline_created );
     data_diagramelement_destroy ( &new_diagele );
     TEST_EXPECT( DATA_ROW_VOID != diagele_id );
 
@@ -863,12 +866,15 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
                                    DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
                                    2044
                                  );
+    bool lifeline_created;
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
                                                                &new_diagele,
                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
-                                                               &diagele_id
+                                                               &diagele_id,
+                                                               &lifeline_created
                                                              );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( false, lifeline_created );
     data_diagramelement_destroy ( &new_diagele );
     TEST_EXPECT( DATA_ROW_VOID != diagele_id );
 

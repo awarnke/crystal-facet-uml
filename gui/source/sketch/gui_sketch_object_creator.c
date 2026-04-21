@@ -118,11 +118,14 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
                                        DATA_ROW_VOID
                                      );
 
+        bool lifeline_created;
         c_result = ctrl_diagram_controller_create_diagramelement ( diagram_control,
                                                                    &new_diagele,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
-                                                                   out_diagramelement_id
+                                                                   out_diagramelement_id,
+                                                                   &lifeline_created
                                                                  );
+        (void) lifeline_created;  /* currently unused */
 
         /* cleanup */
         data_diagramelement_destroy ( &new_diagele );

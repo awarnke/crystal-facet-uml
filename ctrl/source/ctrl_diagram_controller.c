@@ -412,10 +412,12 @@ u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_cont
 u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controller_t *this_,
                                                           const data_diagramelement_t *new_diagramelement,
                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                          data_row_t* out_new_id )
+                                                          data_row_t* out_new_id,
+                                                          bool* out_lifeline_created )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_diagramelement );
+    assert( NULL != out_lifeline_created );
     data_diagramelement_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
@@ -445,7 +447,10 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policies */
-        result |= ctrl_diagram_trigger_post_create_diagramelement( (*this_).policy_enforcer, &to_be_created );
+        result |= ctrl_diagram_trigger_post_create_diagramelement( (*this_).policy_enforcer,
+                                                                   &to_be_created,
+                                                                   out_lifeline_created
+                                                                 );
 
         /* copy new id to out parameter */
         if ( NULL != out_new_id )
@@ -456,6 +461,7 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
     else
     {
         result = data_result;
+        *out_lifeline_created = false;
     }
 
     data_diagramelement_destroy( &to_be_created );

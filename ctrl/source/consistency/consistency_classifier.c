@@ -31,10 +31,12 @@ void consistency_classifier_destroy( consistency_classifier_t *this_ )
 }
 
 u8_error_t consistency_classifier_delete_unreferenced_classifier( consistency_classifier_t *this_,
-                                                                  const data_diagramelement_t *deleted_diagramelement )
+                                                                  const data_diagramelement_t *deleted_diagramelement /*,*/
+                                                                  /* ctrl_stat_t *io_stat */ )
 {
     U8_TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
+    /* assert( NULL != io_stat ); */
     u8_error_t result = U8_ERROR_NONE;
 
     /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
@@ -49,9 +51,13 @@ u8_error_t consistency_classifier_delete_unreferenced_classifier( consistency_cl
     {
         U8_LOG_EVENT( "The classifier cannot be deleted because it is still referenced." );
     }
+    else if ( my_ctrl_result == U8_ERROR_NONE )
+    {
+        /* ctrl_stat_decrement_classifiers( io_stat ); */
+    }
     else
     {
-        /* report this unexpected error */
+        /* report whatever error */
         result |= my_ctrl_result;
     }
 

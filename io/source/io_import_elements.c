@@ -462,9 +462,11 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                                      data_diagramelement_get_uuid_const( diagramelement_ptr )
                                                    );
             u8_error_t modified_info;
+            bool lifeline_created;
             sync_error |= ctrl_multi_step_changer_create_diagramelement( &((*this_).multi_step_changer),
                                                                          &((*this_).temp_diagramelement),
-                                                                         &modified_info
+                                                                         &modified_info,
+                                                                         &lifeline_created
                                                                        );
             if ( sync_error != U8_ERROR_NONE )
             {
@@ -475,6 +477,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
             }
+            (void) lifeline_created;  /* currently unused */
 
             /* write report in case of anomalies */
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
@@ -514,9 +517,11 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
                                       DATA_ROW_VOID
                                     );
         u8_error_t modified_info;
+        bool lifeline_created;
         sync_error = ctrl_multi_step_changer_create_diagramelement( &((*this_).multi_step_changer),
                                                                     &((*this_).temp_diagramelement ),
-                                                                    &modified_info
+                                                                    &modified_info,
+                                                                    &lifeline_created
                                                                   );
         if ( sync_error != U8_ERROR_NONE )
         {

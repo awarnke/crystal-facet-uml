@@ -187,10 +187,12 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
 }
 
 u8_error_t consistency_lifeline_create_a_lifeline( consistency_lifeline_t *this_,
-                                                   const data_diagramelement_t *new_diagramelement )
+                                                   const data_diagramelement_t *new_diagramelement,
+                                                   bool *out_lifeline_created )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_diagramelement );
+    assert( NULL != out_lifeline_created );
     u8_error_t result = U8_ERROR_NONE;
 
     /* load the diagram and check the type */
@@ -210,7 +212,18 @@ u8_error_t consistency_lifeline_create_a_lifeline( consistency_lifeline_t *this_
                 .secondary_id = data_diagramelement_get_classifier_data_id( new_diagramelement )
             };
             result |= consistency_lifeline_private_create_one_lifeline ( this_, &diagramelement_ids );
+            *out_lifeline_created = ( result == U8_ERROR_NONE );
         }
+        else
+        {
+            /* no lifeline in non-scenario diagrams */
+            *out_lifeline_created = false;
+        }
+    }
+    else
+    {
+        /* error: diagram type unknown */
+        *out_lifeline_created = false;
     }
 
     U8_TRACE_END_ERR( result );

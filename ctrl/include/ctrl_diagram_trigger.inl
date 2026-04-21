@@ -38,12 +38,20 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_dia
 }
 
 static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement( ctrl_diagram_trigger_t *this_,
-                                                                          const data_diagramelement_t *new_diagramelement )
+                                                                          const data_diagramelement_t *new_diagramelement,
+                                                                          bool *out_lifeline_created )
 {
+    assert( new_diagramelement != NULL );
+    assert( out_lifeline_created != NULL );
     u8_error_t result = U8_ERROR_NONE;
     if ( DATA_ROW_VOID == data_diagramelement_get_focused_feature_row_id( new_diagramelement ) )
     {
-        result = consistency_lifeline_create_a_lifeline( (*this_).lifeline, new_diagramelement );
+        result = consistency_lifeline_create_a_lifeline( (*this_).lifeline, new_diagramelement, out_lifeline_created );
+    }
+    else
+    {
+        /* the caller stated an focused_feature_row_id already, therefore a lifeline was already linked */
+        *out_lifeline_created = false;
     }
     return result;
 }
@@ -53,7 +61,11 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_d
 {
     u8_error_t result_err = U8_ERROR_NONE;
     result_err |= consistency_lifeline_delete_a_lifeline( (*this_).lifeline, deleted_diagramelement );
-    result_err |= consistency_classifier_delete_unreferenced_classifier( (*this_).classifier, deleted_diagramelement );
+    /* ctrl_stat_t stat = CTRL_STAT_EMPTY; */
+    result_err |= consistency_classifier_delete_unreferenced_classifier( (*this_).classifier,
+                                                                         deleted_diagramelement /*,*/
+                                                                         /* &stat */
+                                                                       );
     const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
     result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id );
     result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship, classifier_id );
