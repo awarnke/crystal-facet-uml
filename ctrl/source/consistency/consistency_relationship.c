@@ -33,10 +33,12 @@ void consistency_relationship_destroy( consistency_relationship_t *this_ )
 }
 
 u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_relationship_t *this_,
-                                                                  const data_diagram_t *updated_diagram )
+                                                                  const data_diagram_t *updated_diagram,
+                                                                  int32_t * out_deleted_relationships )
 {
     U8_TRACE_BEGIN();
     assert( updated_diagram != NULL );
+    assert( out_deleted_relationships != NULL );
     u8_error_t result = U8_ERROR_NONE;
 
     const data_diagram_type_t new_diagram_type = data_diagram_get_diagram_type( updated_diagram );
@@ -49,6 +51,7 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
 
     if ( ! new_diagram_shows_rel )
     {
+        *out_deleted_relationships = 0;
         const data_row_t diagram_id = data_diagram_get_row_id( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
         data_diagramelement_iterator_init_empty( &diagramelement_iterator );
@@ -63,7 +66,9 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
                 data_diagramelement_t diagelement_buf;
                 result |= data_diagramelement_iterator_next( &diagramelement_iterator, &diagelement_buf );
                 const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( &diagelement_buf );
-                result |= consistency_relationship_delete_invisibles_at_classifier( this_, classifier_id);
+                int32_t deleted_relationships;
+                result |= consistency_relationship_delete_invisibles_at_classifier( this_, classifier_id, &deleted_relationships );
+                *out_deleted_relationships += deleted_relationships;
             }
         }
         result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
@@ -71,6 +76,7 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
     else
     {
         U8_TRACE_INFO("All unconditional relationships are visible, no need to check for invisibility.");
+        *out_deleted_relationships = 0;
     }
 
     U8_TRACE_END_ERR( result );
@@ -78,10 +84,13 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
 }
 
 u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency_relationship_t *this_,
-                                                                     data_row_t classifier_id )
+                                                                     data_row_t classifier_id,
+                                                                     int32_t * out_deleted_relationships )
 {
     U8_TRACE_BEGIN();
     assert( classifier_id != DATA_ROW_VOID );
+    assert( out_deleted_relationships != NULL );
+    *out_deleted_relationships = 0;
     u8_error_t result = U8_ERROR_NONE;
 
     data_small_set_t relations_to_delete;
@@ -131,10 +140,13 @@ u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency
     {
         const data_id_t delete_rel = data_small_set_get_id( &relations_to_delete, index2 );
         assert( data_id_get_table( &delete_rel ) == DATA_TABLE_RELATIONSHIP );
-        result |= ctrl_classifier_controller_delete_relationship( (*this_).clfy_ctrl,
-                                                                  data_id_get_row_id( &delete_rel ),
-                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                );
+        const u8_error_t del_err
+            = ctrl_classifier_controller_delete_relationship( (*this_).clfy_ctrl,
+                                                              data_id_get_row_id( &delete_rel ),
+                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                            );
+        *out_deleted_relationships += ( del_err == U8_ERROR_NONE ) ? 1 : 0;
+        result |= del_err;
     }
 
     data_small_set_destroy( &relations_to_delete );

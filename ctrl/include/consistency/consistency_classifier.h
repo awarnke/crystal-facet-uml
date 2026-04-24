@@ -16,7 +16,7 @@
 
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
-/* #include "ctrl_stat.h" */
+#include "consistency_stat.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -68,12 +68,13 @@ void consistency_classifier_destroy ( consistency_classifier_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param deleted_diagramelement data of the deleted diagramelement.
  *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
  *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_classifier_delete_unreferenced_classifier ( consistency_classifier_t *this_,
-                                                                   const data_diagramelement_t *deleted_diagramelement /*,*/
-                                                                   /* ctrl_stat_t *io_stat */
+                                                                   const data_diagramelement_t *deleted_diagramelement,
+                                                                   consistency_stat_t *io_stat
                                                                  );
 
 #endif  /* CONSISTENCY_CLASSIFIER_H */

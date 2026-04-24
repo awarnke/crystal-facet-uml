@@ -33,7 +33,12 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_dia
     result |= consistency_lifeline_delete_lifelines( (*this_).lifeline, updated_diagram );
     result |= consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram );
     result |= consistency_feature_delete_invisibles_in_diagram( (*this_).feature, updated_diagram );
-    result |= consistency_relationship_delete_invisibles_in_diagram( (*this_).relationship, updated_diagram );
+    int32_t deleted_relationships;
+    result |= consistency_relationship_delete_invisibles_in_diagram( (*this_).relationship,
+                                                                     updated_diagram,
+                                                                     &deleted_relationships
+                                                                   );
+    (void) deleted_relationships; /* TODO report statistics */
     return result;
 }
 
@@ -61,14 +66,20 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_d
 {
     u8_error_t result_err = U8_ERROR_NONE;
     result_err |= consistency_lifeline_delete_a_lifeline( (*this_).lifeline, deleted_diagramelement );
-    /* ctrl_stat_t stat = CTRL_STAT_EMPTY; */
+    consistency_stat_t stat = CONSISTENCY_STAT_EMPTY;
     result_err |= consistency_classifier_delete_unreferenced_classifier( (*this_).classifier,
-                                                                         deleted_diagramelement /*,*/
-                                                                         /* &stat */
+                                                                         deleted_diagramelement,
+                                                                         &stat
                                                                        );
+    (void) stat; /* TODO report statistics */
     const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
     result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id );
-    result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship, classifier_id );
+    int32_t deleted_relationships;
+    result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship,
+                                                                            classifier_id,
+                                                                            &deleted_relationships
+                                                                          );
+    (void) deleted_relationships; /* TODO report statistics */
     return result_err;
 }
 

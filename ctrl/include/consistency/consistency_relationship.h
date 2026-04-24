@@ -65,10 +65,12 @@ void consistency_relationship_destroy ( consistency_relationship_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram the updated diagram.
+ *  \param[out] out_deleted_relationships Statistics on deleted relationships.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_relationship_delete_invisibles_in_diagram ( consistency_relationship_t *this_,
-                                                                   const data_diagram_t *updated_diagram
+                                                                   const data_diagram_t *updated_diagram,
+                                                                   int32_t * out_deleted_relationships
                                                                  );
 
 /*!
@@ -80,10 +82,12 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram ( consistency_r
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to check, e,g, due to a deleted diagramelement.
+ *  \param[out] out_deleted_relationships Statistics on deleted relationships.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_relationship_delete_invisibles_at_classifier ( consistency_relationship_t *this_,
-                                                                      data_row_t classifier_id
+                                                                      data_row_t classifier_id,
+                                                                      int32_t * out_deleted_relationships
                                                                     );
 
 /*!
