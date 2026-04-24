@@ -47,7 +47,9 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_feature( ctrl_class
     {
         /* if a non-lifeline was created, check if it is visible */
         const data_row_t classifier_id = data_feature_get_classifier_row_id( create_feature );
-        result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id );
+        consistency_stat_t stat = CONSISTENCY_STAT_EMPTY;
+        result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id, &stat );
+        (void) stat; /* TODO report statistics, e.g. by setting the error code */
     }
 
     return result_err;

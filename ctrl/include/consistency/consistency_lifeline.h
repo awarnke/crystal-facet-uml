@@ -14,6 +14,7 @@
  *  e.g. relations link to existing objects instead of invalid ids.
  */
 
+#include "consistency_stat.h"
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
 #include "set/data_full_id.h"
@@ -76,10 +77,14 @@ void consistency_lifeline_destroy ( consistency_lifeline_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram data of the updated diagram.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_,
-                                                   const data_diagram_t *updated_diagram
+                                                   const data_diagram_t *updated_diagram,
+                                                   consistency_stat_t *io_stat
                                                  );
 
 /*!
@@ -95,10 +100,14 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram data of the updated diagram.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only create elements, therefore all statistics should be zero or positive.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_lifeline_create_lifelines ( consistency_lifeline_t *this_,
-                                                   const data_diagram_t *updated_diagram
+                                                   const data_diagram_t *updated_diagram,
+                                                   consistency_stat_t *io_stat
                                                  );
 
 /*!

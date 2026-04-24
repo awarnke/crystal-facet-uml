@@ -30,9 +30,11 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_dia
                                                                         const data_diagram_t *updated_diagram )
 {
     u8_error_t result = U8_ERROR_NONE;
-    result |= consistency_lifeline_delete_lifelines( (*this_).lifeline, updated_diagram );
-    result |= consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram );
-    result |= consistency_feature_delete_invisibles_in_diagram( (*this_).feature, updated_diagram );
+    consistency_stat_t stat = CONSISTENCY_STAT_EMPTY;
+    result |= consistency_lifeline_delete_lifelines( (*this_).lifeline, updated_diagram, &stat );
+    result |= consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram, &stat );
+    result |= consistency_feature_delete_invisibles_in_diagram( (*this_).feature, updated_diagram, &stat );
+    (void) stat; /* TODO report statistics */
     int32_t deleted_relationships;
     result |= consistency_relationship_delete_invisibles_in_diagram( (*this_).relationship,
                                                                      updated_diagram,
@@ -71,9 +73,9 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_d
                                                                          deleted_diagramelement,
                                                                          &stat
                                                                        );
-    (void) stat; /* TODO report statistics */
     const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
-    result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id );
+    result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id, &stat );
+    (void) stat; /* TODO report statistics */
     int32_t deleted_relationships;
     result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship,
                                                                             classifier_id,

@@ -14,6 +14,7 @@
  *  e.g. relations link to existing objects instead of invalid ids.
  */
 
+#include "consistency_stat.h"
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
 #include "data_rules.h"
@@ -68,10 +69,14 @@ void consistency_feature_destroy ( consistency_feature_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram the updated diagram.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_feature_delete_invisibles_in_diagram ( consistency_feature_t *this_,
-                                                              const data_diagram_t *updated_diagram
+                                                              const data_diagram_t *updated_diagram,
+                                                              consistency_stat_t *io_stat
                                                             );
 
 /*!
@@ -81,10 +86,14 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram ( consistency_featur
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id the classifier to check, e.g. due to a deleted diagramelement.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_feature_delete_invisibles_of_classifier ( consistency_feature_t *this_,
-                                                                 data_row_t classifier_id
+                                                                 data_row_t classifier_id,
+                                                                 consistency_stat_t *io_stat
                                                                );
 
 #endif  /* CONSISTENCY_FEATURE_H */

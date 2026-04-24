@@ -14,9 +14,9 @@
  *  e.g. relations link to existing objects instead of invalid ids.
  */
 
+#include "consistency_stat.h"
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
-#include "consistency_stat.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>

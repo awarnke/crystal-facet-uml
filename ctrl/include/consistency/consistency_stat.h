@@ -7,6 +7,13 @@
 /*!
  *  \file
  *  \brief Defines a set of statistics to monitor what consistency functions changed in addition to a request.
+ *
+ *  In contrast to data_stat, this struct only reports created and deleted objects,
+ *  no modified, no errors, no warnings when someting happend that may not have been anticipated by the caller.
+ *  These categories (errors and warnings) would require an understanding of what was expected.
+ *  The consistency checks cannot provide this:
+ *  for example when changing the diagram type and consistency checks also delete a feature;
+ *  it is hard to estimate if this is an error or if this action was expected by the caller.
  */
 
 #include <stdint.h>

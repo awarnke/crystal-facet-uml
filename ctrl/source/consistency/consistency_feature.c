@@ -33,10 +33,12 @@ void consistency_feature_destroy( consistency_feature_t *this_ )
 }
 
 u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature_t *this_,
-                                                             const data_diagram_t *updated_diagram )
+                                                             const data_diagram_t *updated_diagram,
+                                                             consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
     assert( updated_diagram != NULL );
+    assert( io_stat != NULL );
     u8_error_t result = U8_ERROR_NONE;
 
     const data_diagram_type_t new_diagram_type = data_diagram_get_diagram_type( updated_diagram );
@@ -62,7 +64,7 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature
             {
                 result |= data_diagramelement_iterator_next( &diagramelement_iterator, &((*this_).temp_diagramelement_buf) );
                 const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( &((*this_).temp_diagramelement_buf) );
-                result |= consistency_feature_delete_invisibles_of_classifier( this_, classifier_id );
+                result |= consistency_feature_delete_invisibles_of_classifier( this_, classifier_id, io_stat );
             }
         }
         result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
@@ -77,10 +79,12 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature
 }
 
 u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feature_t *this_,
-                                                                data_row_t classifier_id )
+                                                                data_row_t classifier_id,
+                                                                consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
     assert( classifier_id != DATA_ROW_VOID );
+    assert( io_stat != NULL );
     u8_error_t result = U8_ERROR_NONE;
 
     bool a_diagram_shows_uncond_feature = false;  /* tells if a diagram is found where unconditional features of a classifier are visible */
@@ -122,10 +126,16 @@ u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feat
                 if ( ! feature_is_scenario )
                 {
                     const data_row_t feature_id = data_feature_get_row_id( &((*this_).temp_feature_buf) );
-                    result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
-                                                                         feature_id,
-                                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                       );
+                    const u8_error_t delete_err
+                        = ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
+                                                                     feature_id,
+                                                                     CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                                   );
+                    if ( delete_err == U8_ERROR_NONE )
+                    {
+                        consistency_stat_decrement_features( io_stat );
+                    }
+                    result |= delete_err;
                 }
             }
         }

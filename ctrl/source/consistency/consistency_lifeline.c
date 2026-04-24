@@ -46,11 +46,13 @@ void consistency_lifeline_destroy( consistency_lifeline_t *this_ )
 }
 
 u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_,
-                                                   const data_diagram_t *updated_diagram
+                                                   const data_diagram_t *updated_diagram,
+                                                   consistency_stat_t *io_stat
                                                  )
 {
     U8_TRACE_BEGIN();
     assert( NULL != updated_diagram );
+    assert( NULL != io_stat );
     u8_error_t result = U8_ERROR_NONE;
 
     const data_diagram_type_t new_type = data_diagram_get_diagram_type ( updated_diagram );
@@ -97,10 +99,16 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
         {
             const data_id_t delete_feat = data_small_set_get_id( &lifelines_to_delete, index2 );
             assert( data_id_get_table( &delete_feat ) == DATA_TABLE_FEATURE );
-            result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
-                                                                 data_id_get_row_id( &delete_feat ),
-                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                               );
+            u8_error_t delete_err
+                = ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
+                                                             data_id_get_row_id( &delete_feat ),
+                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                           );
+            if ( delete_err == U8_ERROR_NONE )
+            {
+                consistency_stat_decrement_lifelines( io_stat );
+            }
+            result |= delete_err;
             /* the current_diagele is already updated by another (recursive) consistency check. */
         }
 
@@ -112,10 +120,12 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
 }
 
 u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
-                                                  const data_diagram_t *updated_diagram )
+                                                  const data_diagram_t *updated_diagram,
+                                                  consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
     assert( NULL != updated_diagram );
+    assert( NULL != io_stat );
     u8_error_t result = U8_ERROR_NONE;
 
     const data_diagram_type_t new_type = data_diagram_get_diagram_type ( updated_diagram );
@@ -176,7 +186,13 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
         for ( uint32_t index2 = 0; index2 < lifelines_count; index2 ++ )
         {
             const data_full_id_t *const diagramelement_ids = data_full_id_list_get_const( &lifelines_to_create, index2 );
-            result |= consistency_lifeline_private_create_one_lifeline ( this_, diagramelement_ids );
+            const u8_error_t create_err
+                = consistency_lifeline_private_create_one_lifeline ( this_, diagramelement_ids );
+            if ( create_err == U8_ERROR_NONE )
+            {
+                consistency_stat_increment_lifelines( io_stat );
+            }
+            result |= create_err;
         }
 
         data_full_id_list_destroy( &lifelines_to_create );
