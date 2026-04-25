@@ -27,20 +27,21 @@ static inline void ctrl_diagram_trigger_destroy ( ctrl_diagram_trigger_t *this_ 
 }
 
 static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_diagram_trigger_t *this_,
-                                                                        const data_diagram_t *updated_diagram )
+                                                                        const data_diagram_t *updated_diagram,
+                                                                        consistency_stat_t *io_stat )
 {
+    assert( NULL != updated_diagram );
+    assert( NULL != io_stat );
     u8_error_t result = U8_ERROR_NONE;
-    consistency_stat_t stat = CONSISTENCY_STAT_EMPTY;
-    result |= consistency_lifeline_delete_lifelines( (*this_).lifeline, updated_diagram, &stat );
-    result |= consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram, &stat );
-    result |= consistency_feature_delete_invisibles_in_diagram( (*this_).feature, updated_diagram, &stat );
-    (void) stat; /* TODO report statistics */
-    int32_t deleted_relationships;
+    result |= consistency_lifeline_delete_lifelines( (*this_).lifeline, updated_diagram, io_stat );
+    result |= consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram, io_stat );
+    result |= consistency_feature_delete_invisibles_in_diagram( (*this_).feature, updated_diagram, io_stat );
+    int32_t deleted_relationships = 0;
     result |= consistency_relationship_delete_invisibles_in_diagram( (*this_).relationship,
                                                                      updated_diagram,
                                                                      &deleted_relationships
                                                                    );
-    (void) deleted_relationships; /* TODO report statistics */
+    consistency_stat_subtract_relationships( io_stat, deleted_relationships );
     return result;
 }
 
@@ -64,24 +65,26 @@ static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement( ctrl_d
 }
 
 static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_diagram_trigger_t *this_,
-                                                                          const data_diagramelement_t *deleted_diagramelement )
+                                                                          const data_diagramelement_t *deleted_diagramelement,
+                                                                          consistency_stat_t *io_stat
+                                                                        )
 {
+    assert( NULL != deleted_diagramelement );
+    assert( NULL != io_stat );
     u8_error_t result_err = U8_ERROR_NONE;
-    result_err |= consistency_lifeline_delete_a_lifeline( (*this_).lifeline, deleted_diagramelement );
-    consistency_stat_t stat = CONSISTENCY_STAT_EMPTY;
+    result_err |= consistency_lifeline_delete_a_lifeline( (*this_).lifeline, deleted_diagramelement, io_stat );
     result_err |= consistency_classifier_delete_unreferenced_classifier( (*this_).classifier,
                                                                          deleted_diagramelement,
-                                                                         &stat
+                                                                         io_stat
                                                                        );
     const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
-    result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id, &stat );
-    (void) stat; /* TODO report statistics */
-    int32_t deleted_relationships;
+    result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id, io_stat );
+    int32_t deleted_relationships = 0;
     result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship,
                                                                             classifier_id,
                                                                             &deleted_relationships
                                                                           );
-    (void) deleted_relationships; /* TODO report statistics */
+    consistency_stat_subtract_relationships( io_stat, deleted_relationships );
     return result_err;
 }
 

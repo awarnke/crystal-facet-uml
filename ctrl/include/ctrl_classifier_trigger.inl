@@ -25,6 +25,7 @@ static inline void ctrl_classifier_trigger_destroy ( ctrl_classifier_trigger_t *
 static inline u8_error_t ctrl_classifier_trigger_post_delete_feature( ctrl_classifier_trigger_t *this_,
                                                                       const data_feature_t *deleted_feature )
 {
+    assert( NULL != deleted_feature );
     u8_error_t result_err = U8_ERROR_NONE;
 
     const data_feature_type_t f_type = data_feature_get_main_type( deleted_feature );
@@ -40,6 +41,7 @@ static inline u8_error_t ctrl_classifier_trigger_post_delete_feature( ctrl_class
 static inline u8_error_t ctrl_classifier_trigger_post_create_feature( ctrl_classifier_trigger_t *this_,
                                                                       const data_feature_t *create_feature )
 {
+    assert( NULL != create_feature );
     u8_error_t result_err = U8_ERROR_NONE;
 
     const data_feature_type_t f_type = data_feature_get_main_type( create_feature );
@@ -47,9 +49,13 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_feature( ctrl_class
     {
         /* if a non-lifeline was created, check if it is visible */
         const data_row_t classifier_id = data_feature_get_classifier_row_id( create_feature );
-        consistency_stat_t stat = CONSISTENCY_STAT_EMPTY;
+        consistency_stat_t stat = CONSISTENCY_STAT_ZERO;
         result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id, &stat );
-        (void) stat; /* TODO report statistics, e.g. by setting the error code */
+        if ( consistency_stat_get_features( &stat ) != 0 )
+        {
+            assert( consistency_stat_get_total_count( &stat ) == -1 );  /* otherwise the model was already inconsistent before... */
+            result_err |= U8_ERROR_DIAGRAM_HIDES_FEATURES;
+        }
     }
 
     return result_err;
@@ -58,6 +64,7 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_feature( ctrl_class
 static inline u8_error_t ctrl_classifier_trigger_post_create_relationship( ctrl_classifier_trigger_t *this_,
                                                                            const data_relationship_t *create_relationship )
 {
+    assert( NULL != create_relationship );
     u8_error_t result_err = U8_ERROR_NONE;
 
     /* delete immediately if not visible */
@@ -67,7 +74,11 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_relationship( ctrl_
                                                                             classifier_id,
                                                                             &deleted_relationships
                                                                           );
-    (void) deleted_relationships; /* TODO report statistics, e.g. by setting the error code */
+    if ( deleted_relationships != 0 )
+    {
+        assert( deleted_relationships == 1 );  /* otherwise the model was already inconsistent before... */
+        result_err |= U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS;
+    }
 
     return result_err;
 }

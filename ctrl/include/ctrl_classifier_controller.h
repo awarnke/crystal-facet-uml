@@ -22,6 +22,7 @@
 #include "consistency/consistency_classifier.h"
 #include "consistency/consistency_lifeline.h"
 #include "consistency/consistency_relationship.h"
+#include "consistency/consistency_stat.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -111,11 +112,16 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         The result includes the deletion of the requested feature.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 u8_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_controller_t *this_,
                                                           data_row_t obj_id,
-                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                          consistency_stat_t *io_stat
                                                         );
 
 /*!
@@ -258,11 +264,16 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         The result includes the deletion of the requested feature.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
                                                        data_row_t obj_id,
-                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                       consistency_stat_t *io_stat
                                                      );
 
 /*!

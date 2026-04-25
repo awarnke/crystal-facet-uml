@@ -329,11 +329,17 @@ static test_case_result_t features_CRURDR( test_fixture_t *fix )
 
     /* delete the feature from the database */
     {
+        consistency_stat_t stat;
+        consistency_stat_init( &stat );
         data_err = ctrl_classifier_controller_delete_feature ( classifier_ctrl,
                                                                new_feature_id,
-                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                               &stat
                                                              );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_features( &stat ) );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &stat ) );
+        consistency_stat_destroy( &stat );
     }
 
     /* check what was deleted in the database */

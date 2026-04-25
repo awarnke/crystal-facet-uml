@@ -51,17 +51,18 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
     }
     else
     {
-        int index;
-
+#ifndef NDEBUG
+        data_stat_t initial = *io_stat;
+#endif
         ctrl_classifier_controller_t *const classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
         ctrl_diagram_controller_t *const diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
         /* STEP ONE: Delete all objects that can be immediately deleted */
 
-        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
+        for ( int index1 = 0; index1 < data_small_set_get_count( objects ); index1 ++ )
         {
             data_id_t current_id;
-            current_id = data_small_set_get_id( objects, index );
+            current_id = data_small_set_get_id( objects, index1 );
             switch ( data_id_get_table( &current_id ) )
             {
                 case DATA_TABLE_CLASSIFIER:
@@ -78,12 +79,13 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    result |= ctrl_classifier_controller_delete_relationship ( classifier_ctrl,
-                                                                               data_id_get_row_id( &current_id ),
-                                                                               (*this_).is_first_step
-                    );
+                    result |= ctrl_classifier_controller_delete_relationship( classifier_ctrl,
+                                                                              data_id_get_row_id( &current_id ),
+                                                                              (*this_).is_first_step
+                                                                            );
                     if ( result == U8_ERROR_NONE )
                     {
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED );
                         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
@@ -115,10 +117,10 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
         /* STEP TWO: Delete all objects that can be deleted after relationships are gone */
 
-        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
+        for ( int index2 = 0; index2 < data_small_set_get_count( objects ); index2 ++ )
         {
             data_id_t current_id;
-            current_id = data_small_set_get_id( objects, index );
+            current_id = data_small_set_get_id( objects, index2 );
             switch ( data_id_get_table( &current_id ) )
             {
                 case DATA_TABLE_CLASSIFIER:
@@ -129,10 +131,12 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
                 case DATA_TABLE_FEATURE:
                 {
-                    result |= ctrl_classifier_controller_delete_feature ( classifier_ctrl,
-                                                                          data_id_get_row_id( &current_id ),
-                                                                          (*this_).is_first_step
-                                                                        );
+                    consistency_stat_t stat_feat = CONSISTENCY_STAT_ZERO;
+                    result |= ctrl_classifier_controller_delete_feature( classifier_ctrl,
+                                                                         data_id_get_row_id( &current_id ),
+                                                                         (*this_).is_first_step,
+                                                                         &stat_feat
+                                                                       );
                     if ( result == U8_ERROR_NONE )
                     {
                         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
@@ -141,6 +145,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     {
                         data_stat_inc_count( io_stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
                     }
+                    consistency_stat_transfer_to( &stat_feat, io_stat );
                 }
                 break;
 
@@ -172,10 +177,10 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
         /* STEP THREE: Delete all objects that can be deleted after relationships and features are gone */
 
-        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
+        for ( int index3 = 0; index3 < data_small_set_get_count( objects ); index3 ++ )
         {
             data_id_t current_id;
-            current_id = data_small_set_get_id( objects, index );
+            current_id = data_small_set_get_id( objects, index3 );
             switch ( data_id_get_table( &current_id ) )
             {
                 case DATA_TABLE_CLASSIFIER:
@@ -198,18 +203,22 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
-                    result |= ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl,
-                                                                              data_id_get_row_id( &current_id ),
-                                                                              (*this_).is_first_step
-                                                                            );
+                    consistency_stat_t stat_ele = CONSISTENCY_STAT_ZERO;
+                    result |= ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
+                                                                             data_id_get_row_id( &current_id ),
+                                                                             (*this_).is_first_step,
+                                                                             &stat_ele
+                                                                           );
                     if ( result == U8_ERROR_NONE )
                     {
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED );
                         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
                     {
                         data_stat_inc_count( io_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
                     }
+                    consistency_stat_transfer_to( &stat_ele, io_stat );
                 }
                 break;
 
@@ -229,17 +238,19 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
         /* STEP FOUR: Delete all objects that can be deleted after step THREE */
 
-        for ( index = 0; index < data_small_set_get_count( objects ); index ++ )
+        for ( int index4 = 0; index4 < data_small_set_get_count( objects ); index4 ++ )
         {
             data_id_t current_id;
-            current_id = data_small_set_get_id( objects, index );
+            current_id = data_small_set_get_id( objects, index4 );
             switch ( data_id_get_table( &current_id ) )
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
+                    consistency_stat_t stat_clas = CONSISTENCY_STAT_ZERO;
                     result |= ctrl_classifier_controller_delete_classifier( classifier_ctrl,
                                                                             data_id_get_row_id( &current_id ),
-                                                                            (*this_).is_first_step
+                                                                            (*this_).is_first_step,
+                                                                            &stat_clas
                                                                           );
                     if ( result == U8_ERROR_NONE )
                     {
@@ -249,6 +260,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     {
                         data_stat_inc_count( io_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                     }
+                    consistency_stat_transfer_to( &stat_clas, io_stat );
                 }
                 break;
 
@@ -272,12 +284,13 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
                 case DATA_TABLE_DIAGRAM:
                 {
-                    result |= ctrl_diagram_controller_delete_diagram ( diagram_ctrl,
-                                                                       data_id_get_row_id( &current_id ),
-                                                                       (*this_).is_first_step
-                                                                     );
+                    result |= ctrl_diagram_controller_delete_diagram( diagram_ctrl,
+                                                                      data_id_get_row_id( &current_id ),
+                                                                      (*this_).is_first_step
+                                                                    );
                     if ( result == U8_ERROR_NONE )
                     {
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED );
                         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
@@ -296,11 +309,47 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
         }
 
         /* update statistics based on undo redo list */
+#ifndef NDEBUG
+        data_stat_t double_check;
+        data_stat_init( &double_check );
         ctrl_undo_redo_iterator_t iter;
         ctrl_undo_redo_iterator_init_empty( &iter );
         result |= ctrl_controller_get_undo_iterator( (*this_).controller, &iter );
-        ctrl_undo_redo_iterator_collect_statistics( &iter, false /* NOT categorize as undo */, io_stat );
+        ctrl_undo_redo_iterator_collect_statistics( &iter, false /* NOT categorize as undo */, &double_check );
         ctrl_undo_redo_iterator_destroy( &iter );
+
+        data_stat_trace( &initial );
+        data_stat_trace( &double_check );
+        data_stat_trace( io_stat );
+
+        const int32_t data_features_1
+            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED );
+        const int32_t data_features_2
+            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED );
+        U8_TRACE_INFO_INT_INT( "data vs consistency features", data_features_1, data_features_2 );
+        assert( data_features_1 == data_features_2 );
+        const int32_t data_relationships_1
+            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED );
+        const int32_t data_relationships_2
+            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED );
+        U8_TRACE_INFO_INT_INT( "data vs consistency relationships", data_relationships_1, data_relationships_2 );
+        assert( data_relationships_1 == data_relationships_2 );
+        const int32_t data_lifelines_1
+            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED );
+        const int32_t data_lifelines_2
+            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED );
+        U8_TRACE_INFO_INT_INT( "data vs consistency lifelines", data_lifelines_1, data_lifelines_2 );
+        assert( data_lifelines_1 == data_lifelines_2 );
+        const int32_t data_classifiers_1
+            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED );
+        const int32_t data_classifiers_2
+            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED );
+        U8_TRACE_INFO_INT_INT( "data vs consistency classifiers", data_classifiers_1, data_classifiers_2 );
+        assert( data_classifiers_1 == data_classifiers_2 );
+
+        data_stat_destroy( &double_check );
+        data_stat_destroy( &initial );
+        #endif
     }
 
     U8_TRACE_END_ERR( result );

@@ -40,25 +40,22 @@ u8_error_t consistency_classifier_delete_unreferenced_classifier( consistency_cl
     u8_error_t result = U8_ERROR_NONE;
 
     /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
-    u8_error_t my_ctrl_result;
+    u8_error_t delete_err;
 
-    my_ctrl_result = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
-                                                                   data_diagramelement_get_classifier_row_id( deleted_diagramelement ),
-                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                 );
+    delete_err = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
+                                                               data_diagramelement_get_classifier_row_id( deleted_diagramelement ),
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
+                                                               io_stat
+                                                             );
 
-    if ( u8_error_contains( my_ctrl_result, U8_ERROR_OBJECT_STILL_REFERENCED ) )
+    if ( u8_error_contains( delete_err, U8_ERROR_OBJECT_STILL_REFERENCED ) )
     {
         U8_LOG_EVENT( "The classifier cannot be deleted because it is still referenced." );
-    }
-    else if ( my_ctrl_result == U8_ERROR_NONE )
-    {
-        consistency_stat_decrement_classifiers( io_stat );
     }
     else
     {
         /* report whatever error */
-        result |= my_ctrl_result;
+        result |= delete_err;
     }
 
     U8_TRACE_END_ERR( result );

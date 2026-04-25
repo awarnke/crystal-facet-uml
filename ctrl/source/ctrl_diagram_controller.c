@@ -248,12 +248,15 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
 u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
                                                          data_row_t diagram_id,
                                                          data_diagram_type_t new_diagram_type,
-                                                         data_stat_t *io_stat )
+                                                         consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
     assert( io_stat != NULL );
     u8_error_t result = U8_ERROR_NONE;
     data_diagram_t old_diagram;
+#ifndef NDEBUG
+    const consistency_stat_t initial = *io_stat;
+#endif
 
     result |= data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
     if ( U8_ERROR_NONE == result )
@@ -268,7 +271,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policy rules */
-        result |= ctrl_diagram_trigger_post_update_diagram_type( (*this_).policy_enforcer, &new_diagram );
+        result |= ctrl_diagram_trigger_post_update_diagram_type( (*this_).policy_enforcer, &new_diagram, io_stat );
 
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
@@ -276,15 +279,35 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
         /* report statistics */
         /* changing diagram types may create or delete lifelines and messages, */
         /* therefore ask the undo_redo_list for statistics */
+#ifndef NDEBUG
+        data_stat_t double_check;
+        data_stat_init( &double_check );
         ctrl_undo_redo_iterator_t iter;
         ctrl_undo_redo_iterator_init_empty( &iter );
         result |= ctrl_undo_redo_list_get_undo_iterator( (*this_).undo_redo_list, &iter );
-        ctrl_undo_redo_iterator_collect_statistics( &iter, false /* NOT categorize as undo */, io_stat );
+        ctrl_undo_redo_iterator_collect_statistics( &iter, false /* NOT categorize as undo */, &double_check );
         ctrl_undo_redo_iterator_destroy( &iter );
-    }
-    else
-    {
-        data_stat_inc_count ( io_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
+        assert( data_stat_get_count( &double_check, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ) == 1 );
+        const int32_t data_features
+            = data_stat_get_count( &double_check, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED )
+            - data_stat_get_count( &double_check, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED );
+        const int32_t consistency_features
+            = consistency_stat_get_features( io_stat ) - consistency_stat_get_features( &initial );
+        assert( data_features == consistency_features );
+        const int32_t data_relationships
+            = data_stat_get_count( &double_check, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED )
+            - data_stat_get_count( &double_check, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED );
+        const int32_t consistency_relationships
+            = consistency_stat_get_relationships( io_stat ) - consistency_stat_get_relationships( &initial );
+        assert( data_relationships == consistency_relationships );
+        const int32_t data_lifelines
+            = data_stat_get_count( &double_check, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED )
+            - data_stat_get_count( &double_check, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED );
+        const int32_t consistency_lifelines
+            = consistency_stat_get_lifelines( io_stat ) - consistency_stat_get_lifelines( &initial );
+        assert( data_lifelines == consistency_lifelines );
+        data_stat_destroy( &double_check );
+#endif
     }
 
     U8_TRACE_END_ERR( result );
@@ -472,9 +495,11 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
 
 u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controller_t *this_,
                                                           data_row_t obj_id,
-                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
+                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                          consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
+    assert( NULL != io_stat );
     u8_error_t result = U8_ERROR_NONE;
 
     /* delete diagramelement */
@@ -503,7 +528,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controlle
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* try to also delete the classifier and focused lifelines */
-        result |= ctrl_diagram_trigger_post_delete_diagramelement( (*this_).policy_enforcer, &old_diagramelement );
+        result |= ctrl_diagram_trigger_post_delete_diagramelement( (*this_).policy_enforcer, &old_diagramelement, io_stat );
 
         data_diagramelement_destroy( &old_diagramelement );
     }

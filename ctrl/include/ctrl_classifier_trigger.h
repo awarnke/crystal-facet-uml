@@ -73,7 +73,9 @@ static inline u8_error_t ctrl_classifier_trigger_post_delete_feature ( ctrl_clas
  *
  *  \param this_ pointer to own object attributes
  *  \param create_feature data of the soon to be created feature.
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ *  \return error id in case of an error,
+ *          U8_ERROR_DIAGRAM_HIDES_FEATURES in case the feature is not created because it is not visible,
+ *          U8_ERROR_NONE otherwise
  */
 static inline u8_error_t ctrl_classifier_trigger_post_create_feature ( ctrl_classifier_trigger_t *this_,
                                                                        const data_feature_t *create_feature
@@ -91,7 +93,9 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_feature ( ctrl_clas
  *
  *  \param this_ pointer to own object attributes
  *  \param create_relationship data of the soon to be created relationship.
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ *  \return error id in case of an error,
+ *          U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS in case the relationship is not created because it is not visible,
+ *          U8_ERROR_NONE otherwise
  */
 static inline u8_error_t ctrl_classifier_trigger_post_create_relationship ( ctrl_classifier_trigger_t *this_,
                                                                             const data_relationship_t *create_relationship

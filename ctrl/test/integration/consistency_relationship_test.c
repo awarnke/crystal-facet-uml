@@ -120,22 +120,18 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
     /*         omni feature  ----' */
 
     /* change the type of the test diagram */
-    data_stat_t statistics;
-    data_stat_init( &statistics );
+    consistency_stat_t statistics;
+    consistency_stat_init( &statistics );
     const u8_error_t c_err
-    = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
-                                                   test_diagram,
-                                                   DATA_DIAGRAM_TYPE_BOX_DIAGRAM,
-                                                   &statistics
-    );
+        = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
+                                                       test_diagram,
+                                                       DATA_DIAGRAM_TYPE_BOX_DIAGRAM,
+                                                       &statistics
+                                                     );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err, u8_error_get_name );
-
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_MODIFIED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_DELETED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &statistics, DATA_STAT_TABLE_DIAGRAM ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &statistics, DATA_STAT_TABLE_RELATIONSHIP ) );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count( &statistics ) );
-    data_stat_destroy( &statistics );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_relationships( &statistics ) );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &statistics ) );
+    consistency_stat_destroy( &statistics );
 
     /* is semi_relationship deleted? */
     data_relationship_t probe;
@@ -207,9 +203,18 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     /*     omni classifier  <----' (< diagramelement will be deleted) */
 
     /* delete the test diagramelement @ seq diag */
+    consistency_stat_t statistics;
+    consistency_stat_init( &statistics );
     const u8_error_t c_err1
-        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_seq_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+        = ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
+                                                         test_seq_diagele,
+                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                         &statistics
+                                                       );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err1, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_lifelines( &statistics ) );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &statistics ) );
+    consistency_stat_destroy( &statistics );
 
     /* is the rel deleted? */
     data_relationship_t probe;
@@ -218,9 +223,19 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, rel_err1, u8_error_get_name );
 
     /* delete the omni diagramelement @ class diag */
+    consistency_stat_t stat;
+    consistency_stat_init( &stat );
     const u8_error_t c_err2
-        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, omni_class_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+        = ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
+                                                         omni_class_diagele,
+                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                         &stat
+                                                       );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err2, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_lifelines( &stat ) );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_relationships( &stat ) ); /* the a_rel relationship is not visible in box or seq diagrams */
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &stat ) );
+    consistency_stat_destroy( &stat );
 
     /* is the rel deleted? */
     const u8_error_t rel_err2
@@ -240,13 +255,13 @@ static test_case_result_t consistency_check_error( test_fixture_t *fix )
     tvec_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 1 diagram */
-    const data_row_t box_diagram
-        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "box diag", DATA_DIAGRAM_TYPE_BOX_DIAGRAM );
+    const data_row_t class_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "class diag", DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
 
     /* create 1 classifier and 1 diagramelement */
     const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
-    const data_row_t test_at_box
-        = tvec_setup_diagramelement( &test_environ, box_diagram, test_classifier, DATA_ROW_VOID );
+    const data_row_t test_at_class
+        = tvec_setup_diagramelement( &test_environ, class_diagram, test_classifier, DATA_ROW_VOID );
 
     /* create 1 relationship */
     tvec_setup_relationship( &test_environ,
@@ -271,9 +286,17 @@ static test_case_result_t consistency_check_error( test_fixture_t *fix )
     }
 
     /* delete the test diagramelement @ box diag */
+    consistency_stat_t stat;
+    consistency_stat_init( &stat );
     const u8_error_t c_err
-        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_at_box, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+        = ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
+                                                         test_at_class,
+                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                         &stat
+                                                       );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_DB, c_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_total_count( &stat ) );
+    consistency_stat_destroy( &stat );
 
     return TEST_CASE_RESULT_OK;
 }

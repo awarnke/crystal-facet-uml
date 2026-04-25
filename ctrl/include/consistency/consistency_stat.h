@@ -16,6 +16,7 @@
  *  it is hard to estimate if this is an error or if this action was expected by the caller.
  */
 
+#include "set/data_stat.h"
 #include <stdint.h>
 
 /*!
@@ -31,10 +32,10 @@ struct consistency_stat_struct {
 typedef struct consistency_stat_struct consistency_stat_t;
 
 /*!
- *  \def CONSISTENCY_STAT_EMPTY
+ *  \def CONSISTENCY_STAT_ZERO
  *  \brief Macro to facilitate static initialisation of a consistency_stat_t
  */
-#define CONSISTENCY_STAT_EMPTY (consistency_stat_t){.classifiers=0,.features=0,.lifelines=0,.relationships=0,}
+#define CONSISTENCY_STAT_ZERO (consistency_stat_t){.classifiers=0,.features=0,.lifelines=0,.relationships=0,}
 
 /*!
  *  \brief initializes the consistency_stat_t struct.
@@ -60,6 +61,14 @@ static inline void consistency_stat_destroy ( consistency_stat_t *this_ );
  *  \return the count of the data entity
  */
 static inline int32_t consistency_stat_get_total_count ( const consistency_stat_t *this_ );
+
+/*!
+ *  \brief transfers the statistics data from the consistency_stat_t struct to data_stat_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[in,out] io_target target statistics struct where to add the data to
+ */
+static inline void consistency_stat_transfer_to ( const consistency_stat_t *this_, data_stat_t *io_target );
 
 /*!
  *  \brief adds one classifier
@@ -137,6 +146,14 @@ static inline void consistency_stat_increment_relationships ( consistency_stat_t
  *  \param this_ pointer to own object attributes
  */
 static inline void consistency_stat_decrement_relationships ( consistency_stat_t *this_ );
+
+/*!
+ *  \brief decrements relationships by one
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param deleted_relationships number of deleted reöationships to subtract
+ */
+static inline void consistency_stat_subtract_relationships ( consistency_stat_t *this_, int32_t deleted_relationships );
 
 /*!
  *  \brief gets number of relationships

@@ -59,10 +59,14 @@ static inline void ctrl_diagram_trigger_destroy ( ctrl_diagram_trigger_t *this_ 
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram data of the updated diagram.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type ( ctrl_diagram_trigger_t *this_,
-                                                                         const data_diagram_t *updated_diagram
+                                                                         const data_diagram_t *updated_diagram,
+                                                                         consistency_stat_t *io_stat
                                                                        );
 
 /*!
@@ -83,10 +87,14 @@ static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement ( ctrl_
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_diagramelement data of the deleted diagramelement.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement ( ctrl_diagram_trigger_t *this_,
-                                                                           const data_diagramelement_t *deleted_diagramelement
+                                                                           const data_diagramelement_t *deleted_diagramelement,
+                                                                           consistency_stat_t *io_stat
                                                                          );
 
 #include "ctrl_diagram_trigger.inl"

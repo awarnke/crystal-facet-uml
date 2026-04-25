@@ -126,16 +126,11 @@ u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feat
                 if ( ! feature_is_scenario )
                 {
                     const data_row_t feature_id = data_feature_get_row_id( &((*this_).temp_feature_buf) );
-                    const u8_error_t delete_err
-                        = ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
-                                                                     feature_id,
-                                                                     CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                   );
-                    if ( delete_err == U8_ERROR_NONE )
-                    {
-                        consistency_stat_decrement_features( io_stat );
-                    }
-                    result |= delete_err;
+                    result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
+                                                                         feature_id,
+                                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
+                                                                         io_stat
+                                                                       );
                 }
             }
         }

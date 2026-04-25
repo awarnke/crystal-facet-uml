@@ -88,9 +88,11 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
 
 u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_controller_t *this_,
                                                          data_row_t obj_id,
-                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
+                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                         consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
+    assert( io_stat != NULL );
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
 
@@ -145,9 +147,20 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             {
                 result |= data_feature_iterator_next( &feature_iterator, &((*this_).temp_feature) );
                 const data_row_t feat_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                const bool is_lifeline
+                    = ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( &((*this_).temp_feature) ) );
                 data_result = data_database_writer_delete_feature( (*this_).db_writer, feat_id, NULL );
                 if ( data_result == U8_ERROR_NONE )
                 {
+                    if ( is_lifeline )
+                    {
+                        consistency_stat_decrement_lifelines( io_stat );
+                    }
+                    else
+                    {
+                        consistency_stat_decrement_features( io_stat );
+                    }
+
                     /* store the deleted feature to the undo redo list */
                     ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &((*this_).temp_feature) );
                 }
@@ -176,6 +189,8 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
                 data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
                 if ( data_result == U8_ERROR_NONE )
                 {
+                    consistency_stat_decrement_relationships( io_stat );
+
                     /* store the deleted relationship to the undo redo list */
                     ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &((*this_).temp_relationship) );
                 }
@@ -199,6 +214,8 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
 
             if ( U8_ERROR_NONE == data_result )
             {
+                consistency_stat_decrement_classifiers( io_stat );
+
                 /* store the deleted classifier to the undo redo list */
                 ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier );
 
@@ -504,9 +521,11 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
 
 u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
                                                        data_row_t obj_id,
-                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
+                                                       ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                       consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
+    assert( io_stat != NULL );
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
 
@@ -536,6 +555,8 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
             data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
             if ( U8_ERROR_NONE == data_result )
             {
+                consistency_stat_decrement_relationships( io_stat );
+
                 /* store the deleted relationship to the undo redo list */
                 ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &((*this_).temp_relationship) );
             }
@@ -558,6 +579,17 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
 
         if ( U8_ERROR_NONE == feature_result )
         {
+            const bool is_lifeline
+                = ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( &old_feature ) );
+            if ( is_lifeline )
+            {
+                consistency_stat_decrement_lifelines( io_stat );
+            }
+            else
+            {
+                consistency_stat_decrement_features( io_stat );
+            }
+
             /* store the deleted feature to the undo redo list */
             ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feature );
         }

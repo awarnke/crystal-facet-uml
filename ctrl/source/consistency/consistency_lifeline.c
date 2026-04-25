@@ -99,16 +99,11 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
         {
             const data_id_t delete_feat = data_small_set_get_id( &lifelines_to_delete, index2 );
             assert( data_id_get_table( &delete_feat ) == DATA_TABLE_FEATURE );
-            u8_error_t delete_err
-                = ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
-                                                             data_id_get_row_id( &delete_feat ),
-                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                           );
-            if ( delete_err == U8_ERROR_NONE )
-            {
-                consistency_stat_decrement_lifelines( io_stat );
-            }
-            result |= delete_err;
+            result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
+                                                                 data_id_get_row_id( &delete_feat ),
+                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
+                                                                 io_stat
+                                                               );
             /* the current_diagele is already updated by another (recursive) consistency check. */
         }
 
@@ -291,10 +286,12 @@ u8_error_t consistency_lifeline_private_create_one_lifeline( consistency_lifelin
 }
 
 u8_error_t consistency_lifeline_delete_a_lifeline( consistency_lifeline_t *this_,
-                                                   const data_diagramelement_t *deleted_diagramelement )
+                                                   const data_diagramelement_t *deleted_diagramelement,
+                                                   consistency_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
+    assert( NULL != io_stat );
     u8_error_t result = U8_ERROR_NONE;
 
     /* delete the lifeline of the already deleted data_diagramelement_t */
@@ -304,7 +301,8 @@ u8_error_t consistency_lifeline_delete_a_lifeline( consistency_lifeline_t *this_
     {
         result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
                                                              focused_feature_id,
-                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
+                                                             io_stat
                                                            );
     }
 

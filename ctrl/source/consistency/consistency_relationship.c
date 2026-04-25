@@ -188,7 +188,7 @@ u8_error_t consistency_relationship_private_is_shown_by_a_diagram( consistency_r
                 a_diagram_shows_scenario_relationship |= data_rules_diagram_shows_scenario_relationships( &((*this_).rules), diagram_type );
 
                 /* Workaround: Box diagrams show containment relationships - this is not yet handled by (*this_).rules */
-                /* And anyhow a problem because the use can change the type and bypass existing database triggers... TODO */
+                /* And possibly a problem because the use may change the type and bypass existing database triggers... TODO */
                 const bool keep_containment_at_box_diagram = ( data_relationship_get_main_type( relation ) == DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT )
                     && ( diagram_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM );
                 a_diagram_shows_uncond_relationship |= keep_containment_at_box_diagram;

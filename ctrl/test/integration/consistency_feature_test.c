@@ -111,8 +111,7 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
     /*         omni feature */
 
     /* change the type of the test diagram */
-    data_stat_t statistics;
-    data_stat_init( &statistics );
+    consistency_stat_t statistics = CONSISTENCY_STAT_ZERO;
     const u8_error_t c_err
         = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
                                                        test_diagram,
@@ -120,13 +119,9 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
                                                        &statistics
                                                      );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err, u8_error_get_name );
-
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_MODIFIED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_series_count( &statistics, DATA_STAT_SERIES_DELETED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &statistics, DATA_STAT_TABLE_DIAGRAM ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &statistics, DATA_STAT_TABLE_FEATURE ) );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count( &statistics ) );
-    data_stat_destroy( &statistics );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_features( &statistics ) );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &statistics ) );
+    consistency_stat_destroy( &statistics );
 
     /* is semi_feature deleted? */
     data_feature_t probe;
@@ -197,9 +192,16 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     /*         omni feature */
 
     /* delete the test diagramelement @ seq diag */
+    consistency_stat_t statistics = CONSISTENCY_STAT_ZERO;
     const u8_error_t c_err1
-        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, test_seq_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+        = ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
+                                                         test_seq_diagele,
+                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                         &statistics
+                                                       );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err1, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_lifelines( &statistics ) );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &statistics ) );
 
     /* is test_feature deleted? */
     data_feature_t probe;
@@ -208,9 +210,19 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, test_err, u8_error_get_name );
 
     /* delete the omni diagramelement @ class diag */
+    statistics = CONSISTENCY_STAT_ZERO;
     const u8_error_t c_err2
-        = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl, omni_class_diagele, CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW );
+        = ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
+                                                         omni_class_diagele,
+                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                         &statistics
+                                                       );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, c_err2, u8_error_get_name );
+    TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_classifiers( &statistics ) );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_features( &statistics ) );  /* the omni_feature is not visible in box or seq diagrams */
+    TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_lifelines( &statistics ) );
+    TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_relationships( &statistics ) );
+    TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &statistics ) );
 
     /* is omni_feature deleted? */
     const u8_error_t omni_err

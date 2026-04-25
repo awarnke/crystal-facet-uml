@@ -6,7 +6,7 @@
 
 static inline void consistency_stat_init ( consistency_stat_t *this_ )
 {
-    *this_ = CONSISTENCY_STAT_EMPTY;
+    *this_ = CONSISTENCY_STAT_ZERO;
 }
 
 static inline void consistency_stat_destroy ( consistency_stat_t *this_ )
@@ -18,6 +18,43 @@ static inline int32_t consistency_stat_get_total_count ( const consistency_stat_
     const int32_t result
         = (*this_).classifiers + (*this_).features + (*this_).lifelines + (*this_).relationships;
     return result;
+}
+
+static inline void consistency_stat_transfer_to ( const consistency_stat_t *this_, data_stat_t *io_target )
+{
+    assert( NULL != io_target );
+    if ( (*this_).classifiers > 0 )
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED, (*this_).classifiers );
+    }
+    else
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED, -((*this_).classifiers) );
+    }
+    if ( (*this_).features > 0 )
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED, (*this_).features );
+    }
+    else
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED, -((*this_).features) );
+    }
+    if ( (*this_).lifelines > 0 )
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED, (*this_).lifelines );
+    }
+    else
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED, -((*this_).lifelines) );
+    }
+    if ( (*this_).relationships > 0 )
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED, (*this_).relationships );
+    }
+    else
+    {
+        data_stat_add_count ( io_target, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED, -((*this_).relationships) );
+    }
 }
 
 static inline void consistency_stat_increment_classifiers ( consistency_stat_t *this_ )
@@ -73,6 +110,11 @@ static inline void consistency_stat_increment_relationships ( consistency_stat_t
 static inline void consistency_stat_decrement_relationships ( consistency_stat_t *this_ )
 {
     (*this_).relationships --;
+}
+
+static inline void consistency_stat_subtract_relationships ( consistency_stat_t *this_, int32_t deleted_relationships )
+{
+    (*this_).relationships -= deleted_relationships;
 }
 
 static inline int32_t consistency_stat_get_relationships ( const consistency_stat_t *this_ )

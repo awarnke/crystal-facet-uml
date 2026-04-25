@@ -21,6 +21,7 @@
 #include "consistency/consistency_classifier.h"
 #include "consistency/consistency_lifeline.h"
 #include "consistency/consistency_relationship.h"
+#include "consistency/consistency_stat.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -169,14 +170,14 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new diagram_type of the diagram
- *  \param[in,out] io_stat collects statistics on performed changes.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
  *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
                                                          data_row_t diagram_id,
                                                          data_diagram_type_t new_diagram_type,
-                                                         data_stat_t *io_stat
+                                                         consistency_stat_t *io_stat
                                                        );
 
 /*!
@@ -265,11 +266,15 @@ u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controll
  *                                to the last set of actions in the undo_redo_list_t,
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
+ *  \param[in,out] io_stat Statistics on created and deleted objects.
+ *                         This method is expected to only delete elements, therefore all statistics should be zero or negative.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 u8_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
                                                            data_row_t obj_id,
-                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
+                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
+                                                           consistency_stat_t *io_stat
                                                          );
 
 /*!

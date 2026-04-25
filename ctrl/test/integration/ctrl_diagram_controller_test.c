@@ -99,17 +99,16 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
         ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, diagram_id, "\"new\" diagram name" );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
 
-        data_stat_t stat;
-        data_stat_init(&stat);
+        consistency_stat_t stat;
+        consistency_stat_init( &stat );
         ctrl_err = ctrl_diagram_controller_update_diagram_type( diag_ctrl,
                                                                 diagram_id,
                                                                 DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM,
                                                                 &stat
                                                               );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
-        data_stat_destroy(&stat);
+        TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_total_count( &stat ) );
+        consistency_stat_destroy(&stat);
 
         ctrl_err = ctrl_diagram_controller_update_diagram_list_order ( diag_ctrl, diagram_id, -4321 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
@@ -288,11 +287,17 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
 
     /* delete the diagramelement */
     {
+        consistency_stat_t stat;
+        consistency_stat_init( &stat );
         ctrl_err = ctrl_diagram_controller_delete_diagramelement( diagram_ctrl,
                                                                   diag_element_id,
-                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                                  &stat
                                                                 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_classifiers( &stat ) );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &stat ) );
+        consistency_stat_destroy( &stat );
     }
 
     /* get the deleted data_diagramelement_t */

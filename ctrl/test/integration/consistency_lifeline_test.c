@@ -174,11 +174,15 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
 
     /* delete the feature (lifeline) */
     {
+        consistency_stat_t statistics = CONSISTENCY_STAT_ZERO;
         ctrl_err = ctrl_classifier_controller_delete_feature ( classifier_ctrl,
                                                                lifeline_id,
-                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                               &statistics
                                                              );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_lifelines( &statistics ) );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &statistics ) );
     }
 
     /* check that the diagramelement does not reference the deleted lifeline anymore */
@@ -371,53 +375,49 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     {
-        data_stat_t stat;
-        data_stat_init(&stat);
+        consistency_stat_t stat;
+        consistency_stat_init(&stat);
         ctrl_err = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
                                                                 child_diag_id,
                                                                 DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
                                                                 &stat
                                                               );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED ));
-        TEST_EXPECT_EQUAL_INT( 3, data_stat_get_total_count ( &stat ));
-        data_stat_destroy(&stat);
+        /* TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED )); */
+        /*TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED )); */
+        TEST_EXPECT_EQUAL_INT( 1, consistency_stat_get_lifelines( &stat ) );
+        TEST_EXPECT_EQUAL_INT( 1, consistency_stat_get_total_count( &stat ) );
+        consistency_stat_destroy(&stat);
     }
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
     {
-        data_stat_t stat;
-        data_stat_init(&stat);
+        consistency_stat_t stat = CONSISTENCY_STAT_ZERO;
         ctrl_err = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
                                                                 child_diag_id,
                                                                 DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
                                                                 &stat
                                                               );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 3, data_stat_get_total_count ( &stat ));
-        data_stat_destroy(&stat);
+        /* TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED )); */
+        /* TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED )); */
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_lifelines( &stat ) );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &stat ) );
     }
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     {
-        data_stat_t stat;
-        data_stat_init(&stat);
+        consistency_stat_t stat = CONSISTENCY_STAT_ZERO;
         ctrl_err = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
                                                                 child_diag_id,
                                                                 DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
                                                                 &stat
                                                               );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED ));
-        TEST_EXPECT_EQUAL_INT( 3, data_stat_get_total_count ( &stat ));
-        data_stat_destroy(&stat);
+        /* TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED )); */
+        /* TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED )); */
+        TEST_EXPECT_EQUAL_INT( 1, consistency_stat_get_lifelines( &stat ) );
+        TEST_EXPECT_EQUAL_INT( 1, consistency_stat_get_total_count( &stat ) );
     }
 
     /* check that the classifier now has one feature of type DATA_FEATURE_TYPE_LIFELINE */
@@ -452,17 +452,23 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
 
     /* delete the child diagram (but not the classifier) */
     {
+        consistency_stat_t stat;
+        consistency_stat_init( &stat );
         ctrl_err = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl,
                                                                    child_diag_element_id,
-                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                                   &stat
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_lifelines( &stat ) );  /* note that the child diagram type was changed to sequence */
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &stat ) );
 
         ctrl_err = ctrl_diagram_controller_delete_diagram ( diagram_ctrl,
                                                             child_diag_id,
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                           );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+        consistency_stat_destroy( &stat );
     }
 
     /* check that the feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
@@ -621,11 +627,17 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
 
     /* delete the first diagramelement (but not the classifier) */
     {
+        consistency_stat_t stat;
+        consistency_stat_init( &stat );
         ctrl_err = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl,
                                                                    first_diag_element_id,
-                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
+                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                                   &stat
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_lifelines( &stat ) );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_total_count( &stat ) );
+        consistency_stat_destroy( &stat );
     }
 
     /* check that one feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
