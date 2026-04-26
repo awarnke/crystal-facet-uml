@@ -732,13 +732,22 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                                                                      &modified_info
                                                                    );
 
-                if ( sync_error != U8_ERROR_NONE )
+                if ( sync_error == U8_ERROR_DIAGRAM_HIDES_FEATURES )
+                {
+                    data_stat_inc_count( (*this_).stat,
+                                         is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
+                                         DATA_STAT_SERIES_WARNING
+                                       );
+                    U8_LOG_WARNING( "invisible feature dropped at reading from data stream" );
+                    sync_error = U8_ERROR_NONE;
+                    /* U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS */
+                }
+                else if ( sync_error != U8_ERROR_NONE )
                 {
                     data_stat_inc_count( (*this_).stat,
                                          is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
                                          DATA_STAT_SERIES_ERROR
                                        );
-                    /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
                 }
                 if ( U8_ERROR_NONE != sync_error )
                 {
@@ -924,7 +933,16 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                                       &((*this_).temp_relationship ),
                                                                       &modified_info
                                                                     );
-            if ( U8_ERROR_NONE != sync_error )
+            if ( sync_error == U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS )
+            {
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_STAT_TABLE_RELATIONSHIP,
+                                     DATA_STAT_SERIES_WARNING
+                                   );
+                U8_LOG_WARNING( "invisible relationship dropped at reading from data stream" );
+                sync_error = U8_ERROR_NONE;
+            }
+            else if ( U8_ERROR_NONE != sync_error )
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
             }
