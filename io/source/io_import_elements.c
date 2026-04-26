@@ -473,7 +473,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                 data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
                 /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
             }
-            if ( U8_ERROR_NONE != sync_error )
+            if ( sync_error != U8_ERROR_NONE )
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
             }
@@ -528,7 +528,7 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
             data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
             /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
         }
-        if ( U8_ERROR_NONE != sync_error )
+        if ( sync_error != U8_ERROR_NONE )
         {
             U8_LOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
         }
@@ -599,7 +599,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                 data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             }
 
-            if ( U8_ERROR_NONE != sync_error )
+            if ( sync_error != U8_ERROR_NONE )
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_classifier_controller_create_classifier/feature" );
             }
@@ -727,29 +727,36 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                 data_feature_set_classifier_row_id( &((*this_).temp_feature ), classifier_row_id );
 
                 u8_error_t modified_info;
-                sync_error = ctrl_multi_step_changer_create_feature( &((*this_).multi_step_changer),
-                                                                     &((*this_).temp_feature ),
-                                                                     &modified_info
-                                                                   );
+                const u8_error_t create_err
+                    = ctrl_multi_step_changer_create_feature( &((*this_).multi_step_changer),
+                                                              &((*this_).temp_feature ),
+                                                              &modified_info
+                                                            );
 
-                if ( sync_error == U8_ERROR_DIAGRAM_HIDES_FEATURES )
+                if ( create_err == U8_ERROR_DIAGRAM_HIDES_FEATURES )
                 {
+                    /* add to ignored and to warning. */
+                    /* ignored is needed for correct statistics */
+                    /* warning is needed to indicate that this may be different from expectation */
+                    data_stat_inc_count( (*this_).stat,
+                                         is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
+                                         DATA_STAT_SERIES_IGNORED
+                                       );
                     data_stat_inc_count( (*this_).stat,
                                          is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
                                          DATA_STAT_SERIES_WARNING
                                        );
                     U8_LOG_WARNING( "invisible feature dropped at reading from data stream" );
-                    sync_error = U8_ERROR_NONE;
-                    /* U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS */
                 }
-                else if ( sync_error != U8_ERROR_NONE )
+                else if ( create_err != U8_ERROR_NONE )
                 {
                     data_stat_inc_count( (*this_).stat,
                                          is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
                                          DATA_STAT_SERIES_ERROR
                                        );
+                    sync_error |= create_err;
                 }
-                if ( U8_ERROR_NONE != sync_error )
+                if ( sync_error != U8_ERROR_NONE )
                 {
                     U8_LOG_ERROR( "unexpected error at ctrl_classifier_controller_create_feature" );
                 }
@@ -878,29 +885,52 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     }
 
     /* check preconditions */
+    bool valid_links = true;
     if ( do_sync )
     {
         if ( from_classifier_id == DATA_ROW_VOID )
         {
-            sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
+            valid_links = false;
             U8_LOG_ERROR( "A relationship could not be created because the source classifier could not be found." );
         }
         if ( to_classifier_id == DATA_ROW_VOID )
         {
-            sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
+            valid_links = false;
             U8_LOG_ERROR( "A relationship could not be created because the destination classifier could not be found." );
         }
-        if ( sync_error != U8_ERROR_NONE )
+        if ( ! valid_links )
         {
             const bool is_scenario = data_rules_relationship_is_scenario_cond( &((*this_).data_rules),
                                                                                from_feature_type,
                                                                                to_feature_type
                                                                              );
             U8_TRACE_INFO( is_scenario ? "relationship in interaction scenario dropped" : "general relationship dropped" );
+
+            const bool features_ignored
+                = ( 0 < data_stat_get_count( (*this_).stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+            if ( features_ignored )
+            {
+                U8_TRACE_INFO( "continuing despite illegal relationship because this may be caused by an invisible feature" );
+                /* add to ignored and to warning. */
+                /* ignored is needed for correct statistics */
+                /* warning is needed to indicate that this may be different from expectation */
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_STAT_TABLE_RELATIONSHIP,
+                                     DATA_STAT_SERIES_IGNORED
+                                   );
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_STAT_TABLE_RELATIONSHIP,
+                                     DATA_STAT_SERIES_WARNING
+                                   );
+            }
+            else
+            {
+                sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
+            }
         }
     }
 
-    if ( do_sync && ( sync_error == U8_ERROR_NONE ) )
+    if ( do_sync && valid_links )
     {
         /* check if the parsed relationship already exists in this database; if not, create it */
         data_relationship_init_empty( &((*this_).temp_relationship ) );
@@ -929,27 +959,31 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
 
             /* create relationship */
             u8_error_t modified_info;
-            sync_error = ctrl_multi_step_changer_create_relationship( &((*this_).multi_step_changer),
-                                                                      &((*this_).temp_relationship ),
-                                                                      &modified_info
-                                                                    );
-            if ( sync_error == U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS )
+            const u8_error_t create_err
+                = ctrl_multi_step_changer_create_relationship( &((*this_).multi_step_changer),
+                                                               &((*this_).temp_relationship ),
+                                                               &modified_info
+                                                             );
+            if ( create_err == U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS )
             {
+                /* add to ignored and to warning. */
+                /* ignored is needed for correct statistics */
+                /* warning is needed to indicate that this may be different from expectation */
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_STAT_TABLE_RELATIONSHIP,
+                                     DATA_STAT_SERIES_IGNORED
+                                   );
                 data_stat_inc_count( (*this_).stat,
                                      DATA_STAT_TABLE_RELATIONSHIP,
                                      DATA_STAT_SERIES_WARNING
                                    );
                 U8_LOG_WARNING( "invisible relationship dropped at reading from data stream" );
-                sync_error = U8_ERROR_NONE;
             }
-            else if ( U8_ERROR_NONE != sync_error )
+            else if ( create_err != U8_ERROR_NONE )
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
+                sync_error |= create_err;
             }
-            else
-            {
-            }
-
             /* update statistics */
             if ( sync_error != U8_ERROR_NONE )
             {
