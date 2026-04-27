@@ -118,7 +118,7 @@ static void create_mini_model( ctrl_controller_t *controller,
 
     *out_from_classifier = tvec_setup_classifier( &test_env, "from classifier" );
     *out_from_feature = tvec_setup_feature( &test_env, *out_from_classifier, "from feature" );
-    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier, *out_from_feature );
+    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier, *out_from_feature );  /* TODO only lifelines allowed */
     tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_from_classifier, DATA_ROW_VOID );
 
     *out_to_classifier_parent = tvec_setup_classifier( &test_env, "to parent" );
@@ -127,8 +127,8 @@ static void create_mini_model( ctrl_controller_t *controller,
 
     *out_to_classifier = tvec_setup_classifier( &test_env, "to classifier" );
     *out_to_feature = tvec_setup_feature( &test_env, *out_to_classifier, "to feature" );
-    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier, *out_to_feature );
-    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_to_classifier, *out_to_feature );
+    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier, *out_to_feature );  /* TODO only lifelines allowed */
+    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_to_classifier, *out_to_feature );  /* TODO only lifelines allowed */
 
     /* from child has parent */
     {
