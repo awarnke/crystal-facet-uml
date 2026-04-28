@@ -17,8 +17,9 @@
 #include "consistency_stat.h"
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
-#include "set/data_full_id.h"
 #include "data_rules.h"
+#include "set/data_full_id.h"
+#include "entity/data_row.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -124,12 +125,12 @@ u8_error_t consistency_lifeline_create_lifelines ( consistency_lifeline_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement.
- *  \param[out] out_lifeline_created true if a lifeline was created.
+ *  \param[out] out_lifeline_row DATA_ROW_VOID if no lifeline needed, a row number if a lifeline was created.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_lifeline_create_a_lifeline ( consistency_lifeline_t *this_,
                                                     const data_diagramelement_t *new_diagramelement,
-                                                    bool *out_lifeline_created
+                                                    data_row_t *out_lifeline_row
                                                   );
 
 /*!
@@ -137,10 +138,12 @@ u8_error_t consistency_lifeline_create_a_lifeline ( consistency_lifeline_t *this
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_ids data of the diagramelement.
+ *  \param[out] out_lifeline_row the row number of the created lifeline.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_lifeline_private_create_one_lifeline ( consistency_lifeline_t *this_,
-                                                              const data_full_id_t *diagramelement_ids
+                                                              const data_full_id_t *diagramelement_ids,
+                                                              data_row_t *out_lifeline_row
                                                             );
 
 /*!

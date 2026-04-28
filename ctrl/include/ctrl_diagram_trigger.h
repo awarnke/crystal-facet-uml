@@ -9,11 +9,12 @@
  *  \brief When triggered by database changes, this class calls consistency routines.
  */
 
-#include "u8/u8_error.h"
+#include "entity/data_id.h"
 #include "consistency/consistency_classifier.h"
 #include "consistency/consistency_feature.h"
 #include "consistency/consistency_lifeline.h"
 #include "consistency/consistency_relationship.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief all data attributes needed for the database trigger
@@ -74,12 +75,12 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type ( ctrl_di
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement.
- *  \param[out] out_lifeline_created true if a lifeline was created.
+ *  \param[out] out_created_lifeline a valid id if a lifeline was created, invalid if no lifeline was created.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement ( ctrl_diagram_trigger_t *this_,
                                                                            const data_diagramelement_t *new_diagramelement,
-                                                                           bool *out_lifeline_created
+                                                                           data_id_t *out_created_lifeline
                                                                          );
 
 /*!

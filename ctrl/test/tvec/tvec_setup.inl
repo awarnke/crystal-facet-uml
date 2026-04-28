@@ -119,15 +119,15 @@ static data_row_t inline tvec_setup_diagramelement( tvec_setup_t *this_,
                                              "0fea7d08-3888-4186-9ba1-7af85edf383e"
                                            );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
-        bool lifeline_created;
+        data_id_t created_lifeline;
         ctrl_err = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
                                                                   &new_diagele,
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &diagele_id,
-                                                                  &lifeline_created
+                                                                  &created_lifeline
                                                                 );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
-        (void) lifeline_created;  /* currently not checked for expectations */
+        (void) created_lifeline;  /* currently not checked for expectations */
         data_diagramelement_destroy ( &new_diagele );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != diagele_id );

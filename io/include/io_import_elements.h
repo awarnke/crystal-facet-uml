@@ -9,6 +9,11 @@
  *  \brief This class handles the elements that were read by an importer.
  *         Depending on the mode, these are ignored (just syntax-checked)
  *         or checked for duplicates and imported to the database.
+ *
+ *         Concerning error handling, this class aims for reporting local
+ *         errors via data_stat_t and continuing to import further elements.
+ *         Only non-local errors produce an error code to indicate
+ *         that the import can be aborted.
  */
 
 #include "io_import_mode.h"

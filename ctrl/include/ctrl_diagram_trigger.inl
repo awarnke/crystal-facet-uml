@@ -47,19 +47,28 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_dia
 
 static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement( ctrl_diagram_trigger_t *this_,
                                                                           const data_diagramelement_t *new_diagramelement,
-                                                                          bool *out_lifeline_created )
+                                                                          data_id_t *out_created_lifeline )
 {
     assert( new_diagramelement != NULL );
-    assert( out_lifeline_created != NULL );
+    assert( out_created_lifeline != NULL );
     u8_error_t result = U8_ERROR_NONE;
     if ( DATA_ROW_VOID == data_diagramelement_get_focused_feature_row_id( new_diagramelement ) )
     {
-        result = consistency_lifeline_create_a_lifeline( (*this_).lifeline, new_diagramelement, out_lifeline_created );
+        data_row_t lifeline_row = DATA_ROW_VOID;
+        result = consistency_lifeline_create_a_lifeline( (*this_).lifeline, new_diagramelement, &lifeline_row );
+        if (( result == U8_ERROR_NONE )&&( lifeline_row != DATA_ROW_VOID ))
+        {
+            data_id_init( out_created_lifeline, DATA_TABLE_FEATURE, lifeline_row );  /* lifelines are stored as feature */
+        }
+        else
+        {
+            *out_created_lifeline = DATA_ID_VOID;
+        }
     }
     else
     {
         /* the caller stated an focused_feature_row_id already, therefore a lifeline was already linked */
-        *out_lifeline_created = false;
+        *out_created_lifeline = DATA_ID_VOID;
     }
     return result;
 }

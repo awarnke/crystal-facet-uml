@@ -244,14 +244,14 @@ u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_cont
  *                                CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW if a new boundary shall be created
  *                                in the undo_redo_list_t.
  *  \param[out] out_new_id id of the newly created diagramelement, NULL if the new id is not needed.
- *  \param[out] out_lifeline_created true if not only a diagramelement but also a lifeline was created.
+ *  \param[out] out_created_lifeline a valid id if a lifeline was created, invalid if no lifeline was created.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
                                                            const data_diagramelement_t *new_diagramelement,
                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                            data_row_t* out_new_id,
-                                                           bool* out_lifeline_created
+                                                           data_id_t *out_created_lifeline
                                                          );
 
 /*!

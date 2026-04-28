@@ -137,15 +137,15 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
                                      );
 
         first_diag_element_id = DATA_ROW_VOID;
-        bool lifeline_created_1;
+        data_id_t created_lifeline_1;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &first_diag_element_id,
-                                                                   &lifeline_created_1
+                                                                   &created_lifeline_1
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( true, lifeline_created_1 );
+        TEST_EXPECT_EQUAL_INT( true, data_id_is_valid( &created_lifeline_1 ) );
         data_diagramelement_destroy ( &new_diagele );
         TEST_EXPECT( DATA_ROW_VOID != first_diag_element_id );
     }
@@ -335,15 +335,15 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
                                      );
 
         root_diag_element_id = DATA_ROW_VOID;
-        bool root_lifeline_created;
+        data_id_t created_root_lifeline;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &root_diag_element_id,
-                                                                   &root_lifeline_created
+                                                                   &created_root_lifeline
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( false, root_lifeline_created );
+        TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &created_root_lifeline ) );
         data_diagramelement_destroy ( &new_diagele );
         TEST_EXPECT( DATA_ROW_VOID != root_diag_element_id );
     }
@@ -360,15 +360,15 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
                                      );
 
         child_diag_element_id = DATA_ROW_VOID;
-        bool child_lifeline_created;
+        data_id_t created_child_lifeline;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele2,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &child_diag_element_id,
-                                                                   &child_lifeline_created
+                                                                   &created_child_lifeline
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( false, child_lifeline_created );
+        TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &created_child_lifeline ) );
         data_diagramelement_destroy ( &new_diagele2 );
         TEST_EXPECT( DATA_ROW_VOID != child_diag_element_id );
     }
@@ -565,15 +565,15 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
                                      );
 
         first_diag_element_id = DATA_ROW_VOID;
-        bool first_lifeline_created;
+        data_id_t created_first_lifeline;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &first_diag_element_id,
-                                                                   &first_lifeline_created
+                                                                   &created_first_lifeline
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( true, first_lifeline_created );
+        TEST_EXPECT_EQUAL_INT( true, data_id_is_valid( &created_first_lifeline ) );
         data_diagramelement_destroy ( &new_diagele );
         TEST_EXPECT( DATA_ROW_VOID != first_diag_element_id );
     }
@@ -590,15 +590,15 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
                                      );
 
         second_diag_element_id = DATA_ROW_VOID;
-        bool second_lifeline_created;
+        data_id_t created_second_lifeline;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele2,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &second_diag_element_id,
-                                                                   &second_lifeline_created
+                                                                   &created_second_lifeline
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( true, second_lifeline_created );
+        TEST_EXPECT_EQUAL_INT( true, data_id_is_valid( &created_second_lifeline ) );
         data_diagramelement_destroy ( &new_diagele2 );
         TEST_EXPECT( DATA_ROW_VOID != second_diag_element_id );
     }

@@ -424,12 +424,12 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
 u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_changer_t *this_,
                                                            data_diagramelement_t *new_diagramelement,
                                                            u8_error_t* out_info,
-                                                           bool* out_lifeline_created )
+                                                           data_id_t *out_created_lifeline )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_diagramelement );
     assert( NULL != out_info );
-    assert( NULL != out_lifeline_created );
+    assert( NULL != out_created_lifeline );
     u8_error_t result = U8_ERROR_NONE;
 
     /* ensure that a uuid exists */
@@ -450,7 +450,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
                                                          new_diagramelement,
                                                          (*this_).is_first_step,
                                                          &new_diagramelement_id,
-                                                         out_lifeline_created
+                                                         out_created_lifeline
                                                        );
     *out_info = create_err;
     if ( create_err == U8_ERROR_NONE )
@@ -460,14 +460,14 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
     }
     else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE ) )
     {
-        /* retry without pre-defined id now; overwrite out_lifeline_created */
+        /* retry without pre-defined id now; overwrite out_created_lifeline */
         data_diagramelement_set_row_id( new_diagramelement, DATA_ROW_VOID );
         const u8_error_t alt_create_err
             = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
                                                              new_diagramelement,
                                                              (*this_).is_first_step,
                                                              &new_diagramelement_id,
-                                                             out_lifeline_created
+                                                             out_created_lifeline
                                                            );
         if ( alt_create_err == U8_ERROR_NONE )
         {

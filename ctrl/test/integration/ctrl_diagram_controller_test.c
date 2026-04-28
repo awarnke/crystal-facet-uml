@@ -213,15 +213,15 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
                                        DATA_ROW_VOID
                                      );
-        bool lifeline_created;
+        data_id_t created_lifeline;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &diag_element_id,
-                                                                   &lifeline_created
+                                                                   &created_lifeline
                                                                  );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( false, lifeline_created );
+        TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &created_lifeline ) );
         data_diagramelement_destroy ( &new_diagele );
         TEST_EXPECT( DATA_ROW_VOID != diag_element_id );
     }
