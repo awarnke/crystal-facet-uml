@@ -5,7 +5,7 @@ crystal-facet-uml (1.70.1) UNRELEASED; urgency=medium
   * when opening files, some rare anomalies are fixed automatically instead of
     just reporting an error as done in version 1.70.0 (Closes: #7)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 May 2026 12:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 28 Apr 2026 21:00:00 +0200
 
 crystal-facet-uml (1.70.0) UNRELEASED; urgency=medium
 

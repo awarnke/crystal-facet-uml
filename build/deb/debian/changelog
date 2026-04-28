@@ -1,3 +1,12 @@
+crystal-facet-uml (1.70.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * speed up of reading/importing json files by dropping 2 of 5 reading passes
+  * when opening files, some rare anomalies are fixed automatically instead of
+    just reporting an error as done in version 1.70.0 (Closes: #7)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 28 Apr 2026 21:00:00 +0200
+
 crystal-facet-uml (1.70.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
