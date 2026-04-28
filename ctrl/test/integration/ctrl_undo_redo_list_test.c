@@ -467,8 +467,8 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
         = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM );
     const data_row_t first_classifier = tvec_setup_classifier( &test_environ, "first classifier" );
     const data_row_t second_classifier = tvec_setup_classifier( &test_environ, "second classifier" );
-    tvec_setup_diagramelement( &test_environ, root_diagram, first_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, root_diagram, second_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, first_classifier );
+    tvec_setup_diagramelement( &test_environ, root_diagram, second_classifier );
     const data_row_t second_feature = tvec_setup_feature( &test_environ, second_classifier, "2nd feature" );
     tvec_setup_destroy( &test_environ );
     ctrl_controller_reset_undo_redo_list( &((*fix).controller) );  /* clear the undo redo list */

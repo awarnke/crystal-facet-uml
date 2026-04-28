@@ -62,14 +62,30 @@ static inline data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char*
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the parent diagram to which to attach the classifier
  *  \param classifier_id id of the classifier which to attach to the diagram
- *  \param focused_feature_id id of the lifeline if applicable, DATA_ROW_VOID otherwise
  *  \return id of newly created diagramelement
  */
 static inline data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
                                                     data_row_t diagram_id,
-                                                    data_row_t classifier_id,
-                                                    data_row_t focused_feature_id
+                                                    data_row_t classifier_id
                                                   );
+
+/*!
+ *  \brief helper function to initialize the database
+ *
+ *  This function creates a diagramelement and a lifeline.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the parent diagram to which to attach the classifier.
+ *                    It must be of type interaction/scenario.
+ *  \param classifier_id id of the classifier which to attach to the diagram
+ *  \param[out] out_diagele_id id of the diagramelement, NULL if not needed
+ *  \return out_lifeline_id id of the lifeline
+ */
+static inline data_row_t tvec_setup_lifeline( tvec_setup_t *this_,
+                                              data_row_t diagram_id,
+                                              data_row_t classifier_id,
+                                              data_row_t * out_diagele_id
+                                            );
 
 /*!
  *  \brief helper function to initialize the database

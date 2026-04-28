@@ -98,8 +98,7 @@ static inline data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char*
 
 static data_row_t inline tvec_setup_diagramelement( tvec_setup_t *this_,
                                                     data_row_t diagram_id,
-                                                    data_row_t classifier_id,
-                                                    data_row_t focused_feature_id )
+                                                    data_row_t classifier_id )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -127,12 +126,55 @@ static data_row_t inline tvec_setup_diagramelement( tvec_setup_t *this_,
                                                                   &created_lifeline
                                                                 );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
-        (void) created_lifeline;  /* currently not checked for expectations */
+        TEST_ENVIRONMENT_ASSERT( ! data_id_is_valid( &created_lifeline ) );
         data_diagramelement_destroy ( &new_diagele );
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != diagele_id );
 
     return diagele_id;
+}
+
+static inline data_row_t tvec_setup_lifeline( tvec_setup_t *this_,
+                                              data_row_t diagram_id,
+                                              data_row_t classifier_id,
+                                              data_row_t * out_diagele_id )
+{
+    u8_error_t ctrl_err;
+    u8_error_t data_err;
+    data_id_t created_lifeline = DATA_ID_VOID;
+    ctrl_diagram_controller_t *diagram_ctrl;
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+    /* create a diagramelement */
+    data_row_t diagele_id;
+    {
+        static data_diagramelement_t new_diagele;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
+        data_err = data_diagramelement_init( &new_diagele,
+                                             DATA_ROW_VOID /* diagramelement_id is ignored */,
+                                             diagram_id,
+                                             classifier_id,
+                                             DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                             DATA_ROW_VOID,
+                                             "0fea7d08-3888-4186-9ba1-7af85edf383e"
+        );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+        ctrl_err = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
+                                                                  &new_diagele,
+                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                                  &diagele_id,
+                                                                  &created_lifeline
+        );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
+        TEST_ENVIRONMENT_ASSERT( data_id_is_valid( &created_lifeline ) );
+        data_diagramelement_destroy ( &new_diagele );
+    }
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != diagele_id );
+
+    if ( out_diagele_id != NULL )
+    {
+        *out_diagele_id = diagele_id;
+    }
+    return data_id_get_row_id( &created_lifeline );
 }
 
 static inline data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name )

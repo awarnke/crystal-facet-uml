@@ -79,17 +79,21 @@ static test_case_result_t change_diagram_type( test_fixture_t *fix )
 
     /* create 1 classifier and 3 diagramelements */
     const data_row_t semi_classifier = tvec_setup_classifier( &test_environ, "semi classifier" );
-    tvec_setup_diagramelement( &test_environ, test_diagram, semi_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, seq_diagram, semi_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, test_diagram, semi_classifier );
+    const data_row_t semi_life
+        = tvec_setup_lifeline( &test_environ, seq_diagram, semi_classifier, NULL /* ignore out_diagele_id */  );
+    (void) semi_life;  /* lifeline not needed */
 
     /* create 1 feature */
     const data_row_t semi_feature = tvec_setup_feature( &test_environ, semi_classifier, "semi feature" );
 
     /* create 1 classifier and 3 diagramelements */
     const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
-    tvec_setup_diagramelement( &test_environ, test_diagram, omni_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, seq_diagram, omni_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, class_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, test_diagram, omni_classifier );
+    const data_row_t omni_life
+        = tvec_setup_lifeline( &test_environ, seq_diagram, omni_classifier, NULL /* ignore out_diagele_id */  );
+    (void) omni_life;  /* lifeline not needed */
+    tvec_setup_diagramelement( &test_environ, class_diagram, omni_classifier );
 
     /* create 1 feature */
     const data_row_t omni_feature = tvec_setup_feature( &test_environ, omni_classifier, "omni feature" );
@@ -155,20 +159,24 @@ static test_case_result_t delete_diagramelement( test_fixture_t *fix )
 
     /* create 1 classifier and 3 diagramelements */
     const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
-    tvec_setup_diagramelement( &test_environ, box_diagram, test_classifier, DATA_ROW_VOID );
-    const data_row_t test_seq_diagele
-        = tvec_setup_diagramelement( &test_environ, seq_diagram, test_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, class_diagram, test_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, box_diagram, test_classifier );
+    data_row_t test_seq_diagele;
+    const data_row_t test_life
+        = tvec_setup_lifeline( &test_environ, seq_diagram, test_classifier, &test_seq_diagele );
+    (void) test_life;  /* lifeline not needed */
+    tvec_setup_diagramelement( &test_environ, class_diagram, test_classifier );
 
     /* create 1 feature */
     const data_row_t test_feature = tvec_setup_feature( &test_environ, test_classifier, "test feature" );
 
     /* create 1 classifier and 3 diagramelements */
     const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
-    tvec_setup_diagramelement( &test_environ, box_diagram, omni_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, seq_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, box_diagram, omni_classifier );
+    const data_row_t omni_life
+        = tvec_setup_lifeline( &test_environ, seq_diagram, omni_classifier, NULL /* ignore out_diagele_id */ );
+    (void) omni_life;  /* lifeline not needed */
     const data_row_t omni_class_diagele
-        = tvec_setup_diagramelement( &test_environ, class_diagram, omni_classifier, DATA_ROW_VOID );
+        = tvec_setup_diagramelement( &test_environ, class_diagram, omni_classifier );
 
     /* create 1 feature */
     const data_row_t omni_feature = tvec_setup_feature( &test_environ, omni_classifier, "omni feature" );

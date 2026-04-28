@@ -77,7 +77,9 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
     const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
 
     /* create 1 diagramelement */
-    tvec_setup_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
+    const data_row_t test_life
+        = tvec_setup_lifeline( &test_environ, root_diagram, test_classifier, NULL /* ignore out_diagele_id */  );
+    (void) test_life;  /* lifeline not needed */
 
     tvec_setup_destroy( &test_environ );
 
@@ -138,9 +140,11 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
     const data_row_t orphaned_classifier = tvec_setup_classifier( &test_environ, "orphaned classifier" );
 
     /* create 2 diagramelements */
-    tvec_setup_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
-    const data_row_t test_diagele
-        = tvec_setup_diagramelement( &test_environ, test_diagram, test_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, omni_classifier );
+    data_row_t test_diagele;
+    const data_row_t test_life
+        = tvec_setup_lifeline( &test_environ, test_diagram, test_classifier, &test_diagele );
+    (void) test_life;  /* lifeline not needed */
 
     /* create 2 features */
     const data_row_t testatomni_feature = tvec_setup_feature( &test_environ, omni_classifier, "test@omni feature" );

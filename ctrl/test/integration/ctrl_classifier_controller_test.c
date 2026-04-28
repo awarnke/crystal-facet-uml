@@ -231,7 +231,7 @@ static test_case_result_t features_CRURDR( test_fixture_t *fix )
     const data_row_t root_diagram
         = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM );
     const data_row_t the_classifier = tvec_setup_classifier( &test_environ, "the classifier" );
-    tvec_setup_diagramelement( &test_environ, root_diagram, the_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, the_classifier );
     tvec_setup_destroy( &test_environ );
 
     ctrl_classifier_controller_t *classifier_ctrl;
@@ -366,8 +366,8 @@ static test_case_result_t relationship_CRURDR( test_fixture_t *fix )
         = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM );
     const data_row_t first_classifier = tvec_setup_classifier( &test_environ, "first classifier" );
     const data_row_t second_classifier = tvec_setup_classifier( &test_environ, "second classifier" );
-    tvec_setup_diagramelement( &test_environ, root_diagram, first_classifier, DATA_ROW_VOID );
-    tvec_setup_diagramelement( &test_environ, root_diagram, second_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, first_classifier );
+    tvec_setup_diagramelement( &test_environ, root_diagram, second_classifier );
     const data_row_t prim_feature = tvec_setup_feature( &test_environ, first_classifier, "primary feature" );
     tvec_setup_destroy( &test_environ );
 
