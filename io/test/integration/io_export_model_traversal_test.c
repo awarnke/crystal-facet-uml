@@ -36,8 +36,11 @@ static void create_mini_model( ctrl_controller_t *controller,
                                data_row_t * out_relation_clas_clas,
                                data_row_t * out_relation_clas_feat,
                                data_row_t * out_relation_feat_clas,
-                               data_row_t * out_relation_feat_feat
-                             );
+                               data_row_t * out_relation_feat_feat,
+                               data_row_t * out_relation_clas_life,
+                               data_row_t * out_relation_life_clas,
+                               data_row_t * out_relation_life_life
+);
 
 test_suite_t io_export_model_traversal_test_get_suite(void)
 {
@@ -57,7 +60,7 @@ struct test_fixture_struct {
     data_database_reader_t db_reader;  /*!< database reader to access the database */
     ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
     universal_memory_output_stream_t mem_output_stream;  /*!< stream to write to a memory buffer */
-    char mem_buffer[16384];  /*!< mem-buffer to be written by mem_output_stream */
+    char mem_buffer[32768];  /*!< mem-buffer to be written by mem_output_stream */
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
@@ -101,7 +104,10 @@ static void create_mini_model( ctrl_controller_t *controller,
                                data_row_t * out_relation_clas_clas,
                                data_row_t * out_relation_clas_feat,
                                data_row_t * out_relation_feat_clas,
-                               data_row_t * out_relation_feat_feat )
+                               data_row_t * out_relation_feat_feat,
+                               data_row_t * out_relation_clas_life,
+                               data_row_t * out_relation_life_clas,
+                               data_row_t * out_relation_life_life )
 {
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
@@ -114,23 +120,27 @@ static void create_mini_model( ctrl_controller_t *controller,
 
     *out_from_classifier_parent = tvec_setup_classifier( &test_env, "from parent" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier_parent );
-    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_from_classifier_parent );
+    const data_row_t from_parent_life
+        = tvec_setup_lifeline( &test_env, *out_seq_diagram, *out_from_classifier_parent, NULL /* ignore out_diagele_id */ );
+    (void) from_parent_life;  /* lifeline not needed */
 
     *out_from_classifier = tvec_setup_classifier( &test_env, "from classifier" );
-    *out_from_feature = tvec_setup_feature( &test_env, *out_from_classifier, "from feature" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier );
     const data_row_t from_life
         = tvec_setup_lifeline( &test_env, *out_seq_diagram, *out_from_classifier, NULL /* ignore out_diagele_id */ );
+    *out_from_feature = tvec_setup_feature( &test_env, *out_from_classifier, "from feature" );
 
     *out_to_classifier_parent = tvec_setup_classifier( &test_env, "to parent" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier_parent );
-    tvec_setup_diagramelement( &test_env, *out_seq_diagram, *out_to_classifier_parent );
+    const data_row_t to_parent_life
+        = tvec_setup_lifeline( &test_env, *out_seq_diagram, *out_to_classifier_parent, NULL /* ignore out_diagele_id */ );
+    (void) to_parent_life;  /* lifeline not needed */
 
     *out_to_classifier = tvec_setup_classifier( &test_env, "to classifier" );
-    *out_to_feature = tvec_setup_feature( &test_env, *out_to_classifier, "to feature" );
     tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier );
     const data_row_t to_life
         = tvec_setup_lifeline( &test_env, *out_seq_diagram, *out_to_classifier, NULL /* ignore out_diagele_id */ );
+    *out_to_feature = tvec_setup_feature( &test_env, *out_to_classifier, "to feature" );
 
     /* from child has parent */
     {
@@ -165,32 +175,53 @@ static void create_mini_model( ctrl_controller_t *controller,
     }
 
     *out_relation_clas_clas = tvec_setup_relationship( &test_env,
-                                                       *out_from_classifier_parent,
+                                                       *out_from_classifier,
                                                        DATA_ROW_VOID,
                                                        *out_to_classifier,
                                                        DATA_ROW_VOID,
                                                        "from classifier to classifier"
                                                      );
     *out_relation_clas_feat = tvec_setup_relationship( &test_env,
-                                                       *out_from_classifier_parent,
+                                                       *out_from_classifier,
                                                        DATA_ROW_VOID,
                                                        *out_to_classifier,
                                                        *out_to_feature,
                                                        "from classifier to feature"
                                                      );
     *out_relation_feat_clas = tvec_setup_relationship( &test_env,
-                                                       *out_from_classifier_parent,
+                                                       *out_from_classifier,
                                                        *out_from_feature,
                                                        *out_to_classifier,
                                                        DATA_ROW_VOID,
                                                        "from feature to classifier"
                                                      );
     *out_relation_feat_feat = tvec_setup_relationship( &test_env,
-                                                       *out_from_classifier_parent,
+                                                       *out_from_classifier,
                                                        *out_from_feature,
                                                        *out_to_classifier,
                                                        *out_to_feature,
                                                        "from feature to feature"
+                                                     );
+    *out_relation_clas_life = tvec_setup_relationship( &test_env,
+                                                       *out_from_classifier,
+                                                       DATA_ROW_VOID,
+                                                       *out_to_classifier,
+                                                       to_life,
+                                                       "from classifier to lifeline"
+                                                     );
+    *out_relation_life_clas = tvec_setup_relationship( &test_env,
+                                                       *out_from_classifier,
+                                                       from_life,
+                                                       *out_to_classifier,
+                                                       DATA_ROW_VOID,
+                                                       "from lifeline to classifier"
+                                                     );
+    *out_relation_life_life = tvec_setup_relationship( &test_env,
+                                                       *out_from_classifier,
+                                                       from_life,
+                                                       *out_to_classifier,
+                                                       to_life,
+                                                       "from lifeline to lifeline"
                                                      );
 
     tvec_setup_destroy( &test_env );
@@ -236,7 +267,7 @@ static const data_feature_type_t feature_types[]
     DATA_FEATURE_TYPE_PROPERTY,
     DATA_FEATURE_TYPE_OPERATION,
     DATA_FEATURE_TYPE_PORT,
-    DATA_FEATURE_TYPE_LIFELINE,
+    /*DATA_FEATURE_TYPE_LIFELINE,*/ /* lifelines have own, immutable objects. */
     DATA_FEATURE_TYPE_PROVIDED_INTERFACE,
     DATA_FEATURE_TYPE_REQUIRED_INTERFACE,
     DATA_FEATURE_TYPE_IN_PORT_PIN,
@@ -281,6 +312,9 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
     data_row_t relation_clas_feat;
     data_row_t relation_feat_clas;
     data_row_t relation_feat_feat;
+    data_row_t relation_clas_life;
+    data_row_t relation_life_clas;
+    data_row_t relation_life_life;
     data_row_t root_diag_id;
     data_row_t seq_diag_id;
     create_mini_model( &((*fix).controller),
@@ -295,7 +329,10 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
                        &relation_clas_clas,
                        &relation_clas_feat,
                        &relation_feat_clas,
-                       &relation_feat_feat
+                       &relation_feat_feat,
+                       &relation_clas_life,
+                       &relation_life_clas,
+                       &relation_life_life
                      );
 
     unsigned int clas_cnt = sizeof(classifier_types)/sizeof(classifier_types[0]);
@@ -335,6 +372,9 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
                     c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_feat, relationship_types[rel2_idx] );
                     c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_clas, relationship_types[rel1_idx] );
                     c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_feat, relationship_types[rel1_idx] );
+                    c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_life, relationship_types[rel1_idx] );
+                    c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_life_clas, relationship_types[rel2_idx] );
+                    c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_life_life, relationship_types[rel2_idx] );
                     c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier_parent, classifier_types[clas1_idx] );
                     c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier, classifier_types[clas1_idx] );
                     c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier_parent, classifier_types[clas1_idx] );
@@ -364,7 +404,7 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
                                                             xmi_element_writer_get_element_writer( &temp_xmi_writer )
                                                           );
                             /* write the document */
-                            int export_err = 0;
+                            u8_error_t export_err = 0;
                             export_err |= xmi_element_writer_write_header( &temp_xmi_writer, "document file name" );
                             export_err |= xmi_element_writer_start_main( &temp_xmi_writer, "document file name" );
                             xmi_element_writer_set_mode( &temp_xmi_writer, XMI_WRITER_PASS_BASE );
@@ -374,7 +414,7 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
                             export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
                             export_err |= xmi_element_writer_write_footer( &temp_xmi_writer );
 
-                            TEST_EXPECT_EQUAL_INT( 0, export_err );
+                            TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, export_err, u8_error_get_name );
 
                             io_export_model_traversal_destroy( &temp_model_traversal );
                             xmi_element_writer_destroy( &temp_xmi_writer );
@@ -395,8 +435,8 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
 
                     data_stat_trace( &stat );
                     const int expected_rel_errors
-                        = (( relationship_types[rel1_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
-                        + (( relationship_types[rel2_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
+                        = (( relationship_types[rel1_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 4 : 0 )
+                        + (( relationship_types[rel2_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 );
                     const int expected_clas_errors
                         = (( classifier_types[clas1_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
                         + (( classifier_types[clas2_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
