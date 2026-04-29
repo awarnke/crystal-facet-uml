@@ -85,22 +85,6 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
                                                              int quantity
                                                            );
 
-#if 0
-/*!
- *  \brief shows a message
- *
- *  \param this_ pointer to own object attributes
- *  \param type_id type of message to be shown
- *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
- *  \param stream_line a line number parameter that is printed with the content-message-string.
- */
-void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_user_t *this_,
-                                                         gui_simple_message_type_t type_id,
-                                                         const gui_simple_message_content_position_t *content_id,
-                                                         int stream_line
-                                                       );
-#endif
-
 /*!
  *  \brief shows a message
  *

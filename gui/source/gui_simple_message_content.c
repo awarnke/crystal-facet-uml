@@ -48,6 +48,8 @@ static const gui_simple_message_content_stat_t GUI_SIMPLE_MESSAGE_CONTENT_REDO_D
 const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_REDO = &GUI_SIMPLE_MESSAGE_CONTENT_REDO_DATA;
 static const gui_simple_message_content_stat_t GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE_DATA = { .stat=NULL };
 const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE = &GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE_DATA;
+static const gui_simple_message_content_stat_t GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_DATA = { .stat=NULL };
+const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED = &GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_DATA;
 
 static const gui_simple_message_content_names_stat_t GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED_DATA = { .list_of_names=NULL, .stat=NULL };
 const gui_simple_message_content_names_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED = &GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED_DATA;

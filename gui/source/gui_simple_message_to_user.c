@@ -233,43 +233,6 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
     U8_TRACE_END();
 }
 
-#if 0
-/* REPLACED BY gui_simple_message_to_user_show_error_info */
-void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_user_t *this_,
-                                                         gui_simple_message_type_t type_id,
-                                                         const gui_simple_message_content_position_t *content_id,
-                                                         int stream_line )
-{
-    U8_TRACE_BEGIN();
-    assert( content_id != NULL );
-
-    /* update type id: */
-    (*this_).type_id = type_id;
-    gui_simple_message_to_user_private_set_icon_image( this_, type_id );
-
-    /* update content text: */
-    utf8stringbuf_clear( &((*this_).private_temp_str) );
-    if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA )
-    {
-        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA" );
-        utf8stringbuf_append_str( &((*this_).private_temp_str), "Invalid input data at line " );
-        utf8stringbuf_append_int( &((*this_).private_temp_str), stream_line );
-    }
-    else
-    {
-        U8_LOG_ERROR("unexptected content_id");
-        assert(false);
-    }
-    gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( &((*this_).private_temp_str) ));
-
-    /* show: */
-    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
-    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
-
-    U8_TRACE_END();
-}
-#endif
-
 void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_user_t *this_,
                                                          gui_simple_message_type_t type_id,
                                                          const gui_simple_message_content_name_t *content_id,
@@ -488,6 +451,12 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
         utf8stringbuf_append_str( &((*this_).private_temp_str), "Type changed: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED )
+    {
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED" );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file opened: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
     else
     {
         U8_LOG_ERROR("unexptected content_id");
@@ -534,7 +503,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     }
     else
     {
-        U8_LOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexpected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( &((*this_).private_temp_str) ));

@@ -111,6 +111,7 @@ extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DELET
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_UNDO;  /*!< show statistics on undo actions */
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_REDO;  /*!< show statistics on redo actions */
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE;  /*!< show statistics on type change actions */
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED;  /*!< show statistics on opening a file, CURRENTLY UNUSED */
 
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names_and_stat method.
  *
