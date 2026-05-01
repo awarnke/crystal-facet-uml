@@ -1,6 +1,7 @@
 /* File: ctrl_classifier_trigger.inl; Copyright and License: see below */
 
 #include <assert.h>
+#include "u8/u8_log.h"
 
 static inline void ctrl_classifier_trigger_init ( ctrl_classifier_trigger_t *this_,
                                                   consistency_feature_t *feature,
@@ -53,6 +54,7 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_feature( ctrl_class
         result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id, &stat );
         if ( consistency_stat_get_features( &stat ) != 0 )
         {
+            U8_LOG_WARNING("A feature was created. It was invisible. It is deleted again.");
             assert( consistency_stat_get_total_count( &stat ) == -1 );  /* otherwise the model was already inconsistent before... */
             result_err |= U8_ERROR_DIAGRAM_HIDES_FEATURES;
         }
@@ -76,6 +78,7 @@ static inline u8_error_t ctrl_classifier_trigger_post_create_relationship( ctrl_
                                                                           );
     if ( deleted_relationships != 0 )
     {
+        U8_LOG_WARNING("A relationship was created. It was invisible. It is deleted again.");
         assert( deleted_relationships == 1 );  /* otherwise the model was already inconsistent before... */
         result_err |= U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS;
     }
