@@ -7,6 +7,7 @@
 #include "storage/data_database_reader.h"
 #include "entity/data_diagram.h"
 #include "entity/data_diagram_type.h"
+#include "tvec/tvec_setup.h"
 #include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
@@ -17,6 +18,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t create_read_modify_read( test_fixture_t *fix );
 static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix );
+static test_case_result_t modify_type( test_fixture_t *fix );
 
 test_suite_t ctrl_diagram_controller_test_get_suite(void)
 {
@@ -29,6 +31,7 @@ test_suite_t ctrl_diagram_controller_test_get_suite(void)
                    );
     test_suite_add_test_case( &result, "create_read_modify_read", &create_read_modify_read );
     test_suite_add_test_case( &result, "create_diagramelements_and_delete", &create_diagramelements_and_delete );
+    test_suite_add_test_case( &result, "modify_type", &modify_type );
     return result;
 }
 
@@ -318,6 +321,91 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
         data_err = data_diagram_iterator_destroy( &diagram_iterator );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     }
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t modify_type( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+
+    /* setup a model to test */
+    tvec_setup_t test_environ;
+    tvec_setup_init( &test_environ, &((*fix).controller) );
+
+    /* create 2 diagrams */
+    const data_row_t root_diagram
+        = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag", DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM );
+    const data_row_t test_diagram
+        = tvec_setup_diagram( &test_environ, root_diagram, "test diag", DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM );
+
+    /* create 2 classifiers */
+    const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
+    const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
+
+    /* create 3 diagramelements */
+    tvec_setup_diagramelement( &test_environ, root_diagram, omni_classifier );
+    tvec_setup_diagramelement( &test_environ, test_diagram, omni_classifier );
+    tvec_setup_diagramelement( &test_environ, test_diagram, test_classifier );
+
+    /* create 2 features */
+    tvec_setup_feature( &test_environ, omni_classifier, "omni@feature" );
+    const data_row_t test_feature
+        = tvec_setup_feature( &test_environ, test_classifier, "test@feature" );
+
+    /* create 2 relationships which will get deleted for different reasons */
+    tvec_setup_relationship( &test_environ,
+                             omni_classifier, omni_classifier,
+                             test_classifier, test_feature,
+                             "test 1 relation"
+                           );
+    tvec_setup_relationship( &test_environ,
+                             test_classifier, DATA_ROW_VOID,
+                             test_classifier, DATA_ROW_VOID,
+                             "test 2 relation"
+                           );
+
+    tvec_setup_destroy( &test_environ );
+
+    /* do some type changes of the diagram */
+    ctrl_diagram_controller_t *diag_ctrl;
+    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
+
+    {
+        consistency_stat_t stat;
+        consistency_stat_init( &stat );
+        const u8_error_t err1
+            = ctrl_diagram_controller_update_diagram_type( diag_ctrl,
+                                                           test_diagram,
+                                                           DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                                           &stat
+                                                         );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err1, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_classifiers( &stat ) );
+        TEST_EXPECT_EQUAL_INT( -1, consistency_stat_get_features( &stat ) );
+        TEST_EXPECT_EQUAL_INT( -2, consistency_stat_get_relationships( &stat ) );
+        TEST_EXPECT_EQUAL_INT( 2, consistency_stat_get_lifelines( &stat ) );
+
+        consistency_stat_destroy( &stat );
+    }
+
+    {
+        consistency_stat_t stat;
+        consistency_stat_init( &stat );
+        const u8_error_t err1
+        = ctrl_diagram_controller_update_diagram_type( diag_ctrl,
+                                                       test_diagram,
+                                                       DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
+                                                       &stat
+        );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err1, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_classifiers( &stat ) );
+        TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_features( &stat ) );
+        TEST_EXPECT_EQUAL_INT( 0, consistency_stat_get_relationships( &stat ) );
+        TEST_EXPECT_EQUAL_INT( -2, consistency_stat_get_lifelines( &stat ) );
+
+        consistency_stat_destroy( &stat );
+    }
+
     return TEST_CASE_RESULT_OK;
 }
 
