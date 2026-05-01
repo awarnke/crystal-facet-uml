@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.0"
+    "generator_version": "1.70.2"
   }
   ,
   "views":
@@ -2028,7 +2028,7 @@
           },
           {
             "id": 41,
-            "classifier_name": "ctrl_consistency_checker",
+            "classifier_name": "consistency_checker",
             "node": "60910235-8098-4c7b-a914-39704fd3f678",
             "uuid": "782e4b8b-cb68-4f40-8c03-269243a07b6e"
           },
@@ -2099,13 +2099,13 @@
         [
           {
             "id": 761,
-            "classifier_name": "consis tency_ drop_ invisibles",
+            "classifier_name": "consistency_classifier",
             "node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
             "uuid": "a286bee2-8046-47f0-ada3-a6b1ced40d28"
           },
           {
             "id": 762,
-            "classifier_name": "consis tency_ lifeline",
+            "classifier_name": "consistency_lifeline",
             "node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
             "uuid": "69841cd3-7afa-4b52-8c3a-86b7c2af903c"
           },
@@ -2128,12 +2128,6 @@
             "uuid": "f87f866d-1b24-4920-9c46-1b39788f9d16"
           },
           {
-            "id": 771,
-            "classifier_name": "ctrl",
-            "node": "906d936b-c68c-4592-b5c7-610e29065707",
-            "uuid": "eb266e64-251f-4b17-b67d-91099f155ef0"
-          },
-          {
             "id": 772,
             "classifier_name": "ARC_NO_INVISIBLE_CLASSIFIERS",
             "node": "56172679-9b7a-443e-99b4-dd0918e6362b",
@@ -2144,6 +2138,30 @@
             "classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
             "node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
             "uuid": "6231cee3-f063-4bd1-bfc1-a4b60bde2e90"
+          },
+          {
+            "id": 1050,
+            "classifier_name": "consistency_feature",
+            "node": "f99acb6c-9fdf-4933-88dd-48d0981c8e8a",
+            "uuid": "32ba7d6d-a110-4498-856c-1e570f7efcc2"
+          },
+          {
+            "id": 1051,
+            "classifier_name": "consistency_relationship",
+            "node": "2e76899a-34cd-4dbb-a4d7-1505008de111",
+            "uuid": "39264d68-7efd-410b-a950-1fb89677f9ac"
+          },
+          {
+            "id": 1052,
+            "classifier_name": "consistency_checker",
+            "node": "60910235-8098-4c7b-a914-39704fd3f678",
+            "uuid": "c264697a-248e-4bb1-828a-665329636bc6"
+          },
+          {
+            "id": 1053,
+            "classifier_name": "ARC_NO_INVISIBLE_FEATURES",
+            "node": "4547aa24-cb97-4069-a750-ec792b7fe745",
+            "uuid": "b0b712c1-13a6-4aec-8a3d-686920c5fc85"
           }
         ]
       }
@@ -2188,13 +2206,13 @@
           },
           {
             "id": 778,
-            "classifier_name": "consis tency_ drop_ invisibles",
+            "classifier_name": "consistency_classifier",
             "node": "efbcb169-38c5-43a8-84c3-491dce0e3384",
             "uuid": "9da1d884-771c-4117-884b-acb1dd90e7fa"
           },
           {
             "id": 779,
-            "classifier_name": "consis tency_ lifeline",
+            "classifier_name": "consistency_lifeline",
             "node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
             "uuid": "350b0f89-76ca-4752-bf67-02627a1f79a9"
           },
@@ -8573,12 +8591,12 @@
       "classifier": {
         "id": 41,
         "type": "Class", "main_type": 125,
-        "name": "ctrl_consistency_checker",
+        "name": "consistency_checker",
         "description": [
                 "- checks and repairs a database"
         ],
-        "x_order": -394858420,
-        "y_order": -398606019,
+        "x_order": 192110479,
+        "y_order": 1452759827,
         "list_order": 0,
         "uuid": "60910235-8098-4c7b-a914-39704fd3f678",
         "features":
@@ -16873,7 +16891,7 @@
                 "2) their intention is unclear."
         ],
         "x_order": 759784271,
-        "y_order": -1417191589,
+        "y_order": -1549750891,
         "list_order": -2026583502,
         "uuid": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
         "features":
@@ -16885,13 +16903,13 @@
       "classifier": {
         "id": 468,
         "type": "Class", "main_type": 125,
-        "name": "consis tency_ drop_ invisibles",
+        "name": "consistency_classifier",
         "description": [
                 "This class cares about deleting model elements that are not visible anymore.\n",
                 ""
         ],
-        "x_order": 250096395,
-        "y_order": -1876938981,
+        "x_order": 192110479,
+        "y_order": -1887735867,
         "list_order": 414244386,
         "uuid": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "features":
@@ -16925,12 +16943,12 @@
       "classifier": {
         "id": 470,
         "type": "Class", "main_type": 125,
-        "name": "consis tency_ lifeline",
+        "name": "consistency_lifeline",
         "description": [
                 "This class cares about creating and deleting lifelines depending on the ",
                 "surrounding diagram type."
         ],
-        "x_order": 250096395,
+        "x_order": 192110479,
         "y_order": 1216656999,
         "list_order": 1249524052,
         "uuid": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
@@ -17072,7 +17090,7 @@
                 "in non-interaction diagrams.\n",
                 ""
         ],
-        "x_order": 759784271,
+        "x_order": 588633778,
         "y_order": 1216656999,
         "list_order": 1216656999,
         "uuid": "09010aac-7f1b-453b-bf80-51c1c475e45e",
@@ -17090,7 +17108,7 @@
         "description": [
                 "When there is no diagram showing a classifier, this classifier shall not exist."
         ],
-        "x_order": 759784271,
+        "x_order": 588633778,
         "y_order": -1887735867,
         "list_order": -1041109699,
         "uuid": "56172679-9b7a-443e-99b4-dd0918e6362b",
@@ -17109,8 +17127,8 @@
                 "When there is no diagram showing a relationship, this relationship shall not ",
                 "exist."
         ],
-        "x_order": 759784271,
-        "y_order": -1882340401,
+        "x_order": 588633778,
+        "y_order": -1417191589,
         "list_order": 84802133,
         "uuid": "6d669208-0eaa-4797-b927-86cd05d7ab88",
         "features":
@@ -19701,6 +19719,60 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 618,
+        "type": "Class", "main_type": 125,
+        "name": "consistency_feature",
+        "description": [
+                "This class cares about deleting model elements that are not visible anymore.\n",
+                ""
+        ],
+        "x_order": 192110479,
+        "y_order": -1882340401,
+        "list_order": -1736652282,
+        "uuid": "f99acb6c-9fdf-4933-88dd-48d0981c8e8a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 619,
+        "type": "Class", "main_type": 125,
+        "name": "consistency_relationship",
+        "description": [
+                "This class cares about deleting model elements that are not visible anymore.\n",
+                ""
+        ],
+        "x_order": 192110479,
+        "y_order": -1417191589,
+        "list_order": -1545577337,
+        "uuid": "2e76899a-34cd-4dbb-a4d7-1505008de111",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 620,
+        "type": "Requirement", "main_type": 99,
+        "stereotype": "spec",
+        "name": "ARC_NO_INVISIBLE_FEATURES",
+        "description": [
+                ""
+        ],
+        "x_order": 588633778,
+        "y_order": -1882340401,
+        "list_order": 1452759827,
+        "uuid": "4547aa24-cb97-4069-a750-ec792b7fe745",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -20095,22 +20167,6 @@
         "to_classifier_name": "ctrl_controller",
         "to_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
         "uuid": "87d27c35-6f31-493c-a31d-64c91061618b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 44,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 712568,
-        "from_classifier_name": "ctrl",
-        "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
-        "to_classifier_name": "ctrl_consistency_checker",
-        "to_node": "60910235-8098-4c7b-a914-39704fd3f678",
-        "uuid": "a7b80a05-b64f-40ce-9f16-048b36ad5865"
       }
     },
     {
@@ -21991,7 +22047,7 @@
         "list_order": 4096,
         "from_classifier_name": "ctrl_controller",
         "from_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
-        "to_classifier_name": "ctrl_consistency_checker",
+        "to_classifier_name": "consistency_checker",
         "to_node": "60910235-8098-4c7b-a914-39704fd3f678",
         "uuid": "6574593a-21e0-478b-8409-e8502474007d"
       }
@@ -24210,7 +24266,7 @@
         "from_classifier_name": "ctrl_ diagram_ trigger",
         "from_feature_key": "",
         "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "a1d98872-6dbf-459d-b2e3-829a9e51d6d9"
@@ -24228,7 +24284,7 @@
         "from_classifier_name": "ctrl_ diagram_ trigger",
         "from_feature_key": "",
         "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "9da18f34-f5cd-44ea-aee7-17db01645279"
@@ -24298,7 +24354,7 @@
         "from_classifier_name": "ctrl_ classifier_ controller",
         "from_feature_key": "",
         "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "f43ed4c7-fdd7-4854-973b-7093145f9c3f"
@@ -24316,7 +24372,7 @@
         "from_classifier_name": "ctrl_ classifier_ controller",
         "from_feature_key": "",
         "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "bf1b01be-2766-4492-9c8a-738a200f39bb"
@@ -24368,7 +24424,7 @@
         "from_classifier_name": "ctrl_ diagram_ controller",
         "from_feature_key": "",
         "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "c3d199d2-3654-4780-8d73-1226e7ddf4c0"
@@ -24404,7 +24460,7 @@
         "from_classifier_name": "ctrl_ diagram_ controller",
         "from_feature_key": "",
         "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "cc2d0360-cbe7-459e-b746-005511319c78"
@@ -24438,7 +24494,7 @@
         "from_classifier_name": "ctrl_ classifier_ trigger",
         "from_feature_key": "",
         "from_node": "cf695252-18df-422c-a230-68fe6743f2d9",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "261353aa-600b-40fd-836d-59e040891d1c"
@@ -31880,7 +31936,7 @@
                 ""
         ],
         "list_order": 1520614169,
-        "from_classifier_name": "consis tency_ drop_ invisibles",
+        "from_classifier_name": "consistency_classifier",
         "from_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "to_classifier_name": "ARC_NO_INVISIBLE_CLASSIFIERS",
         "to_node": "56172679-9b7a-443e-99b4-dd0918e6362b",
@@ -31896,11 +31952,27 @@
                 ""
         ],
         "list_order": 1520646937,
-        "from_classifier_name": "consis tency_ drop_ invisibles",
+        "from_classifier_name": "consistency_classifier",
         "from_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "to_classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
         "to_node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
         "uuid": "0eeeb93b-d7d8-4213-8f73-30c3c2678f6a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1178,
+        "type": "Trace", "main_type": 401,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520909081,
+        "from_classifier_name": "consistency_classifier",
+        "from_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "to_classifier_name": "ARC_NO_INVISIBLE_FEATURES",
+        "to_node": "4547aa24-cb97-4069-a750-ec792b7fe745",
+        "uuid": "f87e0660-bcf9-494d-9878-cd2cea1cd307"
       }
     },
     {
@@ -31930,7 +32002,7 @@
         "list_order": 1411602885,
         "from_classifier_name": "consistency",
         "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
-        "to_classifier_name": "consis tency_ drop_ invisibles",
+        "to_classifier_name": "consistency_classifier",
         "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "uuid": "2c14dfff-38e6-4786-9653-da0578b5a8cf"
       }
@@ -31946,9 +32018,57 @@
         "list_order": 1520515865,
         "from_classifier_name": "consistency",
         "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
         "uuid": "1499e615-c286-4143-a136-2acf2654def1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1170,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1736652282,
+        "from_classifier_name": "consistency",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_classifier_name": "consistency_feature",
+        "to_node": "f99acb6c-9fdf-4933-88dd-48d0981c8e8a",
+        "uuid": "f4f69af1-10ca-4c67-9998-ddf02887adf5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1172,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520745241,
+        "from_classifier_name": "consistency",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_classifier_name": "consistency_relationship",
+        "to_node": "2e76899a-34cd-4dbb-a4d7-1505008de111",
+        "uuid": "fd0f9aeb-b0a9-4a09-a3ae-8bbd9be03862"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1173,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520581401,
+        "from_classifier_name": "consistency",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_classifier_name": "consistency_checker",
+        "to_node": "60910235-8098-4c7b-a914-39704fd3f678",
+        "uuid": "5498237b-1d56-42f3-9211-7cf5eddfe91e"
       }
     },
     {
@@ -31960,7 +32080,7 @@
                 ""
         ],
         "list_order": 1520548633,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
         "to_classifier_name": "ARC_LIFELINES_AT_INTERACTIONS",
         "to_node": "09010aac-7f1b-453b-bf80-51c1c475e45e",
@@ -31976,7 +32096,7 @@
                 ""
         ],
         "list_order": -639069641,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_classifier_name": "ctrl_ classifier_ controller",
@@ -31994,7 +32114,7 @@
                 ""
         ],
         "list_order": -28150861,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_classifier_name": "ctrl_ diagram_ controller",
@@ -32012,7 +32132,7 @@
                 ""
         ],
         "list_order": 246068365,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_classifier_name": "ctrl_ classifier_ trigger",
@@ -32030,7 +32150,7 @@
                 ""
         ],
         "list_order": 471691778,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_classifier_name": "ctrl_ diagram_ trigger",
@@ -32048,7 +32168,7 @@
                 ""
         ],
         "list_order": 971534417,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_classifier_name": "ctrl_ classifier_ controller",
@@ -32066,7 +32186,7 @@
                 ""
         ],
         "list_order": 1446722591,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_classifier_name": "ctrl_ diagram_ controller",
@@ -32084,7 +32204,7 @@
                 ""
         ],
         "list_order": 1694402226,
-        "from_classifier_name": "consis tency_ lifeline",
+        "from_classifier_name": "consistency_lifeline",
         "from_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_classifier_name": "ctrl_ diagram_ trigger",
@@ -32249,7 +32369,7 @@
         "from_classifier_name": "re-entrance by recursion",
         "from_feature_key": "",
         "from_node": "47362adb-c4d7-46da-82ef-7cb39293fc43",
-        "to_classifier_name": "consis tency_ lifeline",
+        "to_classifier_name": "consistency_lifeline",
         "to_feature_key": "",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "ac4c764e-80bb-4da6-8948-7582d2d63b1c"
@@ -35043,6 +35163,70 @@
         "to_classifier_name": "data.pkg",
         "to_node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
         "uuid": "448d5241-5f13-4fb6-8d1f-0edecdb5e661"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1175,
+        "type": "Trace", "main_type": 401,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520810777,
+        "from_classifier_name": "consistency_feature",
+        "from_node": "f99acb6c-9fdf-4933-88dd-48d0981c8e8a",
+        "to_classifier_name": "ARC_NO_INVISIBLE_FEATURES",
+        "to_node": "4547aa24-cb97-4069-a750-ec792b7fe745",
+        "uuid": "6a74260d-4e10-4b4d-acbe-80799396849d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1177,
+        "type": "Trace", "main_type": 401,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520876313,
+        "from_classifier_name": "consistency_feature",
+        "from_node": "f99acb6c-9fdf-4933-88dd-48d0981c8e8a",
+        "to_classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
+        "to_node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
+        "uuid": "99e7a0ee-8661-4145-a122-9515c113d654"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1176,
+        "type": "Trace", "main_type": 401,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520843545,
+        "from_classifier_name": "consistency_relationship",
+        "from_node": "2e76899a-34cd-4dbb-a4d7-1505008de111",
+        "to_classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
+        "to_node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
+        "uuid": "05a6fe33-88b0-47ca-a8bb-52383d6fcaa5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1174,
+        "type": "Trace", "main_type": 401,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520778009,
+        "from_classifier_name": "ARC_NO_INVISIBLE_FEATURES",
+        "from_node": "4547aa24-cb97-4069-a750-ec792b7fe745",
+        "to_classifier_name": "All model elements must be visible",
+        "to_node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+        "uuid": "2752b832-e70d-421d-9206-041c457d22c2"
       }
     }
   ]

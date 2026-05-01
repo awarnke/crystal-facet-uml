@@ -139,6 +139,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                                                                        );
                     if ( result == U8_ERROR_NONE )
                     {
+                        /* no need to increase the io_stat here, the feature is already contained in stat_feat */
                         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
@@ -254,6 +255,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                                                                           );
                     if ( result == U8_ERROR_NONE )
                     {
+                        /* no need to increase the io_stat here, the classifier is already contained in stat_clas */
                         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
                     }
                     else
@@ -349,7 +351,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
 
         data_stat_destroy( &double_check );
         data_stat_destroy( &initial );
-        #endif
+#endif
     }
 
     U8_TRACE_END_ERR( result );

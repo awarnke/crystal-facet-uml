@@ -19,7 +19,8 @@ ideas for future versions:
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
   [ ] a "saveAs" command should allow to copy the current db
-  [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
+! [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
+      --> this looks very ugly due to an error message pointing to the json input line
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [?] to pink-mark several objects - require shift key
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
@@ -74,7 +75,6 @@ ideas for future versions:
   [ ] as sysml2 preparation: clarify what things are definitions an what are usages. E.g. all part-types should be instances.
   [ ] have a separate type for each data_row_t --> mixing these between tables is anyhow dangerous
   @ctrl
-  [ ] ctrl_multi_step_changer_t should count an own statistics instead of reading the undo_redo_list afterwards (which fails if too many actions done)
   [ ] at importing databases, classifiers are not checked if they are attached to a diagramelement. ctrl should ensure this.
   [ ] at importing databases, lifelines are not checked if they are attached to a diagramelement. ctrl should ensure this.
   @u8stream
