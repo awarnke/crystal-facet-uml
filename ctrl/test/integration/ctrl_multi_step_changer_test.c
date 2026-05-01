@@ -89,15 +89,15 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
         u8_error_t add_ok;
         data_small_set_init( &small_set );
 
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, test_classifier );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_CLASSIFIER, test_classifier );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, (data_row_t)50000 );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_FEATURE, (data_row_t)50000 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, (data_row_t)50000 );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_RELATIONSHIP, (data_row_t)50000 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, (data_row_t)50000 );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_DIAGRAMELEMENT, (data_row_t)50000 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, root_diagram );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_DIAGRAM, root_diagram );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
 
         ctrl_multi_step_changer_t multi_stepper;
@@ -175,15 +175,15 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
         data_small_set_init( &small_set );
 
         /* orphaned_classifier is needed because only if orphaned, these can be deleted */
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, orphaned_classifier );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_CLASSIFIER, orphaned_classifier );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, testatomni_feature );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_FEATURE, testatomni_feature );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, test_rel );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_RELATIONSHIP, test_rel );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, test_diagele );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_DIAGRAMELEMENT, test_diagele );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, test_diagram );
+        add_ok = data_small_set_add_row( &small_set, DATA_TABLE_DIAGRAM, test_diagram );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, add_ok, u8_error_get_name );
 
         ctrl_multi_step_changer_t multi_stepper;

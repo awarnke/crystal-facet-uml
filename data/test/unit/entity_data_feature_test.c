@@ -75,8 +75,8 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_1, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_feature_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_feature_get_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1000, data_feature_get_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_feature_get_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_feature_get_classifier_row( &testee ) );
     const char* uuid_1 = data_feature_get_uuid_const( &testee );
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
@@ -98,8 +98,8 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_feature_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_feature_get_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1001, data_feature_get_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_feature_get_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_feature_get_classifier_row( &testee ) );
     const char* uuid_2 = data_feature_get_uuid_const( &testee );
     TEST_EXPECT( uuid_2 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
@@ -112,7 +112,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     /* sub test case 3 */
     data_feature_reinit_empty( &testee );
     TEST_EXPECT_EQUAL_INT( false, data_feature_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_feature_get_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_feature_get_classifier_row( &testee ) );
     const char* uuid_3 = data_feature_get_uuid_const( &testee );
     TEST_EXPECT( uuid_3 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_3 ) );
@@ -136,8 +136,8 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                            );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_4, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_feature_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1234, data_feature_get_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1004, data_feature_get_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1234, data_feature_get_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1004, data_feature_get_classifier_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_feature_get_uuid_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "name", data_feature_get_key_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "value", data_feature_get_value_const( &testee ) );
@@ -159,8 +159,8 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                            );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_feature_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 12345, data_feature_get_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1005, data_feature_get_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 12345, data_feature_get_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1005, data_feature_get_classifier_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_feature_get_uuid_const( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_feature_get_key_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_feature_get_value_const( &testee ), "too long text" ) );
@@ -189,12 +189,12 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* function call is possible, function returns */
 
     /* sub test case 2 */
-    data_feature_set_row_id( &testee, 478 );
-    const data_row_t row_id = data_feature_get_row_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, row_id );
+    data_feature_set_row( &testee, 478 );
+    const data_row_t row = data_feature_get_row( &testee );
+    TEST_EXPECT_EQUAL_INT( 478, row );
     TEST_EXPECT_EQUAL_INT( true, data_feature_is_valid( &testee ) );
     const data_id_t data_id = data_feature_get_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row_id( &data_id ) );
+    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row( &data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &data_id ) );
 
     /* sub test case 3 */
@@ -252,10 +252,10 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT( utf8string_starts_with_str( data_feature_get_description_const( &testee ), "too long text" ) );
 
     /* sub test case 12 */
-    data_feature_set_classifier_row_id( &testee, 1006 );
-    TEST_EXPECT_EQUAL_INT( 1006, data_feature_get_classifier_row_id( &testee ) );
+    data_feature_set_classifier_row( &testee, 1006 );
+    TEST_EXPECT_EQUAL_INT( 1006, data_feature_get_classifier_row( &testee ) );
     const data_id_t c_data_id = data_feature_get_classifier_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 1006, data_id_get_row_id( &c_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1006, data_id_get_row( &c_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &c_data_id ) );
 
     /* sub test case 13 */

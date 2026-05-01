@@ -576,7 +576,7 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
     U8_TRACE_INFO_INT( "- from_feat:", from_feat );
     U8_TRACE_INFO_INT( "- to_feat:", to_feat );
     U8_TRACE_INFO_INT( "- d_type:", d_type );
-    const data_row_t rel_row_id = data_id_get_row_id( data_search_result_get_match_id_const( out_search_result ) );
+    const data_row_t rel_row = data_id_get_row( data_search_result_get_match_id_const( out_search_result ) );
 
     bool filter = false;
     const bool is_scenario_diag = data_rules_diagram_is_scenario ( &((*this_).data_rules), d_type );
@@ -598,13 +598,13 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
         {
             filter = false;
             (*this_).last_relationship_was_scenario = true;
-            (*this_).last_relationship_id = rel_row_id;
-            U8_TRACE_INFO_INT( "data_search_result_iterator: in scenario found relationship", rel_row_id );
+            (*this_).last_relationship_id = rel_row;
+            U8_TRACE_INFO_INT( "data_search_result_iterator: in scenario found relationship", rel_row );
         }
         else
         {
             filter = true;
-            U8_TRACE_INFO_INT( "data_search_result_iterator: in scenario skipped invisible relationship", rel_row_id );
+            U8_TRACE_INFO_INT( "data_search_result_iterator: in scenario skipped invisible relationship", rel_row );
         }
     }
     else
@@ -617,19 +617,19 @@ u8_error_t data_search_result_iterator_private_get_relationship( data_search_res
          *                                                               );
          */
         /* but we only have the data_relationship_type_t and the data_diagramelement_t here and we control the order of results: */
-        const bool is_scenario = ( (*this_).last_relationship_id == rel_row_id )&&( (*this_).last_relationship_was_scenario );
+        const bool is_scenario = ( (*this_).last_relationship_id == rel_row )&&( (*this_).last_relationship_was_scenario );
         const bool vis_by_diagram = data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), d_type );
         if ( vis_by_diagram && ( ! is_scenario ) )
         {
             filter = false;
             (*this_).last_relationship_was_scenario = false;
-            (*this_).last_relationship_id = rel_row_id;
-            U8_TRACE_INFO_INT( "data_search_result_iterator: non-scenario found relationship", rel_row_id );
+            (*this_).last_relationship_id = rel_row;
+            U8_TRACE_INFO_INT( "data_search_result_iterator: non-scenario found relationship", rel_row );
         }
         else
         {
             filter = true;
-            U8_TRACE_INFO_INT( "data_search_result_iterator: non-scenario skipped scenario-specific relationship", rel_row_id );
+            U8_TRACE_INFO_INT( "data_search_result_iterator: non-scenario skipped scenario-specific relationship", rel_row );
         }
     }
 

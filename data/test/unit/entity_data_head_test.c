@@ -57,7 +57,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
         = data_head_init_new( &testee, "key", "value" );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_1, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_head_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_head_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_head_get_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "key", data_head_get_key_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "value", data_head_get_value_const( &testee ) );
 
@@ -66,7 +66,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
         = data_head_init_new( &testee, (*test_env).too_long, (*test_env).too_long );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_head_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_head_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_head_get_row( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_head_get_key_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_head_get_value_const( &testee ), "too long text" ) );
 
@@ -75,7 +75,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
         = data_head_init( &testee, 256, "key", "value" );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_3, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_head_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 256, data_head_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 256, data_head_get_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "key", data_head_get_key_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "value", data_head_get_value_const( &testee ) );
 
@@ -87,7 +87,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
         = data_head_init( &testee, 254,(*test_env).too_long, (*test_env).too_long );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_head_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 254, data_head_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 254, data_head_get_row( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_head_get_key_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_head_get_value_const( &testee ), "too long text" ) );
 
@@ -112,9 +112,9 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* function call is possible, function returns */
 
     /* sub test case 2 */
-    data_head_set_row_id( &testee, 478 );
-    const data_row_t row_id = data_head_get_row_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, row_id );
+    data_head_set_row( &testee, 478 );
+    const data_row_t row = data_head_get_row( &testee );
+    TEST_EXPECT_EQUAL_INT( 478, row );
     TEST_EXPECT_EQUAL_INT( true, data_head_is_valid( &testee ) );
 
     /* sub test case 3 */

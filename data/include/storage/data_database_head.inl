@@ -18,7 +18,7 @@ static inline u8_error_t data_database_head_delete_value_by_key ( data_database_
         {
             data_head_replace( out_old_head, &head );
         }
-        result |= data_database_head_delete_value( this_, data_head_get_row_id( &head ), NULL );
+        result |= data_database_head_delete_value( this_, data_head_get_row( &head ), NULL );
     }
     else if ( result == U8_ERROR_NOT_FOUND )
     {
@@ -49,7 +49,7 @@ static inline u8_error_t data_database_head_update_value_by_key ( data_database_
         {
             data_head_replace( out_old_head, &head );
         }
-        result |= data_database_head_update_value( this_, data_head_get_row_id( &head ), new_head_value, NULL );
+        result |= data_database_head_update_value( this_, data_head_get_row( &head ), new_head_value, NULL );
     }
     else if ( result == U8_ERROR_NOT_FOUND )
     {

@@ -40,8 +40,8 @@ static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_en
     data_small_set_t my_set;
     bool empty;
     bool is_in;
-    data_id_t row_id;
-    data_id_t row_id2;
+    data_id_t row;
+    data_id_t row2;
     data_id_t row_inval;
     u8_error_t d_err;
 
@@ -50,24 +50,24 @@ static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_en
     empty = data_small_set_is_empty ( &my_set );
     TEST_EXPECT_EQUAL_INT( true, empty );
 
-    data_id_init( &row_id, DATA_TABLE_RELATIONSHIP, 12345678900 );
+    data_id_init( &row, DATA_TABLE_RELATIONSHIP, 12345678900 );
 
-    is_in = data_small_set_contains( &my_set, row_id );
+    is_in = data_small_set_contains( &my_set, row );
     TEST_EXPECT_EQUAL_INT( false, is_in );
 
-    is_in = data_small_set_contains_row_id ( &my_set, DATA_TABLE_RELATIONSHIP, 12345678900 );
+    is_in = data_small_set_contains_row ( &my_set, DATA_TABLE_RELATIONSHIP, 12345678900 );
     TEST_EXPECT_EQUAL_INT( false, is_in );
 
-    d_err = data_small_set_add_obj ( &my_set, row_id );
+    d_err = data_small_set_add_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
 
-    is_in = data_small_set_contains( &my_set, row_id );
+    is_in = data_small_set_contains( &my_set, row );
     TEST_EXPECT_EQUAL_INT( true, is_in );
 
-    is_in = data_small_set_contains_row_id ( &my_set, DATA_TABLE_RELATIONSHIP, 12345678900 );
+    is_in = data_small_set_contains_row ( &my_set, DATA_TABLE_RELATIONSHIP, 12345678900 );
     TEST_EXPECT_EQUAL_INT( true, is_in );
 
-    d_err = data_small_set_add_obj ( &my_set, row_id );
+    d_err = data_small_set_add_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DUPLICATE_ID, d_err, u8_error_get_name );
 
     data_id_init_void( &row_inval );
@@ -75,11 +75,11 @@ static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_en
     d_err = data_small_set_add_obj ( &my_set, row_inval );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, d_err, u8_error_get_name );
 
-    data_id_init( &row_id2, DATA_TABLE_CLASSIFIER, -37 );
+    data_id_init( &row2, DATA_TABLE_CLASSIFIER, -37 );
 
-    d_err = data_small_set_add_obj ( &my_set, row_id2 );
+    d_err = data_small_set_add_obj ( &my_set, row2 );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
-    is_in = data_small_set_contains( &my_set, row_id2 );
+    is_in = data_small_set_contains( &my_set, row2 );
     TEST_EXPECT_EQUAL_INT( true, is_in );
 
     data_small_set_trace ( &my_set );
@@ -87,29 +87,29 @@ static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_en
     d_err = data_small_set_toggle_obj ( &my_set, row_inval );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, d_err, u8_error_get_name );
 
-    d_err = data_small_set_toggle_obj ( &my_set, row_id );
+    d_err = data_small_set_toggle_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
-    is_in = data_small_set_contains( &my_set, row_id );
+    is_in = data_small_set_contains( &my_set, row );
     TEST_EXPECT_EQUAL_INT( false, is_in );
 
-    d_err = data_small_set_toggle_obj ( &my_set, row_id );
+    d_err = data_small_set_toggle_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
-    is_in = data_small_set_contains( &my_set, row_id );
+    is_in = data_small_set_contains( &my_set, row );
     TEST_EXPECT_EQUAL_INT( true, is_in );
 
     data_small_set_trace ( &my_set );
 
-    d_err = data_small_set_delete_obj ( &my_set, row_id2 );
+    d_err = data_small_set_delete_obj ( &my_set, row2 );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
-    is_in = data_small_set_contains( &my_set, row_id2 );
+    is_in = data_small_set_contains( &my_set, row2 );
     TEST_EXPECT_EQUAL_INT( false, is_in );
 
-    d_err = data_small_set_delete_obj ( &my_set, row_id2 );
+    d_err = data_small_set_delete_obj ( &my_set, row2 );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, d_err, u8_error_get_name );
 
-    d_err = data_small_set_delete_obj ( &my_set, row_id );
+    d_err = data_small_set_delete_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
-    is_in = data_small_set_contains( &my_set, row_id );
+    is_in = data_small_set_contains( &my_set, row );
     TEST_EXPECT_EQUAL_INT( false, is_in );
 
     empty = data_small_set_is_empty ( &my_set );
@@ -125,37 +125,37 @@ static test_case_result_t test_small_set_full( test_fixture_t *test_env )
     data_small_set_t my_set;
     bool empty;
     bool is_in;
-    data_id_t row_id;
+    data_id_t row;
     u8_error_t d_err;
 
     data_small_set_init ( &my_set );
 
     for ( int idx = 0; idx < DATA_SMALL_SET_MAX_SET_SIZE; idx ++ )
     {
-        data_id_init( &row_id, DATA_TABLE_DIAGRAM, idx );
-        d_err = data_small_set_add_obj ( &my_set, row_id );
+        data_id_init( &row, DATA_TABLE_DIAGRAM, idx );
+        d_err = data_small_set_add_obj ( &my_set, row );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
-        is_in = data_small_set_contains( &my_set, row_id );
+        is_in = data_small_set_contains( &my_set, row );
         TEST_EXPECT_EQUAL_INT( true, is_in );
     }
 
-    data_id_init( &row_id, DATA_TABLE_DIAGRAM, 57000111222 );
-    d_err = data_small_set_add_obj ( &my_set, row_id );
+    data_id_init( &row, DATA_TABLE_DIAGRAM, 57000111222 );
+    d_err = data_small_set_add_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err, u8_error_get_name );
-    is_in = data_small_set_contains( &my_set, row_id );
+    is_in = data_small_set_contains( &my_set, row );
     TEST_EXPECT_EQUAL_INT( false, is_in );
 
-    d_err = data_small_set_toggle_obj ( &my_set, row_id );
+    d_err = data_small_set_toggle_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err, u8_error_get_name );
-    is_in = data_small_set_contains( &my_set, row_id );
+    is_in = data_small_set_contains( &my_set, row );
     TEST_EXPECT_EQUAL_INT( false, is_in );
 
     for ( int idx = 0; idx < DATA_SMALL_SET_MAX_SET_SIZE; idx ++ )
     {
-        data_id_init( &row_id, DATA_TABLE_DIAGRAM, idx );
-        d_err = data_small_set_delete_obj ( &my_set, row_id );
+        data_id_init( &row, DATA_TABLE_DIAGRAM, idx );
+        d_err = data_small_set_delete_obj ( &my_set, row );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
-        is_in = data_small_set_contains( &my_set, row_id );
+        is_in = data_small_set_contains( &my_set, row );
         TEST_EXPECT_EQUAL_INT( false, is_in );
     }
 
@@ -170,14 +170,14 @@ static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
 {
     data_small_set_t my_set;
     bool empty;
-    data_id_t row_id;
+    data_id_t row;
     u8_error_t d_err;
 
     /* prepare */
 
     data_small_set_init ( &my_set );
-    data_id_init( &row_id, DATA_TABLE_RELATIONSHIP, 12345678900 );
-    d_err = data_small_set_add_obj ( &my_set, row_id );
+    data_id_init( &row, DATA_TABLE_RELATIONSHIP, 12345678900 );
+    d_err = data_small_set_add_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
 
     /* test on filled set */
@@ -198,7 +198,7 @@ static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( true, empty );
 
     /* test re-init on filled set */
-    d_err = data_small_set_add_obj ( &my_set, row_id );
+    d_err = data_small_set_add_obj ( &my_set, row );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, d_err, u8_error_get_name );
     data_small_set_reinit ( &my_set );
     empty = data_small_set_is_empty ( &my_set );

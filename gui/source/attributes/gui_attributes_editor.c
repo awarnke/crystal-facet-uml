@@ -597,7 +597,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 u8_error_t db_err;
 
                 data_classifier_destroy( &((*this_).private_classifier_cache) );
-                db_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
+                db_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row(&id), &((*this_).private_classifier_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
@@ -629,7 +629,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 u8_error_t db_err;
 
                 data_feature_destroy( &((*this_).private_feature_cache) );
-                db_err = data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
+                db_err = data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row(&id), &((*this_).private_feature_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
@@ -661,7 +661,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 u8_error_t db_err;
 
                 data_relationship_destroy( &((*this_).private_relationship_cache) );
-                db_err = data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
+                db_err = data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row(&id), &((*this_).private_relationship_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
@@ -704,7 +704,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 u8_error_t db_err;
 
                 data_diagram_destroy( &((*this_).private_diagram_cache) );
-                db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
+                db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row(&id), &((*this_).private_diagram_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
                 if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
@@ -776,7 +776,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                     ctrl_simple_changer_t name_disambiguator;
                     ctrl_simple_changer_init( &name_disambiguator, (*this_).controller, (*this_).db_reader );
                     ctrl_err = ctrl_simple_changer_update_classifier_name( &name_disambiguator,
-                                                                           data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                           data_id_get_row( &((*this_).selected_object_id) ),
                                                                            text,
                                                                            &handled_err
                                                                          );
@@ -824,7 +824,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_key( class_ctrl,
-                                                                          data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                          data_id_get_row( &((*this_).selected_object_id) ),
                                                                           text
                                                                         );
                 if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
@@ -860,7 +860,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_relationship_name( class_ctrl,
-                                                                                data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                data_id_get_row( &((*this_).selected_object_id) ),
                                                                                 text
                                                                               );
                 if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
@@ -903,7 +903,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_diagram_controller_update_diagram_name( diag_ctrl,
-                                                                        data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                        data_id_get_row( &((*this_).selected_object_id) ),
                                                                         text
                                                                       );
                 if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
@@ -968,7 +968,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_classifier_stereotype( class_ctrl,
-                                                                                           data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                           data_id_get_row( &((*this_).selected_object_id) ),
                                                                                            text
                                                                                          );
             }
@@ -981,7 +981,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_feature_value( class_ctrl,
-                                                                                   data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                   data_id_get_row( &((*this_).selected_object_id) ),
                                                                                    text
                                                                                  );
             }
@@ -994,7 +994,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_relationship_stereotype( class_ctrl,
-                                                                                             data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                             data_id_get_row( &((*this_).selected_object_id) ),
                                                                                              text
                                                                                            );
             }
@@ -1014,7 +1014,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_diagram_controller_update_diagram_stereotype( diag_ctrl,
-                                                                                     data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                     data_id_get_row( &((*this_).selected_object_id) ),
                                                                                      text
                                                                                    );
             }
@@ -1077,7 +1077,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row( &((*this_).selected_object_id) ), obj_type );
                 if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
@@ -1103,7 +1103,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row( &((*this_).selected_object_id) ), obj_type );
                 if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
@@ -1129,7 +1129,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row( &((*this_).selected_object_id) ), obj_type );
                 if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
@@ -1166,7 +1166,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 consistency_stat_t c_stat;
                 consistency_stat_init( &c_stat );
                 ctrl_err = ctrl_diagram_controller_update_diagram_type( diag_ctrl,
-                                                                        data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                        data_id_get_row( &((*this_).selected_object_id) ),
                                                                         obj_type,
                                                                         &c_stat
                                                                       );
@@ -1248,7 +1248,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_classifier_description( class_ctrl,
-                                                                                            data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                            data_id_get_row( &((*this_).selected_object_id) ),
                                                                                             text
                                                                                           );
 
@@ -1288,7 +1288,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_feature_description( class_ctrl,
-                                                                                         data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                         data_id_get_row( &((*this_).selected_object_id) ),
                                                                                          text
                                                                                        );
             }
@@ -1302,7 +1302,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_relationship_description( class_ctrl,
-                                                                                              data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                              data_id_get_row( &((*this_).selected_object_id) ),
                                                                                               text
                                                                                             );
             }
@@ -1323,7 +1323,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_diagram_controller_update_diagram_description( diag_ctrl,
-                                                                                      data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                      data_id_get_row( &((*this_).selected_object_id) ),
                                                                                       text
                                                                                     );
             }

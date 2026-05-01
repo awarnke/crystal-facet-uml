@@ -335,7 +335,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                                                       );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
-        const data_row_t diagram_id = data_diagram_get_row_id( data_visible_set_get_diagram_const( io_data_set ) );
+        const data_row_t diagram_id = data_diagram_get_row( data_visible_set_get_diagram_const( io_data_set ) );
         const data_diagramelement_flag_t flag_inst
             = ((pseudo_random_1 % 3)==0)
             ? DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE
@@ -386,9 +386,9 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
 
         data_feature_t feat;
         const u8_error_t d1_err = data_feature_init( &feat,
-                                                     data_diagramelement_get_focused_feature_row_id( diagele ),  /* = feature_id */
+                                                     data_diagramelement_get_focused_feature_row( diagele ),  /* = feature_id */
                                                      feat_type,
-                                                     data_diagramelement_get_classifier_row_id( diagele ),  /* = classifier_id */
+                                                     data_diagramelement_get_classifier_row( diagele ),  /* = classifier_id */
                                                      feature_key,
                                                      feature_value,
                                                      feature_description,
@@ -578,10 +578,10 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         const char* relationship_name = "";
         const char* relationship_description = "";
         int32_t list_order;
-        data_row_t from_classifier_row_id = DATA_ROW_VOID;
-        data_row_t to_classifier_row_id = DATA_ROW_VOID;
-        data_row_t from_feature_row_id = DATA_ROW_VOID;
-        data_row_t to_feature_row_id = DATA_ROW_VOID;
+        data_row_t from_classifier_row = DATA_ROW_VOID;
+        data_row_t to_classifier_row = DATA_ROW_VOID;
+        data_row_t from_feature_row = DATA_ROW_VOID;
+        data_row_t to_feature_row = DATA_ROW_VOID;
 
         const uint_fast32_t c_count = data_visible_set_get_visible_classifier_count( io_data_set );
         const uint_fast32_t f_count = data_visible_set_get_feature_count( io_data_set );
@@ -589,25 +589,25 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         {
             const data_visible_classifier_t *const from_vis_clas = data_visible_set_get_visible_classifier_const( io_data_set, pseudo_random_1 % c_count );
             const data_classifier_t *const from_classifier = data_visible_classifier_get_classifier_const( from_vis_clas );
-            from_classifier_row_id = data_classifier_get_row_id( from_classifier );
+            from_classifier_row = data_classifier_get_row( from_classifier );
         }
         else if ( f_count != 0 )
         {
             const data_feature_t *const from_feature = data_visible_set_get_feature_const( io_data_set, pseudo_random_1 % f_count );
-            from_feature_row_id = data_feature_get_row_id( from_feature );
-            from_classifier_row_id = data_feature_get_classifier_row_id( from_feature );
+            from_feature_row = data_feature_get_row( from_feature );
+            from_classifier_row = data_feature_get_classifier_row( from_feature );
         }
         if (( c_count != 0 )&&( (pseudo_random_2 % 2) == 0 ))
         {
             const data_visible_classifier_t *const to_vis_clas = data_visible_set_get_visible_classifier_const( io_data_set, pseudo_random_2 % c_count );
             const data_classifier_t *const to_classifier = data_visible_classifier_get_classifier_const( to_vis_clas );
-            to_classifier_row_id = data_classifier_get_row_id( to_classifier );
+            to_classifier_row = data_classifier_get_row( to_classifier );
         }
         else if ( f_count != 0 )
         {
             const data_feature_t *const to_feature = data_visible_set_get_feature_const( io_data_set, pseudo_random_2 % f_count );
-            to_feature_row_id = data_feature_get_row_id( to_feature );
-            to_classifier_row_id = data_feature_get_classifier_row_id( to_feature );
+            to_feature_row = data_feature_get_row( to_feature );
+            to_classifier_row = data_feature_get_classifier_row( to_feature );
         }
 
         switch ( rel_variant )
@@ -691,10 +691,10 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         data_relationship_t rel;
         const u8_error_t d1_err = data_relationship_init( &rel,
                                                           index+1,  /* =  relationship_id */
-                                                          from_classifier_row_id,
-                                                          from_feature_row_id,
-                                                          to_classifier_row_id,
-                                                          to_feature_row_id,
+                                                          from_classifier_row,
+                                                          from_feature_row,
+                                                          to_classifier_row,
+                                                          to_feature_row,
                                                           rel_type,
                                                           "stereo_t",  /* stereotype */
                                                           relationship_name,

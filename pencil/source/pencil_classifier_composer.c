@@ -59,7 +59,7 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
     const bool has_stereotype_icon
         = draw_stereotype_icon_exists( &((*this_).draw_stereotype_icon), classifier_stereotype, profile );
 
-    U8_TRACE_INFO_INT("expanding bounds of classifier id:", data_classifier_get_row_id( classifier ) );
+    U8_TRACE_INFO_INT("expanding bounds of classifier id:", data_classifier_get_row( classifier ) );
     U8_TRACE_INFO_INT_INT("expanding bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
     /* determine border sizes of the label (and optionally the right-aligned icon) */
@@ -215,7 +215,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     const bool has_stereotype_icon
         = draw_stereotype_icon_exists( &((*this_).draw_stereotype_icon), classifier_stereotype, profile );
 
-    U8_TRACE_INFO_INT("calculating bounds of classifier id, type:", data_classifier_get_row_id( classifier ) );
+    U8_TRACE_INFO_INT("calculating bounds of classifier id, type:", data_classifier_get_row( classifier ) );
     U8_TRACE_INFO_INT_INT("calculating bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
     /* determine border sizes of the classifier-shape */

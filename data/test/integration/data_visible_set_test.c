@@ -185,7 +185,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
                 TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, append_err, u8_error_get_name );
                 const data_visible_classifier_t *readback_vc = data_visible_set_get_visible_classifier_const( &((*fix).test_me), index );
                 const data_classifier_t *readback_c = data_visible_classifier_get_classifier_const( readback_vc );
-                TEST_EXPECT_EQUAL_INT( 1000+index, data_classifier_get_row_id( readback_c ) );
+                TEST_EXPECT_EQUAL_INT( 1000+index, data_classifier_get_row( readback_c ) );
             }
             else
             {
@@ -218,7 +218,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             {
                 TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, append_err, u8_error_get_name );
                 const data_feature_t *readback = data_visible_set_get_feature_const( &((*fix).test_me), index );
-                TEST_EXPECT_EQUAL_INT( 10000+index, data_feature_get_row_id( readback ) );
+                TEST_EXPECT_EQUAL_INT( 10000+index, data_feature_get_row( readback ) );
             }
             else
             {
@@ -236,10 +236,10 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             const u8_error_t rel_err 
                 = data_relationship_init( &rel,
                                           index+40000,  /* =  relationship_id */
-                                          1000,  /* from_classifier_row_id */
-                                          10000, /* from_feature_row_id */
-                                          1001,  /* to_classifier_row_id */
-                                          DATA_ROW_VOID, /* to_feature_row_id */
+                                          1000,  /* from_classifier_row */
+                                          10000, /* from_feature_row */
+                                          1001,  /* to_classifier_row */
+                                          DATA_ROW_VOID, /* to_feature_row */
                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           "stereotype", 
                                           "name",
@@ -254,7 +254,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             {
                 TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, append_err, u8_error_get_name );
                 const data_relationship_t *readback = data_visible_set_get_relationship_const( &((*fix).test_me), index );
-                TEST_EXPECT_EQUAL_INT( 40000+index, data_relationship_get_row_id( readback ) );
+                TEST_EXPECT_EQUAL_INT( 40000+index, data_relationship_get_row( readback ) );
             }
             else
             {
@@ -402,26 +402,26 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
         const data_visible_classifier_t *const vis_clas_2
             = data_visible_set_get_visible_classifier_by_id_const( &((*fix).test_me), diagele_green_id /* diagramelement_id */ );
         const data_classifier_t *const clas
-            = data_visible_set_get_classifier_by_id_const( &((*fix).test_me), classifier_green_id /* row_id */ );
+            = data_visible_set_get_classifier_by_id_const( &((*fix).test_me), classifier_green_id /* row */ );
         TEST_EXPECT_EQUAL_PTR( clas, data_visible_classifier_get_classifier_const( vis_clas_2 ) );
 
         data_visible_classifier_t *const vis_clas_2_mod
             = data_visible_set_get_visible_classifier_by_id_ptr( &((*fix).test_me), diagele_blue_id /* diagramelement_id */ );
         data_classifier_t *const clas_mod
-            = data_visible_set_get_classifier_by_id_ptr( &((*fix).test_me), classifier_blue_id /* row_id */ );
+            = data_visible_set_get_classifier_by_id_ptr( &((*fix).test_me), classifier_blue_id /* row */ );
         TEST_EXPECT_EQUAL_PTR( clas_mod, data_visible_classifier_get_classifier_const( vis_clas_2_mod ) );
 
-        const int32_t clas_green_idx = data_visible_set_get_classifier_index( &((*fix).test_me), classifier_green_id /* row_id */ );
+        const int32_t clas_green_idx = data_visible_set_get_classifier_index( &((*fix).test_me), classifier_green_id /* row */ );
         const data_visible_classifier_t *const vis_clas_0 = data_visible_set_get_visible_classifier_const( &((*fix).test_me), clas_green_idx /* index */ );
         const data_diagramelement_t *const diagele_0 = data_visible_classifier_get_diagramelement_const( vis_clas_0 );
-        TEST_EXPECT_EQUAL_INT( diagele_green_id, data_diagramelement_get_row_id( diagele_0 ) );
+        TEST_EXPECT_EQUAL_INT( diagele_green_id, data_diagramelement_get_row( diagele_0 ) );
 
         const uint32_t clas_idx_2 = data_visible_set_get_classifier_index_from_pointer( &((*fix).test_me), vis_clas_0 /* vis_classifier_ptr */ );
         TEST_EXPECT_EQUAL_INT( clas_green_idx, clas_idx_2 );
 
         /* test containments */
 
-        const int32_t clas_blue_idx = data_visible_set_get_classifier_index( &((*fix).test_me), classifier_blue_id /* row_id */ );
+        const int32_t clas_blue_idx = data_visible_set_get_classifier_index( &((*fix).test_me), classifier_blue_id /* row */ );
         const bool is_anc_1 = data_visible_set_is_ancestor_by_index( &((*fix).test_me), clas_green_idx /* ancestor_index */, clas_blue_idx /* descendant_index */ );
         TEST_EXPECT_EQUAL_INT( false, is_anc_1 );
         const bool is_anc_2 = data_visible_set_is_ancestor_by_index( &((*fix).test_me), clas_blue_idx /* ancestor_index */, clas_green_idx /* descendant_index */ );
@@ -442,11 +442,11 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
         data_feature_t *const feat_1_mod = data_visible_set_get_feature_ptr( &((*fix).test_me), 0 /* index */ );
         TEST_EXPECT_EQUAL_PTR( feat_1, feat_1_mod );
 
-        const data_feature_t *const feat_2 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), feature_blue_id /* row_id */ );
-        TEST_EXPECT_EQUAL_INT( feature_blue_id, data_feature_get_row_id( feat_2 ) );
+        const data_feature_t *const feat_2 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), feature_blue_id /* row */ );
+        TEST_EXPECT_EQUAL_INT( feature_blue_id, data_feature_get_row( feat_2 ) );
 
-        data_feature_t *const feat_2_mod = data_visible_set_get_feature_by_id_ptr( &((*fix).test_me), feature_blue_id /* row_id */ );
-        TEST_EXPECT_EQUAL_INT( feature_blue_id, data_feature_get_row_id( feat_2_mod ) );
+        data_feature_t *const feat_2_mod = data_visible_set_get_feature_by_id_ptr( &((*fix).test_me), feature_blue_id /* row */ );
+        TEST_EXPECT_EQUAL_INT( feature_blue_id, data_feature_get_row( feat_2_mod ) );
 
         data_feature_t *const feat_list = data_visible_set_get_feature_list_ptr( &((*fix).test_me) );
         TEST_EXPECT_EQUAL_PTR( feat_1_mod, feat_list );
@@ -459,21 +459,21 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
 
         const data_relationship_t *const rel_1 = data_visible_set_get_relationship_const( &((*fix).test_me), 0 /* index */ );
         data_relationship_t *const rel_2_mod = data_visible_set_get_relationship_ptr( &((*fix).test_me), 1 /* index */ );
-        if ( data_relationship_get_row_id(rel_1) == rel_a_id )
+        if ( data_relationship_get_row(rel_1) == rel_a_id )
         {
-            TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row_id( rel_2_mod ) );
+            TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row( rel_2_mod ) );
         }
         else
         {
-            TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row_id( rel_1 ) );
-            TEST_EXPECT_EQUAL_INT( rel_a_id, data_relationship_get_row_id( rel_2_mod ) );
+            TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row( rel_1 ) );
+            TEST_EXPECT_EQUAL_INT( rel_a_id, data_relationship_get_row( rel_2_mod ) );
         }
 
-        const data_relationship_t *const rel_3 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_a_id /* row_id */ );
-        TEST_EXPECT_EQUAL_INT( rel_a_id, data_relationship_get_row_id( rel_3 ) );
+        const data_relationship_t *const rel_3 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_a_id /* row */ );
+        TEST_EXPECT_EQUAL_INT( rel_a_id, data_relationship_get_row( rel_3 ) );
 
-        data_relationship_t *const rel_4_mod = data_visible_set_get_relationship_by_id_ptr( &((*fix).test_me), rel_b_id /* row_id */ );
-        TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row_id( rel_4_mod ) );
+        data_relationship_t *const rel_4_mod = data_visible_set_get_relationship_by_id_ptr( &((*fix).test_me), rel_b_id /* row */ );
+        TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row( rel_4_mod ) );
 
         data_visible_set_destroy( &((*fix).test_me) );
     }
@@ -615,28 +615,28 @@ static test_case_result_t filter_foreign_lifelines( test_fixture_t *fix )
             const uint32_t feature_count = data_visible_set_get_feature_count( &((*fix).test_me) );
             TEST_EXPECT_EQUAL_INT( 2, feature_count );
 
-            const data_feature_t *const feat_1 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), life_local_blue /* row_id */ );
-            TEST_EXPECT_EQUAL_INT( life_local_blue, data_feature_get_row_id( feat_1 ) );
+            const data_feature_t *const feat_1 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), life_local_blue /* row */ );
+            TEST_EXPECT_EQUAL_INT( life_local_blue, data_feature_get_row( feat_1 ) );
 
-            const data_feature_t *const feat_2 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), life_local_red /* row_id */ );
-            TEST_EXPECT_EQUAL_INT( life_local_red, data_feature_get_row_id( feat_2 ) );
+            const data_feature_t *const feat_2 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), life_local_red /* row */ );
+            TEST_EXPECT_EQUAL_INT( life_local_red, data_feature_get_row( feat_2 ) );
         }
 
         {
             const uint32_t relationship_count = data_visible_set_get_relationship_count( &((*fix).test_me) );
             TEST_EXPECT_EQUAL_INT( 4, relationship_count );
 
-            const data_relationship_t *const rel_1 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_any_c2c /* row_id */ );
-            TEST_EXPECT_EQUAL_INT( rel_any_c2c, data_relationship_get_row_id( rel_1 ) );
+            const data_relationship_t *const rel_1 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_any_c2c /* row */ );
+            TEST_EXPECT_EQUAL_INT( rel_any_c2c, data_relationship_get_row( rel_1 ) );
 
-            const data_relationship_t *const rel_2 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_f2f /* row_id */ );
-            TEST_EXPECT_EQUAL_INT( rel_local_f2f, data_relationship_get_row_id( rel_2 ) );
+            const data_relationship_t *const rel_2 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_f2f /* row */ );
+            TEST_EXPECT_EQUAL_INT( rel_local_f2f, data_relationship_get_row( rel_2 ) );
 
-            const data_relationship_t *const rel_3 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_f2c /* row_id */ );
-            TEST_EXPECT_EQUAL_INT( rel_local_f2c, data_relationship_get_row_id( rel_3 ) );
+            const data_relationship_t *const rel_3 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_f2c /* row */ );
+            TEST_EXPECT_EQUAL_INT( rel_local_f2c, data_relationship_get_row( rel_3 ) );
 
-            const data_relationship_t *const rel_4 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_c2f /* row_id */ );
-            TEST_EXPECT_EQUAL_INT( rel_local_c2f, data_relationship_get_row_id( rel_4 ) );
+            const data_relationship_t *const rel_4 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_c2f /* row */ );
+            TEST_EXPECT_EQUAL_INT( rel_local_c2f, data_relationship_get_row( rel_4 ) );
         }
 
         data_visible_set_destroy( &((*fix).test_me) );

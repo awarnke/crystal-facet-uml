@@ -89,12 +89,12 @@ static inline void data_head_destroy ( data_head_t *this_ )
     (*this_).id = DATA_ROW_VOID;
 }
 
-static inline data_row_t data_head_get_row_id ( const data_head_t *this_ )
+static inline data_row_t data_head_get_row ( const data_head_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_head_set_row_id ( data_head_t *this_, data_row_t id )
+static inline void data_head_set_row ( data_head_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }

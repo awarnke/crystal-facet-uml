@@ -462,7 +462,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
     data_row_t parent_classifier_id;
     data_feature_type_t feature_type;
     feature_type = data_feature_get_main_type ( feature_ptr );
-    parent_classifier_id = data_feature_get_classifier_row_id ( feature_ptr );
+    parent_classifier_id = data_feature_get_classifier_row ( feature_ptr );
 
     /* get the bounding box of the diagram */
     const layout_diagram_t *const the_diagram
@@ -540,7 +540,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                             /* check if feature is not the moved one */
                             const data_feature_t *const data_feature
                                 = layout_feature_get_data_const ( the_feature );
-                            if ( data_feature_get_row_id ( feature_ptr ) != data_feature_get_row_id ( data_feature ) )
+                            if ( data_feature_get_row ( feature_ptr ) != data_feature_get_row ( data_feature ) )
                             {
                                 const int32_t list_order
                                     = data_feature_get_list_order( data_feature );

@@ -152,7 +152,7 @@ static inline void data_diagramelement_trace ( const data_diagramelement_t *this
  *  \param this_ pointer to own object attributes
  *  \return attribute id, DATA_ROW_VOID if this_ is not valid
  */
-static inline data_row_t data_diagramelement_get_row_id ( const data_diagramelement_t *this_ );
+static inline data_row_t data_diagramelement_get_row ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -160,7 +160,7 @@ static inline data_row_t data_diagramelement_get_row_id ( const data_diagramelem
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_diagramelement_set_row_id ( data_diagramelement_t *this_, data_row_t id );
+static inline void data_diagramelement_set_row ( data_diagramelement_t *this_, data_row_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -176,7 +176,7 @@ static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelem
  *  \param this_ pointer to own object attributes
  *  \return attribute diagram_id, DATA_ROW_VOID if the referenced diagram is not valid
  */
-static inline data_row_t data_diagramelement_get_diagram_row_id ( const data_diagramelement_t *this_ );
+static inline data_row_t data_diagramelement_get_diagram_row ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief sets the attribute diagram_id
@@ -184,7 +184,7 @@ static inline data_row_t data_diagramelement_get_diagram_row_id ( const data_dia
  *  \param this_ pointer to own object attributes
  *  \param diagram_id new diagram_id of this object
  */
-static inline void data_diagramelement_set_diagram_row_id ( data_diagramelement_t *this_, data_row_t diagram_id );
+static inline void data_diagramelement_set_diagram_row ( data_diagramelement_t *this_, data_row_t diagram_id );
 
 /*!
  *  \brief gets the data_id derived from the attribute diagram_id
@@ -200,7 +200,7 @@ static inline data_id_t data_diagramelement_get_diagram_data_id ( const data_dia
  *  \param this_ pointer to own object attributes
  *  \return attribute classifier_id, DATA_ROW_VOID if the referenced classifier is not valid
  */
-static inline data_row_t data_diagramelement_get_classifier_row_id ( const data_diagramelement_t *this_ );
+static inline data_row_t data_diagramelement_get_classifier_row ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief sets the attribute classifier_id
@@ -208,7 +208,7 @@ static inline data_row_t data_diagramelement_get_classifier_row_id ( const data_
  *  \param this_ pointer to own object attributes
  *  \param classifier_id new classifier_id of this object
  */
-static inline void data_diagramelement_set_classifier_row_id ( data_diagramelement_t *this_, data_row_t classifier_id );
+static inline void data_diagramelement_set_classifier_row ( data_diagramelement_t *this_, data_row_t classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the attribute classifier_id
@@ -224,7 +224,7 @@ static inline data_id_t data_diagramelement_get_classifier_data_id ( const data_
  *  \param this_ pointer to own object attributes
  *  \return attribute focused_feature_id, DATA_ROW_VOID if there is no focused feature
  */
-static inline data_row_t data_diagramelement_get_focused_feature_row_id ( const data_diagramelement_t *this_ );
+static inline data_row_t data_diagramelement_get_focused_feature_row ( const data_diagramelement_t *this_ );
 
 /*!
  *  \brief sets the attribute focused_feature_id
@@ -232,7 +232,7 @@ static inline data_row_t data_diagramelement_get_focused_feature_row_id ( const 
  *  \param this_ pointer to own object attributes
  *  \param focused_feature_id new attribute focused_feature_id
  */
-static inline void data_diagramelement_set_focused_feature_row_id ( data_diagramelement_t *this_, data_row_t focused_feature_id );
+static inline void data_diagramelement_set_focused_feature_row ( data_diagramelement_t *this_, data_row_t focused_feature_id );
 
 /*!
  *  \brief gets the data_id derived from the attribute focused_feature_id

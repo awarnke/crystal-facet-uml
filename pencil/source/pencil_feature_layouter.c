@@ -575,7 +575,7 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
                 const bool is_above
                     = (( data_feature_get_list_order( f_probe_data ) < data_feature_get_list_order( the_feature ))
                     || (( data_feature_get_list_order( f_probe_data ) == data_feature_get_list_order( the_feature ) )
-                    && ( data_feature_get_row_id( f_probe_data ) < data_feature_get_row_id( the_feature ) )));
+                    && ( data_feature_get_row( f_probe_data ) < data_feature_get_row( the_feature ) )));
                 if ( is_above )
                 {
                     const geometry_rectangle_t *const probe_label_box

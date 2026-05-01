@@ -399,7 +399,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             }
             else
             {
-                data_row_t obj_id = data_diagram_get_row_id ( diag );
+                data_row_t obj_id = data_diagram_get_row ( diag );
                 result |= (u8_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
             }
         }
@@ -417,8 +417,8 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             {
                 diag = ctrl_undo_redo_entry_get_diagram_after_action_const ( action );
             }
-            data_row_t diag_id = data_diagram_get_row_id ( diag );
-            data_row_t diag_parent_id = data_diagram_get_parent_row_id ( diag );
+            data_row_t diag_id = data_diagram_get_row ( diag );
+            data_row_t diag_parent_id = data_diagram_get_parent_row ( diag );
             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag );
             const char* diag_stereotype = data_diagram_get_stereotype_const ( diag );
             const char* diag_name = data_diagram_get_name_const ( diag );
@@ -439,7 +439,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             const data_diagram_t *diag = ctrl_undo_redo_entry_get_diagram_after_action_const ( action );
             if ( undo )
             {
-                data_row_t obj_id = data_diagram_get_row_id ( diag );
+                data_row_t obj_id = data_diagram_get_row ( diag );
                 result |= (u8_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
             }
             else
@@ -459,7 +459,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             }
             else
             {
-                data_row_t obj_id = data_diagramelement_get_row_id ( diag_ele );
+                data_row_t obj_id = data_diagramelement_get_row ( diag_ele );
                 result |= (u8_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
             }
         }
@@ -477,9 +477,9 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             {
                 diag_element = ctrl_undo_redo_entry_get_diagramelement_after_action_const ( action );
             }
-            data_row_t diag_elem_id = data_diagramelement_get_row_id ( diag_element );
+            data_row_t diag_elem_id = data_diagramelement_get_row ( diag_element );
             data_diagramelement_flag_t diag_elem_display_flags = data_diagramelement_get_display_flags ( diag_element );
-            data_row_t diag_feature_id = data_diagramelement_get_focused_feature_row_id ( diag_element );
+            data_row_t diag_feature_id = data_diagramelement_get_focused_feature_row ( diag_element );
             result |= (u8_error_t) data_database_writer_update_diagramelement_display_flags ( (*this_).db_writer, diag_elem_id, diag_elem_display_flags, NULL );
             result |= (u8_error_t) data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diag_elem_id, diag_feature_id, NULL );
         }
@@ -491,7 +491,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             const data_diagramelement_t *diag_ele = ctrl_undo_redo_entry_get_diagramelement_after_action_const ( action );
             if ( undo )
             {
-                data_row_t obj_id = data_diagramelement_get_row_id ( diag_ele );
+                data_row_t obj_id = data_diagramelement_get_row ( diag_ele );
                 result |= (u8_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
             }
             else
@@ -511,7 +511,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             }
             else
             {
-                data_row_t obj_id = data_classifier_get_row_id ( classfy );
+                data_row_t obj_id = data_classifier_get_row ( classfy );
                 result |= (u8_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
             }
         }
@@ -529,7 +529,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             {
                 classfy = ctrl_undo_redo_entry_get_classifier_after_action_const ( action );
             }
-            data_row_t classfy_id = data_classifier_get_row_id ( classfy );
+            data_row_t classfy_id = data_classifier_get_row ( classfy );
             data_classifier_type_t classfy_main_type = data_classifier_get_main_type ( classfy );
             const char* classfy_stereotype = data_classifier_get_stereotype_const ( classfy );
             const char* classfy_name = data_classifier_get_name_const ( classfy );
@@ -553,7 +553,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             const data_classifier_t *classfy = ctrl_undo_redo_entry_get_classifier_after_action_const ( action );
             if ( undo )
             {
-                data_row_t obj_id = data_classifier_get_row_id ( classfy );
+                data_row_t obj_id = data_classifier_get_row ( classfy );
                 result |= (u8_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
             }
             else
@@ -573,7 +573,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             }
             else
             {
-                data_row_t obj_id = data_feature_get_row_id ( feat );
+                data_row_t obj_id = data_feature_get_row ( feat );
                 result |= (u8_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
             }
         }
@@ -591,7 +591,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             {
                 feat = ctrl_undo_redo_entry_get_feature_after_action_const ( action );
             }
-            data_row_t feature_id = data_feature_get_row_id ( feat );
+            data_row_t feature_id = data_feature_get_row ( feat );
             data_feature_type_t new_feature_type = data_feature_get_main_type ( feat );
             const char* new_feature_key = data_feature_get_key_const ( feat );
             const char* new_feature_value = data_feature_get_value_const ( feat );
@@ -611,7 +611,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             const data_feature_t *feat = ctrl_undo_redo_entry_get_feature_after_action_const ( action );
             if ( undo )
             {
-                data_row_t obj_id = data_feature_get_row_id ( feat );
+                data_row_t obj_id = data_feature_get_row ( feat );
                 result |= (u8_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
             }
             else
@@ -631,7 +631,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             }
             else
             {
-                data_row_t obj_id = data_relationship_get_row_id ( relation );
+                data_row_t obj_id = data_relationship_get_row ( relation );
                 result |= (u8_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
             }
         }
@@ -649,7 +649,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             {
                 relation = ctrl_undo_redo_entry_get_relationship_after_action_const ( action );
             }
-            data_row_t relationship_id = data_relationship_get_row_id ( relation );
+            data_row_t relationship_id = data_relationship_get_row ( relation );
             data_relationship_type_t new_relationship_type = data_relationship_get_main_type ( relation );
             const char* new_relationship_stereotype = data_relationship_get_stereotype_const ( relation );
             const char* new_relationship_name = data_relationship_get_name_const ( relation );
@@ -669,7 +669,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             const data_relationship_t *relation = ctrl_undo_redo_entry_get_relationship_after_action_const ( action );
             if ( undo )
             {
-                data_row_t obj_id = data_relationship_get_row_id ( relation );
+                data_row_t obj_id = data_relationship_get_row ( relation );
                 result |= (u8_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
             }
             else

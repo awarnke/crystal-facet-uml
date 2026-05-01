@@ -52,7 +52,7 @@ static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement( ctrl_d
     assert( new_diagramelement != NULL );
     assert( out_created_lifeline != NULL );
     u8_error_t result = U8_ERROR_NONE;
-    if ( DATA_ROW_VOID == data_diagramelement_get_focused_feature_row_id( new_diagramelement ) )
+    if ( DATA_ROW_VOID == data_diagramelement_get_focused_feature_row( new_diagramelement ) )
     {
         data_row_t lifeline_row = DATA_ROW_VOID;
         result = consistency_lifeline_create_a_lifeline( (*this_).lifeline, new_diagramelement, &lifeline_row );
@@ -67,7 +67,7 @@ static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement( ctrl_d
     }
     else
     {
-        /* the caller stated an focused_feature_row_id already, therefore a lifeline was already linked */
+        /* the caller stated an focused_feature_row already, therefore a lifeline was already linked */
         *out_created_lifeline = DATA_ID_VOID;
     }
     return result;
@@ -86,7 +86,7 @@ static inline u8_error_t ctrl_diagram_trigger_post_delete_diagramelement( ctrl_d
                                                                          deleted_diagramelement,
                                                                          io_stat
                                                                        );
-    const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
+    const data_row_t classifier_id = data_diagramelement_get_classifier_row( deleted_diagramelement );
     result_err |= consistency_feature_delete_invisibles_of_classifier( (*this_).feature, classifier_id, io_stat );
     int32_t deleted_relationships = 0;
     result_err |= consistency_relationship_delete_invisibles_at_classifier( (*this_).relationship,

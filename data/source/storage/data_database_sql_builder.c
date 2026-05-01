@@ -168,23 +168,23 @@ u8_error_t data_database_sql_builder_build_create_diagram_command ( data_databas
 
     out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    if ( DATA_ROW_VOID == data_diagram_get_row_id( diagram )  )
+    if ( DATA_ROW_VOID == data_diagram_get_row( diagram )  )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX );
     }
     else
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX );
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_row_id( diagram ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_row( diagram ) );
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    if ( DATA_ROW_VOID == data_diagram_get_parent_row_id( diagram ) )
+    if ( DATA_ROW_VOID == data_diagram_get_parent_row( diagram ) )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_parent_row_id( diagram ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_parent_row( diagram ) );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_diagram_type( diagram ) );
@@ -604,14 +604,14 @@ u8_error_t data_database_sql_builder_build_create_classifier_command ( data_data
 
     out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    if ( data_classifier_get_row_id( classifier ) == DATA_ROW_VOID )
+    if ( data_classifier_get_row( classifier ) == DATA_ROW_VOID )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX );
     }
     else
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX );
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_row_id( classifier ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_row( classifier ) );
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
     out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_main_type( classifier ) );
@@ -1032,29 +1032,29 @@ u8_error_t data_database_sql_builder_build_create_diagramelement_command ( data_
 
     out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    if ( DATA_ROW_VOID == data_diagramelement_get_row_id( diagramelement ) )
+    if ( DATA_ROW_VOID == data_diagramelement_get_row( diagramelement ) )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX );
     }
     else
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX );
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_row_id( diagramelement ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_row( diagramelement ) );
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_diagram_row_id( diagramelement ) );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_diagram_row( diagramelement ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_classifier_row_id( diagramelement ) );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_classifier_row( diagramelement ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_display_flags( diagramelement ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    if ( DATA_ROW_VOID == data_diagramelement_get_focused_feature_row_id( diagramelement ) )
+    if ( DATA_ROW_VOID == data_diagramelement_get_focused_feature_row( diagramelement ) )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_focused_feature_row_id( diagramelement ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_focused_feature_row( diagramelement ) );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
@@ -1248,19 +1248,19 @@ u8_error_t data_database_sql_builder_build_create_feature_command ( data_databas
 
     out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    if ( data_feature_get_row_id( feature ) == DATA_ROW_VOID )
+    if ( data_feature_get_row( feature ) == DATA_ROW_VOID )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_PREFIX );
     }
     else
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_WITH_ID_PREFIX );
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_row_id( feature ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_row( feature ) );
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
     out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_main_type( feature ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_classifier_row_id( feature ) );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_classifier_row( feature ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
@@ -1633,21 +1633,21 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
 
     out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    if ( data_relationship_get_row_id( relationship ) == DATA_ROW_VOID )
+    if ( data_relationship_get_row( relationship ) == DATA_ROW_VOID )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX );
     }
     else
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX );
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_row_id( relationship ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_row( relationship ) );
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
     out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_main_type( relationship ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_from_classifier_row_id( relationship ) );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_from_classifier_row( relationship ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_to_classifier_row_id( relationship ) );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_to_classifier_row( relationship ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* stereotype */
@@ -1679,22 +1679,22 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
     out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_list_order( relationship ) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
-    if ( DATA_ROW_VOID == data_relationship_get_from_feature_row_id( relationship ) )
+    if ( DATA_ROW_VOID == data_relationship_get_from_feature_row( relationship ) )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_from_feature_row_id( relationship ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_from_feature_row( relationship ) );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    if ( DATA_ROW_VOID == data_relationship_get_to_feature_row_id( relationship ) )
+    if ( DATA_ROW_VOID == data_relationship_get_to_feature_row( relationship ) )
     {
         out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_to_feature_row_id( relationship ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_to_feature_row( relationship ) );
     }
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );

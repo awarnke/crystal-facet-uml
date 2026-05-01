@@ -164,7 +164,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
         data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &the_feature ) );
-        lifeline_id = data_feature_get_row_id( &the_feature );
+        lifeline_id = data_feature_get_row( &the_feature );
         TEST_EXPECT( DATA_ROW_VOID != lifeline_id );
         const bool others = data_feature_iterator_has_next( &feature_iterator );
         TEST_EXPECT_EQUAL_INT( false, others );
@@ -191,7 +191,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), first_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row( &check_diagele2 ) );
 
         data_diagramelement_destroy ( &check_diagele2 );
     }
@@ -223,7 +223,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), first_diag_element_id, &check_diagele3 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
-        TEST_EXPECT_EQUAL_INT( lifeline_id, data_diagramelement_get_focused_feature_row_id( &check_diagele3 ) );
+        TEST_EXPECT_EQUAL_INT( lifeline_id, data_diagramelement_get_focused_feature_row( &check_diagele3 ) );
 
         data_diagramelement_destroy ( &check_diagele3 );
     }
@@ -445,7 +445,7 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), child_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
-        TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &the_feature ), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
+        TEST_EXPECT_EQUAL_INT( data_feature_get_row( &the_feature ), data_diagramelement_get_focused_feature_row( &check_diagele2 ) );
 
         data_diagramelement_destroy ( &check_diagele2 );
     }
@@ -664,7 +664,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), second_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
-        TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &the_feature ), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
+        TEST_EXPECT_EQUAL_INT( data_feature_get_row( &the_feature ), data_diagramelement_get_focused_feature_row( &check_diagele2 ) );
 
         data_diagramelement_destroy ( &check_diagele2 );
     }

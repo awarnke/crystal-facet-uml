@@ -74,7 +74,7 @@ static test_case_result_t test_create_head( test_fixture_t *fix )
     /* read success */
     data_err = data_database_head_read_value_by_key( &test_me, TEST_KEY, &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
@@ -114,7 +114,7 @@ static test_case_result_t test_read_head( test_fixture_t *fix )
     /* read by key success */
     data_err = data_database_head_read_value_by_key( &test_me, TEST_KEY, &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
@@ -122,7 +122,7 @@ static test_case_result_t test_read_head( test_fixture_t *fix )
     /* read by id success */
     data_err = data_database_head_read_value_by_id( &test_me, new_id, &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
@@ -155,7 +155,7 @@ static test_case_result_t test_update_head( test_fixture_t *fix )
     /* update success, with result */
     data_err = data_database_head_update_value( &test_me, new_id, "THIRD", &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
     TEST_EXPECT_EQUAL_STRING( "OTHER", data_head_get_value_const( &value ) );
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
@@ -163,7 +163,7 @@ static test_case_result_t test_update_head( test_fixture_t *fix )
     /* read success */
     data_err = data_database_head_read_value_by_id( &test_me, new_id, &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
     TEST_EXPECT_EQUAL_STRING( "THIRD", data_head_get_value_const( &value ) );
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
@@ -192,7 +192,7 @@ static test_case_result_t test_delete_head( test_fixture_t *fix )
     /* delete success */
     data_err = data_database_head_delete_value( &test_me, new_id, &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );

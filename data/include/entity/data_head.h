@@ -103,7 +103,7 @@ static inline void data_head_destroy ( data_head_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_t data_head_get_row_id ( const data_head_t *this_ );
+static inline data_row_t data_head_get_row ( const data_head_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -111,7 +111,7 @@ static inline data_row_t data_head_get_row_id ( const data_head_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_head_set_row_id ( data_head_t *this_, data_row_t id );
+static inline void data_head_set_row ( data_head_t *this_, data_row_t id );
 
 /*!
  *  \brief gets the attribute key

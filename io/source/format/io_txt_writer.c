@@ -98,7 +98,7 @@ u8_error_t io_txt_writer_write_aligned_id ( io_txt_writer_t *this_, int right_al
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
-    assert( DATA_ROW_VOID != data_id_get_row_id(&id) );
+    assert( DATA_ROW_VOID != data_id_get_row(&id) );
     assert( NULL != (*this_).output );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_WRITER_INDENT_COLUMN );
     u8_error_t result = U8_ERROR_NONE;
@@ -138,7 +138,7 @@ u8_error_t io_txt_writer_write_plain_id ( io_txt_writer_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
-    assert( DATA_ROW_VOID != data_id_get_row_id(&id) );
+    assert( DATA_ROW_VOID != data_id_get_row(&id) );
     assert( NULL != (*this_).output );
     u8_error_t result = U8_ERROR_NONE;
 

@@ -85,9 +85,9 @@ static inline bool data_small_set_contains ( const data_small_set_t *this_, data
  *
  *  \param this_ pointer to own object attributes
  *  \param table table-id to be seached
- *  \param row_id row-id to be seached
+ *  \param row row-id to be seached
  */
-static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, data_row_t row_id );
+static inline bool data_small_set_contains_row ( const data_small_set_t *this_, data_table_t table, data_row_t row );
 
 /*!
  *  \brief adds a obj_id to data_small_set_t
@@ -104,11 +104,11 @@ static inline u8_error_t data_small_set_add_obj ( data_small_set_t *this_, data_
  *
  *  \param this_ pointer to own object attributes
  *  \param table table-id to be seached
- *  \param row_id row-id to be seached
+ *  \param row row-id to be seached
  *  \return U8_ERROR_DUPLICATE_ID if id is already contained, U8_ERROR_ARRAY_BUFFER_EXCEEDED if DATA_SMALL_SET_MAX_SET_SIZE exceeded,
  *          U8_ERROR_INVALID_REQUEST if object id is invalid, U8_ERROR_NONE else.
  */
-static inline u8_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_t row_id );
+static inline u8_error_t data_small_set_add_row ( data_small_set_t *this_, data_table_t table, data_row_t row );
 
 /*!
  *  \brief deletes an obj_id from data_small_set_t

@@ -113,12 +113,12 @@ static inline void data_diagramelement_trace ( const data_diagramelement_t *this
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
-static inline data_row_t data_diagramelement_get_row_id ( const data_diagramelement_t *this_ )
+static inline data_row_t data_diagramelement_get_row ( const data_diagramelement_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_diagramelement_set_row_id ( data_diagramelement_t *this_, data_row_t id )
+static inline void data_diagramelement_set_row ( data_diagramelement_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -130,12 +130,12 @@ static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelem
     return result;
 }
 
-static inline data_row_t data_diagramelement_get_diagram_row_id ( const data_diagramelement_t *this_ )
+static inline data_row_t data_diagramelement_get_diagram_row ( const data_diagramelement_t *this_ )
 {
     return (*this_).diagram_id;
 }
 
-static inline void data_diagramelement_set_diagram_row_id ( data_diagramelement_t *this_, data_row_t diagram_id )
+static inline void data_diagramelement_set_diagram_row ( data_diagramelement_t *this_, data_row_t diagram_id )
 {
     (*this_).diagram_id = diagram_id;
 }
@@ -147,12 +147,12 @@ static inline data_id_t data_diagramelement_get_diagram_data_id ( const data_dia
     return result;
 }
 
-static inline data_row_t data_diagramelement_get_classifier_row_id ( const data_diagramelement_t *this_ )
+static inline data_row_t data_diagramelement_get_classifier_row ( const data_diagramelement_t *this_ )
 {
     return (*this_).classifier_id;
 }
 
-static inline void data_diagramelement_set_classifier_row_id ( data_diagramelement_t *this_, data_row_t classifier_id )
+static inline void data_diagramelement_set_classifier_row ( data_diagramelement_t *this_, data_row_t classifier_id )
 {
     (*this_).classifier_id = classifier_id;
 }
@@ -164,12 +164,12 @@ static inline data_id_t data_diagramelement_get_classifier_data_id ( const data_
     return result;
 }
 
-static inline data_row_t data_diagramelement_get_focused_feature_row_id ( const data_diagramelement_t *this_ )
+static inline data_row_t data_diagramelement_get_focused_feature_row ( const data_diagramelement_t *this_ )
 {
     return (*this_).focused_feature_id;
 }
 
-static inline void data_diagramelement_set_focused_feature_row_id ( data_diagramelement_t *this_, data_row_t focused_feature_id )
+static inline void data_diagramelement_set_focused_feature_row ( data_diagramelement_t *this_, data_row_t focused_feature_id )
 {
     (*this_).focused_feature_id = focused_feature_id;
 }

@@ -51,7 +51,7 @@ void io_import_elements_init( io_import_elements_t *this_,
             if ( 1 <= data_small_set_get_count( &roots ) )
             {
                 data_id_t first_root = data_small_set_get_id( &roots, 0 );
-                (*this_).root_diagram = data_id_get_row_id( &first_root );
+                (*this_).root_diagram = data_id_get_row( &first_root );
             }
             else
             {
@@ -148,7 +148,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     u8_error_t sync_error = U8_ERROR_NONE;
 
     /* ANY MODE: determine parent id */
-    data_row_t parent_row_id = (*this_).root_diagram;
+    data_row_t parent_row = (*this_).root_diagram;
     const bool parent_uuid_specified
         = (( parent_uuid != NULL )&&( ! utf8string_equals_str( parent_uuid, "" )));
     if ( parent_uuid_specified )
@@ -169,7 +169,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         }
         else
         {
-            parent_row_id = data_diagram_get_row_id( &((*this_).temp_diagram ) );
+            parent_row = data_diagram_get_row( &((*this_).temp_diagram ) );
         }
         data_diagram_destroy( &((*this_).temp_diagram ) );
     }
@@ -179,13 +179,13 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     {
         if ( (*this_).paste_to_diagram == DATA_ROW_VOID )
         {
-            data_row_t parent_row_id = (*this_).root_diagram;
-            U8_TRACE_INFO_INT( "in paste-clipboard mode, missing parent diagram set to", parent_row_id );
+            data_row_t parent_row = (*this_).root_diagram;
+            U8_TRACE_INFO_INT( "in paste-clipboard mode, missing parent diagram set to", parent_row );
         }
         else
         {
             /* overwrite the parent diagram id, do not keep the one provided via the clipboard */
-            parent_row_id = (*this_).paste_to_diagram;
+            parent_row = (*this_).paste_to_diagram;
         }
     }
 
@@ -193,7 +193,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     if (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )&&( sync_error == U8_ERROR_NONE ))
     {
         data_diagram_copy( &((*this_).temp_diagram), diagram_ptr );
-        data_diagram_set_parent_row_id( &((*this_).temp_diagram), parent_row_id );
+        data_diagram_set_parent_row( &((*this_).temp_diagram), parent_row );
         /* create new uuid for diagram if paste */
         {
             data_uuid_t new_uuid;
@@ -220,11 +220,11 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         else
         {
             /* insert all consecutive elements to this new diagram */
-            (*this_).paste_to_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
+            (*this_).paste_to_diagram = data_diagram_get_row( &((*this_).temp_diagram) );
             /* this new diagram is root if it is the first diagram */
             if ( (*this_).root_diagram == DATA_ROW_VOID )
             {
-                (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
+                (*this_).root_diagram = data_diagram_get_row( &((*this_).temp_diagram) );
             }
         }
         data_diagram_destroy( &((*this_).temp_diagram) );
@@ -247,24 +247,24 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         {
             if ( (*this_).step == IO_IMPORT_STEP_ADD_E_DP_F_R )
             {
-                /* if (*this_).temp_diagram is the only valid root, set parent_row_id to DATA_ROW_VOID */
-                if ( data_diagram_get_row_id( &((*this_).temp_diagram) ) == (*this_).root_diagram )
+                /* if (*this_).temp_diagram is the only valid root, set parent_row to DATA_ROW_VOID */
+                if ( data_diagram_get_row( &((*this_).temp_diagram) ) == (*this_).root_diagram )
                 {
-                    parent_row_id = DATA_ROW_VOID;
+                    parent_row = DATA_ROW_VOID;
                 }
 
                 /* update the parent if wrong parent stored */
-                if ( data_diagram_get_parent_row_id( &((*this_).temp_diagram) ) != parent_row_id )
+                if ( data_diagram_get_parent_row( &((*this_).temp_diagram) ) != parent_row )
                 {
                     sync_error = ctrl_multi_step_changer_update_diagram_parent_id( &((*this_).multi_step_changer),
-                                                                                   data_diagram_get_row_id( &((*this_).temp_diagram) ),
-                                                                                   parent_row_id
+                                                                                   data_diagram_get_row( &((*this_).temp_diagram) ),
+                                                                                   parent_row
                                                                                  );
 
                     /* update root diag if this is root */
-                    if (( parent_row_id == DATA_ROW_VOID )&&( sync_error == U8_ERROR_NONE ))
+                    if (( parent_row == DATA_ROW_VOID )&&( sync_error == U8_ERROR_NONE ))
                     {
-                        (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
+                        (*this_).root_diagram = data_diagram_get_row( &((*this_).temp_diagram) );
                     }
                 }
             }
@@ -277,7 +277,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         else
         {
             data_diagram_replace( &((*this_).temp_diagram), diagram_ptr );
-            data_diagram_set_parent_row_id( &((*this_).temp_diagram), parent_row_id );
+            data_diagram_set_parent_row( &((*this_).temp_diagram), parent_row );
 
             /* create the parsed diagram as child below the current diagram */
             u8_error_t modified_info;
@@ -303,10 +303,10 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             else
             {
                 /* this new diagram is root if it is the first root diagram, further diagrams will not be root */
-                if (( (*this_).root_diagram == DATA_ROW_VOID )&&( parent_row_id == DATA_ROW_VOID )
+                if (( (*this_).root_diagram == DATA_ROW_VOID )&&( parent_row == DATA_ROW_VOID )
                     &&( ! parent_uuid_specified ))
                 {
-                    (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
+                    (*this_).root_diagram = data_diagram_get_row( &((*this_).temp_diagram) );
                 }
             }
 
@@ -356,7 +356,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                                              );
             if ( U8_ERROR_NONE == read_error1 )
             {
-                node_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
+                node_classifier_id = data_classifier_get_row( &((*this_).temp_classifier) );
                 U8_TRACE_INFO_STR( "id found for classifier:", node_uuid );
             }
             else
@@ -370,8 +370,8 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                                               );
                 if ( U8_ERROR_NONE == read_error2 )
                 {
-                    node_classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
-                    node_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                    node_classifier_id = data_feature_get_classifier_row( &((*this_).temp_feature) );
+                    node_feature_id = data_feature_get_row( &((*this_).temp_feature) );
                     node_feature_type = data_feature_get_main_type( &((*this_).temp_feature) );
                     U8_TRACE_INFO_STR( "id found for feature:", node_uuid );
                 }
@@ -386,7 +386,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     }
 
     /* ANY MODE: determine diagram id */
-    data_row_t diagram_row_id = DATA_ROW_VOID;
+    data_row_t diagram_row = DATA_ROW_VOID;
     if (( do_check || do_sync )&&( diagram_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
     {
         if ( ! utf8string_equals_str( diagram_uuid, "" ) )
@@ -407,7 +407,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
             }
             else
             {
-                diagram_row_id = data_diagram_get_row_id( &((*this_).temp_diagram ) );
+                diagram_row = data_diagram_get_row( &((*this_).temp_diagram ) );
             }
             data_diagram_destroy( &((*this_).temp_diagram ) );
         }
@@ -426,7 +426,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "diagramelement references a feature which is not of type DATA_FEATURE_TYPE_LIFELINE." );
         }
-        if ( diagram_row_id == DATA_ROW_VOID )
+        if ( diagram_row == DATA_ROW_VOID )
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "diagramelement references a non-existing classifier." );
@@ -448,14 +448,14 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
         {
             /* do the statistics */
             data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
-            U8_TRACE_INFO_INT( "diagramelement did already exist:", data_diagramelement_get_row_id( &((*this_).temp_diagramelement) ) );
+            U8_TRACE_INFO_INT( "diagramelement did already exist:", data_diagramelement_get_row( &((*this_).temp_diagramelement) ) );
         }
         else
         {
             /* link the classifier to the current diagram */
             sync_error = data_diagramelement_reinit( &((*this_).temp_diagramelement),
-                                                     data_diagramelement_get_row_id( diagramelement_ptr ),
-                                                     diagram_row_id,
+                                                     data_diagramelement_get_row( diagramelement_ptr ),
+                                                     diagram_row,
                                                      node_classifier_id,
                                                      data_diagramelement_get_display_flags( diagramelement_ptr ),
                                                      node_feature_id,  /* focused_feature_id */
@@ -578,7 +578,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
         {
             /* do the statistics */
             data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED );
-            U8_TRACE_INFO_INT( "classifier did already exist:", data_classifier_get_row_id( &((*this_).temp_classifier) ) );
+            U8_TRACE_INFO_INT( "classifier did already exist:", data_classifier_get_row( &((*this_).temp_classifier) ) );
         }
         else
         {
@@ -626,8 +626,8 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
         {
             /* in paste mode, create a diagramelement in the current diagram */
             /* after IO_IMPORT_STEP_CREATE_D_C_F_R there comes no other step to perform this. */
-            const data_row_t classifier_row_id = data_classifier_get_row_id( &((*this_).temp_classifier ) );
-            sync_error = io_import_elements_private_create_diagramelement( this_, classifier_row_id );
+            const data_row_t classifier_row = data_classifier_get_row( &((*this_).temp_classifier ) );
+            sync_error = io_import_elements_private_create_diagramelement( this_, classifier_row );
         }
 
         data_classifier_destroy( &((*this_).temp_classifier ) );
@@ -652,7 +652,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     const bool do_check = ( (*this_).step == IO_IMPORT_STEP_CHECK );
 
     /* ANY MODE: determine classifier id */
-    data_row_t classifier_row_id = DATA_ROW_VOID;
+    data_row_t classifier_row = DATA_ROW_VOID;
     if (( do_check || do_sync )&&( classifier_uuid != NULL ))
     {
         if ( ! utf8string_equals_str( classifier_uuid, "" ) )
@@ -673,7 +673,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
             }
             else
             {
-                classifier_row_id = data_classifier_get_row_id( &((*this_).temp_classifier ) );
+                classifier_row = data_classifier_get_row( &((*this_).temp_classifier ) );
             }
             data_classifier_destroy( &((*this_).temp_classifier ) );
         }
@@ -682,7 +682,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     /* check preconditions */
     if ( do_sync )
     {
-        if ( classifier_row_id == DATA_ROW_VOID )
+        if ( classifier_row == DATA_ROW_VOID )
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "feature references a non-existing classifier." );
@@ -725,7 +725,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
             {
                 /* create feature */
                 data_feature_copy( &((*this_).temp_feature ), feature_ptr );
-                data_feature_set_classifier_row_id( &((*this_).temp_feature ), classifier_row_id );
+                data_feature_set_classifier_row( &((*this_).temp_feature ), classifier_row );
 
                 u8_error_t modified_info;
                 const u8_error_t create_err
@@ -810,7 +810,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                              );
             if ( U8_ERROR_NONE == read_error1 )
             {
-                from_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
+                from_classifier_id = data_classifier_get_row( &((*this_).temp_classifier) );
                 U8_TRACE_INFO_STR( "id found for src classifier:", from_node_uuid );
             }
             else
@@ -824,8 +824,8 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                               );
                 if ( U8_ERROR_NONE == read_error2 )
                 {
-                    from_classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
-                    from_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                    from_classifier_id = data_feature_get_classifier_row( &((*this_).temp_feature) );
+                    from_feature_id = data_feature_get_row( &((*this_).temp_feature) );
                     from_feature_type = data_feature_get_main_type( &((*this_).temp_feature) );
                     U8_TRACE_INFO_STR( "id found for src feature:", from_node_uuid );
                 }
@@ -856,7 +856,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                              );
             if ( U8_ERROR_NONE == read_error3 )
             {
-                to_classifier_id = data_classifier_get_row_id( &((*this_).temp_classifier) );
+                to_classifier_id = data_classifier_get_row( &((*this_).temp_classifier) );
                 U8_TRACE_INFO_STR( "id found for dst classifier:", to_node_uuid );
             }
             else
@@ -870,8 +870,8 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                               );
                 if ( U8_ERROR_NONE == read_error4 )
                 {
-                    to_classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
-                    to_feature_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                    to_classifier_id = data_feature_get_classifier_row( &((*this_).temp_feature) );
+                    to_feature_id = data_feature_get_row( &((*this_).temp_feature) );
                     to_feature_type = data_feature_get_main_type( &((*this_).temp_feature) );
                     U8_TRACE_INFO_STR( "id found for src feature:", to_node_uuid );
                 }
@@ -952,11 +952,11 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
         {
             /* create relationship */
             data_relationship_copy( &((*this_).temp_relationship ), relation_ptr );
-            data_relationship_set_row_id( &((*this_).temp_relationship ), data_relationship_get_row_id( relation_ptr ) );
-            data_relationship_set_from_classifier_row_id( &((*this_).temp_relationship ), from_classifier_id );
-            data_relationship_set_from_feature_row_id( &((*this_).temp_relationship ), from_feature_id );
-            data_relationship_set_to_classifier_row_id( &((*this_).temp_relationship ), to_classifier_id );
-            data_relationship_set_to_feature_row_id( &((*this_).temp_relationship ), to_feature_id );
+            data_relationship_set_row( &((*this_).temp_relationship ), data_relationship_get_row( relation_ptr ) );
+            data_relationship_set_from_classifier_row( &((*this_).temp_relationship ), from_classifier_id );
+            data_relationship_set_from_feature_row( &((*this_).temp_relationship ), from_feature_id );
+            data_relationship_set_to_classifier_row( &((*this_).temp_relationship ), to_classifier_id );
+            data_relationship_set_to_feature_row( &((*this_).temp_relationship ), to_feature_id );
 
             /* create relationship */
             u8_error_t modified_info;

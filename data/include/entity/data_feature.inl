@@ -155,12 +155,12 @@ static inline void data_feature_destroy ( data_feature_t *this_ )
     data_uuid_destroy( &((*this_).uuid) );
 }
 
-static inline data_row_t data_feature_get_row_id ( const data_feature_t *this_ )
+static inline data_row_t data_feature_get_row ( const data_feature_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_feature_set_row_id ( data_feature_t *this_, data_row_t id )
+static inline void data_feature_set_row ( data_feature_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -172,12 +172,12 @@ static inline data_id_t data_feature_get_data_id ( const data_feature_t *this_ )
     return result;
 }
 
-static inline data_row_t data_feature_get_classifier_row_id ( const data_feature_t *this_ )
+static inline data_row_t data_feature_get_classifier_row ( const data_feature_t *this_ )
 {
     return (*this_).classifier_id;
 }
 
-static inline void data_feature_set_classifier_row_id ( data_feature_t *this_, data_row_t classifier_id )
+static inline void data_feature_set_classifier_row ( data_feature_t *this_, data_row_t classifier_id )
 {
     (*this_).classifier_id = classifier_id;
 }

@@ -175,12 +175,12 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
-static inline data_row_t data_diagram_get_row_id ( const data_diagram_t *this_ )
+static inline data_row_t data_diagram_get_row ( const data_diagram_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_t id )
+static inline void data_diagram_set_row ( data_diagram_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -192,12 +192,12 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
     return result;
 }
 
-static inline data_row_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ )
+static inline data_row_t data_diagram_get_parent_row ( const data_diagram_t *this_ )
 {
     return (*this_).parent_id;
 }
 
-static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_t parent_id )
+static inline void data_diagram_set_parent_row ( data_diagram_t *this_, data_row_t parent_id )
 {
     (*this_).parent_id = parent_id;
 }

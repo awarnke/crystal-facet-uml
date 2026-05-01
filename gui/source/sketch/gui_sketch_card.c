@@ -245,7 +245,7 @@ layout_subelement_id_t gui_sketch_card_private_get_feature_at_pos( const gui_ske
                                                    DATA_TABLE_FEATURE,
                                                    layout_feature_get_feature_id( the_feature ),  /* feature or lifeline */
                                                    DATA_TABLE_CLASSIFIER,
-                                                   data_feature_get_classifier_row_id( data_feature )
+                                                   data_feature_get_classifier_row( data_feature )
                                                  );
             }
 
@@ -347,7 +347,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
     assert( NULL != order );
 
     const data_table_t table = data_id_get_table ( &obj_id );
-    const data_row_t row_id = data_id_get_row_id ( &obj_id );
+    const data_row_t row = data_id_get_row ( &obj_id );
 
     layout_order_type_t order_type = layout_order_get_order_type( order );
     switch ( order_type )
@@ -362,7 +362,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
                     const int32_t y_order = layout_order_get_second( order );
 
                     data_classifier_t *const move_me
-                        = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
+                        = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row );
                     if ( move_me == NULL )
                     {
                         U8_LOG_WARNING( "pencil input data does not contain the object to be moved" );
@@ -421,7 +421,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
                 {
                     const int32_t list_order = layout_order_get_first( order );
 
-                    data_classifier_t *const move_me = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
+                    data_classifier_t *const move_me = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row );
                     if ( move_me == NULL )
                     {
                         U8_LOG_WARNING( "pencil input data does not contain the classifier to be moved" );
@@ -441,7 +441,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
                 {
                     const int32_t list_order = layout_order_get_first( order );
 
-                    data_feature_t *const move_me = data_visible_set_get_feature_by_id_ptr( &((*this_).painter_input_data), row_id );
+                    data_feature_t *const move_me = data_visible_set_get_feature_by_id_ptr( &((*this_).painter_input_data), row );
                     if ( move_me == NULL )
                     {
                         U8_LOG_WARNING( "pencil input data does not contain the feature to be moved" );
@@ -461,7 +461,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
                 {
                     const int32_t list_order = layout_order_get_first( order );
 
-                    data_relationship_t *const move_me = data_visible_set_get_relationship_by_id_ptr( &((*this_).painter_input_data), row_id );
+                    data_relationship_t *const move_me = data_visible_set_get_relationship_by_id_ptr( &((*this_).painter_input_data), row );
                     if ( move_me == NULL )
                     {
                         U8_LOG_WARNING( "pencil input data does not contain the relationship to be moved" );

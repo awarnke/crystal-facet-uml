@@ -125,7 +125,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
     data_id_t search_id;
     data_id_init_by_string ( &search_id, search_string );
     data_id_trace ( &search_id );
-    const data_row_t search_row_id = data_id_get_row_id(&search_id);
+    const data_row_t search_row = data_id_get_row(&search_id);
 
     if ( data_id_is_valid( &search_id ))
     {
@@ -134,14 +134,14 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
             case DATA_TABLE_CLASSIFIER:
             {
                 d_err = data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                                   search_row_id,
+                                                                   search_row,
                                                                    &((*this_).temp_classifier)
                                                                  );
                 if ( d_err == U8_ERROR_NONE )
                 {
                     data_search_result_t half_initialized;
                     data_search_result_init_classifier( &half_initialized,
-                                                        search_row_id,
+                                                        search_row,
                                                         data_classifier_get_main_type( &((*this_).temp_classifier) ),
                                                         data_classifier_get_name_const( &((*this_).temp_classifier) ),
                                                         DATA_ROW_VOID /* diagram_id */
@@ -164,15 +164,15 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
             case DATA_TABLE_FEATURE:
             {
                 d_err = data_database_reader_get_feature_by_id( (*this_).db_reader,
-                                                                search_row_id,
+                                                                search_row,
                                                                 &((*this_).temp_feature)
                                                               );
                 if ( d_err == U8_ERROR_NONE )
                 {
-                    data_row_t classifier_id = data_feature_get_classifier_row_id( &((*this_).temp_feature) );
+                    data_row_t classifier_id = data_feature_get_classifier_row( &((*this_).temp_feature) );
                     data_search_result_t half_initialized;
                     data_search_result_init_feature( &half_initialized,
-                                                     data_feature_get_row_id( &((*this_).temp_feature) ),
+                                                     data_feature_get_row( &((*this_).temp_feature) ),
                                                      data_feature_get_main_type( &((*this_).temp_feature) ),
                                                      data_feature_get_key_const( &((*this_).temp_feature) ),
                                                      classifier_id,
@@ -196,19 +196,19 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
             case DATA_TABLE_RELATIONSHIP:
             {
                 d_err = data_database_reader_get_relationship_by_id( (*this_).db_reader,
-                                                                     search_row_id,
+                                                                     search_row,
                                                                      &((*this_).temp_relationship)
                                                                    );
                 if ( d_err == U8_ERROR_NONE )
                 {
-                    data_row_t classifier_id = data_relationship_get_from_classifier_row_id( &((*this_).temp_relationship) );
+                    data_row_t classifier_id = data_relationship_get_from_classifier_row( &((*this_).temp_relationship) );
                     data_search_result_t half_initialized;
                     data_search_result_init_relationship( &half_initialized,
-                                                          data_relationship_get_row_id( &((*this_).temp_relationship) ),
+                                                          data_relationship_get_row( &((*this_).temp_relationship) ),
                                                           data_relationship_get_main_type( &((*this_).temp_relationship) ),
                                                           data_relationship_get_name_const( &((*this_).temp_relationship) ),
                                                           classifier_id,
-                                                          data_relationship_get_to_classifier_row_id( &((*this_).temp_relationship) ),
+                                                          data_relationship_get_to_classifier_row( &((*this_).temp_relationship) ),
                                                           DATA_ROW_VOID /* diagram_id */
                                                         );
                     d_err |= gui_search_runner_private_add_diagrams_of_object( this_,
@@ -229,7 +229,7 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
             case DATA_TABLE_DIAGRAMELEMENT:
             {
                 d_err = data_database_reader_get_diagramelement_by_id( (*this_).db_reader,
-                                                                       search_row_id,
+                                                                       search_row,
                                                                        &((*this_).temp_diagramelement)
                                                                      );
                 if ( d_err == U8_ERROR_NONE )
@@ -238,10 +238,10 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
                     {
                         data_search_result_t half_initialized;
                         data_search_result_init_classifier( &half_initialized,
-                                                            data_diagramelement_get_classifier_row_id(&((*this_).temp_diagramelement)),
+                                                            data_diagramelement_get_classifier_row(&((*this_).temp_diagramelement)),
                                                             0 /* match_type is unknown */,
                                                             "" /* match_name */,
-                                                            data_diagramelement_get_diagram_row_id(&((*this_).temp_diagramelement))
+                                                            data_diagramelement_get_diagram_row(&((*this_).temp_diagramelement))
                                                           );
                         const u8_error_t err = data_search_result_list_add( &((*this_).result_list), &half_initialized );
                         if ( err != U8_ERROR_NONE )
@@ -270,14 +270,14 @@ void gui_search_runner_rerun ( gui_search_runner_t *this_, pos_scroll_page_t pag
 
             case DATA_TABLE_DIAGRAM:
             {
-                d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, search_row_id, &((*this_).temp_diagram) );
+                d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, search_row, &((*this_).temp_diagram) );
                 if ( d_err == U8_ERROR_NONE )
                 {
                     if ( skip_results == 0 )
                     {
                         data_search_result_t half_initialized;
                         data_search_result_init_diagram( &half_initialized,
-                                                         search_row_id,
+                                                         search_row,
                                                          data_diagram_get_diagram_type( &((*this_).temp_diagram) ),
                                                          data_diagram_get_name_const( &((*this_).temp_diagram) )
                                                        );
@@ -389,10 +389,10 @@ u8_error_t gui_search_runner_private_add_diagrams_of_object( gui_search_runner_t
     {
         case DATA_TABLE_CLASSIFIER:
         {
-            const data_row_t classifier_row_id
-                = data_id_get_row_id( data_search_result_get_match_id_const( result_template ));
+            const data_row_t classifier_row
+                = data_id_get_row( data_search_result_get_match_id_const( result_template ));
             d_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
-                                                                         classifier_row_id,
+                                                                         classifier_row,
                                                                          &diagram_iterator
                                                                        );
         }
@@ -400,10 +400,10 @@ u8_error_t gui_search_runner_private_add_diagrams_of_object( gui_search_runner_t
 
         case DATA_TABLE_FEATURE:
         {
-            const data_row_t classifier_row_id
-                = data_id_get_row_id( data_search_result_get_src_classifier_id_const( result_template ));
+            const data_row_t classifier_row
+                = data_id_get_row( data_search_result_get_src_classifier_id_const( result_template ));
             d_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
-                                                                         classifier_row_id,
+                                                                         classifier_row,
                                                                          &diagram_iterator
                                                                        );
         }
@@ -411,10 +411,10 @@ u8_error_t gui_search_runner_private_add_diagrams_of_object( gui_search_runner_t
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            const data_row_t relationship_row_id
-                = data_id_get_row_id( data_search_result_get_match_id_const( result_template ));
+            const data_row_t relationship_row
+                = data_id_get_row( data_search_result_get_match_id_const( result_template ));
             d_err |= data_database_reader_get_diagrams_by_relationship_id( (*this_).db_reader,
-                                                                           relationship_row_id,
+                                                                           relationship_row,
                                                                            &diagram_iterator
                                                                          );
         }
@@ -434,12 +434,12 @@ u8_error_t gui_search_runner_private_add_diagrams_of_object( gui_search_runner_t
     {
         /* fetch diagram from iterator */
         d_err |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
-        const data_row_t diagram_row_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
+        const data_row_t diagram_row = data_diagram_get_row( &((*this_).temp_diagram) );
 
         if ( (*io_skip_results) == 0 )
         {
             /* complete the half initialized search result template */
-            data_id_reinit( data_search_result_get_diagram_id_ptr( result_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
+            data_id_reinit( data_search_result_get_diagram_id_ptr( result_template ), DATA_TABLE_DIAGRAM, diagram_row );
 
             const u8_error_t err = data_search_result_list_add( &((*this_).result_list), result_template );
             if ( err != U8_ERROR_NONE )

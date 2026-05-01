@@ -49,13 +49,13 @@ static test_case_result_t test_data_search_result_classifier( test_fixture_t *te
                                       );
     data_id_t match_id = data_search_result_get_match_id( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &match_id ) );
-    TEST_EXPECT_EQUAL_INT( 130, data_id_get_row_id( &match_id ) );
+    TEST_EXPECT_EQUAL_INT( 130, data_id_get_row( &match_id ) );
     data_type_t match_type = data_search_result_get_match_type( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_type_get_context( &match_type ) );
     TEST_EXPECT_EQUAL_INT( DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE, data_type_get_type_as_int( &match_type ) );
     data_id_t diag_id = data_search_result_get_diagram_id( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &diag_id ) );
-    TEST_EXPECT_EQUAL_INT( 7, data_id_get_row_id( &diag_id ) );
+    TEST_EXPECT_EQUAL_INT( 7, data_id_get_row( &diag_id ) );
     data_id_t src_id = data_search_result_get_src_classifier_id( &search_result );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &src_id ) );
     data_id_t dst_id = data_search_result_get_dst_classifier_id( &search_result );
@@ -86,16 +86,16 @@ static test_case_result_t test_data_search_result_feature( test_fixture_t *test_
 
     data_id_t * match_id = data_search_result_get_match_id_ptr( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( match_id ) );
-    TEST_EXPECT_EQUAL_INT( 230, data_id_get_row_id( match_id ) );
+    TEST_EXPECT_EQUAL_INT( 230, data_id_get_row( match_id ) );
     data_type_t match_type = data_search_result_get_match_type( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_type_get_context( &match_type ) );
     TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_IN_PORT_PIN, data_type_get_type_as_int( &match_type ) );
     data_id_t * diag_id = data_search_result_get_diagram_id_ptr( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table(diag_id ) );
-    TEST_EXPECT_EQUAL_INT( 7, data_id_get_row_id( diag_id ) );
+    TEST_EXPECT_EQUAL_INT( 7, data_id_get_row( diag_id ) );
     data_id_t * src_id = data_search_result_get_src_classifier_id_ptr( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( src_id ) );
-    TEST_EXPECT_EQUAL_INT( 130, data_id_get_row_id( src_id ) );
+    TEST_EXPECT_EQUAL_INT( 130, data_id_get_row( src_id ) );
     data_id_t * dst_id = data_search_result_get_dst_classifier_id_ptr( &search_result );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( dst_id ) );
 
@@ -122,19 +122,19 @@ static test_case_result_t test_data_search_result_relationship( test_fixture_t *
 
     const data_id_t *const match_id = data_search_result_get_match_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_RELATIONSHIP, data_id_get_table( match_id ) );
-    TEST_EXPECT_EQUAL_INT( 444, data_id_get_row_id( match_id ) );
+    TEST_EXPECT_EQUAL_INT( 444, data_id_get_row( match_id ) );
     data_type_t match_type = data_search_result_get_match_type( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_RELATIONSHIP, data_type_get_context( &match_type ) );
     TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, data_type_get_type_as_int( &match_type ) );
     const data_id_t *const diag_id = data_search_result_get_diagram_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table(diag_id ) );
-    TEST_EXPECT_EQUAL_INT( 4, data_id_get_row_id( diag_id ) );
+    TEST_EXPECT_EQUAL_INT( 4, data_id_get_row( diag_id ) );
     const data_id_t *const src_id = data_search_result_get_src_classifier_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( src_id ) );
-    TEST_EXPECT_EQUAL_INT( 100, data_id_get_row_id( src_id ) );
+    TEST_EXPECT_EQUAL_INT( 100, data_id_get_row( src_id ) );
     const data_id_t *const dst_id = data_search_result_get_dst_classifier_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( dst_id ) );
-    TEST_EXPECT_EQUAL_INT( 101, data_id_get_row_id( dst_id ) );
+    TEST_EXPECT_EQUAL_INT( 101, data_id_get_row( dst_id ) );
     const char *const name = data_search_result_get_match_name_const( &search_result );
     TEST_EXPECT_EQUAL_STRING( "aggregates self as part        234567890 234567", name );
 
@@ -155,13 +155,13 @@ static test_case_result_t test_data_search_result_diagram( test_fixture_t *test_
 
     const data_id_t *const match_id = data_search_result_get_match_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( match_id ) );
-    TEST_EXPECT_EQUAL_INT( 31, data_id_get_row_id( match_id ) );
+    TEST_EXPECT_EQUAL_INT( 31, data_id_get_row( match_id ) );
     data_type_t match_type = data_search_result_get_match_type( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_type_get_context( &match_type ) );
     TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM, data_type_get_type_as_int( &match_type ) );
     const data_id_t *const diag_id = data_search_result_get_diagram_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( diag_id ) );
-    TEST_EXPECT_EQUAL_INT( 31, data_id_get_row_id( diag_id ) );
+    TEST_EXPECT_EQUAL_INT( 31, data_id_get_row( diag_id ) );
     const data_id_t *const src_id = data_search_result_get_src_classifier_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( src_id ) );
     const data_id_t *const dst_id = data_search_result_get_dst_classifier_id_const( &search_result );

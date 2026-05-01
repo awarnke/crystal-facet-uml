@@ -7,7 +7,7 @@
 static inline void data_change_notifier_emit_signal_without_parent ( data_change_notifier_t *this_,
                                                                      data_change_event_type_t event_type,
                                                                      data_table_t table,
-                                                                     data_row_t row_id )
+                                                                     data_row_t row )
 {
     /* only classifier may be created without providing a parent object */
     assert( (DATA_CHANGE_EVENT_TYPE_CREATE != event_type) || (DATA_TABLE_CLASSIFIER == table) );
@@ -15,7 +15,7 @@ static inline void data_change_notifier_emit_signal_without_parent ( data_change
     data_change_notifier_emit_signal ( this_,
                                        event_type,
                                        table,
-                                       row_id,
+                                       row,
                                        DATA_TABLE_VOID,
                                        DATA_ROW_VOID
                                      );

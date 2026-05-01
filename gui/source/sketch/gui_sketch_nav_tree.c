@@ -75,7 +75,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t dia
         }
         else
         {
-            id_to_load = data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[anc_index-1]) );
+            id_to_load = data_diagram_get_parent_row( &((*this_).ancestor_diagrams[anc_index-1]) );
         }
 
         if ( id_to_load != DATA_ROW_VOID )
@@ -107,7 +107,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t dia
         const data_row_t parent_id
             = ( (*this_).ancestors_count == 0 )
             ? DATA_ROW_VOID
-            : data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
+            : data_diagram_get_parent_row( &((*this_).ancestor_diagrams[0]) );
 
         data_diagram_iterator_t diagram_iterator;
         data_diagram_iterator_init_empty( &diagram_iterator );
@@ -120,7 +120,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t dia
         {
             db_err |= data_diagram_iterator_next( &diagram_iterator, &( (*this_).sibling_diagrams[next_idx] ) );
             /* search self in list of siblings */
-            if ( diagram_id == data_diagram_get_row_id( &((*this_).sibling_diagrams[next_idx]) ) )
+            if ( diagram_id == data_diagram_get_row( &((*this_).sibling_diagrams[next_idx]) ) )
             {
                 (*this_).siblings_self_index = next_idx;
             }

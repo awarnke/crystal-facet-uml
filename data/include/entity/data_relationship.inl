@@ -170,12 +170,12 @@ static inline void data_relationship_destroy ( data_relationship_t *this_ )
     data_uuid_destroy( &((*this_).uuid) );
 }
 
-static inline data_row_t data_relationship_get_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_row ( const data_relationship_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_relationship_set_row_id ( data_relationship_t *this_, data_row_t id )
+static inline void data_relationship_set_row ( data_relationship_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -187,12 +187,12 @@ static inline data_id_t data_relationship_get_data_id ( const data_relationship_
     return result;
 }
 
-static inline data_row_t data_relationship_get_from_classifier_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_from_classifier_row ( const data_relationship_t *this_ )
 {
     return (*this_).from_classifier_id;
 }
 
-static inline void data_relationship_set_from_classifier_row_id ( data_relationship_t *this_, data_row_t from_classifier_id )
+static inline void data_relationship_set_from_classifier_row ( data_relationship_t *this_, data_row_t from_classifier_id )
 {
     (*this_).from_classifier_id = from_classifier_id;
 }
@@ -204,12 +204,12 @@ static inline data_id_t data_relationship_get_from_classifier_data_id ( const da
     return result;
 }
 
-static inline data_row_t data_relationship_get_from_feature_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_from_feature_row ( const data_relationship_t *this_ )
 {
     return (*this_).from_feature_id;
 }
 
-static inline void data_relationship_set_from_feature_row_id ( data_relationship_t *this_, data_row_t from_feature_id )
+static inline void data_relationship_set_from_feature_row ( data_relationship_t *this_, data_row_t from_feature_id )
 {
     (*this_).from_feature_id = from_feature_id;
 }
@@ -221,12 +221,12 @@ static inline data_id_t data_relationship_get_from_feature_data_id ( const data_
     return result;
 }
 
-static inline data_row_t data_relationship_get_to_classifier_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_to_classifier_row ( const data_relationship_t *this_ )
 {
     return (*this_).to_classifier_id;
 }
 
-static inline void data_relationship_set_to_classifier_row_id ( data_relationship_t *this_, data_row_t to_classifier_id )
+static inline void data_relationship_set_to_classifier_row ( data_relationship_t *this_, data_row_t to_classifier_id )
 {
     (*this_).to_classifier_id = to_classifier_id;
 }
@@ -238,12 +238,12 @@ static inline data_id_t data_relationship_get_to_classifier_data_id ( const data
     return result;
 }
 
-static inline data_row_t data_relationship_get_to_feature_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_to_feature_row ( const data_relationship_t *this_ )
 {
     return (*this_).to_feature_id;
 }
 
-static inline void data_relationship_set_to_feature_row_id ( data_relationship_t *this_, data_row_t to_feature_id )
+static inline void data_relationship_set_to_feature_row ( data_relationship_t *this_, data_row_t to_feature_id )
 {
     (*this_).to_feature_id = to_feature_id;
 }

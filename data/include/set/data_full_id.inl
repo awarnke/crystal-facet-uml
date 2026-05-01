@@ -48,30 +48,30 @@ static inline void data_full_id_reinit_solo ( data_full_id_t *this_, const data_
 
 static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
                                                        data_table_t primary_table,
-                                                       data_row_t primary_row_id,
+                                                       data_row_t primary_row,
                                                        data_table_t secondary_table,
-                                                       data_row_t secondary_row_id )
+                                                       data_row_t secondary_row )
 {
     assert ( ( DATA_TABLE_VOID == secondary_table )
              || ( DATA_TABLE_CLASSIFIER == secondary_table )
            );
 
-    data_id_init ( &((*this_).primary_id), primary_table, primary_row_id );
-    data_id_init ( &((*this_).secondary_id), secondary_table, secondary_row_id );
+    data_id_init ( &((*this_).primary_id), primary_table, primary_row );
+    data_id_init ( &((*this_).secondary_id), secondary_table, secondary_row );
 }
 
 static inline void data_full_id_reinit_by_table_and_id ( data_full_id_t *this_,
                                                          data_table_t primary_table,
-                                                         data_row_t primary_row_id,
+                                                         data_row_t primary_row,
                                                          data_table_t secondary_table,
-                                                         data_row_t secondary_row_id )
+                                                         data_row_t secondary_row )
 {
     assert ( ( DATA_TABLE_VOID == secondary_table )
              || ( DATA_TABLE_CLASSIFIER == secondary_table )
            );
 
-    data_id_reinit ( &((*this_).primary_id), primary_table, primary_row_id );
-    data_id_reinit ( &((*this_).secondary_id), secondary_table, secondary_row_id );
+    data_id_reinit ( &((*this_).primary_id), primary_table, primary_row );
+    data_id_reinit ( &((*this_).secondary_id), secondary_table, secondary_row );
 }
 
 static inline void data_full_id_copy ( data_full_id_t *this_, const data_full_id_t *that )

@@ -145,7 +145,7 @@ static inline void data_feature_destroy ( data_feature_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_t data_feature_get_row_id ( const data_feature_t *this_ );
+static inline data_row_t data_feature_get_row ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -153,7 +153,7 @@ static inline data_row_t data_feature_get_row_id ( const data_feature_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_feature_set_row_id ( data_feature_t *this_, data_row_t id );
+static inline void data_feature_set_row ( data_feature_t *this_, data_row_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -169,7 +169,7 @@ static inline data_id_t data_feature_get_data_id ( const data_feature_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_t data_feature_get_classifier_row_id ( const data_feature_t *this_ );
+static inline data_row_t data_feature_get_classifier_row ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute classifier_id
@@ -177,7 +177,7 @@ static inline data_row_t data_feature_get_classifier_row_id ( const data_feature
  *  \param this_ pointer to own object attributes
  *  \param classifier_id new classifier_id of this object
  */
-static inline void data_feature_set_classifier_row_id ( data_feature_t *this_, data_row_t classifier_id );
+static inline void data_feature_set_classifier_row ( data_feature_t *this_, data_row_t classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the classifier_id attribute

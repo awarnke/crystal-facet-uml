@@ -139,12 +139,12 @@ u8_error_t io_export_model_traversal_private_walk_node( io_export_model_traversa
             = ( ! data_id_is_valid( &host_id ) )
             ? U8_ERROR_NONE
             : data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                         data_id_get_row_id( &host_id ),
+                                                         data_id_get_row( &host_id ),
                                                          &((*this_).temp_host)
                                                        );
         const u8_error_t data_err_2
             = data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                         data_id_get_row_id( &classifier_id ),
+                                                         data_id_get_row( &classifier_id ),
                                                          &((*this_).temp_classifier)
                                                        );
 
@@ -237,12 +237,12 @@ u8_error_t io_export_model_traversal_private_walk_node( io_export_model_traversa
             = ( ! data_id_is_valid( &host_id ) )
             ? U8_ERROR_NONE
             : data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                         data_id_get_row_id( &host_id ),
+                                                         data_id_get_row( &host_id ),
                                                          &((*this_).temp_host)
                                                        );
         const u8_error_t data_err_4
             = data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                         data_id_get_row_id( &classifier_id ),
+                                                         data_id_get_row( &classifier_id ),
                                                          &((*this_).temp_classifier)
                                                        );
 
@@ -336,7 +336,7 @@ u8_error_t io_export_model_traversal_private_get_containments( io_export_model_t
     data_relationship_iterator_t rel_iterator;
     data_relationship_iterator_init_empty( &rel_iterator );
     result |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
-                                                                       data_classifier_get_row_id( classifier ),
+                                                                       data_classifier_get_row( classifier ),
                                                                        &rel_iterator
                                                                      );
 
@@ -447,7 +447,7 @@ u8_error_t io_export_model_traversal_private_iterate_node_features ( io_export_m
     data_feature_iterator_t feature_iterator;
     data_feature_iterator_init_empty( &feature_iterator );
     data_err |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
-                                                                    data_classifier_get_row_id( classifier ),
+                                                                    data_classifier_get_row( classifier ),
                                                                     &feature_iterator
                                                                   );
 
@@ -508,7 +508,7 @@ u8_error_t io_export_model_traversal_private_iterate_node_relationships ( io_exp
     data_relationship_iterator_t rel_iterator;
     data_relationship_iterator_init_empty( &rel_iterator );
     data_err |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
-                                                                         data_classifier_get_row_id( classifier ),
+                                                                         data_classifier_get_row( classifier ),
                                                                          &rel_iterator
                                                                        );
 
@@ -632,25 +632,25 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
 
     {
         /* get from classifier */
-        const data_row_t from_classifier_row_id = data_relationship_get_from_classifier_row_id( relation );
-        if ( from_classifier_row_id == data_classifier_get_row_id ( classifier ) )
+        const data_row_t from_classifier_row = data_relationship_get_from_classifier_row( relation );
+        if ( from_classifier_row == data_classifier_get_row ( classifier ) )
         {
             data_classifier_replace( out_from_c, classifier );
         }
         else
         {
             data_err |= data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                                   from_classifier_row_id,
+                                                                   from_classifier_row,
                                                                    out_from_c
                                                                  );
         }
 
         /* get from feature */
-        const data_row_t from_feature_row_id = data_relationship_get_from_feature_row_id( relation );
-        if ( from_feature_row_id != DATA_ROW_VOID )
+        const data_row_t from_feature_row = data_relationship_get_from_feature_row( relation );
+        if ( from_feature_row != DATA_ROW_VOID )
         {
             data_err |=  data_database_reader_get_feature_by_id( (*this_).db_reader,
-                                                                 from_feature_row_id,
+                                                                 from_feature_row,
                                                                  out_from_f
                                                                );
         }
@@ -660,25 +660,25 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
         }
 
         /* get to classifier */
-        const data_row_t to_classifier_row_id = data_relationship_get_to_classifier_row_id( relation );
-        if ( to_classifier_row_id == data_classifier_get_row_id ( classifier ) )
+        const data_row_t to_classifier_row = data_relationship_get_to_classifier_row( relation );
+        if ( to_classifier_row == data_classifier_get_row ( classifier ) )
         {
             data_classifier_replace( out_to_c, classifier );
         }
         else
         {
             data_err |= data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                                   to_classifier_row_id,
+                                                                   to_classifier_row,
                                                                    out_to_c
                                                                  );
         }
 
         /* get to feature */
-        const data_row_t to_feature_row_id = data_relationship_get_to_feature_row_id( relation );
-        if ( to_feature_row_id != DATA_ROW_VOID )
+        const data_row_t to_feature_row = data_relationship_get_to_feature_row( relation );
+        if ( to_feature_row != DATA_ROW_VOID )
         {
             data_err |= data_database_reader_get_feature_by_id( (*this_).db_reader,
-                                                                to_feature_row_id,
+                                                                to_feature_row,
                                                                 out_to_f
                                                               );
         }
@@ -691,7 +691,7 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
     if ( data_err != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
-                          data_relationship_get_row_id ( relation )
+                          data_relationship_get_row ( relation )
                         );
     }
     U8_TRACE_END_ERR( data_err );
@@ -714,7 +714,7 @@ u8_error_t io_export_model_traversal_private_fake_interactions_of_node ( io_expo
     data_feature_iterator_t feature_iterator;
     data_feature_iterator_init_empty( &feature_iterator );
     data_err |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
-                                                                    data_classifier_get_row_id( classifier ),
+                                                                    data_classifier_get_row( classifier ),
                                                                     &feature_iterator
                                                                   );
 

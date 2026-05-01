@@ -182,7 +182,7 @@ u8_error_t data_visible_classifier_iterator_next ( data_visible_classifier_itera
                                             );
         if ( SQLITE_NULL == sqlite3_column_type( sql_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
         {
-            data_diagramelement_set_focused_feature_row_id ( current_diag_element, DATA_ROW_VOID );
+            data_diagramelement_set_focused_feature_row ( current_diag_element, DATA_ROW_VOID );
         }
 
         data_classifier_trace( current_classifier );

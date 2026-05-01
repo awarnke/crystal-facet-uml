@@ -321,7 +321,7 @@ u8_error_t data_database_consistency_checker_find_circular_diagram_parents ( dat
         {
             data_row_t diag_id = ((*this_).private_temp_diagram_ids_buf)[diag_idx][0];
             U8_LOG_ERROR_INT( "Diagram has a parent that is not linked to root:", diag_id );
-            data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAM, diag_id );
+            data_small_set_add_row( io_set, DATA_TABLE_DIAGRAM, diag_id );
         }
     }
 
@@ -482,19 +482,19 @@ u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements
                         U8_LOG_ERROR_INT( "referenced diagram and classifier not existing, diagramelement:", diagele_id );
                         U8_TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
                         U8_TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                     }
                     else if ( ! diagram_exists )
                     {
                         U8_LOG_ERROR_INT( "referenced diagram not existing, diagramelement:", diagele_id );
                         U8_TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                     }
                     else if ( ! classifier_exists )
                     {
                         U8_LOG_ERROR_INT( "referenced classifier not existing, diagramelement:", diagele_id );
                         U8_TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                     }
                     else
                     {
@@ -610,14 +610,14 @@ u8_error_t data_database_consistency_checker_find_invalid_focused_features ( dat
                             U8_LOG_ERROR_INT( "focused feature not existing, diagramelement:", diagele_id );
                             U8_TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
                             U8_TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
-                            data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                            data_small_set_add_row( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                         }
                         else if ( diagele_classifier_id != feature_classifier_id )
                         {
                             U8_LOG_ERROR_INT( "referenced classifier of diagramelement and focused_feature differ, diagramelement:", diagele_id );
                             U8_TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
                             U8_TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
-                            data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                            data_small_set_add_row( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                         }
                         else
                         {
@@ -700,7 +700,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( dat
                     {
                         U8_LOG_ERROR_INT( "referencing diagramelement not existing, classifier :", classifier_id );
                         U8_TRACE_INFO_INT( "referencing diagramelement not existing: classifier:", classifier_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_CLASSIFIER, classifier_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_CLASSIFIER, classifier_id );
                     }
                     else
                     {
@@ -780,7 +780,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_d
                     {
                         U8_LOG_ERROR_INT( "referenced classifier not existing, feature:", feature_id );
                         U8_TRACE_INFO_INT_INT( "referenced classifier not existing: feature, classifier:", feature_id, feature_classifier_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_FEATURE, feature_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_FEATURE, feature_id );
                     }
                     else
                     {
@@ -864,19 +864,19 @@ u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( d
                         U8_LOG_ERROR_INT( "relationship referencing non-existing source and destiation, relationship:", relation_id );
                         U8_TRACE_INFO_INT_INT( "relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
                         U8_TRACE_INFO_INT_INT( "relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                     }
                     else if ( ! source_exists )
                     {
                         U8_LOG_ERROR_INT( "referenced relationship referencing non-existing source, relationship:", relation_id );
                         U8_TRACE_INFO_INT_INT( "referenced relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                     }
                     else if ( ! dest_exists )
                     {
                         U8_LOG_ERROR_INT( "referenced relationship referencing non-existing destination, relationship:", relation_id );
                         U8_TRACE_INFO_INT_INT( "referenced relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                        data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                     }
                     else
                     {
@@ -1019,14 +1019,14 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
                             if ( ! dest_feature_exists )
                             {
                                 U8_LOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_to_classifier_id != dest_feature_classifier_id )
                             {
                                 U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
                                 U8_TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
                                 U8_TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
                             {
@@ -1041,14 +1041,14 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
                             if ( ! source_feature_exists )
                             {
                                 U8_LOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_from_classifier_id != source_feature_classifier_id )
                             {
                                 U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
                                 U8_TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
                                 U8_TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
                             {
@@ -1060,26 +1060,26 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
                             if ( ! source_feature_exists )
                             {
                                 U8_LOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( ! dest_feature_exists )
                             {
                                 U8_LOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_from_classifier_id != source_feature_classifier_id )
                             {
                                 U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
                                 U8_TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
                                 U8_TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_to_classifier_id != dest_feature_classifier_id )
                             {
                                 U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
                                 U8_TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
                                 U8_TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
-                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                                data_small_set_add_row( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
                             {

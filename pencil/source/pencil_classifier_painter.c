@@ -80,7 +80,7 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
     /* set the right drawing color */
     GdkRGBA foreground_color;
     {
-        if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id( diagramelement ) ) )
+        if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row( diagramelement ) ) )
         {
             foreground_color = pencil_size_get_highlight_color( pencil_size );
         }
@@ -94,7 +94,7 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
         }
     }
 
-    U8_TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
+    U8_TRACE_INFO_INT("drawing classifier id", data_classifier_get_row( classifier ) );
 
     /* draw the stereotype image */
     bool icon_override = false;  /* in case of a stereotype image, the icon shall not be drawn. */
@@ -440,13 +440,13 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             break;
         }
 
-        if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id(diagramelement) ) )
+        if ( data_small_set_contains_row( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row(diagramelement) ) )
         {
             pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_symbol_box, cr );
         }
 
-        if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id(diagramelement) )
-            ||  data_id_equals_id( &mark_focused, DATA_TABLE_CLASSIFIER, data_classifier_get_row_id(classifier) ) )
+        if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row(diagramelement) )
+            ||  data_id_equals_id( &mark_focused, DATA_TABLE_CLASSIFIER, data_classifier_get_row(classifier) ) )
         {
             pencil_marker_mark_focused_rectangle( &((*this_).marker), *classifier_symbol_box, cr );
         }

@@ -174,7 +174,7 @@ static inline data_row_t tvec_setup_lifeline( tvec_setup_t *this_,
     {
         *out_diagele_id = diagele_id;
     }
-    return data_id_get_row_id( &created_lifeline );
+    return data_id_get_row( &created_lifeline );
 }
 
 static inline data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name )

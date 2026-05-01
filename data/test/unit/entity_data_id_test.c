@@ -48,35 +48,35 @@ static test_case_result_t test_init_get( test_fixture_t *test_env )
 
     data_id_init( &testee, DATA_TABLE_VOID, 123 );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 123, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 123, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &testee ) );
 
     data_id_destroy( &testee );
 
     data_id_init_void( &testee );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &testee ) );
 
     data_id_reinit( &testee, DATA_TABLE_DIAGRAMELEMENT, 15 );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAMELEMENT, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 15, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 15, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, data_id_is_valid( &testee ) );
 
     data_id_t testee2;
     data_id_copy( &testee2, &testee );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAMELEMENT, data_id_get_table( &testee2 ) );
-    TEST_EXPECT_EQUAL_INT( 15, data_id_get_row_id( &testee2 ) );
+    TEST_EXPECT_EQUAL_INT( 15, data_id_get_row( &testee2 ) );
     TEST_EXPECT_EQUAL_INT( true, data_id_is_valid( &testee2 ) );
 
     data_id_reinit_void( &testee2 );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee2 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee2 ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee2 ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &testee2 ) );
 
     data_id_replace( &testee, &testee2 );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &testee ) );
 
     data_id_destroy( &testee );
@@ -138,35 +138,35 @@ static test_case_result_t test_from_string_ok( test_fixture_t *test_env )
 
     data_id_init_by_string( &testee, "E0123" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAMELEMENT, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 123, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 123, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D9223372036854775807" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 9223372036854775807, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 9223372036854775807, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D-001" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     utf8stringview_t remainder;
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_STR( "C0123FG" ), &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 123, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 123, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, "FG" ) );
     data_id_destroy( &testee );
 
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_STR( "F0000" ), &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 0, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, "" ) );
     data_id_destroy( &testee );
 
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_STR( "R9223372036854775807 9223372036854775807" ), &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_RELATIONSHIP, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 9223372036854775807, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 9223372036854775807, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, " 9223372036854775807" ) );
     data_id_destroy( &testee );
 
@@ -179,45 +179,45 @@ static test_case_result_t test_from_string_err( test_fixture_t *test_env )
 
     data_id_init_by_string( &testee, "" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D123456789012345678901234567890" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D-1 123" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D0012 next" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "A0012" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     data_id_destroy( &testee );
 
     utf8stringview_t remainder;
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_EMPTY, &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, "" ) );
     data_id_destroy( &testee );
 
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_STR( "D" ), &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, "D" ) );
     data_id_destroy( &testee );
 
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_STR( "D-123" ), &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( -123, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( -123, data_id_get_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, "" ) );
     data_id_destroy( &testee );
 

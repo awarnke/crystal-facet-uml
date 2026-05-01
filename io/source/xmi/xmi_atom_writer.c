@@ -156,17 +156,17 @@ u8_error_t xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_, data_id_t el
 
     if ( data_id_get_table(&element_id) != DATA_TABLE_VOID )
     {
-        if ( 100 > data_id_get_row_id(&element_id) )
+        if ( 100 > data_id_get_row(&element_id) )
         {
-            if ( 10 > data_id_get_row_id(&element_id) )
+            if ( 10 > data_id_get_row(&element_id) )
             {
-                if ( 0 <= data_id_get_row_id(&element_id) )
+                if ( 0 <= data_id_get_row(&element_id) )
                 {
                     export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "000" );
                 }
                 else
                 {
-                    /* row_id is negative */
+                    /* row is negative */
                 }
             }
             else
@@ -176,16 +176,16 @@ u8_error_t xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_, data_id_t el
         }
         else
         {
-            if ( 1000 > data_id_get_row_id(&element_id) )
+            if ( 1000 > data_id_get_row(&element_id) )
             {
                 export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "0" );
             }
             else
             {
-                /* row_id is greater than 1000 */
+                /* row is greater than 1000 */
             }
         }
-        export_err |= io_xml_writer_write_int ( (*this_).xml_writer, data_id_get_row_id(&element_id) );
+        export_err |= io_xml_writer_write_int ( (*this_).xml_writer, data_id_get_row(&element_id) );
     }
 
     U8_TRACE_END_ERR( export_err );

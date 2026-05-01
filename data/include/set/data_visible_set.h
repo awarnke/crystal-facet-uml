@@ -158,19 +158,19 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
  *  \brief gets the classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id of the classifier to retrieve
- *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
+ *  \param row id of the classifier to retrieve
+ *  \return NULL if row not in cache; pointer to data_classifier_t otherwise.
  */
-static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, data_row_t row_id );
+static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, data_row_t row );
 
 /*!
  *  \brief gets the classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id of the classifier to retrieve
- *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
+ *  \param row id of the classifier to retrieve
+ *  \return NULL if row not in cache; pointer to data_classifier_t otherwise.
  */
-static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id );
+static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_t row );
 
 /*!
  *  \brief gets the classifier index within the painter input data
@@ -178,10 +178,10 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
  *  Remember that a classifier may occur multiple times in a visible set. This function returns only one occurrence.
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id of the classifier to retrieve
- *  \return -1 if row_id not in cache; index of data_classifier_t otherwise.
+ *  \param row id of the classifier to retrieve
+ *  \return -1 if row not in cache; index of data_classifier_t otherwise.
  */
-static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, data_row_t row_id );
+static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, data_row_t row );
 
 /*!
  *  \brief gets the classifier index within the painter input data from a pointer
@@ -235,19 +235,19 @@ static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_se
  *  \brief gets a feature within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id of the feature to retrieve
- *  \return NULL if row_id not in cache; pointer to data_feature_t otherwise.
+ *  \param row id of the feature to retrieve
+ *  \return NULL if row not in cache; pointer to data_feature_t otherwise.
  */
-static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, data_row_t row_id );
+static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, data_row_t row );
 
 /*!
  *  \brief gets a feature within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id of the feature to retrieve
- *  \return NULL if row_id not in cache; pointer to data_feature_t otherwise.
+ *  \param row id of the feature to retrieve
+ *  \return NULL if row not in cache; pointer to data_feature_t otherwise.
  */
-static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id );
+static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, data_row_t row );
 
 /*!
  *  \brief gets the list of features within the painter input data
@@ -297,19 +297,19 @@ static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_
  *  \brief gets a relationship within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id of the relationship to retrieve
- *  \return NULL if row_id not in cache; pointer to data_relationship_t otherwise.
+ *  \param row id of the relationship to retrieve
+ *  \return NULL if row not in cache; pointer to data_relationship_t otherwise.
  */
-static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, data_row_t row_id );
+static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, data_row_t row );
 
 /*!
  *  \brief gets a relationship within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id of the relationship to retrieve
- *  \return NULL if row_id not in cache; pointer to data_relationship_t otherwise.
+ *  \param row id of the relationship to retrieve
+ *  \return NULL if row not in cache; pointer to data_relationship_t otherwise.
  */
-static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id );
+static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, data_row_t row );
 
 /*!
  *  \brief determines if ancestor is an ancestor of descendant

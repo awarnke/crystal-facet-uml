@@ -93,15 +93,15 @@ static inline void data_full_id_reinit_solo ( data_full_id_t *this_, const data_
  *
  *  \param this_ pointer to own object attributes
  *  \param primary_table primary object id (talbe)
- *  \param primary_row_id primary object id (row_id)
+ *  \param primary_row primary object id (row)
  *  \param secondary_table secondary object id (table)
- *  \param secondary_row_id secondary object id (row_id)
+ *  \param secondary_row secondary object id (row)
  */
 static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
                                                        data_table_t primary_table,
-                                                       data_row_t primary_row_id,
+                                                       data_row_t primary_row,
                                                        data_table_t secondary_table,
-                                                       data_row_t secondary_row_id
+                                                       data_row_t secondary_row
                                                      );
 
 /*!
@@ -109,15 +109,15 @@ static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param primary_table primary object id (talbe)
- *  \param primary_row_id primary object id (row_id)
+ *  \param primary_row primary object id (row)
  *  \param secondary_table secondary object id (table)
- *  \param secondary_row_id secondary object id (row_id)
+ *  \param secondary_row secondary object id (row)
  */
 static inline void data_full_id_reinit_by_table_and_id ( data_full_id_t *this_,
                                                          data_table_t primary_table,
-                                                         data_row_t primary_row_id,
+                                                         data_row_t primary_row,
                                                          data_table_t secondary_table,
-                                                         data_row_t secondary_row_id
+                                                         data_row_t secondary_row
                                                        );
 
 /*!

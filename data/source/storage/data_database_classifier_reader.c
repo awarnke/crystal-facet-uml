@@ -628,11 +628,11 @@ u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_databas
                                             );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_VOID );
+                data_relationship_set_from_feature_row ( out_relationship, DATA_ROW_VOID );
             }
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_VOID );
+                data_relationship_set_to_feature_row ( out_relationship, DATA_ROW_VOID );
             }
 
             data_relationship_trace( out_relationship );
@@ -692,11 +692,11 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
                                             );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_VOID );
+                data_relationship_set_from_feature_row ( out_relationship, DATA_ROW_VOID );
             }
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_VOID );
+                data_relationship_set_to_feature_row ( out_relationship, DATA_ROW_VOID );
             }
 
             data_relationship_trace( out_relationship );

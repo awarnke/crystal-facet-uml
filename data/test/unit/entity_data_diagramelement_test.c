@@ -41,13 +41,13 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     /* sub test case 0 */
     data_diagramelement_init_empty( &testee );
     TEST_EXPECT_EQUAL_INT( false, data_diagramelement_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_row( &testee ) );
     const char* uuid_0 = data_diagramelement_get_uuid_const( &testee );
     TEST_EXPECT( uuid_0 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_0 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_diagram_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_diagram_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_NONE, data_diagramelement_get_display_flags( &testee ) );
 
     /* sub test case 1 */
@@ -58,13 +58,13 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   100
                                 );
     TEST_EXPECT_EQUAL_INT( false, data_diagramelement_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_row( &testee ) );
     const char* uuid_1 = data_diagramelement_get_uuid_const( &testee );
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
-    TEST_EXPECT_EQUAL_INT( 103, data_diagramelement_get_diagram_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 555, data_diagramelement_get_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 100, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 103, data_diagramelement_get_diagram_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 555, data_diagramelement_get_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 100, data_diagramelement_get_focused_feature_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT, data_diagramelement_get_display_flags( &testee ) );
 
     /* sub test case 2 */
@@ -83,11 +83,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                               "1ff2be8d-c46a-4777-8017-e073a41cc680"
                             );
     TEST_EXPECT_EQUAL_INT( true, data_diagramelement_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1234, data_diagramelement_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1234, data_diagramelement_get_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_diagramelement_get_uuid_const( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 107, data_diagramelement_get_diagram_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 557, data_diagramelement_get_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 107, data_diagramelement_get_diagram_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 557, data_diagramelement_get_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( &testee ) );
 
     /* sub test case 5 */
@@ -100,11 +100,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                 "097498ef-e43b-4b79-b26a-df6f23590165"
                               );
     TEST_EXPECT_EQUAL_INT( true, data_diagramelement_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 12345, data_diagramelement_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 12345, data_diagramelement_get_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_diagramelement_get_uuid_const( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 103, data_diagramelement_get_diagram_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 555, data_diagramelement_get_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 100, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 103, data_diagramelement_get_diagram_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 555, data_diagramelement_get_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 100, data_diagramelement_get_focused_feature_row( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT, data_diagramelement_get_display_flags( &testee ) );
 
     /* sub test case 6 */
@@ -128,12 +128,12 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* function call is possible, function returns */
 
     /* sub test case 2 */
-    data_diagramelement_set_row_id( &testee, 478 );
-    const data_row_t row_id = data_diagramelement_get_row_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, row_id );
+    data_diagramelement_set_row( &testee, 478 );
+    const data_row_t row = data_diagramelement_get_row( &testee );
+    TEST_EXPECT_EQUAL_INT( 478, row );
     TEST_EXPECT_EQUAL_INT( true, data_diagramelement_is_valid( &testee ) );
     const data_id_t data_id = data_diagramelement_get_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row_id( &data_id ) );
+    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row( &data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAMELEMENT, data_id_get_table( &data_id ) );
 
     /* sub test case 3 */
@@ -155,36 +155,36 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* n/a */
 
     /* sub test case 9 */
-    data_diagramelement_set_focused_feature_row_id( &testee, 1999 );
-    TEST_EXPECT_EQUAL_INT( 1999, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    data_diagramelement_set_focused_feature_row( &testee, 1999 );
+    TEST_EXPECT_EQUAL_INT( 1999, data_diagramelement_get_focused_feature_row( &testee ) );
     const data_id_t f_data_id = data_diagramelement_get_focused_feature_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 1999, data_id_get_row_id( &f_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1999, data_id_get_row( &f_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &f_data_id ) );
 
     /* sub test case 10 */
-    data_diagramelement_set_focused_feature_row_id( &testee, DATA_ROW_VOID );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    data_diagramelement_set_focused_feature_row( &testee, DATA_ROW_VOID );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row( &testee ) );
     const data_id_t v_data_id = data_diagramelement_get_focused_feature_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &v_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &v_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &v_data_id ) );
 
     /* sub test case 11, work on copy, do not modify original */
     data_diagramelement_copy( &testee_copy, &testee );
-    data_diagramelement_set_diagram_row_id( &testee_copy, 1006 );
-    TEST_EXPECT_EQUAL_INT( 1006, data_diagramelement_get_diagram_row_id( &testee_copy ) );
+    data_diagramelement_set_diagram_row( &testee_copy, 1006 );
+    TEST_EXPECT_EQUAL_INT( 1006, data_diagramelement_get_diagram_row( &testee_copy ) );
     const data_id_t d_data_id = data_diagramelement_get_diagram_data_id( &testee_copy );
-    TEST_EXPECT_EQUAL_INT( 1006, data_id_get_row_id( &d_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1006, data_id_get_row( &d_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &d_data_id ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_diagram_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_diagram_row( &testee ) );
 
     /* sub test case 12, work on copy, do not modify original */
     data_diagramelement_replace( &testee_copy, &testee );
-    data_diagramelement_set_classifier_row_id( &testee_copy, 1011 );
-    TEST_EXPECT_EQUAL_INT( 1011, data_diagramelement_get_classifier_row_id( &testee_copy ) );
+    data_diagramelement_set_classifier_row( &testee_copy, 1011 );
+    TEST_EXPECT_EQUAL_INT( 1011, data_diagramelement_get_classifier_row( &testee_copy ) );
     const data_id_t c_data_id = data_diagramelement_get_classifier_data_id( &testee_copy );
-    TEST_EXPECT_EQUAL_INT( 1011, data_id_get_row_id( &c_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1011, data_id_get_row( &c_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &c_data_id ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_classifier_row( &testee ) );
 
     /* sub test case 13 */
     data_diagramelement_set_display_flags( &testee, DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT );

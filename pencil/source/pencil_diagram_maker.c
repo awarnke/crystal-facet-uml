@@ -35,9 +35,9 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     const data_diagram_t *diag = data_visible_set_get_diagram_const( (*this_).input_data );
     pencil_diagram_painter_draw ( &((*this_).diagram_painter),
                                   diagram_layout,
-                                  data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
-                                  data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
-                                  data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
+                                  data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
+                                  data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
+                                  data_small_set_contains_row( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
                                   (*this_).profile,
                                   pencil_size,
                                   layout,
@@ -167,7 +167,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                       the_feature,
                                       data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
                                       data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
-                                      data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
+                                      data_small_set_contains_row( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
                                       (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT )),
                                       &relationships,
                                       (*this_).profile,
@@ -208,9 +208,9 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         show_relation = layout_relationship_get_visibility ( relationship_layout );
         if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )
         {
-            if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) )
-                || data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) )
-                || data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ) )
+            if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) )
+                || data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) )
+                || data_small_set_contains_row( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) ) )
             {
                 /* the implicit relationship is focused or marked or highlighted */
                 show_relation = PENCIL_VISIBILITY_SHOW;
@@ -219,7 +219,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
             {
                 if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted ) )
                 {
-                    const data_row_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
+                    const data_row_t diagramelement_id = data_id_get_row( &mark_highlighted );
                     const data_visible_classifier_t *visible_clsfy
                         = data_visible_set_get_visible_classifier_by_id_const( (*this_).input_data, diagramelement_id );
                     if ( visible_clsfy != NULL )
@@ -227,8 +227,8 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                         if ( data_visible_classifier_is_valid( visible_clsfy ) )
                         {
                             const data_classifier_t *classifier = data_visible_classifier_get_classifier_const( visible_clsfy );
-                            if (( data_classifier_get_row_id( classifier ) == data_relationship_get_from_classifier_row_id( the_relationship ) )
-                                ||( data_classifier_get_row_id( classifier ) == data_relationship_get_to_classifier_row_id( the_relationship ) ))
+                            if (( data_classifier_get_row( classifier ) == data_relationship_get_from_classifier_row( the_relationship ) )
+                                ||( data_classifier_get_row( classifier ) == data_relationship_get_to_classifier_row( the_relationship ) ))
                             {
                                 /* the implicit relationship has highlighted from or to classifier */
                                 show_relation = PENCIL_VISIBILITY_SHOW;
@@ -244,9 +244,9 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
             const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_const( &((*this_).layouter) );
             pencil_relationship_painter_draw ( &((*this_).relationship_painter),
                                                relationship_layout,
-                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),
-                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id( the_relationship ) ),
-                                               data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),
+                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) ),
+                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row( the_relationship ) ),
+                                               data_small_set_contains_row( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) ),
                                                (*this_).profile,
                                                pencil_size,
                                                layout,
@@ -275,7 +275,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
     {
         case DATA_TABLE_CLASSIFIER:
         {
-            const data_row_t classifier_id = data_id_get_row_id ( &obj_id );
+            const data_row_t classifier_id = data_id_get_row ( &obj_id );
             const data_classifier_t *const the_classifier
                 = data_visible_set_get_classifier_by_id_const ( (*this_).input_data, classifier_id );
             const data_classifier_type_t c_type
@@ -294,7 +294,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         case DATA_TABLE_FEATURE:
         {
-            const data_row_t feature_id = data_id_get_row_id ( &obj_id );
+            const data_row_t feature_id = data_id_get_row ( &obj_id );
             const data_feature_t *const the_feature
                 = data_visible_set_get_feature_by_id_const ( (*this_).input_data, feature_id );
             if( NULL != the_feature )

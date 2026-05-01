@@ -36,22 +36,22 @@ static inline void data_small_set_trace ( const data_small_set_t *this_ )
         switch ( data_id_get_table( &((*this_).id_set[index]) ))
         {
             case DATA_TABLE_VOID:
-                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_VOID, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_VOID, row =", data_id_get_row( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_CLASSIFIER:
-                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_CLASSIFIER, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_CLASSIFIER, row =", data_id_get_row( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_FEATURE:
-                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_FEATURE, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_FEATURE, row =", data_id_get_row( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_RELATIONSHIP:
-                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_RELATIONSHIP, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_RELATIONSHIP, row =", data_id_get_row( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_DIAGRAMELEMENT:
-                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAMELEMENT, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAMELEMENT, row =", data_id_get_row( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_DIAGRAM:
-                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAM, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAM, row =", data_id_get_row( &((*this_).id_set[index]) ) );
                 break;
             default:
                 U8_LOG_ERROR("- []: illegal value");
@@ -82,11 +82,11 @@ static inline bool data_small_set_contains ( const data_small_set_t *this_, data
     return result;
 }
 
-static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, data_row_t row_id )
+static inline bool data_small_set_contains_row ( const data_small_set_t *this_, data_table_t table, data_row_t row )
 {
     bool result;
     data_id_t my_id;
-    data_id_init( &my_id, table, row_id );
+    data_id_init( &my_id, table, row );
     result = data_small_set_contains( this_, my_id );
     data_id_destroy( &my_id );
     return result;
@@ -128,11 +128,11 @@ static inline u8_error_t data_small_set_add_obj ( data_small_set_t *this_, data_
     return result;
 }
 
-static inline u8_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_t row_id )
+static inline u8_error_t data_small_set_add_row ( data_small_set_t *this_, data_table_t table, data_row_t row )
 {
     bool result;
     data_id_t my_id;
-    data_id_init( &my_id, table, row_id );
+    data_id_init( &my_id, table, row );
     result = data_small_set_add_obj( this_, my_id );
     data_id_destroy( &my_id );
     return result;

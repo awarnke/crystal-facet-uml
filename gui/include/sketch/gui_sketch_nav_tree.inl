@@ -14,7 +14,7 @@ static inline data_row_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_ske
     }
     else
     {
-        result = data_diagram_get_row_id ( &((*this_).ancestor_diagrams[(*this_).ancestors_count-1]) );
+        result = data_diagram_get_row ( &((*this_).ancestor_diagrams[(*this_).ancestors_count-1]) );
     }
 
     return result;
@@ -76,33 +76,33 @@ static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_n
 
     for ( uint_fast32_t anc_idx = 0; anc_idx < (*this_).ancestors_count; anc_idx ++ )
     {
-        if ( probe_ancestor_id == data_diagram_get_row_id ( &((*this_).ancestor_diagrams[anc_idx]) ) )
+        if ( probe_ancestor_id == data_diagram_get_row ( &((*this_).ancestor_diagrams[anc_idx]) ) )
         {
             probe_anc_in_anc_idx = anc_idx;
         }
-        if ( probe_descendant_id == data_diagram_get_row_id ( &((*this_).ancestor_diagrams[anc_idx]) ) )
+        if ( probe_descendant_id == data_diagram_get_row ( &((*this_).ancestor_diagrams[anc_idx]) ) )
         {
             probe_desc_in_anc_idx = anc_idx;
         }
     }
     for ( uint_fast32_t sib_idx = 0; sib_idx < (*this_).siblings_count; sib_idx ++ )
     {
-        if ( probe_ancestor_id == data_diagram_get_row_id ( &((*this_).sibling_diagrams[sib_idx]) ) )
+        if ( probe_ancestor_id == data_diagram_get_row ( &((*this_).sibling_diagrams[sib_idx]) ) )
         {
             probe_anc_in_sib_idx = sib_idx;
         }
-        if ( probe_descendant_id == data_diagram_get_row_id ( &((*this_).sibling_diagrams[sib_idx]) ) )
+        if ( probe_descendant_id == data_diagram_get_row ( &((*this_).sibling_diagrams[sib_idx]) ) )
         {
             probe_desc_in_sib_idx = sib_idx;
         }
     }
     for ( uint_fast32_t child_idx = 0; child_idx < (*this_).children_count; child_idx ++ )
     {
-        if ( probe_ancestor_id == data_diagram_get_row_id ( &((*this_).child_diagrams[child_idx]) ) )
+        if ( probe_ancestor_id == data_diagram_get_row ( &((*this_).child_diagrams[child_idx]) ) )
         {
             probe_anc_in_child_idx = child_idx;
         }
-        if ( probe_descendant_id == data_diagram_get_row_id ( &((*this_).child_diagrams[child_idx]) ) )
+        if ( probe_descendant_id == data_diagram_get_row ( &((*this_).child_diagrams[child_idx]) ) )
         {
             probe_desc_in_child_idx = child_idx;
         }
@@ -281,7 +281,7 @@ static inline u8_error_t gui_sketch_nav_tree_get_node_envelope ( gui_sketch_nav_
     {
         const pos_nav_tree_node_t *const node = &((*this_).node_pos[idx]);
         const data_id_t node_id = pos_nav_tree_node_get_diagram_id( node );
-        /* U8_TRACE_INFO_INT( "node_id", data_id_get_row_id( &node_id ) ); */
+        /* U8_TRACE_INFO_INT( "node_id", data_id_get_row( &node_id ) ); */
         if ( data_id_equals( &node_id, diagram_id ) )
         {
             const shape_int_rectangle_t *icon_box = pos_nav_tree_node_get_icon_box_const( node );

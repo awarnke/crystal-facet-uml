@@ -389,8 +389,8 @@ void gui_toolbox_paste( gui_toolbox_t *this_ )
     const data_id_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
     if ( data_id_is_valid( &destination_diagram_id ) )
     {
-        const data_row_t dest_diagram_row_id = data_id_get_row_id( &destination_diagram_id );
-        gui_clipboard_request_clipboard_text( &((*this_).clipboard), dest_diagram_row_id );
+        const data_row_t dest_diagram_row = data_id_get_row( &destination_diagram_id );
+        gui_clipboard_request_clipboard_text( &((*this_).clipboard), dest_diagram_row );
 
         /* this call triggers a callback later to gui_clipboard_clipboard_text_received_callback */
 
@@ -593,7 +593,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_,
             case DATA_TABLE_DIAGRAMELEMENT:
             {
                 data_diagramelement_t out_diagramelement;
-                data_row_t diag_elem_id = data_id_get_row_id( &current_id );
+                data_row_t diag_elem_id = data_id_get_row( &current_id );
                 ctrl_diagram_controller_t *diag_ctrl;
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
@@ -942,7 +942,7 @@ void gui_toolbox_private_show_changes( gui_toolbox_t *this_,
         data_small_set_init( &diagram_ids );
         const u8_error_t d_err
             =  data_database_reader_get_diagram_ids_by_classifier_id( (*this_).db_reader,
-                                                                      data_id_get_row_id( &display_classifier ),
+                                                                      data_id_get_row( &display_classifier ),
                                                                       &diagram_ids
                                                                     );
         if (( d_err == U8_ERROR_NONE )||( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED ))

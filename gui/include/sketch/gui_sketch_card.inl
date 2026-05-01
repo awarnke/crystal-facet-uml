@@ -11,7 +11,7 @@ static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_,
 {
     /* load data to be drawn */
     const u8_error_t d_err
-        = data_visible_set_load( &((*this_).painter_input_data), data_id_get_row_id( &diagram_id ), db_reader );
+        = data_visible_set_load( &((*this_).painter_input_data), data_id_get_row( &diagram_id ), db_reader );
     if ( d_err != U8_ERROR_NONE )
     {
         U8_TRACE_INFO( "gui_sketch_card_load_data called on invalid database." );
@@ -230,7 +230,7 @@ static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_ske
             const data_feature_type_t f_type = data_feature_get_main_type( feat );
             if (( f_type == DATA_FEATURE_TYPE_PROPERTY )||( f_type == DATA_FEATURE_TYPE_OPERATION ))
             {
-                if ( data_feature_get_classifier_row_id( feat ) == data_id_get_row_id( &classifier_id ) )
+                if ( data_feature_get_classifier_row( feat ) == data_id_get_row( &classifier_id ) )
                 {
                     if ( data_feature_get_list_order( feat ) > result )
                     {

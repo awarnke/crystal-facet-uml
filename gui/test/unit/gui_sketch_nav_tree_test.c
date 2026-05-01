@@ -71,16 +71,16 @@ static test_fixture_t * set_up()
     gui_sketch_texture_init( &((*fix).texture_downloader) );
     shape_int_rectangle_init( &((*fix).bounds), LEFT, TOP, WIDTH, HEIGHT );
     data_diagram_init_empty( &((*fix).parent) );
-    data_diagram_set_row_id( &((*fix).parent), 1000 );
+    data_diagram_set_row( &((*fix).parent), 1000 );
     data_diagram_init_empty( &((*fix).self) );
-    data_diagram_set_row_id( &((*fix).self), 1001 );
-    data_diagram_set_parent_row_id( &((*fix).self), 1000 );
+    data_diagram_set_row( &((*fix).self), 1001 );
+    data_diagram_set_parent_row( &((*fix).self), 1000 );
     data_diagram_init_empty( &((*fix).child) );
-    data_diagram_set_row_id( &((*fix).child), 1002 );
-    data_diagram_set_parent_row_id( &((*fix).child), 1001 );
+    data_diagram_set_row( &((*fix).child), 1002 );
+    data_diagram_set_parent_row( &((*fix).child), 1001 );
     data_diagram_init_empty( &((*fix).other_child) );
-    data_diagram_set_row_id( &((*fix).other_child), 1003 );
-    data_diagram_set_parent_row_id( &((*fix).other_child), 1001 );
+    data_diagram_set_row( &((*fix).other_child), 1003 );
+    data_diagram_set_parent_row( &((*fix).other_child), 1001 );
     return fix;
 }
 
@@ -211,7 +211,7 @@ static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x0, y0, &selected_id );
     TEST_EXPECT( data_id_is_valid(&selected_id) );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x1, y1, &selected_id );
     TEST_EXPECT( ! data_id_is_valid(&selected_id) );
@@ -229,12 +229,12 @@ static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, (y1-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
     TEST_EXPECT( data_id_is_valid(&parent_id) );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, y1+(y1-y0), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
     TEST_EXPECT( data_id_is_valid(&parent_id) );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );  /* same gap as above */
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&parent_id) );  /* same gap as above */
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
@@ -309,13 +309,13 @@ static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test
     data_id_t selected_id;
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x0, y0, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x1, y1, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x2, y2, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x3, y3, &selected_id );
     TEST_EXPECT( ! data_id_is_valid(&selected_id) );
@@ -335,23 +335,23 @@ static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, (y1-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x2, (y2-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x3, (y3-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x4, (y4-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x4, y4+(y4-y3), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );  /* same gap as above */
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&parent_id) );  /* same gap as above */
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
@@ -441,22 +441,22 @@ static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( t
     data_id_t selected_id;
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x0, y0, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x1, y1, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x2, y2, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1003, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1003, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x3, y3, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x4, y4, &selected_id );
     TEST_EXPECT( ! data_id_is_valid(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x5, y5, &selected_id );
-    TEST_EXPECT_EQUAL_INT( 1003, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1003, data_id_get_row(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x6, y6, &selected_id );
     TEST_EXPECT( ! data_id_is_valid(&selected_id) );
@@ -473,31 +473,31 @@ static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( t
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, (y1-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x2, (y2-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x3, (y3-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x4, (y4-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x5, (y5-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x6, (y6-2), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x6, y6+(y6-y5), &parent_id, &list_order, &gap_line );
     TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );  /* same gap as above */
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row(&parent_id) );  /* same gap as above */
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );

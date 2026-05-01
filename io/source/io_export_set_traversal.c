@@ -107,7 +107,7 @@ u8_error_t io_export_set_traversal_private_export_diagram( io_export_set_travers
 
     data_diagram_t out_diagram;
     read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
-                                                          data_id_get_row_id( &id ),
+                                                          data_id_get_row( &id ),
                                                           &out_diagram
                                                         );
 
@@ -147,14 +147,14 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
     /* data_diagram_t out_diagram; */
 
     read_error = data_database_reader_get_diagramelement_by_id( (*this_).db_reader,
-                                                                data_id_get_row_id( &id ),
+                                                                data_id_get_row( &id ),
                                                                 &out_diagramelement
                                                               );
 
     if ( read_error == U8_ERROR_NONE )
     {
         /* get classifier */
-        const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
+        const data_row_t classifier_id = data_diagramelement_get_classifier_row( &out_diagramelement );
         read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
                                                                 classifier_id,
                                                                 &out_classifier
@@ -163,7 +163,7 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
         /* get focused_feature */
         /*
         assert ( IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES >= 1 );
-        const data_row_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( &out_diagramelement );
+        const data_row_t focused_feature_id = data_diagramelement_get_focused_feature_row( &out_diagramelement );
         if ( DATA_ROW_VOID == focused_feature_id )
         {
             data_feature_init_empty( &((*this_).temp_features[0]) );
@@ -179,7 +179,7 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
 
         /* get diagram */
         /*
-        const data_row_t diag_id = data_diagramelement_get_diagram_row_id( &out_diagramelement );
+        const data_row_t diag_id = data_diagramelement_get_diagram_row( &out_diagramelement );
         read_error |= data_database_reader_get_diagram_by_id ( (*this_).db_reader,
                                                                diag_id,
                                                                &out_diagram
@@ -280,13 +280,13 @@ u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_trav
 
     data_classifier_t out_classifier;
     read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
-                                                            data_id_get_row_id( &id ),
+                                                            data_id_get_row( &id ),
                                                             &out_classifier
                                                           );
 
     data_feature_iterator_t feature_iterator;
     data_feature_iterator_init_empty( &feature_iterator );
-    read_error |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, data_id_get_row_id( &id ), &feature_iterator );
+    read_error |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, data_id_get_row( &id ), &feature_iterator );
     if ( read_error == U8_ERROR_NONE )
     {
         /* write classifier */
@@ -347,7 +347,7 @@ u8_error_t io_export_set_traversal_private_export_feature( io_export_set_travers
 
     data_feature_t out_feature;
     read_error = data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                          data_id_get_row_id( &id ),
+                                                          data_id_get_row( &id ),
                                                           &out_feature
                                                         );
 
@@ -382,7 +382,7 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
 
     data_relationship_t out_relation;
     read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
-                                                               data_id_get_row_id( &id ),
+                                                               data_id_get_row( &id ),
                                                                &out_relation
                                                              );
 
@@ -393,34 +393,34 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
 
         /* get source */
         read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                  data_relationship_get_from_classifier_row_id( &out_relation ),
+                                                                  data_relationship_get_from_classifier_row( &out_relation ),
                                                                   &from_classifier
                                                                 );
-        if ( DATA_ROW_VOID == data_relationship_get_from_feature_row_id( &out_relation ) )
+        if ( DATA_ROW_VOID == data_relationship_get_from_feature_row( &out_relation ) )
         {
             data_feature_init_empty( &((*this_).temp_feature_0) );
         }
         else
         {
             read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                   data_relationship_get_from_feature_row_id( &out_relation ),
+                                                                   data_relationship_get_from_feature_row( &out_relation ),
                                                                    &((*this_).temp_feature_0)
                                                                  );
         }
 
         /* get destination */
         read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                  data_relationship_get_to_classifier_row_id( &out_relation ),
+                                                                  data_relationship_get_to_classifier_row( &out_relation ),
                                                                   &to_classifier
                                                                 );
-        if ( DATA_ROW_VOID == data_relationship_get_to_feature_row_id( &out_relation ) )
+        if ( DATA_ROW_VOID == data_relationship_get_to_feature_row( &out_relation ) )
         {
             data_feature_init_empty( &((*this_).temp_feature_1) );
         }
         else
         {
             read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                   data_relationship_get_to_feature_row_id( &out_relation ),
+                                                                   data_relationship_get_to_feature_row( &out_relation ),
                                                                    &((*this_).temp_feature_1)
                                                                  );
         }

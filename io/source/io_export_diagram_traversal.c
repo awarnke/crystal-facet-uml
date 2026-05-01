@@ -54,7 +54,7 @@ u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagra
     /* load data to be drawn */
     data_visible_set_init( (*this_).input_data );
     const u8_error_t d_err
-        = data_visible_set_load( (*this_).input_data, data_id_get_row_id( &diagram_id ), (*this_).db_reader );
+        = data_visible_set_load( (*this_).input_data, data_id_get_row( &diagram_id ), (*this_).db_reader );
     if( d_err != U8_ERROR_NONE )
     {
         write_err = -1;
@@ -68,11 +68,11 @@ u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagra
         const data_diagram_t *diag_ptr = data_visible_set_get_diagram_const( (*this_).input_data );
         assert( diag_ptr != NULL );
         assert( data_diagram_is_valid( diag_ptr ) );
-        U8_TRACE_INFO_INT("printing diagram with id",data_diagram_get_row_id(diag_ptr));
+        U8_TRACE_INFO_INT("printing diagram with id",data_diagram_get_row(diag_ptr));
 
         /* load parent diagram if there is one */
         data_diagram_init_empty( &((*this_).temp_parent_diag) );
-        const data_row_t parent_id = data_diagram_get_parent_row_id( diag_ptr );
+        const data_row_t parent_id = data_diagram_get_parent_row( diag_ptr );
         if ( DATA_ROW_VOID != parent_id )
         {
             const u8_error_t d_err2
@@ -116,7 +116,7 @@ u8_error_t io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal
     /* load diagram only to be drawn */
     data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
     const u8_error_t d_err
-        = data_database_reader_get_diagram_by_id( (*this_).db_reader, data_id_get_row_id( &diagram_id ), diagram_ptr );
+        = data_database_reader_get_diagram_by_id( (*this_).db_reader, data_id_get_row( &diagram_id ), diagram_ptr );
     if( d_err != U8_ERROR_NONE )
     {
         write_err = -1;
@@ -156,7 +156,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_
             const data_classifier_t *classifier
                 = data_visible_classifier_get_classifier_const( visible_classifier );
             const data_id_t classifier_id = data_classifier_get_data_id( classifier );
-            U8_TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
+            U8_TRACE_INFO_INT( "printing classifier with id", data_id_get_row( &classifier_id ) );
 
             /* start+assemble classifier */
             write_err |= io_element_writer_start_classifier( (*this_).element_writer,
@@ -191,13 +191,13 @@ u8_error_t io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_
                 = data_visible_classifier_get_diagramelement_const( visible_classifier );
             const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
             const data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
-            const data_row_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( diagele );
+            const data_row_t focused_feature_id = data_diagramelement_get_focused_feature_row( diagele );
             const data_feature_t *const focused_f_or_null
                 = ( focused_feature_id == DATA_ROW_VOID )
                 ? NULL
                 : data_visible_set_get_feature_by_id_const( diagram_data, focused_feature_id );
 
-            U8_TRACE_INFO_INT( "printing diagramelement with id", data_id_get_row_id( &diagele_id ) );
+            U8_TRACE_INFO_INT( "printing diagramelement with id", data_id_get_row( &diagele_id ) );
 
             /* start+assemble+end diagramelement */
             write_err |= io_element_writer_start_diagramelement( (*this_).element_writer,
@@ -233,7 +233,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
-    assert( DATA_ROW_VOID != data_id_get_row_id( &classifier_id) );
+    assert( DATA_ROW_VOID != data_id_get_row( &classifier_id) );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all features */
@@ -251,7 +251,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_
             {
                 const bool is_visible = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                            diagram_data,
-                                                                           data_feature_get_row_id( feature )
+                                                                           data_feature_get_row( feature )
                                                                          );
                 const bool is_lifeline
                     =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
@@ -259,7 +259,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_
                 if ( is_visible && ( ! is_lifeline ) )
                 {
                     const data_classifier_t *const parent_classifier
-                        = data_visible_set_get_classifier_by_id_const( diagram_data, data_id_get_row_id( &classifier_id ));
+                        = data_visible_set_get_classifier_by_id_const( diagram_data, data_id_get_row( &classifier_id ));
                     if ( parent_classifier != NULL )
                     {
                         write_err |= io_element_writer_start_feature( (*this_).element_writer,
@@ -304,7 +304,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships 
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
-    assert( DATA_ROW_VOID != data_id_get_row_id( &from_classifier_id) );
+    assert( DATA_ROW_VOID != data_id_get_row( &from_classifier_id) );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all relationships */
@@ -323,12 +323,12 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships 
                 const data_id_t relation_id = data_relationship_get_data_id( relation );
                 const bool is_visible = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
                                                                                 diagram_data,
-                                                                                data_id_get_row_id( &relation_id )
+                                                                                data_id_get_row( &relation_id )
                                                                               );
 
                 if ( is_visible /* no filter for duplicates */ )
                 {
-                    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
+                    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row( relation );
                     const data_classifier_t *const dest_classifier
                         = data_visible_set_get_classifier_by_id_const ( diagram_data, to_classifier_id );
                     if ( dest_classifier != NULL )

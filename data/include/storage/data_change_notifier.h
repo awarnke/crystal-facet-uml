@@ -64,20 +64,20 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param event_type the event_type which causes the signal: created, updated or deleted
  *  \param table the table in which a row was created, updated or deleted
- *  \param row_id the row_id which was created, updated or deleted
+ *  \param row the row which was created, updated or deleted
  *  \param parent_table the table of the parent element.
  *                      DATA_TABLE_VOID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
  *                      because classifiers have no parent and in case of update, no parent is needed.
- *  \param parent_row_id the row_id of the parent element
+ *  \param parent_row the row of the parent element
  *                      DATA_ROW_VOID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
  *                      because classifiers have no parent and in case of update, no parent is needed.
  */
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
                                         data_change_event_type_t event_type,
                                         data_table_t table,
-                                        data_row_t row_id,
+                                        data_row_t row,
                                         data_table_t parent_table,
-                                        data_row_t parent_row_id
+                                        data_row_t parent_row
                                       );
 
 /*!
@@ -85,17 +85,17 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
  *
  *  This method id applicable to all changes
  *  where a message receiver can determine if to invalidate/reload caches
- *  by the row_id alone.
+ *  by the row alone.
  *
  *  \param this_ pointer to own object attributes
  *  \param event_type the event_type which causes the signal: created, updated or deleted
  *  \param table the table in which a row was created, updated or deleted
- *  \param row_id the row_id which was created, updated or deleted
+ *  \param row the row which was created, updated or deleted
  */
 static inline void data_change_notifier_emit_signal_without_parent ( data_change_notifier_t *this_,
                                                                      data_change_event_type_t event_type,
                                                                      data_table_t table,
-                                                                     data_row_t row_id
+                                                                     data_row_t row
                                                                    );
 
 /*!

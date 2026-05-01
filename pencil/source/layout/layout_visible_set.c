@@ -102,7 +102,7 @@ void layout_visible_set_private_init_features( layout_visible_set_t *this_ )
 
         if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
         {
-            const data_row_t feature_id = data_feature_get_row_id( feature_data );
+            const data_row_t feature_id = data_feature_get_row( feature_data );
             const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                  (*this_).input_data,
                                                                  feature_id
@@ -183,7 +183,7 @@ void layout_visible_set_private_init_relationships( layout_visible_set_t *this_ 
         {
             const bool show = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
                                                                       (*this_).input_data,
-                                                                      data_relationship_get_row_id( relationship_data )
+                                                                      data_relationship_get_row( relationship_data )
             );
 
             if ( show )
@@ -228,10 +228,10 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
     assert ( NULL != io_dropped_relationships );
     uint32_t layout_relationship_count = 0;
 
-    const data_row_t from_classifier_id = data_relationship_get_from_classifier_row_id( relationship_data );
-    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row_id( relationship_data );
-    const data_row_t from_feature_id = data_relationship_get_from_feature_row_id( relationship_data );
-    const data_row_t to_feature_id = data_relationship_get_to_feature_row_id( relationship_data );
+    const data_row_t from_classifier_id = data_relationship_get_from_classifier_row( relationship_data );
+    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row( relationship_data );
+    const data_row_t from_feature_id = data_relationship_get_from_feature_row( relationship_data );
+    const data_row_t to_feature_id = data_relationship_get_to_feature_row( relationship_data );
 
     if ( DATA_ROW_VOID == from_feature_id )  /* search source(from) in classifiers */
     {
@@ -282,7 +282,7 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
                         if ( one_to_feature_found )
                         {
                             const bool to_feature_ok
-                                = ( to_classifier_id == data_feature_get_classifier_row_id(layout_feature_get_data_const( probe4_feature )) );
+                                = ( to_classifier_id == data_feature_get_classifier_row(layout_feature_get_data_const( probe4_feature )) );
                             if ( to_feature_ok )
                             {
                                 if ( (*this_).relationship_count < LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )
@@ -322,7 +322,7 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
             const bool one_from_feature_found = ( from_feature_id == layout_feature_get_feature_id( probe3_feature ) );
             if ( one_from_feature_found )
             {
-                const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_row_id(layout_feature_get_data_const( probe3_feature )) );
+                const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_row(layout_feature_get_data_const( probe3_feature )) );
                 if ( from_feature_ok )
                 {
                     if ( DATA_ROW_VOID == to_feature_id )  /* search destination(to) in classifiers */
@@ -365,7 +365,7 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
                             const bool one_to_feature_found = ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) );
                             if ( one_to_feature_found )
                             {
-                                const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_row_id(layout_feature_get_data_const( probe5_feature )) );
+                                const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_row(layout_feature_get_data_const( probe5_feature )) );
                                 if ( to_feature_ok )
                                 {
                                     if ( (*this_).relationship_count < LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )

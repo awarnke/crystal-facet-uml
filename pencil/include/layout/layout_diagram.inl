@@ -72,7 +72,7 @@ static inline const data_diagram_t *layout_diagram_get_data_const ( const layout
 
 static inline data_row_t layout_diagram_get_diagram_id ( const layout_diagram_t *this_ )
 {
-    return data_diagram_get_row_id( (*this_).data );
+    return data_diagram_get_row( (*this_).data );
 }
 
 

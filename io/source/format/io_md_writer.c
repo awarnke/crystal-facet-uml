@@ -121,7 +121,7 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
                 if ( show_id || show_name )
                 {
                     u8_error_t d_err;
-                    d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id( &probe_id ), &((*this_).temp_diagram) );
+                    d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row( &probe_id ), &((*this_).temp_diagram) );
                     if ( d_err == U8_ERROR_NONE )
                     {
                         /* write previously parsed characters */
@@ -154,12 +154,12 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
                     }
                     else
                     {
-                        U8_TRACE_INFO_INT("id found but diagram does not exist: D", data_id_get_row_id( &probe_id ) );
+                        U8_TRACE_INFO_INT("id found but diagram does not exist: D", data_id_get_row( &probe_id ) );
                     }
                 }
                 else
                 {
-                    U8_TRACE_INFO_INT("id found but #id or #name fragment missing: D", data_id_get_row_id( &probe_id ) );
+                    U8_TRACE_INFO_INT("id found but #id or #name fragment missing: D", data_id_get_row( &probe_id ) );
                 }
             }
         }

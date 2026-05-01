@@ -56,7 +56,7 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
     if ( U8_ERROR_NONE == result )
     {
         /* store new id to data_classifier_t object */
-        data_classifier_set_row_id( &to_be_created, new_id );
+        data_classifier_set_row( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
@@ -146,7 +146,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             while ( data_feature_iterator_has_next( &feature_iterator ) )
             {
                 result |= data_feature_iterator_next( &feature_iterator, &((*this_).temp_feature) );
-                const data_row_t feat_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                const data_row_t feat_id = data_feature_get_row( &((*this_).temp_feature) );
                 const bool is_lifeline
                     = ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( &((*this_).temp_feature) ) );
                 data_result = data_database_writer_delete_feature( (*this_).db_writer, feat_id, NULL );
@@ -185,7 +185,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             while ( data_relationship_iterator_has_next( &relationship_iterator ) )
             {
                 result |= data_relationship_iterator_next( &relationship_iterator, &((*this_).temp_relationship) );
-                const data_row_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
+                const data_row_t rel_id = data_relationship_get_row( &((*this_).temp_relationship) );
                 data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
                 if ( data_result == U8_ERROR_NONE )
                 {
@@ -483,7 +483,7 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
     if ( U8_ERROR_NONE == result )
     {
         /* store new id to data_feature_t object */
-        data_feature_set_row_id( &to_be_created, new_id );
+        data_feature_set_row( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
@@ -551,7 +551,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
         while ( data_relationship_iterator_has_next( &relationship_iterator ) )
         {
             result |= data_relationship_iterator_next( &relationship_iterator, &((*this_).temp_relationship) );
-            const data_row_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
+            const data_row_t rel_id = data_relationship_get_row( &((*this_).temp_relationship) );
             data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
             if ( U8_ERROR_NONE == data_result )
             {
@@ -765,7 +765,7 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
     if ( U8_ERROR_NONE == result )
     {
         /* store new id to data_relationship_t object */
-        data_relationship_set_row_id( &to_be_created, new_id );
+        data_relationship_set_row( &to_be_created, new_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )

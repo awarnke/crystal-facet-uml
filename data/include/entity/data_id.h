@@ -31,22 +31,22 @@ enum data_id_max_enum {
  */
 struct data_id_struct {
     data_table_t table;
-    data_row_t row_id;
+    data_row_t row;
 };
 
 typedef struct data_id_struct data_id_t;
 
-#define DATA_ID_VOID ((data_id_t){.table=DATA_TABLE_VOID,.row_id=DATA_ROW_VOID})
-#define DATA_ID(tab,row) ((data_id_t){.table=tab,.row_id=row})
+#define DATA_ID_VOID ((data_id_t){.table=DATA_TABLE_VOID,.row=DATA_ROW_VOID})
+#define DATA_ID(tab,row_no) ((data_id_t){.table=tab,.row=row_no})
 
 /*!
  *  \brief initializes the data_id_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param table table id of the referenced object
- *  \param row_id row id of the referenced object
+ *  \param row row id of the referenced object
  */
-static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_t row_id );
+static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_t row );
 
 /*!
  *  \brief initializes the data_id_t struct
@@ -77,9 +77,9 @@ static inline void data_id_init_by_stringview ( data_id_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param table table id of the referenced object
- *  \param row_id row id of the referenced object
+ *  \param row row id of the referenced object
  */
-static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_row_t row_id );
+static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_row_t row );
 
 /*!
  *  \brief initializes the data_id_t struct to void
@@ -126,11 +126,11 @@ static inline void data_id_destroy ( data_id_t *this_ );
 static inline data_table_t data_id_get_table ( const data_id_t *this_ );
 
 /*!
- *  \brief gets the row_id of data_id_t
+ *  \brief gets the row of data_id_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_row_t data_id_get_row_id ( const data_id_t *this_ );
+static inline data_row_t data_id_get_row ( const data_id_t *this_ );
 
 /*!
  *  \brief prints the data_id_t struct to the trace output
@@ -166,14 +166,14 @@ static inline bool data_id_equals_or_both_void ( const data_id_t *this_, const d
 static inline bool data_id_is_valid ( const data_id_t *this_ );
 
 /*!
- *  \brief checks if data_id_t equals a given row_id
+ *  \brief checks if data_id_t equals a given row
  *
  *  \param this_ pointer to own object attributes
  *  \param table table of other object
- *  \param row_id row_id of other object
+ *  \param row row of other object
  *  \return true if both object-ids are valid and equal; false if at least one is void or they are unequal.
  */
-static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_t row_id );
+static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_t row );
 
 /*!
  *  \brief prints a textual representation of this id to an utf8stringbuf

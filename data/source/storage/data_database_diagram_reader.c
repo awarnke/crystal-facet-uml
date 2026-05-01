@@ -509,7 +509,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id( data_database_
                                               );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
             {
-                data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_VOID );
+                data_diagramelement_set_focused_feature_row ( out_diagramelement, DATA_ROW_VOID );
             }
 
             data_diagramelement_trace( out_diagramelement );
@@ -564,7 +564,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid( data_databas
                                               );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
             {
-                data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_VOID );
+                data_diagramelement_set_focused_feature_row ( out_diagramelement, DATA_ROW_VOID );
             }
 
             data_diagramelement_trace( out_diagramelement );

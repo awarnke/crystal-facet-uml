@@ -156,7 +156,7 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_t data_diagram_get_row_id ( const data_diagram_t *this_ );
+static inline data_row_t data_diagram_get_row ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -164,7 +164,7 @@ static inline data_row_t data_diagram_get_row_id ( const data_diagram_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_t id );
+static inline void data_diagram_set_row ( data_diagram_t *this_, data_row_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -180,7 +180,7 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ );
+static inline data_row_t data_diagram_get_parent_row ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute parent_id
@@ -188,7 +188,7 @@ static inline data_row_t data_diagram_get_parent_row_id ( const data_diagram_t *
  *  \param this_ pointer to own object attributes
  *  \param parent_id new parent_id of this object
  */
-static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_t parent_id );
+static inline void data_diagram_set_parent_row ( data_diagram_t *this_, data_row_t parent_id );
 
 /*!
  *  \brief gets the data_id derived from the attribute parent_id

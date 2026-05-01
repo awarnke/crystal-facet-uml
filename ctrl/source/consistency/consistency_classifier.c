@@ -43,7 +43,7 @@ u8_error_t consistency_classifier_delete_unreferenced_classifier( consistency_cl
     u8_error_t delete_err;
 
     delete_err = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
-                                                               data_diagramelement_get_classifier_row_id( deleted_diagramelement ),
+                                                               data_diagramelement_get_classifier_row( deleted_diagramelement ),
                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                io_stat
                                                              );

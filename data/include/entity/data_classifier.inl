@@ -190,12 +190,12 @@ static inline void data_classifier_trace ( const data_classifier_t *this_ )
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
-static inline data_row_t data_classifier_get_row_id ( const data_classifier_t *this_ )
+static inline data_row_t data_classifier_get_row ( const data_classifier_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_classifier_set_row_id ( data_classifier_t *this_, data_row_t id )
+static inline void data_classifier_set_row ( data_classifier_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }

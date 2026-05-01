@@ -53,9 +53,9 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ )
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
                                         data_change_event_type_t event_type,
                                         data_table_t table,
-                                        data_row_t row_id,
+                                        data_row_t row,
                                         data_table_t parent_table,
-                                        data_row_t parent_row_id )
+                                        data_row_t parent_row )
 {
     U8_TRACE_BEGIN();
 
@@ -70,8 +70,8 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
         data_id_t parent_element_id;
         data_change_message_t message;
 
-        data_id_init( &modified_element_id, table, row_id );
-        data_id_init( &parent_element_id, parent_table, parent_row_id );
+        data_id_init( &modified_element_id, table, row );
+        data_id_init( &parent_element_id, parent_table, parent_row );
         data_change_message_init( &message,
                                   event_type,
                                   modified_element_id,

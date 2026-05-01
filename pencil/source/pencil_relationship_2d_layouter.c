@@ -346,11 +346,11 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                 = ( data_relationship_get_main_type( probe_relation_data )
                 == data_relationship_get_main_type( current_relation_data ) );
             const bool same_from
-                = ( data_relationship_get_from_classifier_row_id( probe_relation_data )
-                == data_relationship_get_from_classifier_row_id( current_relation_data ) );
+                = ( data_relationship_get_from_classifier_row( probe_relation_data )
+                == data_relationship_get_from_classifier_row( current_relation_data ) );
             const bool same_to
-                = ( data_relationship_get_to_classifier_row_id( probe_relation_data )
-                == data_relationship_get_to_classifier_row_id( current_relation_data ) );
+                = ( data_relationship_get_to_classifier_row( probe_relation_data )
+                == data_relationship_get_to_classifier_row( current_relation_data ) );
             debts_of_current += layout_quality_debts_conn_conn( &quality,
                                                                 current_solution,
                                                                 probe_shape,

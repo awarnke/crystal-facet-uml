@@ -78,14 +78,14 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_1, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_row( &testee ) );
     const char* uuid_1 = data_relationship_get_uuid_const( &testee );
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
-    TEST_EXPECT_EQUAL_INT( 1033, data_relationship_get_from_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 812, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1035, data_relationship_get_to_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 823, data_relationship_get_to_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1033, data_relationship_get_from_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 812, data_relationship_get_from_feature_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1035, data_relationship_get_to_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 823, data_relationship_get_to_feature_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "stereotype", data_relationship_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "name", data_relationship_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "description", data_relationship_get_description_const( &testee ) );
@@ -107,14 +107,14 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_row( &testee ) );
     const char* uuid_2 = data_relationship_get_uuid_const( &testee );
     TEST_EXPECT( uuid_2 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
-    TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_name_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "too long text" ) );
@@ -150,11 +150,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                 );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_4, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1234, data_relationship_get_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1033, data_relationship_get_from_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 813, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1035, data_relationship_get_to_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_to_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1234, data_relationship_get_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1033, data_relationship_get_from_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 813, data_relationship_get_from_feature_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1035, data_relationship_get_to_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_to_feature_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_relationship_get_uuid_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "stereotype", data_relationship_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "name", data_relationship_get_name_const( &testee ) );
@@ -179,11 +179,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                 );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 54, data_relationship_get_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 54, data_relationship_get_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_relationship_get_uuid_const( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_name_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
@@ -212,12 +212,12 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* function call is possible, function returns */
 
     /* sub test case 2 */
-    data_relationship_set_row_id( &testee, 478 );
-    const data_row_t row_id = data_relationship_get_row_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, row_id );
+    data_relationship_set_row( &testee, 478 );
+    const data_row_t row = data_relationship_get_row( &testee );
+    TEST_EXPECT_EQUAL_INT( 478, row );
     TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
     const data_id_t data_id = data_relationship_get_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row_id( &data_id ) );
+    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row( &data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_RELATIONSHIP, data_id_get_table( &data_id ) );
 
     /* sub test case 3 */
@@ -272,27 +272,27 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "too long text" ) );
 
     /* sub test case 12 */
-    data_relationship_set_from_classifier_row_id( &testee, 1600 );
-    TEST_EXPECT_EQUAL_INT( 1600, data_relationship_get_from_classifier_row_id( &testee ) );
+    data_relationship_set_from_classifier_row( &testee, 1600 );
+    TEST_EXPECT_EQUAL_INT( 1600, data_relationship_get_from_classifier_row( &testee ) );
     const data_id_t from_c_data_id = data_relationship_get_from_classifier_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 1600, data_id_get_row_id( &from_c_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1600, data_id_get_row( &from_c_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &from_c_data_id ) );
-    data_relationship_set_from_feature_row_id( &testee, DATA_ROW_VOID );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &testee ) );
+    data_relationship_set_from_feature_row( &testee, DATA_ROW_VOID );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row( &testee ) );
     const data_id_t from_f_data_id = data_relationship_get_from_feature_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &from_f_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row( &from_f_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &from_f_data_id ) );
 
     /* sub test case 13 */
-    data_relationship_set_to_classifier_row_id( &testee, 1602 );
-    TEST_EXPECT_EQUAL_INT( 1602, data_relationship_get_to_classifier_row_id( &testee ) );
+    data_relationship_set_to_classifier_row( &testee, 1602 );
+    TEST_EXPECT_EQUAL_INT( 1602, data_relationship_get_to_classifier_row( &testee ) );
     const data_id_t to_c_data_id = data_relationship_get_to_classifier_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 1602, data_id_get_row_id( &to_c_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1602, data_id_get_row( &to_c_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &to_c_data_id ) );
-    data_relationship_set_to_feature_row_id( &testee, 1222 );
-    TEST_EXPECT_EQUAL_INT( 1222, data_relationship_get_to_feature_row_id( &testee ) );
+    data_relationship_set_to_feature_row( &testee, 1222 );
+    TEST_EXPECT_EQUAL_INT( 1222, data_relationship_get_to_feature_row( &testee ) );
     const data_id_t to_f_data_id = data_relationship_get_to_feature_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 1222, data_id_get_row_id( &to_f_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1222, data_id_get_row( &to_f_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &to_f_data_id ) );
 
     /* sub test case 14 */

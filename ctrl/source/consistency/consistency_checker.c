@@ -160,7 +160,7 @@ u8_error_t consistency_checker_private_ensure_single_root_diagram( consistency_c
         result |= data_small_set_add_obj( &all_roots, data_diagram_get_data_id( &((*this_).temp_diagram) ) );
 
         utf8stream_writer_write_str( out_english_report, "    INFO: Root diagram: " );
-        utf8stream_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram) ) );
+        utf8stream_writer_write_int( out_english_report, data_diagram_get_row( &((*this_).temp_diagram) ) );
         utf8stream_writer_write_str( out_english_report, ": " );
         utf8stream_writer_write_str( out_english_report, data_diagram_get_name_const( &((*this_).temp_diagram) ) );
         utf8stream_writer_write_str( out_english_report, "\n" );
@@ -180,7 +180,7 @@ u8_error_t consistency_checker_private_ensure_single_root_diagram( consistency_c
     {
         (*io_err) += (root_diagram_count-1) ;
         const data_id_t proposed_root_diagram = data_small_set_get_id( &all_roots, 0 );
-        const data_row_t proposed_root_diagram_id = data_id_get_row_id( &proposed_root_diagram );
+        const data_row_t proposed_root_diagram_id = data_id_get_row( &proposed_root_diagram );
         if ( ! modify_db )
         {
             utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Attach additional root diagrams below the first: " );
@@ -192,7 +192,7 @@ u8_error_t consistency_checker_private_ensure_single_root_diagram( consistency_c
             for ( int list_pos = 1; list_pos < root_diagram_count; list_pos ++ )
             {
                 const data_id_t proposed_child_diagram = data_small_set_get_id( &all_roots, list_pos );
-                const data_row_t proposed_child_diagram_id = data_id_get_row_id( &proposed_child_diagram );
+                const data_row_t proposed_child_diagram_id = data_id_get_row( &proposed_child_diagram );
                 const u8_error_t data_err
                     = data_database_writer_update_diagram_parent_id( (*this_).db_writer,
                                                                      proposed_child_diagram_id,
@@ -264,7 +264,7 @@ u8_error_t consistency_checker_private_ensure_valid_diagram_parents( consistency
                 if (( U8_ERROR_NONE == err_result )&& data_diagram_iterator_has_next( &diagram_iterator ) )
                 {
                     err_result |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
-                    root_diag_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
+                    root_diag_id = data_diagram_get_row( &((*this_).temp_diagram) );
                 }
                 err_result |= data_diagram_iterator_destroy( &diagram_iterator );
             }
@@ -282,17 +282,17 @@ u8_error_t consistency_checker_private_ensure_valid_diagram_parents( consistency
                 for ( int list_pos = 0; list_pos < circ_ref_count; list_pos ++ )
                 {
                     data_id_t diagram_id = data_small_set_get_id( &circ_ref, list_pos );
-                    data_row_t diagram_row_id = data_id_get_row_id( &diagram_id );
+                    data_row_t diagram_row = data_id_get_row( &diagram_id );
 
                     data_err = data_database_writer_update_diagram_parent_id( (*this_).db_writer,
-                                                                              diagram_row_id,
+                                                                              diagram_row,
                                                                               root_diag_id,
                                                                               NULL /*out_old_diagram*/
                                                                             );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Diagram " );
-                        utf8stream_writer_write_int( out_english_report, diagram_row_id );
+                        utf8stream_writer_write_int( out_english_report, diagram_row );
                         utf8stream_writer_write_str( out_english_report, " moved below root diagram " );
                         utf8stream_writer_write_int( out_english_report, root_diag_id );
                         utf8stream_writer_write_str( out_english_report, ".\n" );
@@ -360,12 +360,12 @@ u8_error_t consistency_checker_private_ensure_valid_diagramelements( consistency
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
-                    data_err = data_database_writer_delete_diagramelement ( (*this_).db_writer, diagramelement_row_id, NULL );
+                    data_row_t diagramelement_row = data_id_get_row( &diagramelement_id );
+                    data_err = data_database_writer_delete_diagramelement ( (*this_).db_writer, diagramelement_row, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Diagramelement " );
-                        utf8stream_writer_write_int( out_english_report, diagramelement_row_id );
+                        utf8stream_writer_write_int( out_english_report, diagramelement_row );
                         utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
@@ -430,12 +430,12 @@ u8_error_t consistency_checker_private_ensure_valid_diagele_features( consistenc
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
-                    data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row_id, DATA_ROW_VOID, NULL );
+                    data_row_t diagramelement_row = data_id_get_row( &diagramelement_id );
+                    data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row, DATA_ROW_VOID, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Focused features unlinked from " );
-                        utf8stream_writer_write_int( out_english_report, diagramelement_row_id );
+                        utf8stream_writer_write_int( out_english_report, diagramelement_row );
                         utf8stream_writer_write_str( out_english_report, " diagramelements.\n" );
                         (*io_fix) ++;
                     }
@@ -500,12 +500,12 @@ u8_error_t consistency_checker_private_ensure_referenced_classifiers( consistenc
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t classifier_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_t classifier_row_id = data_id_get_row_id( &classifier_id );
-                    err_result |= data_database_consistency_checker_kill_classifier ( &((*this_).db_checker), classifier_row_id );
+                    data_row_t classifier_row = data_id_get_row( &classifier_id );
+                    err_result |= data_database_consistency_checker_kill_classifier ( &((*this_).db_checker), classifier_row );
                     if ( U8_ERROR_NONE == err_result )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Classifier " );
-                        utf8stream_writer_write_int( out_english_report, classifier_row_id );
+                        utf8stream_writer_write_int( out_english_report, classifier_row );
                         utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
@@ -569,12 +569,12 @@ u8_error_t consistency_checker_private_ensure_valid_feature_parents( consistency
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t feature_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_t feature_row_id = data_id_get_row_id( &feature_id );
-                    data_err = data_database_writer_delete_feature ( (*this_).db_writer, feature_row_id, NULL );
+                    data_row_t feature_row = data_id_get_row( &feature_id );
+                    data_err = data_database_writer_delete_feature ( (*this_).db_writer, feature_row, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Feature " );
-                        utf8stream_writer_write_int( out_english_report, feature_row_id );
+                        utf8stream_writer_write_int( out_english_report, feature_row );
                         utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
@@ -639,12 +639,12 @@ u8_error_t consistency_checker_private_ensure_valid_relationship_classifiers( co
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t relationship_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_t relation_row_id = data_id_get_row_id( &relationship_id );
-                    data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
+                    data_row_t relation_row = data_id_get_row( &relationship_id );
+                    data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Relationship " );
-                        utf8stream_writer_write_int( out_english_report, relation_row_id );
+                        utf8stream_writer_write_int( out_english_report, relation_row );
                         utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
@@ -709,12 +709,12 @@ u8_error_t consistency_checker_private_ensure_valid_relationship_features( consi
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t relationship_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_t relation_row_id = data_id_get_row_id( &relationship_id );
-                    data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
+                    data_row_t relation_row = data_id_get_row( &relationship_id );
+                    data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Relationship " );
-                        utf8stream_writer_write_int( out_english_report, relation_row_id );
+                        utf8stream_writer_write_int( out_english_report, relation_row );
                         utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }

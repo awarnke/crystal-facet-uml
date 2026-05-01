@@ -299,7 +299,7 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
                                                  JSON_CONSTANTS_KEY_CLASSIFIER_ID,
-                                                 data_classifier_get_row_id( classifier_ptr ),
+                                                 data_classifier_get_row( classifier_ptr ),
                                                  true
                                                );
 
@@ -520,7 +520,7 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  6,
                                                  JSON_CONSTANTS_KEY_FEATURE_ID,
-                                                 data_feature_get_row_id( feature_ptr ),
+                                                 data_feature_get_row( feature_ptr ),
                                                  true
                                                );
 
@@ -713,7 +713,7 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
                                                  JSON_CONSTANTS_KEY_RELATIONSHIP_ID,
-                                                 data_relationship_get_row_id( relation_ptr ),
+                                                 data_relationship_get_row( relation_ptr ),
                                                  true
                                                );
 
@@ -1019,7 +1019,7 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
                                                  JSON_CONSTANTS_KEY_DIAGRAM_ID,
-                                                 data_diagram_get_row_id( diag_ptr ),
+                                                 data_diagram_get_row( diag_ptr ),
                                                  true
                                                );
 
@@ -1292,7 +1292,7 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  6,
                                                  JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID,
-                                                 data_diagramelement_get_row_id( diagramelement_ptr ),
+                                                 data_diagramelement_get_row( diagramelement_ptr ),
                                                  true
                                                );
 

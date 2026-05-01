@@ -101,7 +101,7 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
                                                               &((*this_).private_temp_classifier),
                                                               &out_info
                                                             );
-        *out_classifier_id = data_classifier_get_row_id( &((*this_).private_temp_classifier) );
+        *out_classifier_id = data_classifier_get_row( &((*this_).private_temp_classifier) );
         ctrl_multi_step_changer_destroy( &multi_stepper );
     }
 

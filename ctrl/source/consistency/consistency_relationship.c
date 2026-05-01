@@ -52,7 +52,7 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
     if ( ! new_diagram_shows_rel )
     {
         *out_deleted_relationships = 0;
-        const data_row_t diagram_id = data_diagram_get_row_id( updated_diagram );
+        const data_row_t diagram_id = data_diagram_get_row( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
         data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
@@ -65,7 +65,7 @@ u8_error_t consistency_relationship_delete_invisibles_in_diagram( consistency_re
             {
                 data_diagramelement_t diagelement_buf;
                 result |= data_diagramelement_iterator_next( &diagramelement_iterator, &diagelement_buf );
-                const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( &diagelement_buf );
+                const data_row_t classifier_id = data_diagramelement_get_classifier_row( &diagelement_buf );
                 int32_t deleted_relationships;
                 result |= consistency_relationship_delete_invisibles_at_classifier( this_, classifier_id, &deleted_relationships );
                 *out_deleted_relationships += deleted_relationships;
@@ -142,7 +142,7 @@ u8_error_t consistency_relationship_delete_invisibles_at_classifier( consistency
         assert( data_id_get_table( &delete_rel ) == DATA_TABLE_RELATIONSHIP );
         const u8_error_t del_err
             = ctrl_classifier_controller_delete_relationship( (*this_).clfy_ctrl,
-                                                              data_id_get_row_id( &delete_rel ),
+                                                              data_id_get_row( &delete_rel ),
                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                             );
         *out_deleted_relationships += ( del_err == U8_ERROR_NONE ) ? 1 : 0;
@@ -164,7 +164,7 @@ u8_error_t consistency_relationship_private_is_shown_by_a_diagram( consistency_r
     assert( NULL != out_result );
     u8_error_t result = U8_ERROR_NONE;
 
-    const data_row_t relationship_id = data_relationship_get_row_id( relation );
+    const data_row_t relationship_id = data_relationship_get_row( relation );
     bool a_diagram_shows_uncond_relationship = false;  /* tells if a diagram is found where unconditional relationships are visible */
     bool a_diagram_shows_scenario_relationship = false;  /* tells if a diagram is found where scenario relationships are visible */
 

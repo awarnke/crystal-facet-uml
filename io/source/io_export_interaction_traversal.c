@@ -67,7 +67,7 @@ u8_error_t io_export_interaction_traversal_iterate_classifier_occurrences ( io_e
     data_small_set_init( &out_showing_diagram_ids );
     {
         write_err = data_database_reader_get_diagram_ids_by_classifier_id ( (*this_).db_reader,
-                                                                            data_id_get_row_id( &classifier_id ),
+                                                                            data_id_get_row( &classifier_id ),
                                                                             &out_showing_diagram_ids
                                                                           );
         if( write_err == U8_ERROR_NONE )
@@ -111,7 +111,7 @@ u8_error_t io_export_interaction_traversal_private_walk_diagram ( io_export_inte
         /* load data to be drawn */
         data_visible_set_init( (*this_).input_data );
         write_err = data_visible_set_load( (*this_).input_data,
-                                           data_id_get_row_id( &diagram_id ),
+                                           data_id_get_row( &diagram_id ),
                                            (*this_).db_reader
                                          );
         if( write_err != U8_ERROR_NONE )
@@ -133,7 +133,7 @@ u8_error_t io_export_interaction_traversal_private_walk_diagram ( io_export_inte
 
         if ( is_interaction_type )
         {
-            U8_TRACE_INFO_INT("exporting diagram as interaction, id:",data_diagram_get_row_id(diag_ptr));
+            U8_TRACE_INFO_INT("exporting diagram as interaction, id:",data_diagram_get_row(diag_ptr));
 
             /* add this classifier to the already written elements */
             write_err |= universal_array_list_append( (*this_).written_id_set, &diagram_id );
@@ -187,7 +187,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_diagram_classifiers (
             const data_classifier_t *classifier;
             classifier = data_visible_classifier_get_classifier_const( visible_classifier );
             const data_id_t classifier_id = data_classifier_get_data_id(classifier);
-            U8_TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
+            U8_TRACE_INFO_INT( "printing classifier with id", data_id_get_row( &classifier_id ) );
             const data_diagramelement_t *diagele;
             diagele = data_visible_classifier_get_diagramelement_const( visible_classifier );
             const data_id_t focused_feature_id = data_diagramelement_get_focused_feature_data_id( diagele );
@@ -255,7 +255,7 @@ u8_error_t io_export_interaction_traversal_private_look_for_focused_feature ( io
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_FEATURE == data_id_get_table( &focused_feature_id ) );
-    assert( DATA_ROW_VOID != data_id_get_row_id( &focused_feature_id) );
+    assert( DATA_ROW_VOID != data_id_get_row( &focused_feature_id) );
     assert( fake_interaction != NULL );
     u8_error_t write_err = U8_ERROR_NONE;
 
@@ -275,7 +275,7 @@ u8_error_t io_export_interaction_traversal_private_look_for_focused_feature ( io
             {
                 const bool is_visible = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                            diagram_data,
-                                                                           data_feature_get_row_id( feature )
+                                                                           data_feature_get_row( feature )
                                                                          );
                 const bool is_lifeline
                     =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
@@ -283,7 +283,7 @@ u8_error_t io_export_interaction_traversal_private_look_for_focused_feature ( io
                 if ( is_visible && is_lifeline )
                 {
                     const data_classifier_t *const parent_classifier
-                        = data_visible_set_get_classifier_by_id_const( diagram_data, data_feature_get_classifier_row_id( feature ));
+                        = data_visible_set_get_classifier_by_id_const( diagram_data, data_feature_get_classifier_row( feature ));
                     if ( parent_classifier != NULL )
                     {
                         /* add the lifeline to the duplicates list */
@@ -321,7 +321,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_feature_relationships
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
-    assert( DATA_ROW_VOID != data_id_get_row_id( &from_classifier_id) );
+    assert( DATA_ROW_VOID != data_id_get_row( &from_classifier_id) );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all relationships */
@@ -343,7 +343,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_feature_relationships
                 const data_id_t relation_id = data_relationship_get_data_id( relation );
                 const bool is_visible = data_rules_diagram_shows_relationship( &((*this_).filter_rules),
                                                                                diagram_data,
-                                                                               data_id_get_row_id( &relation_id )
+                                                                               data_id_get_row( &relation_id )
                                                                              );
 
                 const bool is_relationship_compliant_here
@@ -415,7 +415,7 @@ u8_error_t io_export_interaction_traversal_private_fake_interaction( io_export_i
     assert( data_diagram_is_valid( interaction_diagram ) );
     u8_error_t write_err = U8_ERROR_NONE;
 
-    data_classifier_set_row_id( out_fake_classifier, 1000000 + data_diagram_get_row_id( interaction_diagram ) );
+    data_classifier_set_row( out_fake_classifier, 1000000 + data_diagram_get_row( interaction_diagram ) );
     data_classifier_set_main_type( out_fake_classifier, DATA_CLASSIFIER_TYPE_INTERACTION );
     write_err |= data_classifier_set_stereotype( out_fake_classifier, "" );
     write_err |= data_classifier_set_name( out_fake_classifier, data_diagram_get_name_const( interaction_diagram ) );
@@ -440,7 +440,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_node_features( io_exp
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* get parent classifier if */
-    const data_row_t classifier_id = data_classifier_get_row_id( parent_classifier );
+    const data_row_t classifier_id = data_classifier_get_row( parent_classifier );
 
     /* iterate over all features */
     const uint32_t count = data_visible_set_get_feature_count ( diagram_data );
@@ -454,7 +454,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_node_features( io_exp
             const bool is_lifeline
                 =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
             const bool is_child
-                =( classifier_id == data_feature_get_classifier_row_id( feature ) );
+                =( classifier_id == data_feature_get_classifier_row( feature ) );
 
             if (( ! is_lifeline )&&( is_child ))
             {

@@ -58,7 +58,7 @@ void pencil_feature_painter_draw( pencil_feature_painter_t *this_,
 
     if ( data_feature_is_valid( the_feature ) )
     {
-        U8_TRACE_INFO_INT("drawing feature id", data_feature_get_row_id( the_feature ) );
+        U8_TRACE_INFO_INT("drawing feature id", data_feature_get_row( the_feature ) );
 
         /* select color */
         GdkRGBA foreground_color;

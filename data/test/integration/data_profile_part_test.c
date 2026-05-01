@@ -205,7 +205,7 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
             const utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "Any-Blue-Item" );
             const data_classifier_t *const classifier
                 = data_profile_part_get_stereotype_by_name_const( &profile, &stereotype_name );
-            TEST_EXPECT_EQUAL_INT( stereotype_id, data_classifier_get_row_id( classifier ) );
+            TEST_EXPECT_EQUAL_INT( stereotype_id, data_classifier_get_row( classifier ) );
 
             /* check that trace can be called and that it finishes */
             data_profile_part_trace( &profile );

@@ -64,8 +64,8 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ );
  *  \param diagram_id id of the diagram where the new classifier shall appear
  *  \param x_order x order where the new classifier shall be located
  *  \param y_order y order where the new classifier shall be located
- *  \param out_diagramelement_id row_id of the newly created diagramelement
- *  \param out_classifier_id row_id of the newly created classifier
+ *  \param out_diagramelement_id row of the newly created diagramelement
+ *  \param out_classifier_id row of the newly created classifier
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE_NAME in case of error
  */
 u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
@@ -84,9 +84,9 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
  *  \param parent_classifier_id id of the parent classifier of the new classifier
  *  \param x_order x order where the new classifier shall be located
  *  \param y_order y order where the new classifier shall be located
- *  \param out_diagramelement_id row_id of the newly created diagramelement
- *  \param out_classifier_id row_id of the newly created classifier
- *  \param out_relationship_id row_id of the newly created relationship
+ *  \param out_diagramelement_id row of the newly created diagramelement
+ *  \param out_classifier_id row of the newly created classifier
+ *  \param out_relationship_id row of the newly created relationship
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE_NAME in case of error
  */
 u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
@@ -105,7 +105,7 @@ u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_obj
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear. DATA_ROW_VOID if a root diagram shall be created.
  *  \param list_order order of the new diagram
- *  \param out_diagram_id row_id of the newly created diagram
+ *  \param out_diagram_id row of the newly created diagram
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
@@ -124,7 +124,7 @@ u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_
  *  \param to_classifier_id id of the classifier where the new relationship shall end at
  *  \param to_feature_id optional id of the feature where the new relationship shall end at; alternatively DATA_ROW_VOID
  *  \param list_order order where the new relationship shall be located
- *  \param out_relationship_id row_id of the newly created relationship
+ *  \param out_relationship_id row of the newly created relationship
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
@@ -145,7 +145,7 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
  *  \param parent_classifier_id id of the parent classifier where the new feature shall appear
  *  \param std_list_order order where the new feature shall be located, if not a port
  *  \param port_list_order order where the new feature shall be located, if a port
- *  \param out_feature_id row_id of the newly created feature
+ *  \param out_feature_id row of the newly created feature
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE_NAME in case of error
  */
 u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,

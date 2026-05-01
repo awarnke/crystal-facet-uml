@@ -313,7 +313,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
                                                           &diagram
                                                         );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 7, data_diagram_get_row_id( &diagram ) );
+    TEST_EXPECT_EQUAL_INT( 7, data_diagram_get_row( &diagram ) );
 
     /* test 2 */
     data_diagram_iterator_t diagram_iterator;
@@ -384,7 +384,7 @@ static test_case_result_t test_search_diagramelements( test_fixture_t *fix )
                                                                 &out_diagramelement
                                                               );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
+    TEST_EXPECT_EQUAL_INT( 133, data_diagramelement_get_row( &out_diagramelement ) );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -405,7 +405,7 @@ static test_case_result_t test_search_classifiers( test_fixture_t *fix )
                                                             &out_classifier
                                                           );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row( &out_classifier ) );
 
     /* test 2 */
     data_visible_classifier_iterator_t visible_classifier_iterator;
@@ -432,7 +432,7 @@ static test_case_result_t test_search_classifiers( test_fixture_t *fix )
                                                             &out_classifier
                                                           );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row( &out_classifier ) );
 
     /* test 4 */
     data_err = data_database_reader_get_classifier_by_name( &((*fix).db_reader),
@@ -459,7 +459,7 @@ static test_case_result_t test_search_features( test_fixture_t *fix )
                                                           &feature_0
                                                         );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 18, data_feature_get_row_id( &feature_0 ) );
+    TEST_EXPECT_EQUAL_INT( 18, data_feature_get_row( &feature_0 ) );
 
     /* test 2 */
     {
@@ -522,7 +522,7 @@ static test_case_result_t test_search_relationships( test_fixture_t *fix )
                                                                &relationship_0
                                                              );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 34, data_relationship_get_row_id( &relationship_0 ) );
+    TEST_EXPECT_EQUAL_INT( 34, data_relationship_get_row( &relationship_0 ) );
 
     /* test 2 */
     {
@@ -585,14 +585,14 @@ static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix )
     TEST_EXPECT( has_next );
     data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row( &out_classifier ) );
 
     /* test the iterator, step 2 */
     has_next = data_classifier_iterator_has_next( &classifier_iterator );
     TEST_EXPECT( has_next );
     data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-    TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row( &out_classifier ) );
 
     /* test the iterator, step 3 */
     has_next = data_classifier_iterator_has_next( &classifier_iterator );

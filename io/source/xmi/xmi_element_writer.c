@@ -1242,7 +1242,7 @@ u8_error_t xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_
     {
         host_id = data_classifier_get_data_id( host );
         host_type = data_classifier_get_main_type( host );
-        host_is_source = ( data_classifier_get_row_id( from_c ) == data_classifier_get_row_id( host ) );
+        host_is_source = ( data_classifier_get_row( from_c ) == data_classifier_get_row( host ) );
     }
 
     const u8_error_t export_err

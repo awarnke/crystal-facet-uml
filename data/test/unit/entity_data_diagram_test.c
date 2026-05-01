@@ -56,11 +56,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     /* sub test case 0 */
     data_diagram_init_empty( &testee );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row( &testee ) );
     const char* uuid_0 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_0 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_0 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_description_const( &testee ) );
@@ -81,11 +81,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_1, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row( &testee ) );
     const char* uuid_1 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
-    TEST_EXPECT_EQUAL_INT( 3, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 3, data_diagram_get_parent_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "stereo", data_diagram_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "name", data_diagram_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "description", data_diagram_get_description_const( &testee ) );
@@ -106,11 +106,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row( &testee ) );
     const char* uuid_2 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_2 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
-    TEST_EXPECT_EQUAL_INT( 1001, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_diagram_get_parent_row( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_stereotype_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_name_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_description_const( &testee ), "too long text" ) );
@@ -124,7 +124,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     const char* uuid_3 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_3 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_3 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_description_const( &testee ) );
@@ -147,8 +147,8 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                            );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, result_4, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 1234, data_diagram_get_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 990, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1234, data_diagram_get_row( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 990, data_diagram_get_parent_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_diagram_get_uuid_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "stereo", data_diagram_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "value", data_diagram_get_name_const( &testee ) );
@@ -172,9 +172,9 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                            );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 12345, data_diagram_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 12345, data_diagram_get_row( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_diagram_get_uuid_const( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 991, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 991, data_diagram_get_parent_row( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_stereotype_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_name_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_description_const( &testee ), "too long text" ) );
@@ -203,12 +203,12 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* function call is possible, function returns */
 
     /* sub test case 2 */
-    data_diagram_set_row_id( &testee, 478 );
-    const data_row_t row_id = data_diagram_get_row_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, row_id );
+    data_diagram_set_row( &testee, 478 );
+    const data_row_t row = data_diagram_get_row( &testee );
+    TEST_EXPECT_EQUAL_INT( 478, row );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( &testee ) );
     const data_id_t data_id = data_diagram_get_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row_id( &data_id ) );
+    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row( &data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &data_id ) );
 
     /* sub test case 3 */
@@ -267,10 +267,10 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT( utf8string_starts_with_str( data_diagram_get_description_const( &testee ), "too long text" ) );
 
     /* sub test case 12 */
-    data_diagram_set_parent_row_id( &testee, 1006 );
-    TEST_EXPECT_EQUAL_INT( 1006, data_diagram_get_parent_row_id( &testee ) );
+    data_diagram_set_parent_row( &testee, 1006 );
+    TEST_EXPECT_EQUAL_INT( 1006, data_diagram_get_parent_row( &testee ) );
     const data_id_t p_data_id = data_diagram_get_parent_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 1006, data_id_get_row_id( &p_data_id ) );
+    TEST_EXPECT_EQUAL_INT( 1006, data_id_get_row( &p_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &p_data_id ) );
 
     /* sub test case 13 */

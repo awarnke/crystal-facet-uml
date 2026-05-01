@@ -351,7 +351,7 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                        data_classifier_set_row_id ( out_object, parsed_integer );
+                        data_classifier_set_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_TYPE_ID ) )
@@ -520,7 +520,7 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                        data_diagram_set_row_id ( out_object, parsed_integer );
+                        data_diagram_set_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID ) )
                     {
@@ -684,7 +684,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                        data_relationship_set_row_id ( out_object, parsed_integer );
+                        data_relationship_set_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_TYPE_ID ) )
@@ -730,7 +730,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                        data_relationship_set_from_classifier_row_id ( out_object, parsed_integer );
+                        data_relationship_set_from_classifier_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_NAME ) )
@@ -742,7 +742,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                        data_relationship_set_from_feature_row_id ( out_object, parsed_integer );
+                        data_relationship_set_from_feature_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_PORT_NAME ) )
@@ -754,7 +754,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                        data_relationship_set_to_classifier_row_id ( out_object, parsed_integer );
+                        data_relationship_set_to_classifier_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_NAME ) )
@@ -766,7 +766,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                        data_relationship_set_to_feature_row_id ( out_object, parsed_integer );
+                        data_relationship_set_to_feature_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_PORT_NAME ) )
@@ -1024,7 +1024,7 @@ u8_error_t json_element_reader_get_next_feature ( json_element_reader_t *this_, 
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                        data_feature_set_row_id ( out_object, parsed_integer );
+                        data_feature_set_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_TYPE_ID ) )
@@ -1154,19 +1154,19 @@ u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *t
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                        data_diagramelement_set_row_id ( out_object, parsed_integer );
+                        data_diagramelement_set_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DIAGRAM_ID ) )
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value( &((*this_).tokenizer), &parsed_integer );
-                        data_diagramelement_set_diagram_row_id( out_object, parsed_integer );
+                        data_diagramelement_set_diagram_row( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID ) )
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                        data_diagramelement_set_classifier_row_id ( out_object, parsed_integer );
+                        data_diagramelement_set_classifier_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME )
                         || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE_NAME ) )
@@ -1177,7 +1177,7 @@ u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *t
                     {
                         int64_t parsed_integer;
                         result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
-                        data_diagramelement_set_focused_feature_row_id ( out_object, parsed_integer );
+                        data_diagramelement_set_focused_feature_row ( out_object, parsed_integer );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME ) )
                     {

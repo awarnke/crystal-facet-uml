@@ -51,7 +51,7 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature
 
     if ( ! new_diagram_shows_feature )
     {
-        const data_row_t diagram_id = data_diagram_get_row_id( updated_diagram );
+        const data_row_t diagram_id = data_diagram_get_row( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
         data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
@@ -63,7 +63,7 @@ u8_error_t consistency_feature_delete_invisibles_in_diagram( consistency_feature
             while ( data_diagramelement_iterator_has_next( &diagramelement_iterator ) )
             {
                 result |= data_diagramelement_iterator_next( &diagramelement_iterator, &((*this_).temp_diagramelement_buf) );
-                const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( &((*this_).temp_diagramelement_buf) );
+                const data_row_t classifier_id = data_diagramelement_get_classifier_row( &((*this_).temp_diagramelement_buf) );
                 result |= consistency_feature_delete_invisibles_of_classifier( this_, classifier_id, io_stat );
             }
         }
@@ -125,7 +125,7 @@ u8_error_t consistency_feature_delete_invisibles_of_classifier( consistency_feat
                 const bool feature_is_scenario = data_rules_feature_is_scenario_cond( &((*this_).rules), feature_type );
                 if ( ! feature_is_scenario )
                 {
-                    const data_row_t feature_id = data_feature_get_row_id( &((*this_).temp_feature_buf) );
+                    const data_row_t feature_id = data_feature_get_row( &((*this_).temp_feature_buf) );
                     result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
                                                                          feature_id,
                                                                          CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
