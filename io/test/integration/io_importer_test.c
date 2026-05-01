@@ -766,7 +766,10 @@ static test_case_result_t insert_unconditional_relationships( test_fixture_t *fi
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        /* both relationships have id 25 --> U8_ERROR_DUPLICATE_ID causes a warning */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING ) );
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_table_count( &stat, DATA_STAT_TABLE_RELATIONSHIP ) );
+        TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( 67, u8_error_info_get_line( &read_pos ) );
@@ -904,7 +907,9 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_FEATURE ) );
         /* DATA_TABLE_RELATIONSHIP: source+dst classifier are a lifeline */
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count( &stat ) );
+        /* both relationships have id 25 --> U8_ERROR_DUPLICATE_ID causes a warning */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING ) );
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( 34, u8_error_info_get_line( &read_pos ) );

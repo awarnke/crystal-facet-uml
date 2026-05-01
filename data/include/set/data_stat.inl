@@ -21,6 +21,12 @@ static inline void data_stat_init ( data_stat_t *this_ )
     }
 }
 
+static inline void data_stat_reinit ( data_stat_t *this_ )
+{
+    data_stat_destroy( this_ );
+    data_stat_init( this_ );
+}
+
 static inline void data_stat_destroy ( data_stat_t *this_ )
 {
 }

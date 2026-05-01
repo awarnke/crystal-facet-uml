@@ -138,6 +138,9 @@
                             Exports all diagrams to the selected folder.
                             Supported export formats are docbook, html, json, pdf, png, ps, svg, txt, xmi.
                         </para>
+                        <para>
+                            Previously existing files in the selected folder are overwritten.
+                        </para>
                     </listitem>
                 </itemizedlist>
             </para>

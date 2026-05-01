@@ -110,11 +110,14 @@ void io_import_elements_destroy( io_import_elements_t *this_ )
     data_rules_destroy ( &((*this_).data_rules) );
 
     /* update the stats */
+#if 0
     const u8_error_t overfull = ctrl_multi_step_changer_collect_statistics( &((*this_).multi_step_changer), (*this_).stat );
     if ( overfull != U8_ERROR_NONE )
     {
         U8_TRACE_INFO("U8_ERROR_ARRAY_BUFFER_EXCEEDED at ctrl_multi_step_changer_collect_statistics!");
     }
+#endif
+    /* keep the stats */
 
     ctrl_multi_step_changer_destroy( &((*this_).multi_step_changer) );
 
@@ -208,10 +211,13 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                                              &((*this_).temp_diagram),
                                                              &modified_info
                                                            );
-        if ( sync_error != U8_ERROR_NONE )
+        if ( sync_error == U8_ERROR_NONE )
+        {
+            data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED );
+        }
+        else
         {
             data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
-            /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
         }
         if ( U8_ERROR_NONE != sync_error )
         {
@@ -285,11 +291,15 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                                                  &((*this_).temp_diagram),
                                                                  &modified_info
                                                                );
-            if ( sync_error != U8_ERROR_NONE )
+            if ( sync_error == U8_ERROR_NONE )
+            {
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED );
+            }
+            else
             {
                 data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
-                /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
             }
+
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
                 /* warn on changed diagram ids. This is important because links in description texts may be affected. */
@@ -468,20 +478,25 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                                                          &modified_info,
                                                                          &created_lifeline
                                                                        );
-            if ( sync_error != U8_ERROR_NONE )
+            if ( sync_error == U8_ERROR_NONE )
             {
-                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
-                /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED );
+                if ( data_id_is_valid( &created_lifeline ) )
+                {
+                    data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED );
+                }
             }
-            if ( sync_error != U8_ERROR_NONE )
+            else
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
             }
             (void) created_lifeline;  /* currently unused */
 
             /* write report in case of anomalies */
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
                 io_import_elements_private_report_id_differs( this_,
                                                               data_diagramelement_get_data_id( diagramelement_ptr ),
                                                               data_diagramelement_get_data_id( &((*this_).temp_diagramelement ) )
@@ -523,14 +538,18 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
                                                                     &modified_info,
                                                                     &created_lifeline
                                                                   );
-        if ( sync_error != U8_ERROR_NONE )
+        if ( sync_error == U8_ERROR_NONE )
         {
-            data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
-            /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
+            data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED );
+            if ( data_id_is_valid( &created_lifeline ) )
+            {
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED );
+            }
         }
-        if ( sync_error != U8_ERROR_NONE )
+        else
         {
             U8_LOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
+            data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
         }
         (void) created_lifeline;  /* currently unused */
 
@@ -589,25 +608,21 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                                                     &((*this_).temp_classifier ),
                                                                     &modified_info
                                                                   );
-            if ( sync_error != U8_ERROR_NONE )
+            if ( sync_error == U8_ERROR_NONE )
             {
-                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
-                /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED );
             }
-            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_NAME ) )
-            {
-                /* warn on changed classifier names. */
-                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
-            }
-
-            if ( sync_error != U8_ERROR_NONE )
+            else
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_classifier_controller_create_classifier/feature" );
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
             }
 
             /* write report in case of anomalies */
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
+                /* warn on changed classifier ids. */
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
                 io_import_elements_private_report_id_differs( this_,
                                                               data_classifier_get_data_id( classifier_ptr ),
                                                               data_classifier_get_data_id( &((*this_).temp_classifier ) )
@@ -615,6 +630,8 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
             }
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_NAME ) )
             {
+                /* warn on changed classifier names. */
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
                 io_import_elements_private_report_name_differs( this_,
                                                                 data_classifier_get_name_const( classifier_ptr ),
                                                                 data_classifier_get_name_const( &((*this_).temp_classifier ) )
@@ -757,6 +774,13 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                                        );
                     sync_error |= create_err;
                 }
+                else
+                {
+                    data_stat_inc_count( (*this_).stat,
+                                         is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
+                                         DATA_STAT_SERIES_CREATED
+                                       );
+                }
                 if ( sync_error != U8_ERROR_NONE )
                 {
                     U8_LOG_ERROR( "unexpected error at ctrl_classifier_controller_create_feature" );
@@ -765,6 +789,10 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                 /* write report in case of anomalies */
                 if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
                 {
+                    data_stat_inc_count( (*this_).stat,
+                                         is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
+                                         DATA_STAT_SERIES_WARNING
+                                       );
                     io_import_elements_private_report_id_differs( this_,
                                                                   data_feature_get_data_id( feature_ptr ),
                                                                   data_feature_get_data_id( &((*this_).temp_feature ) )
@@ -983,18 +1011,18 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
             else if ( create_err != U8_ERROR_NONE )
             {
                 U8_LOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                 sync_error |= create_err;
             }
-            /* update statistics */
-            if ( sync_error != U8_ERROR_NONE )
+            else
             {
-                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
-                /* Note: DATA_STAT_SERIES_CREATED is counted by ctrl_multi_step_changer_collect_statistics() */
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED );
             }
 
             /* write report in case of anomalies */
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                 io_import_elements_private_report_id_differs( this_,
                                                               data_relationship_get_data_id( relation_ptr ),
                                                               data_relationship_get_data_id( &((*this_).temp_relationship ) )
@@ -1045,25 +1073,6 @@ void io_import_elements_private_report_name_differs( io_import_elements_t *this_
     }
 
     U8_TRACE_END();
-}
-
-u8_error_t io_import_elements_private_collect_statistics ( io_import_elements_t *this_, data_stat_t *io_stat )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != io_stat );
-
-    /* update the stats from undo redo */
-    const u8_error_t overfull = ctrl_multi_step_changer_collect_statistics( &((*this_).multi_step_changer), io_stat );
-    if ( overfull != U8_ERROR_NONE )
-    {
-        U8_TRACE_INFO("U8_ERROR_ARRAY_BUFFER_EXCEEDED at ctrl_multi_step_changer_collect_statistics!");
-    }
-
-    /* add own stats */
-    data_stat_add( io_stat, (*this_).stat );
-
-    U8_TRACE_END_ERR( overfull );
-    return overfull;
 }
 
 

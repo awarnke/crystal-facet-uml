@@ -51,9 +51,6 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
     }
     else
     {
-#ifndef NDEBUG
-        data_stat_t initial = *io_stat;
-#endif
         ctrl_classifier_controller_t *const classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
         ctrl_diagram_controller_t *const diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
@@ -309,49 +306,6 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                 break;
             }
         }
-
-        /* update statistics based on undo redo list */
-#ifndef NDEBUG
-        data_stat_t double_check;
-        data_stat_init( &double_check );
-        ctrl_undo_redo_iterator_t iter;
-        ctrl_undo_redo_iterator_init_empty( &iter );
-        result |= ctrl_controller_get_undo_iterator( (*this_).controller, &iter );
-        ctrl_undo_redo_iterator_collect_statistics( &iter, false /* NOT categorize as undo */, &double_check );
-        ctrl_undo_redo_iterator_destroy( &iter );
-
-        data_stat_trace( &initial );
-        data_stat_trace( &double_check );
-        data_stat_trace( io_stat );
-
-        const int32_t data_features_1
-            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED );
-        const int32_t data_features_2
-            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED );
-        U8_TRACE_INFO_INT_INT( "data vs consistency features", data_features_1, data_features_2 );
-        assert( data_features_1 == data_features_2 );
-        const int32_t data_relationships_1
-            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED );
-        const int32_t data_relationships_2
-            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED );
-        U8_TRACE_INFO_INT_INT( "data vs consistency relationships", data_relationships_1, data_relationships_2 );
-        assert( data_relationships_1 == data_relationships_2 );
-        const int32_t data_lifelines_1
-            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED );
-        const int32_t data_lifelines_2
-            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED );
-        U8_TRACE_INFO_INT_INT( "data vs consistency lifelines", data_lifelines_1, data_lifelines_2 );
-        assert( data_lifelines_1 == data_lifelines_2 );
-        const int32_t data_classifiers_1
-            = - data_stat_get_count( io_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED );
-        const int32_t data_classifiers_2
-            = - data_stat_get_count( &double_check, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED );
-        U8_TRACE_INFO_INT_INT( "data vs consistency classifiers", data_classifiers_1, data_classifiers_2 );
-        assert( data_classifiers_1 == data_classifiers_2 );
-
-        data_stat_destroy( &double_check );
-        data_stat_destroy( &initial );
-#endif
     }
 
     U8_TRACE_END_ERR( result );
@@ -786,30 +740,6 @@ u8_error_t ctrl_multi_step_changer_private_propose_classifier_name ( ctrl_multi_
 
     U8_TRACE_END_ERR( result );
     return result;
-}
-
-/* ================================ get statistics ================================ */
-
-u8_error_t ctrl_multi_step_changer_collect_statistics( ctrl_multi_step_changer_t *this_, data_stat_t *io_stat )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t err = U8_ERROR_NONE;
-
-    if ( (*this_).is_first_step == CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND )
-    {
-        /* if at least one item was added to the undo redo list, the statistics can be collected from there */
-        ctrl_undo_redo_iterator_t undo_iterator;
-        ctrl_undo_redo_iterator_init_empty( &undo_iterator );
-        err = ctrl_controller_get_undo_iterator( (*this_).controller, &undo_iterator );
-        if ( err == U8_ERROR_NONE )
-        {
-            ctrl_undo_redo_iterator_collect_statistics( &undo_iterator, false /* undo */, io_stat );
-        }
-        ctrl_undo_redo_iterator_destroy( &undo_iterator );
-    }
-
-    U8_TRACE_END_ERR( err );
-    return err;
 }
 
 

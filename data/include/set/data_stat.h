@@ -65,6 +65,13 @@ typedef struct data_stat_struct data_stat_t;
 static inline void data_stat_init ( data_stat_t *this_ );
 
 /*!
+ *  \brief re-initializes an already initialized data_stat_t struct.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_stat_reinit ( data_stat_t *this_ );
+
+/*!
  *  \brief destroys the data_stat_t struct
  *
  *  \param this_ pointer to own object attributes
