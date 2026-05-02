@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.0"
+    "generator_version": "1.70.2"
   }
   ,
   "views":
@@ -7165,6 +7165,18 @@
             ],
             "list_order": 118900,
             "uuid": "17a21af5-4440-453b-b8f6-0150bcee57c3"
+          },
+          {
+            "id": 108,
+            "type": "Property", "main_type": 0,
+            "key": "Ownership/BorrowChecker",
+            "value": "Rust",
+            "description": [
+                "Rust comes with build-in concepts\n",
+                "that guarantee a single owner of mutable data."
+            ],
+            "list_order": 151668,
+            "uuid": "115206d9-b1b4-40c1-a9d6-10a8be1af456"
           }
         ]
       }

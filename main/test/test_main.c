@@ -35,6 +35,7 @@
 #include "integration/consistency_lifeline_test.h"
 #include "integration/consistency_relationship_test.h"
 #include "unit/ctrl_undo_redo_iterator_test.h"
+#include "unit/consistency_stat_test.h"
 /* pencil */
 #include "unit/geometry__test.h"
 #include "unit/geometry_anchor_test.h"
@@ -251,6 +252,7 @@ int main (int argc, char *argv[]) {
 
         /* ctrl */
         test_runner_run_suite( &runner, ctrl_undo_redo_iterator_test_get_suite() );
+        test_runner_run_suite( &runner, consistency_stat_test_get_suite() );
 
         test_runner_run_suite( &runner, ctrl_multi_step_changer_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_suite() );

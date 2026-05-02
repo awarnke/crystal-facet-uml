@@ -108,18 +108,8 @@ void io_import_elements_destroy( io_import_elements_t *this_ )
     assert( NULL != (*this_).english_report );
 
     data_rules_destroy ( &((*this_).data_rules) );
-
-    /* update the stats */
-#if 0
-    const u8_error_t overfull = ctrl_multi_step_changer_collect_statistics( &((*this_).multi_step_changer), (*this_).stat );
-    if ( overfull != U8_ERROR_NONE )
-    {
-        U8_TRACE_INFO("U8_ERROR_ARRAY_BUFFER_EXCEEDED at ctrl_multi_step_changer_collect_statistics!");
-    }
-#endif
-    /* keep the stats */
-
     ctrl_multi_step_changer_destroy( &((*this_).multi_step_changer) );
+    /* do not change the stats here */
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
