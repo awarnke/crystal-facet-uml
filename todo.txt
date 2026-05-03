@@ -19,8 +19,7 @@ ideas for future versions:
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
   [ ] a "saveAs" command should allow to copy the current db
-! [ ] inserting (paste) messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
-      --> this looks very ugly due to an error message pointing to the json input line
+  [ ] pasting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   [?] to pink-mark several objects - require shift key
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.

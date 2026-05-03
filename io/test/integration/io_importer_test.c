@@ -520,17 +520,20 @@ static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixtur
                                              &stat,
                                              &read_pos
                                            );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, data_err, u8_error_get_name ); /* no valid DATA_STAT_TABLE_RELATIONSHIP */
+    /* invalid relationship is counted in statistics, not as error */
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
      /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped, because mode is PASTE to clipboard */
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
-    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING ) );
+    TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ), u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( 63, u8_error_info_get_line( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 67, u8_error_info_get_line( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -593,11 +596,21 @@ static test_case_result_t insert_existing_feature_to_existing_classifier( test_f
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_VALUE_OUT_OF_RANGE, data_err, u8_error_get_name );  /* source of relationship does not exist, no relationship */
-        TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+        /* as in test case insert_new_classifier_to_existing_diagram */
+        /* invalid relationship is counted in statistics, not as error */
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+        /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped, because mode is PASTE to clipboard */
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING ) );
+        TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ), u8_error_get_name );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 63, u8_error_info_get_line( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 67, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }

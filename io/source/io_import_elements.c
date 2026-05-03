@@ -926,11 +926,27 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
             U8_TRACE_INFO( is_scenario ? "relationship in interaction scenario dropped" : "general relationship dropped" );
 
             const bool features_ignored
-                = ( 0 < data_stat_get_count( (*this_).stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
-            if ( features_ignored )
+                = ( 0 < data_stat_get_count( (*this_).stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) )
+                || ( 0 < data_stat_get_count( (*this_).stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_IGNORED ) );
+                if ( features_ignored )
             {
-                U8_TRACE_INFO( "continuing despite illegal relationship because this may be caused by an invisible feature" );
+                U8_TRACE_INFO( "continuing despite illegal relationship because this may be caused by an invisible feature/lifeline" );
                 /* add to ignored and to warning. */
+                /* ignored is needed for correct statistics */
+                /* warning is needed to indicate that this may be different from expectation */
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_STAT_TABLE_RELATIONSHIP,
+                                     DATA_STAT_SERIES_IGNORED
+                                   );
+                data_stat_inc_count( (*this_).stat,
+                                     DATA_STAT_TABLE_RELATIONSHIP,
+                                     DATA_STAT_SERIES_WARNING
+                                   );
+            }
+            else if ( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_F_R )
+            {
+                U8_TRACE_INFO( "continuing despite illegal relationship because this may be caused by incomplete model" );
+                /* add to ignored and warning. */
                 /* ignored is needed for correct statistics */
                 /* warning is needed to indicate that this may be different from expectation */
                 data_stat_inc_count( (*this_).stat,
