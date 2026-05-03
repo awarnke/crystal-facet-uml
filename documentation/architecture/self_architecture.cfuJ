@@ -3167,6 +3167,43 @@
     },
     {
       "diagram": {
+        "id": 137,
+        "type": "Communication Diagram", "diagram_type": 14,
+        "name": "io_importer",
+        "description": [
+                "The importer allows to import data elements from json streams.\n",
+                "In principle also other streams can be supported, but only json is currently ",
+                "implemented."
+        ],
+        "list_order": 1073790975,
+        "parent_name": "io: White Box View",
+        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
+        "uuid": "41c7efc7-b832-423a-8214-24a797f11758",
+        "diagramelements":
+        [
+          {
+            "id": 1054,
+            "classifier_name": "io_importer",
+            "node": "83c66bd9-a5f2-48a8-b488-c1db947a8fab",
+            "uuid": "55580b0d-9094-447e-b15e-51a0eac7ba05"
+          },
+          {
+            "id": 1055,
+            "classifier_name": "io_import_elements",
+            "node": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6",
+            "uuid": "393ea499-8412-4c7f-8af2-09f22ce994d7"
+          },
+          {
+            "id": 1056,
+            "classifier_name": "json_importer",
+            "node": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3",
+            "uuid": "a8d80bb9-a536-4eca-8f17-0b26afb40f7a"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 71,
         "type": "Communication Diagram", "diagram_type": 14,
         "name": "io: Runtime View",
@@ -13178,6 +13215,11 @@
         "uuid": "fcfb422f-51e0-442f-ad0b-92ba43fe0776",
         "features":
         [
+          {
+            "id": 183,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "83c66bd9-a5f2-48a8-b488-c1db947a8fab"
+          }
         ]
       }
     },
@@ -19771,6 +19813,50 @@
         "uuid": "4547aa24-cb97-4069-a750-ec792b7fe745",
         "features":
         [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 621,
+        "type": "Class", "main_type": 125,
+        "name": "io_import_elements",
+        "description": [
+                ""
+        ],
+        "x_order": 252958067,
+        "y_order": -351735656,
+        "list_order": -2099671233,
+        "uuid": "9a530bea-5948-44bd-9629-7e8a670f89ae",
+        "features":
+        [
+          {
+            "id": 184,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 622,
+        "type": "Class", "main_type": 125,
+        "name": "json_importer",
+        "description": [
+                ""
+        ],
+        "x_order": -508533172,
+        "y_order": -1937690613,
+        "list_order": -1937690613,
+        "uuid": "9436826a-1413-474a-b47a-88931f02f4b9",
+        "features":
+        [
+          {
+            "id": 185,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3"
+          }
         ]
       }
     }
@@ -28078,6 +28164,24 @@
     },
     {
       "relationship": {
+        "id": 1179,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "1. json_importer_import_stream",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "io_importer",
+        "from_feature_key": "",
+        "from_node": "83c66bd9-a5f2-48a8-b488-c1db947a8fab",
+        "to_classifier_name": "json_importer",
+        "to_feature_key": "",
+        "to_node": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3",
+        "uuid": "b9edf2cc-7d63-4ae2-8467-3f79fdb7c21a"
+      }
+    },
+    {
+      "relationship": {
         "id": 371,
         "type": "Control Flow", "main_type": 240,
         "name": "",
@@ -35227,6 +35331,96 @@
         "to_classifier_name": "All model elements must be visible",
         "to_node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
         "uuid": "2752b832-e70d-421d-9206-041c457d22c2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1180,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "2a. sync_diagram",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "json_importer",
+        "from_feature_key": "",
+        "from_node": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3",
+        "to_classifier_name": "io_import_elements",
+        "to_feature_key": "",
+        "to_node": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6",
+        "uuid": "fef196e9-bc53-41ba-9500-e9fb7697a03d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1181,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "2b. sync_diagramelement",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "json_importer",
+        "from_feature_key": "",
+        "from_node": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3",
+        "to_classifier_name": "io_import_elements",
+        "to_feature_key": "",
+        "to_node": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6",
+        "uuid": "02f47ac0-28d5-4515-893c-7ba5cb121643"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1182,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "2c. sync_classifier",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "json_importer",
+        "from_feature_key": "",
+        "from_node": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3",
+        "to_classifier_name": "io_import_elements",
+        "to_feature_key": "",
+        "to_node": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6",
+        "uuid": "cd3de243-044b-4d8f-8255-85699fe6371d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1183,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "2d. sync_feature (or lifeline)",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "json_importer",
+        "from_feature_key": "",
+        "from_node": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3",
+        "to_classifier_name": "io_import_elements",
+        "to_feature_key": "",
+        "to_node": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6",
+        "uuid": "6bb4be3a-1aee-4629-9a55-d839b3ebbc0d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1184,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "2e. sync_relationship",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "json_importer",
+        "from_feature_key": "",
+        "from_node": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3",
+        "to_classifier_name": "io_import_elements",
+        "to_feature_key": "",
+        "to_node": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6",
+        "uuid": "0b66763a-e950-4272-833d-e1493dd25e0b"
       }
     }
   ]

@@ -1,3 +1,17 @@
+crystal-facet-uml (1.70.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * io_import_elements counts an own statistics again, as in 1.69.0
+  * stats errors and warnings are duplicated:
+    layout_good_cases
+    #Diag=432, total=1666  |  ERR=10, W/C=8,    W/F=5,    W/L=25,   W/R=122
+    layout_challenging_cases
+    #Diag=432, total=13084 |  ERR=85, W/C=9965, W/F=1150, W/L=6921, W/R=12424
+  * only warning instead of error when pasting associations into a box diagram
+  * only warning instead of error when pasting messages into a sequence
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 May 2026 13:00:00 +0200
+
 crystal-facet-uml (1.70.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
