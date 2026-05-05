@@ -451,12 +451,6 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
         utf8stringbuf_append_str( &((*this_).private_temp_str), "Type changed: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
-    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED )
-    {
-        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED" );
-        utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file opened: \n" );
-        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
-    }
     else
     {
         U8_LOG_ERROR("unexptected content_id");
@@ -501,6 +495,14 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
             utf8stringbuf_append_str( &((*this_).private_temp_str), "\nFor details see comments in exported xmi file." );
         }
     }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED )
+    {
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED" );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file opened: \n" );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), list_of_names );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), "\n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
     else
     {
         U8_LOG_ERROR("unexpected content_id");
@@ -514,6 +516,15 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
 
     U8_TRACE_END();
 }
+
+const int GUI_SIMPLE_MESSAGE_TO_USER_STAT_ORDER[ DATA_STAT_TABLE_MAX ] = {
+    DATA_STAT_TABLE_DIAGRAM,
+    DATA_STAT_TABLE_DIAGRAMELEMENT,
+    DATA_STAT_TABLE_CLASSIFIER,
+    DATA_STAT_TABLE_FEATURE,
+    DATA_STAT_TABLE_LIFELINE,
+    DATA_STAT_TABLE_RELATIONSHIP
+};
 
 void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user_t *this_,
                                                       const data_stat_t *stat,
@@ -545,8 +556,9 @@ void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user
             utf8stringbuf_append_str( &out_buf, ": " );
 
             bool first_table = true;
-            for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
+            for ( int tables_run = 0; tables_run < DATA_STAT_TABLE_MAX; tables_run ++ )
             {
+                const int tables_idx = GUI_SIMPLE_MESSAGE_TO_USER_STAT_ORDER[ tables_run ];
                 uint_fast32_t cnt = data_stat_get_count ( stat, tables_idx, series_idx );
                 if ( 0 != cnt )
                 {

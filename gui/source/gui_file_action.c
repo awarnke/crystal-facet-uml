@@ -88,11 +88,12 @@ u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filenam
             const bool warning
                 = 0 < ( data_stat_get_series_count( &stat, DATA_STAT_SERIES_WARNING )
                 + data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
-            gui_simple_message_to_user_show_message_with_stat( (*this_).message_to_user,
-                                                               (warning?GUI_SIMPLE_MESSAGE_TYPE_WARNING:GUI_SIMPLE_MESSAGE_TYPE_INFO),
-                                                               GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED,
-                                                               &stat
-                                                             );
+            gui_simple_message_to_user_show_message_with_names_and_stat( (*this_).message_to_user,
+                                                                         ( warning ? GUI_SIMPLE_MESSAGE_TYPE_WARNING : GUI_SIMPLE_MESSAGE_TYPE_INFO ),
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED,
+                                                                         filename,
+                                                                         &stat
+                                                                       );
             /* gui_simple_message_to_user_hide( (*this_).message_to_user ); */
         }
     }
