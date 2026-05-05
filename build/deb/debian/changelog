@@ -2,7 +2,7 @@ crystal-facet-uml (1.70.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * io_import_elements counts an own statistics again, as in 1.69.0
-  * stats errors and warnings are duplicated:
+  * stats errors and warnings are duplicated unintendedly:
     layout_good_cases
     #Diag=432, total=1666  |  ERR=10, W/C=8,    W/F=5,    W/L=25,   W/R=122
     layout_challenging_cases

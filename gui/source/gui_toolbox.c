@@ -105,7 +105,7 @@ void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
         case GUI_TOOL_NAVIGATE:
         {
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_navigate ), true );
-            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            /* gui_simple_message_to_user_hide( (*this_).message_to_user ); */  /* hiding statusbar should be done at user input - not at setting a tool */
             (*this_).selected_tool = GUI_TOOL_NAVIGATE;
             gui_toolbox_private_notify_listeners( this_ );
         }
@@ -114,7 +114,7 @@ void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
         case GUI_TOOL_EDIT:
         {
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_edit ), true );
-            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            /* gui_simple_message_to_user_hide( (*this_).message_to_user ); */  /* hiding statusbar should be done at user input - not at setting a tool */
             (*this_).selected_tool = GUI_TOOL_EDIT;
             gui_toolbox_private_notify_listeners( this_ );
         }
@@ -123,7 +123,7 @@ void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
         case GUI_TOOL_SEARCH:
         {
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_search ), true );
-            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            /* gui_simple_message_to_user_hide( (*this_).message_to_user ); */  /* hiding statusbar should be done at user input - not at setting a tool */
             (*this_).selected_tool = GUI_TOOL_SEARCH;
             gui_toolbox_private_notify_listeners( this_ );
         }
@@ -132,7 +132,7 @@ void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
         case GUI_TOOL_CREATE:
         {
             gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( (*this_).tool_create ), true );
-            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            /* gui_simple_message_to_user_hide( (*this_).message_to_user ); */  /* hiding statusbar should be done at user input - not at setting a tool */
             (*this_).selected_tool = GUI_TOOL_CREATE;
             gui_toolbox_private_notify_listeners( this_ );
         }

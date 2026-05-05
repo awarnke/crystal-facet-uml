@@ -55,10 +55,12 @@ void io_data_file_destroy ( io_data_file_t *this_ )
 u8_error_t io_data_file_open ( io_data_file_t *this_,
                                const char* requested_file_path,
                                bool read_only,
+                               data_stat_t *io_stat,
                                u8_error_info_t *out_err_info )
 {
     U8_TRACE_BEGIN();
     assert( requested_file_path != NULL );
+    assert( io_stat != NULL );
     assert( out_err_info != NULL );
     u8_error_info_init_void( out_err_info );
     const utf8stringview_t req_file_path = UTF8STRINGVIEW_STR(requested_file_path);
@@ -198,7 +200,11 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             else
             {
                 /* import */
-                err |= io_data_file_private_import( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ), out_err_info );
+                err |= io_data_file_private_import( this_,
+                                                    utf8stringbuf_get_string( &((*this_).data_file_name) ),
+                                                    io_stat,
+                                                    out_err_info
+                                                  );
 
                 if ( err != U8_ERROR_NONE )
                 {
@@ -448,10 +454,14 @@ u8_error_t io_data_file_private_guess_db_type ( const io_data_file_t *this_, con
     return scan_head_error;
 }
 
-u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file, u8_error_info_t *out_err_info )
+u8_error_t io_data_file_private_import( io_data_file_t *this_,
+                                        const char *src_file,
+                                        data_stat_t *io_stat,
+                                        u8_error_info_t *out_err_info )
 {
     U8_TRACE_BEGIN();
     assert( src_file != NULL );
+    assert( io_stat != NULL );
     assert( out_err_info != NULL );
     u8_error_info_init_void( out_err_info );
     u8_error_t import_err = U8_ERROR_NONE;
@@ -468,11 +478,8 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
         static io_importer_t importer;
         io_importer_init( &importer, &db_reader, &((*this_).controller) );
         {
-            data_stat_t import_stat;
-            data_stat_init ( &import_stat );
-            import_err = io_importer_import_file( &importer, IO_IMPORT_MODE_IMPORT, src_file, &import_stat, out_err_info, &out_null );
-            data_stat_trace( &import_stat );
-            data_stat_destroy ( &import_stat );
+            import_err = io_importer_import_file( &importer, IO_IMPORT_MODE_IMPORT, src_file, io_stat, out_err_info, &out_null );
+            data_stat_trace( io_stat );
         }
         io_importer_destroy( &importer );
         data_database_reader_destroy( &db_reader );
@@ -488,7 +495,7 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
     return import_err;
 }
 
-u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_file )
+u8_error_t io_data_file_private_export( io_data_file_t *this_, const char *dst_file )
 {
     U8_TRACE_BEGIN();
     assert( dst_file != NULL );

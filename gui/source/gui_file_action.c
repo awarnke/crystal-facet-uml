@@ -67,7 +67,9 @@ u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filenam
     }
 
     u8_error_info_t err_info;
-    const u8_error_t error = io_data_file_open_writeable ( (*this_).data_file, filename, &err_info );
+    data_stat_t stat;
+    data_stat_init( &stat );
+    const u8_error_t error = io_data_file_open_writeable ( (*this_).data_file, filename, &stat, &err_info );
 
     if ( U8_ERROR_NONE == error )
     {
@@ -83,7 +85,15 @@ u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filenam
         /* remove the loading message if not overwritten: */
         if ( GUI_SIMPLE_MESSAGE_TYPE_INFO == gui_simple_message_to_user_get_type_id( (*this_).message_to_user ) )
         {
-            gui_simple_message_to_user_hide( (*this_).message_to_user );
+            const bool warning
+                = 0 < ( data_stat_get_series_count( &stat, DATA_STAT_SERIES_WARNING )
+                + data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
+            gui_simple_message_to_user_show_message_with_stat( (*this_).message_to_user,
+                                                               (warning?GUI_SIMPLE_MESSAGE_TYPE_WARNING:GUI_SIMPLE_MESSAGE_TYPE_INFO),
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED,
+                                                               &stat
+                                                             );
+            /* gui_simple_message_to_user_hide( (*this_).message_to_user ); */
         }
     }
     else if ( U8_ERROR_NO_DB == error )
@@ -118,6 +128,7 @@ u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filenam
                                                              );
         }
     }
+    data_stat_destroy( &stat );
 
     U8_TRACE_END_ERR( error );
     return error;

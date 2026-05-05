@@ -5,16 +5,18 @@
 
 static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
                                                        const char* requested_file_path,
+                                                       data_stat_t *io_stat,
                                                        u8_error_info_t *out_err_info )
 {
-    return io_data_file_open( this_, requested_file_path, false, out_err_info );
+    return io_data_file_open( this_, requested_file_path, false, io_stat, out_err_info );
 }
 
 static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
                                                        const char* requested_file_path,
+                                                       data_stat_t *io_stat,
                                                        u8_error_info_t *out_err_info )
 {
-    return io_data_file_open( this_, requested_file_path, true, out_err_info );
+    return io_data_file_open( this_, requested_file_path, true, io_stat, out_err_info );
 }
 
 static inline data_database_t *io_data_file_get_database_ptr ( io_data_file_t *this_ )

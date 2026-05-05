@@ -69,7 +69,11 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
 
     U8_TRACE_INFO("opening DB...");
     u8_error_info_t err_info;
-    result |= io_data_file_open( (*this_).data_file, data_file_path, check_only, &err_info );
+    data_stat_t stat;
+    data_stat_init( &stat );
+    result |= io_data_file_open( (*this_).data_file, data_file_path, check_only, &stat, &err_info );
+    data_stat_trace( &stat );
+    data_stat_destroy( &stat );
     if ( result != U8_ERROR_NONE )
     {
         utf8stream_writer_write_str( out_english_report, "error opening database_file " );
@@ -108,7 +112,11 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_,
     if ( NULL != data_file_path )
     {
         u8_error_info_t err_info;
-        result |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );
+        data_stat_t stat;
+        data_stat_init( &stat );
+        result |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &stat, &err_info );
+        data_stat_trace( &stat );
+        data_stat_destroy( &stat );
         if ( result != U8_ERROR_NONE )
         {
             utf8stream_writer_write_str( out_english_report, "error opening database_file " );
@@ -144,7 +152,11 @@ u8_error_t main_commands_export ( main_commands_t *this_,
 
     U8_TRACE_INFO("opening DB...");
     u8_error_info_t err_info;
-    export_err |= io_data_file_open_read_only( (*this_).data_file, data_file_path, &err_info );
+    data_stat_t stat;
+    data_stat_init( &stat );
+    export_err |= io_data_file_open_read_only( (*this_).data_file, data_file_path, &stat, &err_info );
+    data_stat_trace( &stat );
+    data_stat_destroy( &stat );
     if ( export_err != U8_ERROR_NONE )
     {
         utf8stream_writer_write_str( out_english_report, "error opening database_file " );
@@ -198,7 +210,11 @@ u8_error_t main_commands_import ( main_commands_t *this_,
 
     U8_TRACE_INFO("opening DB...");
     u8_error_info_t err_info;
-    import_err |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );
+    data_stat_t stat;
+    data_stat_init( &stat );
+    import_err |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &stat, &err_info );
+    data_stat_trace( &stat );
+    data_stat_destroy( &stat );
     if ( import_err != U8_ERROR_NONE )
     {
         utf8stream_writer_write_str( out_english_report, "error opening database_file " );

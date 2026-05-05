@@ -12,6 +12,7 @@
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_revision.h"
+#include "set/data_stat.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error_info.h"
 #include "u8/u8_error.h"
@@ -63,6 +64,10 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param requested_file_path a relative or absolute file path
+ *  \param io_stat undefined in case of an error in the return value;
+ *                 otherwise statistics on parsing the file are collected.
+ *                 These statistics are of special interest if a database file was externally modified, e.g. merged in git.
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
@@ -70,6 +75,7 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  */
 static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
                                                        const char* requested_file_path,
+                                                       data_stat_t *io_stat,
                                                        u8_error_info_t *out_err_info
                                                      );
 
@@ -82,6 +88,10 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param requested_file_path a relative or absolute file path
+ *  \param io_stat undefined in case of an error in the return value;
+ *                 otherwise statistics on parsing the file are collected.
+ *                 These statistics are of special interest if a database file was externally modified, e.g. merged in git.
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
@@ -89,6 +99,7 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
  */
 static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
                                                        const char* requested_file_path,
+                                                       data_stat_t *io_stat,
                                                        u8_error_info_t *out_err_info
                                                      );
 
@@ -103,6 +114,10 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param requested_file_path a relative or absolute file path
  *  \param read_only if true, the data file is not modified. Otherwise it depends on the write permissions of the file.
+ *  \param io_stat undefined in case of an error in the return value;
+ *                 otherwise statistics on parsing the file are collected.
+ *                 These statistics are of special interest if a database file was externally modified, e.g. merged in git.
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
@@ -111,6 +126,7 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
 u8_error_t io_data_file_open ( io_data_file_t *this_,
                                const char* requested_file_path,
                                bool read_only,
+                               data_stat_t *io_stat,
                                u8_error_info_t *out_err_info
                              );
 
@@ -246,10 +262,18 @@ static inline void io_data_file_private_split_extension( const io_data_file_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param src_file filename of the source json file to import, must not be NULL
+ *  \param io_stat undefined in case of an error in the return value;
+ *                 otherwise statistics on parsing the file are collected.
+ *                 These statistics are of special interest if a database file was externally modified, e.g. merged in git.
+ *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NONE in case of success; other values in case of an error
  */
-u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file, u8_error_info_t *out_err_info );
+u8_error_t io_data_file_private_import ( io_data_file_t *this_,
+                                         const char *src_file,
+                                         data_stat_t *io_stat,
+                                         u8_error_info_t *out_err_info
+                                       );
 
 /*!
  *  \brief exports the data from the currently open database to dst_file.

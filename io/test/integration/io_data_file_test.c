@@ -67,7 +67,10 @@ static test_case_result_t create_new_db( test_fixture_t *fix )
 
     /* create a new db */
     u8_error_info_t err_info;
-    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
+    data_stat_t stat;
+    data_stat_init( &stat );
+    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &stat, &err_info );
+    data_stat_destroy( &stat );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
@@ -93,7 +96,10 @@ static test_case_result_t open_existing_db( test_fixture_t *fix )
 
     /* create a db first */
     u8_error_info_t err_info;
-    data_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
+    data_stat_t stat;
+    data_stat_init( &stat );
+    data_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &stat, &err_info );
+    data_stat_destroy( &stat );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
@@ -106,7 +112,10 @@ static test_case_result_t open_existing_db( test_fixture_t *fix )
 
     /* open an existing db */
     u8_error_info_init_line( &err_info, U8_ERROR_PARSER_STRUCTURE, 123 /*line*/ );
-    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
+    data_stat_t stat2;
+    data_stat_init( &stat2 );
+    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &stat2, &err_info );
+    data_stat_destroy( &stat2 );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
 
@@ -140,7 +149,10 @@ static test_case_result_t open_invalid_file( test_fixture_t *fix )
 
     /* open an existing non-db file */
     u8_error_info_t err_info;
-    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
+    data_stat_t stat;
+    data_stat_init( &stat );
+    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &stat, &err_info );
+    data_stat_destroy( &stat );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_PARSER_STRUCTURE, ctrl_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &err_info ) );
