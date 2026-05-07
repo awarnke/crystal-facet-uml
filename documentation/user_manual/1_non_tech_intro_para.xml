@@ -41,7 +41,8 @@ crystal-facet-uml manages a meta model:
     </listitem>
     <listitem>
         <para>Elements are automatically deleted when not visible anymore</para>
-        <para>Since version 1.70.0, crystal-facet-uml deletes invisible elements automatically without further notice</para>
+        <para>Since version 1.70.0, crystal-facet-uml deletes invisible elements automatically,
+              till version 1.70.2 it does so without further notice</para>
     </listitem>
     <listitem>
         <para>These extension mechanisms of UML™ are supported:</para>

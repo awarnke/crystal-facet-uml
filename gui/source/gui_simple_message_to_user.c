@@ -498,7 +498,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED )
     {
         U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED" );
-        utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file opened: \n" );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file opened: " );
         utf8stringbuf_append_str( &((*this_).private_temp_str), list_of_names );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "\n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
@@ -559,6 +559,7 @@ void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user
             for ( int tables_run = 0; tables_run < DATA_STAT_TABLE_MAX; tables_run ++ )
             {
                 const int tables_idx = GUI_SIMPLE_MESSAGE_TO_USER_STAT_ORDER[ tables_run ];
+                assert( tables_idx < DATA_STAT_TABLE_MAX );
                 uint_fast32_t cnt = data_stat_get_count ( stat, tables_idx, series_idx );
                 if ( 0 != cnt )
                 {
