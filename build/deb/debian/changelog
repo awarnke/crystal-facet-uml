@@ -1,3 +1,10 @@
+crystal-facet-uml (1.70.3-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * When opening a file via the gui, the statistics are shown
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 08 May 2026 22:00:00 +0200
+
 crystal-facet-uml (1.70.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

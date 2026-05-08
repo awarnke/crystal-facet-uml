@@ -198,7 +198,7 @@
         "type": "Use Case Diagram", "diagram_type": 10,
         "name": "Lifecycle",
         "description": [
-                "This diagram shows the organizational contexts of development and operational ",
+                "This diagram shows the contexts of development / production and operational ",
                 "environments. (Problem Space, System Level)"
         ],
         "list_order": -1,
@@ -8470,7 +8470,8 @@
         "type": "Association", "main_type": 200,
         "name": "retrieve mission",
         "description": [
-                ""
+                "The MoD5G connects to a terminal in order to retrieve the next mission to be ",
+                "performed."
         ],
         "list_order": 557056,
         "from_classifier_name": "Mouse Droid MoD5G",
@@ -8488,7 +8489,7 @@
         "type": "Association", "main_type": 200,
         "name": "charge",
         "description": [
-                ""
+                "The MoD5G connects to a terminal in order to charge its energy cell."
         ],
         "list_order": 589824,
         "from_classifier_name": "Mouse Droid MoD5G",
@@ -13802,7 +13803,8 @@
         "type": "Communication Path", "main_type": 230,
         "name": "over/undervoltage when charging",
         "description": [
-                ""
+                "In case a terminal provides an unsuitable charging voltage, the MoD5G shall ",
+                "stop the charging attempt."
         ],
         "list_order": 688128,
         "from_classifier_name": "Malfunctioning Terminal",
