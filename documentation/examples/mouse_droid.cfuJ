@@ -946,43 +946,43 @@
         [
           {
             "id": 300,
-            "classifier_name": "Motors to move the MoD5G (L1-Fct)",
+            "classifier_name": "Motors to move the MoD5G",
             "node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
             "uuid": "b753ed1c-e88e-447b-ae17-96d1786046e2"
           },
           {
             "id": 301,
-            "classifier_name": "Recognize environment (L1-Fkt)",
+            "classifier_name": "Recognize environment",
             "node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
             "uuid": "e781cc4a-d3f1-4bdb-bee5-f6cb9ed72a82"
           },
           {
             "id": 302,
-            "classifier_name": "Recognize objects to repair (L1-Fct)",
+            "classifier_name": "Recognize objects to repair",
             "node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
             "uuid": "d7cd1f97-b1d9-4d16-ac3e-a1429043a6bf"
           },
           {
             "id": 303,
-            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "classifier_name": "Plan movement strategy",
             "node": "55b579a4-2727-4027-b366-a74a871c92b9",
             "uuid": "ffc2fdd9-066a-4ee2-87e2-490e661c9e62"
           },
           {
             "id": 304,
-            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "classifier_name": "Plan repair strategy",
             "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
             "uuid": "1dc993e5-f5bb-412e-83cb-7d89cbf77b06"
           },
           {
             "id": 305,
-            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "classifier_name": "Perform movement tactic",
             "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
             "uuid": "eab23e26-1e9f-4266-8e3b-108451e07bc8"
           },
           {
             "id": 306,
-            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "classifier_name": "Perform repair tactic",
             "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
             "uuid": "6726cbab-e20a-478e-bf6d-2ac496a389e0"
           },
@@ -1011,13 +1011,13 @@
         [
           {
             "id": 356,
-            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "classifier_name": "Plan movement strategy",
             "node": "55b579a4-2727-4027-b366-a74a871c92b9",
             "uuid": "d9acf045-2523-4fdf-8051-1e1db40e4761"
           },
           {
             "id": 357,
-            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "classifier_name": "Perform repair tactic",
             "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
             "uuid": "3c65860f-87d6-47bb-a61d-6d48dcc4d61f"
           },
@@ -1055,13 +1055,13 @@
         [
           {
             "id": 346,
-            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "classifier_name": "Plan movement strategy",
             "node": "55b579a4-2727-4027-b366-a74a871c92b9",
             "uuid": "dd40536e-6df0-4903-9917-d68d3d6cb4b5"
           },
           {
             "id": 347,
-            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "classifier_name": "Perform movement tactic",
             "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
             "uuid": "131a9353-41dd-4ccd-975a-68f2bfb70909"
           },
@@ -1097,13 +1097,13 @@
         [
           {
             "id": 349,
-            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "classifier_name": "Plan repair strategy",
             "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
             "uuid": "fb8c0326-b302-455a-8c2a-35f2f91ab26b"
           },
           {
             "id": 350,
-            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "classifier_name": "Perform repair tactic",
             "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
             "uuid": "c158b8c8-6655-470b-ac29-010d10e57c6f"
           },
@@ -1140,28 +1140,28 @@
         [
           {
             "id": 311,
-            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "classifier_name": "Plan movement strategy",
             "node": "55b579a4-2727-4027-b366-a74a871c92b9",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "a5823752-35f7-41c5-ac93-d1f78fcf601f"
           },
           {
             "id": 312,
-            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "classifier_name": "Plan repair strategy",
             "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "34d03598-69ef-48ea-a1a7-a185b9f63991"
           },
           {
             "id": 313,
-            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "classifier_name": "Perform repair tactic",
             "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "8c0b6001-ccb1-416c-811b-55c2552e00f6"
           },
           {
             "id": 314,
-            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "classifier_name": "Perform movement tactic",
             "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "389f4dee-e393-4f37-ac3f-072041769ecb"
@@ -1216,14 +1216,14 @@
           },
           {
             "id": 439,
-            "classifier_name": "Recognize environment (L1-Fkt)",
+            "classifier_name": "Recognize environment",
             "node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "7740ba97-5ac7-477e-be53-e1cf52e59002"
           },
           {
             "id": 440,
-            "classifier_name": "Motors to move the MoD5G (L1-Fct)",
+            "classifier_name": "Motors to move the MoD5G",
             "node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "f4ca1017-a00e-481a-a1e9-7403d18fec35"
@@ -1237,7 +1237,7 @@
           },
           {
             "id": 442,
-            "classifier_name": "Recognize objects to repair (L1-Fct)",
+            "classifier_name": "Recognize objects to repair",
             "node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "672d42a7-9409-49a3-8240-60f58e813216"
@@ -3748,7 +3748,7 @@
                 "(see D0014#name)"
         ],
         "x_order": 613340685,
-        "y_order": 533882926,
+        "y_order": 344363537,
         "list_order": 34386514,
         "uuid": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "features":
@@ -7380,7 +7380,7 @@
                 "Note: Base location is defined at D0013#name."
         ],
         "x_order": 613340685,
-        "y_order": 344363537,
+        "y_order": 533882926,
         "list_order": 30149766,
         "uuid": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "features":
@@ -7403,7 +7403,7 @@
         "id": 178,
         "type": "Block", "main_type": 90,
         "stereotype": "actuator",
-        "name": "Motors to move the MoD5G (L1-Fct)",
+        "name": "Motors to move the MoD5G",
         "description": [
                 ""
         ],
@@ -7431,9 +7431,10 @@
         "id": 179,
         "type": "Block", "main_type": 90,
         "stereotype": "sensor",
-        "name": "Recognize environment (L1-Fkt)",
+        "name": "Recognize environment",
         "description": [
-                ""
+                "This function aggregates the data of several sensors over time.\n",
+                "It produces a consistent location map of the environment."
         ],
         "x_order": -1680233828,
         "y_order": -1954756479,
@@ -7459,9 +7460,10 @@
         "id": 180,
         "type": "Block", "main_type": 90,
         "stereotype": "sensor",
-        "name": "Recognize objects to repair (L1-Fct)",
+        "name": "Recognize objects to repair",
         "description": [
-                ""
+                "This function aggregates the data of several sensors.\n",
+                "It produces a consistent 3D scene of objects which are close by the Mod5G."
         ],
         "x_order": 1547156011,
         "y_order": -1954756479,
@@ -7487,7 +7489,7 @@
         "id": 181,
         "type": "Block", "main_type": 90,
         "stereotype": "function",
-        "name": "Plan movement strategy (L1-Fct)",
+        "name": "Plan movement strategy",
         "description": [
                 ""
         ],
@@ -7525,7 +7527,7 @@
         "id": 182,
         "type": "Block", "main_type": 90,
         "stereotype": "function",
-        "name": "Plan repair strategy (L1-Fct)",
+        "name": "Plan repair strategy",
         "description": [
                 ""
         ],
@@ -7563,7 +7565,7 @@
         "id": 183,
         "type": "Block", "main_type": 90,
         "stereotype": "function",
-        "name": "Perform movement tactic (L1-Fct)",
+        "name": "Perform movement tactic",
         "description": [
                 ""
         ],
@@ -7601,7 +7603,7 @@
         "id": 184,
         "type": "Block", "main_type": 90,
         "stereotype": "function",
-        "name": "Perform repair tactic (L1-Fct)",
+        "name": "Perform repair tactic",
         "description": [
                 ""
         ],
@@ -12971,10 +12973,10 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_name": "Recognize environment (L1-Fkt)",
+        "from_classifier_name": "Recognize environment",
         "from_feature_key": "sensor data",
         "from_node": "457cfe4e-a7eb-467c-a92e-af809334591f",
-        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "to_classifier_name": "Plan movement strategy",
         "to_feature_key": "sensor data",
         "to_node": "0217c6e6-45af-4fd6-8178-aa2ec084ac4e",
         "uuid": "a05b6b55-c63b-4ecc-9ed3-0091ff6ed891"
@@ -12989,10 +12991,10 @@
                 ""
         ],
         "list_order": 65536,
-        "from_classifier_name": "Recognize objects to repair (L1-Fct)",
+        "from_classifier_name": "Recognize objects to repair",
         "from_feature_key": "objects",
         "from_node": "d6a693e9-55e4-4cc9-9865-9e81b87942dd",
-        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "to_classifier_name": "Plan repair strategy",
         "to_feature_key": "objects",
         "to_node": "932c6170-d7be-4029-a51d-4026d3520ecc",
         "uuid": "d5e2143e-4c29-4641-a62a-e37e8a9bc776"
@@ -13007,7 +13009,7 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_name": "Plan movement strategy (L1-Fct)",
+        "from_classifier_name": "Plan movement strategy",
         "from_node": "55b579a4-2727-4027-b366-a74a871c92b9",
         "to_classifier_name": "SYS-Req: Recognize paths",
         "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
@@ -13023,10 +13025,10 @@
                 ""
         ],
         "list_order": 262144,
-        "from_classifier_name": "Plan movement strategy (L1-Fct)",
+        "from_classifier_name": "Plan movement strategy",
         "from_feature_key": "list of way-points",
         "from_node": "814486ff-f48e-4a3e-b89a-f6bbd8914c49",
-        "to_classifier_name": "Perform movement tactic (L1-Fct)",
+        "to_classifier_name": "Perform movement tactic",
         "to_feature_key": "list of way-points",
         "to_node": "90d2f43c-8ff4-4ade-b0b5-1a24cf2b484a",
         "uuid": "e5eb9ca5-12e3-4af8-91ef-a56fa3cfae42"
@@ -13041,10 +13043,10 @@
                 ""
         ],
         "list_order": 229376,
-        "from_classifier_name": "Plan repair strategy (L1-Fct)",
+        "from_classifier_name": "Plan repair strategy",
         "from_feature_key": "list of tool moves",
         "from_node": "3af43353-62e7-4daa-9b1b-06f5d5df69f9",
-        "to_classifier_name": "Perform repair tactic (L1-Fct)",
+        "to_classifier_name": "Perform repair tactic",
         "to_feature_key": "list of tool moves",
         "to_node": "047dcc96-a59b-46ba-a14d-8a39b6b738d2",
         "uuid": "c3b5807f-d0ae-454f-b322-c5d37bfa9fcf"
@@ -13059,10 +13061,10 @@
                 ""
         ],
         "list_order": 163840,
-        "from_classifier_name": "Perform movement tactic (L1-Fct)",
+        "from_classifier_name": "Perform movement tactic",
         "from_feature_key": "ctrl",
         "from_node": "465e8534-ba80-467d-838e-bfc598b8b192",
-        "to_classifier_name": "Motors to move the MoD5G (L1-Fct)",
+        "to_classifier_name": "Motors to move the MoD5G",
         "to_feature_key": "ctrl",
         "to_node": "ce62d2c3-c8b1-4018-8daf-916c64a1d085",
         "uuid": "e8483bd4-d3f9-4059-97d9-f32e91ebe089"
@@ -13077,7 +13079,7 @@
                 ""
         ],
         "list_order": 196608,
-        "from_classifier_name": "Perform repair tactic (L1-Fct)",
+        "from_classifier_name": "Perform repair tactic",
         "from_feature_key": "ctrl",
         "from_node": "412eae12-077c-4483-b1e9-d63e73d4985a",
         "to_classifier_name": "Tools to repair",
@@ -13095,7 +13097,7 @@
                 ""
         ],
         "list_order": 65536,
-        "from_classifier_name": "Perform repair tactic (L1-Fct)",
+        "from_classifier_name": "Perform repair tactic",
         "from_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "to_classifier_name": "SYS-Req: Position screw driver",
         "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
@@ -13113,7 +13115,7 @@
         "list_order": 163840,
         "from_classifier_name": "Main Strategy Planning",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
-        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "to_classifier_name": "Plan movement strategy",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
         "uuid": "e8411628-810a-4dcc-903a-3cb98a7237fb"
       }
@@ -13129,7 +13131,7 @@
         "list_order": 196608,
         "from_classifier_name": "Main Strategy Planning",
         "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
-        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "to_classifier_name": "Plan repair strategy",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
         "uuid": "41653eca-df57-4bb0-8060-81590942fa12"
       }
@@ -13145,7 +13147,7 @@
         "list_order": 229376,
         "from_classifier_name": "Base Tactic Execution",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
-        "to_classifier_name": "Perform movement tactic (L1-Fct)",
+        "to_classifier_name": "Perform movement tactic",
         "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
         "uuid": "3649e486-6ee2-4207-8c63-f66ed13a90e6"
       }
@@ -13161,7 +13163,7 @@
         "list_order": 262144,
         "from_classifier_name": "Base Tactic Execution",
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
-        "to_classifier_name": "Perform repair tactic (L1-Fct)",
+        "to_classifier_name": "Perform repair tactic",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "uuid": "66eeb5c2-c638-4426-9cb4-f987c09923cb"
       }
@@ -13266,9 +13268,11 @@
       "relationship": {
         "id": 315,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Base location AND all functions finished",
+        "name": "all tasks finished",
         "description": [
-                ""
+                "Precondition:\n",
+                "- The Mod5G is at base location\n",
+                "- all tasks are finished"
         ],
         "list_order": 32768,
         "from_classifier_name": "Op::Modes",
@@ -13282,9 +13286,11 @@
       "relationship": {
         "id": 316,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Maintenance booth && damaged",
+        "name": "damaged",
         "description": [
-                ""
+                "Precondition:\n",
+                "- The Mod5G is at maintenance booth\n",
+                "- The Mod5G is damaged"
         ],
         "list_order": 65536,
         "from_classifier_name": "Op::Modes",
@@ -13298,9 +13304,11 @@
       "relationship": {
         "id": 317,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Base location && not fully charged",
+        "name": "not fully charged",
         "description": [
-                ""
+                "Precondition:\n",
+                "- The Mod5G is at base location\n",
+                "- The Mod5G is not yet fully charged"
         ],
         "list_order": 98304,
         "from_classifier_name": "Op::Modes",
@@ -13314,9 +13322,11 @@
       "relationship": {
         "id": 318,
         "type": "Control Flow", "main_type": 240,
-        "name": "@Base location && operator starts programming",
+        "name": "operator starts programming",
         "description": [
-                ""
+                "Precondition:\n",
+                "- The Mod5G is at base location\n",
+                "- The operator starts programming"
         ],
         "list_order": 131072,
         "from_classifier_name": "Op::Modes",
@@ -13330,9 +13340,11 @@
       "relationship": {
         "id": 319,
         "type": "Control Flow", "main_type": 240,
-        "name": "Mission not completed OR not @Base location",
+        "name": "mission not completed",
         "description": [
-                ""
+                "Precondition:\n",
+                "- The Mod5G has not yet completed the mission\n",
+                "- The Mod5G is not at target location"
         ],
         "list_order": 163840,
         "from_classifier_name": "Op::Modes",
@@ -13346,9 +13358,11 @@
       "relationship": {
         "id": 320,
         "type": "Control Flow", "main_type": 240,
-        "name": "Mission not completed AND @Target location",
+        "name": "tasks not completed",
         "description": [
-                ""
+                "Precondition:\n",
+                "- The Mod5G has its tasks not yet completed\n",
+                "- The Mod5G is at target location"
         ],
         "list_order": 196608,
         "from_classifier_name": "Op::Modes",
@@ -13369,7 +13383,7 @@
         "list_order": 131072,
         "from_classifier_name": "Moving",
         "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
-        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "to_classifier_name": "Plan movement strategy",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
         "uuid": "346d8022-7d2c-4f79-bab2-082bf88b3fc6"
       }
@@ -13385,7 +13399,7 @@
         "list_order": 163840,
         "from_classifier_name": "Moving",
         "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
-        "to_classifier_name": "Perform movement tactic (L1-Fct)",
+        "to_classifier_name": "Perform movement tactic",
         "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
         "uuid": "ce2d2f5c-ee0a-4efb-97b2-260d59cbab37"
       }
@@ -13433,7 +13447,7 @@
         "list_order": 163840,
         "from_classifier_name": "Using Tools",
         "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
-        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "to_classifier_name": "Plan repair strategy",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
         "uuid": "8007e303-b941-467d-b8fb-9036d94ad236"
       }
@@ -13449,7 +13463,7 @@
         "list_order": 196608,
         "from_classifier_name": "Using Tools",
         "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
-        "to_classifier_name": "Perform repair tactic (L1-Fct)",
+        "to_classifier_name": "Perform repair tactic",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "uuid": "d1682e0e-347b-4259-a6d5-12799258d3ad"
       }
@@ -13481,7 +13495,7 @@
         "list_order": 229376,
         "from_classifier_name": "Waiting",
         "from_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
-        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "to_classifier_name": "Plan repair strategy",
         "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
         "uuid": "23324a67-267a-41d9-b731-6a6dff866947"
       }
@@ -13497,7 +13511,7 @@
         "list_order": 196608,
         "from_classifier_name": "Waiting",
         "from_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
-        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "to_classifier_name": "Plan movement strategy",
         "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
         "uuid": "9e76cbbd-7c42-4fc7-9a69-9276fa32983f"
       }
@@ -13905,7 +13919,7 @@
         "list_order": 131072,
         "from_classifier_name": "Wheels with Engine",
         "from_node": "7b74542b-1c58-49df-a502-e58cc4ff5777",
-        "to_classifier_name": "Motors to move the MoD5G (L1-Fct)",
+        "to_classifier_name": "Motors to move the MoD5G",
         "to_node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
         "uuid": "00470ab5-9f9d-4a9d-bcf6-e087cb590616"
       }
@@ -13937,7 +13951,7 @@
         "list_order": 32768,
         "from_classifier_name": "Camera Subsystem",
         "from_node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
-        "to_classifier_name": "Recognize environment (L1-Fkt)",
+        "to_classifier_name": "Recognize environment",
         "to_node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
         "uuid": "801d4e4d-fe66-4a24-a26a-4513052a36b6"
       }
@@ -13953,7 +13967,7 @@
         "list_order": 98304,
         "from_classifier_name": "Camera Subsystem",
         "from_node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
-        "to_classifier_name": "Recognize objects to repair (L1-Fct)",
+        "to_classifier_name": "Recognize objects to repair",
         "to_node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
         "uuid": "7d41a34d-4402-4e86-83bd-075c125ae617"
       }

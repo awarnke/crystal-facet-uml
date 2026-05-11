@@ -50,6 +50,7 @@ ideas for future versions:
   [ ] A stereotype could define a background pattern and a color - additionally to the icon based on svg paths
   [ ] If a diagram shows only one parent and all other elements are children, maximize the parent
       (to better support the sysml concept of "a diagram explains exactly one element")
+  [ ] Labels of relationships overlap too often
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -59,6 +60,7 @@ ideas for future versions:
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] add test case for opening non-cfuJ files
   [ ] json export: skip empty entries: key, description and order of lifelines, classifiers without features
+  [ ] prevent to open a file simultaneously twice.
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"

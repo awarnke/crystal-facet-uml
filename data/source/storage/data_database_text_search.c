@@ -95,6 +95,11 @@ void data_database_text_search_db_change_callback( data_database_text_search_t *
         }
     }
 
+    if ( result != U8_ERROR_NONE )
+    {
+        U8_LOG_ERROR( "Error at closing old and opening new database" );
+    }
+
     U8_TRACE_END();
 }
 

@@ -75,6 +75,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
         data_uuid_unused( length );
         strerr |= utf8stringbuf_append_str( &((*this_).uuid_string), &(thirtyseven_bytes[0]) );
         assert( strerr == UTF8ERROR_SUCCESS );
+        (void) strerr;  /* in RELEASE mode, ignore strerr */
     }
     universal_simple_random_destroy( &rnd );
 }

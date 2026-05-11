@@ -91,6 +91,11 @@
                             Alternatively, select the <command>.cfuJ</command> to continue from your last save action.
                         </para>
                     </listitem>
+                    <listitem>
+                        <para>
+                            Do not open a file twice at a time: While the file is open it cannot be shared. Close the program first.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 

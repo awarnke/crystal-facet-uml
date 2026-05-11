@@ -84,6 +84,11 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
         }
     }
 
+    if ( result != U8_ERROR_NONE )
+    {
+        U8_LOG_ERROR( "error at closing old and opening new database" );
+    }
+
     U8_TRACE_END();
 }
 
