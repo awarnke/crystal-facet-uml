@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.2"
+    "generator_version": "1.70.4"
   }
   ,
   "views":
@@ -4994,6 +4994,91 @@
     },
     {
       "diagram": {
+        "id": 138,
+        "type": "State Diagram", "diagram_type": 12,
+        "name": "Database File States",
+        "description": [
+                "This diagram shows the states of the currently selected database file.\n",
+                "\n",
+                "The regular sequence is:\n",
+                "- program start (start triggered by user)\n",
+                "- file closed\n",
+                "- parsing .cfuJ (open triggered by user)\n",
+                "- opened and in sync\n",
+                "- opened and outdated (modification done by user)\n",
+                "- program end (safe+quit triggered by user)"
+        ],
+        "list_order": 1610645502,
+        "parent_name": "Runtime View",
+        "parent": "e025e449-e5cf-4d6d-b97f-cc5075ec1df5",
+        "uuid": "111cabed-8b02-4035-82c0-2d914aae4238",
+        "diagramelements":
+        [
+          {
+            "id": 1057,
+            "classifier_name": "program start",
+            "node": "bca2bffb-56b9-4a45-9ffa-d25471206c65",
+            "uuid": "c80c5a46-20ea-4ef9-93b6-78562293228d"
+          },
+          {
+            "id": 1058,
+            "classifier_name": "program end",
+            "node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
+            "uuid": "854e4a03-c13a-46d2-8c3e-1515c7452233"
+          },
+          {
+            "id": 1059,
+            "classifier_name": "file closed",
+            "node": "da9737d5-3b4f-4edf-9bd8-d7c9e93cb368",
+            "uuid": "785a12d0-651a-43c2-9d25-0a69f583dc2e"
+          },
+          {
+            "id": 1060,
+            "classifier_name": "parsing .cfuJ",
+            "node": "c0ea230a-adfa-46c8-87f5-50f71aa92181",
+            "uuid": "991281da-2fea-4b19-89e6-a2e396126648"
+          },
+          {
+            "id": 1061,
+            "classifier_name": "opening .tmp-cfu",
+            "node": "c44e9895-005b-4a20-b6f1-8ae435355302",
+            "uuid": "9e034e38-eb7a-40d2-91cd-0fb425d75c5a"
+          },
+          {
+            "id": 1062,
+            "classifier_name": "file opened and in sync",
+            "node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+            "uuid": "2e6377d4-7911-474e-a463-6d99ad4916be"
+          },
+          {
+            "id": 1063,
+            "classifier_name": "file opened and outdated",
+            "node": "6833d539-e65d-4a5c-98a1-04bd88534422",
+            "uuid": "aea14e88-277b-4824-9b5d-79cd702b12d1"
+          },
+          {
+            "id": 1064,
+            "classifier_name": "drop aborted session",
+            "node": "5faf44d4-94e3-41a9-8f22-e4b1321a1c1e",
+            "uuid": "690ee6a1-fe5d-45a9-9f58-5b1afc1c12f3"
+          },
+          {
+            "id": 1065,
+            "classifier_name": "file opened and externally modified",
+            "node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
+            "uuid": "f4970dbc-2047-4429-af3d-af8caead8486"
+          },
+          {
+            "id": 1066,
+            "classifier_name": "file opened and linear history",
+            "node": "9fbb6df6-3ee5-4571-bd5f-09c9d75b0ab9",
+            "uuid": "1ed8c4ec-5818-4f50-9b69-a5f7bbff17f1"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 115,
         "type": "Activity Diagram", "diagram_type": 11,
         "name": "Database File Recovery",
@@ -5003,9 +5088,9 @@
                 "These two locations can run out of sync. This diagram lists the causes and the ",
                 "mitigations."
         ],
-        "list_order": 1610612734,
-        "parent_name": "Runtime View",
-        "parent": "e025e449-e5cf-4d6d-b97f-cc5075ec1df5",
+        "list_order": -1,
+        "parent_name": "Database File States",
+        "parent": "111cabed-8b02-4035-82c0-2d914aae4238",
         "uuid": "b7081cb1-fa8c-4c63-8509-95cc7d0b258f",
         "diagramelements":
         [
@@ -19857,6 +19942,190 @@
             "type": "Lifeline", "main_type": 3,
             "uuid": "1c0a42ff-7afc-42c3-8dc4-31fe3dc1d8e3"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 623,
+        "type": "Initial Node", "main_type": 151,
+        "name": "program start",
+        "description": [
+                ""
+        ],
+        "x_order": -1552804413,
+        "y_order": -1908681240,
+        "list_order": -1203934903,
+        "uuid": "bca2bffb-56b9-4a45-9ffa-d25471206c65",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 624,
+        "type": "Final Node", "main_type": 152,
+        "name": "program end",
+        "description": [
+                ""
+        ],
+        "x_order": -1552804413,
+        "y_order": -95883079,
+        "list_order": -136083801,
+        "uuid": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 625,
+        "type": "State", "main_type": 111,
+        "name": "file closed",
+        "description": [
+                ""
+        ],
+        "x_order": -1552804413,
+        "y_order": -1240167485,
+        "list_order": -1240167485,
+        "uuid": "da9737d5-3b4f-4edf-9bd8-d7c9e93cb368",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 626,
+        "type": "State", "main_type": 111,
+        "name": "parsing .cfuJ",
+        "description": [
+                ""
+        ],
+        "x_order": -952237228,
+        "y_order": -1240167485,
+        "list_order": -1234512478,
+        "uuid": "c0ea230a-adfa-46c8-87f5-50f71aa92181",
+        "features":
+        [
+          {
+            "id": 186,
+            "type": "Operation", "main_type": 1,
+            "key": "confirm overwrite",
+            "value": "not-yet-implemented",
+            "description": [
+                "In case there exists and .tmp-cfu file, warn and request confirmation first, ",
+                "before overwriting."
+            ],
+            "list_order": 818565006,
+            "uuid": "7b12b893-b9dc-4323-a944-5c90c09e0ac3"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 627,
+        "type": "State", "main_type": 111,
+        "name": "opening .tmp-cfu",
+        "description": [
+                ""
+        ],
+        "x_order": -952237228,
+        "y_order": -1206854992,
+        "list_order": -1209080231,
+        "uuid": "c44e9895-005b-4a20-b6f1-8ae435355302",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 628,
+        "type": "State", "main_type": 111,
+        "name": "file opened and in sync",
+        "description": [
+                ""
+        ],
+        "x_order": 420210707,
+        "y_order": -1240167485,
+        "list_order": -1208588668,
+        "uuid": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 629,
+        "type": "State", "main_type": 111,
+        "name": "file opened and outdated",
+        "description": [
+                "The .cfuJ file is open but does not reflect the latest changes in the modified ",
+                "model."
+        ],
+        "x_order": -841303478,
+        "y_order": -1206854992,
+        "list_order": -1206854992,
+        "uuid": "6833d539-e65d-4a5c-98a1-04bd88534422",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 630,
+        "type": "Comment", "main_type": 130,
+        "name": "drop aborted session",
+        "description": [
+                "At parsing the regular .cfuJ file,\n",
+                "the .tmp-cfu is overwritten."
+        ],
+        "x_order": -1250894699,
+        "y_order": -1908681240,
+        "list_order": -1807677926,
+        "uuid": "5faf44d4-94e3-41a9-8f22-e4b1321a1c1e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 631,
+        "type": "State", "main_type": 111,
+        "name": "file opened and externally modified",
+        "description": [
+                ""
+        ],
+        "x_order": 1751205478,
+        "y_order": -95883079,
+        "list_order": 435495555,
+        "uuid": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 632,
+        "type": "State", "main_type": 111,
+        "name": "file opened and linear history",
+        "description": [
+                ""
+        ],
+        "x_order": -888265675,
+        "y_order": -624839291,
+        "list_order": -624839291,
+        "uuid": "9fbb6df6-3ee5-4571-bd5f-09c9d75b0ab9",
+        "features":
+        [
         ]
       }
     }
@@ -35421,6 +35690,280 @@
         "to_feature_key": "",
         "to_node": "8c1fa3b5-f131-44b5-987c-220b6a7fe1d6",
         "uuid": "0b66763a-e950-4272-833d-e1493dd25e0b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1185,
+        "type": "Control Flow", "main_type": 240,
+        "name": "start",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "program start",
+        "from_node": "bca2bffb-56b9-4a45-9ffa-d25471206c65",
+        "to_classifier_name": "file closed",
+        "to_node": "da9737d5-3b4f-4edf-9bd8-d7c9e93cb368",
+        "uuid": "8f4e82b4-57c9-4e92-9ea4-c04647eb50d3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1186,
+        "type": "Control Flow", "main_type": 240,
+        "name": "quit",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "file closed",
+        "from_node": "da9737d5-3b4f-4edf-9bd8-d7c9e93cb368",
+        "to_classifier_name": "program end",
+        "to_node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
+        "uuid": "bb901210-0e28-4485-af4d-78f21b71d919"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1187,
+        "type": "Control Flow", "main_type": 240,
+        "name": "open regular",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "file closed",
+        "from_node": "da9737d5-3b4f-4edf-9bd8-d7c9e93cb368",
+        "to_classifier_name": "parsing .cfuJ",
+        "to_node": "c0ea230a-adfa-46c8-87f5-50f71aa92181",
+        "uuid": "1ae529a6-5a62-4fa3-8c5d-69cfec1cb742"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1188,
+        "type": "Control Flow", "main_type": 240,
+        "name": "open aborted session",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "file closed",
+        "from_node": "da9737d5-3b4f-4edf-9bd8-d7c9e93cb368",
+        "to_classifier_name": "opening .tmp-cfu",
+        "to_node": "c44e9895-005b-4a20-b6f1-8ae435355302",
+        "uuid": "7a6ad6ef-b2d9-47ed-a3ab-f55adaa85865"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1190,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "parsing .cfuJ",
+        "from_node": "c0ea230a-adfa-46c8-87f5-50f71aa92181",
+        "to_classifier_name": "file opened and in sync",
+        "to_node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+        "uuid": "92ba210e-cea7-4097-a228-06be97b57071"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1189,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "opening .tmp-cfu",
+        "from_node": "c44e9895-005b-4a20-b6f1-8ae435355302",
+        "to_classifier_name": "file opened and outdated",
+        "to_node": "6833d539-e65d-4a5c-98a1-04bd88534422",
+        "uuid": "32851c42-e42b-4431-91f0-a83c51ba5f6a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1192,
+        "type": "Control Flow", "main_type": 240,
+        "name": "quit",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "file opened and in sync",
+        "from_node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+        "to_classifier_name": "program end",
+        "to_node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
+        "uuid": "ce3cc0f5-8ddc-498c-93fc-178a1bad27fe"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1194,
+        "type": "Control Flow", "main_type": 240,
+        "name": "modify model",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "file opened and in sync",
+        "from_node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+        "to_classifier_name": "file opened and outdated",
+        "to_node": "6833d539-e65d-4a5c-98a1-04bd88534422",
+        "uuid": "81874589-4162-4868-8c75-9f0f67cf6735"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1191,
+        "type": "Control Flow", "main_type": 240,
+        "name": "save",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "file opened and outdated",
+        "from_node": "6833d539-e65d-4a5c-98a1-04bd88534422",
+        "to_classifier_name": "file opened and in sync",
+        "to_node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+        "uuid": "d8bb5d99-4172-4cbc-818a-6726aa486e43"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1193,
+        "type": "Control Flow", "main_type": 240,
+        "name": "save+quit",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "file opened and outdated",
+        "from_node": "6833d539-e65d-4a5c-98a1-04bd88534422",
+        "to_classifier_name": "program end",
+        "to_node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
+        "uuid": "96fcd0d5-212c-4f2e-a446-4596ecccb5e8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1195,
+        "type": "Dependency", "main_type": 0,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "drop aborted session",
+        "from_node": "5faf44d4-94e3-41a9-8f22-e4b1321a1c1e",
+        "to_classifier_name": "parsing .cfuJ",
+        "to_node": "c0ea230a-adfa-46c8-87f5-50f71aa92181",
+        "uuid": "b2c4a368-152f-40a6-908b-89a9c6469655"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1199,
+        "type": "Control Flow", "main_type": 240,
+        "name": "warn+overwrite+quit",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "file opened and externally modified",
+        "from_node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
+        "to_classifier_name": "program end",
+        "to_node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
+        "uuid": "8c673da9-117a-4dea-9b45-df522184f5ca"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1200,
+        "type": "Control Flow", "main_type": 240,
+        "name": "warn+overwrite",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "file opened and externally modified",
+        "from_node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
+        "to_classifier_name": "file opened and in sync",
+        "to_node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+        "uuid": "8117b211-55b9-4ef7-bfe7-f1f6d7f2fb39"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1201,
+        "type": "Control Flow", "main_type": 240,
+        "stereotype": "not-yet-implemented",
+        "name": "quit w/o save",
+        "description": [
+                "In case the .cfuJ file  was modified in parallel, provide an option to quit ",
+                "without saving."
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "file opened and externally modified",
+        "from_node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
+        "to_classifier_name": "program end",
+        "to_node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
+        "uuid": "65f211db-341c-4a09-8ba0-6a668c9f9dbc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1196,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "file opened and linear history",
+        "from_node": "9fbb6df6-3ee5-4571-bd5f-09c9d75b0ab9",
+        "to_classifier_name": "file opened and in sync",
+        "to_node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
+        "uuid": "8cdae04d-c485-408e-9ed1-82f44cc3b82c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1197,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "file opened and linear history",
+        "from_node": "9fbb6df6-3ee5-4571-bd5f-09c9d75b0ab9",
+        "to_classifier_name": "file opened and outdated",
+        "to_node": "6833d539-e65d-4a5c-98a1-04bd88534422",
+        "uuid": "24d1c6a5-d345-4bab-9653-d09f2b6b1a1d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1198,
+        "type": "Control Flow", "main_type": 240,
+        "name": "parallel modification",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "file opened and linear history",
+        "from_node": "9fbb6df6-3ee5-4571-bd5f-09c9d75b0ab9",
+        "to_classifier_name": "file opened and externally modified",
+        "to_node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
+        "uuid": "8fd46f72-383b-4f25-a300-172657478d74"
       }
     }
   ]

@@ -110,8 +110,6 @@
           </para>
           <para>
               If the file does not exist, a new, empty database is created.
-              If database_file ends on .cfu1, a binary database file is created.
-              Otherwise, a json data file is created.
           </para>
         </listitem>
       </varlistentry>
