@@ -48,18 +48,6 @@ typedef struct gui_simple_message_content_quantity_struct { const int quantity; 
 extern const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT;  /*!< the current database file is inconsistent */
 extern const gui_simple_message_content_quantity_t *GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN;  /*!< the maximum number of windows is already open */
 
-#if 0
-/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_position method.
- *
- *  This type allows the compiler to check if a constant is used in the right function context.
- *
- *  The idea is similar to C++ tag dispatching.
- */
-typedef struct gui_simple_message_content_position_struct { const int stream_position; } gui_simple_message_content_position_t;
-
-extern const gui_simple_message_content_position_t *GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA;  /*!< paste failed, parser error at input data */
-#endif
-
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_name method.
  *
  *  This type allows the compiler to check if a constant is used in the right function context.
@@ -77,14 +65,6 @@ extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_LOADI
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT;  /*!< pls wait while exporting */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN;  /*!< db was saved successfully */
 extern const gui_simple_message_content_name_t *GUI_SIMPLE_MESSAGE_CONTENT_JSON_MODIFIED;  /*!< the json data was concurrently modified by external entity */
-
-/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names method.
- *
- *  This type allows the compiler to check if a constant is used in the right function context.
- *
- *  The idea is similar to C++ tag dispatching.
- */
-typedef struct gui_simple_message_content_names_struct { const char *list_of_names; } gui_simple_message_content_names_t;
 
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_error method.
  *
@@ -112,16 +92,16 @@ extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_UNDO;
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_REDO;  /*!< show statistics on redo actions */
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE;  /*!< show statistics on type change actions */
 
-/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names_and_stat method.
+/*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_name_and_stat method.
  *
  *  This type allows the compiler to check if a constant is used in the right function context.
  *
  *  The idea is similar to C++ tag dispatching.
  */
-typedef struct gui_simple_message_content_names_stat_struct { const char *list_of_names; const data_stat_t *stat; } gui_simple_message_content_names_stat_t;
+typedef struct gui_simple_message_content_name_stat_struct { const char *name; const data_stat_t *stat; } gui_simple_message_content_name_stat_t;
 
-extern const gui_simple_message_content_names_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED;  /*!< files exported successfully */
-extern const gui_simple_message_content_names_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED;  /*!< show statistics on opening a file */
+extern const gui_simple_message_content_name_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED;  /*!< files exported successfully */
+extern const gui_simple_message_content_name_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED;  /*!< show statistics on opening a file */
 
 #endif  /* GUI_SIMPLE_MESSAGE_CONTENT_H */
 

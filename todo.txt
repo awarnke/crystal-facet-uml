@@ -63,7 +63,7 @@ ideas for future versions:
 ! [ ] prevent to open a file simultaneously twice.
       The first opened tmp-cfu file is overwritten and all changes there are lost.
       At least a warning shall be issued and a confirmation requested.
-! [ ] At concurrent modifications, allow to quit without saving -
+! [ ] At concurrent modifications, allow to quit without saving;
       maybe disable the autosave till a manual save was pressed.
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.

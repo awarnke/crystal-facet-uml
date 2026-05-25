@@ -105,20 +105,6 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
  *  \param this_ pointer to own object attributes
  *  \param type_id type of message to be shown
  *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
- *  \param list_of_names a list_of_names parameter that is printed with the content-message-string.
- */
-void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_user_t *this_,
-                                                          gui_simple_message_type_t type_id,
-                                                          const gui_simple_message_content_names_t *content_id,
-                                                          const char *list_of_names
-                                                        );
-
-/*!
- *  \brief shows a message
- *
- *  \param this_ pointer to own object attributes
- *  \param type_id type of message to be shown
- *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
  *  \param error_message a error_message parameter that is printed with the content-message-string.
  */
 void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_user_t *this_,
@@ -147,15 +133,15 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
  *  \param this_ pointer to own object attributes
  *  \param type_id type of message to be shown
  *  \param content_id id of the message to be shown. The id is language-independant and is translated within this method.
- *  \param list_of_names a language-independant list of names that is printed with the content-message-string.
+ *  \param name a language-independant name that is printed with the content-message-string.
  *  \param stat statistics on performed actions that is printed with the content-message-string.
  */
-void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_message_to_user_t *this_,
-                                                                  gui_simple_message_type_t type_id,
-                                                                  const gui_simple_message_content_names_stat_t *content_id,
-                                                                  const char *list_of_names,
-                                                                  const data_stat_t *stat
-                                                                );
+void gui_simple_message_to_user_show_message_with_name_and_stat( gui_simple_message_to_user_t *this_,
+                                                                 gui_simple_message_type_t type_id,
+                                                                 const gui_simple_message_content_name_stat_t *content_id,
+                                                                 const char *name,
+                                                                 const data_stat_t *stat
+                                                               );
 
 /*!
  *  \brief shows an u8_error_info_t

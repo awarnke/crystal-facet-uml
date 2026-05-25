@@ -322,34 +322,6 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
     U8_TRACE_END();
 }
 
-void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_user_t *this_,
-                                                          gui_simple_message_type_t type_id,
-                                                          const gui_simple_message_content_names_t *content_id,
-                                                          const char *list_of_names )
-{
-    U8_TRACE_BEGIN();
-    assert( content_id != NULL );
-    assert( list_of_names != NULL );
-
-    /* update type id: */
-    (*this_).type_id = type_id;
-    gui_simple_message_to_user_private_set_icon_image( this_, type_id );
-
-    /* update content text: */
-    utf8stringbuf_clear( &((*this_).private_temp_str) );
-    {
-        U8_LOG_ERROR("unexptected content_id");
-        assert(false);
-    }
-    gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( &((*this_).private_temp_str) ));
-
-    /* show: */
-    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
-    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
-
-    U8_TRACE_END();
-}
-
 void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_user_t *this_,
                                                           gui_simple_message_type_t type_id,
                                                           const gui_simple_message_content_error_t *content_id,
@@ -465,15 +437,15 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
     U8_TRACE_END();
 }
 
-void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_message_to_user_t *this_,
-                                                                  gui_simple_message_type_t type_id,
-                                                                  const gui_simple_message_content_names_stat_t *content_id,
-                                                                  const char *list_of_names,
-                                                                  const data_stat_t *stat )
+void gui_simple_message_to_user_show_message_with_name_and_stat( gui_simple_message_to_user_t *this_,
+                                                                 gui_simple_message_type_t type_id,
+                                                                 const gui_simple_message_content_name_stat_t *content_id,
+                                                                 const char *name,
+                                                                 const data_stat_t *stat )
 {
     U8_TRACE_BEGIN();
     assert( stat != NULL );
-    assert( list_of_names != NULL );
+    assert( name != NULL );
     assert( content_id != NULL );
     data_stat_trace( stat );
 
@@ -485,9 +457,9 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     utf8stringbuf_clear( &((*this_).private_temp_str) );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED )
     {
-        U8_LOG_EVENT_STR( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED", list_of_names );
+        U8_LOG_EVENT_STR( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED", name );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "Files exported, format: " );
-        utf8stringbuf_append_str( &((*this_).private_temp_str), list_of_names );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), name );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "\n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, true, (*this_).private_temp_str );
         if ( 0 != data_stat_get_series_count ( stat, DATA_STAT_SERIES_WARNING ) )
@@ -499,7 +471,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     {
         U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED" );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file opened: " );
-        utf8stringbuf_append_str( &((*this_).private_temp_str), list_of_names );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), name );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "\n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }

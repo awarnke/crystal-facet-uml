@@ -385,12 +385,12 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
 
             if ( U8_ERROR_NONE == export_err )
             {
-                gui_simple_message_to_user_show_message_with_names_and_stat( (*this_).message_to_user,
-                                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                                             GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
-                                                                             utf8stringbuf_get_string( &temp_fileformat ),
-                                                                             &export_stat
-                                                                           );
+                gui_simple_message_to_user_show_message_with_name_and_stat( (*this_).message_to_user,
+                                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                            GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                            utf8stringbuf_get_string( &temp_fileformat ),
+                                                                            &export_stat
+                                                                          );
 
             }
             else

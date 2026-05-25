@@ -34,6 +34,8 @@ struct io_data_file_struct {
 
     bool auto_writeback_to_json;  /*!< true if the current database shall automatically be exported to json */
                                   /*!< when flushing (sync to disk) and when closing. */
+                                  /*!< TODO: This flag may be set to false when detecting concurrent modifications */
+                                  /*!< to the file on disk.*/
     bool delete_db_when_finished;  /*!< true if the current database (db_file_name) shall automatically */
                                    /*!< be deleted when closing. */
     data_revision_t sync_revision;  /*!< the revision id of the database that is synchronized to disk */
@@ -70,6 +72,7 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently (TODO),
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
@@ -94,6 +97,7 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently (TODO),
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
@@ -120,6 +124,7 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
  *                 Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently (TODO),
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */

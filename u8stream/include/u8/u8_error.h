@@ -92,6 +92,9 @@ enum u8_error_enum {
                                       /*!< the diagram type does not show the feature type */
     U8_ERROR_FOCUS_EMPTY            = U8_ERROR_CAT_USE_MODE      + U8_ERROR_ORIG_MISS + 0x01,
                                       /*!< no focused diagram or focused object */
+    U8_ERROR_LOCKED_BY_TEMP_FILE    = U8_ERROR_CAT_USE_MODE      + U8_ERROR_ORIG_FILE + 0x01,
+                                      /*!< a temporary file exists and */
+                                      /*!< indicates that the database is in use concurrently */
 
     /* section U8_ERROR_CAT_USE_INPUT */
     U8_ERROR_STRING_BUFFER_EXCEEDED = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_MEMO + 0x01,
