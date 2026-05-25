@@ -41,6 +41,27 @@ u8_error_t u8dir_file_remove( u8dir_file_t this_ )
     return err;
 }
 
+bool u8dir_file_is_regular_file( u8dir_file_t this_ )
+{
+    U8_TRACE_BEGIN();
+    assert( this_ != NULL );
+    bool result = false;
+
+    struct stat stat_buffer;
+    const int stat_err = stat( this_, &stat_buffer );  /* stat follows symlinks - lstat not */
+    if ( stat_err == -1 )
+    {
+        result = false;
+    }
+    else
+    {
+        result = S_ISREG( stat_buffer.st_mode );
+    }
+
+    U8_TRACE_END();
+    return result;
+}
+
 u8_error_t u8dir_file_get_size( u8dir_file_t this_, uint64_t* out_file_size )
 {
     U8_TRACE_BEGIN();

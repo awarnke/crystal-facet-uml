@@ -11,6 +11,7 @@
 
 #include "u8/u8_error.h"
 #include <stdint.h>
+#include <stdbool.h>
 #include <errno.h>
 
 /*!
@@ -30,6 +31,14 @@ typedef const char * u8dir_file_t;
  *          U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t u8dir_file_remove( u8dir_file_t this_ );
+
+/*!
+ *  \brief checks if the path denotes a regular file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the file is a regular storage object
+ */
+bool u8dir_file_is_regular_file( u8dir_file_t this_ );
 
 /*!
  *  \brief reads the file size from the file system
