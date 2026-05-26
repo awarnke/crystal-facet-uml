@@ -106,6 +106,15 @@ u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filenam
                                                            filename
                                                          );
     }
+    else if ( U8_ERROR_LOCKED_BY_TEMP_FILE == error )
+    {
+        /* Most likely the parent directory of database is read only */
+        gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                           GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_LOCKED,
+                                                           filename
+                                                         );
+    }
     else
     {
         if ( u8_error_info_is_error( &err_info ) )

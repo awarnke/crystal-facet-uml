@@ -1,8 +1,8 @@
 crystal-facet-uml (1.70.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * A database file cannot be opened concurrently.
-  * TODO: A suitable error shall be reported to the user.
+  * A database file cannot be opened concurrently; a warning is shown.
+  * TODO: A suitable error shall be reported to the user also on command line.
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 05 Jun 2026 12:00:00 +0200
 

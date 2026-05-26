@@ -307,6 +307,13 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
         utf8stringbuf_append_str( &((*this_).private_temp_str), name );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "\nThese changes will be overwritten when saving!" );
     }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_LOCKED )
+    {
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_LOCKED" );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file is locked: " );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), name );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), "\nEither open the .tmp-cfu file or delete it!" );
+    }
     else
     {
         U8_LOG_ERROR("unexptected content_id");
