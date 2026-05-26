@@ -124,6 +124,21 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
                                              );
 
 /*!
+ *  \brief prints the file-open error to an utf8 writer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param error the error to print
+ *  \param file_name the file name that should have been opened
+ *  \param out_english_report utf8stream_writer_t where to write a non-translated report to
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t main_commands_private_report_error_on_open ( main_commands_t *this_,
+                                                        const u8_error_t error,
+                                                        const char* file_name,
+                                                        utf8stream_writer_t *out_english_report
+                                                      );
+
+/*!
  *  \brief prints the error_info struct to an utf8 writer
  *
  *  \param this_ pointer to own object attributes

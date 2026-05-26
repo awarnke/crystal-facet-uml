@@ -76,9 +76,7 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     data_stat_destroy( &stat );
     if ( result != U8_ERROR_NONE )
     {
-        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
-        utf8stream_writer_write_str( out_english_report, data_file_path );
-        utf8stream_writer_write_str( out_english_report, "\n" );
+        result |= main_commands_private_report_error_on_open( this_, result, data_file_path, out_english_report );
     }
     result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
@@ -119,9 +117,7 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_,
         data_stat_destroy( &stat );
         if ( result != U8_ERROR_NONE )
         {
-            utf8stream_writer_write_str( out_english_report, "error opening database_file " );
-            utf8stream_writer_write_str( out_english_report, data_file_path );
-            utf8stream_writer_write_str( out_english_report, "\n" );
+            result |= main_commands_private_report_error_on_open( this_, result, data_file_path, out_english_report );
         }
         result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
     }
@@ -159,9 +155,7 @@ u8_error_t main_commands_export ( main_commands_t *this_,
     data_stat_destroy( &stat );
     if ( export_err != U8_ERROR_NONE )
     {
-        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
-        utf8stream_writer_write_str( out_english_report, data_file_path );
-        utf8stream_writer_write_str( out_english_report, "\n" );
+        export_err |= main_commands_private_report_error_on_open( this_, export_err, data_file_path, out_english_report );
     }
     export_err |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
@@ -217,9 +211,7 @@ u8_error_t main_commands_import ( main_commands_t *this_,
     data_stat_destroy( &stat );
     if ( import_err != U8_ERROR_NONE )
     {
-        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
-        utf8stream_writer_write_str( out_english_report, data_file_path );
-        utf8stream_writer_write_str( out_english_report, "\n" );
+        import_err |= main_commands_private_report_error_on_open( this_, import_err, data_file_path, out_english_report );
     }
     import_err |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
@@ -344,6 +336,48 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
     write_err |= utf8stream_writer_write_str( out_english_report, "\t: " );
     write_err |= utf8stream_writer_write_int( out_english_report, total );
     write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
+
+    U8_TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+u8_error_t main_commands_private_report_error_on_open ( main_commands_t *this_,
+                                                        const u8_error_t error,
+                                                        const char* file_name,
+                                                        utf8stream_writer_t *out_english_report )
+{
+    U8_TRACE_BEGIN();
+    assert( file_name != NULL );
+    assert( out_english_report != NULL );
+    u8_error_t write_err = U8_ERROR_NONE;
+
+    if ( U8_ERROR_NO_DB == error )
+    {
+        /* Most likely the parent directory of database is read only */
+        write_err |= utf8stream_writer_write_str( out_english_report,
+                                                  "error: not possible to create a temporary database file for "
+                                                );
+        write_err |= utf8stream_writer_write_str( out_english_report, file_name );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
+    }
+    else if ( U8_ERROR_LOCKED_BY_TEMP_FILE == error )
+    {
+        /* Most likely the parent directory of database is read only */
+        write_err |= utf8stream_writer_write_str( out_english_report,
+                                                  "error: a temporary database file locks "
+        );
+        write_err |= utf8stream_writer_write_str( out_english_report, file_name );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
+        write_err |= utf8stream_writer_write_str( out_english_report,
+                                                  "if the file is not used concurrently, either open that .tmp-cfu file or delete it."
+                                                );
+    }
+    else
+    {
+        write_err |= utf8stream_writer_write_str( out_english_report, "error opening database_file " );
+        write_err |= utf8stream_writer_write_str( out_english_report, file_name );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
+    }
 
     U8_TRACE_END_ERR( write_err );
     return write_err;
