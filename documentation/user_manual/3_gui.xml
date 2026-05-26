@@ -88,7 +88,9 @@
                             </inlinemediaobject>
                         </para>
                         <para>
-                            Alternatively, select the <command>.cfuJ</command> to continue from your last save action.
+                            Alternatively, ensure that the file is not used concurrently,
+                            delete the <command>.tmp-cfu</command> file and select the <command>.cfuJ</command> file
+                            to continue from your last save action.
                         </para>
                     </listitem>
                     <listitem>

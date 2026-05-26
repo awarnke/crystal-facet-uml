@@ -369,7 +369,7 @@ u8_error_t main_commands_private_report_error_on_open ( main_commands_t *this_,
         write_err |= utf8stream_writer_write_str( out_english_report, file_name );
         write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
         write_err |= utf8stream_writer_write_str( out_english_report,
-                                                  "if the file is not used concurrently, either open that .tmp-cfu file or delete it."
+                                                  "if the file is not used concurrently, either open that .tmp-cfu file or delete it.\n"
                                                 );
     }
     else
