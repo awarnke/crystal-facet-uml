@@ -73,7 +73,7 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_FILE_ALREADY_REMOVED if opening a temporary sqlite3 file that does not exist,
- *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently (TODO),
+ *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
@@ -99,7 +99,7 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_FILE_ALREADY_REMOVED if opening a temporary sqlite3 file that does not exist,
- *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently (TODO),
+ *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
@@ -127,7 +127,7 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_FILE_ALREADY_REMOVED if opening a temporary sqlite3 file that does not exist,
- *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently (TODO),
+ *          U8_ERROR_LOCKED_BY_TEMP_FILE if a temporary file indicates that the database is in use concurrently,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */

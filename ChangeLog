@@ -1,8 +1,10 @@
 crystal-facet-uml (1.70.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * ...
- -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 08 May 2026 22:00:00 +0200
+  * A database file cannot be opened concurrently.
+  * TODO: A suitable error shall be reported to the user.
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 05 Jun 2026 12:00:00 +0200
 
 crystal-facet-uml (1.70.3) UNRELEASED; urgency=medium
 

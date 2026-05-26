@@ -60,9 +60,6 @@ ideas for future versions:
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] add test case for opening non-cfuJ files
   [ ] json export: skip empty entries: key, description and order of lifelines, classifiers without features
-! [ ] prevent to open a file simultaneously twice.
-      The first opened tmp-cfu file is overwritten and all changes there are lost.
-      At least a warning shall be issued and a confirmation requested.
 ! [ ] At concurrent modifications, allow to quit without saving;
       maybe disable the autosave till a manual save was pressed.
   @data

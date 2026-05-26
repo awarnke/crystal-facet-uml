@@ -114,12 +114,19 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= utf8stringbuf_copy_view( &((*this_).db_file_name), &req_file_parent );
             err |= utf8stringbuf_append_view( &((*this_).db_file_name), &req_file_basename );
             err |= utf8stringbuf_append_str( &((*this_).db_file_name), IO_DATA_FILE_TEMP_EXT );
-            u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible errors TODO */
 
             U8_TRACE_INFO_STR( "json_file_name:", utf8stringbuf_get_string( &((*this_).json_file_name) ) );
             U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
-            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+            const bool temp_exists = u8dir_file_is_regular_file( utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+            if ( temp_exists )
+            {
+                err |= U8_ERROR_LOCKED_BY_TEMP_FILE;
+            }
+            else
+            {
+                err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+            }
 
             /* new file is not in sync by definition */
             (*this_).sync_revision = DATA_REVISION_VOID;
@@ -181,25 +188,36 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= utf8stringbuf_copy_view( &((*this_).db_file_name), &req_file_parent );
             err |= utf8stringbuf_append_view( &((*this_).db_file_name), &req_file_basename );
             err |= utf8stringbuf_append_str( &((*this_).db_file_name), IO_DATA_FILE_TEMP_EXT );
-            u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible errors TODO */
 
             U8_TRACE_INFO_STR( "json_file_name:", utf8stringbuf_get_string( &((*this_).json_file_name) ) );
             U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
-            /* TODO Do not open the database if a temp file exists --> U8_ERROR_LOCKED_BY_TEMP_FILE */
-
-            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
-            if ( err != U8_ERROR_NONE )
+            /* Do not open the database if a temp file exists --> U8_ERROR_LOCKED_BY_TEMP_FILE */
+            const bool temp_exists = u8dir_file_is_regular_file( utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+            if ( temp_exists )
             {
-                U8_LOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
-                U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
+                U8_LOG_ERROR("The temporary database file already exists, which indicates a running crystal-facet-uml.")
                 (*this_).auto_writeback_to_json = false;
-                (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu file, it was not successfully created anyhow */
-
-                /* temp file is not in sync because import not possible */
+                (*this_).delete_db_when_finished = false;
                 (*this_).sync_revision = DATA_REVISION_VOID;
+                err |= U8_ERROR_LOCKED_BY_TEMP_FILE;
             }
             else
+            {
+                err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+                if ( err != U8_ERROR_NONE )
+                {
+                    U8_LOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
+                    U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
+                    (*this_).auto_writeback_to_json = false;
+                    (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu file, it was not successfully created anyhow */
+
+                    /* temp file is not in sync because import not possible */
+                    (*this_).sync_revision = DATA_REVISION_VOID;
+                }
+            }
+
+            if ( err == U8_ERROR_NONE )
             {
                 /* import */
                 err |= io_data_file_private_import( this_,

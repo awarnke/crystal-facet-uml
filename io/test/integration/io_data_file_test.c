@@ -18,6 +18,7 @@ static test_case_result_t open_invalid_file( test_fixture_t *fix );
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
  */
 static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfuJ";
+static const char DATABASE_TEMPNAME[] = "unittest_crystal_facet_uml_default.tmp-cfu";
 
 test_suite_t io_data_file_test_get_suite(void)
 {
@@ -42,6 +43,11 @@ static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
+    const int stdio_err_1 = remove( DATABASE_FILENAME );
+    (void) stdio_err_1;  /* do not care for errors */
+    const int stdio_err_2 = remove( DATABASE_TEMPNAME );
+    (void) stdio_err_2;  /* do not care for errors */
+
     test_fixture_t *fix = &test_fixture;
     io_data_file_init( &((*fix).data_file) );
     return fix;
@@ -50,9 +56,8 @@ static test_fixture_t * set_up()
 static void tear_down( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    int stdio_err;
     io_data_file_destroy( &((*fix).data_file) );
-    stdio_err = remove( DATABASE_FILENAME );
+    const int stdio_err = remove( DATABASE_FILENAME );
     TEST_ENVIRONMENT_ASSERT ( 0 == stdio_err );
 }
 

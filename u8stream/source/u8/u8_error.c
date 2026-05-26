@@ -31,6 +31,7 @@ const char * u8_error_get_name( u8_error_t this_ )
         case U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS: { result = "U8_ERROR_DIAGRAM_HIDES_RELATIONSHIPS"; }; break;
         case U8_ERROR_DIAGRAM_HIDES_FEATURES: { result = "U8_ERROR_DIAGRAM_HIDES_FEATURES"; }; break;
         case U8_ERROR_FOCUS_EMPTY: { result = "U8_ERROR_FOCUS_EMPTY"; }; break;
+        case U8_ERROR_LOCKED_BY_TEMP_FILE: { result = "U8_ERROR_LOCKED_BY_TEMP_FILE"; }; break;
         case U8_ERROR_STRING_BUFFER_EXCEEDED: { result = "U8_ERROR_STRING_BUFFER_EXCEEDED"; }; break;
         case U8_ERROR_ARRAY_BUFFER_EXCEEDED: { result = "U8_ERROR_ARRAY_BUFFER_EXCEEDED"; }; break;
         case U8_ERROR_INPUT_EMPTY: { result = "U8_ERROR_INPUT_EMPTY"; }; break;
