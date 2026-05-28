@@ -305,7 +305,7 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
         U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_JSON_MODIFIED" );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file concurrently modified: " );
         utf8stringbuf_append_str( &((*this_).private_temp_str), name );
-        utf8stringbuf_append_str( &((*this_).private_temp_str), "\nThese changes will be overwritten when saving!" );
+        utf8stringbuf_append_str( &((*this_).private_temp_str), "\nThese changes will be overwritten!" );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_LOCKED )
     {

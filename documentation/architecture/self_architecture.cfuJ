@@ -20012,12 +20012,10 @@
         [
           {
             "id": 186,
-            "type": "Operation", "main_type": 1,
-            "key": "confirm overwrite",
-            "value": "not-yet-implemented",
+            "type": "Property", "main_type": 0,
+            "key": "prevent concurrent use",
             "description": [
-                "In case there exists and .tmp-cfu file, warn and request confirmation first, ",
-                "before overwriting."
+                "In case a .tmp-cfu file exists, warn but do not overwrite the .tmp-cfu file."
             ],
             "list_order": 818565006,
             "uuid": "7b12b893-b9dc-4323-a944-5c90c09e0ac3"
@@ -20103,8 +20101,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1751205478,
-        "y_order": -95883079,
+        "x_order": 1793365928,
+        "y_order": -1206854992,
         "list_order": 435495555,
         "uuid": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
         "features":
@@ -35870,52 +35868,18 @@
     },
     {
       "relationship": {
-        "id": 1199,
+        "id": 1202,
         "type": "Control Flow", "main_type": 240,
-        "name": "warn+overwrite+quit",
+        "name": "warn user",
         "description": [
                 ""
         ],
-        "list_order": 491520,
+        "list_order": 589824,
         "from_classifier_name": "file opened and externally modified",
         "from_node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
-        "to_classifier_name": "program end",
-        "to_node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
-        "uuid": "8c673da9-117a-4dea-9b45-df522184f5ca"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1200,
-        "type": "Control Flow", "main_type": 240,
-        "name": "warn+overwrite",
-        "description": [
-                ""
-        ],
-        "list_order": 524288,
-        "from_classifier_name": "file opened and externally modified",
-        "from_node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
-        "to_classifier_name": "file opened and in sync",
-        "to_node": "e0d4b54c-d02b-41f1-891c-dcee4dbde340",
-        "uuid": "8117b211-55b9-4ef7-bfe7-f1f6d7f2fb39"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1201,
-        "type": "Control Flow", "main_type": 240,
-        "stereotype": "not-yet-implemented",
-        "name": "quit w/o save",
-        "description": [
-                "In case the .cfuJ file  was modified in parallel, provide an option to quit ",
-                "without saving."
-        ],
-        "list_order": 557056,
-        "from_classifier_name": "file opened and externally modified",
-        "from_node": "1d70c0ad-e563-4ef2-aacf-1a35b4f66c1a",
-        "to_classifier_name": "program end",
-        "to_node": "0d71e8ba-07b1-4cd2-b7ee-8091c20d140d",
-        "uuid": "65f211db-341c-4a09-8ba0-6a668c9f9dbc"
+        "to_classifier_name": "file opened and outdated",
+        "to_node": "6833d539-e65d-4a5c-98a1-04bd88534422",
+        "uuid": "b6835fe9-b8f5-4365-8f5e-2de54aac6c0b"
       }
     },
     {

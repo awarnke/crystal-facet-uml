@@ -411,6 +411,22 @@ bool io_data_file_is_externally_modified ( io_data_file_t *this_ )
         data_database_head_destroy( &head_table );
     }
 
+    if ( result == true )
+    {
+        /* if the json file was modified, reset the sync revision to void: */
+        const bool was_in_sync = io_data_file_is_in_sync( this_ );
+        (*this_).sync_revision = DATA_REVISION_VOID;
+        /* one may consider to set auto_writeback_to_json to false and indicate this to the user... */
+
+        /* set the database revision so that an update notification gets send - if sync status changed: */
+        if ( was_in_sync )
+        {
+            const data_revision_t revision = data_database_get_revision( &((*this_).database) );
+            data_database_set_revision( &((*this_).database), revision );
+            U8_TRACE_INFO_INT( "revision not in sync:", revision );
+        }
+    }
+
     U8_TRACE_END();
     return result;
 }

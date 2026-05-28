@@ -192,6 +192,8 @@ static inline bool io_data_file_is_in_sync ( io_data_file_t *this_ );
  *  This may be likely if somebody synchronized the revision control system (e.g. git)
  *  while crystal-facet-uml had this file open.
  *
+ *  In case the file is externally modified, the sync revision is reset to void.
+ *
  *  \param this_ pointer to own object attributes
  *  \return true if an external entitiy modified the json file in parallel
  */
