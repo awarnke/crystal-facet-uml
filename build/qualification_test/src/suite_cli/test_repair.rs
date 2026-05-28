@@ -43,7 +43,7 @@ static JSON_BAD_CONTENT: &'static str = "\
   }
 ";
 
-/// Test that creating an sqlite3 based format is possible and can be repaired.
+/// Test that creating an json based format is possible and can be repaired.
 ///
 /// # Arguments
 ///
@@ -57,16 +57,16 @@ static JSON_BAD_CONTENT: &'static str = "\
 ///
 /// This function panics if the test environment causes errors.
 ///
-pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
+pub(super) fn testcase_repair_new_file(environment: &mut FixtureCli) -> Result<(), ()> {
     test_repair_or_test(
         Repair::TestAndRepair,
-        "sqlite3_db.cfu1",
+        "json_db.cfuJ",
         "Errors found: 1",
         environment,
     )
 }
 
-/// Test that creating an sqlite3 based format is not done with -t option.
+/// Test that creating an json based format is not done with -t option.
 ///
 /// # Arguments
 ///
@@ -80,10 +80,10 @@ pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(
 ///
 /// This function panics if the test environment causes errors.
 ///
-pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
+pub(super) fn testcase_test_new_file(environment: &mut FixtureCli) -> Result<(), ()> {
     test_repair_or_test(
         Repair::TestOnly,
-        "sqlite3_db.cfu1",
+        "json_db.cfuJ",
         "Errors found: 1",
         environment,
     )
@@ -145,7 +145,7 @@ pub(super) fn testcase_test_json_ro(environment: &mut FixtureCli) -> Result<(), 
     )
 }
 
-/// Test that creating an sqlite3 based format is possible and can be repaired.
+/// Test that creating an json based format is possible and can be repaired.
 ///
 /// # Arguments
 ///

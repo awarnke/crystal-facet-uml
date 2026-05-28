@@ -25,7 +25,7 @@ static JSON_EMPTY_CONTENT: &'static str = "\
 }
 ";
 
-/// Test that importing to a newly created sqlite3 based format is possible.
+/// Test that importing to a newly created json based format is possible.
 ///
 /// # Arguments
 ///
@@ -39,10 +39,10 @@ static JSON_EMPTY_CONTENT: &'static str = "\
 ///
 /// This function panics if the test environment causes errors.
 ///
-pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
+pub(super) fn testcase_import_to_new_file(environment: &mut FixtureCli) -> Result<(), ()> {
     /* create the db_to_use_param string, panic in case an error occured */
     let mut db_to_use = PathBuf::from(environment.temp_dir);
-    db_to_use.push("sqlite3_db.cfu1");
+    db_to_use.push("json_db.cfuJ");
     let db_to_use_param = db_to_use.into_os_string().into_string().unwrap();
 
     /* create the file to import, panic in case an error occured */
@@ -80,7 +80,7 @@ pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Resul
     let exit_ok1: bool = output1.status.success();
 
     print!(
-        "testcase_import_to_new_cfu1: <<{}>>:{}\n",
+        "testcase_import_to_new_file: <<{}>>:{}\n",
         stdout1,
         stdout1.len()
     );

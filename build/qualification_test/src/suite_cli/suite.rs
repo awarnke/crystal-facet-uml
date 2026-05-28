@@ -4,7 +4,7 @@
 use super::fixture::FixtureCli;
 use super::test_help::testcase_help;
 use super::test_help::testcase_version;
-use super::test_importexport::testcase_import_to_new_cfu1;
+use super::test_importexport::testcase_import_to_new_file;
 use super::test_repair;
 use crate::test_tool::test_case::TestCase;
 use crate::test_tool::test_suite::TestSuite;
@@ -52,19 +52,19 @@ where
                 TestCase::new("testcase_version", testcase_version),
                 TestCase::new("testcase_help", testcase_help),
                 TestCase::new(
-                    "testcase_repair_new_cfu1",
-                    test_repair::testcase_repair_new_cfu1,
+                    "testcase_repair_new_file",
+                    test_repair::testcase_repair_new_file,
                 ),
                 TestCase::new(
-                    "testcase_test_new_cfu1",
-                    test_repair::testcase_test_new_cfu1,
+                    "testcase_test_new_file",
+                    test_repair::testcase_test_new_file,
                 ),
                 TestCase::new(
                     "testcase_repair_json_rw",
                     test_repair::testcase_repair_json_rw,
                 ),
                 TestCase::new("testcase_test_json_ro", test_repair::testcase_test_json_ro),
-                TestCase::new("testcase_import_to_new_cfu1", testcase_import_to_new_cfu1),
+                TestCase::new("testcase_import_to_new_file", testcase_import_to_new_file),
             ],
         }
     }
