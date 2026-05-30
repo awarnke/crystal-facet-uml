@@ -119,6 +119,9 @@ static test_case_result_t test_file_stat( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_AT_FILE_READ, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( 17, out_value );
 
+    const bool exists1 = u8dir_file_is_regular_file( non_existant );
+    TEST_EXPECT_EQUAL_INT( false, exists1 );
+
     /* case: existant */
     const u8dir_file_t existant = "existant.file";
     const uint64_t f_size = create_a_file( existant );
@@ -135,6 +138,9 @@ static test_case_result_t test_file_stat( test_fixture_t *fix )
     err = u8dir_file_get_creation_time( existant, &out_create_time );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( out_value, out_create_time );
+
+    const bool exists2 = u8dir_file_is_regular_file( existant );
+    TEST_EXPECT_EQUAL_INT( true, exists2 );
 
     err = u8dir_file_remove( existant );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == err );
