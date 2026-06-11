@@ -19,6 +19,7 @@
 #include "unit/set_data_visible_classifier_test.h"
 #include "unit/data_change_notifier_test.h"
 #include "unit/data_rules_test.h"
+#include "unit/data_guidelines_test.h"
 #include "unit/data_database_listener_test.h"
 #include "unit/data_database_head_test.h"
 #include "integration/data_database_reader_test.h"
@@ -241,6 +242,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, set_data_stat_test_get_suite() );
         test_runner_run_suite( &runner, set_data_visible_classifier_test_get_suite() );
         test_runner_run_suite( &runner, data_rules_test_get_suite() );
+        test_runner_run_suite( &runner, data_guidelines_test_get_suite() );
         test_runner_run_suite( &runner, data_change_notifier_test_get_suite() );
         test_runner_run_suite( &runner, data_database_listener_test_get_suite() );
         test_runner_run_suite( &runner, data_database_head_test_get_suite() );

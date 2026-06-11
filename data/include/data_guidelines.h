@@ -58,8 +58,6 @@ static inline void data_guidelines_destroy ( data_guidelines_t *this_ );
 
 /* ================================ CLASSIFIER ================================ */
 
-/* ================================ FEATURE ================================ */
-
 /*!
  *  \brief determines if lifelines have semantics
  *
@@ -72,7 +70,7 @@ static inline void data_guidelines_destroy ( data_guidelines_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
  *  \param classifier_type the classifier type
- *  \return true if the classifier type is DATA_CLASSIFIER_TYPE_REQUIREMENT
+ *  \return false if the classifier type is DATA_CLASSIFIER_TYPE_REQUIREMENT
  *          or DATA_CLASSIFIER_TYPE_COMMENT
  *          or DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE
  *          or ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
@@ -82,6 +80,8 @@ static inline bool data_guidelines_classifier_has_scenario_semantics ( const dat
                                                                        data_diagram_type_t diagram_type,
                                                                        data_classifier_type_t classifier_type
                                                                      );
+
+/* ================================ FEATURE ================================ */
 
 /*!
  *  \brief determines if the feature value is a stereotype

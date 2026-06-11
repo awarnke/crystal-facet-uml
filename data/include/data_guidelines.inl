@@ -15,80 +15,24 @@ static inline void data_guidelines_destroy ( data_guidelines_t *this_ )
 
 /* ================================ DIAGRAM ================================ */
 
-static inline bool data_guidelines_diagram_is_scenario ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
-{
-    bool result;
-    result = (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-             || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
-             || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
-             || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
-    return result;
-}
-
 /* ================================ CLASSIFIER ================================ */
 
-/* ================================ FEATURE ================================ */
-
-static inline bool data_guidelines_feature_is_scenario_cond ( const data_guidelines_t *this_, data_feature_type_t feature_type )
-{
-    bool result;
-    result = ( feature_type == DATA_FEATURE_TYPE_LIFELINE );
-    return result;
-}
-
-static inline bool data_guidelines_diagram_shows_uncond_features ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
-{
-    bool hide;
-    hide = (( diagram_type == DATA_DIAGRAM_TYPE_LIST )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
-    return ( ! hide );
-}
-
-static inline bool data_guidelines_diagram_shows_scenario_features ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
-{
-    bool show;
-    show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
-    return show;
-}
-
-static inline bool data_guidelines_vis_classifier_has_feature ( const data_guidelines_t *this_,
-                                                           const data_visible_classifier_t *vis_classifier,
-                                                           const data_feature_t *feature )
-{
-    assert( vis_classifier != NULL );
-    assert( feature != NULL );
-    const bool valid = data_visible_classifier_is_valid ( vis_classifier ) && data_feature_is_valid ( feature );
-    const data_classifier_t *clasfy = data_visible_classifier_get_classifier_const ( vis_classifier );
-    const data_diagramelement_t *diagele = data_visible_classifier_get_diagramelement_const ( vis_classifier );
-    assert( clasfy != NULL );
-    assert( diagele != NULL );
-    const bool belongs = ( data_feature_get_classifier_row( feature ) == data_classifier_get_row( clasfy ) );
-    const bool scenario = data_guidelines_feature_is_scenario_cond( this_, data_feature_get_main_type( feature ) );
-    const bool focused = ( data_diagramelement_get_focused_feature_row( diagele ) == data_feature_get_row( feature ) );
-    return valid && belongs && ( ( ! scenario ) || ( scenario && focused ) );
-}
-
 static inline bool data_guidelines_classifier_has_scenario_semantics ( const data_guidelines_t *this_,
-                                                                  data_diagram_type_t diagram_type,
-                                                                  data_classifier_type_t classifier_type )
+                                                                       data_diagram_type_t diagram_type,
+                                                                       data_classifier_type_t classifier_type )
 {
     const bool lifeline_has_no_semantics
-        = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
-        || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-        && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )));
+    = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
+    || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
+    || ( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE )
+    || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
+    || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+    && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
+    || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )));
     return ( ! lifeline_has_no_semantics);
 }
+
+/* ================================ FEATURE ================================ */
 
 static inline bool data_guidelines_feature_value_is_stereotype ( const data_guidelines_t *this_, data_feature_type_t feature_type )
 {
@@ -100,40 +44,6 @@ static inline bool data_guidelines_feature_value_is_stereotype ( const data_guid
 }
 
 /* ================================ RELATIONSHIP ================================ */
-
-static inline bool data_guidelines_relationship_is_scenario_cond ( const data_guidelines_t *this_,
-                                                              data_feature_type_t from_feature_type,
-                                                              data_feature_type_t to_feature_type
-                                                            )
-{
-    bool result;
-    result = ( from_feature_type == DATA_FEATURE_TYPE_LIFELINE )
-             || ( to_feature_type == DATA_FEATURE_TYPE_LIFELINE );
-    return result;
-}
-
-static inline bool data_guidelines_diagram_shows_uncond_relationships ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
-{
-    bool hide;
-    hide = (( diagram_type == DATA_DIAGRAM_TYPE_LIST )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
-    return ( ! hide );
-}
-
-static inline bool data_guidelines_diagram_shows_scenario_relationships ( const data_guidelines_t *this_, data_diagram_type_t diagram_type )
-{
-    bool show;
-    show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
-           || ( diagram_type == DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM ));
-    return show;
-}
-
 
 /*
 Copyright 2017-2026 Andreas Warnke

@@ -84,12 +84,13 @@ ideas for future versions:
   [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
       Possibly crystal-facet-uml searches and waits for a non-existing accessibility service?
       To fix, start with following environment variable set: GTK_A11Y=none ./crystal-facet-uml
+  [ ] Allow to run as web server instead of a local GUI - this may be a starting point for integration as Webview with vs-code?
+      (check also cgi interface)
   @test_fw
   @documentation
 
 ideas for a version 2
   - support rust in application code
-  - serve the html rendered version via cgi to an http server
   - gtk5 support (no GdkPixBuf anymore)
   - re-format the json format, putting more focus on contents and less on cfu data structures
     "diagramelements" -> "elements";
