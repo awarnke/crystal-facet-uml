@@ -2,6 +2,7 @@
 
 #include "entity_data_classifier_test.h"
 #include "entity/data_classifier.h"
+#include "entity/data_classifier_type.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
 #include "utf8stringbuf/utf8string.h"
@@ -11,6 +12,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_initialize( test_fixture_t *test_env );
 static test_case_result_t test_set_get( test_fixture_t *test_env );
+static test_case_result_t test_type_get_name( test_fixture_t *test_env );
 
 test_suite_t entity_data_classifier_test_get_suite(void)
 {
@@ -23,6 +25,7 @@ test_suite_t entity_data_classifier_test_get_suite(void)
                    );
     test_suite_add_test_case( &result, "test_initialize", &test_initialize );
     test_suite_add_test_case( &result, "test_set_get", &test_set_get );
+    test_suite_add_test_case( &result, "test_type_get_name", &test_type_get_name );
     return result;
 }
 
@@ -284,6 +287,19 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_STRING( "1652f338-5011-4775-9b56-8c08caaa2663", data_classifier_get_uuid_const( &testee ) );
 
     data_classifier_destroy( &testee );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_type_get_name( test_fixture_t *test_env )
+{
+    /* sub test case void */
+    const char * name_void = data_classifier_type_get_name( DATA_CLASSIFIER_TYPE_VOID );
+    TEST_EXPECT_EQUAL_STRING( "", name_void );
+
+    /* sub test case valid */
+    const char * name_valid = data_classifier_type_get_name( DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE );
+    TEST_EXPECT_EQUAL_INT( 12, utf8string_get_length(name_valid) );
 
     return TEST_CASE_RESULT_OK;
 }

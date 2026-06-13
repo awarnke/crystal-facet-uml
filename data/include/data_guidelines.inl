@@ -22,13 +22,13 @@ static inline bool data_guidelines_classifier_has_scenario_semantics ( const dat
                                                                        data_classifier_type_t classifier_type )
 {
     const bool lifeline_has_no_semantics
-    = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
-    || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
-    || ( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE )
-    || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
-    || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-    && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
-    || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )));
+        = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
+          || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
+          || ( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE )
+          || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
+          || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+          && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
+          || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION_USE )));
     return ( ! lifeline_has_no_semantics);
 }
 
@@ -36,10 +36,10 @@ static inline bool data_guidelines_classifier_has_scenario_semantics ( const dat
 
 static inline bool data_guidelines_feature_value_is_stereotype ( const data_guidelines_t *this_, data_feature_type_t feature_type )
 {
-    bool has_value;
-    has_value = (( feature_type == DATA_FEATURE_TYPE_PROPERTY )
-           || ( feature_type == DATA_FEATURE_TYPE_OPERATION )
-           || ( feature_type == DATA_FEATURE_TYPE_TAGGED_VALUE ));
+    const bool has_value
+        = (( feature_type == DATA_FEATURE_TYPE_PROPERTY )
+          || ( feature_type == DATA_FEATURE_TYPE_OPERATION )
+          || ( feature_type == DATA_FEATURE_TYPE_TAGGED_VALUE ));
     return ( ! has_value );
 }
 

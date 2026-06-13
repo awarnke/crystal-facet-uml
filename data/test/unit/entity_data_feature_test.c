@@ -2,6 +2,7 @@
 
 #include "entity_data_feature_test.h"
 #include "entity/data_feature.h"
+#include "entity/data_feature_type.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
 #include <string.h>
@@ -10,6 +11,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_initialize( test_fixture_t *test_env );
 static test_case_result_t test_set_get( test_fixture_t *test_env );
+static test_case_result_t test_type_get_name( test_fixture_t *test_env );
 
 test_suite_t entity_data_feature_test_get_suite(void)
 {
@@ -22,6 +24,7 @@ test_suite_t entity_data_feature_test_get_suite(void)
                    );
     test_suite_add_test_case( &result, "test_initialize", &test_initialize );
     test_suite_add_test_case( &result, "test_set_get", &test_set_get );
+    test_suite_add_test_case( &result, "test_type_get_name", &test_type_get_name );
     return result;
 }
 
@@ -280,6 +283,19 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     data_feature_destroy( &testee );
     data_feature_destroy( &testee_copy );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_type_get_name( test_fixture_t *test_env )
+{
+    /* sub test case void */
+    const char * name_void = data_feature_type_get_name( DATA_FEATURE_TYPE_VOID );
+    TEST_EXPECT_EQUAL_STRING( "", name_void );
+
+    /* sub test case valid */
+    const char * name_valid = data_feature_type_get_name( DATA_FEATURE_TYPE_PROPERTY );
+    TEST_EXPECT_EQUAL_INT( 8, utf8string_get_length(name_valid) );
 
     return TEST_CASE_RESULT_OK;
 }

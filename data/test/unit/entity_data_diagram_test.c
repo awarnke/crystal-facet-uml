@@ -2,6 +2,7 @@
 
 #include "entity_data_diagram_test.h"
 #include "entity/data_diagram.h"
+#include "entity/data_diagram_type.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
 #include <string.h>
@@ -10,6 +11,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_initialize( test_fixture_t *test_env );
 static test_case_result_t test_set_get( test_fixture_t *test_env );
+static test_case_result_t test_type_get_name( test_fixture_t *test_env );
 
 test_suite_t entity_data_diagram_test_get_suite(void)
 {
@@ -22,6 +24,7 @@ test_suite_t entity_data_diagram_test_get_suite(void)
                    );
     test_suite_add_test_case( &result, "test_initialize", &test_initialize );
     test_suite_add_test_case( &result, "test_set_get", &test_set_get );
+    test_suite_add_test_case( &result, "test_type_get_name", &test_type_get_name );
     return result;
 }
 
@@ -296,6 +299,27 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     data_diagram_destroy( &testee );
     data_diagram_destroy( &testee_copy );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_type_get_name( test_fixture_t *test_env )
+{
+    /* sub test case void */
+    const char * name_void = data_diagram_type_get_name( DATA_DIAGRAM_TYPE_VOID );
+    TEST_EXPECT_EQUAL_STRING( "", name_void );
+
+    /* sub test case valid */
+    const char * name_valid = data_diagram_type_get_name( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    TEST_EXPECT_EQUAL_INT( 16, utf8string_get_length(name_valid) );
+
+    /* sub test case void kind */
+    const char * kind_void = data_diagram_type_get_element_kind( DATA_DIAGRAM_TYPE_VOID );
+    TEST_EXPECT_EQUAL_STRING( "", kind_void );
+
+    /* sub test case valid kind */
+    const char * kind_valid = data_diagram_type_get_element_kind( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+    TEST_EXPECT_EQUAL_STRING( "sd", kind_valid );
 
     return TEST_CASE_RESULT_OK;
 }
