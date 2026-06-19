@@ -1424,6 +1424,7 @@
         <para>
             In case the text your entered exceeds the string limit, you are warned that the string is truncated.
             Consider attaching a comment or a requirement element and move parts of the text there.
+            Also attaching a tagged value and commenting this may allow to store a long description.
         </para>
 
     </section>

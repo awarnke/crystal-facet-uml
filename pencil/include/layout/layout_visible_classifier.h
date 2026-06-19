@@ -13,6 +13,7 @@
 #include "geometry/geometry_offset.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
+#include "geometry/geometry_compartments.h"
 #include "set/data_visible_classifier.h"
 
 /*!
@@ -25,6 +26,7 @@ struct layout_visible_classifier_struct {
                                       /*!< symbol_box is stated in absolute coordinates. */
     geometry_rectangle_t space;  /*!< inner space of a classifier record where properties, operations */
                                  /*!< or contained classifiers are drawn. space is stated in absolute coordinates. */
+    geometry_compartments_t features;  /*!< bounds of operations, properties, tagged_values; */
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier. */
                                      /*!< label_box is stated in absolute coordinates. */
     geometry_rectangle_t icon_box;  /*!< bounding box of the main_type or stereotype icon of the visible classifier. */

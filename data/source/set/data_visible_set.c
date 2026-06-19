@@ -141,7 +141,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_
                     if ( ! u8_error_more_than( f_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                     {
                         /* Ignore lifelines (== is_scenario) that do not belong to current diagram */
-                        /* NOTE: The iteraltor already filters lifelines that do not belong to the current diagram, see DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID */
+                        /* NOTE: The iterator already filters lifelines that do not belong to the current diagram, see DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID */
 #if 0
                         const bool is_scenario =
                             data_rules_feature_is_scenario_cond( &rules, data_feature_get_main_type( current_feature ) );

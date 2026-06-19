@@ -30,6 +30,7 @@ ideas for future versions:
 ! [ ] Compartments overlap with contained elements. E.g. at classifiers. Containments should be a compartment.
       --> needs a conceptual change:
       layout_visible_classifier_t has no attribute for size of contained features yet.
+      --> use the new geometry_compartments_t
   [ ] sequence diagrams need if/loop-boxes
       a partial solution may be to show the stereotype in an DATA_CLASSIFIER_TYPE_INTERACTION_USE
   [ ] features should come in random order, titles should show their type, e.g. [] for property, () for operation, {} for tags
