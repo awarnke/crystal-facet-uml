@@ -10,6 +10,7 @@ static inline void layout_visible_classifier_init ( layout_visible_classifier_t 
     geometry_rectangle_init_empty( &((*this_).space) );
     geometry_rectangle_init_empty( &((*this_).label_box) );
     geometry_rectangle_init_empty( &((*this_).icon_box) );
+    geometry_compartments_init_empty( &((*this_).features) );
     geometry_rectangle_init_empty( &((*this_).envelope_box_cache) );
     (*this_).label_h_anchor = GEOMETRY_H_ALIGN_CENTER;  /* most labels are centered */
     (*this_).label_v_anchor = GEOMETRY_V_ALIGN_TOP;  /* most labels are fixed to the top */
@@ -25,6 +26,7 @@ static inline void layout_visible_classifier_copy( layout_visible_classifier_t *
     geometry_rectangle_copy( &((*this_).space), &((*original).space) );
     geometry_rectangle_copy( &((*this_).label_box), &((*original).label_box) );
     geometry_rectangle_copy( &((*this_).icon_box), &((*original).icon_box) );
+    geometry_compartments_copy( &((*this_).features), &((*original).features) );
     geometry_rectangle_copy( &((*this_).envelope_box_cache), &((*original).envelope_box_cache) );
     (*this_).label_h_anchor = (*original).label_h_anchor;
     (*this_).label_v_anchor = (*original).label_v_anchor;
@@ -40,6 +42,7 @@ static inline void layout_visible_classifier_move( layout_visible_classifier_t *
     geometry_rectangle_move( &((*this_).space), &((*that).space) );
     geometry_rectangle_move( &((*this_).label_box), &((*that).label_box) );
     geometry_rectangle_move( &((*this_).icon_box), &((*that).icon_box) );
+    geometry_compartments_move( &((*this_).features), &((*that).features) );
     geometry_rectangle_move( &((*this_).envelope_box_cache), &((*that).envelope_box_cache) );
     (*this_).label_h_anchor = (*that).label_h_anchor;
     (*this_).label_v_anchor = (*that).label_v_anchor;
@@ -57,6 +60,7 @@ static inline void layout_visible_classifier_replace( layout_visible_classifier_
     geometry_rectangle_replace( &((*this_).space), &((*original).space) );
     geometry_rectangle_replace( &((*this_).label_box), &((*original).label_box) );
     geometry_rectangle_replace( &((*this_).icon_box), &((*original).icon_box) );
+    geometry_compartments_replace( &((*this_).features), &((*original).features) );
     geometry_rectangle_replace( &((*this_).envelope_box_cache), &((*original).envelope_box_cache) );
     (*this_).label_h_anchor = (*original).label_h_anchor;
     (*this_).label_v_anchor = (*original).label_v_anchor;
@@ -72,6 +76,7 @@ static inline void layout_visible_classifier_replacemove( layout_visible_classif
     geometry_rectangle_replacemove( &((*this_).space), &((*that).space) );
     geometry_rectangle_replacemove( &((*this_).label_box), &((*that).label_box) );
     geometry_rectangle_replacemove( &((*this_).icon_box), &((*that).icon_box) );
+    geometry_compartments_replacemove( &((*this_).features), &((*that).features) );
     geometry_rectangle_replacemove( &((*this_).envelope_box_cache), &((*that).envelope_box_cache) );
     (*this_).label_h_anchor = (*that).label_h_anchor;
     (*this_).label_v_anchor = (*that).label_v_anchor;
@@ -86,6 +91,7 @@ static inline void layout_visible_classifier_destroy ( layout_visible_classifier
     geometry_rectangle_destroy( &((*this_).space) );
     geometry_rectangle_destroy( &((*this_).label_box) );
     geometry_rectangle_destroy( &((*this_).icon_box) );
+    geometry_compartments_destroy( &((*this_).features) );
     geometry_rectangle_destroy( &((*this_).envelope_box_cache) );
     (*this_).data = NULL;
 }

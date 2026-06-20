@@ -18,6 +18,7 @@ IF (MSYS)
     MESSAGE("DEPLOY   : make msys2_deploy")
 ELSE()
     MESSAGE("BUILD FOR: LINUX/UNIX")
+    MESSAGE("BUILD    : make --debug=p -j8")
 ENDIF()
 
 # crystal-facet-uml
@@ -44,11 +45,12 @@ MESSAGE("GLIB2:   ${GLIB2_INCLUDE_DIRS}")
 MESSAGE("GLIB2:   ${GLIB2_LIBRARY_DIRS}")
 MESSAGE("GLIB2:   ${GLIB2_CFLAGS}")
 
-# for DEBUG mode, some headers may not be found automatically:
-#EXECUTE_PROCESS( COMMAND pkg-config --cflags glib-2.0
-#                 OUTPUT_VARIABLE GLIB_MORE_CFLAGS)
-#SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GLIB_MORE_CFLAGS}" )
-#MESSAGE("GLIB_MORE_CFLAGS:   ${GLIB_MORE_CFLAGS}")
+# for DEBUG mode, some headers may not be found automatically (on opensuse, 2026):
+EXECUTE_PROCESS( COMMAND pkg-config --cflags-only-I glib-2.0
+                 OUTPUT_VARIABLE GLIB_MORE_CFLAGS
+                 OUTPUT_STRIP_TRAILING_WHITESPACE)
+separate_arguments(GLIB_MORE_CFLAGS)
+MESSAGE("GLIB_MORE_CFLAGS:   ${GLIB_MORE_CFLAGS}")
 
 #search gtk4
 # Note: PKG_CHECK_MODULES searched for all occurerences of the package
@@ -63,11 +65,12 @@ MESSAGE("GTK:    ${GTK_LDFLAGS_OTHER}")
 MESSAGE("GTK:    ${GTK_CFLAGS}")
 MESSAGE("GTK:    ${GTK_CFLAGS_OTHER}")
 
-# for DEBUG mode, some headers may not be found automatically:
-#EXECUTE_PROCESS(COMMAND pkg-config --cflags graphene-1.0
-#                OUTPUT_VARIABLE GRAPHENE_MORE_CFLAGS)
-#SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GRAPHENE_MORE_CFLAGS}" )
-#MESSAGE("GRAPHENE_MORE_CFLAGS:   ${GRAPHENE_MORE_CFLAGS}")
+# for DEBUG mode, some headers may not be found automatically (on opensuse, 2026):
+EXECUTE_PROCESS(COMMAND pkg-config --cflags-only-I graphene-1.0
+                OUTPUT_VARIABLE GRAPHENE_MORE_CFLAGS
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+separate_arguments(GRAPHENE_MORE_CFLAGS)
+MESSAGE("GRAPHENE_MORE_CFLAGS:   ${GRAPHENE_MORE_CFLAGS}")
 
 PKG_SEARCH_MODULE(PANGOCAIRO REQUIRED pangocairo)
 INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
@@ -129,6 +132,7 @@ ADD_EXECUTABLE(crystal-facet-uml ${appSource} ${commonSource} ${APP_ICON_RESOURC
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINK_FLAGS "${APP_ICON_RESOURCE_FILE}")
+TARGET_COMPILE_OPTIONS(crystal-facet-uml PRIVATE ${GLIB_MORE_CFLAGS} ${GRAPHENE_MORE_CFLAGS})
 TARGET_COMPILE_OPTIONS(crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall)
 TARGET_LINK_OPTIONS(crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
@@ -145,6 +149,7 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8stream/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINK_FLAGS "${APP_ICON_RESOURCE_FILE}")
+TARGET_COMPILE_OPTIONS(test_crystal-facet-uml PRIVATE ${GLIB_MORE_CFLAGS} ${GRAPHENE_MORE_CFLAGS})
 TARGET_COMPILE_OPTIONS(test_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall)
 TARGET_LINK_OPTIONS(test_crystal-facet-uml PUBLIC ${NO_BLACK_TERMINAL_WINDOW} )
 
@@ -173,6 +178,7 @@ if(CFU_ADD_GCOV_TARGET)
         TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES EXCLUDE_FROM_ALL TRUE)
+        TARGET_COMPILE_OPTIONS(gcov_crystal-facet-uml PRIVATE ${GLIB_MORE_CFLAGS} ${GRAPHENE_MORE_CFLAGS})
         TARGET_COMPILE_OPTIONS(gcov_crystal-facet-uml PUBLIC -std=c11 -D_XOPEN_SOURCE=700 -g -Wall -fprofile-arcs -ftest-coverage -O0)
         TARGET_LINK_OPTIONS(gcov_crystal-facet-uml PUBLIC -fprofile-arcs)
     endif(CMAKE_COMPILER_IS_GNUCC)

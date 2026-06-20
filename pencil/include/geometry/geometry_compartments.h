@@ -64,6 +64,38 @@ static inline void geometry_compartments_init_empty ( geometry_compartments_t *t
 static inline void geometry_compartments_reinit_empty ( geometry_compartments_t *this_ );
 
 /*!
+ *  \brief copies the geometry_compartments_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to original object attributes to be copied
+ */
+static inline void geometry_compartments_copy ( geometry_compartments_t *this_, const geometry_compartments_t *original );
+
+/*!
+ *  \brief moves the geometry_compartments_t struct to this uninitialized geometry_compartments_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes to be moved
+ */
+static inline void geometry_compartments_move ( geometry_compartments_t *this_, geometry_compartments_t *that );
+
+/*!
+ *  \brief replaces the geometry_compartments_t struct to this already initialized geometry_compartments_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to original object attributes
+ */
+static inline void geometry_compartments_replace ( geometry_compartments_t *this_, const geometry_compartments_t *original );
+
+/*!
+ *  \brief moves the geometry_compartments_t struct to this already initialized geometry_compartments_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes to be moved
+ */
+static inline void geometry_compartments_replacemove ( geometry_compartments_t *this_, geometry_compartments_t *that );
+
+/*!
  *  \brief destroys the geometry_compartments_t struct
  *
  *  \param this_ pointer to own object attributes
@@ -76,10 +108,12 @@ static inline void geometry_compartments_destroy ( geometry_compartments_t *this
  *  \param this_ pointer to own object attributes
  *  \param compartment type of compartment
  *  \param feature_bounds bounding rectangle of feature.
+ *  \param preferred_object_distance preferred distance between two objects or object and connector
  */
 static inline void geometry_compartments_add_feature ( geometry_compartments_t *this_,
                                                        geometry_compartments_type_t compartment,
-                                                       const geometry_rectangle_t * feature_bounds
+                                                       const geometry_rectangle_t * feature_bounds,
+                                                       double preferred_object_distance
                                                      );
 
 /*!

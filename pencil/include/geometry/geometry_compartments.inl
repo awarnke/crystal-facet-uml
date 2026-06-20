@@ -24,15 +24,45 @@ static inline void geometry_compartments_reinit_empty( geometry_compartments_t *
     geometry_compartments_init_empty( this_ );
 }
 
+static inline void geometry_compartments_copy ( geometry_compartments_t *this_, const geometry_compartments_t *original )
+{
+    *this_ = *original;
+    geometry_rectangle_copy( &((*this_).feature_compartments), &((*original).feature_compartments) );
+}
+
+static inline void geometry_compartments_move ( geometry_compartments_t *this_, geometry_compartments_t *that )
+{
+    *this_ = *that;
+    geometry_rectangle_copy( &((*this_).feature_compartments), &((*that).feature_compartments) );
+    geometry_compartments_destroy( that );
+}
+
+static inline void geometry_compartments_replace ( geometry_compartments_t *this_, const geometry_compartments_t *original )
+{
+    geometry_rectangle_destroy( &((*this_).feature_compartments) );
+    *this_ = *original;
+    geometry_rectangle_copy( &((*this_).feature_compartments), &((*original).feature_compartments) );
+}
+
+static inline void geometry_compartments_replacemove ( geometry_compartments_t *this_, geometry_compartments_t *that )
+{
+    geometry_rectangle_destroy( &((*this_).feature_compartments) );
+    *this_ = *that;
+    geometry_rectangle_copy( &((*this_).feature_compartments), &((*that).feature_compartments) );
+    geometry_compartments_destroy( that );
+}
 
 static inline void geometry_compartments_destroy( geometry_compartments_t *this_ )
 {
+    geometry_rectangle_destroy( &((*this_).feature_compartments) );
 }
 
 static inline void geometry_compartments_add_feature( geometry_compartments_t *this_,
                                                       geometry_compartments_type_t compartment,
-                                                      const geometry_rectangle_t * feature_bounds )
+                                                      const geometry_rectangle_t * feature_bounds,
+                                                      double preferred_object_distance )
 {
+    const double gap = preferred_object_distance;
     switch ( compartment )
     {
         case GEOMETRY_COMPARTMENTS_PROPERTIES:
@@ -55,49 +85,49 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_LEFT:
         {
-            (*this_).port_height_on_left += geometry_rectangle_get_height( feature_bounds );
+            (*this_).port_height_on_left += geometry_rectangle_get_height( feature_bounds ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_RIGHT:
         {
-            (*this_).port_height_on_right += geometry_rectangle_get_height( feature_bounds );
+            (*this_).port_height_on_right += geometry_rectangle_get_height( feature_bounds ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_TOP:
         {
-            (*this_).port_width_on_top += geometry_rectangle_get_width( feature_bounds );
+            (*this_).port_width_on_top += geometry_rectangle_get_width( feature_bounds ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_BOTTOM:
         {
-            (*this_).port_width_on_bottom += geometry_rectangle_get_width( feature_bounds );
+            (*this_).port_width_on_bottom += geometry_rectangle_get_width( feature_bounds ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_LEFT:
         {
-            (*this_).if_height_on_left += geometry_rectangle_get_height( feature_bounds );
+            (*this_).if_height_on_left += geometry_rectangle_get_height( feature_bounds ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_RIGHT:
         {
-            (*this_).if_height_on_right += geometry_rectangle_get_height( feature_bounds );
+            (*this_).if_height_on_right += geometry_rectangle_get_height( feature_bounds ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_TOP:
         {
-            (*this_).if_width_on_top += geometry_rectangle_get_width( feature_bounds );
+            (*this_).if_width_on_top += geometry_rectangle_get_width( feature_bounds ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_BOTTOM:
         {
-            (*this_).if_width_on_bottom += geometry_rectangle_get_width( feature_bounds );
+            (*this_).if_width_on_bottom += geometry_rectangle_get_width( feature_bounds ) + gap;
         }
         break;
 
