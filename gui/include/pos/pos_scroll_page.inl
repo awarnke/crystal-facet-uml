@@ -1,6 +1,6 @@
 /* File: pos_scroll_page.inl; Copyright and License: see below */
 
-#include <u8/u8_trace.h>
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 static inline const pos_scroll_page_t pos_scroll_page_new ( uint32_t anchor_index,

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.4"
+    "generator_version": "1.70.5"
   }
   ,
   "views":
@@ -3958,6 +3958,47 @@
             "classifier_name": "pencil_diagram_maker",
             "node": "5fad270d-9c29-4533-962f-0276acb7a084",
             "uuid": "8dca4c9a-117c-4098-9f51-bd7db4108b94"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 139,
+        "type": "Sequence Diagram", "diagram_type": 13,
+        "name": "Interaction between xxx_layouters",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "parent_name": "Layouting interaction",
+        "parent": "0b7db6f6-516b-4177-a134-1ccb900c63da",
+        "uuid": "7a697524-8580-40ca-9751-1034f9244010",
+        "diagramelements":
+        [
+          {
+            "id": 1071,
+            "classifier_name": "pencil_layouter",
+            "node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+            "uuid": "2c69ef2f-f95d-4ff5-b2c7-d1ac5b3c1518"
+          },
+          {
+            "id": 1072,
+            "classifier_name": "pencil_classifier_layouter",
+            "node": "a541b941-c097-466d-901b-325d93915b55",
+            "uuid": "55dc9b41-dafd-4fc5-ba32-f021646731d6"
+          },
+          {
+            "id": 1073,
+            "classifier_name": "pencil_feature_layouter",
+            "node": "7bb44e8d-61c1-4ab7-af14-4ac09a426a37",
+            "uuid": "0b884fd8-8a84-4c1e-8d0c-1cafbb239b54"
+          },
+          {
+            "id": 1074,
+            "classifier_name": "pencil_relationship_layouter",
+            "node": "9a06280c-2b03-4429-8a6a-50374cceb65e",
+            "uuid": "48471b93-67da-4310-832c-7708a9b0ac4c"
           }
         ]
       }
@@ -10002,10 +10043,15 @@
         ],
         "x_order": -1979281892,
         "y_order": -696878877,
-        "list_order": 0,
+        "list_order": -1663264034,
         "uuid": "b3e1329f-0687-494b-9acc-7d9b13bb168c",
         "features":
         [
+          {
+            "id": 191,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "e3d007bd-80a5-4dd3-9695-aedcecb3c779"
+          }
         ]
       }
     },
@@ -10015,6 +10061,13 @@
         "type": "Class", "main_type": 125,
         "name": "pencil_classifier_layouter",
         "description": [
+                "This class layouts a classifier.\n",
+                "\n",
+                "The implementation splits this class into:\n",
+                "\n",
+                "- pencil_classifier_1d_layouter\n",
+                "- pencil_classifier_2d_layouter\n",
+                "- pencil_classifier_composer\n",
                 ""
         ],
         "x_order": -1978702593,
@@ -10023,6 +10076,11 @@
         "uuid": "0a1294ac-8fc1-418e-9acd-b045eb172a69",
         "features":
         [
+          {
+            "id": 192,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "a541b941-c097-466d-901b-325d93915b55"
+          }
         ]
       }
     },
@@ -10032,6 +10090,12 @@
         "type": "Class", "main_type": 125,
         "name": "pencil_feature_layouter",
         "description": [
+                "This class layouts a feature.\n",
+                "\n",
+                "The implementation splits this class into:\n",
+                "\n",
+                "- pencil_feature_layouter\n",
+                "- pencil_feat_label_layouter\n",
                 ""
         ],
         "x_order": -1978702593,
@@ -10040,6 +10104,11 @@
         "uuid": "1a89461e-cb24-4aed-98cb-2f1cf29f69dd",
         "features":
         [
+          {
+            "id": 193,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "7bb44e8d-61c1-4ab7-af14-4ac09a426a37"
+          }
         ]
       }
     },
@@ -10049,6 +10118,13 @@
         "type": "Class", "main_type": 125,
         "name": "pencil_relationship_layouter",
         "description": [
+                "This class layouts a relationship.\n",
+                "\n",
+                "The implementation splits this class into:\n",
+                "\n",
+                "- pencil_relationship_1d_layouter\n",
+                "- pencil_relationship_2d_layouter\n",
+                "- pencil_rel_label_layouter\n",
                 ""
         ],
         "x_order": -1978702593,
@@ -10057,6 +10133,11 @@
         "uuid": "5789ff9c-1f3c-43b2-900a-e459100c0f0f",
         "features":
         [
+          {
+            "id": 194,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "9a06280c-2b03-4429-8a6a-50374cceb65e"
+          }
         ]
       }
     },
@@ -23709,6 +23790,263 @@
         "to_classifier_name": "pencil_relationship_layouter",
         "to_node": "5789ff9c-1f3c-43b2-900a-e459100c0f0f",
         "uuid": "9c303d13-1269-422f-ba7f-760e82a69deb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1203,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "layout_for_xxx",
+        "description": [
+                "one or more of the following calls:\n",
+                "\n",
+                "pencil_classifier_1d_layouter_layout_for_sequence\n",
+                "\n",
+                "pencil_classifier_1d_layouter_layout_for_list\n",
+                "\n",
+                "pencil_classifier_1d_layouter_layout_for_timing\n",
+                " pencil_classifier_2d_layouter_estimate_bounds\n",
+                " pencil_classifier_2d_layouter_move_to_avoid_overlaps\n",
+                " pencil_classifier_2d_layouter_embrace_children\n",
+                " pencil_classifier_2d_layouter_move_and_embrace_children"
+        ],
+        "list_order": -1259653573,
+        "from_classifier_name": "pencil_layouter",
+        "from_feature_key": "",
+        "from_node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+        "to_classifier_name": "pencil_classifier_layouter",
+        "to_feature_key": "",
+        "to_node": "a541b941-c097-466d-901b-325d93915b55",
+        "uuid": "9dff6762-c9a9-425a-8535-5b03dfb78f7e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1204,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "do_layout",
+        "description": [
+                "pencil_feature_layouter_do_layout"
+        ],
+        "list_order": 286783140,
+        "from_classifier_name": "pencil_layouter",
+        "from_feature_key": "",
+        "from_node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+        "to_classifier_name": "pencil_feature_layouter",
+        "to_feature_key": "",
+        "to_node": "7bb44e8d-61c1-4ab7-af14-4ac09a426a37",
+        "uuid": "89cc35b4-0a4b-4f57-98d4-1846574270f1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1205,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "layout_for_xxx",
+        "description": [
+                "one or more of the following calls:\n",
+                "\n",
+                "pencil_relationship_2d_layouter_layout_void\n",
+                "\n",
+                "pencil_relationship_1d_layouter_layout_for_sequence\n",
+                "\n",
+                "pencil_relationship_1d_layouter_layout_for_timing\n",
+                "\n",
+                "pencil_relationship_2d_layouter_layout_for_communication\n",
+                "\n",
+                "pencil_relationship_2d_layouter_layout_for_standard"
+        ],
+        "list_order": 534573686,
+        "from_classifier_name": "pencil_layouter",
+        "from_feature_key": "",
+        "from_node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+        "to_classifier_name": "pencil_relationship_layouter",
+        "to_feature_key": "",
+        "to_node": "9a06280c-2b03-4429-8a6a-50374cceb65e",
+        "uuid": "eaa6dc78-06fe-42e5-b1ee-e0723e922266"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1206,
+        "type": "Synchronous Call", "main_type": 221,
+        "stereotype": "optional",
+        "name": "hide_relations_of_embraced_children",
+        "description": [
+                "pencil_classifier_2d_layouter_hide_relations_of_embraced_children"
+        ],
+        "list_order": 1112751626,
+        "from_classifier_name": "pencil_layouter",
+        "from_feature_key": "",
+        "from_node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+        "to_classifier_name": "pencil_classifier_layouter",
+        "to_feature_key": "",
+        "to_node": "a541b941-c097-466d-901b-325d93915b55",
+        "uuid": "9b80da74-6164-419a-b1e9-c454275411d3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1207,
+        "type": "Synchronous Call", "main_type": 221,
+        "stereotype": "optional",
+        "name": "pencil_feat_label_layouter_do_layout",
+        "description": [
+                ""
+        ],
+        "list_order": 1298594535,
+        "from_classifier_name": "pencil_layouter",
+        "from_feature_key": "",
+        "from_node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+        "to_classifier_name": "pencil_feature_layouter",
+        "to_feature_key": "",
+        "to_node": "7bb44e8d-61c1-4ab7-af14-4ac09a426a37",
+        "uuid": "95087ca2-3118-4de2-9bcc-65eb8d7ed0c9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1208,
+        "type": "Synchronous Call", "main_type": 221,
+        "stereotype": "optional",
+        "name": "pencil_rel_label_layouter_do_layout",
+        "description": [
+                ""
+        ],
+        "list_order": 1690929566,
+        "from_classifier_name": "pencil_layouter",
+        "from_feature_key": "",
+        "from_node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+        "to_classifier_name": "pencil_relationship_layouter",
+        "to_feature_key": "",
+        "to_node": "9a06280c-2b03-4429-8a6a-50374cceb65e",
+        "uuid": "3ebb3af0-d941-4541-90f6-d181169e7856"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1209,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "calculate_features_bounds",
+        "description": [
+                "pencil_feature_layouter_calculate_features_bounds"
+        ],
+        "list_order": -681576002,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_feature_layouter",
+        "to_feature_key": "",
+        "to_node": "7bb44e8d-61c1-4ab7-af14-4ac09a426a37",
+        "uuid": "d8a892ce-fe40-4762-a4b4-195703661cef"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1210,
+        "type": "Return", "main_type": 222,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38992595,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_layouter",
+        "to_feature_key": "",
+        "to_node": "e3d007bd-80a5-4dd3-9695-aedcecb3c779",
+        "uuid": "a42d0dcc-3894-41de-86c1-2ca9b97f2d79"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1211,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "pencil_classifier_composer_set_envelope_box",
+        "description": [
+                "pencil_classifier_composer_set_envelope_box"
+        ],
+        "list_order": -1107902611,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_classifier_layouter",
+        "to_feature_key": "",
+        "to_node": "a541b941-c097-466d-901b-325d93915b55",
+        "uuid": "a24d8804-204e-4863-a683-fc9f54c789d1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1212,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "pencil_classifier_composer_expand_space",
+        "description": [
+                "pencil_classifier_composer_expand_space"
+        ],
+        "list_order": -402823989,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_classifier_layouter",
+        "to_feature_key": "",
+        "to_node": "a541b941-c097-466d-901b-325d93915b55",
+        "uuid": "17ae0207-d329-42c3-b293-3457b8d7865d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1213,
+        "type": "Return", "main_type": 222,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -834616323,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_classifier_layouter",
+        "to_feature_key": "",
+        "to_node": "a541b941-c097-466d-901b-325d93915b55",
+        "uuid": "c7159f23-4f3f-4762-9505-6f42c11f6cb0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1214,
+        "type": "Return", "main_type": 222,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -124071976,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_classifier_layouter",
+        "to_feature_key": "",
+        "to_node": "a541b941-c097-466d-901b-325d93915b55",
+        "uuid": "55d4a533-d31a-497f-b68c-557d49161519"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1215,
+        "type": "Return", "main_type": 222,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -583192939,
+        "from_classifier_name": "pencil_feature_layouter",
+        "from_feature_key": "",
+        "from_node": "7bb44e8d-61c1-4ab7-af14-4ac09a426a37",
+        "to_classifier_name": "pencil_classifier_layouter",
+        "to_feature_key": "",
+        "to_node": "a541b941-c097-466d-901b-325d93915b55",
+        "uuid": "a79f7a3a-4237-4ec3-8e7b-09210fd2f639"
       }
     },
     {

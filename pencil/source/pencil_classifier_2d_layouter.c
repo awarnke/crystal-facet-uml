@@ -112,6 +112,7 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                                                                    font_layout,
                                                                    &features_dim
                                                                  );
+                /* TODO: here, the .features of type geometry_compartments_t shall be updated. */
 
                 const geometry_rectangle_t *const space_rect
                     = layout_visible_classifier_get_space_const( classifier_layout );
