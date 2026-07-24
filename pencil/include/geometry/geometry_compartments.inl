@@ -6,9 +6,10 @@
 #include <assert.h>
 #include <math.h>
 
-static inline void geometry_compartments_init_empty( geometry_compartments_t *this_ )
+static inline void geometry_compartments_init( geometry_compartments_t *this_, double standard_object_border )
 {
-    geometry_dimensions_init_empty( &((*this_).feature_compartments) );
+    const double sum_of_gaps = 6.0 * standard_object_border;  /* gaps above and below each of the 3 compartment lines */
+    geometry_dimensions_init( &((*this_).feature_compartments), 0.0, sum_of_gaps );
     (*this_).port_height_on_left = 0.0;
     (*this_).port_height_on_right = 0.0;
     (*this_).port_width_on_top = 0.0;
@@ -17,17 +18,12 @@ static inline void geometry_compartments_init_empty( geometry_compartments_t *th
     (*this_).if_height_on_right = 0.0;
     (*this_).if_width_on_top = 0.0;
     (*this_).if_width_on_bottom = 0.0;
-
-    /*
-    const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-    const double sum_of_gaps = 6.0 * gap;  gaps above and below each of the 3 compartment lines
-    geometry_dimensions_reinit( out_features_bounds, width + 2.0 * gap, height + sum_of_gaps );
-    */
+    (*this_).standard_object_border = standard_object_border;
 }
 
-static inline void geometry_compartments_reinit_empty( geometry_compartments_t *this_ )
+static inline void geometry_compartments_reinit( geometry_compartments_t *this_, double standard_object_border )
 {
-    geometry_compartments_init_empty( this_ );
+    geometry_compartments_init( this_, standard_object_border );
 }
 
 static inline void geometry_compartments_copy ( geometry_compartments_t *this_, const geometry_compartments_t *original )
@@ -75,7 +71,9 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
         {
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
-            f_width = u8_f64_max2( f_width, geometry_dimensions_get_width( feature_dim ) );
+            const double new_feat_width
+                = geometry_dimensions_get_width( feature_dim ) + 2.0 * (*this_).standard_object_border;
+            f_width = u8_f64_max2( f_width, new_feat_width );
             f_height += geometry_dimensions_get_height( feature_dim );
             geometry_dimensions_reinit( &((*this_).feature_compartments), f_width, f_height );
         }
@@ -85,7 +83,9 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
         {
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
-            f_width = u8_f64_max2( f_width, geometry_dimensions_get_width( feature_dim ) );
+            const double new_feat_width
+                = geometry_dimensions_get_width( feature_dim ) + 2.0 * (*this_).standard_object_border;
+            f_width = u8_f64_max2( f_width, new_feat_width );
             f_height += geometry_dimensions_get_height( feature_dim );
             geometry_dimensions_reinit( &((*this_).feature_compartments), f_width, f_height );
         }
@@ -95,7 +95,9 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
         {
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
-            f_width = u8_f64_max2( f_width, geometry_dimensions_get_width( feature_dim ) );
+            const double new_feat_width
+                = geometry_dimensions_get_width( feature_dim ) + 2.0 * (*this_).standard_object_border;
+            f_width = u8_f64_max2( f_width, new_feat_width );
             f_height += geometry_dimensions_get_height( feature_dim );
             geometry_dimensions_reinit( &((*this_).feature_compartments), f_width, f_height );
         }

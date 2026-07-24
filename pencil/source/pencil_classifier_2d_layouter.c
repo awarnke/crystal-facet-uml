@@ -105,8 +105,9 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
 
             /* check if inner space is big enough for contained features */
             {
+                const double obj_border = pencil_size_get_standard_object_border( (*this_).pencil_size );
                 geometry_compartments_t features_dim;
-                geometry_compartments_init_empty( &features_dim );
+                geometry_compartments_init( &features_dim, obj_border );
                 pencil_feature_layouter_calculate_features_dimensions( (*this_).feature_layouter,
                                                                        layout_visible_classifier_get_diagramelement_id( classifier_layout ),
                                                                        font_layout,

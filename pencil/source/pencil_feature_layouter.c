@@ -184,7 +184,8 @@ void pencil_feature_layouter_calculate_features_dimensions( pencil_feature_layou
     const double preferred_object_distance = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* init result */
-    geometry_compartments_reinit_empty( out_features_dim );
+    const double obj_border = pencil_size_get_standard_object_border( (*this_).pencil_size );
+    geometry_compartments_reinit( out_features_dim, obj_border );
 
     /* search all contained features */
     const uint32_t count_features

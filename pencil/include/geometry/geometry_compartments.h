@@ -26,6 +26,7 @@ struct geometry_compartments_struct {
     double if_height_on_right;
     double if_width_on_top;
     double if_width_on_bottom;
+    double standard_object_border;
 };
 
 typedef struct geometry_compartments_struct geometry_compartments_t;
@@ -34,15 +35,21 @@ typedef struct geometry_compartments_struct geometry_compartments_t;
  *  \brief initializes the geometry_compartments_t struct to an empty rect at position 0,0
  *
  *  \param this_ pointer to own object attributes
+ *  \param standard_object_border standard border size of objects, according to pencil_size_t
  */
-static inline void geometry_compartments_init_empty ( geometry_compartments_t *this_ );
+static inline void geometry_compartments_init ( geometry_compartments_t *this_,
+                                                double standard_object_border
+                                              );
 
 /*!
  *  \brief re-initializes the geometry_compartments_t struct to an empty rect at position 0,0
  *
  *  \param this_ pointer to own object attributes
+ *  \param standard_object_border standard border size of objects, according to pencil_size_t
  */
-static inline void geometry_compartments_reinit_empty ( geometry_compartments_t *this_ );
+static inline void geometry_compartments_reinit ( geometry_compartments_t *this_,
+                                                  double standard_object_border
+                                                );
 
 /*!
  *  \brief copies the geometry_compartments_t struct
