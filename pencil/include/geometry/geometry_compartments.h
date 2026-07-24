@@ -6,10 +6,10 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Stores coordinates of several feature compartments
+ *  \brief Stores dimensions of several feature compartments
  */
 
-#include "geometry/geometry_rectangle.h"
+#include "geometry/geometry_dimensions.h"
 #include <stdbool.h>
 
 /*!
@@ -35,7 +35,7 @@ typedef enum geometry_compartments_type_enum geometry_compartments_type_t;
  *  \brief attributes of several feature compartments
  */
 struct geometry_compartments_struct {
-    geometry_rectangle_t feature_compartments;  /*!< this excludes ports and interfaces */
+    geometry_dimensions_t feature_compartments;  /*!< this excludes ports and interfaces */
     double port_height_on_left;
     double port_height_on_right;
     double port_width_on_top;
@@ -44,7 +44,6 @@ struct geometry_compartments_struct {
     double if_height_on_right;
     double if_width_on_top;
     double if_width_on_bottom;
-    double inner_features_height;  /*!< this includes the needed compartment separator lines */
 };
 
 typedef struct geometry_compartments_struct geometry_compartments_t;
@@ -107,12 +106,12 @@ static inline void geometry_compartments_destroy ( geometry_compartments_t *this
  *
  *  \param this_ pointer to own object attributes
  *  \param compartment type of compartment
- *  \param feature_bounds bounding rectangle of feature.
+ *  \param feature_dim dimension of feature.
  *  \param preferred_object_distance preferred distance between two objects or object and connector
  */
 static inline void geometry_compartments_add_feature ( geometry_compartments_t *this_,
                                                        geometry_compartments_type_t compartment,
-                                                       const geometry_rectangle_t * feature_bounds,
+                                                       const geometry_dimensions_t * feature_dim,
                                                        double preferred_object_distance
                                                      );
 
@@ -121,7 +120,7 @@ static inline void geometry_compartments_add_feature ( geometry_compartments_t *
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const geometry_rectangle_t * geometry_compartments_get_feature_compartments ( const geometry_compartments_t *this_ );
+static inline const geometry_dimensions_t * geometry_compartments_get_feature_compartments ( const geometry_compartments_t *this_ );
 
 /*!
  *  \brief gets the attribute of geometry_compartments_t: port_height_on_left
@@ -178,13 +177,6 @@ static inline double geometry_compartments_get_if_width_on_top ( const geometry_
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_compartments_get_if_width_on_bottom ( const geometry_compartments_t *this_ );
-
-/*!
- *  \brief gets the attribute of geometry_compartments_t: inner_features_height
- *
- *  \param this_ pointer to own object attributes
- */
-static inline double geometry_compartments_get_inner_features_height ( const geometry_compartments_t *this_ );
 
 /*!
  *  \brief prints the geometry_compartments_t struct to the trace output

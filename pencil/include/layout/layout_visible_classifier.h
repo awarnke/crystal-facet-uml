@@ -13,7 +13,6 @@
 #include "geometry/geometry_offset.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
-#include "geometry/geometry_compartments.h"
 #include "set/data_visible_classifier.h"
 
 /*!
@@ -24,9 +23,9 @@ struct layout_visible_classifier_struct {
                                       /*!< Depending on the classifier type, this is the icon or the contour or both. */
                                       /*!< The label_box may be outside of the symbol_box. */
                                       /*!< symbol_box is stated in absolute coordinates. */
-    geometry_rectangle_t space;  /*!< inner space of a classifier record where properties, operations */
-                                 /*!< or contained classifiers are drawn. space is stated in absolute coordinates. */
-    geometry_compartments_t features;  /*!< bounds of operations, properties, tagged_values; */
+    geometry_rectangle_t compartments;  /*!< bounds of operations, properties, tagged_values; */
+    geometry_rectangle_t space;  /*!< inner space of a classifier record where */
+                                 /*!< contained classifiers are drawn. space is stated in absolute coordinates. */
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier. */
                                      /*!< label_box is stated in absolute coordinates. */
     geometry_rectangle_t icon_box;  /*!< bounding box of the main_type or stereotype icon of the visible classifier. */
@@ -111,6 +110,22 @@ static inline const geometry_rectangle_t *layout_visible_classifier_get_symbol_b
  *  \param symbol_box coordinates of new symbol_box
  */
 static inline void layout_visible_classifier_set_symbol_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *symbol_box );
+
+/*!
+ *  \brief gets the inner compartments of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t
+ */
+static inline const geometry_rectangle_t *layout_visible_classifier_get_compartments_const ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief sets the inner compartments  of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param compartments coordinates of new compartments for contained classifiers and features
+ */
+static inline void layout_visible_classifier_set_compartments ( layout_visible_classifier_t *this_, const geometry_rectangle_t *compartments );
 
 /*!
  *  \brief gets the inner space of the classifier

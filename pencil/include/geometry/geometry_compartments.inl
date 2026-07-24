@@ -2,12 +2,13 @@
 
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
+#include "u8/u8_f64.h"
 #include <assert.h>
 #include <math.h>
 
 static inline void geometry_compartments_init_empty( geometry_compartments_t *this_ )
 {
-    geometry_rectangle_init_empty( &((*this_).feature_compartments) );
+    geometry_dimensions_init_empty( &((*this_).feature_compartments) );
     (*this_).port_height_on_left = 0.0;
     (*this_).port_height_on_right = 0.0;
     (*this_).port_width_on_top = 0.0;
@@ -16,7 +17,6 @@ static inline void geometry_compartments_init_empty( geometry_compartments_t *th
     (*this_).if_height_on_right = 0.0;
     (*this_).if_width_on_top = 0.0;
     (*this_).if_width_on_bottom = 0.0;
-    (*this_).inner_features_height = 0.0;
 }
 
 static inline void geometry_compartments_reinit_empty( geometry_compartments_t *this_ )
@@ -27,39 +27,39 @@ static inline void geometry_compartments_reinit_empty( geometry_compartments_t *
 static inline void geometry_compartments_copy ( geometry_compartments_t *this_, const geometry_compartments_t *original )
 {
     *this_ = *original;
-    geometry_rectangle_copy( &((*this_).feature_compartments), &((*original).feature_compartments) );
+    geometry_dimensions_copy( &((*this_).feature_compartments), &((*original).feature_compartments) );
 }
 
 static inline void geometry_compartments_move ( geometry_compartments_t *this_, geometry_compartments_t *that )
 {
     *this_ = *that;
-    geometry_rectangle_copy( &((*this_).feature_compartments), &((*that).feature_compartments) );
+    geometry_dimensions_copy( &((*this_).feature_compartments), &((*that).feature_compartments) );
     geometry_compartments_destroy( that );
 }
 
 static inline void geometry_compartments_replace ( geometry_compartments_t *this_, const geometry_compartments_t *original )
 {
-    geometry_rectangle_destroy( &((*this_).feature_compartments) );
+    geometry_dimensions_destroy( &((*this_).feature_compartments) );
     *this_ = *original;
-    geometry_rectangle_copy( &((*this_).feature_compartments), &((*original).feature_compartments) );
+    geometry_dimensions_copy( &((*this_).feature_compartments), &((*original).feature_compartments) );
 }
 
 static inline void geometry_compartments_replacemove ( geometry_compartments_t *this_, geometry_compartments_t *that )
 {
-    geometry_rectangle_destroy( &((*this_).feature_compartments) );
+    geometry_dimensions_destroy( &((*this_).feature_compartments) );
     *this_ = *that;
-    geometry_rectangle_copy( &((*this_).feature_compartments), &((*that).feature_compartments) );
+    geometry_dimensions_copy( &((*this_).feature_compartments), &((*that).feature_compartments) );
     geometry_compartments_destroy( that );
 }
 
 static inline void geometry_compartments_destroy( geometry_compartments_t *this_ )
 {
-    geometry_rectangle_destroy( &((*this_).feature_compartments) );
+    geometry_dimensions_destroy( &((*this_).feature_compartments) );
 }
 
 static inline void geometry_compartments_add_feature( geometry_compartments_t *this_,
                                                       geometry_compartments_type_t compartment,
-                                                      const geometry_rectangle_t * feature_bounds,
+                                                      const geometry_dimensions_t * feature_dim,
                                                       double preferred_object_distance )
 {
     const double gap = preferred_object_distance;
@@ -67,67 +67,79 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
     {
         case GEOMETRY_COMPARTMENTS_PROPERTIES:
         {
-            (*this_).inner_features_height += geometry_rectangle_get_height( feature_bounds );
+            double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
+            double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
+            f_width = u8_f64_max2( f_width, geometry_dimensions_get_width( feature_dim ) );
+            f_height += geometry_dimensions_get_height( feature_dim );
+            geometry_dimensions_reinit( &((*this_).feature_compartments), f_width, f_height );
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_OPERATIONS:
         {
-            (*this_).inner_features_height += geometry_rectangle_get_height( feature_bounds );
+            double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
+            double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
+            f_width = u8_f64_max2( f_width, geometry_dimensions_get_width( feature_dim ) );
+            f_height += geometry_dimensions_get_height( feature_dim );
+            geometry_dimensions_reinit( &((*this_).feature_compartments), f_width, f_height );
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_TAGGED_VALUES:
         {
-            (*this_).inner_features_height += geometry_rectangle_get_height( feature_bounds );
+            double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
+            double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
+            f_width = u8_f64_max2( f_width, geometry_dimensions_get_width( feature_dim ) );
+            f_height += geometry_dimensions_get_height( feature_dim );
+            geometry_dimensions_reinit( &((*this_).feature_compartments), f_width, f_height );
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_LEFT:
         {
-            (*this_).port_height_on_left += geometry_rectangle_get_height( feature_bounds ) + gap;
+            (*this_).port_height_on_left += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_RIGHT:
         {
-            (*this_).port_height_on_right += geometry_rectangle_get_height( feature_bounds ) + gap;
+            (*this_).port_height_on_right += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_TOP:
         {
-            (*this_).port_width_on_top += geometry_rectangle_get_width( feature_bounds ) + gap;
+            (*this_).port_width_on_top += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_PORT_ON_BOTTOM:
         {
-            (*this_).port_width_on_bottom += geometry_rectangle_get_width( feature_bounds ) + gap;
+            (*this_).port_width_on_bottom += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_LEFT:
         {
-            (*this_).if_height_on_left += geometry_rectangle_get_height( feature_bounds ) + gap;
+            (*this_).if_height_on_left += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_RIGHT:
         {
-            (*this_).if_height_on_right += geometry_rectangle_get_height( feature_bounds ) + gap;
+            (*this_).if_height_on_right += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_TOP:
         {
-            (*this_).if_width_on_top += geometry_rectangle_get_width( feature_bounds ) + gap;
+            (*this_).if_width_on_top += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENTS_IF_ON_BOTTOM:
         {
-            (*this_).if_width_on_bottom += geometry_rectangle_get_width( feature_bounds ) + gap;
+            (*this_).if_width_on_bottom += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
@@ -139,7 +151,7 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
     }
 }
 
-static inline const geometry_rectangle_t * geometry_compartments_get_feature_compartments ( const geometry_compartments_t *this_ )
+static inline const geometry_dimensions_t * geometry_compartments_get_feature_compartments ( const geometry_compartments_t *this_ )
 {
     return &((*this_).feature_compartments);
 }
@@ -184,15 +196,10 @@ static inline double geometry_compartments_get_if_width_on_bottom( const geometr
     return (*this_).if_width_on_bottom;
 }
 
-static inline double geometry_compartments_get_inner_features_height( const geometry_compartments_t *this_ )
-{
-    return (*this_).inner_features_height;
-}
-
 static inline void geometry_compartments_trace( const geometry_compartments_t *this_ )
 {
     U8_TRACE_INFO( "geometry_compartments_t" );
-    geometry_rectangle_trace( &((*this_).feature_compartments) );
+    geometry_dimensions_trace( &((*this_).feature_compartments) );
     U8_TRACE_INFO_INT( "- port_height_on_left:", (*this_).port_height_on_left );
     U8_TRACE_INFO_INT( "- port_height_on_right:", (*this_).port_height_on_right );
     U8_TRACE_INFO_INT( "- port_width_on_top:", (*this_).port_width_on_top );
@@ -201,7 +208,6 @@ static inline void geometry_compartments_trace( const geometry_compartments_t *t
     U8_TRACE_INFO_INT( "- if_height_on_right:", (*this_).if_height_on_right );
     U8_TRACE_INFO_INT( "- if_width_on_top:", (*this_).if_width_on_top );
     U8_TRACE_INFO_INT( "- if_width_on_bottom:", (*this_).if_width_on_bottom );
-    U8_TRACE_INFO_INT( "- inner_features_height:", (*this_).inner_features_height );
 }
 
 
