@@ -23,7 +23,6 @@
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
-#include "geometry/geometry_compartments.h"
 #include "entity/data_diagram.h"
 #include "set/data_small_set.h"
 #include "set/data_profile_part.h"

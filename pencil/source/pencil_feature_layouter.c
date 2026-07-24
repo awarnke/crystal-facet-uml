@@ -167,23 +167,24 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     U8_TRACE_END();
 }
 
-void pencil_feature_layouter_calculate_features_bounds( pencil_feature_layouter_t *this_,
-                                                        data_row_t diagramelement_id,
-                                                        PangoLayout *font_layout,
-                                                        geometry_dimensions_t *out_features_bounds )
+void pencil_feature_layouter_calculate_features_dimensions( pencil_feature_layouter_t *this_,
+                                                            data_row_t diagramelement_id,
+                                                            PangoLayout *font_layout,
+                                                            geometry_compartments_t *out_features_dim )
 {
     U8_TRACE_BEGIN();
     assert( NULL != font_layout );
-    assert( NULL != out_features_bounds );
+    assert( NULL != out_features_dim );
 
     /* establish precondition: precalculate the dimensions of labels */
     if ( ! (*this_).label_dimensions_initialized )
     {
         pencil_feature_layouter_private_init_label_dimensions( this_, font_layout );
     }
+    const double preferred_object_distance = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
-    double width = 0.0;
-    double height = 0.0;
+    /* init result */
+    geometry_compartments_reinit_empty( out_features_dim );
 
     /* search all contained features */
     const uint32_t count_features
@@ -197,6 +198,7 @@ void pencil_feature_layouter_calculate_features_bounds( pencil_feature_layouter_
         const layout_visible_classifier_t *const layout_classifier
             = layout_feature_get_classifier_const( feature_layout );
         const data_feature_type_t the_feature_type = data_feature_get_main_type( the_feature );
+        const uint32_t list_order = data_feature_get_list_order( the_feature );
 
         if (( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
             && data_feature_type_inside_compartment( the_feature_type ) )
@@ -204,17 +206,20 @@ void pencil_feature_layouter_calculate_features_bounds( pencil_feature_layouter_
             /* feature label sizes are already precalculated */
             assert( (*this_).label_dimensions_initialized );
             const geometry_rectangle_t *const label_box = layout_feature_get_label_box_const( feature_layout );
+            const geometry_dimensions_t label_dim = geometry_rectangle_get_dimensions( label_box );
 
-            /* update width and height */
-            width = u8_f64_max2( width, geometry_rectangle_get_width( label_box ) );
-            height += geometry_rectangle_get_height( label_box );
+            const geometry_compartment_type_t compartment
+                = geometry_compartment_type_new( the_feature_type, list_order );
+
+            /* update compartment dimensions */
+            geometry_compartments_add_feature( out_features_dim,
+                                               compartment,
+                                               &label_dim,
+                                               preferred_object_distance
+                                             );
         }
     }
 
-    const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-    const double sum_of_gaps = 6.0 * gap;  /* gaps above and below each of the 3 compartment lines */
-
-    geometry_dimensions_reinit( out_features_bounds, width + 2.0 * gap, height + sum_of_gaps );
     U8_TRACE_END();
 }
 

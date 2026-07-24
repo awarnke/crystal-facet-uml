@@ -105,27 +105,28 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
 
             /* check if inner space is big enough for contained features */
             {
-                geometry_dimensions_t features_dim;
-                geometry_dimensions_init_empty( &features_dim );
-                pencil_feature_layouter_calculate_features_bounds( (*this_).feature_layouter,
-                                                                   layout_visible_classifier_get_diagramelement_id( classifier_layout ),
-                                                                   font_layout,
-                                                                   &features_dim
-                                                                 );
-                /* TODO: here, the .features of type geometry_compartments_t shall be updated. */
+                geometry_compartments_t features_dim;
+                geometry_compartments_init_empty( &features_dim );
+                pencil_feature_layouter_calculate_features_dimensions( (*this_).feature_layouter,
+                                                                       layout_visible_classifier_get_diagramelement_id( classifier_layout ),
+                                                                       font_layout,
+                                                                       &features_dim
+                                                                     );
+                const geometry_dimensions_t *const compartments_dim
+                    = geometry_compartments_get_feature_compartments( &features_dim );
 
                 const geometry_rectangle_t *const space_rect
                     = layout_visible_classifier_get_space_const( classifier_layout );
                 const geometry_dimensions_t space_dim = geometry_rectangle_get_dimensions( space_rect );
 
-                if ( ! geometry_dimensions_can_contain( &space_dim, &features_dim ) )
+                if ( ! geometry_dimensions_can_contain( &space_dim, compartments_dim ) )
                 {
                     geometry_rectangle_t new_space;
                     geometry_rectangle_copy( &new_space, space_rect );
                     const double delta_width
-                        = geometry_dimensions_get_width( &features_dim ) - geometry_rectangle_get_width( space_rect );
+                        = geometry_dimensions_get_width( compartments_dim ) - geometry_rectangle_get_width( space_rect );
                     const double delta_height
-                        = geometry_dimensions_get_height( &features_dim ) - geometry_rectangle_get_height( space_rect );
+                        = geometry_dimensions_get_height( compartments_dim ) - geometry_rectangle_get_height( space_rect );
                     geometry_rectangle_expand_4dir( &new_space,
                                                   (delta_width<0.0) ? 0.0 : 0.5*delta_width,
                                                   (delta_height<0.0) ? 0.0 : 0.5*delta_height );
@@ -142,7 +143,7 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                     geometry_rectangle_destroy( &new_space );
                 }
 
-                geometry_dimensions_destroy( &features_dim );
+                geometry_compartments_destroy( &features_dim );
             }
         }
 

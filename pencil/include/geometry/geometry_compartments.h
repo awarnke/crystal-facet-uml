@@ -10,26 +10,8 @@
  */
 
 #include "geometry/geometry_dimensions.h"
+#include "geometry/geometry_compartment_type.h"
 #include <stdbool.h>
-
-/*!
- *  \brief constants identifying compartments
- */
-enum geometry_compartments_type_enum {
-    GEOMETRY_COMPARTMENTS_PROPERTIES,
-    GEOMETRY_COMPARTMENTS_OPERATIONS,
-    GEOMETRY_COMPARTMENTS_TAGGED_VALUES,
-    GEOMETRY_COMPARTMENTS_PORT_ON_LEFT,
-    GEOMETRY_COMPARTMENTS_PORT_ON_RIGHT,
-    GEOMETRY_COMPARTMENTS_PORT_ON_TOP,
-    GEOMETRY_COMPARTMENTS_PORT_ON_BOTTOM,
-    GEOMETRY_COMPARTMENTS_IF_ON_LEFT,
-    GEOMETRY_COMPARTMENTS_IF_ON_RIGHT,
-    GEOMETRY_COMPARTMENTS_IF_ON_TOP,
-    GEOMETRY_COMPARTMENTS_IF_ON_BOTTOM
-};
-
-typedef enum geometry_compartments_type_enum geometry_compartments_type_t;
 
 /*!
  *  \brief attributes of several feature compartments
@@ -110,7 +92,7 @@ static inline void geometry_compartments_destroy ( geometry_compartments_t *this
  *  \param preferred_object_distance preferred distance between two objects or object and connector
  */
 static inline void geometry_compartments_add_feature ( geometry_compartments_t *this_,
-                                                       geometry_compartments_type_t compartment,
+                                                       geometry_compartment_type_t compartment,
                                                        const geometry_dimensions_t * feature_dim,
                                                        double preferred_object_distance
                                                      );

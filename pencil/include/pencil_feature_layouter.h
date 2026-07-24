@@ -15,6 +15,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_non_linear_scale.h"
+#include "geometry/geometry_compartments.h"
 #include "entity/data_diagram.h"
 #include "set/data_visible_set.h"
 #include "set/data_small_set.h"
@@ -80,18 +81,19 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ );
 void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
- *  \brief calculates feature bounding dimensions of property and operation features for one diagramelement
+ *  \brief calculates features dimensions of property, operation and tagged-value features
+ *         for one diagramelement.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement for which to calculate the feature bounds
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param[out] out_features_bounds memory location where the result shall be stored. Must not be NULL.
+ *  \param[out] out_features_dim memory location where the result shall be stored. Must not be NULL.
  */
-void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
-                                                         data_row_t diagramelement_id,
-                                                         PangoLayout *font_layout,
-                                                         geometry_dimensions_t *out_features_bounds
-                                                       );
+void pencil_feature_layouter_calculate_features_dimensions ( pencil_feature_layouter_t *this_,
+                                                             data_row_t diagramelement_id,
+                                                             PangoLayout *font_layout,
+                                                             geometry_compartments_t *out_features_dim
+                                                           );
 
 /*!
  *  \brief calculates the label dimensions of all features.
@@ -101,9 +103,9 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
  *  \param this_ pointer to own object attributes
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  */
-void pencil_feature_layouter_private_init_label_dimensions( pencil_feature_layouter_t *this_,
-                                                            PangoLayout *font_layout
-                                                          );
+void pencil_feature_layouter_private_init_label_dimensions ( pencil_feature_layouter_t *this_,
+                                                             PangoLayout *font_layout
+                                                           );
 
 /*!
  *  \brief determines the symbol box of a lifeline

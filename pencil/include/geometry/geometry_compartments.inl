@@ -17,6 +17,12 @@ static inline void geometry_compartments_init_empty( geometry_compartments_t *th
     (*this_).if_height_on_right = 0.0;
     (*this_).if_width_on_top = 0.0;
     (*this_).if_width_on_bottom = 0.0;
+
+    /*
+    const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+    const double sum_of_gaps = 6.0 * gap;  gaps above and below each of the 3 compartment lines
+    geometry_dimensions_reinit( out_features_bounds, width + 2.0 * gap, height + sum_of_gaps );
+    */
 }
 
 static inline void geometry_compartments_reinit_empty( geometry_compartments_t *this_ )
@@ -58,14 +64,14 @@ static inline void geometry_compartments_destroy( geometry_compartments_t *this_
 }
 
 static inline void geometry_compartments_add_feature( geometry_compartments_t *this_,
-                                                      geometry_compartments_type_t compartment,
+                                                      geometry_compartment_type_t compartment,
                                                       const geometry_dimensions_t * feature_dim,
                                                       double preferred_object_distance )
 {
     const double gap = preferred_object_distance;
     switch ( compartment )
     {
-        case GEOMETRY_COMPARTMENTS_PROPERTIES:
+        case GEOMETRY_COMPARTMENT_TYPE_PROPERTIES:
         {
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
@@ -75,7 +81,7 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_OPERATIONS:
+        case GEOMETRY_COMPARTMENT_TYPE_OPERATIONS:
         {
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
@@ -85,7 +91,7 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_TAGGED_VALUES:
+        case GEOMETRY_COMPARTMENT_TYPE_TAGGED_VALUES:
         {
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
@@ -95,49 +101,49 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_PORT_ON_LEFT:
+        case GEOMETRY_COMPARTMENT_TYPE_PORT_ON_LEFT:
         {
             (*this_).port_height_on_left += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_PORT_ON_RIGHT:
+        case GEOMETRY_COMPARTMENT_TYPE_PORT_ON_RIGHT:
         {
             (*this_).port_height_on_right += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_PORT_ON_TOP:
+        case GEOMETRY_COMPARTMENT_TYPE_PORT_ON_TOP:
         {
             (*this_).port_width_on_top += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_PORT_ON_BOTTOM:
+        case GEOMETRY_COMPARTMENT_TYPE_PORT_ON_BOTTOM:
         {
             (*this_).port_width_on_bottom += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_IF_ON_LEFT:
+        case GEOMETRY_COMPARTMENT_TYPE_IF_ON_LEFT:
         {
             (*this_).if_height_on_left += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_IF_ON_RIGHT:
+        case GEOMETRY_COMPARTMENT_TYPE_IF_ON_RIGHT:
         {
             (*this_).if_height_on_right += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_IF_ON_TOP:
+        case GEOMETRY_COMPARTMENT_TYPE_IF_ON_TOP:
         {
             (*this_).if_width_on_top += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
-        case GEOMETRY_COMPARTMENTS_IF_ON_BOTTOM:
+        case GEOMETRY_COMPARTMENT_TYPE_IF_ON_BOTTOM:
         {
             (*this_).if_width_on_bottom += geometry_dimensions_get_width( feature_dim ) + gap;
         }
