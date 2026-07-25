@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.5"
+    "generator_version": "1.70.6"
   }
   ,
   "views":
@@ -3477,6 +3477,12 @@
             "classifier_name": "pencil_relationship_painter",
             "node": "fb944ba8-299f-45b3-83ab-dc12c5d5a3b1",
             "uuid": "7d49b1ab-6cd7-422e-97fd-0c514a6db2f8"
+          },
+          {
+            "id": 1075,
+            "classifier_name": "pencil_classifier_painter",
+            "node": "2eb01f9e-900d-4738-8057-2174c8526535",
+            "uuid": "579ce600-a2f9-4903-9ff2-dd825718d1e8"
           }
         ]
       }
@@ -3999,6 +4005,12 @@
             "classifier_name": "pencil_relationship_layouter",
             "node": "9a06280c-2b03-4429-8a6a-50374cceb65e",
             "uuid": "48471b93-67da-4310-832c-7708a9b0ac4c"
+          },
+          {
+            "id": 1076,
+            "classifier_name": "pencil_classifier_composer",
+            "node": "6525be3c-2fff-4e08-b987-d4c54707f633",
+            "uuid": "7f66f427-dfff-42a8-b5b6-8d97e7ce4a8b"
           }
         ]
       }
@@ -10071,8 +10083,8 @@
                 ""
         ],
         "x_order": -1978702593,
-        "y_order": -696599675,
-        "list_order": 0,
+        "y_order": -696878877,
+        "list_order": -1241219917,
         "uuid": "0a1294ac-8fc1-418e-9acd-b045eb172a69",
         "features":
         [
@@ -10099,8 +10111,8 @@
                 ""
         ],
         "x_order": -1978702593,
-        "y_order": -681743147,
-        "list_order": 0,
+        "y_order": -664058090,
+        "list_order": 150101012,
         "uuid": "1a89461e-cb24-4aed-98cb-2f1cf29f69dd",
         "features":
         [
@@ -10127,9 +10139,9 @@
                 "- pencil_rel_label_layouter\n",
                 ""
         ],
-        "x_order": -1978702593,
+        "x_order": -1979281892,
         "y_order": -664058090,
-        "list_order": 0,
+        "list_order": 987202816,
         "uuid": "5789ff9c-1f3c-43b2-900a-e459100c0f0f",
         "features":
         [
@@ -10147,14 +10159,24 @@
         "type": "Class", "main_type": 125,
         "name": "pencil_classifier_composer",
         "description": [
-                ""
+                "composes a classifier based on its icon, label, compartments and space ",
+                "dimensions.\n",
+                "\n",
+                "It positions the parts relative to the classifier but it does not position the ",
+                "classifier on the diagram. The latter is performed by the ",
+                "pencil_classifier_layouter."
         ],
-        "x_order": -1206996670,
-        "y_order": -696599675,
-        "list_order": 0,
+        "x_order": -1978702593,
+        "y_order": -679063497,
+        "list_order": -265563332,
         "uuid": "1e3eaa2d-a9ea-4d97-80f4-82b7936b508c",
         "features":
         [
+          {
+            "id": 195,
+            "type": "Lifeline", "main_type": 3,
+            "uuid": "6525be3c-2fff-4e08-b987-d4c54707f633"
+          }
         ]
       }
     },
@@ -10166,7 +10188,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1209753928,
+        "x_order": -1206996670,
         "y_order": -696878877,
         "list_order": 0,
         "uuid": "29139478-14ea-49f3-8fce-b203fa789b4a",
@@ -10183,8 +10205,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1206996670,
-        "y_order": -681743147,
+        "x_order": -1206463454,
+        "y_order": -673965122,
         "list_order": 0,
         "uuid": "02fc8bda-71bb-4575-8584-8c42378c5b9d",
         "features":
@@ -10201,7 +10223,7 @@
                 ""
         ],
         "x_order": -1206996670,
-        "y_order": -664058090,
+        "y_order": -673965122,
         "list_order": 0,
         "uuid": "fb944ba8-299f-45b3-83ab-dc12c5d5a3b1",
         "features":
@@ -20207,6 +20229,23 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 633,
+        "type": "Class", "main_type": 125,
+        "name": "pencil_classifier_painter",
+        "description": [
+                ""
+        ],
+        "x_order": -1206463454,
+        "y_order": -696878877,
+        "list_order": -694385801,
+        "uuid": "2eb01f9e-900d-4738-8057-2174c8526535",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -22118,6 +22157,22 @@
     },
     {
       "relationship": {
+        "id": 1216,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 237568,
+        "from_classifier_name": "pencil_xxx_layouter",
+        "from_node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
+        "to_classifier_name": "pencil_classifier_composer",
+        "to_node": "1e3eaa2d-a9ea-4d97-80f4-82b7936b508c",
+        "uuid": "3fb2ea3c-8835-49c8-8cb4-f92c8f705889"
+      }
+    },
+    {
+      "relationship": {
         "id": 25,
         "type": "Association", "main_type": 200,
         "name": "requires",
@@ -22130,22 +22185,6 @@
         "to_classifier_name": "layout_visible_set_t",
         "to_node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
         "uuid": "6df3522e-ee6b-474d-8cd2-fba6edb34c5a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 136,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -304321825,
-        "from_classifier_name": "pencil_xxx_painter",
-        "from_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
-        "to_classifier_name": "pencil_classifier_composer",
-        "to_node": "1e3eaa2d-a9ea-4d97-80f4-82b7936b508c",
-        "uuid": "52feb3f8-bd18-4de5-a1fa-233735f49098"
       }
     },
     {
@@ -22264,6 +22303,22 @@
         "to_feature_key": "",
         "to_node": "5fad270d-9c29-4533-962f-0276acb7a084",
         "uuid": "576c57d2-00b8-4356-b876-2dd11111a7a5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1218,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -694385801,
+        "from_classifier_name": "pencil_xxx_painter",
+        "from_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
+        "to_classifier_name": "pencil_classifier_painter",
+        "to_node": "2eb01f9e-900d-4738-8057-2174c8526535",
+        "uuid": "8d9977a4-5341-407c-9218-da9b8bc0c85e"
       }
     },
     {
@@ -23961,108 +24016,54 @@
     },
     {
       "relationship": {
-        "id": 1211,
-        "type": "Synchronous Call", "main_type": 221,
-        "name": "pencil_classifier_composer_set_envelope_box",
-        "description": [
-                "pencil_classifier_composer_set_envelope_box"
-        ],
-        "list_order": -1107902611,
-        "from_classifier_name": "pencil_classifier_layouter",
-        "from_feature_key": "",
-        "from_node": "a541b941-c097-466d-901b-325d93915b55",
-        "to_classifier_name": "pencil_classifier_layouter",
-        "to_feature_key": "",
-        "to_node": "a541b941-c097-466d-901b-325d93915b55",
-        "uuid": "a24d8804-204e-4863-a683-fc9f54c789d1"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1212,
-        "type": "Synchronous Call", "main_type": 221,
-        "name": "pencil_classifier_composer_expand_space",
-        "description": [
-                "pencil_classifier_composer_expand_space"
-        ],
-        "list_order": -402823989,
-        "from_classifier_name": "pencil_classifier_layouter",
-        "from_feature_key": "",
-        "from_node": "a541b941-c097-466d-901b-325d93915b55",
-        "to_classifier_name": "pencil_classifier_layouter",
-        "to_feature_key": "",
-        "to_node": "a541b941-c097-466d-901b-325d93915b55",
-        "uuid": "17ae0207-d329-42c3-b293-3457b8d7865d"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1213,
-        "type": "Return", "main_type": 222,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -834616323,
-        "from_classifier_name": "pencil_classifier_layouter",
-        "from_feature_key": "",
-        "from_node": "a541b941-c097-466d-901b-325d93915b55",
-        "to_classifier_name": "pencil_classifier_layouter",
-        "to_feature_key": "",
-        "to_node": "a541b941-c097-466d-901b-325d93915b55",
-        "uuid": "c7159f23-4f3f-4762-9505-6f42c11f6cb0"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1214,
-        "type": "Return", "main_type": 222,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -124071976,
-        "from_classifier_name": "pencil_classifier_layouter",
-        "from_feature_key": "",
-        "from_node": "a541b941-c097-466d-901b-325d93915b55",
-        "to_classifier_name": "pencil_classifier_layouter",
-        "to_feature_key": "",
-        "to_node": "a541b941-c097-466d-901b-325d93915b55",
-        "uuid": "55d4a533-d31a-497f-b68c-557d49161519"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1215,
-        "type": "Return", "main_type": 222,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -583192939,
-        "from_classifier_name": "pencil_feature_layouter",
-        "from_feature_key": "",
-        "from_node": "7bb44e8d-61c1-4ab7-af14-4ac09a426a37",
-        "to_classifier_name": "pencil_classifier_layouter",
-        "to_feature_key": "",
-        "to_node": "a541b941-c097-466d-901b-325d93915b55",
-        "uuid": "a79f7a3a-4237-4ec3-8e7b-09210fd2f639"
-      }
-    },
-    {
-      "relationship": {
-        "id": 635,
+        "id": 1217,
         "type": "Aggregation", "main_type": 201,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 139264,
-        "from_classifier_name": "pencil_diagram_painter",
-        "from_node": "29139478-14ea-49f3-8fce-b203fa789b4a",
+        "list_order": 270336,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_node": "0a1294ac-8fc1-418e-9acd-b045eb172a69",
         "to_classifier_name": "pencil_classifier_composer",
         "to_node": "1e3eaa2d-a9ea-4d97-80f4-82b7936b508c",
-        "uuid": "4a671e2a-c00a-4074-92da-f26202b568b1"
+        "uuid": "8d386b4e-2461-4d19-9c9b-a3ccee411df5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1219,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "pencil_classifier_composer_set_envelope_box",
+        "description": [
+                "pencil_classifier_composer_set_envelope_box"
+        ],
+        "list_order": -1021307211,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_classifier_composer",
+        "to_feature_key": "",
+        "to_node": "6525be3c-2fff-4e08-b987-d4c54707f633",
+        "uuid": "8a91e910-ca58-47f6-98e3-b47cb38d8cdd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1220,
+        "type": "Synchronous Call", "main_type": 221,
+        "name": "pencil_classifier_composer_expand_space",
+        "description": [
+                "pencil_classifier_composer_expand_space"
+        ],
+        "list_order": -151213184,
+        "from_classifier_name": "pencil_classifier_layouter",
+        "from_feature_key": "",
+        "from_node": "a541b941-c097-466d-901b-325d93915b55",
+        "to_classifier_name": "pencil_classifier_composer",
+        "to_feature_key": "",
+        "to_node": "6525be3c-2fff-4e08-b987-d4c54707f633",
+        "uuid": "fd585c54-1487-47be-8262-67dfc0dc5c59"
       }
     },
     {

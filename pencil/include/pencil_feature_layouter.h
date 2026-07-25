@@ -39,7 +39,7 @@ struct pencil_feature_layouter_struct {
     data_guidelines_t guidelines;  /*!< own instance of modelling guidelines */
     bool label_dimensions_initialized;  /*!< true if the widths and heights of labels in layout_data are already initialized */
 
-    pencil_feature_painter_t feature_painter;  /*!< own instance of a painter object to ask for display dimensions */
+    draw_feature_label_t draw_feature_label;  /*!< collection of draw label functions to ask for display dimensions */
 };
 
 typedef struct pencil_feature_layouter_struct pencil_feature_layouter_t;
@@ -174,6 +174,24 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
                                                           PangoLayout *font_layout,
                                                           layout_feature_t *io_feature_layout
                                                         );
+
+/*!
+ *  \brief determines the minumum feature bounds
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param the_feature pointer to the data to be layouted
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_feature_bounds memory location where the result shall be stored. Must not be NULL.
+ */
+void pencil_feature_layouter_get_minimum_bounds ( pencil_feature_layouter_t *this_,
+                                                  const data_feature_t *the_feature,
+                                                  const data_profile_part_t *profile,
+                                                  const pencil_size_t *pencil_size,
+                                                  PangoLayout *font_layout,
+                                                  geometry_dimensions_t *out_feature_bounds
+                                                );
 
 #endif  /* PENCIL_FEATURE_LAYOUTER_H */
 

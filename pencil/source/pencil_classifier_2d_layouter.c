@@ -89,7 +89,8 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                                          0.0,
                                          0.0,
                                          geometry_dimensions_get_width( (*this_).default_classifier_size ),
-                                         geometry_dimensions_get_height( (*this_).default_classifier_size ) );
+                                         geometry_dimensions_get_height( (*this_).default_classifier_size )
+                                       );
 
                 pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                              &envelope,
@@ -262,7 +263,7 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
     U8_TRACE_END();
 }
 
-void pencil_classifier_2d_layouter_private_propose_move_processing_order ( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+void pencil_classifier_2d_layouter_private_propose_move_processing_order( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_sorted );
@@ -305,8 +306,8 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
                 = layout_visible_classifier_get_envelope_box_const( probe_classifier );
 
             geometry_rectangle_t intersect;
-            int intersect_error;
-            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_envelope_box, probe_envelope_box );
+            const int intersect_error
+                = geometry_rectangle_init_by_intersect( &intersect, classifier_envelope_box, probe_envelope_box );
 
             if ( 0 == intersect_error )
             {

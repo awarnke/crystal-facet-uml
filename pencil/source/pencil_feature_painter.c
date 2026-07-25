@@ -557,36 +557,6 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
     U8_TRACE_END();
 }
 
-void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_,
-                                                 const data_feature_t *the_feature,
-                                                 const data_profile_part_t *profile,
-                                                 const pencil_size_t *pencil_size,
-                                                 PangoLayout *font_layout,
-                                                 geometry_dimensions_t *out_feature_bounds )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != the_feature );
-    assert( NULL != profile );
-    assert( NULL != pencil_size );
-    assert( NULL != font_layout );
-    assert( NULL != out_feature_bounds );
-
-    const geometry_dimensions_t label_dim_proposal = {
-        .width = 25.0 * pencil_size_get_standard_font_size( pencil_size ),
-        .height = pencil_size_get_standard_font_size( pencil_size )
-    };
-    draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
-                                                     the_feature,
-                                                     profile,
-                                                     &label_dim_proposal,
-                                                     pencil_size,
-                                                     font_layout,
-                                                     out_feature_bounds
-                                                   );
-
-    U8_TRACE_END();
-}
-
 
 /*
 Copyright 2017-2026 Andreas Warnke

@@ -23,7 +23,7 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
     (*this_).pencil_size = pencil_size;
     data_guidelines_init( &((*this_).guidelines) );
     (*this_).label_dimensions_initialized = false;
-    pencil_feature_painter_init( &((*this_).feature_painter) );
+    draw_feature_label_init( &((*this_).draw_feature_label) );
 
     U8_TRACE_END();
 }
@@ -41,9 +41,9 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    draw_feature_label_destroy( &((*this_).draw_feature_label) );
     data_guidelines_destroy( &((*this_).guidelines) );
     (*this_).label_dimensions_initialized = false;
-    pencil_feature_painter_destroy( &((*this_).feature_painter) );
 
     U8_TRACE_END();
 }
@@ -245,13 +245,13 @@ void pencil_feature_layouter_private_init_label_dimensions( pencil_feature_layou
         {
             geometry_dimensions_t min_feature_bounds;
             geometry_dimensions_init_empty( &min_feature_bounds );
-            pencil_feature_painter_get_minimum_bounds( &((*this_).feature_painter),
-                                                       the_feature,
-                                                       (*this_).profile,
-                                                       (*this_).pencil_size,
-                                                       font_layout,
-                                                       &min_feature_bounds
-                                                     );
+            pencil_feature_layouter_get_minimum_bounds( this_,
+                                                        the_feature,
+                                                        (*this_).profile,
+                                                        (*this_).pencil_size,
+                                                        font_layout,
+                                                        &min_feature_bounds
+                                                      );
 
             const geometry_rectangle_t label_box = {
                 .left = 0.0,
@@ -627,6 +627,36 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
     layout_feature_set_label_box( io_feature_layout, &label_box );
     layout_feature_set_symbol_box( io_feature_layout, &feat_bounds );
     layout_feature_set_icon_direction( io_feature_layout, GEOMETRY_DIRECTION_CENTER );  /* dummy direction */
+
+    U8_TRACE_END();
+}
+
+void pencil_feature_layouter_get_minimum_bounds( pencil_feature_layouter_t *this_,
+                                                 const data_feature_t *the_feature,
+                                                 const data_profile_part_t *profile,
+                                                 const pencil_size_t *pencil_size,
+                                                 PangoLayout *font_layout,
+                                                 geometry_dimensions_t *out_feature_bounds )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != the_feature );
+    assert( NULL != profile );
+    assert( NULL != pencil_size );
+    assert( NULL != font_layout );
+    assert( NULL != out_feature_bounds );
+
+    const geometry_dimensions_t label_dim_proposal = {
+        .width = 25.0 * pencil_size_get_standard_font_size( pencil_size ),
+        .height = pencil_size_get_standard_font_size( pencil_size )
+    };
+    draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
+                                                     the_feature,
+                                                     profile,
+                                                     &label_dim_proposal,
+                                                     pencil_size,
+                                                     font_layout,
+                                                     out_feature_bounds
+    );
 
     U8_TRACE_END();
 }

@@ -44,11 +44,13 @@
  *  There are two general layout schemes, based on the classifier type.
  *  Layouts with a contour (an outer border) follow the scheme
  *  - label + optional icon
+ *  - compartments
  *  - space
  *  .
  *  whereas layouts with an icon follow the scheme
  *  - icon
  *  - label
+ *  - compartments
  *  - space
  *  .
  *
@@ -62,10 +64,13 @@
  *  - the name.
  *  .
  *
- *  The space consists of compartments:
+ *  The feature-compartments consist of
  *  - properties
  *  - operations
  *  - tagged values
+ *  .
+ *
+ *  The space consists of
  *  - contained classifiers
  *  .
  */
@@ -122,6 +127,7 @@ pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_compo
  *  \brief resizes the contour, inner drawing space for contained classifiers and features - and the label_box
  *
  *  This method returns values to embrace title and ornaments. classifiers symbol_box is expected to be fix.
+ *  It sets the feature compartments to size zero and assigns all remaining space to the children space.
  *
  *  \param this_ pointer to own object attributes
  *  \param envelope exact new outer envelope box; should be big enough to contain the classifier
@@ -154,7 +160,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box ( pencil_classifier_c
  *                                  (needed for uml package because the symbol differs)
  *  \param has_stereotype_icon true if no stereotype label shall be printed because an icon is shown instead
  *  \param space_and_label proposed rectangle for the position,
- *                         width and height of: label and icon and features and contained classifiers
+ *                         width and height of: label and icon, feature cmopartments and contained classifiers.
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype-as-text and name)

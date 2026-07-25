@@ -160,6 +160,9 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
         /* calculate icon_box */
         layout_visible_classifier_set_icon_box( io_classifier_layout, &icon_rect );
 
+        /* re-calculate feature compartments */
+        // TODO
+
         /* calculate space */
         /* get the symbol and label boxes and inner space rectangles to modify */
         geometry_rectangle_t classifier_space;
@@ -245,6 +248,16 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                                                             &icon_rect,
                                                             &label_compartment
                                                           );
+
+    /* position compartments box below label box */
+    geometry_rectangle_t compartments_rect;
+    geometry_rectangle_init( &compartments_rect,
+                             geometry_rectangle_get_left(&space_and_label),
+                             geometry_rectangle_get_bottom(&label_compartment),
+                             geometry_rectangle_get_width(&space_and_label),
+                             0.0
+                           );
+    layout_visible_classifier_set_compartments( io_classifier_layout, &compartments_rect );
 
     /* if label fits into space_and_label */
     if ( area_too_small == PENCIL_ERROR_NONE )
@@ -346,6 +359,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     geometry_rectangle_destroy( &label_rect );
     geometry_rectangle_destroy( &icon_rect );
     geometry_rectangle_destroy( &label_compartment );
+    geometry_rectangle_destroy( &compartments_rect );
 
     U8_TRACE_END_ERR( area_too_small );
     return area_too_small;
