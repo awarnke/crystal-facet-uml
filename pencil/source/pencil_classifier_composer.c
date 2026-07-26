@@ -37,6 +37,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
 pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_composer_t *this_,
                                                         const geometry_rectangle_t *space,
                                                         bool shows_contained_children,
+                                                        const geometry_compartments_t *features_dimensions,
                                                         const data_profile_part_t *profile,
                                                         const pencil_size_t *pencil_size,
                                                         PangoLayout *font_layout,
@@ -160,8 +161,15 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
         /* calculate icon_box */
         layout_visible_classifier_set_icon_box( io_classifier_layout, &icon_rect );
 
-        /* re-calculate feature compartments */
-        // TODO
+        /* calculate feature compartments */
+        geometry_rectangle_t compartments_rect;
+        geometry_rectangle_init( &compartments_rect,
+                                 geometry_rectangle_get_left(&label_rect),
+                                 geometry_rectangle_get_bottom(&label_compartment),
+                                 geometry_rectangle_get_width(&label_compartment),
+                                 0.0
+        );
+        layout_visible_classifier_set_compartments( io_classifier_layout, &compartments_rect );
 
         /* calculate space */
         /* get the symbol and label boxes and inner space rectangles to modify */
@@ -174,15 +182,19 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
                                );
         layout_visible_classifier_set_space( io_classifier_layout, &classifier_space );
         geometry_rectangle_destroy( &classifier_space );
+
+        geometry_rectangle_destroy( &compartments_rect );
     }
 
-    U8_TRACE_INFO("==== symbol_box ====" );
+    U8_TRACE_INFO("==== symbol_box   ====" );
     geometry_rectangle_trace( layout_visible_classifier_get_symbol_box_const( io_classifier_layout ) );
-    U8_TRACE_INFO("==== label_box  ====" );
+    U8_TRACE_INFO("==== label_box    ====" );
     geometry_rectangle_trace( &label_rect );
-    U8_TRACE_INFO("==== icon_box  ====" );
+    U8_TRACE_INFO("==== icon_box     ====" );
     geometry_rectangle_trace( &icon_rect );
-    U8_TRACE_INFO("==== space     =====" );
+    U8_TRACE_INFO("==== compartments =====" );
+    geometry_rectangle_trace( layout_visible_classifier_get_compartments_const( io_classifier_layout ) );
+    U8_TRACE_INFO("==== space        =====" );
     geometry_rectangle_trace( layout_visible_classifier_get_space_const( io_classifier_layout ) );
 
     geometry_rectangle_destroy( &label_rect );
@@ -196,6 +208,7 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
 pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_composer_t *this_,
                                                             const geometry_rectangle_t *envelope,
                                                             bool shows_contained_children,
+                                                            const geometry_compartments_t *features_dimensions,
                                                             const data_profile_part_t *profile,
                                                             const pencil_size_t *pencil_size,
                                                             PangoLayout *font_layout,
@@ -318,13 +331,15 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
         /* calculate icon_box */
         layout_visible_classifier_set_icon_box( io_classifier_layout, &icon_rect );
 
-        U8_TRACE_INFO("==== symbol_box ====" );
+        U8_TRACE_INFO("==== symbol_box   ====" );
         geometry_rectangle_trace( layout_visible_classifier_get_symbol_box_const( io_classifier_layout ) );
-        U8_TRACE_INFO("==== label_box  ====" );
+        U8_TRACE_INFO("==== label_box    ====" );
         geometry_rectangle_trace( &label_rect );
-        U8_TRACE_INFO("==== icon_box  ====" );
+        U8_TRACE_INFO("==== icon_box     ====" );
         geometry_rectangle_trace( &icon_rect );
-        U8_TRACE_INFO("==== space     =====" );
+        U8_TRACE_INFO("==== compartments =====" );
+        geometry_rectangle_trace( layout_visible_classifier_get_compartments_const( io_classifier_layout ) );
+        U8_TRACE_INFO("==== space        =====" );
         geometry_rectangle_trace( &classifier_space );
 
         geometry_rectangle_destroy( &classifier_space );
@@ -340,6 +355,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
         pencil_classifier_composer_expand_space( this_,
                                                  &space_guess,
                                                  shows_contained_children,
+                                                 features_dimensions,
                                                  profile,
                                                  pencil_size,
                                                  font_layout,

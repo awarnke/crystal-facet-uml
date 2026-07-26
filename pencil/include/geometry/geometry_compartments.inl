@@ -54,6 +54,24 @@ static inline void geometry_compartments_replacemove ( geometry_compartments_t *
     geometry_compartments_destroy( that );
 }
 
+static inline geometry_compartments_t geometry_compartments_new_empty()
+{
+    geometry_compartments_t result;
+    geometry_compartments_init( &result, 0.0 );
+    return result;
+}
+
+static inline geometry_compartments_t geometry_compartments_new( const geometry_dimensions_t *compartments,
+                                                                 const geometry_dimensions_t *outer )
+{
+    geometry_compartments_t result;
+    geometry_compartments_init( &result, 0.0 );
+    geometry_dimensions_replace( &(result.feature_compartments), compartments );
+    result.port_height_on_left = geometry_dimensions_get_height( outer );
+    result.port_width_on_top = geometry_dimensions_get_width( outer );
+    return result;
+}
+
 static inline void geometry_compartments_destroy( geometry_compartments_t *this_ )
 {
     geometry_dimensions_destroy( &((*this_).feature_compartments) );
@@ -202,6 +220,22 @@ static inline double geometry_compartments_get_if_width_on_top( const geometry_c
 static inline double geometry_compartments_get_if_width_on_bottom( const geometry_compartments_t *this_ )
 {
     return (*this_).if_width_on_bottom;
+}
+
+static inline double geometry_compartments_get_outer_height ( const geometry_compartments_t *this_ )
+{
+    const double if_height = u8_f64_max2( (*this_).if_height_on_left, (*this_).if_height_on_right );
+    const double port_height = u8_f64_max2( (*this_).port_height_on_left, (*this_).port_height_on_right );
+    const double result = u8_f64_max2( if_height, port_height );
+    return result;
+}
+
+static inline double geometry_compartments_get_outer_width ( const geometry_compartments_t *this_ )
+{
+    const double if_width = u8_f64_max2( (*this_).if_width_on_top, (*this_).if_width_on_bottom );
+    const double port_width = u8_f64_max2( (*this_).port_width_on_top, (*this_).port_width_on_bottom );
+    const double result = u8_f64_max2( if_width, port_width );
+    return result;
 }
 
 static inline void geometry_compartments_trace( const geometry_compartments_t *this_ )

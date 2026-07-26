@@ -91,11 +91,13 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
         {
             geometry_rectangle_t envelope_box;
             geometry_rectangle_init( &envelope_box, 0.0, 0.0, golden_ratio_width, (golden_ratio_height/c_count) );
+            const geometry_compartments_t no_features = geometry_compartments_new_empty();
 
             const bool has_contained_children = false;  /* this diagram type does not embrace children */
             pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                          &envelope_box,
                                                          has_contained_children,
+                                                         &no_features,
                                                          (*this_).profile,
                                                          (*this_).pencil_size,
                                                          font_layout,
@@ -208,11 +210,13 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             {
                 geometry_rectangle_init( &envelope_box, 0.0, 0.0, (golden_ratio_width/c_count), minor_minor_height );
             }
+            const geometry_compartments_t no_features = geometry_compartments_new_empty();
 
             const bool has_contained_children = false;  /* this diagram type does not embrace children */
             pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                          &envelope_box,
                                                          has_contained_children,
+                                                         &no_features,
                                                          (*this_).profile,
                                                          (*this_).pencil_size,
                                                          font_layout,
@@ -335,11 +339,13 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
         {
             geometry_rectangle_t envelope_box;
             geometry_rectangle_init( &envelope_box, 0.0, 0.0, ((diag_w-golden_ratio_width)/2.0), (golden_ratio_height/c_count) );
+            const geometry_compartments_t no_features = geometry_compartments_new_empty();
 
             const bool has_contained_children = false;  /* this diagram type does not embrace children */
             pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                          &envelope_box,
                                                          has_contained_children,
+                                                         &no_features,
                                                          (*this_).profile,
                                                          (*this_).pencil_size,
                                                          font_layout,

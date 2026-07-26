@@ -84,6 +84,27 @@ static inline void geometry_compartments_replace ( geometry_compartments_t *this
 static inline void geometry_compartments_replacemove ( geometry_compartments_t *this_, geometry_compartments_t *that );
 
 /*!
+ *  \brief initializes the geometry_compartments_t struct to an empty rect at position 0,0
+ *
+ *  The layouting metrics for standard_object_border are also set to 0.0
+ *
+ *  \return own object attributes
+ */
+static inline geometry_compartments_t geometry_compartments_new_empty ();
+
+/*!
+ *  \brief initializes the geometry_compartments_t struct to an empty rect at position 0,0
+ *
+ *  The layouting metrics for standard_object_border are also set to 0.0
+ *
+ *  \param compartments dimensions of feature compartments
+ *  \param outer dimensions of outer features: ports and interfaces
+ *  \return own object attributes
+ */
+static inline geometry_compartments_t geometry_compartments_new ( const geometry_dimensions_t *compartments,
+                                                                  const geometry_dimensions_t *outer );
+
+/*!
  *  \brief destroys the geometry_compartments_t struct
  *
  *  \param this_ pointer to own object attributes
@@ -173,6 +194,20 @@ static inline double geometry_compartments_get_if_width_on_bottom ( const geomet
  *  \param this_ pointer to own object attributes
  */
 static inline void geometry_compartments_trace ( const geometry_compartments_t *this_ );
+
+/*!
+ *  \brief gets the maximum of all interface and port heights
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_compartments_get_outer_height ( const geometry_compartments_t *this_ );
+
+/*!
+ *  \brief gets the maximum of all interface and port widths
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_compartments_get_outer_width ( const geometry_compartments_t *this_ );
 
 #include "geometry/geometry_compartments.inl"
 

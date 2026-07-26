@@ -134,6 +134,7 @@ static test_case_result_t test_expand_space( test_fixture_t *fix )
     assert( fix != NULL );
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
+    const geometry_compartments_t no_features = geometry_compartments_new_empty();
 
     const geometry_rectangle_t in_space = { .left = 100.0, .top = 90.0, .width = 420.0, .height = 104.0 };
 
@@ -152,6 +153,7 @@ static test_case_result_t test_expand_space( test_fixture_t *fix )
                 = pencil_classifier_composer_expand_space( &classifier_composer,
                                                            &in_space,
                                                            (show_children != 0),
+                                                           &no_features,
                                                            &(*fix).profile,
                                                            &(*fix).pencil_size,
                                                            (*fix).font_layout,
@@ -192,6 +194,7 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *fix )
     assert( fix != NULL );
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
+    const geometry_compartments_t no_features = geometry_compartments_new_empty();
 
     const geometry_rectangle_t envelope = { .left = 50.0, .top = 40.0, .width = 460.0, .height = 180.0 };
 
@@ -210,6 +213,7 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *fix )
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &envelope,
                                                                (show_children != 0),
+                                                               &no_features,
                                                                &(*fix).profile,
                                                                &(*fix).pencil_size,
                                                                (*fix).font_layout,
@@ -242,6 +246,7 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *fix )
     assert( fix != NULL );
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
+    const geometry_compartments_t no_features = geometry_compartments_new_empty();
 
     const geometry_rectangle_t small_envelope = { .left = 150.0, .top = 140.0, .width = 15.0, .height = 10.0 };
 
@@ -260,6 +265,7 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *fix )
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &small_envelope,
                                                                (show_children != 0),
+                                                               &no_features,
                                                                &(*fix).profile,
                                                                &(*fix).pencil_size,
                                                                (*fix).font_layout,

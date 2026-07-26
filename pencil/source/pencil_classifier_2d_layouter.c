@@ -82,6 +82,17 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
             const bool shows_contained_children = false;  /* if classifier has children, this will be updated later */
                                                           /* when calling pencil_classifier_composer_set_space_and_label */
 
+            /* determine feature dimensions */
+            const double obj_border = pencil_size_get_standard_object_border( (*this_).pencil_size );
+            geometry_compartments_t features_dim;
+            geometry_compartments_init( &features_dim, obj_border );
+            pencil_feature_layouter_calculate_features_dimensions( (*this_).feature_layouter,
+                                                                   layout_visible_classifier_get_diagramelement_id( classifier_layout ),
+                                                                   font_layout,
+                                                                   &features_dim
+                                                                 );
+
+
             /* init by default size */
             {
                 geometry_rectangle_t envelope;
@@ -95,6 +106,7 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                 pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                              &envelope,
                                                              shows_contained_children,
+                                                             &features_dim,
                                                              (*this_).profile,
                                                              (*this_).pencil_size,
                                                              font_layout,
@@ -106,36 +118,54 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
 
             /* check if inner space is big enough for contained features */
             {
-                const double obj_border = pencil_size_get_standard_object_border( (*this_).pencil_size );
-                geometry_compartments_t features_dim;
-                geometry_compartments_init( &features_dim, obj_border );
-                pencil_feature_layouter_calculate_features_dimensions( (*this_).feature_layouter,
-                                                                       layout_visible_classifier_get_diagramelement_id( classifier_layout ),
-                                                                       font_layout,
-                                                                       &features_dim
-                                                                     );
                 const geometry_dimensions_t *const compartments_dim
                     = geometry_compartments_get_feature_compartments( &features_dim );
+                /* set the feature compartments and reduce the space */
+                geometry_rectangle_t compartments_rect;
+                geometry_rectangle_copy( &compartments_rect,
+                                         layout_visible_classifier_get_compartments_const( classifier_layout )
+                                       );
+                geometry_rectangle_set_width( &compartments_rect,
+                                              geometry_dimensions_get_width( compartments_dim )
+                                            );
+                geometry_rectangle_set_height( &compartments_rect,
+                                               geometry_dimensions_get_height( compartments_dim )
+                                             );
+                layout_visible_classifier_set_compartments( classifier_layout, &compartments_rect );
 
                 const geometry_rectangle_t *const space_rect
                     = layout_visible_classifier_get_space_const( classifier_layout );
                 const geometry_dimensions_t space_dim = geometry_rectangle_get_dimensions( space_rect );
 
-                if ( ! geometry_dimensions_can_contain( &space_dim, compartments_dim ) )
+                if ( geometry_dimensions_can_contain( &space_dim, compartments_dim ) )
                 {
+                    /* reduce the space by feature compartments */
                     geometry_rectangle_t new_space;
                     geometry_rectangle_copy( &new_space, space_rect );
+                    geometry_rectangle_shift( &new_space, 0.0, geometry_dimensions_get_height( compartments_dim ) );
+                    geometry_rectangle_enlarge( &new_space, 0.0, -geometry_dimensions_get_height( compartments_dim ) );
+                    layout_visible_classifier_set_space( classifier_layout, &new_space );
+                    geometry_rectangle_destroy( &new_space );
+                }
+                else
+                {
+                    /* recalculate the space */
+                    geometry_rectangle_t new_space;
+                    geometry_rectangle_copy( &new_space, space_rect );
+                    geometry_rectangle_shift( &new_space, 0.0, geometry_dimensions_get_height( compartments_dim ) );
                     const double delta_width
                         = geometry_dimensions_get_width( compartments_dim ) - geometry_rectangle_get_width( space_rect );
                     const double delta_height
-                        = geometry_dimensions_get_height( compartments_dim ) - geometry_rectangle_get_height( space_rect );
+                        = geometry_rectangle_get_height( space_rect ) - geometry_dimensions_get_height( compartments_dim );
                     geometry_rectangle_expand_4dir( &new_space,
-                                                  (delta_width<0.0) ? 0.0 : 0.5*delta_width,
-                                                  (delta_height<0.0) ? 0.0 : 0.5*delta_height );
+                                                    (delta_width<0.0) ? 0.0 : 0.5*delta_width,
+                                                    (delta_height<0.0) ? 0.0 : 0.5*delta_height
+                                                  );
 
                     pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
                                                              &new_space,
                                                              shows_contained_children,
+                                                             &features_dim,
                                                              (*this_).profile,
                                                              (*this_).pencil_size,
                                                              font_layout,
@@ -145,8 +175,9 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                     geometry_rectangle_destroy( &new_space );
                 }
 
-                geometry_compartments_destroy( &features_dim );
+                geometry_rectangle_destroy( &compartments_rect );
             }
+            geometry_compartments_destroy( &features_dim );
         }
 
         /* move the classifier rectangles to the target location */
@@ -802,9 +833,21 @@ pencil_error_t pencil_classifier_2d_layouter_private_try_embrace_child( pencil_c
                 geometry_rectangle_init_by_bounds( &probe_space, parent_space, &child_envelope );
             }
 
+            /* re-estimate the geometry_compartments_t after now knowing the width of the child_envelope. */
+            /* As a first step, simply re-use the layout_visible_classifier_t.compartments and .envelope_box_cache here */
+            const geometry_rectangle_t *const old_compartments
+                = layout_visible_classifier_get_compartments_const( from_classifier );
+            geometry_dimensions_t old_compartments_dim = geometry_rectangle_get_dimensions( old_compartments );
+            const geometry_rectangle_t *const old_envelope
+                = layout_visible_classifier_get_envelope_box_const( from_classifier );
+            geometry_dimensions_t old_envelope_dim = geometry_rectangle_get_dimensions( old_envelope );
+            const geometry_compartments_t features_dim
+                = geometry_compartments_new( &old_compartments_dim, &old_envelope_dim );
+
             pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
                                                      &probe_space,
                                                      true,  /* = shows_contained_children */
+                                                     &features_dim,
                                                      (*this_).profile,
                                                      (*this_).pencil_size,
                                                      font_layout,
@@ -972,12 +1015,24 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
             const geometry_rectangle_t outer_space
                 = pencil_classifier_2d_layouter_private_calc_outer_space( this_, &children_envelope, the_classifier );
 
+            /* re-estimate the geometry_compartments_t after now knowing the width of the children_envelope. */
+            /* As a first step, simply re-use the layout_visible_classifier_t.compartments and .envelope_box_cache here: */
+            const geometry_rectangle_t *const old_compartments
+                = layout_visible_classifier_get_compartments_const( the_classifier );
+            geometry_dimensions_t old_compartments_dim = geometry_rectangle_get_dimensions( old_compartments );
+            const geometry_rectangle_t *const old_envelope
+                = layout_visible_classifier_get_envelope_box_const( the_classifier );
+            geometry_dimensions_t old_envelope_dim = geometry_rectangle_get_dimensions( old_envelope );
+            const geometry_compartments_t features_dim
+                = geometry_compartments_new( &old_compartments_dim, &old_envelope_dim );
+
             /* place the children into the (probe-)parent */
             layout_visible_classifier_t probe_parent_layout;
             layout_visible_classifier_copy( &probe_parent_layout, the_classifier );
             pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
                                                      &children_envelope,
                                                      true,  /* = shows_contained_children */
+                                                     &features_dim,
                                                      (*this_).profile,
                                                      (*this_).pencil_size,
                                                      font_layout,
@@ -1003,6 +1058,7 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                 pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                              &new_envelope,
                                                              true,  /* = shows_contained_children */
+                                                             &features_dim,
                                                              (*this_).profile,
                                                              (*this_).pencil_size,
                                                              font_layout,

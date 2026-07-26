@@ -245,13 +245,13 @@ void pencil_feature_layouter_private_init_label_dimensions( pencil_feature_layou
         {
             geometry_dimensions_t min_feature_bounds;
             geometry_dimensions_init_empty( &min_feature_bounds );
-            pencil_feature_layouter_get_minimum_bounds( this_,
-                                                        the_feature,
-                                                        (*this_).profile,
-                                                        (*this_).pencil_size,
-                                                        font_layout,
-                                                        &min_feature_bounds
-                                                      );
+            pencil_feature_layouter_private_get_minimum_bounds( this_,
+                                                                the_feature,
+                                                                (*this_).profile,
+                                                                (*this_).pencil_size,
+                                                                font_layout,
+                                                                &min_feature_bounds
+                                                              );
 
             const geometry_rectangle_t label_box = {
                 .left = 0.0,
@@ -631,12 +631,12 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
     U8_TRACE_END();
 }
 
-void pencil_feature_layouter_get_minimum_bounds( pencil_feature_layouter_t *this_,
-                                                 const data_feature_t *the_feature,
-                                                 const data_profile_part_t *profile,
-                                                 const pencil_size_t *pencil_size,
-                                                 PangoLayout *font_layout,
-                                                 geometry_dimensions_t *out_feature_bounds )
+void pencil_feature_layouter_private_get_minimum_bounds( pencil_feature_layouter_t *this_,
+                                                         const data_feature_t *the_feature,
+                                                         const data_profile_part_t *profile,
+                                                         const pencil_size_t *pencil_size,
+                                                         PangoLayout *font_layout,
+                                                         geometry_dimensions_t *out_feature_bounds )
 {
     U8_TRACE_BEGIN();
     assert( NULL != the_feature );

@@ -23,6 +23,7 @@
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
+#include "geometry/geometry_compartments.h"
 #include "entity/data_diagram.h"
 #include "set/data_small_set.h"
 #include "set/data_profile_part.h"
@@ -107,6 +108,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param space exact new space
  *  \param shows_contained_children true if the classifier has contained children
  *                                  (needed for uml package because the symbol differs)
+ *  \param features_dimensions the dimensinos of feature compartments, ports and interfaces
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -117,6 +119,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
 pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
                                                          const geometry_rectangle_t *space,
                                                          bool shows_contained_children,
+                                                         const geometry_compartments_t *features_dimensions,
                                                          const data_profile_part_t *profile,
                                                          const pencil_size_t *pencil_size,
                                                          PangoLayout *font_layout,
@@ -133,6 +136,7 @@ pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_compo
  *  \param envelope exact new outer envelope box; should be big enough to contain the classifier
  *  \param shows_contained_children true if the classifier has contained children
  *                                  (needed for uml package because the symbol differs)
+ *  \param features_dimensions the dimensinos of feature compartments, ports and interfaces
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -143,6 +147,7 @@ pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_compo
 pencil_error_t pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *this_,
                                                              const geometry_rectangle_t *envelope,
                                                              bool shows_contained_children,
+                                                             const geometry_compartments_t *features_dimensions,
                                                              const data_profile_part_t *profile,
                                                              const pencil_size_t *pencil_size,
                                                              PangoLayout *font_layout,
