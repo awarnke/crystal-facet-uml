@@ -100,34 +100,7 @@ void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ );
 void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
 
 /*!
- *  \brief recalculates symbol_box and label_box based on new space_and_label
- *
- *  Precondition: the objects coordinates need to be valid already. This is just a partly recalculation.
- *
- *  \param this_ pointer to own object attributes
- *  \param space exact new space
- *  \param shows_contained_children true if the classifier has contained children
- *                                  (needed for uml package because the symbol differs)
- *  \param features_dimensions the dimensinos of feature compartments, ports and interfaces
- *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param io_classifier_layout classifier layout of which the box coordinates shall be modified. Must not be NULL.
- *  \return PENCIL_ERROR_NONE in case of success,
- *          PENCIL_ERROR_OUT_OF_BOUNDS in case of additionally needed width by label text
- */
-pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
-                                                         const geometry_rectangle_t *space,
-                                                         bool shows_contained_children,
-                                                         const geometry_compartments_t *features_dimensions,
-                                                         const data_profile_part_t *profile,
-                                                         const pencil_size_t *pencil_size,
-                                                         PangoLayout *font_layout,
-                                                         layout_visible_classifier_t *io_classifier_layout
-                                                       );
-
-/*!
- *  \brief resizes the contour, inner drawing space for contained classifiers and features - and the label_box
+ *  \brief resizes the contour, inner drawing space for contained classifiers and features and the label_box
  *
  *  This method returns values to embrace title and ornaments. classifiers symbol_box is expected to be fix.
  *  It sets the feature compartments to size zero and assigns all remaining space to the children space.
@@ -153,6 +126,33 @@ pencil_error_t pencil_classifier_composer_set_envelope_box ( pencil_classifier_c
                                                              PangoLayout *font_layout,
                                                              layout_visible_classifier_t *io_classifier_layout
                                                            );
+
+/*!
+ *  \brief recalculates symbol_box and label_box based on new space
+ *
+ *  Precondition: the objects coordinates need to be valid already. This is just a partly recalculation.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param space exact new space
+ *  \param shows_contained_children true if the classifier has contained children
+ *                                  (needed for uml package because the symbol differs)
+ *  \param features_dimensions the dimensinos of feature compartments, ports and interfaces
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param io_classifier_layout classifier layout of which the box coordinates shall be modified. Must not be NULL.
+ *  \return PENCIL_ERROR_NONE in case of success,
+ *          PENCIL_ERROR_OUT_OF_BOUNDS in case of additionally needed width by label text
+ */
+pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
+                                                         const geometry_rectangle_t *space,
+                                                         bool shows_contained_children,
+                                                         const geometry_compartments_t *features_dimensions,
+                                                         const data_profile_part_t *profile,
+                                                         const pencil_size_t *pencil_size,
+                                                         PangoLayout *font_layout,
+                                                         layout_visible_classifier_t *io_classifier_layout
+                                                       );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
