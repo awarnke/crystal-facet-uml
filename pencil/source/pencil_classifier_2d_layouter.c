@@ -137,22 +137,11 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                     = layout_visible_classifier_get_space_const( classifier_layout );
                 const geometry_dimensions_t space_dim = geometry_rectangle_get_dimensions( space_rect );
 
-                if ( geometry_dimensions_can_contain( &space_dim, compartments_dim ) )
-                {
-                    /* reduce the space by feature compartments */
-                    geometry_rectangle_t new_space;
-                    geometry_rectangle_copy( &new_space, space_rect );
-                    geometry_rectangle_shift( &new_space, 0.0, geometry_dimensions_get_height( compartments_dim ) );
-                    geometry_rectangle_enlarge( &new_space, 0.0, -geometry_dimensions_get_height( compartments_dim ) );
-                    layout_visible_classifier_set_space( classifier_layout, &new_space );
-                    geometry_rectangle_destroy( &new_space );
-                }
-                else
+                if ( ! geometry_dimensions_can_contain( &space_dim, compartments_dim ) )
                 {
                     /* recalculate the space */
                     geometry_rectangle_t new_space;
                     geometry_rectangle_copy( &new_space, space_rect );
-                    geometry_rectangle_shift( &new_space, 0.0, geometry_dimensions_get_height( compartments_dim ) );
                     const double delta_width
                         = geometry_dimensions_get_width( compartments_dim ) - geometry_rectangle_get_width( space_rect );
                     const double delta_height

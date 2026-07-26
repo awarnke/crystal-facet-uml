@@ -470,15 +470,15 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
     /* define names for input data */
     const geometry_rectangle_t *const classifier_symbol_box
         = layout_visible_classifier_get_symbol_box_const( layouted_classifier );
-    const geometry_rectangle_t *const classifier_space
-        = layout_visible_classifier_get_space_const( layouted_classifier );
+    const geometry_rectangle_t *const classifier_compartments
+        = layout_visible_classifier_get_compartments_const( layouted_classifier );
     const double gap = pencil_size_get_standard_object_border( pencil_size );
     const data_row_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
 
     /* determine number of properties and operations */
-    double compartment1_y = geometry_rectangle_get_top( classifier_space ) + gap;
-    double compartment2_y = geometry_rectangle_get_top( classifier_space ) + 3.0 * gap;
-    double compartment3_y = geometry_rectangle_get_top( classifier_space ) + 5.0 * gap;
+    double compartment1_y = geometry_rectangle_get_top( classifier_compartments ) + gap;
+    double compartment2_y = geometry_rectangle_get_top( classifier_compartments ) + 3.0 * gap;
+    double compartment3_y = geometry_rectangle_get_top( classifier_compartments ) + 5.0 * gap;
     uint_fast32_t count_compartment_entries = 0;
 
     const uint32_t num_features = layout_visible_set_get_feature_count ( layout_data );
