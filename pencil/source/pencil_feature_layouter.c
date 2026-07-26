@@ -138,10 +138,11 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             case DATA_FEATURE_TYPE_OPERATION:  /* or */
             case DATA_FEATURE_TYPE_TAGGED_VALUE:
             {
-                /* layout property or operation feature within the space area, also the tagged values */
-                const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const ( layout_classifier );
+                /* layout property or operation feature within the feature compartments, also the tagged values */
+                const geometry_rectangle_t *const c_compartments
+                    = layout_visible_classifier_get_compartments_const ( layout_classifier );
                 pencil_feature_layouter_private_layout_compartment ( this_,
-                                                                     c_space,
+                                                                     c_compartments,
                                                                      font_layout,
                                                                      feature_layout
                                                                    );
@@ -153,9 +154,10 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 U8_LOG_ANOMALY("unknown feature type in pencil_feature_layouter_do_layout");
                 /* this may happen if a new database file has been read by an old program version */
                 /* layout like property or operation or tagged values */
-                const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const ( layout_classifier );
+                const geometry_rectangle_t *const c_compartments
+                    = layout_visible_classifier_get_compartments_const ( layout_classifier );
                 pencil_feature_layouter_private_layout_compartment ( this_,
-                                                                     c_space,
+                                                                     c_compartments,
                                                                      font_layout,
                                                                      feature_layout
                                                                    );
