@@ -51,20 +51,22 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
 
     /* get data that shall be layouted/composed */
     const data_visible_classifier_t *const visible_classifier
-    = layout_visible_classifier_get_data_const( io_classifier_layout );
+        = layout_visible_classifier_get_data_const( io_classifier_layout );
     const data_classifier_t *const classifier
-    = data_visible_classifier_get_classifier_const( visible_classifier );
+        = data_visible_classifier_get_classifier_const( visible_classifier );
     const data_classifier_type_t classifier_type
-    = data_classifier_get_main_type( classifier );
+        = data_classifier_get_main_type( classifier );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
     const bool has_stereotype_icon
-    = draw_stereotype_icon_exists( &((*this_).draw_stereotype_icon), classifier_stereotype, profile );
+        = draw_stereotype_icon_exists( &((*this_).draw_stereotype_icon), classifier_stereotype, profile );
 
     U8_TRACE_INFO_INT("calculating bounds of classifier id, type:", data_classifier_get_row( classifier ) );
     U8_TRACE_INFO_INT_INT("calculating bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
-    /* determine border sizes of the classifier-shape */
-    const geometry_rectangle_t space_and_label
+    /* determine inner_area of the classifier-shape */
+    const bool has_contour
+        = draw_classifier_contour_has_contour( &((*this_).draw_classifier_contour), classifier_type );
+    const geometry_rectangle_t inner_area
         = draw_classifier_contour_calc_inner_area( &((*this_).draw_classifier_contour),
                                                    classifier_type,
                                                    envelope,
@@ -83,7 +85,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                                                             visible_classifier,
                                                             shows_contained_children,
                                                             has_stereotype_icon,
-                                                            &space_and_label,
+                                                            &inner_area,
                                                             pencil_size,
                                                             font_layout,
                                                             &label_rect,
@@ -91,9 +93,19 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                                                             &label_compartment
                                                           );
 
+    /* calculate label_box */
+    layout_visible_classifier_set_label_box( io_classifier_layout, &label_rect );
+    layout_visible_classifier_set_label_anchor( io_classifier_layout,
+                                                GEOMETRY_H_ALIGN_CENTER,
+                                                GEOMETRY_V_ALIGN_TOP
+                                              );
+
+    /* calculate icon_box */
+    layout_visible_classifier_set_icon_box( io_classifier_layout, &icon_rect );
+
     /* position compartments box below label box */
     const geometry_dimensions_t *const compartment_dim
-    = geometry_compartments_get_feature_compartments( features_dimensions );
+        = geometry_compartments_get_feature_compartments( features_dimensions );
     geometry_rectangle_t compartments_rect;
     geometry_rectangle_init( &compartments_rect,
                              geometry_rectangle_get_left( &label_compartment ),
@@ -103,89 +115,70 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                            );
     layout_visible_classifier_set_compartments( io_classifier_layout, &compartments_rect );
 
-    /* add label and feature compartment sizes */
-    const bool has_contour
-        = draw_classifier_contour_has_contour( &((*this_).draw_classifier_contour), classifier_type );
+    /* calculate space */
     const double label_and_features_height
         = geometry_rectangle_get_height( &label_compartment )
-        + geometry_dimensions_get_height( compartment_dim )
-        + ( has_contour ? 0.0 : pencil_size_get_classifier_symbol_height( pencil_size ) );
+        + geometry_dimensions_get_height( compartment_dim );
+    geometry_rectangle_t classifier_space;
+    geometry_rectangle_copy( &classifier_space, &inner_area );
+    geometry_rectangle_shift( &classifier_space, 0.0, label_and_features_height );
+    geometry_rectangle_enlarge( &classifier_space, 0.0, -label_and_features_height );
+    layout_visible_classifier_set_space( io_classifier_layout, &classifier_space );
+    const bool space_too_small
+        = ( geometry_rectangle_get_height( &classifier_space ) < pencil_size_get_bold_line_width( pencil_size ) );
 
-    /* if label fits into space_and_label */
-    if ( area_too_small == PENCIL_ERROR_NONE )
+    /* set symbol */
+    if ( has_contour )
     {
+        U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
 
-        /* get the symbol and label boxes and inner space rectangles to modify */
-        geometry_rectangle_t classifier_space;
-        geometry_rectangle_copy( &classifier_space, &space_and_label );
-
-        if ( has_contour )
-        {
-            U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
-
-            /* calculate symbol bounds */
-            layout_visible_classifier_set_symbol_box( io_classifier_layout, envelope );
-
-            /* calculate space */
-            geometry_rectangle_shift( &classifier_space, 0.0, label_and_features_height );
-            geometry_rectangle_enlarge( &classifier_space, 0.0, -label_and_features_height );
-        }
-        else
-        {
-            U8_TRACE_INFO("calculating symbol box for fixed-sized icon..." );
-
-            const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
-            const double symbol_width = symbol_height;
-
-            /* calculate symbol bounds */
-            const geometry_h_align_t H_CENTER = GEOMETRY_H_ALIGN_CENTER;
-            const double symbol_left
-                = geometry_h_align_get_left( &H_CENTER,
-                                             symbol_width,
-                                             geometry_rectangle_get_left( &space_and_label ),
-                                             geometry_rectangle_get_width( &space_and_label )
-                                           );
-            const double symbol_top = geometry_rectangle_get_top( &label_compartment ) - symbol_height;
-            geometry_rectangle_t classifier_symbol_box;
-            geometry_rectangle_init( &classifier_symbol_box, symbol_left, symbol_top, symbol_width, symbol_height );
-            layout_visible_classifier_set_symbol_box( io_classifier_layout, &classifier_symbol_box );
-            geometry_rectangle_destroy( &classifier_symbol_box );
-
-            /* calculate space */
-            geometry_rectangle_shift( &classifier_space, 0.0, label_and_features_height );
-            geometry_rectangle_enlarge( &classifier_space, 0.0, -label_and_features_height );
-        }
-        layout_visible_classifier_set_space( io_classifier_layout, &classifier_space );
-
-
-        /* calculate label_box */
-        layout_visible_classifier_set_label_box( io_classifier_layout, &label_rect );
-        layout_visible_classifier_set_label_anchor( io_classifier_layout,
-                                                    GEOMETRY_H_ALIGN_CENTER,
-                                                    GEOMETRY_V_ALIGN_TOP
-                                                  );
-        /* calculate icon_box */
-        layout_visible_classifier_set_icon_box( io_classifier_layout, &icon_rect );
-
-        U8_TRACE_INFO("==== symbol_box   ====" );
-        geometry_rectangle_trace( layout_visible_classifier_get_symbol_box_const( io_classifier_layout ) );
-        U8_TRACE_INFO("==== label_box    ====" );
-        geometry_rectangle_trace( &label_rect );
-        U8_TRACE_INFO("==== icon_box     ====" );
-        geometry_rectangle_trace( &icon_rect );
-        U8_TRACE_INFO("==== compartments =====" );
-        geometry_rectangle_trace( layout_visible_classifier_get_compartments_const( io_classifier_layout ) );
-        U8_TRACE_INFO("==== space        =====" );
-        geometry_rectangle_trace( &classifier_space );
-
-        geometry_rectangle_destroy( &classifier_space );
+        /* calculate symbol bounds */
+        layout_visible_classifier_set_symbol_box( io_classifier_layout, envelope );
     }
     else
     {
+        U8_TRACE_INFO("calculating symbol box for fixed-sized icon..." );
+        const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
+        const double symbol_width = symbol_height;
+
+        /* calculate symbol bounds */
+        const geometry_h_align_t H_CENTER = GEOMETRY_H_ALIGN_CENTER;
+        const double symbol_left
+            = geometry_h_align_get_left( &H_CENTER,
+                                            symbol_width,
+                                            geometry_rectangle_get_left( &inner_area ),
+                                            geometry_rectangle_get_width( &inner_area )
+                                        );
+        const double symbol_top = geometry_rectangle_get_top( &label_compartment ) - symbol_height;
+        geometry_rectangle_t classifier_symbol_box;
+        geometry_rectangle_init( &classifier_symbol_box, symbol_left, symbol_top, symbol_width, symbol_height );
+        layout_visible_classifier_set_symbol_box( io_classifier_layout, &classifier_symbol_box );
+        geometry_rectangle_destroy( &classifier_symbol_box );
+    }
+
+    U8_TRACE_INFO("==== symbol_box   ====" );
+    geometry_rectangle_trace( layout_visible_classifier_get_symbol_box_const( io_classifier_layout ) );
+    U8_TRACE_INFO("==== label_box    ====" );
+    geometry_rectangle_trace( &label_rect );
+    U8_TRACE_INFO("==== icon_box     ====" );
+    geometry_rectangle_trace( &icon_rect );
+    U8_TRACE_INFO("==== compartments =====" );
+    geometry_rectangle_trace( layout_visible_classifier_get_compartments_const( io_classifier_layout ) );
+    U8_TRACE_INFO("==== space        =====" );
+    geometry_rectangle_trace( &classifier_space );
+
+    if (( area_too_small != PENCIL_ERROR_NONE )||( space_too_small ))
+    {
         geometry_rectangle_t space_guess;  /* guess the inner space based on current text height */
-        geometry_rectangle_copy( &space_guess, &space_and_label );
+        geometry_rectangle_copy( &space_guess, &inner_area );
         geometry_rectangle_shift( &space_guess, 0.0, label_and_features_height );
         geometry_rectangle_enlarge( &space_guess, 0.0, -label_and_features_height );
+        const bool space_guess_too_small
+            = ( geometry_rectangle_get_height( &space_guess ) < pencil_size_get_bold_line_width( pencil_size ) );
+        if ( space_guess_too_small )
+        {
+            geometry_rectangle_enlarge( &space_guess, 0.0, pencil_size_get_bold_line_width( pencil_size ) );
+        }
         U8_TRACE_INFO("==== space_guess====" );
         geometry_rectangle_trace( &space_guess );
         pencil_classifier_composer_expand_space( this_,
@@ -208,6 +201,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
         layout_visible_classifier_shift( io_classifier_layout, &offset );
     }
 
+    geometry_rectangle_destroy( &classifier_space );
     geometry_rectangle_destroy( &label_rect );
     geometry_rectangle_destroy( &icon_rect );
     geometry_rectangle_destroy( &label_compartment );
@@ -253,13 +247,13 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
     geometry_rectangle_init_empty( &icon_rect );
     geometry_rectangle_t label_compartment;
     geometry_rectangle_init_empty( &label_compartment );
-    const geometry_rectangle_t *space_and_label_fake = space;  /* fake space_and_label to be identical to requested space */
+    const geometry_rectangle_t *inner_area_fake = space;  /* fake inner_area to be identical to requested space */
     const pencil_error_t area_too_small
         = pencil_classifier_composer_private_get_label_box( this_,
                                                             visible_classifier,
                                                             shows_contained_children,
                                                             has_stereotype_icon,
-                                                            space_and_label_fake,
+                                                            inner_area_fake,
                                                             pencil_size,
                                                             font_layout,
                                                             &label_rect,
@@ -270,7 +264,7 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
     {
         U8_TRACE_INFO("new width is defined by label-and-icon, not by requested inner space" );
     }
-    /* shift the label and icon because space_and_label was a fake; the top side is at space top instead of label top */
+    /* shift the label and icon because inner_area was a fake; the top side is at space top instead of label top */
     const double delta_top = geometry_rectangle_get_bottom( &label_compartment ) - geometry_rectangle_get_top( space );
     geometry_rectangle_set_top( &label_rect, geometry_rectangle_get_top( &label_rect ) - delta_top );
     geometry_rectangle_set_top( &icon_rect, geometry_rectangle_get_top( &icon_rect ) - delta_top );
@@ -394,7 +388,7 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
                                                                  const data_visible_classifier_t *visible_classifier,
                                                                  bool shows_contained_children,
                                                                  bool has_stereotype_icon,
-                                                                 const geometry_rectangle_t *space_and_label,
+                                                                 const geometry_rectangle_t *inner_area,
                                                                  const pencil_size_t *pencil_size,
                                                                  PangoLayout *font_layout,
                                                                  geometry_rectangle_t *out_label_box,
@@ -403,7 +397,7 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
 {
     U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
-    assert( NULL != space_and_label );
+    assert( NULL != inner_area );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != out_label_box );
@@ -440,10 +434,10 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
         = ( ! has_contour ) ? 0.0 : ( geometry_dimensions_get_width( &icon_dim ) < 0.000001 ) ? 0.0 : gap;
     const double proposed_label_width
         = has_contour
-        ? geometry_rectangle_get_width( space_and_label ) - geometry_dimensions_get_width( &icon_dim ) - icon_gap
-        : geometry_rectangle_get_width( space_and_label );
+        ? geometry_rectangle_get_width( inner_area ) - geometry_dimensions_get_width( &icon_dim ) - icon_gap
+        : geometry_rectangle_get_width( inner_area );
     const geometry_dimensions_t proposed_label_dim
-        = { .width = proposed_label_width, .height = geometry_rectangle_get_height( space_and_label ) };
+        = { .width = proposed_label_width, .height = geometry_rectangle_get_height( inner_area ) };
     draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
                                                               visible_classifier,
                                                               ( ! has_stereotype_icon ),
@@ -462,7 +456,7 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
                              );
         result = PENCIL_ERROR_OUT_OF_BOUNDS;
     }
-    const double proposed_label_height = geometry_rectangle_get_height( space_and_label );
+    const double proposed_label_height = geometry_rectangle_get_height( inner_area );
     if ( text_height > (proposed_label_height + 0.0001) )
     {
         U8_TRACE_INFO_INT_INT( "label does not fit to provided height",
@@ -474,16 +468,16 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
 
     if ( has_contour )
     {
-        double top_border = geometry_rectangle_get_top( space_and_label );
+        double top_border = geometry_rectangle_get_top( inner_area );
 
         /* calculate label_compartment */
         const double min_required_width = text_width + icon_gap + geometry_dimensions_get_width( &icon_dim );
-        const double comp_width = u8_f64_max2( min_required_width, geometry_rectangle_get_width( space_and_label ) );
+        const double comp_width = u8_f64_max2( min_required_width, geometry_rectangle_get_width( inner_area ) );
         const geometry_h_align_t compartment_h_align = GEOMETRY_H_ALIGN_CENTER;
         const double comp_left = geometry_h_align_get_left( &compartment_h_align,
                                                             comp_width,
-                                                            geometry_rectangle_get_left( space_and_label ),
-                                                            geometry_rectangle_get_width( space_and_label )
+                                                            geometry_rectangle_get_left( inner_area ),
+                                                            geometry_rectangle_get_width( inner_area )
                                                           );
         geometry_rectangle_reinit( out_label_compartment, comp_left, top_border, comp_width, text_height );
 
@@ -491,7 +485,7 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
         const bool is_package_with_contents = (classifier_type == DATA_CLASSIFIER_TYPE_PACKAGE) && shows_contained_children;
         if ( is_package_with_contents )
         {
-            /* re-calculate the outer bounds (envelope) to see the diff to top of packages, ignore space_and_label */
+            /* re-calculate the outer bounds (envelope) to see the diff to top of packages, ignore inner_area */
             const geometry_rectangle_t envelope
                 = draw_classifier_contour_calc_outer_bounds( &((*this_).draw_classifier_contour),
                                                              classifier_type,
@@ -520,8 +514,8 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
             const geometry_h_align_t text_h_align = GEOMETRY_H_ALIGN_CENTER;
             const double text_left = geometry_h_align_get_left( &text_h_align,
                                                                 text_width,
-                                                                geometry_rectangle_get_left( space_and_label ),
-                                                                geometry_rectangle_get_width( space_and_label ) - icon_gap - geometry_dimensions_get_width( &icon_dim )
+                                                                geometry_rectangle_get_left( inner_area ),
+                                                                geometry_rectangle_get_width( inner_area ) - icon_gap - geometry_dimensions_get_width( &icon_dim )
                                                               );
             /* calculate label_box */
             geometry_rectangle_reinit( out_label_box,
@@ -545,18 +539,18 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
         const geometry_h_align_t h_align_center = GEOMETRY_H_ALIGN_CENTER;
         const double text_left = geometry_h_align_get_left( &h_align_center,
                                                             text_width,
-                                                            geometry_rectangle_get_left( space_and_label ),
-                                                            geometry_rectangle_get_width( space_and_label )
+                                                            geometry_rectangle_get_left( inner_area ),
+                                                            geometry_rectangle_get_width( inner_area )
                                                           );
-        const double text_top = geometry_rectangle_get_top( space_and_label );
+        const double text_top = geometry_rectangle_get_top( inner_area );
 
         /* calculate label_compartment */
-        const double comp_width = u8_f64_max2( text_width, geometry_rectangle_get_width( space_and_label ) );
+        const double comp_width = u8_f64_max2( text_width, geometry_rectangle_get_width( inner_area ) );
         const geometry_h_align_t compartment_h_align = GEOMETRY_H_ALIGN_CENTER;
         const double comp_left = geometry_h_align_get_left( &compartment_h_align,
                                                             comp_width,
-                                                            geometry_rectangle_get_left( space_and_label ),
-                                                            geometry_rectangle_get_width( space_and_label )
+                                                            geometry_rectangle_get_left( inner_area ),
+                                                            geometry_rectangle_get_width( inner_area )
                                                           );
         geometry_rectangle_reinit( out_label_compartment, comp_left, text_top, comp_width, text_height );
 
@@ -565,8 +559,8 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
         /* calculate icon_box */
         const double icon_left = geometry_h_align_get_left( &h_align_center,
                                                             geometry_dimensions_get_width( &icon_dim ),
-                                                            geometry_rectangle_get_left( space_and_label ),
-                                                            geometry_rectangle_get_width( space_and_label )
+                                                            geometry_rectangle_get_left( inner_area ),
+                                                            geometry_rectangle_get_width( inner_area )
                                                           );
         geometry_rectangle_reinit( out_icon_box,
                                    icon_left,

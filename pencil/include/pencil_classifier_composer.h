@@ -164,8 +164,9 @@ pencil_error_t pencil_classifier_composer_expand_space ( pencil_classifier_compo
  *  \param shows_contained_children true if the classifier has contained children
  *                                  (needed for uml package because the symbol differs)
  *  \param has_stereotype_icon true if no stereotype label shall be printed because an icon is shown instead
- *  \param space_and_label proposed rectangle for the position,
- *                         width and height of: label and icon, feature cmopartments and contained classifiers.
+ *  \param inner_area proposed rectangle for the position,
+ *                    width and height of: label and icon, feature cmopartments and contained classifiers.
+ *                    This area excludes the border/contour of a classifier.
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_box position and dimensions of the label box (smallest box containing stereotype-as-text and name)
@@ -179,7 +180,7 @@ pencil_error_t pencil_classifier_composer_private_get_label_box ( pencil_classif
                                                                   const data_visible_classifier_t *visible_classifier,
                                                                   bool shows_contained_children,
                                                                   bool has_stereotype_icon,
-                                                                  const geometry_rectangle_t *space_and_label,
+                                                                  const geometry_rectangle_t *inner_area,
                                                                   const pencil_size_t *pencil_size,
                                                                   PangoLayout *font_layout,
                                                                   geometry_rectangle_t *out_label_box,
