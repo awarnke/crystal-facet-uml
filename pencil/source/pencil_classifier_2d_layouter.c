@@ -115,57 +115,6 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
 
                 geometry_rectangle_destroy( &envelope );
             }
-
-            /* check if inner space is big enough for contained features */
-            {
-                const geometry_dimensions_t *const compartments_dim
-                    = geometry_compartments_get_feature_compartments( &features_dim );
-                /* set the feature compartments and reduce the space */
-                geometry_rectangle_t compartments_rect;
-                geometry_rectangle_copy( &compartments_rect,
-                                         layout_visible_classifier_get_compartments_const( classifier_layout )
-                                       );
-                geometry_rectangle_set_width( &compartments_rect,
-                                              geometry_dimensions_get_width( compartments_dim )
-                                            );
-                geometry_rectangle_set_height( &compartments_rect,
-                                               geometry_dimensions_get_height( compartments_dim )
-                                             );
-                layout_visible_classifier_set_compartments( classifier_layout, &compartments_rect );
-
-                const geometry_rectangle_t *const space_rect
-                    = layout_visible_classifier_get_space_const( classifier_layout );
-                const geometry_dimensions_t space_dim = geometry_rectangle_get_dimensions( space_rect );
-
-                if ( ! geometry_dimensions_can_contain( &space_dim, compartments_dim ) )
-                {
-                    /* recalculate the space */
-                    geometry_rectangle_t new_space;
-                    geometry_rectangle_copy( &new_space, space_rect );
-                    const double delta_width
-                        = geometry_dimensions_get_width( compartments_dim ) - geometry_rectangle_get_width( space_rect );
-                    const double delta_height
-                        = geometry_rectangle_get_height( space_rect ) - geometry_dimensions_get_height( compartments_dim );
-                    geometry_rectangle_expand_4dir( &new_space,
-                                                    (delta_width<0.0) ? 0.0 : 0.5*delta_width,
-                                                    (delta_height<0.0) ? 0.0 : 0.5*delta_height
-                                                  );
-
-                    pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
-                                                             &new_space,
-                                                             shows_contained_children,
-                                                             &features_dim,
-                                                             (*this_).profile,
-                                                             (*this_).pencil_size,
-                                                             font_layout,
-                                                             classifier_layout
-                                                           );
-
-                    geometry_rectangle_destroy( &new_space );
-                }
-
-                geometry_rectangle_destroy( &compartments_rect );
-            }
             geometry_compartments_destroy( &features_dim );
         }
 
