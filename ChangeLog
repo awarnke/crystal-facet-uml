@@ -3,6 +3,12 @@ crystal-facet-uml (1.71.0) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * Feature compartments of classifiers do not overlap with contained elements
 
+  test suite: pencil_layouter_test_get_suite
+    test case: layout_good_cases
+      #Diag=432, total=1666 |  ERR=10, W/C=8, W/F=13, W/L=25, W/R=122
+    test case: layout_challenging_cases
+      #Diag=432, total=13043 |  ERR=126, W/C=13060, W/F=1836, W/L=7591, W/R=14518
+
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 09 Aug 2026 12:00:00 +0200
 
 crystal-facet-uml (1.70.5) UNRELEASED; urgency=medium

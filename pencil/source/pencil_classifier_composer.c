@@ -61,7 +61,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
     const bool has_stereotype_icon
         = draw_stereotype_icon_exists( &((*this_).draw_stereotype_icon), classifier_stereotype, profile );
-    const double gap = pencil_size_get_preferred_object_distance( pencil_size );
+    const double half_gap = 0.5 * pencil_size_get_preferred_object_distance( pencil_size );
 
     U8_TRACE_INFO_INT("calculating bounds of classifier id, type:", data_classifier_get_row( classifier ) );
     U8_TRACE_INFO_INT_INT("calculating bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
@@ -125,11 +125,11 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     geometry_rectangle_copy( &classifier_space, &inner_area );
     geometry_rectangle_shift( &classifier_space, 0.0, label_and_features_height );
     geometry_rectangle_enlarge( &classifier_space, 0.0, -label_and_features_height );
-    const bool space_too_small = ( geometry_rectangle_get_height( &classifier_space ) < gap );
+    const bool space_too_small = ( geometry_rectangle_get_height( &classifier_space ) < half_gap );
     if ( space_too_small )
     {
         result_err |= PENCIL_ERROR_OUT_OF_BOUNDS;
-        geometry_rectangle_enlarge( &classifier_space, 0.0, gap );
+        geometry_rectangle_enlarge( &classifier_space, 0.0, half_gap );
     }
     layout_visible_classifier_set_space( io_classifier_layout, &classifier_space );
 
@@ -243,7 +243,6 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
     const bool has_stereotype_icon
         = draw_stereotype_icon_exists( &((*this_).draw_stereotype_icon), classifier_stereotype, profile );
-    /* const double gap = pencil_size_get_preferred_object_distance( pencil_size ); */
 
     U8_TRACE_INFO_INT("expanding bounds of classifier id:", data_classifier_get_row( classifier ) );
     U8_TRACE_INFO_INT_INT("expanding bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );

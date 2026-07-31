@@ -183,11 +183,11 @@ void pencil_feature_layouter_calculate_features_dimensions( pencil_feature_layou
     {
         pencil_feature_layouter_private_init_label_dimensions( this_, font_layout );
     }
-    const double preferred_object_distance = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* init result */
     const double obj_border = pencil_size_get_standard_object_border( (*this_).pencil_size );
-    geometry_compartments_reinit( out_features_dim, obj_border );
+    const double gap = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    geometry_compartments_reinit( out_features_dim, obj_border, gap );
 
     /* search all contained features */
     const uint32_t count_features
@@ -217,8 +217,7 @@ void pencil_feature_layouter_calculate_features_dimensions( pencil_feature_layou
             /* update compartment dimensions */
             geometry_compartments_add_feature( out_features_dim,
                                                compartment,
-                                               &label_dim,
-                                               preferred_object_distance
+                                               &label_dim
                                              );
         }
     }

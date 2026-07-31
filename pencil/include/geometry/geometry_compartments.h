@@ -12,6 +12,7 @@
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_compartment_type.h"
 #include <stdbool.h>
+#include <stdint.h>
 
 /*!
  *  \brief attributes of several feature compartments
@@ -26,7 +27,8 @@ struct geometry_compartments_struct {
     double if_height_on_right;
     double if_width_on_top;
     double if_width_on_bottom;
-    double standard_object_border;
+    double standard_object_border;  /*!< space between compartment border and feature */
+    double preferred_object_distance;  /*!< space between compartment border and feature */
 };
 
 typedef struct geometry_compartments_struct geometry_compartments_t;
@@ -36,9 +38,11 @@ typedef struct geometry_compartments_struct geometry_compartments_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param standard_object_border standard border size of objects, according to pencil_size_t
+ *  \param preferred_object_distance preferred distance between two objects or object and connector
  */
 static inline void geometry_compartments_init ( geometry_compartments_t *this_,
-                                                double standard_object_border
+                                                double standard_object_border,
+                                                double preferred_object_distance
                                               );
 
 /*!
@@ -46,9 +50,11 @@ static inline void geometry_compartments_init ( geometry_compartments_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param standard_object_border standard border size of objects, according to pencil_size_t
+ *  \param preferred_object_distance preferred distance between two objects or object and connector
  */
 static inline void geometry_compartments_reinit ( geometry_compartments_t *this_,
-                                                  double standard_object_border
+                                                  double standard_object_border,
+                                                  double preferred_object_distance
                                                 );
 
 /*!
@@ -86,7 +92,7 @@ static inline void geometry_compartments_replacemove ( geometry_compartments_t *
 /*!
  *  \brief initializes the geometry_compartments_t struct to an empty rect at position 0,0
  *
- *  The layouting metrics for standard_object_border are also set to 0.0
+ *  The layouting metrics for standard_object_border and preferred_object_distance are also set to 0.0.
  *
  *  \return own object attributes
  */
@@ -95,7 +101,7 @@ static inline geometry_compartments_t geometry_compartments_new_empty ();
 /*!
  *  \brief initializes the geometry_compartments_t struct to an empty rect at position 0,0
  *
- *  The layouting metrics for standard_object_border are also set to 0.0
+ *  The layouting metrics for standard_object_border and preferred_object_distance are also set to 0.0.
  *
  *  \param compartments dimensions of feature compartments
  *  \param outer dimensions of outer features: ports and interfaces
@@ -117,12 +123,10 @@ static inline void geometry_compartments_destroy ( geometry_compartments_t *this
  *  \param this_ pointer to own object attributes
  *  \param compartment type of compartment
  *  \param feature_dim dimension of feature.
- *  \param preferred_object_distance preferred distance between two objects or object and connector
  */
 static inline void geometry_compartments_add_feature ( geometry_compartments_t *this_,
                                                        geometry_compartment_type_t compartment,
-                                                       const geometry_dimensions_t * feature_dim,
-                                                       double preferred_object_distance
+                                                       const geometry_dimensions_t * feature_dim
                                                      );
 
 /*!
