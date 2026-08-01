@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.6"
+    "generator_version": "1.71.0"
   }
   ,
   "views":
@@ -26361,22 +26361,6 @@
         "to_classifier_name": "sqlite3",
         "to_node": "c8894da1-0fe1-44de-aa0d-f9e4bd286462",
         "uuid": "726c80a0-9a98-4a06-8abd-9b9d1118fe74"
-      }
-    },
-    {
-      "relationship": {
-        "id": 244,
-        "type": "Dependency", "main_type": 0,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1411529157,
-        "from_classifier_name": "technical strategy",
-        "from_node": "f7f1c101-5148-4385-8c01-2619170347db",
-        "to_classifier_name": "crystal-facet-uml application",
-        "to_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
-        "uuid": "669b3fd0-cb1e-4302-901c-67fe1c0c175f"
       }
     },
     {

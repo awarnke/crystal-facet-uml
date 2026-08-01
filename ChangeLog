@@ -4,32 +4,12 @@ crystal-facet-uml (1.71.0) UNRELEASED; urgency=medium
   * Feature compartments of classifiers do not overlap with contained elements
 
   test suite: pencil_layouter_test_get_suite
-    test case: layout_good_cases
-      #Diag=432, total=1666 |  ERR=10, W/C=8, W/F=13, W/L=25, W/R=122
-    test case: layout_challenging_cases
-      #Diag=432, total=13043 |  ERR=126, W/C=13060, W/F=1836, W/L=7591, W/R=14518
+  test case: layout_good_cases
+    #Diag=432, total=1666 |  ERR=10, W/C=8, W/F=13, W/L=25, W/R=122
+  test case: layout_challenging_cases
+    #Diag=432, total=13036 |  ERR=133, W/C=12980, W/F=1862, W/L=7591, W/R=14592
 
   There is a problem with the label height, pls check Solution Strategy / Development View: Tools
-
-  WARN: some return arrows disappeared, e.g. in data: Runtime View
-    {
-      "relationship": {
-        "id": 337,
-        "type": "Return", "main_type": 222,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 880569554,
-        "from_classifier_name": "data_database_writer",
-        "from_feature_key": "",
-        "from_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
-        "to_classifier_name": "thread-1",
-        "to_feature_key": "",
-        "to_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
-        "uuid": "797d3ca9-a161-4d73-bf2c-ba6de987dea6"
-      }
-    },
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 09 Aug 2026 12:00:00 +0200
 
