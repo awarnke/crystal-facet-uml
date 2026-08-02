@@ -16924,8 +16924,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1401808644,
-        "y_order": 469814498,
+        "x_order": -149149852,
+        "y_order": -1383928989,
         "list_order": 469814498,
         "uuid": "06b4cf84-afd5-4d74-9d95-70b0aadd20e5",
         "features":
@@ -16952,8 +16952,8 @@
         "description": [
                 ""
         ],
-        "x_order": -149149852,
-        "y_order": 469814498,
+        "x_order": 1582706241,
+        "y_order": -142067569,
         "list_order": 469814498,
         "uuid": "00929d4a-46bd-40a7-9373-9dec0abd7e8b",
         "features":
@@ -16966,7 +16966,7 @@
             "description": [
                 ""
             ],
-            "list_order": 32768,
+            "list_order": 0,
             "uuid": "a2162498-bd6a-47cd-b709-26217f87900c"
           },
           {
@@ -16991,8 +16991,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1231035962,
-        "y_order": 469814498,
+        "x_order": 1582706241,
+        "y_order": -1383928989,
         "list_order": 1617010041,
         "uuid": "41367e5c-3da4-4923-aa81-5b4e4bd41acf",
         "features":
@@ -17031,15 +17031,13 @@
         "description": [
                 "Todays solution D0024#name stores interaction information in diagramelements ",
                 "(as focused feature).\n",
-                "\n",
                 "It would be cleaner if the model would be fully specified without diagrams and ",
                 "diagramelements.\n",
-                "\n",
                 "But the user interaction use-case requires todays database fields to be present ",
                 "anyhow."
         ],
-        "x_order": -149149852,
-        "y_order": 627781871,
+        "x_order": 1231035962,
+        "y_order": 452190634,
         "list_order": -1670037196,
         "uuid": "bc141b7f-99f2-4423-a680-8684b9750e3c",
         "features":
