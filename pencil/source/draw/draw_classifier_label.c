@@ -54,12 +54,16 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
 
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
+        /* get data objects */
         const data_classifier_t *const classifier
             = data_visible_classifier_get_classifier_const( visible_classifier );
         const data_diagramelement_t *const diagramelement
             = data_visible_classifier_get_diagramelement_const( visible_classifier );
         const data_diagramelement_flag_t display_flags
             = data_diagramelement_get_display_flags( diagramelement );
+
+        /* get layout sizes */
+        const int proposed_pango_width = (int) geometry_dimensions_get_width( proposed_bounds );
 
         /* stereotype text */
         int text1_height = 0;
@@ -77,19 +81,21 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
                 /* determine text width and height */
                 pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
                 pango_layout_set_text (font_layout, utf8stringbuf_get_string( &stereotype_buf ), DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH );
+                pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
                 pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
                 text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
                 text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
+
+                /* restore pango context */
+                pango_layout_set_width(font_layout, DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH );
             }
         }
 
         /* draw name text */
-        int text2_width;
-        int text2_height;
+        int text2_width = 0;
+        int text2_height = 0;
         double space_for_line;
         {
-            int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
-
             /* prepare text */
             u8_error_t name_err = U8_ERROR_NONE;
             utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
@@ -186,10 +192,12 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
     const data_diagramelement_flag_t display_flags = data_diagramelement_get_display_flags( diagramelement );
 
+    /* get layout sizes */
     const double left = geometry_rectangle_get_left( label_box );
     const double top = geometry_rectangle_get_top( label_box );
     const double width = geometry_rectangle_get_width( label_box );
     const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+    const double f_size = pencil_size_get_standard_font_size( pencil_size );
 
     /* draw stereotype text */
     int text1_height = 0;
@@ -210,12 +218,16 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
                                    utf8stringbuf_get_string( &stereotype_buf ),
                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                                  );
+            pango_layout_set_width( font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding  errors and whitespace character widths */
             pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
             cairo_move_to( cr,
                            ceil( left + 0.5*( width - text1_width ) ),
                            ceil( top )
                          );  /* align font with pixel border */
             pango_cairo_show_layout( cr, font_layout );
+
+            /* restore pango context */
+            pango_layout_set_width(font_layout, DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH );
         }
     }
 
@@ -236,7 +248,6 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
         const utf8stringview_t name = utf8stream_writemem_get_view( &((*this_).text_builder) );
 
         int text2_width;
-        const double f_size = pencil_size_get_standard_font_size( pencil_size );
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description( font_layout, pencil_size_get_title_font_description(pencil_size) );
         pango_layout_set_text( font_layout,

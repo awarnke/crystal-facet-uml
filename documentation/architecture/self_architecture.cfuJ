@@ -8348,7 +8348,7 @@
       "classifier": {
         "id": 24,
         "type": "Activity", "main_type": 110,
-        "stereotype": "source code and user documentation",
+        "stereotype": "source code and documentation",
         "name": "c + doxygen + docbook",
         "description": [
                 "c code and doxygen are the source code and documentation formats"
@@ -9369,8 +9369,8 @@
                 "The UML Model\n",
                 "shall be stored persistently."
         ],
-        "x_order": -1993028999,
-        "y_order": 1242375717,
+        "x_order": 195203603,
+        "y_order": 1384013049,
         "list_order": 0,
         "uuid": "804d1c5b-317a-40cb-98b0-f570d389335f",
         "features":
@@ -9800,8 +9800,8 @@
         "description": [
                 ""
         ],
-        "x_order": 680361656,
-        "y_order": -1670789257,
+        "x_order": 1321225413,
+        "y_order": 1242375717,
         "list_order": 0,
         "uuid": "0f08e5a2-2e86-4555-802d-aae3c3275735",
         "features":
@@ -9821,7 +9821,7 @@
                 "in oder to store an UML-Model"
         ],
         "x_order": -1993028999,
-        "y_order": 673979301,
+        "y_order": -2001256763,
         "list_order": 0,
         "uuid": "ff27b854-ecb7-44cc-b470-f50289acc19e",
         "features":
@@ -9984,8 +9984,8 @@
         "description": [
                 "for diagrams that show options/alternatives/scenarios "
         ],
-        "x_order": -871565003,
-        "y_order": 1272153761,
+        "x_order": -1051465166,
+        "y_order": 1398930124,
         "list_order": 0,
         "uuid": "5ad8077b-8e07-40c9-8223-4e7ee01fb4bd",
         "features":
@@ -13711,8 +13711,8 @@
         "description": [
                 ""
         ],
-        "x_order": -873739933,
-        "y_order": -2003739299,
+        "x_order": -1523603247,
+        "y_order": -2088211822,
         "list_order": 0,
         "uuid": "181dd4a9-2960-46b3-bc3f-c31e202318a5",
         "features":
@@ -14634,8 +14634,8 @@
                 "the program shall inform the user and\n",
                 "cancel the operation."
         ],
-        "x_order": 567680417,
-        "y_order": -1654342807,
+        "x_order": 654656614,
+        "y_order": -2088211822,
         "list_order": -344411900,
         "uuid": "dec275c2-e994-45bd-b9b9-2572ffdbf76f",
         "features":
@@ -14655,8 +14655,8 @@
                 "the program shall indicate that some results are omitted and\n",
                 "show only parts of the result list."
         ],
-        "x_order": 567680417,
-        "y_order": -130633308,
+        "x_order": 654656614,
+        "y_order": -126497300,
         "list_order": -130633308,
         "uuid": "457e0ab9-3a66-452e-b6a0-fa5b6473de6c",
         "features":
@@ -14748,8 +14748,8 @@
                 "the program shall show placeholder rectangles\n",
                 "where rendering of diagrams is not possible."
         ],
-        "x_order": 567680417,
-        "y_order": -126525242,
+        "x_order": 1653597522,
+        "y_order": -126497300,
         "list_order": -126766225,
         "uuid": "d291f910-2e85-462d-ba2f-9dacdde2f25f",
         "features":
@@ -14768,8 +14768,8 @@
                 "the program shall perform at least 3 undo/redo operations\n",
                 "before informing the user that undo/redo is not possible anymore."
         ],
-        "x_order": -1523603247,
-        "y_order": -436676500,
+        "x_order": 121564608,
+        "y_order": -2088211822,
         "list_order": -27363172,
         "uuid": "2a56adb0-aa50-4a1d-b6c3-9aedcde7fd7a",
         "features":
@@ -14789,8 +14789,8 @@
                 "the program shall work reliably\n",
                 "for all use cases where no exception is stated."
         ],
-        "x_order": -94613697,
-        "y_order": 199815317,
+        "x_order": 121564608,
+        "y_order": -126497300,
         "list_order": 644083333,
         "uuid": "fb8355f1-fd1a-4a6d-b333-e978b55ce208",
         "features":
@@ -16855,7 +16855,7 @@
         "description": [
                 ""
         ],
-        "x_order": -572314094,
+        "x_order": -1051465166,
         "y_order": 1398930124,
         "list_order": 1383510513,
         "uuid": "699bf0ff-6e24-4b98-a667-35eee9924f27",
@@ -27640,7 +27640,7 @@
         "description": [
                 ""
         ],
-        "list_order": -798310240,
+        "list_order": -746540676,
         "from_classifier_name": "thread-1",
         "from_feature_key": "",
         "from_node": "50f36ca0-773e-4884-ad8b-65074c2c996d",
@@ -28216,7 +28216,7 @@
         "description": [
                 ""
         ],
-        "list_order": -949285032,
+        "list_order": -847288406,
         "from_classifier_name": "r1 :data_database_reader",
         "from_feature_key": "",
         "from_node": "bf31f6da-e033-4f2c-8036-243f330bb02a",

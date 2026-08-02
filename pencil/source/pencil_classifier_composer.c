@@ -299,11 +299,11 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
         U8_TRACE_INFO("new width is defined by label-and-icon, not by requested inner space" );
     }
 
-    /* shift the label and icon because inner_area was a fake; the top side is at space top instead of label top */
+    /* shift the label and icon because preferred_inner_area was a fake; the top side is at space top instead of label top */
     const double delta_top
         = geometry_rectangle_get_bottom( &label_compartment )
         + geometry_dimensions_get_height( compartment_dim )
-        - geometry_rectangle_get_top( &preferred_inner_area );
+        - geometry_rectangle_get_top( space );
     geometry_rectangle_set_top( &label_rect, geometry_rectangle_get_top( &label_rect ) - delta_top );
     geometry_rectangle_set_top( &icon_rect, geometry_rectangle_get_top( &icon_rect ) - delta_top );
     geometry_rectangle_set_top( &label_compartment, geometry_rectangle_get_top( &label_compartment ) - delta_top );
@@ -341,6 +341,7 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
         else
         {
             geometry_rectangle_copy( &inner_area, &preferred_inner_area );
+            /* the preferred inner area already encompasses space and feature compartments, label missing: */
             geometry_rectangle_shift( &inner_area, 0.0, -geometry_rectangle_get_height( &label_compartment ) );
             geometry_rectangle_enlarge( &inner_area, 0.0, geometry_rectangle_get_height( &label_compartment ) );
         }
@@ -470,8 +471,8 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
         = has_contour
         ? geometry_rectangle_get_width( inner_area ) - geometry_dimensions_get_width( &icon_dim ) - icon_gap
         : geometry_rectangle_get_width( inner_area );
-    const geometry_dimensions_t proposed_label_dim
-        = { .width = proposed_label_width, .height = geometry_rectangle_get_height( inner_area ) };
+    const double proposed_label_height = geometry_rectangle_get_height( inner_area );
+    const geometry_dimensions_t proposed_label_dim = { .width = proposed_label_width, .height = proposed_label_height };
     draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
                                                               visible_classifier,
                                                               ( ! has_stereotype_icon ),
@@ -490,7 +491,6 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
                              );
         result_err = PENCIL_ERROR_OUT_OF_BOUNDS;
     }
-    const double proposed_label_height = geometry_rectangle_get_height( inner_area );
     if ( text_height > (proposed_label_height + 0.0001) )
     {
         U8_TRACE_INFO_INT_INT( "label does not fit to provided height",
