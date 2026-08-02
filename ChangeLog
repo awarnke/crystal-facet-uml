@@ -2,12 +2,11 @@ crystal-facet-uml (1.71.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Feature compartments of classifiers do not overlap with contained elements
-
-  test case: layout_good_cases
+  * Linebreaks are possible in classifier stereotype names
+    layout_good_cases
     #Diag=432, total=1666 |  ERR=10, W/C=8, W/F=13, W/L=25, W/R=122
-  test case: layout_challenging_cases
-    #Diag=432, total=12926 |  ERR=243, W/C=12417, W/F=1884, W/L=7184, W/R=14456
-  test result: skipped: 1, passed 2, failed: 0
+    layout_challenging_cases
+    #Diag=432, total=12896 |  ERR=273, W/C=7557, W/F=1245, W/L=4166, W/R=12306
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 09 Aug 2026 12:00:00 +0200
 

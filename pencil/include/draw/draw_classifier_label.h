@@ -29,7 +29,8 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_classifier_label_struct {
-    char text_buffer[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /*!< +1 for colon, x4 because any character may be followed by a 3-byte space */
+    char text_buffer[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 4 ) * 4 ];  /*!< +4 for either 1 colon or for 2 guillemets, x4 because any character may be followed by a 3-byte space. */
+    /*!< The text_buffer can be used for tereotypes also, the size is identical: DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE */
     utf8stream_writemem_t text_builder;  /*!< a pair of utf8stream_writer_t and universal_memory_output_stream_t to build an output text */
     draw_line_breaker_t linebr;  /*!< An object to insert zero-width spaces (a 3 byte utf8 sequence) wherever a linebreak is allowed */
 };
@@ -57,6 +58,7 @@ void draw_classifier_label_destroy( draw_classifier_label_t *this_ );
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
  *  \param with_stereotype false if no stereotype label shall be printed because an icon is shown instead
  *  \param proposed_bounds proposed bounds for the text width and height
+ *  \param max_recursions max number of recursions for improving result, 0 for none
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_dim width and height of the type and name is returned. NULL is not permitted.
@@ -65,6 +67,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
                                                                const data_visible_classifier_t *visible_classifier,
                                                                bool with_stereotype,
                                                                const geometry_dimensions_t *proposed_bounds,
+                                                               unsigned int max_recursions,
                                                                const pencil_size_t *pencil_size,
                                                                PangoLayout *font_layout,
                                                                geometry_dimensions_t *out_label_dim

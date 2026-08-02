@@ -477,6 +477,7 @@ pencil_error_t pencil_classifier_composer_private_get_label_box( pencil_classifi
                                                               visible_classifier,
                                                               ( ! has_stereotype_icon ),
                                                               &proposed_label_dim,
+                                                              1,  /* max_recursions */
                                                               pencil_size,
                                                               font_layout,
                                                               &label_dim

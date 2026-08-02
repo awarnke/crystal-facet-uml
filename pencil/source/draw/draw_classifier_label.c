@@ -23,6 +23,7 @@ static const int DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_classifier_label_init( draw_classifier_label_t *this_ )
 {
+    assert( DATA_CLASSIFIER_MAX_NAME_SIZE == DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE );
     utf8stream_writemem_init( &((*this_).text_builder), &((*this_).text_buffer), sizeof( (*this_).text_buffer) );
     draw_line_breaker_init( &((*this_).linebr) );
 }
@@ -41,6 +42,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
                                                                const data_visible_classifier_t *visible_classifier,
                                                                bool with_stereotype,
                                                                const geometry_dimensions_t *proposed_bounds,
+                                                               unsigned int max_recursions,
                                                                const pencil_size_t *pencil_size,
                                                                PangoLayout *font_layout,
                                                                geometry_dimensions_t *out_label_dim )
@@ -72,22 +74,42 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
             if ( with_stereotype && data_classifier_has_stereotype( classifier ) )
             {
                 /* prepare text */
+                u8_error_t name_err = U8_ERROR_NONE;
+                utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+                name_err |= utf8stream_writer_write_str( to_name, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
+                utf8stringview_t stereo_name = UTF8STRINGVIEW_STR( data_classifier_get_stereotype_const( classifier ) );
+                /* insert linebreaks */
+                name_err |= draw_line_breaker_append( &((*this_).linebr), &stereo_name, to_name );
+                name_err |= utf8stream_writer_write_str( to_name, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
+#if 0
                 char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
                 utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
                 utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
                 utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
                 utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
+#endif
+                const utf8stringview_t stereo = utf8stream_writemem_get_view( &((*this_).text_builder) );
 
                 /* determine text width and height */
-                pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, utf8stringbuf_get_string( &stereotype_buf ), DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH );
+                pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description(pencil_size) );
+                pango_layout_set_text( font_layout,
+                                       utf8stringview_get_start( &stereo ),
+                                       utf8stringview_get_length( &stereo )
+                                     );
                 pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
-                pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
+                pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height) ;
                 text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
                 text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
 
                 /* restore pango context */
                 pango_layout_set_width(font_layout, DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH );
+
+                /* cleanup the text_builder */
+                name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+                if ( name_err != U8_ERROR_NONE )
+                {
+                    U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
+                }
             }
         }
 
@@ -118,7 +140,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
             pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
             /* option for nicer layout but harder to read: */
             /* pango_layout_set_wrap( font_layout, PANGO_WRAP_WORD_CHAR ); */
-            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+            pango_layout_get_pixel_size( font_layout, &text2_width, &text2_height );
             text2_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
             text2_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
 
@@ -158,6 +180,22 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
             .width = u8_i32_max3( text1_width, text2_width, text3_width ),
             .height = text1_height + text2_height + space_for_line + text3_height
         };
+
+        /* maybe try a recursnio to improce/compactify the result dimensions? */
+        const double proposed_width = geometry_dimensions_get_width( proposed_bounds );
+        if (( max_recursions > 0 )&&( geometry_dimensions_get_width( out_label_dim ) > proposed_width ))
+        {
+            const geometry_dimensions_t new_proposed_bounds = *out_label_dim;
+            draw_classifier_label_get_stereotype_and_name_dimensions( this_,
+                                                                      visible_classifier,
+                                                                      with_stereotype,
+                                                                      &new_proposed_bounds,
+                                                                      max_recursions-1,
+                                                                      pencil_size,
+                                                                      font_layout,
+                                                                      out_label_dim
+                                                                    );
+        }
     }
     else
     {
@@ -205,18 +243,34 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
         if ( with_stereotype && data_classifier_has_stereotype( classifier ) )
         {
             /* prepare text */
+            u8_error_t name_err = U8_ERROR_NONE;
+            utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+#if 0
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
             utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
             utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
             utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
             utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
+#endif
+            name_err |= utf8stream_writer_write_str( to_name, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
+            utf8stringview_t stereo_name = UTF8STRINGVIEW_STR( data_classifier_get_stereotype_const( classifier ) );
+            /* insert linebreaks */
+            name_err |= draw_line_breaker_append( &((*this_).linebr), &stereo_name, to_name );
+            name_err |= utf8stream_writer_write_str( to_name, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
+            const utf8stringview_t stereo = utf8stream_writemem_get_view( &((*this_).text_builder) );
 
             int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
             pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description(pencil_size) );
+#if 0
             pango_layout_set_text( font_layout,
                                    utf8stringbuf_get_string( &stereotype_buf ),
                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
+                                 );
+#endif
+            pango_layout_set_text( font_layout,
+                                   utf8stringview_get_start( &stereo ),
+                                   utf8stringview_get_length( &stereo )
                                  );
             pango_layout_set_width( font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding  errors and whitespace character widths */
             pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
@@ -228,6 +282,13 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
 
             /* restore pango context */
             pango_layout_set_width(font_layout, DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH );
+
+            /* cleanup the text_builder */
+            name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+            if ( name_err != U8_ERROR_NONE )
+            {
+                U8_LOG_WARNING_HEX( "error at draw/draw_line_breaker_append", name_err );
+            }
         }
     }
 
