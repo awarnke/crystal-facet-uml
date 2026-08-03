@@ -75,6 +75,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                                                    envelope,
                                                    pencil_size
                                                  );
+    /* TODO take number of ports into account: geometry_compartments_get_outer_width/height */
     const double preferred_inner_width = u8_f64_max2( geometry_rectangle_get_width( &inner_area ),
                                                       geometry_dimensions_get_width( compartment_dim )
                                                     );
@@ -351,6 +352,7 @@ pencil_error_t pencil_classifier_composer_expand_space( pencil_classifier_compos
                                                          &inner_area,
                                                          pencil_size
                                                        );
+        /* TODO take number of ports into account: geometry_compartments_get_outer_width/height */
         layout_visible_classifier_set_symbol_box( io_classifier_layout, &envelope );
         geometry_rectangle_destroy( &inner_area );
     }
