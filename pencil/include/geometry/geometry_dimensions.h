@@ -77,6 +77,15 @@ static inline void geometry_dimensions_reinit_empty ( geometry_dimensions_t *thi
 static inline void geometry_dimensions_destroy ( geometry_dimensions_t *this_ );
 
 /*!
+ *  \brief initializes the geometry_dimensions_t struct
+ *
+ *  \param width width of the object
+ *  \param height height of the object
+ *  \return initialized object
+ */
+static inline geometry_dimensions_t geometry_dimensions_new ( double width, double height );
+
+/*!
  *  \brief gets the width of geometry_dimensions_t
  *
  *  \param this_ pointer to own object attributes

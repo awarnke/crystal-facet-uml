@@ -3,11 +3,11 @@
 #include "u8/u8_trace.h"
 #include <assert.h>
 
-static const int32_t GEOMETRY_COMPARTMENT_TYPE_INT32_MIN_HALF = INT32_MIN/2;
-static const int32_t GEOMETRY_COMPARTMENT_TYPE_INT32_MAX_HALF = (INT32_MAX/2)+1;  /* round to ceiling */
+static const int32_t GEOMETRY_COMPARTMENT_TYPE_INT32_MIN_HALF = (INT32_MIN/2);
+static const int32_t GEOMETRY_COMPARTMENT_TYPE_INT32_MAX_HALF = ((INT32_MAX/2)+1);  /* round to ceiling */
 
 static inline geometry_compartment_type_t geometry_compartment_type_new ( data_feature_type_t feature_type,
-                                                                          uint32_t list_order )
+                                                                          int32_t list_order )
 {
     geometry_compartment_type_t result = GEOMETRY_COMPARTMENT_TYPE_VOID;
 
@@ -59,6 +59,7 @@ static inline geometry_compartment_type_t geometry_compartment_type_new ( data_f
         }
         break;
 
+        case DATA_FEATURE_TYPE_PORT:  /* or */
         case DATA_FEATURE_TYPE_IN_PORT_PIN:  /* or */
         case DATA_FEATURE_TYPE_OUT_PORT_PIN:  /* or */
         case DATA_FEATURE_TYPE_ENTRY:  /* or */

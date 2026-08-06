@@ -43,6 +43,7 @@
 #include "unit/geometry_rectangle_test.h"
 #include "unit/geometry_connector_test.h"
 #include "unit/geometry_non_linear_scale_test.h"
+#include "unit/geometry_compartments_test.h"
 #include "unit/layout_visible_set_test.h"
 #include "unit/draw_classifier_contour_test.h"
 #include "unit/draw_stereotype_icon_test.h"
@@ -271,6 +272,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, geometry_rectangle_test_get_suite() );
         test_runner_run_suite( &runner, geometry_connector_test_get_suite() );
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_suite() );
+        test_runner_run_suite( &runner, geometry_compartments_test_get_suite() );
         test_runner_run_suite( &runner, layout_visible_set_test_get_suite() );
         test_runner_run_suite( &runner, draw_classifier_contour_test_get_suite() );
         test_runner_run_suite( &runner, draw_stereotype_icon_test_get_suite() );

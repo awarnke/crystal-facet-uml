@@ -23,6 +23,7 @@ Pack
 
 >       git commit -a -m 'version x.y.z'
 >       # build and test source packet
+>       cd build/package/
 >       ./source_pack.sh
 >       ./source_test.sh
 >       cd ../qualification_test && ./run_q_test.sh

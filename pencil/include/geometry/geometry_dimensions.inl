@@ -45,6 +45,12 @@ static inline void geometry_dimensions_destroy ( geometry_dimensions_t *this_ )
 {
 }
 
+static inline geometry_dimensions_t geometry_dimensions_new ( double width, double height )
+{
+    geometry_dimensions_t result = { .width = width, .height = height };
+    return result;
+}
+
 static inline double geometry_dimensions_get_width ( const geometry_dimensions_t *this_ )
 {
     return (*this_).width;

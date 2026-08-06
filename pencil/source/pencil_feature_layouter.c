@@ -203,22 +203,35 @@ void pencil_feature_layouter_calculate_features_dimensions( pencil_feature_layou
         const data_feature_type_t the_feature_type = data_feature_get_main_type( the_feature );
         const uint32_t list_order = data_feature_get_list_order( the_feature );
 
-        if (( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
-            && data_feature_type_inside_compartment( the_feature_type ) )
+        if ( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
         {
-            /* feature label sizes are already precalculated */
-            assert( (*this_).label_dimensions_initialized );
-            const geometry_rectangle_t *const label_box = layout_feature_get_label_box_const( feature_layout );
-            const geometry_dimensions_t label_dim = geometry_rectangle_get_dimensions( label_box );
-
             const geometry_compartment_type_t compartment
                 = geometry_compartment_type_new( the_feature_type, list_order );
 
-            /* update compartment dimensions */
-            geometry_compartments_add_feature( out_features_dim,
-                                               compartment,
-                                               &label_dim
-                                             );
+            if ( data_feature_type_inside_compartment( the_feature_type ) )
+            {
+                /* feature label sizes are already precalculated */
+                assert( (*this_).label_dimensions_initialized );
+                const geometry_rectangle_t *const label_box = layout_feature_get_label_box_const( feature_layout );
+                const geometry_dimensions_t label_dim = geometry_rectangle_get_dimensions( label_box );
+
+                /* update compartment dimensions */
+                geometry_compartments_add_feature( out_features_dim,
+                                                   compartment,
+                                                   &label_dim
+                                                 );
+            }
+            else
+            {
+                /* TODO: a better guess is needed here */
+                const geometry_dimensions_t guess_dim = geometry_dimensions_new ( 20.0, 20.0 );
+
+                /* update compartment dimensions */
+                geometry_compartments_add_feature( out_features_dim,
+                                                   compartment,
+                                                   &guess_dim
+                                                 );
+            }
         }
     }
 

@@ -75,9 +75,20 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                                                    envelope,
                                                    pencil_size
                                                  );
-    /* TODO take number of ports into account: geometry_compartments_get_outer_width/height */
-    const double preferred_inner_width = u8_f64_max2( geometry_rectangle_get_width( &inner_area ),
-                                                      geometry_dimensions_get_width( compartment_dim )
+    /* take number of ports into account: geometry_compartments_get_outer_width */
+    const double inner_to_outer_width_delta
+        = geometry_rectangle_get_width( envelope ) - geometry_rectangle_get_width( &inner_area ) ;
+    const double inner_to_outer_height_delta
+        = geometry_rectangle_get_height( envelope ) - geometry_rectangle_get_height( &inner_area ) ;
+    const double needed_outer_width = geometry_compartments_get_outer_width( features_dimensions );
+    const double needed_inner_width = needed_outer_width - inner_to_outer_width_delta;
+    U8_TRACE_INFO_INT_INT("needed_outer/inner_width :", needed_outer_width, needed_inner_width );
+    const double needed_outer_height = geometry_compartments_get_outer_height( features_dimensions );
+    const double needed_inner_height = needed_outer_height - inner_to_outer_height_delta;
+    U8_TRACE_INFO_INT_INT("needed_outer/inner_height :", needed_outer_height, needed_inner_height );
+    const double preferred_inner_width = u8_f64_max3( geometry_rectangle_get_width( &inner_area ),
+                                                      geometry_dimensions_get_width( compartment_dim ),
+                                                      needed_inner_width
                                                     );
     geometry_rectangle_t preferred_inner_area;
     geometry_rectangle_init( &preferred_inner_area,
@@ -86,6 +97,8 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
                              preferred_inner_width,
                              geometry_rectangle_get_height( &inner_area )
                            );
+    U8_TRACE_INFO("==== preferred_inner_area ====" );
+    geometry_rectangle_trace( &preferred_inner_area );
 
     /* determine border sizes of the label (and optionally the right-aligned icon) */
     geometry_rectangle_t label_rect;
@@ -129,6 +142,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     layout_visible_classifier_set_compartments( io_classifier_layout, &compartments_rect );
 
     /* calculate space */
+    /* TODO take number of ports into account: geometry_compartments_get_outer_height */
     const double label_and_features_height
         = geometry_rectangle_get_height( &label_compartment )
         + geometry_dimensions_get_height( compartment_dim );

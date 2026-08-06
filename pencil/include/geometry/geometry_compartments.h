@@ -23,10 +23,10 @@ struct geometry_compartments_struct {
     double port_height_on_right;
     double port_width_on_top;
     double port_width_on_bottom;
-    double if_height_on_left;
-    double if_height_on_right;
-    double if_width_on_top;
-    double if_width_on_bottom;
+    double iface_height_on_left;
+    double iface_height_on_right;
+    double iface_width_on_top;
+    double iface_width_on_bottom;
     double standard_object_border;  /*!< space between compartment border and feature */
     double preferred_object_distance;  /*!< space between compartment border and feature */
 };
@@ -165,28 +165,28 @@ static inline double geometry_compartments_get_port_width_on_top ( const geometr
 static inline double geometry_compartments_get_port_width_on_bottom ( const geometry_compartments_t *this_ );
 
 /*!
- *  \brief gets the attribute of geometry_compartments_t: if_height_on_left
+ *  \brief gets the attribute of geometry_compartments_t: iface_height_on_left
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_compartments_get_if_height_on_left ( const geometry_compartments_t *this_ );
 
 /*!
- *  \brief gets the attribute of geometry_compartments_t: if_height_on_right
+ *  \brief gets the attribute of geometry_compartments_t: iface_height_on_right
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_compartments_get_if_height_on_right ( const geometry_compartments_t *this_ );
 
 /*!
- *  \brief gets the attribute of geometry_compartments_t: if_width_on_top
+ *  \brief gets the attribute of geometry_compartments_t: iface_width_on_top
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_compartments_get_if_width_on_top ( const geometry_compartments_t *this_ );
 
 /*!
- *  \brief gets the attribute of geometry_compartments_t: if_width_on_bottom
+ *  \brief gets the attribute of geometry_compartments_t: iface_width_on_bottom
  *
  *  \param this_ pointer to own object attributes
  */

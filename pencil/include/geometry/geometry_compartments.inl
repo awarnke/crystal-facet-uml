@@ -15,10 +15,10 @@ static inline void geometry_compartments_init( geometry_compartments_t *this_,
     (*this_).port_height_on_right = 0.0;
     (*this_).port_width_on_top = 0.0;
     (*this_).port_width_on_bottom = 0.0;
-    (*this_).if_height_on_left = 0.0;
-    (*this_).if_height_on_right = 0.0;
-    (*this_).if_width_on_top = 0.0;
-    (*this_).if_width_on_bottom = 0.0;
+    (*this_).iface_height_on_left = 0.0;
+    (*this_).iface_height_on_right = 0.0;
+    (*this_).iface_width_on_top = 0.0;
+    (*this_).iface_width_on_bottom = 0.0;
     (*this_).standard_object_border = standard_object_border;
     (*this_).preferred_object_distance = preferred_object_distance;
 }
@@ -27,7 +27,7 @@ static inline void geometry_compartments_reinit( geometry_compartments_t *this_,
                                                  double standard_object_border,
                                                  double preferred_object_distance )
 {
-    geometry_compartments_init( this_, standard_object_border, standard_object_border );
+    geometry_compartments_init( this_, standard_object_border, preferred_object_distance );
 }
 
 static inline void geometry_compartments_copy ( geometry_compartments_t *this_, const geometry_compartments_t *original )
@@ -162,25 +162,25 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
 
         case GEOMETRY_COMPARTMENT_TYPE_IF_ON_LEFT:
         {
-            (*this_).if_height_on_left += geometry_dimensions_get_height( feature_dim ) + gap;
+            (*this_).iface_height_on_left += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENT_TYPE_IF_ON_RIGHT:
         {
-            (*this_).if_height_on_right += geometry_dimensions_get_height( feature_dim ) + gap;
+            (*this_).iface_height_on_right += geometry_dimensions_get_height( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENT_TYPE_IF_ON_TOP:
         {
-            (*this_).if_width_on_top += geometry_dimensions_get_width( feature_dim ) + gap;
+            (*this_).iface_width_on_top += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
         case GEOMETRY_COMPARTMENT_TYPE_IF_ON_BOTTOM:
         {
-            (*this_).if_width_on_bottom += geometry_dimensions_get_width( feature_dim ) + gap;
+            (*this_).iface_width_on_bottom += geometry_dimensions_get_width( feature_dim ) + gap;
         }
         break;
 
@@ -225,37 +225,37 @@ static inline double geometry_compartments_get_port_width_on_bottom( const geome
 
 static inline double geometry_compartments_get_if_height_on_left( const geometry_compartments_t *this_ )
 {
-    return (*this_).if_height_on_left;
+    return (*this_).iface_height_on_left;
 }
 
 static inline double geometry_compartments_get_if_height_on_right( const geometry_compartments_t *this_ )
 {
-    return (*this_).if_height_on_right;
+    return (*this_).iface_height_on_right;
 }
 
 static inline double geometry_compartments_get_if_width_on_top( const geometry_compartments_t *this_ )
 {
-    return (*this_).if_width_on_top;
+    return (*this_).iface_width_on_top;
 }
 
 static inline double geometry_compartments_get_if_width_on_bottom( const geometry_compartments_t *this_ )
 {
-    return (*this_).if_width_on_bottom;
+    return (*this_).iface_width_on_bottom;
 }
 
 static inline double geometry_compartments_get_outer_height ( const geometry_compartments_t *this_ )
 {
-    const double if_height = u8_f64_max2( (*this_).if_height_on_left, (*this_).if_height_on_right );
+    const double iface_height = u8_f64_max2( (*this_).iface_height_on_left, (*this_).iface_height_on_right );
     const double port_height = u8_f64_max2( (*this_).port_height_on_left, (*this_).port_height_on_right );
-    const double result = u8_f64_max2( if_height, port_height );
+    const double result = u8_f64_max2( iface_height, port_height );
     return result;
 }
 
 static inline double geometry_compartments_get_outer_width ( const geometry_compartments_t *this_ )
 {
-    const double if_width = u8_f64_max2( (*this_).if_width_on_top, (*this_).if_width_on_bottom );
+    const double iface_width = u8_f64_max2( (*this_).iface_width_on_top, (*this_).iface_width_on_bottom );
     const double port_width = u8_f64_max2( (*this_).port_width_on_top, (*this_).port_width_on_bottom );
-    const double result = u8_f64_max2( if_width, port_width );
+    const double result = u8_f64_max2( iface_width, port_width );
     return result;
 }
 
@@ -267,10 +267,10 @@ static inline void geometry_compartments_trace( const geometry_compartments_t *t
     U8_TRACE_INFO_INT( "- port_height_on_right:", (*this_).port_height_on_right );
     U8_TRACE_INFO_INT( "- port_width_on_top:", (*this_).port_width_on_top );
     U8_TRACE_INFO_INT( "- port_width_on_bottom:", (*this_).port_width_on_bottom );
-    U8_TRACE_INFO_INT( "- if_height_on_left:", (*this_).if_height_on_left );
-    U8_TRACE_INFO_INT( "- if_height_on_right:", (*this_).if_height_on_right );
-    U8_TRACE_INFO_INT( "- if_width_on_top:", (*this_).if_width_on_top );
-    U8_TRACE_INFO_INT( "- if_width_on_bottom:", (*this_).if_width_on_bottom );
+    U8_TRACE_INFO_INT( "- iface_height_on_left:", (*this_).iface_height_on_left );
+    U8_TRACE_INFO_INT( "- iface_height_on_right:", (*this_).iface_height_on_right );
+    U8_TRACE_INFO_INT( "- iface_width_on_top:", (*this_).iface_width_on_top );
+    U8_TRACE_INFO_INT( "- iface_width_on_bottom:", (*this_).iface_width_on_bottom );
 }
 
 

@@ -40,7 +40,7 @@ typedef enum geometry_compartment_type_type_enum geometry_compartment_type_t;
  *  \return initialized object, GEOMETRY_COMPARTMENT_TYPE_VOID if unsuitable feature_type like LIFELINE
  */
 static inline geometry_compartment_type_t geometry_compartment_type_new ( data_feature_type_t feature_type,
-                                                                          uint32_t list_order );
+                                                                          int32_t list_order );
 
 #include "geometry/geometry_compartment_type.inl"
 
