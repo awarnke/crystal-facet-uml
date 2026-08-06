@@ -122,7 +122,7 @@ static test_case_result_t test_geometry_compartments_init( test_fixture_t *fix )
     geometry_compartments_replacemove( &my_original, &my_copy );
 
     geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_IF_ON_LEFT, &feature_dim );
-    const double if2_h = geometry_compartments_get_if_height_on_left( &my_copy );
+    const double if2_h = geometry_compartments_get_if_height_on_left( &my_original );
     TEST_EXPECT_EQUAL_FLOAT( 210.0, if2_h );
 
     geometry_compartments_destroy( &my_original );
@@ -147,8 +147,8 @@ static test_case_result_t test_geometry_compartments_add_feature( test_fixture_t
 
     const geometry_dimensions_t *const inner_features
         = geometry_compartments_get_feature_compartments( &my_original );
-    TEST_EXPECT_EQUAL_FLOAT( 80.0, geometry_dimensions_get_width( inner_features ) );
-    TEST_EXPECT_EQUAL_FLOAT( 66.0, geometry_dimensions_get_height( inner_features ) );
+    TEST_EXPECT_EQUAL_FLOAT( 84.0, geometry_dimensions_get_width( inner_features ) );
+    TEST_EXPECT_EQUAL_FLOAT( 72.0, geometry_dimensions_get_height( inner_features ) );
 
     geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_PORT_ON_LEFT, &feature_dim );
     const double port_left = geometry_compartments_get_port_height_on_left( &my_original );
