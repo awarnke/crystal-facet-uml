@@ -158,73 +158,37 @@ static test_case_result_t test_geometry_compartments_add_feature( test_fixture_t
     const double port_right = geometry_compartments_get_port_height_on_right( &my_original );
     TEST_EXPECT_EQUAL_FLOAT( 70.0, port_right );
 
-    #if 0
-    /*!
-     *  \brief gets the attribute of geometry_compartments_t: port_height_on_right
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_port_height_on_right ( const geometry_compartments_t *this_ );
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_PORT_ON_TOP, &feature_dim );
+    const double port_top = geometry_compartments_get_port_width_on_top( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 90.0, port_top );
 
-    /*!
-     *  \brief gets the attribute of geometry_compartments_t: port_width_on_top
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_port_width_on_top ( const geometry_compartments_t *this_ );
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_PORT_ON_BOTTOM, &feature_dim );
+    const double port_bottom = geometry_compartments_get_port_width_on_bottom( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 90.0, port_bottom );
 
-    /*!
-     *  \brief gets the attribute of geometry_compartments_t: port_width_on_bottom
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_port_width_on_bottom ( const geometry_compartments_t *this_ );
+    const geometry_dimensions_t iface_dim = geometry_dimensions_new( 75.0, 55.0 );
 
-    /*!
-     *  \brief gets the attribute of geometry_compartments_t: if_height_on_left
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_if_height_on_left ( const geometry_compartments_t *this_ );
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_IF_ON_LEFT, &iface_dim );
+    const double iface_left = geometry_compartments_get_if_height_on_left( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 65.0, iface_left );
 
-    /*!
-     *  \brief gets the attribute of geometry_compartments_t: if_height_on_right
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_if_height_on_right ( const geometry_compartments_t *this_ );
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_IF_ON_RIGHT, &iface_dim );
+    const double iface_right = geometry_compartments_get_if_height_on_right( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 65.0, iface_right );
 
-    /*!
-     *  \brief gets the attribute of geometry_compartments_t: if_width_on_top
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_if_width_on_top ( const geometry_compartments_t *this_ );
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_IF_ON_TOP, &iface_dim );
+    const double iface_top = geometry_compartments_get_if_width_on_top( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 85.0, iface_top );
 
-    /*!
-     *  \brief gets the attribute of geometry_compartments_t: if_width_on_bottom
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_if_width_on_bottom ( const geometry_compartments_t *this_ );
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_IF_ON_BOTTOM, &iface_dim );
+    const double iface_bottom = geometry_compartments_get_if_width_on_bottom( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 85.0, iface_bottom );
 
+    const double any_height = geometry_compartments_get_outer_height( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 70.0, any_height );
 
-
-    /*!
-     *  \brief gets the maximum of all interface and port heights
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_outer_height ( const geometry_compartments_t *this_ );
-
-    /*!
-     *  \brief gets the maximum of all interface and port widths
-     *
-     *  \param this_ pointer to own object attributes
-     */
-    static inline double geometry_compartments_get_outer_width ( const geometry_compartments_t *this_ );
-
-#endif
+    const double any_width = geometry_compartments_get_outer_width( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 90.0, any_width );
 
     geometry_compartments_destroy( &my_original );
     return TEST_CASE_RESULT_OK;
