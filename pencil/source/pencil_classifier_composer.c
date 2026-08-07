@@ -82,10 +82,10 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
         = geometry_rectangle_get_height( envelope ) - geometry_rectangle_get_height( &inner_area ) ;
     const double needed_outer_width = geometry_compartments_get_outer_width( features_dimensions );
     const double needed_inner_width = needed_outer_width - inner_to_outer_width_delta;
-    U8_TRACE_INFO_INT_INT("needed_outer/inner_width :", needed_outer_width, needed_inner_width );
+    U8_TRACE_INFO_INT_INT("needed_outer/inner_width :", (int) needed_outer_width, (int) needed_inner_width );
     const double needed_outer_height = geometry_compartments_get_outer_height( features_dimensions );
     const double needed_inner_height = needed_outer_height - inner_to_outer_height_delta;
-    U8_TRACE_INFO_INT_INT("needed_outer/inner_height :", needed_outer_height, needed_inner_height );
+    U8_TRACE_INFO_INT_INT("needed_outer/inner_height :", (int) needed_outer_height, (int) needed_inner_height );
     const double preferred_inner_width = u8_f64_max3( geometry_rectangle_get_width( &inner_area ),
                                                       geometry_dimensions_get_width( compartment_dim ),
                                                       needed_inner_width
@@ -142,19 +142,25 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     layout_visible_classifier_set_compartments( io_classifier_layout, &compartments_rect );
 
     /* calculate space */
-    /* TODO take number of ports into account: geometry_compartments_get_outer_height */
     const double label_and_features_height
         = geometry_rectangle_get_height( &label_compartment )
         + geometry_dimensions_get_height( compartment_dim );
     geometry_rectangle_t classifier_space;
-    geometry_rectangle_copy( &classifier_space, &preferred_inner_area );
-    geometry_rectangle_shift( &classifier_space, 0.0, label_and_features_height );
-    geometry_rectangle_enlarge( &classifier_space, 0.0, -label_and_features_height );
-    const bool space_too_small = ( geometry_rectangle_get_height( &classifier_space ) < half_gap );
-    if ( space_too_small )
+    const double classifier_space_height
+        = u8_f64_max3( geometry_rectangle_get_height( &preferred_inner_area ) - label_and_features_height,
+                       half_gap,
+                       needed_inner_height - label_and_features_height
+                     );
+    geometry_rectangle_init( &classifier_space,
+                             geometry_rectangle_get_left( &preferred_inner_area ),
+                             geometry_rectangle_get_top( &preferred_inner_area ) + label_and_features_height,
+                             geometry_rectangle_get_width( &preferred_inner_area ),
+                             classifier_space_height
+                           );
+    if ( classifier_space_height
+         > geometry_rectangle_get_height( &preferred_inner_area ) - label_and_features_height + 0.000000001 )
     {
         result_err |= PENCIL_ERROR_OUT_OF_BOUNDS;
-        geometry_rectangle_enlarge( &classifier_space, 0.0, half_gap );
     }
     layout_visible_classifier_set_space( io_classifier_layout, &classifier_space );
 

@@ -223,13 +223,14 @@ void pencil_feature_layouter_calculate_features_dimensions( pencil_feature_layou
             }
             else
             {
-                /* TODO: a better guess is needed here */
-                const geometry_dimensions_t guess_dim = geometry_dimensions_new ( 20.0, 20.0 );
+                /* interface and port icon sizes are based on the standard_font_size: */
+                const double symbol_size = pencil_size_get_standard_font_size( (*this_).pencil_size );
+                const geometry_dimensions_t symbol_dim = geometry_dimensions_new( symbol_size, symbol_size );
 
                 /* update compartment dimensions */
                 geometry_compartments_add_feature( out_features_dim,
                                                    compartment,
-                                                   &guess_dim
+                                                   &symbol_dim
                                                  );
             }
         }
