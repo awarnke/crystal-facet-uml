@@ -184,15 +184,11 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
         }
         break;
 
+        default:  /* or */
         case GEOMETRY_COMPARTMENT_TYPE_VOID:
         {
+            assert( compartment == GEOMETRY_COMPARTMENT_TYPE_VOID );
             /* ignore */
-        }
-        break;
-
-        default:
-        {
-            assert( false );
         }
         break;
     }

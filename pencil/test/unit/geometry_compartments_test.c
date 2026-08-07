@@ -100,6 +100,8 @@ static test_case_result_t test_geometry_compartments_init( test_fixture_t *fix )
     const double preferred_object_distance = 10.0;
     const geometry_dimensions_t feature_dim = geometry_dimensions_new( 80.0, 60.0 );
 
+    /* test the standard constructors */
+
     geometry_compartments_t my_original;
     geometry_compartments_t my_copy;
 
@@ -127,9 +129,22 @@ static test_case_result_t test_geometry_compartments_init( test_fixture_t *fix )
 
     geometry_compartments_destroy( &my_original );
 
+    /* test the placement new constructors */
+
     const geometry_compartments_t my_const = geometry_compartments_new_empty();
 
     geometry_compartments_trace( &my_const );
+
+    const geometry_dimensions_t outer_dim = geometry_dimensions_new( 100.0, 40.0 );
+
+    const geometry_compartments_t my_const_2 = geometry_compartments_new( &feature_dim, &outer_dim );
+    const double any_height = geometry_compartments_get_outer_height( &my_const_2 );
+    TEST_EXPECT_EQUAL_FLOAT( 40.0, any_height );
+    const double any_width = geometry_compartments_get_outer_width( &my_const_2 );
+    TEST_EXPECT_EQUAL_FLOAT( 100.0, any_width );
+    const geometry_dimensions_t *const inner_features = geometry_compartments_get_feature_compartments( &my_const_2 );
+    TEST_EXPECT_EQUAL_FLOAT( 80.0, geometry_dimensions_get_width( inner_features ) );
+    TEST_EXPECT_EQUAL_FLOAT( 60.0, geometry_dimensions_get_height( inner_features ) );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -189,6 +204,23 @@ static test_case_result_t test_geometry_compartments_add_feature( test_fixture_t
 
     const double any_width = geometry_compartments_get_outer_width( &my_original );
     TEST_EXPECT_EQUAL_FLOAT( 90.0, any_width );
+
+    /* test the other inner features on uninitialized objects: */
+
+    geometry_compartments_reinit( &my_original, standard_object_border, preferred_object_distance );
+
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_PROPERTIES, &feature_dim );
+    const geometry_dimensions_t *const inner_features_2 = geometry_compartments_get_feature_compartments( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 84.0, geometry_dimensions_get_width( inner_features_2 ) );
+    TEST_EXPECT_EQUAL_FLOAT( 72.0, geometry_dimensions_get_height( inner_features_2 ) );
+
+    geometry_compartments_reinit( &my_original, standard_object_border, preferred_object_distance );
+
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_OPERATIONS, &feature_dim );
+    geometry_compartments_add_feature( &my_original, GEOMETRY_COMPARTMENT_TYPE_VOID, &feature_dim );
+    const geometry_dimensions_t *const inner_features_3 = geometry_compartments_get_feature_compartments( &my_original );
+    TEST_EXPECT_EQUAL_FLOAT( 84.0, geometry_dimensions_get_width( inner_features_3 ) );
+    TEST_EXPECT_EQUAL_FLOAT( 72.0, geometry_dimensions_get_height( inner_features_3 ) );
 
     geometry_compartments_destroy( &my_original );
     return TEST_CASE_RESULT_OK;
