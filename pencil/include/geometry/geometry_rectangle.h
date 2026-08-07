@@ -180,6 +180,17 @@ int geometry_rectangle_init_by_difference_at_pivot ( geometry_rectangle_t *this_
 static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ );
 
 /*!
+ *  \brief initializes a const geometry_rectangle_t struct
+ *
+ *  \param left left coordinate of the rectangle
+ *  \param top top coordinate of the rectangle
+ *  \param width width of the rectangle
+ *  \param height height of the rectangle
+ *  \return an initialized object
+ */
+static inline geometry_rectangle_t geometry_rectangle_new ( double left, double top, double width, double height );
+
+/*!
  *  \brief gets the left coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes

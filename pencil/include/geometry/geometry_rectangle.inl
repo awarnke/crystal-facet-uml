@@ -226,6 +226,13 @@ static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ )
 {
 }
 
+static inline geometry_rectangle_t geometry_rectangle_new ( double left, double top, double width, double height )
+{
+    geometry_rectangle_t result;
+    geometry_rectangle_init( &result, left, top, width, height );
+    return result;
+}
+
 static inline double geometry_rectangle_get_left ( const geometry_rectangle_t *this_ )
 {
     return (*this_).left;

@@ -2,7 +2,6 @@ crystal-facet-uml (1.71.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Classifiers adapt their sizes to their interfaces and ports
-    (unless children exist)
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 15 Aug 2026 22:00:00 +0200
 

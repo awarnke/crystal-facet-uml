@@ -125,6 +125,13 @@ static test_case_result_t test_copy( test_fixture_t *fix )
     geometry_rectangle_destroy ( &rect_a );
     geometry_rectangle_destroy ( &rect_c );
 
+    /* test the placement new */
+    const geometry_rectangle_t rect_d = geometry_rectangle_new( 1.0, 2.0, 3.0 /*width*/, 4.0 /*height*/ );
+    TEST_EXPECT_EQUAL_FLOAT( 1.0, geometry_rectangle_get_left( &rect_d ) );
+    TEST_EXPECT_EQUAL_FLOAT( 2.0, geometry_rectangle_get_top( &rect_d ) );
+    TEST_EXPECT_EQUAL_FLOAT( 3.0, geometry_rectangle_get_width( &rect_d ) );
+    TEST_EXPECT_EQUAL_FLOAT( 4.0, geometry_rectangle_get_height( &rect_d ) );
+
     return TEST_CASE_RESULT_OK;
 }
 
