@@ -746,10 +746,13 @@ pencil_error_t pencil_classifier_2d_layouter_private_try_embrace_child( pencil_c
     assert( NULL != the_relationship );
     pencil_error_t result_err = PENCIL_ERROR_OUT_OF_BOUNDS;
 
-    const data_relationship_type_t the_type
-        = data_relationship_get_main_type ( layout_relationship_get_data_const( the_relationship ));
+    const data_relationship_t *const relationship_data = layout_relationship_get_data_const( the_relationship );
+    const data_relationship_type_t the_type = data_relationship_get_main_type( relationship_data );
+    const data_row_t parent_feature_row = data_relationship_get_from_feature_row ( relationship_data );
+    const data_row_t child_feature_row = data_relationship_get_to_feature_row ( relationship_data );
+    const bool no_feature_ends = ( parent_feature_row == DATA_ROW_VOID )&&( child_feature_row == DATA_ROW_VOID );
 
-    if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+    if ( ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type ) && no_feature_ends )
     {
         layout_visible_classifier_t *const from_classifier
             = layout_relationship_get_from_classifier_ptr( the_relationship );
@@ -879,9 +882,12 @@ void pencil_classifier_2d_layouter_hide_relations_of_embraced_children( pencil_c
             = layout_relationship_get_data_const( the_relationship );
 
         const data_relationship_type_t the_type = data_relationship_get_main_type ( the_rel_data );
+        const data_row_t parent_feature_row = data_relationship_get_from_feature_row ( the_rel_data );
+        const data_row_t child_feature_row = data_relationship_get_to_feature_row ( the_rel_data );
+        const bool no_feature_ends = ( parent_feature_row == DATA_ROW_VOID )&&( child_feature_row == DATA_ROW_VOID );
         const pencil_visibility_t visibility = layout_relationship_get_visibility( the_relationship );
 
-        if (( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+        if (( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type ) && no_feature_ends
             && (( PENCIL_VISIBILITY_SHOW == visibility )||(PENCIL_VISIBILITY_GRAY_OUT == visibility) ))
         {
             const layout_visible_classifier_t *const from_classifier

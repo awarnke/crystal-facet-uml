@@ -314,6 +314,9 @@ static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr (
 /*!
  *  \brief determines if ancestor is an ancestor of descendant
  *
+ *  Only containments between two classifiers are taken into account,
+ *  containments between two features or between feature and classifier are ignored.
+ *
  *  \param this_ pointer to own object attributes
  *  \param ancestor_index index of the ancestor classifier; 0 &lt;= ancestor_index &lt; data_visible_set_get_visible_classifier_count().
  *  \param descendant_index index of the descendant classifier; 0 &lt;= descendant_index &lt; data_visible_set_get_visible_classifier_count().
@@ -324,6 +327,9 @@ static inline bool data_visible_set_is_ancestor_by_index ( const data_visible_se
 /*!
  *  \brief counts the number of ancestors of a classifier denoted by index
  *
+ *  Only containments between two classifiers are taken into account,
+ *  containments between two features or between feature and classifier are ignored.
+ *
  *  \param this_ pointer to own object attributes
  *  \param classifier_index index of the classifier; 0 &lt;= classifier_index &lt; data_visible_set_get_visible_classifier_count().
  *  \return number of ancestors of classifier_index which are listed in this_.
@@ -332,6 +338,9 @@ static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_vi
 
 /*!
  *  \brief counts the number of descendants of a classifier denoted by index
+ *
+ *  Only containments between two classifiers are taken into account,
+ *  containments between two features or between feature and classifier are ignored.
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_index index of the classifier; 0 &lt;= classifier_index &lt; data_visible_set_get_visible_classifier_count().
@@ -370,6 +379,9 @@ static inline void data_visible_set_invalidate ( data_visible_set_t *this_ );
 
 /*!
  *  \brief initializes or re-initializes the containment_cache
+ *
+ *  Only containments between two classifiers are taken into account,
+ *  containments between two features or between feature and classifier are ignored.
  *
  *  \param this_ pointer to own object attributes
  */

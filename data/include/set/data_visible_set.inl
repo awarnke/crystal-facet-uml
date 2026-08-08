@@ -1,6 +1,7 @@
 /* File: data_visible_set.inl; Copyright and License: see below */
 
 #include "u8/u8_log.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 /* ================================ diagram ================================ */
@@ -402,7 +403,12 @@ static inline bool data_visible_set_is_ancestor_by_index ( const data_visible_se
     assert( ancestor_index < (*this_).visible_classifier_count );
     assert( descendant_index < (*this_).visible_classifier_count );
 
-    return (*this_).containment_cache[ancestor_index][descendant_index];
+    const bool result = (*this_).containment_cache[ancestor_index][descendant_index];
+    if ( result )
+    {
+        U8_TRACE_INFO_INT_INT( "ancestor has decendant:", ancestor_index, descendant_index );
+    }
+    return result;
 }
 
 static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_visible_set_t *this_, uint32_t classifier_index )

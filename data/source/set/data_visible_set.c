@@ -268,22 +268,19 @@ void data_visible_set_update_containment_cache ( data_visible_set_t *this_ )
 
         for ( uint32_t rel_idx = 0; rel_idx < (*this_).relationship_count; rel_idx ++ )
         {
-            data_relationship_t *the_relationship;
-            the_relationship = &((*this_).relationships[rel_idx]);
+            const data_relationship_t *const the_relationship = &((*this_).relationships[rel_idx]);
 
-            data_relationship_type_t the_type;
-            the_type = data_relationship_get_main_type ( the_relationship );
+            const data_relationship_type_t the_type = data_relationship_get_main_type ( the_relationship );
+            const data_row_t parent_feature_row = data_relationship_get_from_feature_row ( the_relationship );
+            const data_row_t child_feature_row = data_relationship_get_to_feature_row ( the_relationship );
+            const bool no_feature_ends = ( parent_feature_row == DATA_ROW_VOID )&&( child_feature_row == DATA_ROW_VOID );
 
-            if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+            if ( ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type ) && no_feature_ends )
             {
-                data_row_t parent_id;
-                data_row_t child_id;
-                parent_id = data_relationship_get_from_classifier_row ( the_relationship );
-                child_id = data_relationship_get_to_classifier_row ( the_relationship );
-                int32_t parent_index;
-                int32_t child_index;
-                parent_index = data_visible_set_get_classifier_index ( this_, parent_id );
-                child_index = data_visible_set_get_classifier_index ( this_, child_id );
+                const data_row_t parent_row = data_relationship_get_from_classifier_row ( the_relationship );
+                const data_row_t child_row = data_relationship_get_to_classifier_row ( the_relationship );
+                const int32_t parent_index = data_visible_set_get_classifier_index ( this_, parent_row );
+                const int32_t child_index = data_visible_set_get_classifier_index ( this_, child_row );
                 if ( ( parent_index != -1 )&&( child_index != -1 ) )
                 {
                     assert ( 0 <= parent_index );

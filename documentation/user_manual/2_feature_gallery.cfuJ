@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.0"
+    "generator_version": "1.71.1"
   }
   ,
   "views":
@@ -3025,14 +3025,43 @@
         [
           {
             "id": 25,
-            "type": "Output Port", "main_type": 7,
-            "key": "coordinates",
-            "value": "SPI",
+            "type": "Input Port", "main_type": 6,
+            "key": "MOSI",
             "description": [
-                ""
+                "SPI / Master Out - Slave In"
             ],
-            "list_order": 1177259540,
+            "list_order": 399458677,
             "uuid": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461"
+          },
+          {
+            "id": 101,
+            "type": "Input Port", "main_type": 6,
+            "key": "SCLK",
+            "description": [
+                "SPI / Serial Clock"
+            ],
+            "list_order": 717123613,
+            "uuid": "a83a8fcb-d6a7-4afc-802d-40d4faf73c50"
+          },
+          {
+            "id": 103,
+            "type": "Output Port", "main_type": 7,
+            "key": "MISO",
+            "description": [
+                "SPI / Master In - Slave Out"
+            ],
+            "list_order": 160918646,
+            "uuid": "2d08c1fd-9f2a-41a6-af8b-263f6817849c"
+          },
+          {
+            "id": 105,
+            "type": "Input Port", "main_type": 6,
+            "key": "CS",
+            "description": [
+                "SPI / Chip Select"
+            ],
+            "list_order": 971209293,
+            "uuid": "bee9760f-db5f-4998-9555-d30477c3255d"
           }
         ]
       }
@@ -3136,7 +3165,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1601900981,
+            "list_order": 1715290580,
             "uuid": "438f6352-cc9f-4a63-9ad8-7c9f9149743f"
           },
           {
@@ -3146,7 +3175,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1784044573,
+            "list_order": 2026398286,
             "uuid": "d300c769-e3f9-40a2-b368-01d7eb0bda0c"
           }
         ]
@@ -3218,7 +3247,7 @@
             "description": [
                 ""
             ],
-            "list_order": -144306281,
+            "list_order": -709015385,
             "uuid": "c0820590-cb63-4730-aa05-c41e440ad3ac"
           }
         ]
@@ -3267,18 +3296,48 @@
             "description": [
                 ""
             ],
-            "list_order": -198938728,
+            "list_order": -92276061,
             "uuid": "6d236dd5-5ecd-47de-a2cb-d53f5919b680"
           },
           {
             "id": 99,
-            "type": "Input Port", "main_type": 6,
-            "key": "SPI",
+            "type": "Output Port", "main_type": 7,
+            "key": "MOSI",
             "description": [
-                ""
+                "SPI / Master Out - Slave In"
             ],
-            "list_order": -1004017175,
+            "list_order": -1493102803,
             "uuid": "30503e33-e7bf-40ff-abbb-45206fa222c7"
+          },
+          {
+            "id": 100,
+            "type": "Output Port", "main_type": 7,
+            "key": "SCLK",
+            "description": [
+                "SPI / Serial Clock"
+            ],
+            "list_order": -1770311052,
+            "uuid": "3f201e6b-41f3-415c-8a72-3138928adf81"
+          },
+          {
+            "id": 102,
+            "type": "Input Port", "main_type": 6,
+            "key": "MISO",
+            "description": [
+                "SPI / Master In - Slave Out"
+            ],
+            "list_order": -1225719884,
+            "uuid": "a7c78b22-67b7-448a-b686-f28e05b18a6e"
+          },
+          {
+            "id": 104,
+            "type": "Output Port", "main_type": 7,
+            "key": "CS",
+            "description": [
+                "SPI / Chip Select"
+            ],
+            "list_order": -2015850752,
+            "uuid": "33dd37c0-4607-45cf-9567-2f758b0a3f39"
           }
         ]
       }
@@ -6255,18 +6314,36 @@
       "relationship": {
         "id": 213,
         "type": "Communication Path", "main_type": 230,
-        "name": "touch input",
+        "name": "",
         "description": [
                 ""
         ],
         "list_order": 2004058767,
         "from_classifier_name": "Dial Pad",
-        "from_feature_key": "coordinates",
+        "from_feature_key": "MOSI",
         "from_node": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461",
         "to_classifier_name": "CPU",
-        "to_feature_key": "SPI",
+        "to_feature_key": "MOSI",
         "to_node": "30503e33-e7bf-40ff-abbb-45206fa222c7",
         "uuid": "9cb9b455-23c6-468e-b74c-ed8e1927d969"
+      }
+    },
+    {
+      "relationship": {
+        "id": 220,
+        "type": "Communication Path", "main_type": 230,
+        "name": "touch input",
+        "description": [
+                ""
+        ],
+        "list_order": 2004157071,
+        "from_classifier_name": "Dial Pad",
+        "from_feature_key": "MISO",
+        "from_node": "2d08c1fd-9f2a-41a6-af8b-263f6817849c",
+        "to_classifier_name": "CPU",
+        "to_feature_key": "MISO",
+        "to_node": "a7c78b22-67b7-448a-b686-f28e05b18a6e",
+        "uuid": "6f315d27-8466-4b03-b672-bf1fc576ca1d"
       }
     },
     {
@@ -6480,11 +6557,47 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "CPU",
-        "from_feature_key": "SPI",
+        "from_feature_key": "MOSI",
         "from_node": "30503e33-e7bf-40ff-abbb-45206fa222c7",
         "to_classifier_name": "I/O",
         "to_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
         "uuid": "d6ce40ea-be8a-473d-98fa-846dc6c0903b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 219,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 2004124303,
+        "from_classifier_name": "CPU",
+        "from_feature_key": "SCLK",
+        "from_node": "3f201e6b-41f3-415c-8a72-3138928adf81",
+        "to_classifier_name": "Dial Pad",
+        "to_feature_key": "SCLK",
+        "to_node": "a83a8fcb-d6a7-4afc-802d-40d4faf73c50",
+        "uuid": "f681e804-5c83-46d8-829b-efccc73236f5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 221,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 2004189839,
+        "from_classifier_name": "CPU",
+        "from_feature_key": "CS",
+        "from_node": "33dd37c0-4607-45cf-9567-2f758b0a3f39",
+        "to_classifier_name": "Dial Pad",
+        "to_feature_key": "CS",
+        "to_node": "bee9760f-db5f-4998-9555-d30477c3255d",
+        "uuid": "227abd2a-7ab3-45f5-9a8a-6f271df52c0d"
       }
     },
     {

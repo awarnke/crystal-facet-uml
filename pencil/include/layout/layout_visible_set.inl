@@ -121,10 +121,14 @@ static inline bool layout_visible_set_is_ancestor ( const layout_visible_set_t *
     assert ( NULL != descendant );
 
     /* get index */
-    uint32_t ancestor_index;
-    uint32_t descendant_index;
-    ancestor_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(ancestor) );
-    descendant_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(descendant) );
+    const uint32_t ancestor_index
+        = data_visible_set_get_classifier_index_from_pointer( (*this_).input_data,
+                                                              layout_visible_classifier_get_data_const( ancestor )
+                                                            );
+    const uint32_t descendant_index
+        = data_visible_set_get_classifier_index_from_pointer( (*this_).input_data,
+                                                              layout_visible_classifier_get_data_const( descendant )
+                                                            );
 
     /* ask input_data */
     return data_visible_set_is_ancestor_by_index ( (*this_).input_data, ancestor_index, descendant_index );
@@ -136,8 +140,10 @@ static inline uint32_t layout_visible_set_count_ancestors ( const layout_visible
     assert ( NULL != classifier );
 
     /* get index */
-    uint32_t classifier_index;
-    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(classifier) );
+    const uint32_t classifier_index
+        = data_visible_set_get_classifier_index_from_pointer( (*this_).input_data,
+                                                              layout_visible_classifier_get_data_const( classifier )
+                                                            );
 
     /* ask input_data */
     return data_visible_set_count_ancestors_of_index ( (*this_).input_data, classifier_index );
@@ -149,8 +155,10 @@ static inline uint32_t layout_visible_set_count_descendants ( const layout_visib
     assert ( NULL != classifier );
 
     /* get index */
-    uint32_t classifier_index;
-    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(classifier) );
+    const uint32_t classifier_index
+        = data_visible_set_get_classifier_index_from_pointer( (*this_).input_data,
+                                                              layout_visible_classifier_get_data_const( classifier )
+                                                            );
 
     /* ask input_data */
     return data_visible_set_count_descendants_of_index ( (*this_).input_data, classifier_index );
