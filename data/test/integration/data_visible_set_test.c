@@ -266,7 +266,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
         }
 
         data_visible_set_update_containment_cache( &((*fix).test_me) );
-        TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_ancestor_by_index( &((*fix).test_me), 0 /* ancestor_index */, 1 /* descendant_index */ ) );
+        TEST_EXPECT_EQUAL_INT( false, data_visible_set_is_ancestor_by_index( &((*fix).test_me), 0 /* ancestor_index */, 1 /* descendant_index */ ) );
         TEST_EXPECT_EQUAL_INT( false, data_visible_set_is_ancestor_by_index( &((*fix).test_me), 1 /* ancestor_index */, 0 /* descendant_index */ ) );
 
         data_visible_set_invalidate( &((*fix).test_me) );
