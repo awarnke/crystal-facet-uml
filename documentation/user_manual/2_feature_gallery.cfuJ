@@ -3247,7 +3247,7 @@
             "description": [
                 ""
             ],
-            "list_order": -709015385,
+            "list_order": -664682270,
             "uuid": "c0820590-cb63-4730-aa05-c41e440ad3ac"
           }
         ]
@@ -3286,7 +3286,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1421646088,
+            "list_order": 1349568159,
             "uuid": "ac28a630-1679-4693-8001-25e109ad1bc9"
           },
           {
@@ -3306,7 +3306,7 @@
             "description": [
                 "SPI / Master Out - Slave In"
             ],
-            "list_order": -1493102803,
+            "list_order": -1461209180,
             "uuid": "30503e33-e7bf-40ff-abbb-45206fa222c7"
           },
           {
@@ -3326,7 +3326,7 @@
             "description": [
                 "SPI / Master In - Slave Out"
             ],
-            "list_order": -1225719884,
+            "list_order": -1255973612,
             "uuid": "a7c78b22-67b7-448a-b686-f28e05b18a6e"
           },
           {
@@ -4778,8 +4778,8 @@
         "description": [
                 ""
         ],
-        "x_order": 673138540,
-        "y_order": -955455590,
+        "x_order": 627616018,
+        "y_order": -983113327,
         "list_order": -942039042,
         "uuid": "236a9734-4a1c-41f9-bf7b-0605aec78a5e",
         "features":
@@ -4795,8 +4795,8 @@
         "description": [
                 ""
         ],
-        "x_order": 673138540,
-        "y_order": -1014345845,
+        "x_order": 627616018,
+        "y_order": -957063026,
         "list_order": -1014345845,
         "uuid": "8368e3af-6362-46e3-ab5a-e1c7cacb3f20",
         "features":
@@ -4812,8 +4812,8 @@
         "description": [
                 ""
         ],
-        "x_order": 673138540,
-        "y_order": -986188067,
+        "x_order": 317975608,
+        "y_order": -983113327,
         "list_order": -1014345845,
         "uuid": "a9fad778-dff6-4967-83b6-fbca5a35f374",
         "features":
@@ -6598,6 +6598,23 @@
         "to_feature_key": "CS",
         "to_node": "bee9760f-db5f-4998-9555-d30477c3255d",
         "uuid": "227abd2a-7ab3-45f5-9a8a-6f271df52c0d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 222,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "CPU",
+        "from_feature_key": "MISO",
+        "from_node": "a7c78b22-67b7-448a-b686-f28e05b18a6e",
+        "to_classifier_name": "I/O",
+        "to_node": "e1aaff62-ad00-4ef6-879d-f88f765c4723",
+        "uuid": "79562d3e-105a-409e-aeff-cff8d00a81ac"
       }
     },
     {

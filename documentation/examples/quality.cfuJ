@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.2"
+    "generator_version": "1.71.1"
   }
   ,
   "views":
@@ -2103,6 +2103,12 @@
             "classifier_name": "Declare all interfaces",
             "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
             "uuid": "0af7b3fb-9efb-4927-9cd3-43448a820779"
+          },
+          {
+            "id": 506,
+            "classifier_name": "Network Security",
+            "node": "cf3e9469-5e66-4ad7-9683-8df727dc21fd",
+            "uuid": "45f7f2e1-f46a-4e96-aefd-6566c729ee14"
           }
         ]
       }
@@ -3410,8 +3416,8 @@
                 "This category of product quality was introduced in ISO/IEC 9126-1 and extended ",
                 "in ISO-25010:2011."
         ],
-        "x_order": 1256988814,
-        "y_order": -2112750232,
+        "x_order": 1166883154,
+        "y_order": -2146964880,
         "list_order": 0,
         "uuid": "5cc16673-215f-4396-b544-62b84ac532e2",
         "features":
@@ -3796,7 +3802,7 @@
         "description": [
                 ""
         ],
-        "x_order": 1017473300,
+        "x_order": 1027722837,
         "y_order": -2145874996,
         "list_order": 0,
         "uuid": "4872cb70-1542-43f0-88fe-7f3984c5f93c",
@@ -3881,7 +3887,7 @@
         "description": [
                 ""
         ],
-        "x_order": 1017473300,
+        "x_order": 1027722837,
         "y_order": -2082453547,
         "list_order": 0,
         "uuid": "ee8fa4b7-4673-4d28-8343-28260de8b85b",
@@ -7259,7 +7265,7 @@
         "description": [
                 "see D0025#name."
         ],
-        "x_order": 1256988814,
+        "x_order": 1166883154,
         "y_order": -1163520015,
         "list_order": -1137466768,
         "uuid": "c93efa8b-36e9-49bd-87c4-5f236e4371e8",
@@ -9865,6 +9871,67 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 311,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Network Security",
+        "description": [
+                ""
+        ],
+        "x_order": 2096700661,
+        "y_order": -2145862063,
+        "list_order": -2120275592,
+        "uuid": "cf3e9469-5e66-4ad7-9683-8df727dc21fd",
+        "features":
+        [
+          {
+            "id": 109,
+            "type": "Property", "main_type": 0,
+            "key": "authentic sender and time",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "d1f8c28e-3636-47d7-8e9d-17701aa4f6d4"
+          },
+          {
+            "id": 110,
+            "type": "Property", "main_type": 0,
+            "key": "encrypted transfer",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "ecb24a23-6435-4367-a502-b13ba3293836"
+          },
+          {
+            "id": 111,
+            "type": "Property", "main_type": 0,
+            "key": "authentic message",
+            "description": [
+                "Network security requires:\n",
+                "- Confidentiality\n",
+                "- Integrity\n",
+                "- Availability"
+            ],
+            "list_order": 49152,
+            "uuid": "40b38e9f-56bf-4b29-b178-5f633578a5ee"
+          },
+          {
+            "id": 112,
+            "type": "Property", "main_type": 0,
+            "key": "availability",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "41d10137-b5f2-4583-8481-b13d4d175604"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -12132,7 +12199,7 @@
       "relationship": {
         "id": 342,
         "type": "Generalization", "main_type": 210,
-        "name": "",
+        "name": "is a",
         "description": [
                 ""
         ],
@@ -13204,7 +13271,7 @@
       "relationship": {
         "id": 341,
         "type": "Generalization", "main_type": 210,
-        "name": "",
+        "name": "is a",
         "description": [
                 ""
         ],
@@ -13220,7 +13287,7 @@
       "relationship": {
         "id": 248,
         "type": "Refinement", "main_type": 400,
-        "name": "",
+        "name": "derived from",
         "description": [
                 ""
         ],
@@ -14878,6 +14945,22 @@
         "to_classifier_name": "Adaptability",
         "to_node": "24ef8550-935f-4806-bbde-1a2bff8a0356",
         "uuid": "b65922a0-bcf2-4af4-bd6f-e611acda1b7e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 376,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 1002960,
+        "from_classifier_name": "Network Security",
+        "from_node": "cf3e9469-5e66-4ad7-9683-8df727dc21fd",
+        "to_classifier_name": "Integrity",
+        "to_node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
+        "uuid": "4a8dbdbd-1e55-41d4-a40e-a6434fc2c660"
       }
     }
   ]

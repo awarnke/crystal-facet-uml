@@ -131,9 +131,13 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     layout_visible_classifier_set_icon_box( io_classifier_layout, &icon_rect );
 
     /* position feature compartments box below label box */
-    const double new_inner_left = u8_f64_min2( geometry_rectangle_get_left( &preferred_inner_area ),
+    const double new_inner_left = u8_f64_min2( geometry_rectangle_get_left( &inner_area ),
                                                geometry_rectangle_get_left( &label_compartment )
                                              );
+    const double new_inner_width = u8_f64_max3( geometry_rectangle_get_width( &label_compartment ),
+                                                geometry_dimensions_get_width( compartment_dim ),
+                                                geometry_rectangle_get_width( &inner_area )
+                                              );
     const geometry_rectangle_t compartments_rect
         = geometry_rectangle_new( new_inner_left,
                                   geometry_rectangle_get_bottom( &label_compartment ),
@@ -154,7 +158,7 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     const geometry_rectangle_t classifier_space
         = geometry_rectangle_new( new_inner_left,
                                   geometry_rectangle_get_top( &preferred_inner_area ) + label_and_features_height,
-                                  geometry_rectangle_get_width( &preferred_inner_area ),
+                                  new_inner_width,
                                   classifier_space_height
                                 );
     if ( classifier_space_height
@@ -171,10 +175,6 @@ pencil_error_t pencil_classifier_composer_set_envelope_box( pencil_classifier_co
     {
         U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
         /* calculate symbol bounds */
-        const double new_inner_width = u8_f64_max3( geometry_rectangle_get_width( &label_compartment ),
-                                                    geometry_rectangle_get_width( &compartments_rect ),
-                                                    geometry_rectangle_get_width( &classifier_space )
-                                                  );
         const double new_inner_height = geometry_rectangle_get_height( &label_compartment )
                                       + geometry_rectangle_get_height( &compartments_rect )
                                       + geometry_rectangle_get_height( &classifier_space );
