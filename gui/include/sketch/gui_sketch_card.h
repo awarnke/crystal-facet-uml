@@ -18,7 +18,7 @@
 #include "layout/layout_order.h"
 #include "layout/layout_visible_set.h"
 #include "geometry/geometry_grid.h"
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "set/data_visible_set.h"
@@ -36,7 +36,7 @@ struct gui_sketch_card_struct {
     shape_int_rectangle_t bounds;  /*!< bounding box of the card */
     data_visible_set_t painter_input_data;  /*!< caches the diagram data */
     data_profile_part_t profile;  /*!< caches the stereotypes referenced from the current diagram */
-    pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
+    pencil_artist_t painter;  /*!< own instance of a diagram painter */
     bool dirty_elements_layout;  /*!< marker that elements need to be layouted */
 
     /* helper classes to perform drawing */

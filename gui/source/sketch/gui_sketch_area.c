@@ -3,7 +3,7 @@
 #include "sketch/gui_sketch_area.h"
 #include "gui_sketch_card_layouter.h"
 #include "gui_tool.h"
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "geometry/geometry_rectangle.h"
 #include "entity/data_table.h"
 #include "entity/data_id.h"

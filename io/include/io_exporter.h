@@ -18,7 +18,7 @@
 #include "xmi/xmi_element_writer.h"
 #include "json/json_element_writer.h"
 #include "storage/data_database.h"
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "set/data_visible_set.h"
 #include "set/data_profile_part.h"
 #include "set/data_stat.h"

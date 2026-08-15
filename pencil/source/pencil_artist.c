@@ -1,17 +1,17 @@
-/* File: pencil_diagram_maker.c; Copyright and License: see below */
+/* File: pencil_artist.c; Copyright and License: see below */
 
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
-                                 data_id_t mark_focused,
-                                 data_id_t mark_highlighted,
-                                 const data_small_set_t *mark_selected,
-                                 cairo_t *cr )
+void pencil_artist_draw( pencil_artist_t *this_,
+                         data_id_t mark_focused,
+                         data_id_t mark_highlighted,
+                         const data_small_set_t *mark_selected,
+                         cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
@@ -33,45 +33,45 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
 
     /* draw diagram */
     const data_diagram_t *diag = data_visible_set_get_diagram_const( (*this_).input_data );
-    pencil_diagram_painter_draw ( &((*this_).diagram_painter),
-                                  diagram_layout,
-                                  data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
-                                  data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
-                                  data_small_set_contains_row( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
-                                  (*this_).profile,
-                                  pencil_size,
-                                  layout,
-                                  cr
-                                );
+    pencil_diagram_painter_draw( &((*this_).diagram_painter),
+                                 diagram_layout,
+                                 data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
+                                 data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
+                                 data_small_set_contains_row( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_row(diag) ),
+                                 (*this_).profile,
+                                 pencil_size,
+                                 layout,
+                                 cr
+                               );
 
     if (( width > 20.0 ) && ( height > 20.0 ))
     {
         /* draw all contained classifiers */
-        pencil_diagram_maker_private_draw_classifiers ( this_,
-                                                        mark_focused,
-                                                        mark_highlighted,
-                                                        mark_selected,
-                                                        layout,
-                                                        cr
-                                                      );
+        pencil_artist_private_draw_classifiers( this_,
+                                                mark_focused,
+                                                mark_highlighted,
+                                                mark_selected,
+                                                layout,
+                                                cr
+                                              );
 
         /* draw all contained features */
-        pencil_diagram_maker_private_draw_features ( this_,
-                                                     mark_focused,
-                                                     mark_highlighted,
-                                                     mark_selected,
-                                                     layout,
-                                                     cr
-                                                   );
+        pencil_artist_private_draw_features( this_,
+                                             mark_focused,
+                                             mark_highlighted,
+                                             mark_selected,
+                                             layout,
+                                             cr
+                                           );
 
         /* draw all contained relationships */
-        pencil_diagram_maker_private_draw_relationships ( this_,
-                                                          mark_focused,
-                                                          mark_highlighted,
-                                                          mark_selected,
-                                                          layout,
-                                                          cr
-                                                        );
+        pencil_artist_private_draw_relationships( this_,
+                                                  mark_focused,
+                                                  mark_highlighted,
+                                                  mark_selected,
+                                                  layout,
+                                                  cr
+                                                );
     }
 
     g_object_unref (layout);
@@ -79,12 +79,12 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     U8_TRACE_END();
 }
 
-void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *this_,
-                                                     data_id_t mark_focused,
-                                                     data_id_t mark_highlighted,
-                                                     const data_small_set_t *mark_selected,
-                                                     PangoLayout *layout,
-                                                     cairo_t *cr )
+void pencil_artist_private_draw_classifiers( pencil_artist_t *this_,
+                                             data_id_t mark_focused,
+                                             data_id_t mark_highlighted,
+                                             const data_small_set_t *mark_selected,
+                                             PangoLayout *layout,
+                                             cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
@@ -116,12 +116,12 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     U8_TRACE_END();
 }
 
-void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
-                                                  data_id_t mark_focused,
-                                                  data_id_t mark_highlighted,
-                                                  const data_small_set_t *mark_selected,
-                                                  PangoLayout *layout,
-                                                  cairo_t *cr )
+void pencil_artist_private_draw_features( pencil_artist_t *this_,
+                                          data_id_t mark_focused,
+                                          data_id_t mark_highlighted,
+                                          const data_small_set_t *mark_selected,
+                                          PangoLayout *layout,
+                                          cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
@@ -163,18 +163,18 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
         const data_diagramelement_flag_t display_flags = data_diagramelement_get_display_flags( diagramelement );
 
         /* draw features */
-        pencil_feature_painter_draw ( &((*this_).feature_painter),
-                                      the_feature,
-                                      data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
-                                      data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
-                                      data_small_set_contains_row( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
-                                      (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT )),
-                                      &relationships,
-                                      (*this_).profile,
-                                      pencil_layouter_get_pencil_size_const( &((*this_).layouter) ),
-                                      layout,
-                                      cr
-                                    );
+        pencil_feature_painter_draw( &((*this_).feature_painter),
+                                     the_feature,
+                                     data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
+                                     data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
+                                     data_small_set_contains_row( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
+                                     (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT )),
+                                     &relationships,
+                                     (*this_).profile,
+                                     pencil_layouter_get_pencil_size_const( &((*this_).layouter) ),
+                                     layout,
+                                     cr
+                                   );
 
         /* reset for next loop */
         layout_relationship_iter_reset( &relationships );
@@ -186,12 +186,12 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
     U8_TRACE_END();
 }
 
-void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *this_,
-                                                       data_id_t mark_focused,
-                                                       data_id_t mark_highlighted,
-                                                       const data_small_set_t *mark_selected,
-                                                       PangoLayout *layout,
-                                                       cairo_t *cr )
+void pencil_artist_private_draw_relationships( pencil_artist_t *this_,
+                                               data_id_t mark_focused,
+                                               data_id_t mark_highlighted,
+                                               const data_small_set_t *mark_selected,
+                                               PangoLayout *layout,
+                                               cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
@@ -242,28 +242,28 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         if (( PENCIL_VISIBILITY_SHOW == show_relation )||( PENCIL_VISIBILITY_GRAY_OUT == show_relation ))
         {
             const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_const( &((*this_).layouter) );
-            pencil_relationship_painter_draw ( &((*this_).relationship_painter),
-                                               relationship_layout,
-                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) ),
-                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row( the_relationship ) ),
-                                               data_small_set_contains_row( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) ),
-                                               (*this_).profile,
-                                               pencil_size,
-                                               layout,
-                                               cr
-                                             );
+            pencil_relationship_painter_draw( &((*this_).relationship_painter),
+                                              relationship_layout,
+                                              data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) ),
+                                              data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row( the_relationship ) ),
+                                              data_small_set_contains_row( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row(the_relationship) ),
+                                              (*this_).profile,
+                                              pencil_size,
+                                              layout,
+                                              cr
+                                            );
         }
     }
 
     U8_TRACE_END();
 }
 
-pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_maker_t *this_,
-                                                       data_id_t obj_id,
-                                                       double x,
-                                                       double y,
-                                                       double snap_to_grid_distance,
-                                                       layout_order_t* out_layout_order )
+pencil_error_t pencil_artist_get_order_at_pos( const pencil_artist_t *this_,
+                                               data_id_t obj_id,
+                                               double x,
+                                               double y,
+                                               double snap_to_grid_distance,
+                                               layout_order_t* out_layout_order )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_layout_order );
@@ -282,13 +282,13 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
                 = (NULL == the_classifier)
                 ? DATA_CLASSIFIER_TYPE_CLASS  /* for new or unknown objects, assume class */
                 : data_classifier_get_main_type( the_classifier );
-            result = pencil_layouter_get_classifier_order_at_pos ( &((*this_).layouter),
-                                                                   c_type,
-                                                                   x,
-                                                                   y,
-                                                                   snap_to_grid_distance,
-                                                                   out_layout_order
-                                                                 );
+            result = pencil_layouter_get_classifier_order_at_pos( &((*this_).layouter),
+                                                                  c_type,
+                                                                  x,
+                                                                  y,
+                                                                  snap_to_grid_distance,
+                                                                  out_layout_order
+                                                                );
         }
         break;
 
@@ -299,12 +299,12 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
                 = data_visible_set_get_feature_by_id_const ( (*this_).input_data, feature_id );
             if( NULL != the_feature )
             {
-                result = pencil_layouter_get_feature_order_at_pos ( &((*this_).layouter),
-                                                                    the_feature,
-                                                                    x,
-                                                                    y,
-                                                                    out_layout_order
-                                                                  );
+                result = pencil_layouter_get_feature_order_at_pos( &((*this_).layouter),
+                                                                   the_feature,
+                                                                   x,
+                                                                   y,
+                                                                   out_layout_order
+                                                                 );
             }
             else
             {
@@ -317,11 +317,11 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            result = pencil_layouter_get_relationship_order_at_pos ( &((*this_).layouter),
-                                                                     x,
-                                                                     y,
-                                                                     out_layout_order
-                                                                   );
+            result = pencil_layouter_get_relationship_order_at_pos( &((*this_).layouter),
+                                                                    x,
+                                                                    y,
+                                                                    out_layout_order
+                                                                  );
         }
         break;
 
@@ -355,11 +355,11 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
     return result;
 }
 
-pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diagram_maker_t *this_,
-                                                               const data_feature_t *feature_ptr,
-                                                               double x,
-                                                               double y,
-                                                               layout_order_t* out_layout_order )
+pencil_error_t pencil_artist_get_feature_order_at_pos ( const pencil_artist_t *this_,
+                                                        const data_feature_t *feature_ptr,
+                                                        double x,
+                                                        double y,
+                                                        layout_order_t* out_layout_order )
 {
     U8_TRACE_BEGIN();
     assert( NULL != feature_ptr );

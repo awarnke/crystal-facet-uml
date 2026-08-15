@@ -81,7 +81,7 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos( const gui_sketch_
     pencil_error_t pen_err;
 
     const double snap_to_grid = gui_sketch_style_get_snap_to_grid( &((*this_).sketch_style) );
-    pen_err = pencil_diagram_maker_get_order_at_pos ( &((*this_).painter),
+    pen_err = pencil_artist_get_order_at_pos ( &((*this_).painter),
                                                       obj_id,
                                                       (double) x,
                                                       (double) y,
@@ -121,7 +121,7 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
     layout_order_t result;
     pencil_error_t pen_err;
 
-    pen_err = pencil_diagram_maker_get_feature_order_at_pos ( &((*this_).painter),
+    pen_err = pencil_artist_get_feature_order_at_pos ( &((*this_).painter),
                                                               feature_ptr,
                                                               (double) x,
                                                               (double) y,
@@ -152,7 +152,7 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
 
 static inline const geometry_grid_t *gui_sketch_card_get_grid_const ( const gui_sketch_card_t *this_ )
 {
-    return pencil_diagram_maker_get_grid_const( &((*this_).painter) );
+    return pencil_artist_get_grid_const( &((*this_).painter) );
 }
 
 static inline bool gui_sketch_card_needs_layout( const gui_sketch_card_t *this_ )
@@ -162,7 +162,7 @@ static inline bool gui_sketch_card_needs_layout( const gui_sketch_card_t *this_ 
 
 static inline void gui_sketch_card_layout_elements( gui_sketch_card_t *this_, cairo_t *cr )
 {
-    pencil_diagram_maker_layout_elements ( &((*this_).painter), NULL, cr );
+    pencil_artist_layout_elements ( &((*this_).painter), NULL, cr );
     (*this_).dirty_elements_layout = false;
 }
 
@@ -179,8 +179,8 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
         geometry_rectangle_t destination;
         geometry_rectangle_init( &destination, left, top, width, height );
 
-        pencil_diagram_maker_define_grid ( &((*this_).painter), destination, cr );
-        pencil_diagram_maker_layout_elements ( &((*this_).painter), NULL, cr );
+        pencil_artist_define_grid ( &((*this_).painter), destination, cr );
+        pencil_artist_layout_elements ( &((*this_).painter), NULL, cr );
         (*this_).dirty_elements_layout = false;
 
         geometry_rectangle_destroy( &destination );
@@ -193,7 +193,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
 
 static inline const layout_visible_set_t * gui_sketch_card_get_visible_set( const gui_sketch_card_t *this_ )
 {
-    return pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+    return pencil_artist_get_layout_data_const( &((*this_).painter) );
 }
 
 static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sketch_card_t *this_ )

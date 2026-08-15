@@ -49,7 +49,7 @@
 #include "unit/draw_stereotype_icon_test.h"
 #include "unit/pencil_classifier_composer_test.h"
 #include "integration/pencil_layouter_test.h"
-#include "integration/pencil_diagram_maker_test.h"
+#include "integration/pencil_artist_test.h"
 /* gui */
 #include "unit/gui_sketch_nav_tree_test.h"
 /* io */
@@ -279,7 +279,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, pencil_classifier_composer_test_get_suite() );
 
         test_runner_run_suite( &runner, pencil_layouter_test_get_suite() );
-        test_runner_run_suite( &runner, pencil_diagram_maker_test_get_suite() );
+        test_runner_run_suite( &runner, pencil_artist_test_get_suite() );
 
         /* io */
         test_runner_run_suite( &runner, io_txt_writer_test_get_suite() );

@@ -1,8 +1,8 @@
-/* File: pencil_diagram_maker_test.c; Copyright and License: see below */
+/* File: pencil_artist_test.c; Copyright and License: see below */
 
-#include "pencil_diagram_maker_test.h"
+#include "pencil_artist_test.h"
 #include "pencil_layouter.h"
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "geometry/geometry_rectangle.h"
 #include "set/data_visible_set.h"
 #include "set/data_profile_part.h"
@@ -19,16 +19,12 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t render_good_cases_no_output( test_fixture_t *fix );
 static test_case_result_t render_good_cases( test_fixture_t *fix );
 static test_case_result_t render_challenging_cases( test_fixture_t *fix );
-/*
- * There is no value in rendering too full diagrams
-static test_case_result_t render_edge_cases( test_fixture_t *fix );
-*/
 
-test_suite_t pencil_diagram_maker_test_get_suite(void)
+test_suite_t pencil_artist_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "pencil_diagram_maker_test_get_suite",
+                     "pencil_artist_test_get_suite",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS,
                      &set_up,
                      &tear_down
@@ -37,16 +33,13 @@ test_suite_t pencil_diagram_maker_test_get_suite(void)
     const test_category_t ON_QUEST = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_QUEST;
     test_suite_add_special_test_case( &result, "render_good_cases", ON_QUEST, &render_good_cases );
     test_suite_add_special_test_case( &result, "render_challenging_cases", ON_QUEST, &render_challenging_cases );
-/*
-    test_suite_add_special_test_case( &result, "render_edge_cases", ON_QUEST, &render_edge_cases );
-*/
     return result;
 }
 
 struct test_fixture_struct {
     data_visible_set_t data_set;
     data_profile_part_t profile;
-    pencil_diagram_maker_t painter;
+    pencil_artist_t painter;
     cairo_surface_t *surface;
     cairo_t *cr;
     geometry_rectangle_t diagram_bounds;
@@ -59,7 +52,7 @@ static test_fixture_t * set_up()
     test_fixture_t *fix = &test_fixture;
     data_profile_part_init( &((*fix).profile) );
     data_visible_set_init( &((*fix).data_set) );
-    pencil_diagram_maker_init( &((*fix).painter), &((*fix).data_set), &((*fix).profile) );
+    pencil_artist_init( &((*fix).painter), &((*fix).data_set), &((*fix).profile) );
     geometry_rectangle_init( &((*fix).diagram_bounds), 0.0, 0.0, 640.0, 480.0 );
     const uint32_t width = (uint32_t) geometry_rectangle_get_width( &((*fix).diagram_bounds) );
     const uint32_t height = (uint32_t) geometry_rectangle_get_height( &((*fix).diagram_bounds) );
@@ -77,7 +70,7 @@ static void tear_down( test_fixture_t *fix )
     cairo_surface_finish ( (*fix).surface );
     cairo_surface_destroy ( (*fix).surface );
     geometry_rectangle_destroy( &((*fix).diagram_bounds) );
-    pencil_diagram_maker_destroy( &((*fix).painter) );
+    pencil_artist_destroy( &((*fix).painter) );
     data_visible_set_destroy( &((*fix).data_set) );
     data_profile_part_destroy( &((*fix).profile) );
 }
@@ -87,12 +80,12 @@ static void draw_background( const geometry_rectangle_t *diagram_bounds, cairo_t
     U8_TRACE_BEGIN();
     /* draw paper */
     cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
-    cairo_rectangle ( cr,
-                      geometry_rectangle_get_left( diagram_bounds ),
-                      geometry_rectangle_get_top( diagram_bounds ),
-                      geometry_rectangle_get_width( diagram_bounds ),
-                      geometry_rectangle_get_height( diagram_bounds )
-                    );
+    cairo_rectangle( cr,
+                     geometry_rectangle_get_left( diagram_bounds ),
+                     geometry_rectangle_get_top( diagram_bounds ),
+                     geometry_rectangle_get_width( diagram_bounds ),
+                     geometry_rectangle_get_height( diagram_bounds )
+                   );
     cairo_fill (cr);
     U8_TRACE_END();
 }
@@ -165,17 +158,17 @@ static test_case_result_t render_good_cases_no_output( test_fixture_t *fix )
         data_small_set_init( &void_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
-        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        layout_visible_set_get_statistics( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+        pencil_artist_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
+        pencil_artist_layout_elements( &((*fix).painter), NULL, (*fix).cr );
+        layout_visible_set_get_statistics( pencil_artist_get_layout_data_const( &((*fix).painter) ),
                                            &layout_stats
                                          );
-        pencil_diagram_maker_draw ( &((*fix).painter),
-                                    void_id,
-                                    void_id,
-                                    &void_set,
-                                    (*fix).cr
-                                  );
+        pencil_artist_draw( &((*fix).painter),
+                            void_id,
+                            void_id,
+                            &void_set,
+                            (*fix).cr
+                          );
 
         /* check result, no output to png files */
         data_stat_destroy( &layout_stats );
@@ -204,20 +197,20 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
         data_small_set_init( &void_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
-        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
+        pencil_artist_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
+        pencil_artist_layout_elements( &((*fix).painter), NULL, (*fix).cr );
         test_data_evaluation_analyze( &ts_eval,
-                                      pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                      pencil_artist_get_layout_data_const( &((*fix).painter) ),
                                       &layout_stats,
-                                      pencil_diagram_maker_test_draw_rects_callback,
+                                      pencil_artist_test_draw_rects_callback,
                                       (*fix).cr /* the user data of type void* */
                                     );
-        pencil_diagram_maker_draw ( &((*fix).painter),
-                                    void_id,
-                                    void_id,
-                                    &void_set,
-                                    (*fix).cr
-                                  );
+        pencil_artist_draw( &((*fix).painter),
+                            void_id,
+                            void_id,
+                            &void_set,
+                            (*fix).cr
+                          );
 
         /* check result */
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
@@ -248,20 +241,20 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
         data_small_set_init( &void_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
-        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
+        pencil_artist_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
+        pencil_artist_layout_elements( &((*fix).painter), NULL, (*fix).cr );
         test_data_evaluation_analyze( &ts_eval,
-                                      pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                      pencil_artist_get_layout_data_const( &((*fix).painter) ),
                                       &layout_stats,
-                                      pencil_diagram_maker_test_draw_rects_callback,
+                                      pencil_artist_test_draw_rects_callback,
                                       (*fix).cr /* the user data of type void* */
                                     );
-        pencil_diagram_maker_draw ( &((*fix).painter),
-                                    void_id,
-                                    void_id,
-                                    &void_set,
-                                    (*fix).cr
-                                  );
+        pencil_artist_draw( &((*fix).painter),
+                            void_id,
+                            void_id,
+                            &void_set,
+                            (*fix).cr
+                          );
 
         /* check result */
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
@@ -272,53 +265,7 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-/*
-static test_case_result_t render_edge_cases( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    test_data_setup_t ts_setup;
-    test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
-    test_data_evaluation_t ts_eval;
-    test_data_evaluation_init( &ts_eval );
-    for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
-    {
-        / * setup * /
-        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
-        draw_background( &((*fix).diagram_bounds), (*fix).cr );
-
-        / * perform test: draw diagram * /
-        data_id_t void_id;
-        data_id_init_void( &void_id );
-        data_small_set_t void_set;
-        data_small_set_init( &void_set );
-        data_stat_t layout_stats;
-        data_stat_init( &layout_stats );
-        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
-        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        test_data_evaluation_analyze( &ts_eval,
-                                      pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
-                                      &layout_stats,
-                                      pencil_diagram_maker_test_draw_rects_callback,
-                                      (*fix).cr / * the user data of type void* * /
-                                    );
-        pencil_diagram_maker_draw ( &((*fix).painter),
-                                    void_id,
-                                    void_id,
-                                    &void_set,
-                                    (*fix).cr
-                                  );
-
-        / * check result * /
-        render_to_file( (*fix).surface, &ts_setup, &layout_stats );
-        data_stat_destroy( &layout_stats );
-    }
-    test_data_evaluation_destroy( &ts_eval );
-    test_data_setup_destroy( &ts_setup );
-    return TEST_CASE_RESULT_OK;
-}
-*/
-
-void pencil_diagram_maker_test_draw_rects_callback ( void *data,
+void pencil_artist_test_draw_rects_callback ( void *data,
                                                      const geometry_rectangle_t *rect_a,
                                                      const geometry_rectangle_t *rect_b )
 {

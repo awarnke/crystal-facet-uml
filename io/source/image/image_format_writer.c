@@ -25,7 +25,7 @@ void image_format_writer_init( image_format_writer_t *this_,
     (*this_).input_data = input_data;
     (*this_).profile = profile;
     geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 1680.0, 1260.0 );
-    pencil_diagram_maker_init( &((*this_).painter), input_data, profile );
+    pencil_artist_init( &((*this_).painter), input_data, profile );
 
     U8_TRACE_END();
 }
@@ -34,7 +34,7 @@ void image_format_writer_destroy( image_format_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    pencil_diagram_maker_destroy( &((*this_).painter) );
+    pencil_artist_destroy( &((*this_).painter) );
     geometry_rectangle_destroy(&((*this_).bounds));
     (*this_).input_data = NULL;
     (*this_).profile = NULL;
@@ -146,8 +146,8 @@ u8_error_t image_format_writer_private_render_surface_to_file( image_format_writ
         /* layout diagram */
         data_stat_t temp_stat;
         data_stat_init( &temp_stat );
-        pencil_diagram_maker_define_grid ( &((*this_).painter), (*this_).bounds, cr );
-        pencil_diagram_maker_layout_elements ( &((*this_).painter), &temp_stat, cr );
+        pencil_artist_define_grid ( &((*this_).painter), (*this_).bounds, cr );
+        pencil_artist_layout_elements ( &((*this_).painter), &temp_stat, cr );
 #ifdef NDEBUG
         /* in release mode, do not report layouting warnings to the user */
         data_stat_reset_series( &temp_stat, DATA_STAT_SERIES_WARNING );
@@ -160,7 +160,7 @@ u8_error_t image_format_writer_private_render_surface_to_file( image_format_writ
         data_id_init_void( &void_id );
         data_small_set_t void_set;
         data_small_set_init( &void_set );
-        pencil_diagram_maker_draw ( &((*this_).painter),
+        pencil_artist_draw ( &((*this_).painter),
                                     void_id,
                                     void_id,
                                     &void_set,

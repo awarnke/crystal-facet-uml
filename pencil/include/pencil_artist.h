@@ -1,7 +1,7 @@
-/* File: pencil_diagram_maker.h; Copyright and License: see below */
+/* File: pencil_artist.h; Copyright and License: see below */
 
-#ifndef PENCIL_DIAGRAM_MAKER_H
-#define PENCIL_DIAGRAM_MAKER_H
+#ifndef PENCIL_ARTIST_H
+#define PENCIL_ARTIST_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -32,9 +32,9 @@
 #include <stdint.h>
 
 /*!
- *  \brief attributes of the diagram painter
+ *  \brief attributes of the artist
  */
-struct pencil_diagram_maker_struct {
+struct pencil_artist_struct {
     const data_visible_set_t *input_data;  /*!< pointer to an external elements-data cache */
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-data cache */
 
@@ -48,7 +48,7 @@ struct pencil_diagram_maker_struct {
     universal_array_index_sorter_t temp_order;  /*!< temporary own instance of a sort order to process layouter.layout_data */
 };
 
-typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;
+typedef struct pencil_artist_struct pencil_artist_t;
 
 /*!
  *  \brief initializes the painter
@@ -57,10 +57,10 @@ typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;
  *  \param input_data pointer to the (cached) data to be drawn
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  */
-static inline void pencil_diagram_maker_init ( pencil_diagram_maker_t *this_,
-                                               const data_visible_set_t *input_data,
-                                               const data_profile_part_t *profile
-                                             );
+static inline void pencil_artist_init ( pencil_artist_t *this_,
+                                        const data_visible_set_t *input_data,
+                                        const data_profile_part_t *profile
+                                      );
 
 /*!
  *  \brief re-initializes the painter
@@ -69,17 +69,17 @@ static inline void pencil_diagram_maker_init ( pencil_diagram_maker_t *this_,
  *  \param input_data pointer to the (cached) data to be drawn
  *  \param profile pointer to the profile-part that provided the stereotypes of the elements to be drawn
  */
-static inline void pencil_diagram_maker_reinit ( pencil_diagram_maker_t *this_,
-                                                 const data_visible_set_t *input_data,
-                                                 const data_profile_part_t *profile
-                                               );
+static inline void pencil_artist_reinit ( pencil_artist_t *this_,
+                                          const data_visible_set_t *input_data,
+                                          const data_profile_part_t *profile
+                                        );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void pencil_diagram_maker_destroy ( pencil_diagram_maker_t *this_ );
+static inline void pencil_artist_destroy ( pencil_artist_t *this_ );
 
 /*!
  *  \brief defines coordinates
@@ -90,17 +90,17 @@ static inline void pencil_diagram_maker_destroy ( pencil_diagram_maker_t *this_ 
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
  */
-static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
-                                                      geometry_rectangle_t diagram_bounds,
-                                                      cairo_t *cr
-                                                    );
+static inline void pencil_artist_define_grid ( pencil_artist_t *this_,
+                                               geometry_rectangle_t diagram_bounds,
+                                               cairo_t *cr
+                                             );
 
 /*!
  *  \brief returns the geometry_grid_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const geometry_grid_t *pencil_diagram_maker_get_grid_const ( const pencil_diagram_maker_t *this_ );
+static inline const geometry_grid_t *pencil_artist_get_grid_const ( const pencil_artist_t *this_ );
 
 /*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
@@ -113,22 +113,22 @@ static inline const geometry_grid_t *pencil_diagram_maker_get_grid_const ( const
  *                        or NULL if no statistics of interest
  *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
  */
-static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_,
-                                                          data_stat_t *io_layout_stat,
-                                                          cairo_t *cr
-                                                        );
+static inline void pencil_artist_layout_elements ( pencil_artist_t *this_,
+                                                   data_stat_t *io_layout_stat,
+                                                   cairo_t *cr
+                                                 );
 
 /*!
  *  \brief returns the layout_visible_set_t object
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const ( const pencil_diagram_maker_t *this_ );
+static inline const layout_visible_set_t *pencil_artist_get_layout_data_const ( const pencil_artist_t *this_ );
 
 /*!
  *  \brief draws the chosen diagram contents into the diagram_bounds area of the cairo drawing context
  *
- *  This function may be called only after a call to pencil_diagram_maker_layout_elements()
+ *  This function may be called only after a call to pencil_artist_layout_elements()
  *
  *  \param this_ pointer to own object attributes
  *  \param mark_focused id of the object that is to be marked as "focused"
@@ -136,12 +136,12 @@ static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_c
  *  \param mark_selected set of objects that are to be marked as "selected"
  *  \param cr a cairo drawing context
  */
-void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
-                                 data_id_t mark_focused,
-                                 data_id_t mark_highlighted,
-                                 const data_small_set_t *mark_selected,
-                                 cairo_t *cr
-                               );
+void pencil_artist_draw ( pencil_artist_t *this_,
+                          data_id_t mark_focused,
+                          data_id_t mark_highlighted,
+                          const data_small_set_t *mark_selected,
+                          cairo_t *cr
+                        );
 
 /*!
  *  \brief draws the classifiers and contained features into the diagram_bounds area of the cairo drawing context
@@ -153,7 +153,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *this_,
+void pencil_artist_private_draw_classifiers ( pencil_artist_t *this_,
                                                      data_id_t mark_focused,
                                                      data_id_t mark_highlighted,
                                                      const data_small_set_t *mark_selected,
@@ -171,13 +171,13 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
-                                                  data_id_t mark_focused,
-                                                  data_id_t mark_highlighted,
-                                                  const data_small_set_t *mark_selected,
-                                                  PangoLayout *layout,
-                                                  cairo_t *cr
-                                                );
+void pencil_artist_private_draw_features ( pencil_artist_t *this_,
+                                           data_id_t mark_focused,
+                                           data_id_t mark_highlighted,
+                                           const data_small_set_t *mark_selected,
+                                           PangoLayout *layout,
+                                           cairo_t *cr
+                                         );
 
 /*!
  *  \brief draws the relationships into the diagram_bounds area of the cairo drawing context
@@ -189,13 +189,13 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *this_,
-                                                       data_id_t mark_focused,
-                                                       data_id_t mark_highlighted,
-                                                       const data_small_set_t *mark_selected,
-                                                       PangoLayout *layout,
-                                                       cairo_t *cr
-                                                     );
+void pencil_artist_private_draw_relationships ( pencil_artist_t *this_,
+                                                data_id_t mark_focused,
+                                                data_id_t mark_highlighted,
+                                                const data_small_set_t *mark_selected,
+                                                PangoLayout *layout,
+                                                cairo_t *cr
+                                              );
 
 /*!
  *  \brief gets the layout order at a given position
@@ -209,18 +209,18 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
  */
-pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_maker_t *this_,
-                                                       data_id_t obj_id,
-                                                       double x,
-                                                       double y,
-                                                       double snap_to_grid_distance,
-                                                       layout_order_t* out_layout_order
-                                                     );
+pencil_error_t pencil_artist_get_order_at_pos ( const pencil_artist_t *this_,
+                                                data_id_t obj_id,
+                                                double x,
+                                                double y,
+                                                double snap_to_grid_distance,
+                                                layout_order_t* out_layout_order
+                                              );
 
 /*!
  *  \brief gets the layout order at a given position for a feature
  *
- *  Avoid using this function, prefer to use pencil_diagram_maker_get_order_at_pos()
+ *  Avoid using this function, prefer to use pencil_artist_get_order_at_pos()
  *  unless the feature is new/fake and does not yet have an ID.
  *
  *  \param this_ pointer to own object attributes
@@ -231,16 +231,16 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the parent classifier is not in the diagram
  */
-pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diagram_maker_t *this_,
-                                                               const data_feature_t *feature_ptr,
-                                                               double x,
-                                                               double y,
-                                                               layout_order_t* out_layout_order
-                                                             );
+pencil_error_t pencil_artist_get_feature_order_at_pos ( const pencil_artist_t *this_,
+                                                        const data_feature_t *feature_ptr,
+                                                        double x,
+                                                        double y,
+                                                        layout_order_t* out_layout_order
+                                                      );
 
-#include "pencil_diagram_maker.inl"
+#include "pencil_artist.inl"
 
-#endif  /* PENCIL_DIAGRAM_MAKER_H */
+#endif  /* PENCIL_ARTIST_H */
 
 
 /*

@@ -3340,7 +3340,7 @@
         [
           {
             "id": 32,
-            "classifier_name": "pencil_diagram_maker",
+            "classifier_name": "pencil_artist",
             "node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
             "uuid": "4099df12-db5d-468d-a7cf-1f8f7d310e01"
           },
@@ -3967,7 +3967,7 @@
           },
           {
             "id": 919,
-            "classifier_name": "pencil_diagram_maker",
+            "classifier_name": "pencil_artist",
             "node": "5fad270d-9c29-4533-962f-0276acb7a084",
             "uuid": "8dca4c9a-117c-4098-9f51-bd7db4108b94"
           }
@@ -5019,19 +5019,19 @@
           },
           {
             "id": 825,
-            "classifier_name": "pencil_diagram_maker",
+            "classifier_name": "pencil_artist",
             "node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
             "uuid": "81839072-ea11-496d-a57e-42ebd51b0bd4"
           },
           {
             "id": 826,
-            "classifier_name": "pencil_1 :pencil_diagram_maker",
+            "classifier_name": "pencil_1 :pencil_artist",
             "node": "1b9407ad-3e92-4c73-a43e-9ad762790664",
             "uuid": "779cddbf-4872-4186-921a-5d5d4cfed434"
           },
           {
             "id": 827,
-            "classifier_name": "pencil_2 :pencil_diagram_maker",
+            "classifier_name": "pencil_2 :pencil_artist",
             "node": "ea4efb34-2553-435d-bd69-86c7b2a39e8c",
             "uuid": "8407f719-85b7-4cbe-8b89-f327de02b7a6"
           },
@@ -7859,11 +7859,11 @@
           {
             "id": 84,
             "type": "Port", "main_type": 2,
-            "key": "pencil_diagram_maker",
+            "key": "pencil_artist_if",
             "description": [
                 ""
             ],
-            "list_order": -1522169261,
+            "list_order": -1704021030,
             "uuid": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b"
           },
           {
@@ -8494,11 +8494,11 @@
       "classifier": {
         "id": 32,
         "type": "Class", "main_type": 125,
-        "name": "pencil_diagram_maker",
+        "name": "pencil_artist",
         "description": [
                 "- coordinates layouting and drawing of a diagram\n",
                 "- implements a front controller pattern: all requests from gui to pencil are ",
-                "addressed to the pencil_diagram_maker"
+                "addressed to the pencil_artist"
         ],
         "x_order": -1429582248,
         "y_order": -1300007225,
@@ -13440,7 +13440,7 @@
         "type": "Activity", "main_type": 110,
         "name": "pencil::define grid",
         "description": [
-                "implemented in pencil_diagram_maker"
+                "implemented in pencil_artist"
         ],
         "x_order": 369090366,
         "y_order": -615268637,
@@ -13457,7 +13457,7 @@
         "type": "Activity", "main_type": 110,
         "name": "pencil::layout elements",
         "description": [
-                "implemented in pencil_diagram_maker"
+                "implemented in pencil_artist"
         ],
         "x_order": -13980621,
         "y_order": -566995880,
@@ -17713,7 +17713,7 @@
       "classifier": {
         "id": 499,
         "type": "Object", "main_type": 126,
-        "name": "pencil_1 :pencil_diagram_maker",
+        "name": "pencil_1 :pencil_artist",
         "description": [
                 ""
         ],
@@ -17730,7 +17730,7 @@
       "classifier": {
         "id": 500,
         "type": "Object", "main_type": 126,
-        "name": "pencil_2 :pencil_diagram_maker",
+        "name": "pencil_2 :pencil_artist",
         "description": [
                 ""
         ],
@@ -20484,7 +20484,7 @@
         "list_order": 723904,
         "from_classifier_name": "pencil",
         "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
-        "to_classifier_name": "pencil_diagram_maker",
+        "to_classifier_name": "pencil_artist",
         "to_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "uuid": "6bcba44a-838f-4401-97f6-1a553f5f2800"
       }
@@ -20563,9 +20563,9 @@
         ],
         "list_order": 1411791301,
         "from_classifier_name": "pencil",
-        "from_feature_key": "pencil_diagram_maker",
+        "from_feature_key": "pencil_artist_if",
         "from_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
-        "to_classifier_name": "pencil_diagram_maker",
+        "to_classifier_name": "pencil_artist",
         "to_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "uuid": "7b8c8ba3-0a63-4d59-bca6-e196d3366298"
       }
@@ -20583,7 +20583,7 @@
         "from_feature_key": "layout and draw",
         "from_node": "fe97bb1a-5188-4df8-b99f-430e69aeaeb0",
         "to_classifier_name": "pencil",
-        "to_feature_key": "pencil_diagram_maker",
+        "to_feature_key": "pencil_artist_if",
         "to_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
         "uuid": "05c4d67d-32fd-4d96-8eba-2d0bf48a3dd9"
       }
@@ -21940,7 +21940,7 @@
                 ""
         ],
         "list_order": 4096,
-        "from_classifier_name": "pencil_diagram_maker",
+        "from_classifier_name": "pencil_artist",
         "from_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "to_classifier_name": "pencil_xxx_layouter",
         "to_node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
@@ -21956,7 +21956,7 @@
                 ""
         ],
         "list_order": 5120,
-        "from_classifier_name": "pencil_diagram_maker",
+        "from_classifier_name": "pencil_artist",
         "from_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "to_classifier_name": "pencil_xxx_painter",
         "to_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
@@ -21972,7 +21972,7 @@
                 ""
         ],
         "list_order": -930510395,
-        "from_classifier_name": "pencil_diagram_maker",
+        "from_classifier_name": "pencil_artist",
         "from_feature_key": "",
         "from_node": "5fad270d-9c29-4533-962f-0276acb7a084",
         "to_classifier_name": "pencil_xxx_layouter",
@@ -21990,7 +21990,7 @@
                 ""
         ],
         "list_order": 495630137,
-        "from_classifier_name": "pencil_diagram_maker",
+        "from_classifier_name": "pencil_artist",
         "from_feature_key": "",
         "from_node": "5fad270d-9c29-4533-962f-0276acb7a084",
         "to_classifier_name": "pencil_xxx_painter",
@@ -22127,7 +22127,7 @@
         "from_classifier_name": "pencil_xxx_layouter",
         "from_feature_key": "",
         "from_node": "bb7ad922-f06f-4869-94ca-2b1be997b204",
-        "to_classifier_name": "pencil_diagram_maker",
+        "to_classifier_name": "pencil_artist",
         "to_feature_key": "",
         "to_node": "5fad270d-9c29-4533-962f-0276acb7a084",
         "uuid": "e3d5b868-c3e7-4719-9cb3-1bec26733d66"
@@ -22277,7 +22277,7 @@
         "from_classifier_name": "pencil_xxx_painter",
         "from_feature_key": "",
         "from_node": "53daf1a3-fc6e-45c5-9aa1-0b7061523085",
-        "to_classifier_name": "pencil_diagram_maker",
+        "to_classifier_name": "pencil_artist",
         "to_feature_key": "",
         "to_node": "5fad270d-9c29-4533-962f-0276acb7a084",
         "uuid": "576c57d2-00b8-4356-b876-2dd11111a7a5"
@@ -33268,7 +33268,7 @@
         "list_order": 754738820,
         "from_classifier_name": "Main GUI Thread",
         "from_node": "a565509e-37cc-470d-99df-594886c14348",
-        "to_classifier_name": "pencil_1 :pencil_diagram_maker",
+        "to_classifier_name": "pencil_1 :pencil_artist",
         "to_node": "1b9407ad-3e92-4c73-a43e-9ad762790664",
         "uuid": "e11e3883-394a-47d2-b85d-9415c36d877e"
       }
@@ -33366,7 +33366,7 @@
         "list_order": 754771588,
         "from_classifier_name": "Load-or-Render Thread(s)",
         "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
-        "to_classifier_name": "pencil_2 :pencil_diagram_maker",
+        "to_classifier_name": "pencil_2 :pencil_artist",
         "to_node": "ea4efb34-2553-435d-bd69-86c7b2a39e8c",
         "uuid": "51b48a13-b439-4558-b1a7-0f085286cb1e"
       }
@@ -33588,9 +33588,9 @@
                 ""
         ],
         "list_order": 754673284,
-        "from_classifier_name": "pencil_1 :pencil_diagram_maker",
+        "from_classifier_name": "pencil_1 :pencil_artist",
         "from_node": "1b9407ad-3e92-4c73-a43e-9ad762790664",
-        "to_classifier_name": "pencil_diagram_maker",
+        "to_classifier_name": "pencil_artist",
         "to_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "uuid": "775a4a4a-495b-479a-abba-ce7a736d086c"
       }
@@ -33604,9 +33604,9 @@
                 ""
         ],
         "list_order": 754706052,
-        "from_classifier_name": "pencil_2 :pencil_diagram_maker",
+        "from_classifier_name": "pencil_2 :pencil_artist",
         "from_node": "ea4efb34-2553-435d-bd69-86c7b2a39e8c",
-        "to_classifier_name": "pencil_diagram_maker",
+        "to_classifier_name": "pencil_artist",
         "to_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "uuid": "3d48748a-0729-400d-a8ad-564f86797998"
       }

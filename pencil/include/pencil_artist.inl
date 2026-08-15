@@ -1,12 +1,12 @@
-/* File: pencil_diagram_maker.inl; Copyright and License: see below */
+/* File: pencil_artist.inl; Copyright and License: see below */
 
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "u8/u8_trace.h"
 #include <assert.h>
 
-static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_,
-                                              const data_visible_set_t *input_data,
-                                              const data_profile_part_t *profile )
+static inline void pencil_artist_init( pencil_artist_t *this_,
+                                       const data_visible_set_t *input_data,
+                                       const data_profile_part_t *profile )
 {
     U8_TRACE_BEGIN();
     assert( NULL != input_data );
@@ -24,9 +24,9 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_,
     U8_TRACE_END();
 }
 
-static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_,
-                                                const data_visible_set_t *input_data,
-                                                const data_profile_part_t *profile )
+static inline void pencil_artist_reinit( pencil_artist_t *this_,
+                                         const data_visible_set_t *input_data,
+                                         const data_profile_part_t *profile )
 {
     U8_TRACE_BEGIN();
     assert( NULL != input_data );
@@ -39,7 +39,7 @@ static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_,
     U8_TRACE_END();
 }
 
-static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
+static inline void pencil_artist_destroy( pencil_artist_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -54,9 +54,9 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
     U8_TRACE_END();
 }
 
-static inline void pencil_diagram_maker_define_grid( pencil_diagram_maker_t *this_,
-                                                     geometry_rectangle_t diagram_bounds,
-                                                     cairo_t *cr )
+static inline void pencil_artist_define_grid( pencil_artist_t *this_,
+                                              geometry_rectangle_t diagram_bounds,
+                                              cairo_t *cr )
 {
     U8_TRACE_BEGIN();
 
@@ -71,14 +71,14 @@ static inline void pencil_diagram_maker_define_grid( pencil_diagram_maker_t *thi
     U8_TRACE_END();
 }
 
-static inline const geometry_grid_t *pencil_diagram_maker_get_grid_const ( const pencil_diagram_maker_t *this_ )
+static inline const geometry_grid_t *pencil_artist_get_grid_const ( const pencil_artist_t *this_ )
 {
     return pencil_layouter_get_grid_const( &((*this_).layouter) );
 }
 
-static inline void pencil_diagram_maker_layout_elements( pencil_diagram_maker_t *this_,
-                                                         data_stat_t *io_layout_stat,
-                                                         cairo_t *cr )
+static inline void pencil_artist_layout_elements( pencil_artist_t *this_,
+                                                  data_stat_t *io_layout_stat,
+                                                  cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( cr != NULL );
@@ -102,7 +102,7 @@ static inline void pencil_diagram_maker_layout_elements( pencil_diagram_maker_t 
     U8_TRACE_END();
 }
 
-static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const( const pencil_diagram_maker_t *this_ )
+static inline const layout_visible_set_t *pencil_artist_get_layout_data_const( const pencil_artist_t *this_ )
 {
     return pencil_layouter_get_layout_data_const( &((*this_).layouter) );
 }

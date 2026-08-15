@@ -2,7 +2,7 @@
 
 #include "pencil_layouter_test.h"
 #include "pencil_layouter.h"
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "test_data/test_data_setup.h"
 #include "test_data/test_data_evaluation.h"
 #include "u8/u8_trace.h"

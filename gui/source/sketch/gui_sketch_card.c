@@ -1,7 +1,7 @@
 /* File: gui_sketch_card.c; Copyright and License: see below */
 
 #include "sketch/gui_sketch_card.h"
-#include "pencil_diagram_maker.h"
+#include "pencil_artist.h"
 #include "geometry/geometry_rectangle.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
@@ -16,7 +16,7 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     data_visible_set_init( &((*this_).painter_input_data) );
     data_profile_part_init( &((*this_).profile) );
-    pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data), &((*this_).profile) );
+    pencil_artist_init( &((*this_).painter), &((*this_).painter_input_data), &((*this_).profile) );
     gui_sketch_marker_init( &((*this_).sketch_marker), false );
     gui_sketch_style_init( &((*this_).sketch_style) );
 
@@ -29,7 +29,7 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
 
     gui_sketch_style_destroy( &((*this_).sketch_style) );
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
-    pencil_diagram_maker_destroy( &((*this_).painter) );
+    pencil_artist_destroy( &((*this_).painter) );
     data_profile_part_destroy( &((*this_).profile) );
     data_visible_set_destroy( &((*this_).painter_input_data) );
     shape_int_rectangle_destroy(&((*this_).bounds));
@@ -48,7 +48,7 @@ layout_subelement_id_t gui_sketch_card_get_element_at_pos( const gui_sketch_card
     layout_subelement_id_init_void( &result );
 
     const layout_visible_set_t *const layout
-        = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+        = pencil_artist_get_layout_data_const( &((*this_).painter) );
     const layout_diagram_t *const the_diagram
         = layout_visible_set_get_diagram_const( layout );
     const data_diagram_t *const diagram_data
@@ -126,7 +126,7 @@ layout_subelement_id_t gui_sketch_card_private_get_classifier_at_pos( const gui_
     layout_subelement_id_init_void( &result );
 
     /* get draw area */
-    const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+    const layout_visible_set_t *const layout = pencil_artist_get_layout_data_const( &((*this_).painter) );
     const layout_diagram_t *const the_diagram
         = layout_visible_set_get_diagram_const( layout );
     const geometry_rectangle_t *const diagram_draw_area
@@ -206,7 +206,7 @@ layout_subelement_id_t gui_sketch_card_private_get_feature_at_pos( const gui_ske
     layout_subelement_id_init_void( &result );
 
     /* check all contained features */
-    const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+    const layout_visible_set_t *const layout = pencil_artist_get_layout_data_const( &((*this_).painter) );
     const uint32_t f_count = layout_visible_set_get_feature_count( layout );
     for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
     {
@@ -268,7 +268,7 @@ layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos( const gu
     layout_subelement_id_init_void( &result );
     const int32_t snap_distance = gui_sketch_style_get_snap_to_relationship( &((*this_).sketch_style) );
 
-    const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+    const layout_visible_set_t *const layout = pencil_artist_get_layout_data_const( &((*this_).painter) );
     const uint32_t count_relations
         = layout_visible_set_get_relationship_count ( layout );
     uint32_t matching_relations_found = 0;
@@ -328,7 +328,7 @@ void gui_sketch_card_draw( gui_sketch_card_t *this_, gui_marked_set_t *marker, c
                                       );
 
         /* draw the current diagram */
-        pencil_diagram_maker_draw ( &((*this_).painter),
+        pencil_artist_draw ( &((*this_).painter),
                                     mark_focused,
                                     mark_highlighted,
                                     mark_selected_set,
