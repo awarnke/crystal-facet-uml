@@ -12,7 +12,6 @@
 #include "pencil_size.h"
 #include "layout/layout_visible_set.h"
 #include "layout/layout_relationship_iter.h"
-#include "pencil_relationship_painter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "set/data_profile_part.h"
@@ -40,7 +39,6 @@ struct pencil_relationship_2d_layouter_struct {
 
     const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, */
                                        /*!< font sizes and colors */
-    pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
 
 typedef struct pencil_relationship_2d_layouter_struct pencil_relationship_2d_layouter_t;

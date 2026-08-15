@@ -25,7 +25,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
     layout_visible_set_init( &((*this_).layout_data), input_data );
     (*this_).profile = profile;
 
-    pencil_diagram_painter_init( &((*this_).diagram_painter) );
+    pencil_diagram_layouter_init( &((*this_).diagram_layouter) );
 
     pencil_feature_layouter_init( &((*this_).feature_layouter),
                                   &((*this_).layout_data),
@@ -92,7 +92,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     pencil_feat_label_layouter_destroy( &((*this_).feature_label_layouter) );
     pencil_feature_layouter_destroy( &((*this_).feature_layouter) );
 
-    pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
+    pencil_diagram_layouter_destroy( &((*this_).diagram_layouter) );
 
     pencil_size_destroy( &((*this_).pencil_size) );
     geometry_grid_destroy( &((*this_).grid) );
@@ -122,14 +122,14 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
     const double height = geometry_rectangle_get_height( &diagram_bounds );
     pencil_size_reinit( &((*this_).pencil_size), width, height );
 
-    pencil_diagram_painter_do_layout( &((*this_).diagram_painter),
-                                      diagram_data,
-                                      &diagram_bounds,
-                                      (*this_).profile,
-                                      &((*this_).pencil_size),
-                                      font_layout,
-                                      the_diagram
-                                    );
+    pencil_diagram_layouter_do_layout( &((*this_).diagram_layouter),
+                                       diagram_data,
+                                       &diagram_bounds,
+                                       (*this_).profile,
+                                       &((*this_).pencil_size),
+                                       font_layout,
+                                       the_diagram
+                                     );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( the_diagram );
 

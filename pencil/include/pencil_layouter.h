@@ -13,8 +13,7 @@
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
 #include "layout/layout_visible_set.h"
-#include "pencil_diagram_painter.h"
-#include "pencil_feature_painter.h"
+#include "pencil_diagram_layouter.h"
 #include "pencil_feature_layouter.h"
 #include "pencil_feat_label_layouter.h"
 #include "pencil_relationship_2d_layouter.h"
@@ -51,7 +50,7 @@ struct pencil_layouter_struct {
     geometry_dimensions_t default_classifier_size;  /*!< own instance of a classifier default size */
     data_guidelines_t guidelines;  /*!< own instance of modelling guidelines */
 
-    pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
+    pencil_diagram_layouter_t diagram_layouter;  /*!< own instance of a layouter object to ask for display dimensions */
 
     pencil_classifier_2d_layouter_t pencil_classifier_2d_layouter;  /*!< own instance of a helper object to layout classifiers */
     pencil_classifier_1d_layouter_t pencil_classifier_1d_layouter;  /*!< own instance of a helper object to layout classifiers */

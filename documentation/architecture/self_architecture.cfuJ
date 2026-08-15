@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.71.0"
+    "generator_version": "1.71.2"
   }
   ,
   "views":
@@ -3382,11 +3382,11 @@
             "uuid": "45bd84ea-34a5-449c-9cde-e0ec7743c992"
           },
           {
-            "id": 304,
-            "classifier_name": "pencil/draw",
-            "node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
+            "id": 1077,
+            "classifier_name": "pencil.draw",
+            "node": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
             "display_tags": "Gray", "display_flags": 33554432,
-            "uuid": "bd82ccd1-5a46-4225-a635-77b676b3755f"
+            "uuid": "ef7f3a8e-943a-434c-a3c7-a9d7a2002a07"
           }
         ]
       }
@@ -3483,6 +3483,12 @@
             "classifier_name": "pencil_classifier_painter",
             "node": "2eb01f9e-900d-4738-8057-2174c8526535",
             "uuid": "579ce600-a2f9-4903-9ff2-dd825718d1e8"
+          },
+          {
+            "id": 1078,
+            "classifier_name": "pencil.draw",
+            "node": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
+            "uuid": "79798d9e-04c2-48d1-bd8b-5b4357ed690e"
           }
         ]
       }
@@ -8519,7 +8525,7 @@
                 "- transforms a model description of a diagram\n",
                 "  to a corresponding layout description\n",
                 "- can convert abstract order-values to x/y coordinates\n",
-                "  and vice versa\n",
+                "  and vice versa (for dragging animations)\n",
                 "\n",
                 "The pencil layout package does not care about \n",
                 "- user interaction\n",
@@ -8550,8 +8556,11 @@
         "stereotype": "abstract",
         "name": "pencil_xxx_painter",
         "description": [
-                "- knows the bounding boxes of single elements\n",
-                "- draws single graphical elements"
+                "The pencil_xxx_painter classes\n",
+                "- decide if to draw an object\n",
+                "- decide in which color/mode to draw an object\n",
+                "- coordinates drawing object parts\n",
+                "  (using the draw package)"
         ],
         "x_order": -1209753928,
         "y_order": -698109218,
@@ -12214,26 +12223,6 @@
         "y_order": 1272027904,
         "list_order": 1341797313,
         "uuid": "73338600-d624-43f6-9d30-55cb003e1f56",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 205,
-        "type": "Package", "main_type": 124,
-        "name": "pencil/draw",
-        "description": [
-                "Encapulates drawing routines for\n",
-                "- geometric objects\n",
-                "- labels\n",
-                "- symbols/icons"
-        ],
-        "x_order": -1203207061,
-        "y_order": -1300007225,
-        "list_order": -1300007225,
-        "uuid": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
         "features":
         [
         ]
@@ -18862,10 +18851,17 @@
         "type": "Package", "main_type": 124,
         "name": "pencil.draw",
         "description": [
-                ""
+                "The draw package\n",
+                "- knows how to draw a single object part like a label, a contour.\n",
+                "\n",
+                "The draw package has a local scope for drawing object parts:\n",
+                "- it does not determine size-needs based on other objects\n",
+                "- it does not position objects in a diagram\n",
+                "- it does not contain logic to decide \"if to draw\" or \"in which color/mode to ",
+                "draw\"."
         ],
-        "x_order": -327645719,
-        "y_order": -547736745,
+        "x_order": -1203207061,
+        "y_order": -1300007225,
         "list_order": -370551706,
         "uuid": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
         "features":
@@ -20559,22 +20555,6 @@
     },
     {
       "relationship": {
-        "id": 282,
-        "type": "Containment", "main_type": 300,
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1300007225,
-        "from_classifier_name": "pencil",
-        "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
-        "to_classifier_name": "pencil/draw",
-        "to_node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
-        "uuid": "9108d2bf-d507-4039-b1a7-cbcb4e4336dd"
-      }
-    },
-    {
-      "relationship": {
         "id": 651,
         "type": "Communication Path", "main_type": 230,
         "name": "",
@@ -20606,6 +20586,22 @@
         "to_feature_key": "pencil_diagram_maker",
         "to_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
         "uuid": "05c4d67d-32fd-4d96-8eba-2d0bf48a3dd9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1221,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412381125,
+        "from_classifier_name": "pencil",
+        "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
+        "to_classifier_name": "pencil.draw",
+        "to_node": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
+        "uuid": "dcf4d0c7-5b5c-4f46-8731-e392437ba9a0"
       }
     },
     {
@@ -22021,22 +22017,6 @@
     },
     {
       "relationship": {
-        "id": 34,
-        "type": "Association", "main_type": 200,
-        "name": "asks for sizes",
-        "description": [
-                ""
-        ],
-        "list_order": 8192,
-        "from_classifier_name": "pencil_xxx_layouter",
-        "from_node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
-        "to_classifier_name": "pencil_xxx_painter",
-        "to_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
-        "uuid": "3ad001d0-ad68-44ad-b7ae-c00910bba954"
-      }
-    },
-    {
-      "relationship": {
         "id": 132,
         "type": "Containment", "main_type": 300,
         "name": "",
@@ -22171,6 +22151,22 @@
     },
     {
       "relationship": {
+        "id": 1223,
+        "type": "Association", "main_type": 200,
+        "name": "ask for sizes",
+        "description": [
+                ""
+        ],
+        "list_order": 1412446661,
+        "from_classifier_name": "pencil_xxx_layouter",
+        "from_node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
+        "to_classifier_name": "pencil.draw",
+        "to_node": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
+        "uuid": "21f45335-e38d-492f-ab12-b67406330389"
+      }
+    },
+    {
+      "relationship": {
         "id": 25,
         "type": "Association", "main_type": 200,
         "name": "requires",
@@ -22231,22 +22227,6 @@
         "to_classifier_name": "pencil_relationship_painter",
         "to_node": "fb944ba8-299f-45b3-83ab-dc12c5d5a3b1",
         "uuid": "b33a3b26-aa59-4d09-8b58-4a78793ddfca"
-      }
-    },
-    {
-      "relationship": {
-        "id": 702,
-        "type": "Association", "main_type": 200,
-        "name": "use",
-        "description": [
-                ""
-        ],
-        "list_order": 1411824069,
-        "from_classifier_name": "pencil_xxx_painter",
-        "from_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
-        "to_classifier_name": "pencil/draw",
-        "to_node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
-        "uuid": "08ab025c-7bae-4a18-a69e-73f5ce486720"
       }
     },
     {
@@ -22317,6 +22297,22 @@
         "to_classifier_name": "pencil_classifier_painter",
         "to_node": "2eb01f9e-900d-4738-8057-2174c8526535",
         "uuid": "8d9977a4-5341-407c-9218-da9b8bc0c85e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1222,
+        "type": "Association", "main_type": 200,
+        "name": "draw",
+        "description": [
+                ""
+        ],
+        "list_order": 1412413893,
+        "from_classifier_name": "pencil_xxx_painter",
+        "from_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
+        "to_classifier_name": "pencil.draw",
+        "to_node": "4ecc6a82-371e-4516-a67e-f64e6dc4ef70",
+        "uuid": "29682809-1016-4315-82f1-43e1b4099b2b"
       }
     },
     {

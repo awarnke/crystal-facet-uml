@@ -11,7 +11,6 @@
 
 #include "pencil_marker.h"
 #include "pencil_size.h"
-#include "pencil_feature_painter.h"
 #include "pencil_error.h"
 #include "layout/layout_visible_set.h"
 #include "layout/layout_visible_classifier.h"

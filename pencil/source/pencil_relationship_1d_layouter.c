@@ -22,16 +22,12 @@ void pencil_relationship_1d_layouter_init( pencil_relationship_1d_layouter_t *th
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
 
-    pencil_relationship_painter_init( &((*this_).relationship_painter) );
-
     U8_TRACE_END();
 }
 
 void pencil_relationship_1d_layouter_destroy( pencil_relationship_1d_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
-
-    pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
 
     U8_TRACE_END();
 }

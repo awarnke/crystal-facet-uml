@@ -1,7 +1,7 @@
-/* File: pencil_diagram_painter.h; Copyright and License: see below */
+/* File: pencil_diagram_layouter.h; Copyright and License: see below */
 
-#ifndef PENCIL_DIAGRAM_PAINTER_H
-#define PENCIL_DIAGRAM_PAINTER_H
+#ifndef PENCIL_DIAGRAM_LAYOUTER_H
+#define PENCIL_DIAGRAM_LAYOUTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -29,53 +29,47 @@
  *  \note This class is stateless.
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
-struct pencil_diagram_painter_struct {
-    pencil_marker_t marker;  /*!< own instance of a marker */
+struct pencil_diagram_layouter_struct {
     draw_diagram_label_t draw_diagram_label;  /*!< collection of draw label functions */
-    draw_diagram_ornaments_t draw_diagram_ornaments;  /*!< collection of draw ornaments functions like e.g. x-axis scale */
 };
 
-typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
+typedef struct pencil_diagram_layouter_struct pencil_diagram_layouter_t;
 
 /*!
  *  \brief initializes the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ );
+void pencil_diagram_layouter_init( pencil_diagram_layouter_t *this_ );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
+void pencil_diagram_layouter_destroy( pencil_diagram_layouter_t *this_ );
 
 /*!
- *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
+ *  \brief determines the label box and inner drawing space for contained classifiers
  *
  *  \param this_ pointer to own object attributes
- *  \param layouted_diagram pointer to the the layout-information and data to be drawn
- *  \param mark_focused true if the object is to be marked as "focused"
- *  \param mark_highlighted true if the object is to be marked as "highlighted"
- *  \param mark_selected true if the object is to be marked as "selected"
+ *  \param the_diagram pointer to the data to be drawn
+ *  \param diagram_bounds the destination rectangle where to draw the diagram
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout structure to layout fonts
- *  \param cr a cairo drawing context
+ *  \param io_layout_diagram bounds, draw_area and label_box are updated. The pointer must not be NULL.
  */
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
-                                   const layout_diagram_t *layouted_diagram,
-                                   bool mark_focused,
-                                   bool mark_highlighted,
-                                   bool mark_selected,
-                                   const data_profile_part_t *profile,
-                                   const pencil_size_t *pencil_size,
-                                   PangoLayout *font_layout,
-                                   cairo_t *cr
-                                 );
+void pencil_diagram_layouter_do_layout ( pencil_diagram_layouter_t *this_,
+                                        const data_diagram_t *the_diagram,
+                                        const geometry_rectangle_t *diagram_bounds,
+                                        const data_profile_part_t *profile,
+                                        const pencil_size_t *pencil_size,
+                                        PangoLayout *font_layout,
+                                        layout_diagram_t *io_layout_diagram
+                                      );
 
-#endif  /* PENCIL_DIAGRAM_PAINTER_H */
+#endif  /* PENCIL_DIAGRAM_LAYOUTER_H */
 
 
 /*

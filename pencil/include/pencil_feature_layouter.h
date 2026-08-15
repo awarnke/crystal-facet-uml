@@ -10,8 +10,8 @@
  */
 
 #include "pencil_size.h"
+#include "draw/draw_feature_label.h"
 #include "layout/layout_visible_set.h"
-#include "pencil_feature_painter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_non_linear_scale.h"

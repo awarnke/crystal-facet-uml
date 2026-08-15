@@ -27,7 +27,6 @@ void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *th
     layout_relationship_iter_init( &((*this_).already_processed), layout_data, &((*this_).sorted_relationships) );
 
     (*this_).pencil_size = pencil_size;
-    pencil_relationship_painter_init( &((*this_).relationship_painter) );
 
     U8_TRACE_END();
 }
@@ -38,8 +37,6 @@ void pencil_relationship_2d_layouter_destroy( pencil_relationship_2d_layouter_t 
 
     layout_relationship_iter_destroy( &((*this_).already_processed) );
     universal_array_index_sorter_destroy( &((*this_).sorted_relationships) );
-
-    pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
 
     U8_TRACE_END();
 }
