@@ -29,7 +29,8 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_relationship_label_struct {
-    char text_buffer[ ( DATA_RELATIONSHIP_MAX_NAME_SIZE ) * 4 ];  /*!< x4 because any character may be followed by a 3-byte space */
+    char text_buffer[ ( DATA_RELATIONSHIP_MAX_NAME_SIZE + 4 ) * 4 ];  /*!< +4 for 2 guillemets, x4 because any character */
+                                                                      /*!< may be followed by a 3-byte space. */
     utf8stream_writemem_t text_builder;  /*!< a pair of utf8stream_writer_t and universal_memory_output_stream_t to build an output text */
     draw_line_breaker_t linebr;  /*!< An object to insert zero-width spaces (a 3 byte utf8 sequence) wherever a linebreak is allowed */
     draw_stereotype_icon_t image_renderer;  /*!< own instance of stereotype image renderer */

@@ -14,7 +14,6 @@
 #include <assert.h>
 
 static const int DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH = -1;
-static const int DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH = -1;
 #define DRAW_RELATIONSHIP_LEFT_GUILLEMETS "\xc2\xab"
 #define DRAW_RELATIONSHIP_RIGHT_GUILLEMETS "\xc2\xbb"
 
@@ -80,10 +79,27 @@ void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_la
 
             if ( ( ! has_stereotype_image ) && ( has_pseudo_stereotype || has_stereotype ) )
             {
+                u8_error_t name_err = U8_ERROR_NONE;
+                utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
+                /* append parts to name and insert linebreaks */
+                name_err |= utf8stream_writer_write_str( to_name, DRAW_RELATIONSHIP_LEFT_GUILLEMETS );
+
+                if ( has_stereotype )
+                {
+                    utf8stringview_t stereo_name = UTF8STRINGVIEW_STR( relationship_stereotype );
+                    name_err |= draw_line_breaker_append( &((*this_).linebr), &stereo_name, to_name );
+                }
+                else
+                {
+                    /* there are no line-break proposals in the pre-defined set of pseudo_stereotype */
+                    name_err |= utf8stream_writer_write_str( to_name, pseudo_stereotype );
+                }
+                name_err |= utf8stream_writer_write_str( to_name, DRAW_RELATIONSHIP_RIGHT_GUILLEMETS );
+                const utf8stringview_t stereo = utf8stream_writemem_get_view( &((*this_).text_builder) );
+
+#if 0
                 /* prepare text */
-                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMETS );
                 if ( has_stereotype )
                 {
                     utf8stringbuf_append_str( &stereotype_buf, relationship_stereotype );
@@ -92,14 +108,28 @@ void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_la
                 {
                     utf8stringbuf_append_str( &stereotype_buf, pseudo_stereotype );
                 }
-                utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMETS );
+#endif
 
                 /* determine text width and height */
                 pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
-                pango_layout_set_text( font_layout, utf8stringbuf_get_string( &stereotype_buf ), DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH );
+                pango_layout_set_text( font_layout,
+                                       utf8stringview_get_start( &stereo ),
+                                       utf8stringview_get_length( &stereo )
+                                     );
+                pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
                 pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
                 text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
                 text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
+
+                /* restore pango context */
+                pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);
+
+                /* cleanup the text_builder */
+                name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+                if ( name_err != U8_ERROR_NONE )
+                {
+                    U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
+                }
             }
         }
 
@@ -229,10 +259,27 @@ void draw_relationship_label_draw_type_and_name ( draw_relationship_label_t *thi
 
         if ( ( ! has_stereotype_image ) && ( has_pseudo_stereotype || has_stereotype ) )
         {
+            u8_error_t name_err = U8_ERROR_NONE;
+            utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
+            /* append parts to name and insert linebreaks */
+            name_err |= utf8stream_writer_write_str( to_name, DRAW_RELATIONSHIP_LEFT_GUILLEMETS );
+            if ( has_stereotype )
+            {
+                utf8stringview_t stereo_name = UTF8STRINGVIEW_STR( relationship_stereotype );
+                name_err |= draw_line_breaker_append( &((*this_).linebr), &stereo_name, to_name );
+            }
+            else
+            {
+                /* there are no line-break proposals in the pre-defined set of pseudo_stereotype */
+                name_err |= utf8stream_writer_write_str( to_name, pseudo_stereotype );
+            }
+
+            name_err |= utf8stream_writer_write_str( to_name, DRAW_RELATIONSHIP_RIGHT_GUILLEMETS );
+            const utf8stringview_t stereo = utf8stream_writemem_get_view( &((*this_).text_builder) );
+
+#if 0
             /* prepare text */
-            char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-            utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( &stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMETS );
             if ( has_stereotype )
             {
                 utf8stringbuf_append_str( &stereotype_buf, relationship_stereotype );
@@ -241,20 +288,32 @@ void draw_relationship_label_draw_type_and_name ( draw_relationship_label_t *thi
             {
                 utf8stringbuf_append_str( &stereotype_buf, pseudo_stereotype );
             }
-            utf8stringbuf_append_str( &stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMETS );
+#endif
 
             int text1_width;
+            const double f_size = pencil_size_get_standard_font_size( pencil_size );
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
             pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
             pango_layout_set_text( font_layout,
-                                   utf8stringbuf_get_string( &stereotype_buf ),
-                                   DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
+                                   utf8stringview_get_start( &stereo ),
+                                   utf8stringview_get_length( &stereo )
                                  );
+            pango_layout_set_width(font_layout, (text_width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
             pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
 
             /* draw text */
             cairo_move_to( cr, ceil( center_x - 0.5*text1_width ), ceil( top ) );  /* align font with pixel border */
             pango_cairo_show_layout( cr, font_layout );
+
+            /* restore pango context */
+            pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);
+
+            /* cleanup the text_builder */
+            name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+            if ( name_err != U8_ERROR_NONE )
+            {
+                U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
+            }
         }
     }
 

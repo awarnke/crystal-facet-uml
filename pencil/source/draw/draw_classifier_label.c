@@ -81,13 +81,6 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_l
                 /* insert linebreaks */
                 name_err |= draw_line_breaker_append( &((*this_).linebr), &stereo_name, to_name );
                 name_err |= utf8stream_writer_write_str( to_name, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
-#if 0
-                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
-                utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
-                utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
-#endif
                 const utf8stringview_t stereo = utf8stream_writemem_get_view( &((*this_).text_builder) );
 
                 /* determine text width and height */
@@ -245,13 +238,6 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
             /* prepare text */
             u8_error_t name_err = U8_ERROR_NONE;
             utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
-#if 0
-            char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-            utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( &stereotype_buf, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
-            utf8stringbuf_append_str( &stereotype_buf, data_classifier_get_stereotype_const( classifier ) );
-            utf8stringbuf_append_str( &stereotype_buf, DRAW_CLASSIFIER_RIGHT_GUILLEMETS );
-#endif
             name_err |= utf8stream_writer_write_str( to_name, DRAW_CLASSIFIER_LEFT_GUILLEMETS );
             utf8stringview_t stereo_name = UTF8STRINGVIEW_STR( data_classifier_get_stereotype_const( classifier ) );
             /* insert linebreaks */
@@ -262,12 +248,6 @@ void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *th
             int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
             pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description(pencil_size) );
-#if 0
-            pango_layout_set_text( font_layout,
-                                   utf8stringbuf_get_string( &stereotype_buf ),
-                                   DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
-                                 );
-#endif
             pango_layout_set_text( font_layout,
                                    utf8stringview_get_start( &stereo ),
                                    utf8stringview_get_length( &stereo )

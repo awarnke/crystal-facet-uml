@@ -9165,6 +9165,7 @@
       "relationship": {
         "id": 14,
         "type": "Composition", "main_type": 202,
+        "stereotype": "a long stereo type name is this, need linebreak",
         "name": "",
         "description": [
                 ""
@@ -9685,7 +9686,7 @@
       "relationship": {
         "id": 131,
         "type": "Trace", "main_type": 401,
-        "stereotype": "custom stereotype",
+        "stereotype": "custom stereo type",
         "name": "",
         "description": [
                 ""
