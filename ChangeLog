@@ -2,6 +2,7 @@ crystal-facet-uml (1.71.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Stereotypes of relationships can be line-break'ed now
+  * Labels of ports and interfaces keep a border-gap to the port and interface
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 09 Aug 2026 06:00:00 +0200
 
