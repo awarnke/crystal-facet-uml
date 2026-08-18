@@ -98,7 +98,7 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
         }
         else
         {
-            /* ignore lifelines - otherwise the labels are shrinked to fit between lielines which looks ugly */
+            /* ignore lifelines - otherwise the labels are shrinked to fit between lifelines which looks ugly */
         }
     }
 
@@ -138,7 +138,9 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     if ( preferred_fits )
     {
         /* no need to re-calculate, just shift */
-        *out_solution = geometry_anchor_align_biased_dim( anchor, preferred_dim, &available );
+        *out_solution = geometry_anchor_align_dim_closest( anchor, preferred_dim, &available );
+
+        U8_TRACE_INFO_INT_INT("pencil_floating_label: label fits to available space", (int) geometry_dimensions_get_width( preferred_dim ), (int) available_width );
     }
     else if ( available_width > pencil_size_get_standard_font_size( (*this_).pencil_size ) )
     {
@@ -167,7 +169,7 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
                                                                 );
         }
 
-        *out_solution = geometry_anchor_align_biased_dim( anchor, &label_dim, &available );
+        *out_solution = geometry_anchor_align_dim_closest( anchor, &label_dim, &available );
 
         U8_TRACE_INFO_INT_INT("pencil_floating_label: label does not fit to available space", (int) geometry_dimensions_get_width( preferred_dim ), (int) available_width );
         U8_TRACE_INFO_INT("pencil_floating_label: suitable label width found:", (int) geometry_dimensions_get_width( &label_dim ) );
@@ -176,6 +178,8 @@ static inline void pencil_floating_label_layouter_private_propose_solution( cons
     {
         /* there is no space, accept any overlap */
         *out_solution = geometry_anchor_align_dim( anchor, preferred_dim );
+
+        U8_TRACE_INFO_INT_INT("pencil_floating_label: label does not fit to available space !!", (int) geometry_dimensions_get_width( preferred_dim ), (int) available_width );
     }
 
     U8_TRACE_END();

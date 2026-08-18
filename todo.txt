@@ -47,7 +47,6 @@ ideas for future versions:
   [ ] If a diagram shows only one parent and all other elements are children, maximize the parent
       (to better support the sysml concept of "a diagram explains exactly one element")
   [ ] Labels of relationships overlap too often
-! [ ] Labels of ports and interfaces are too close, add a gap
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

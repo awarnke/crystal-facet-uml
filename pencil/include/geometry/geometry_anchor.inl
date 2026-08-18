@@ -2,6 +2,7 @@
 
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
+#include "u8/u8_f64.h"
 #include <assert.h>
 #include <math.h>
 
@@ -64,22 +65,22 @@ static inline geometry_rectangle_t geometry_anchor_align_rect( const geometry_an
     assert( unaligned != NULL );
 
     geometry_rectangle_t result;
-    double left = geometry_h_align_get_left( &((*this_).x_align),
-                                             geometry_rectangle_get_width( unaligned ),
-                                             geometry_point_get_x( &((*this_).reference_point) ),
-                                             0.0 /* reference_width is zero, the reference is a point */
-                                           );
-    double top = geometry_v_align_get_top( &((*this_).y_align),
-                                           geometry_rectangle_get_height( unaligned ),
-                                           geometry_point_get_y( &((*this_).reference_point) ),
-                                           0.0 /* reference_height is zero, the reference is a point */
-                                         );
-    geometry_rectangle_init( &result,
-                             left,
-                             top,
-                             geometry_rectangle_get_width( unaligned ),
-                             geometry_rectangle_get_height( unaligned )
-                           );
+
+    const double width = geometry_rectangle_get_width( unaligned );
+    const double height = geometry_rectangle_get_height( unaligned );
+
+    const double left = geometry_h_align_get_left( &((*this_).x_align),
+                                                   width,
+                                                   geometry_point_get_x( &((*this_).reference_point) ),
+                                                   0.0 /* reference_width is zero, the reference is a point */
+                                                 );
+    const double top = geometry_v_align_get_top( &((*this_).y_align),
+                                                 height,
+                                                 geometry_point_get_y( &((*this_).reference_point) ),
+                                                 0.0 /* reference_height is zero, the reference is a point */
+                                               );
+
+    geometry_rectangle_init( &result, left, top, width, height );
     return result;
 }
 
@@ -89,47 +90,107 @@ static inline geometry_rectangle_t geometry_anchor_align_dim ( const geometry_an
     assert( unaligned != NULL );
 
     geometry_rectangle_t result;
-    double left = geometry_h_align_get_left( &((*this_).x_align),
-                                             geometry_dimensions_get_width( unaligned ),
-                                             geometry_point_get_x( &((*this_).reference_point) ),
-                                             0.0 /* reference_width is zero, the reference is a point */
-                                           );
-    double top = geometry_v_align_get_top( &((*this_).y_align),
-                                           geometry_dimensions_get_height( unaligned ),
-                                           geometry_point_get_y( &((*this_).reference_point) ),
-                                           0.0 /* reference_height is zero, the reference is a point */
-                                         );
-    geometry_rectangle_init( &result,
-                             left,
-                             top,
-                             geometry_dimensions_get_width( unaligned ),
-                             geometry_dimensions_get_height( unaligned )
-                           );
+
+    const double width = geometry_dimensions_get_width( unaligned );
+    const double height = geometry_dimensions_get_height( unaligned );
+
+    const double left = geometry_h_align_get_left( &((*this_).x_align),
+                                                   width,
+                                                   geometry_point_get_x( &((*this_).reference_point) ),
+                                                   0.0 /* reference_width is zero, the reference is a point */
+                                                 );
+    const double top = geometry_v_align_get_top( &((*this_).y_align),
+                                                 height,
+                                                 geometry_point_get_y( &((*this_).reference_point) ),
+                                                 0.0 /* reference_height is zero, the reference is a point */
+                                               );
+
+    geometry_rectangle_init( &result, left, top, width, height );
     return result;
 }
 
-static inline geometry_rectangle_t geometry_anchor_align_biased_dim( const geometry_anchor_t *this_,
-                                                                     const geometry_dimensions_t *unaligned,
-                                                                     const geometry_rectangle_t *preferred_location )
+static inline geometry_rectangle_t geometry_anchor_align_dim_closest( const geometry_anchor_t *this_,
+                                                                      const geometry_dimensions_t *unaligned,
+                                                                      const geometry_rectangle_t *permitted_area )
 {
     assert( unaligned != NULL );
+    assert( permitted_area != NULL );
 
     geometry_rectangle_t result;
 
     const double width = geometry_dimensions_get_width( unaligned );
     const double height = geometry_dimensions_get_height( unaligned );
 
-    double left = geometry_h_align_get_left( &((*this_).x_align),
-                                             width,
-                                             geometry_point_get_x( &((*this_).reference_point) ),
-                                             0.0 /* reference_width is zero, the reference is a point */
-                                           );
-    double top = geometry_v_align_get_top( &((*this_).y_align),
-                                           height,
-                                           geometry_point_get_y( &((*this_).reference_point) ),
-                                           0.0 /* reference_height is zero, the reference is a point */
-                                         );
+    const double left = geometry_h_align_get_left( &((*this_).x_align),
+                                                   width,
+                                                   geometry_point_get_x( &((*this_).reference_point) ),
+                                                   0.0 /* reference_width is zero, the reference is a point */
+                                                 );
+    const double top = geometry_v_align_get_top( &((*this_).y_align),
+                                                 height,
+                                                 geometry_point_get_y( &((*this_).reference_point) ),
+                                                 0.0 /* reference_height is zero, the reference is a point */
+                                               );
 
+    /* force the result into permitted_area */
+    const double right = left + width;
+    const double bottom = top + height;
+    const double permitted_left = geometry_rectangle_get_left( permitted_area );
+    const double permitted_top = geometry_rectangle_get_top( permitted_area );
+    const double permitted_right = geometry_rectangle_get_right( permitted_area );
+    const double permitted_bottom = geometry_rectangle_get_bottom( permitted_area );
+    double new_left = left;
+    double new_top = top;
+    if ( left < permitted_left )
+    {
+        if ( right > permitted_right )
+        {
+            U8_TRACE_INFO( "geometry_anchor_align_dim_closest cannot fit dim-x into permitted_area" );
+        }
+        else
+        {
+            /* move the unaligned area either till right side is at limit or till left side is fitting */
+            new_left = u8_f64_min2( permitted_right - width, permitted_left );
+        }
+    }
+    else
+    {
+        if ( right > permitted_right )
+        {
+            /* move the unaligned area either till left side is at limit or till right side is fitting */
+            new_left = u8_f64_max2( permitted_right - width, permitted_left );
+        }
+        else
+        {
+            /* rectangle is fitting, no move */
+        }
+    }
+    if ( top < permitted_top )
+    {
+        if ( bottom > permitted_bottom )
+        {
+            U8_TRACE_INFO( "geometry_anchor_align_dim_closest cannot fit dim-y into permitted_area" );
+        }
+        else
+        {
+            /* move the unaligned area either till bottom side is at limit or till top side is fitting */
+            new_top = u8_f64_min2( permitted_bottom - height, permitted_top );
+        }
+    }
+    else
+    {
+        if ( bottom > permitted_bottom )
+        {
+            /* move the unaligned area either till top side is at limit or till bottom side is fitting */
+            new_top = u8_f64_max2( permitted_bottom - height, permitted_top );
+        }
+        else
+        {
+            /* rectangle is fitting, no move */
+        }
+    }
+
+#if 0
     /* in case of center, allow small moves */
     if ( (*this_).x_align == GEOMETRY_H_ALIGN_CENTER )
     {
@@ -217,8 +278,9 @@ static inline geometry_rectangle_t geometry_anchor_align_biased_dim( const geome
             top = reference_y;
         }
     }
+#endif
 
-    geometry_rectangle_init( &result, left, top, width, height );
+    geometry_rectangle_init( &result, new_left, new_top, width, height );
     return result;
 }
 

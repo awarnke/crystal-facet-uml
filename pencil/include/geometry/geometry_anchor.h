@@ -129,17 +129,18 @@ static inline geometry_rectangle_t geometry_anchor_align_dim ( const geometry_an
                                                              );
 
 /*!
- *  \brief aligns a dimension to coordinate of geometry_anchor_t but biased by preferred_location if centering
+ *  \brief aligns a dimension to coordinate of geometry_anchor_t as close as possible to the anchor
+ *         but limited to permitted_area
  *
  *  \param this_ pointer to own object attributes
  *  \param unaligned geometry_dimensions to be aligned to this_ anchor
- *  \param preferred_location geometry_rectangle within which the result may be located if possible
- *  \return geometry_rectangle aligned to anchor
+ *  \param permitted_area geometry_rectangle within which the result shall be located
+ *  \return geometry_rectangle aligned to anchor if possible but limited to permitted_area
  */
-static inline geometry_rectangle_t geometry_anchor_align_biased_dim ( const geometry_anchor_t *this_,
-                                                                      const geometry_dimensions_t *unaligned,
-                                                                      const geometry_rectangle_t *preferred_location
-                                                                    );
+static inline geometry_rectangle_t geometry_anchor_align_dim_closest ( const geometry_anchor_t *this_,
+                                                                       const geometry_dimensions_t *unaligned,
+                                                                       const geometry_rectangle_t *permitted_area
+                                                                     );
 
 /*!
  *  \brief prints the geometry_anchor_t struct to the trace output
