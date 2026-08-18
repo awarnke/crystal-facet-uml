@@ -467,9 +467,13 @@ static inline double layout_quality_debts_label_diag( const layout_quality_t *th
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( other );
 
+    const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
     /* check distance to target point */
     const geometry_point_t probe_middle = geometry_rectangle_get_center( probe );
-    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * geometry_point_calc_chess_distance ( target_point, &probe_middle );
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * geometry_point_calc_chess_distance ( target_point, &probe_middle ) * line_corridor;
+    /* idea for improvement: check the chess distance to the rectangle border, not to the center: */
+    /* double geometry_rectangle_calc_chess_distance ( const geometry_rectangle_t *this_, double x, double y ); */
 
     /* add debts for exceeding the diagram draw area */
     if ( ! geometry_rectangle_is_containing( diagram_draw_area, probe ) )
