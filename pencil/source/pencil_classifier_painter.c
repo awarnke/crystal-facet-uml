@@ -184,12 +184,14 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_STEREOTYPE:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
+#if 0
                 pencil_classifier_painter_private_draw_feature_compartments( this_,
                                                                              layouted_classifier,
                                                                              layout_data,
                                                                              pencil_size,
                                                                              cr
                                                                            );
+#endif
             }
             break;
 
@@ -240,12 +242,14 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
             {
                 draw_classifier_contour_draw_rounded_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, false, pencil_size, cr );
+#if 0
                 pencil_classifier_painter_private_draw_feature_compartments( this_,
                                                                              layouted_classifier,
                                                                              layout_data,
                                                                              pencil_size,
                                                                              cr
                                                                            );
+#endif
             }
             break;
 
@@ -258,12 +262,14 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_USE_CASE:
             {
                 draw_classifier_contour_draw_ellipse ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
+#if 0
                 pencil_classifier_painter_private_draw_feature_compartments( this_,
                                                                              layouted_classifier,
                                                                              layout_data,
                                                                              pencil_size,
                                                                              cr
                                                                            );
+#endif
             }
             break;
 
@@ -439,6 +445,14 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             }
             break;
         }
+
+        /* draw compartment separator lines */
+        pencil_classifier_painter_private_draw_feature_compartments( this_,
+                                                                     layouted_classifier,
+                                                                     layout_data,
+                                                                     pencil_size,
+                                                                     cr
+                                                                   );
 
         if ( data_small_set_contains_row( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row(diagramelement) ) )
         {

@@ -1,6 +1,7 @@
 /* File: layout_quality.inl; Copyright and License: see below */
 
 #include "u8/u8_trace.h"
+#include <assert.h>
 
 static inline void layout_quality_init ( layout_quality_t *this_, const pencil_size_t *pencil_size )
 {
@@ -54,6 +55,9 @@ static inline double layout_quality_debts_class_diag( const layout_quality_t *th
                                                       const geometry_offset_t *order_target,
                                                       const layout_diagram_t *other )
 {
+    assert( probe != NULL );
+    assert( order_target != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     const geometry_rectangle_t *const diagram_draw_area
@@ -81,6 +85,9 @@ static inline double layout_quality_debts_class_class( const layout_quality_t *t
                                                        const layout_visible_classifier_t *other,
                                                        const layout_visible_set_t *layout_data )
 {
+    assert( probe != NULL );
+    assert( other != NULL );
+    assert( layout_data != NULL );
     double debts = 0.0;
 
     const geometry_rectangle_t *const probe_symbol_box
@@ -136,6 +143,10 @@ static inline double layout_quality_debts_conn_diag( const layout_quality_t *thi
                                                      const geometry_rectangle_t *dest_rect,
                                                      const layout_diagram_t *other )
 {
+    assert( probe != NULL );
+    assert( source_rect != NULL );
+    assert( dest_rect != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     /* get information on probe */
@@ -326,6 +337,8 @@ static inline double layout_quality_debts_conn_class ( const layout_quality_t *t
                                                        const bool is_destination,
                                                        const bool is_ancestor_of_destination )
 {
+    assert( probe != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     const geometry_rectangle_t connector_bounds
@@ -383,6 +396,8 @@ static inline double layout_quality_debts_conn_sym( const layout_quality_t *this
                                                     const geometry_connector_t *probe,
                                                     const geometry_rectangle_t *other )
 {
+    assert( probe != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -405,6 +420,8 @@ static inline double layout_quality_debts_conn_conn( const layout_quality_t *thi
                                                      const bool same_source,
                                                      const bool same_destination )
 {
+    assert( probe != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -462,6 +479,9 @@ static inline double layout_quality_debts_label_diag( const layout_quality_t *th
                                                       const geometry_point_t *target_point,
                                                       const layout_diagram_t *other )
 {
+    assert( probe != NULL );
+    assert( target_point != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     const geometry_rectangle_t *const diagram_draw_area
@@ -470,10 +490,16 @@ static inline double layout_quality_debts_label_diag( const layout_quality_t *th
     const double line_corridor = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* check distance to target point */
+#if 0
     const geometry_point_t probe_middle = geometry_rectangle_get_center( probe );
     debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * geometry_point_calc_chess_distance ( target_point, &probe_middle ) * line_corridor;
-    /* idea for improvement: check the chess distance to the rectangle border, not to the center: */
-    /* double geometry_rectangle_calc_chess_distance ( const geometry_rectangle_t *this_, double x, double y ); */
+#endif
+    const double label_to_object_gap
+        = geometry_rectangle_calc_chess_distance( probe,
+                                                  geometry_point_get_x( target_point ),
+                                                  geometry_point_get_y( target_point )
+                                                );
+    debts += LAYOUT_QUALITY_WEIGHT_DISTANCE * label_to_object_gap * line_corridor;
 
     /* add debts for exceeding the diagram draw area */
     if ( ! geometry_rectangle_is_containing( diagram_draw_area, probe ) )
@@ -489,6 +515,8 @@ static inline double layout_quality_debts_label_class( const layout_quality_t *t
                                                        const geometry_rectangle_t *probe,
                                                        const layout_visible_classifier_t *other )
 {
+    assert( probe != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     const geometry_rectangle_t *const classifier_symbol_box
@@ -528,6 +556,8 @@ static inline double layout_quality_debts_label_feat( const layout_quality_t *th
                                                       const geometry_rectangle_t *probe,
                                                       const layout_feature_t *other )
 {
+    assert( probe != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     /* special handling for lifelines needed because labels are line-breaked ignoring lifelines. */
@@ -560,6 +590,8 @@ static inline double layout_quality_debts_label_rel( const layout_quality_t *thi
                                                      const geometry_rectangle_t *probe,
                                                      const layout_relationship_t *other )
 {
+    assert( probe != NULL );
+    assert( other != NULL );
     double debts = 0.0;
 
     if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( other ) )
