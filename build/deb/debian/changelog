@@ -1,3 +1,21 @@
+crystal-facet-uml (1.71.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Stereotypes of relationships can be line-break'ed now
+  * Labels of ports, interfaces and relations keep a border-gap to their object
+  * Positioning the labels of relationships places these to empty space
+    but risks more distance
+    test case: layout_good_cases
+    #Diag=432, total=1666 |  ERR=10, W/C=8, W/F=13, W/L=25, W/R=106
+    test case: layout_challenging_cases
+    #Diag=432, total=12908 |  ERR=261, W/C=7550, W/F=1193, W/L=4166, W/R=12539
+  * Any classifier type shows compartment lines if these are not empty
+  * Only non-empty cmopartments have top and bottom lines
+  * Arbitrary compartment order allowed, separators show the type.
+  * When creating a new file, no error message appears wrongly (Closes: #8)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 22 Aug 2026 15:30:00 +0200
+
 crystal-facet-uml (1.71.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
