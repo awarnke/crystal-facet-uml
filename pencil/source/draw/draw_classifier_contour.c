@@ -623,6 +623,7 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
     const double bounds_height = geometry_rectangle_get_height( outer_bounds );
     const double gap = pencil_size_get_standard_object_border( pencil_size );
 
+    /* determine left and right coordinates */
     double left = bounds_left + gap;
     double right = bounds_left + bounds_width - gap;
     switch ( classifier_type )
@@ -667,9 +668,112 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
         break;
     }
 
-    cairo_move_to ( cr, left, y_coordinate );
-    cairo_line_to ( cr, right, y_coordinate );
-    cairo_stroke (cr);
+    /* draw line */
+    cairo_move_to( cr, left, y_coordinate );
+    cairo_line_to( cr, right, y_coordinate );
+    cairo_stroke( cr );
+
+    /* draw label */
+    const double line_w = pencil_size_get_standard_line_width( pencil_size );
+    switch ( compartment_type )
+    {
+        case DATA_FEATURE_TYPE_PROPERTY:
+        {
+            const double center_x = ( left + right ) / 2.0;
+
+            cairo_move_to( cr, center_x - 1.0 * line_w, y_coordinate + 10.0 * line_w );
+            cairo_line_to( cr, center_x - 4.0 * line_w, y_coordinate + 10.0 * line_w );
+            cairo_line_to( cr, center_x - 4.0 * line_w, y_coordinate + 2.0 * line_w );
+            cairo_line_to( cr, center_x - 1.0 * line_w, y_coordinate + 2.0 * line_w );
+
+            cairo_move_to( cr, center_x + 1.0 * line_w, y_coordinate + 2.0 * line_w );
+            cairo_line_to( cr, center_x + 4.0 * line_w, y_coordinate + 2.0 * line_w );
+            cairo_line_to( cr, center_x + 4.0 * line_w, y_coordinate + 10.0 * line_w );
+            cairo_line_to( cr, center_x + 1.0 * line_w, y_coordinate + 10.0 * line_w );
+
+            cairo_stroke( cr );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_OPERATION:
+        {
+            const double center_x = ( left + right ) / 2.0;
+
+            cairo_move_to( cr, center_x - 1.0 * line_w, y_coordinate + 10.0 * line_w );
+            cairo_curve_to( cr,
+                            center_x - 6.0 * line_w,
+                            y_coordinate + 10.0 * line_w,
+                            center_x - 6.0 * line_w,
+                            y_coordinate + 2.0 * line_w,
+                            center_x - 1.0 * line_w,
+                            y_coordinate + 2.0 * line_w
+                          );
+
+            cairo_move_to( cr, center_x + 1.0 * line_w, y_coordinate + 2.0 * line_w );
+            cairo_curve_to( cr,
+                            center_x + 6.0 * line_w,
+                            y_coordinate + 2.0 * line_w,
+                            center_x + 6.0 * line_w,
+                            y_coordinate + 10.0 * line_w,
+                            center_x + 1.0 * line_w,
+                            y_coordinate + 10.0 * line_w
+                          );
+
+            cairo_stroke( cr );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_TAGGED_VALUE:
+        {
+            const double center_x = ( left + right ) / 2.0;
+
+            cairo_move_to( cr, center_x - 1.0 * line_w, y_coordinate + 10.0 * line_w );
+            cairo_curve_to( cr,
+                            center_x - 5.0 * line_w,
+                            y_coordinate + 10.0 * line_w,
+                            center_x - 1.0 * line_w,
+                            y_coordinate + 6.0 * line_w,
+                            center_x - 5.0 * line_w,
+                            y_coordinate + 6.0 * line_w
+            );
+            cairo_curve_to( cr,
+                            center_x - 1.0 * line_w,
+                            y_coordinate + 6.0 * line_w,
+                            center_x - 5.0 * line_w,
+                            y_coordinate + 2.0 * line_w,
+                            center_x - 1.0 * line_w,
+                            y_coordinate + 2.0 * line_w
+                          );
+
+            cairo_move_to( cr, center_x + 1.0 * line_w, y_coordinate + 2.0 * line_w );
+            cairo_curve_to( cr,
+                            center_x + 5.0 * line_w,
+                            y_coordinate + 2.0 * line_w,
+                            center_x + 1.0 * line_w,
+                            y_coordinate + 6.0 * line_w,
+                            center_x + 5.0 * line_w,
+                            y_coordinate + 6.0 * line_w
+                          );
+            cairo_curve_to( cr,
+                            center_x + 1.0 * line_w,
+                            y_coordinate + 6.0 * line_w,
+                            center_x + 5.0 * line_w,
+                            y_coordinate + 10.0 * line_w,
+                            center_x + 1.0 * line_w,
+                            y_coordinate + 10.0 * line_w
+                          );
+
+            cairo_stroke( cr );
+        }
+        break;
+
+        default:
+        {
+            /* for all other cases; this switch is not exhaustive */
+        }
+        break;
+    }
+
 
     U8_TRACE_END();
 }

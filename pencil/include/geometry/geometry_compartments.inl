@@ -104,7 +104,8 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
             if ( ! (*this_).has_properties )
             {
                 (*this_).has_properties = true;
-                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+                f_height += 4.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+                /* 2.0 * gap is reserved for compartment label */
             }
 
             const double new_feat_width
@@ -127,7 +128,8 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
             if ( ! (*this_).has_operations )
             {
                 (*this_).has_operations = true;
-                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+                f_height += 4.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+                /* 2.0 * gap is reserved for compartment label */
             }
 
             const double new_feat_width
@@ -150,7 +152,8 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
             if ( ! (*this_).has_tagged_values )
             {
                 (*this_).has_tagged_values = true;
-                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+                f_height += 4.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+                /* 2.0 * gap is reserved for compartment label */
             }
 
             const double new_feat_width

@@ -497,11 +497,6 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
 
     /* determine number of properties and operations */
-#if 0
-    double compartment1_y = geometry_rectangle_get_top( classifier_compartments ) + gap;
-    double compartment2_y = geometry_rectangle_get_top( classifier_compartments ) + 3.0 * gap;
-    double compartment3_y = geometry_rectangle_get_top( classifier_compartments ) + 5.0 * gap;
-#endif
     bool has_compartment_entries = false;
 
     const uint32_t num_features = layout_visible_set_get_feature_count ( layout_data );
@@ -523,19 +518,6 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
             {
                 has_compartment_entries = true;
             }
-#if 0
-            const double f_probe_bottom
-                = geometry_rectangle_get_bottom( layout_feature_get_symbol_box_const( f_probe_layout ) );
-            if ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
-            {
-                compartment2_y = u8_f64_max2( compartment2_y, f_probe_bottom + gap );
-                compartment3_y = u8_f64_max2( compartment3_y, f_probe_bottom + 3.0 * gap );
-            }
-            else if ( DATA_FEATURE_TYPE_OPERATION == f_probe_type )
-            {
-                compartment3_y = u8_f64_max2( compartment3_y, f_probe_bottom + gap );
-            }
-#endif
 
             const double f_probe_top
                 = geometry_rectangle_get_top( layout_feature_get_symbol_box_const( f_probe_layout ) );
@@ -545,7 +527,7 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
                 draw_classifier_contour_draw_compartment_line( &((*this_).draw_classifier_contour),
                                                                classifier_type,
                                                                classifier_symbol_box,
-                                                               f_probe_top - gap,
+                                                               f_probe_top - 3.0 * gap,  /* 2.0 * gap for compartment label */
                                                                f_probe_type,
                                                                pencil_size,
                                                                cr
@@ -557,7 +539,7 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
     /* draw compartments if there are features */
     if ( has_compartment_entries )
     {
-        double compartment_bottom_line = geometry_rectangle_get_bottom( classifier_compartments ) - gap;
+        double compartment_bottom_line = geometry_rectangle_get_bottom( classifier_compartments ) - 1.0 * gap;
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
                                                         classifier_type,
                                                         classifier_symbol_box,
@@ -566,29 +548,6 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
                                                         pencil_size,
                                                         cr
                                                       );
-#if 0
-        draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
-                                                        classifier_type,
-                                                        classifier_symbol_box,
-                                                        compartment1_y,
-                                                        pencil_size,
-                                                        cr
-                                                      );
-        draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
-                                                        classifier_type,
-                                                        classifier_symbol_box,
-                                                        compartment2_y,
-                                                        pencil_size,
-                                                        cr
-                                                      );
-        draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
-                                                        classifier_type,
-                                                        classifier_symbol_box,
-                                                        compartment3_y,
-                                                        pencil_size,
-                                                        cr
-                                                      );
-#endif
     }
 
     U8_TRACE_END();

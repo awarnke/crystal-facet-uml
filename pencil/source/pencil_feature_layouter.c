@@ -623,10 +623,10 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
     }
 
     /* determine compartments above the current */
-    feat_top += feat_is_first_in_compartment ? ( 2.0 * gap ) : 0.0;  /* a line for own compartment needed */
-    feat_top += compartment_property_above ? ( 2.0 * gap ) : 0.0;
-    feat_top += compartment_operation_above ? ( 2.0 * gap ) : 0.0;
-    feat_top += compartment_tagged_value_above ? ( 2.0 * gap ) : 0.0;
+    feat_top += feat_is_first_in_compartment ? ( 4.0 * gap ) : 0.0;  /* a line for own compartment needed */
+    feat_top += compartment_property_above ? ( 4.0 * gap ) : 0.0;  /* 2.0 * gap is reserved for compartment label */
+    feat_top += compartment_operation_above ? ( 4.0 * gap ) : 0.0;
+    feat_top += compartment_tagged_value_above ? ( 4.0 * gap ) : 0.0;
 
     /* determine the bounds of the feature */
     const geometry_rectangle_t *const feat_label_box

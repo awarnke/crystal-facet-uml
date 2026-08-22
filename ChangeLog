@@ -11,7 +11,7 @@ crystal-facet-uml (1.71.2) UNRELEASED; urgency=medium
     #Diag=432, total=12908 |  ERR=261, W/C=7550, W/F=1193, W/L=4166, W/R=12539
   * Any classifier type shows compartment lines if these are not empty
   * Only non-empty cmopartments have top and bottom lines
-  * Arbitrary compartment order allowed
+  * Arbitrary compartment order allowed, separators show the type.
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 09 Aug 2026 06:00:00 +0200
 
