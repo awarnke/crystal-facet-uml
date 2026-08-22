@@ -609,6 +609,7 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
                                                      data_classifier_type_t classifier_type,
                                                      const geometry_rectangle_t *outer_bounds,
                                                      double y_coordinate,
+                                                     data_feature_type_t compartment_type,
                                                      const pencil_size_t *pencil_size,
                                                      cairo_t *cr )
 {

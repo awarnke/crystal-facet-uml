@@ -11,6 +11,9 @@ static inline void geometry_compartments_init( geometry_compartments_t *this_,
                                                double preferred_object_distance )
 {
     geometry_dimensions_init( &((*this_).feature_compartments), 0.0, 0.0 );
+    (*this_).has_properties = false;
+    (*this_).has_operations = false;
+    (*this_).has_tagged_values = false;
     (*this_).port_height_on_left = 0.0;
     (*this_).port_height_on_right = 0.0;
     (*this_).port_width_on_top = 0.0;
@@ -27,6 +30,7 @@ static inline void geometry_compartments_reinit( geometry_compartments_t *this_,
                                                  double standard_object_border,
                                                  double preferred_object_distance )
 {
+    geometry_dimensions_destroy( &((*this_).feature_compartments) );
     geometry_compartments_init( this_, standard_object_border, preferred_object_distance );
 }
 
@@ -90,12 +94,19 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
     {
         case GEOMETRY_COMPARTMENT_TYPE_PROPERTIES:
         {
+            /* update dimensions of feature_compartments */
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
-            if ( f_height < 0.000000001 )
+            if ( ! ( (*this_).has_properties || (*this_).has_operations || (*this_).has_tagged_values ) )
             {
-                f_height = 6.0 * (*this_).standard_object_border;  /* gaps above and below each of the 3 compartment lines */
+                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the bottom compartment line */
             }
+            if ( ! (*this_).has_properties )
+            {
+                (*this_).has_properties = true;
+                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+            }
+
             const double new_feat_width
                 = geometry_dimensions_get_width( feature_dim ) + 2.0 * (*this_).standard_object_border;
             f_width = u8_f64_max2( f_width, new_feat_width );
@@ -106,12 +117,19 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
 
         case GEOMETRY_COMPARTMENT_TYPE_OPERATIONS:
         {
+            /* update dimensions of feature_compartments */
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
-            if ( f_height < 0.000000001 )
+            if ( ! ( (*this_).has_properties || (*this_).has_operations || (*this_).has_tagged_values ) )
             {
-                f_height = 6.0 * (*this_).standard_object_border;  /* gaps above and below each of the 3 compartment lines */
+                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the bottom compartment line */
             }
+            if ( ! (*this_).has_operations )
+            {
+                (*this_).has_operations = true;
+                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+            }
+
             const double new_feat_width
                 = geometry_dimensions_get_width( feature_dim ) + 2.0 * (*this_).standard_object_border;
             f_width = u8_f64_max2( f_width, new_feat_width );
@@ -122,12 +140,19 @@ static inline void geometry_compartments_add_feature( geometry_compartments_t *t
 
         case GEOMETRY_COMPARTMENT_TYPE_TAGGED_VALUES:
         {
+            /* update dimensions of feature_compartments */
             double f_width = geometry_dimensions_get_width( &((*this_).feature_compartments) );
             double f_height = geometry_dimensions_get_height( &((*this_).feature_compartments) );
-            if ( f_height < 0.000000001 )
+            if ( ! ( (*this_).has_properties || (*this_).has_operations || (*this_).has_tagged_values ) )
             {
-                f_height = 6.0 * (*this_).standard_object_border;  /* gaps above and below each of the 3 compartment lines */
+                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the bottom compartment line */
             }
+            if ( ! (*this_).has_tagged_values )
+            {
+                (*this_).has_tagged_values = true;
+                f_height += 2.0 * (*this_).standard_object_border;  /* gaps above and below the new top compartment line */
+            }
+
             const double new_feat_width
                 = geometry_dimensions_get_width( feature_dim ) + 2.0 * (*this_).standard_object_border;
             f_width = u8_f64_max2( f_width, new_feat_width );

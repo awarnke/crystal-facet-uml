@@ -19,6 +19,9 @@
  */
 struct geometry_compartments_struct {
     geometry_dimensions_t feature_compartments;  /*!< this excludes ports and interfaces */
+    bool has_properties;  /*!< true if a compartment of type DATA_FEATURE_TYPE_PROPERTY exists */
+    bool has_operations;  /*!< true if a compartment of type DATA_FEATURE_TYPE_OPERATION exists */
+    bool has_tagged_values;  /*!< true if a compartment of type DATA_FEATURE_TYPE_TAGGED_VALUE exists */
     double port_height_on_left;
     double port_height_on_right;
     double port_width_on_top;

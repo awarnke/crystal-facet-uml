@@ -165,12 +165,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
  *  \brief determines the symbol box of a property or operation or tagged-value
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_space space area in the classifier
+ *  \param compartments_space feature compartments area in the classifier
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param[in,out] io_feature_layout in+output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layouter_t *this_,
-                                                          const geometry_rectangle_t *classifier_space,
+                                                          const geometry_rectangle_t *compartments_space,
                                                           PangoLayout *font_layout,
                                                           layout_feature_t *io_feature_layout
                                                         );

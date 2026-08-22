@@ -550,12 +550,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
 }
 
 void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layouter_t *this_,
-                                                          const geometry_rectangle_t *classifier_space,
+                                                          const geometry_rectangle_t *compartments_space,
                                                           PangoLayout *font_layout,
                                                           layout_feature_t *io_feature_layout )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != classifier_space );
+    assert( NULL != compartments_space );
     assert( NULL != font_layout );
     assert( NULL != io_feature_layout );
 
@@ -569,9 +569,14 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
     const data_row_t diagele_id = layout_visible_classifier_get_diagramelement_id( vis_classfy );
     const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
     const data_feature_t *const the_feature = layout_feature_get_data_const( io_feature_layout );
+    const data_feature_type_t f_type = data_feature_get_main_type (the_feature);
 
-    /* calculate the feat_top by summing up the heights of the features above */
-    double feat_top = geometry_rectangle_get_top( classifier_space );
+    /* calculate the feat_top by summing up the heights of the UNORDERED features above */
+    double feat_top = geometry_rectangle_get_top( compartments_space );
+    bool feat_is_first_in_compartment = true;
+    bool compartment_property_above = false;  /* true if a feature of type DATA_FEATURE_TYPE_PROPERTY is above */
+    bool compartment_operation_above = false;  /* true if a feature of type DATA_FEATURE_TYPE_OPERATION is above */
+    bool compartment_tagged_value_above = false;  /* true if a feature of type DATA_FEATURE_TYPE_TAGGED_VALUE is above */
     const uint32_t num_features = layout_visible_set_get_feature_count( (*this_).layout_data );
     for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
     {
@@ -602,24 +607,26 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
                     const geometry_rectangle_t *const probe_label_box
                         = layout_feature_get_label_box_const( f_probe_layout );
                     feat_top += geometry_rectangle_get_height( probe_label_box );
+                    if ( f_type == f_probe_type )
+                    {
+                        feat_is_first_in_compartment = false;
+                    }
+                    compartment_property_above
+                        = compartment_property_above || ( f_probe_type == DATA_FEATURE_TYPE_PROPERTY );
+                    compartment_operation_above
+                        = compartment_operation_above || ( f_probe_type == DATA_FEATURE_TYPE_OPERATION );
+                    compartment_tagged_value_above
+                        = compartment_tagged_value_above || ( f_probe_type == DATA_FEATURE_TYPE_TAGGED_VALUE );
                 }
             }
         }
     }
 
     /* determine compartments above the current */
-    const data_feature_type_t f_type = data_feature_get_main_type (the_feature);
-    const uint32_t count_compartments_above
-        = ( DATA_FEATURE_TYPE_PROPERTY == f_type )
-        ? 0
-        : ( DATA_FEATURE_TYPE_OPERATION == f_type )
-        ? 1
-        : ( DATA_FEATURE_TYPE_TAGGED_VALUE == f_type )
-        ? 2  /* first compartment for properties, second for operations, third for tagged values */
-        : 2; /* the last compartment is for all unknown feature types. */
-             /* this may happen if a new database file has been read by an old program version */
-             /* note that today, there is no separator line yet - so the number is the same */
-    feat_top += ( count_compartments_above * 2 * gap ) + 2.0 * gap;
+    feat_top += feat_is_first_in_compartment ? ( 2.0 * gap ) : 0.0;  /* a line for own compartment needed */
+    feat_top += compartment_property_above ? ( 2.0 * gap ) : 0.0;
+    feat_top += compartment_operation_above ? ( 2.0 * gap ) : 0.0;
+    feat_top += compartment_tagged_value_above ? ( 2.0 * gap ) : 0.0;
 
     /* determine the bounds of the feature */
     const geometry_rectangle_t *const feat_label_box
@@ -627,13 +634,13 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
 
     /* layout feature into parent classifier */
     const geometry_rectangle_t label_box = {
-        .left = geometry_rectangle_get_left( classifier_space ) + gap,
+        .left = geometry_rectangle_get_left( compartments_space ) + gap,
         .top = feat_top,
         .width = geometry_rectangle_get_width( feat_label_box ),
         .height = geometry_rectangle_get_height( feat_label_box )
     };
     const geometry_rectangle_t feat_bounds = {
-        .left = geometry_rectangle_get_left( classifier_space ),
+        .left = geometry_rectangle_get_left( compartments_space ),
         .top = feat_top,
         .width = geometry_rectangle_get_width( feat_label_box ) + 2.0 * gap,
         .height = geometry_rectangle_get_height( feat_label_box )
@@ -642,6 +649,7 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
     layout_feature_set_label_box( io_feature_layout, &label_box );
     layout_feature_set_symbol_box( io_feature_layout, &feat_bounds );
     layout_feature_set_icon_direction( io_feature_layout, GEOMETRY_DIRECTION_CENTER );  /* dummy direction */
+    layout_feature_set_first_in_compartment( io_feature_layout, feat_is_first_in_compartment );
 
     U8_TRACE_END();
 }

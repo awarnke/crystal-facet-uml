@@ -21,8 +21,12 @@
 struct layout_feature_struct {
     geometry_rectangle_t symbol_box;  /*!< In case the feature is a symbol, the label_box may be outside of symbol_box.*/
                                       /*!< Otherwise it is the bounding box of the feature */
-    geometry_direction_t icon_direction;  /*!< icon direction, a hint for drawing the icon of a feature, e.g. lifelines and required interfaces. */
-    geometry_rectangle_t label_box;  /*!< bounding box of the label of the feature. For operations and properties, this is identical to the bounding box */
+    geometry_direction_t icon_direction;  /*!< icon direction, a hint for drawing the icon of a feature, */
+                                          /*!< e.g. lifelines and required interfaces. */
+    geometry_rectangle_t label_box;  /*!< bounding box of the label of the feature. For operations and properties, */
+                                     /*!< this is identical to the bounding box */
+    bool first_in_compartment;  /*!< true if this feature is data_feature_type_inside_compartment */
+                                /*!< and the first in the compartment */
     const data_feature_t *data;  /*!< pointer to the data object of the feature */
     layout_visible_classifier_t *classifier;  /*!< pointer to the layout of the parent visible classifier */
 };
@@ -111,6 +115,22 @@ static inline const geometry_rectangle_t *layout_feature_get_label_box_const ( c
  *  \param label_box coordinates of new label bounds
  */
 static inline void layout_feature_set_label_box ( layout_feature_t *this_, const geometry_rectangle_t *label_box );
+
+/*!
+ *  \brief gets the first_in_compartment of the layout feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return first_in_compartment of the feature
+ */
+static inline bool layout_feature_is_first_in_compartment ( const layout_feature_t *this_ );
+
+/*!
+ *  \brief sets the first_in_compartment of the layout feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param first_in_compartment new first_in_compartment property to set
+ */
+static inline void layout_feature_set_first_in_compartment ( layout_feature_t *this_, bool first_in_compartment );
 
 /*!
  *  \brief gets the data_feature_t object

@@ -12,6 +12,7 @@ static inline void layout_feature_init ( layout_feature_t *this_,
     geometry_rectangle_init_empty( &((*this_).symbol_box) );
     geometry_rectangle_init_empty( &((*this_).label_box) );
     (*this_).icon_direction = GEOMETRY_DIRECTION_CENTER;
+    (*this_).first_in_compartment = true;  /* default is that each feature has an own compartment */
     (*this_).data = feature_data;
     (*this_).classifier = classifier;
 }
@@ -77,6 +78,16 @@ static inline const geometry_rectangle_t *layout_feature_get_label_box_const ( c
 static inline void layout_feature_set_label_box ( layout_feature_t *this_, const geometry_rectangle_t *label_box )
 {
     geometry_rectangle_replace( &((*this_).label_box), label_box );
+}
+
+static inline bool layout_feature_is_first_in_compartment ( const layout_feature_t *this_ )
+{
+    return (*this_).first_in_compartment;
+}
+
+static inline void layout_feature_set_first_in_compartment ( layout_feature_t *this_, bool first_in_compartment )
+{
+    (*this_).first_in_compartment = first_in_compartment;
 }
 
 static inline const data_feature_t *layout_feature_get_data_const ( const layout_feature_t *this_ )
