@@ -43,7 +43,7 @@ Debian/Ubuntu/Raspbian:
 openSuSE:
 
 >       sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/openSUSE_Tumbleweed devel_tools_tumble
->       # or sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/15.5 devel_tools_15.5
+>       # or sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/16.0 devel_tools_16.0
 >       sudo zypper install crystal-facet-uml
 
 Windows/wine:

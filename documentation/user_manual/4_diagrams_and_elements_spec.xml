@@ -58,11 +58,6 @@
                                 Block</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry>
-                                <para>Limitations: Compartment Order is "properties, operations"
-                                    instead of "constraints, operations, receptions, parts, (bound) references, values, properties,
-                                    stereotype-tagged-values, behavior, namespace, structure"
-                                </para>
-                                <para>Limitations: No labeled compartments</para>
                                 <para>Limitations: no Multiplicities of Block-Instances.</para>
                             </entry>
                         </row>

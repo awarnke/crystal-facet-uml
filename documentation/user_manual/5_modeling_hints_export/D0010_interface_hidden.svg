@@ -243,9 +243,9 @@
 <path fill="none" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 554.796875 569.851562 L 564.199219 586.136719 L 573.601562 569.851562 "/>
 <path fill="none" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 564.199219 433.410156 C 564.199219 433.410156 564.199219 433.410156 564.199219 471.023438 L 564.199219 548.527344 C 564.199219 586.136719 564.199219 586.136719 564.199219 586.136719 "/>
 <g fill="rgb(0%, 0%, 0%)" fill-opacity="1">
-<use xlink:href="#glyph-0-13" x="566" y="522.070312"/>
-<use xlink:href="#glyph-0-3" x="585" y="522.070312"/>
-<use xlink:href="#glyph-0-7" x="600" y="522.070312"/>
+<use xlink:href="#glyph-0-13" x="572" y="522.070312"/>
+<use xlink:href="#glyph-0-3" x="591" y="522.070312"/>
+<use xlink:href="#glyph-0-7" x="606" y="522.070312"/>
 </g>
 <path fill="none" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 799.015625 666.703125 L 782.726562 657.300781 L 799.015625 647.898438 L 799.015625 666.703125 "/>
 <path fill="none" stroke-width="1.575" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 897.273438 952.351562 L 877.613281 952.351562 C 840 952.351562 840 952.351562 840 914.738281 L 840 694.910156 C 840 657.300781 840 657.300781 802.386719 657.300781 L 799.015625 657.300781 "/>
