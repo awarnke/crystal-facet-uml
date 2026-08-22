@@ -9,6 +9,7 @@ static inline u8_error_t data_database_head_delete_value_by_key ( data_database_
                                                                   bool ignore_not_found,
                                                                   data_head_t *out_old_head )
 {
+    assert( key != NULL );
     u8_error_t result;
     data_head_t head;
     result = data_database_head_read_value_by_key( this_, key, &head );
@@ -40,6 +41,8 @@ static inline u8_error_t data_database_head_update_value_by_key ( data_database_
                                                                   bool create_if_not_found,
                                                                   data_head_t *out_old_head )
 {
+    assert( key != NULL );
+    assert( new_head_value != NULL );
     u8_error_t result;
     data_head_t head;
     result = data_database_head_read_value_by_key( this_, key, &head );
@@ -60,7 +63,7 @@ static inline u8_error_t data_database_head_update_value_by_key ( data_database_
         if ( create_if_not_found )
         {
             result = U8_ERROR_NONE;
-            data_head_init_new( &head, key, "" );
+            data_head_init_new( &head, key, new_head_value );
             result |= data_database_head_create_value( this_, &head, NULL );
             data_head_destroy( &head );
         }

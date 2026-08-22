@@ -481,8 +481,15 @@ void gui_simple_message_to_user_show_message_with_name_and_stat( gui_simple_mess
         U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED" );
         utf8stringbuf_append_str( &((*this_).private_temp_str), "Database file opened: " );
         utf8stringbuf_append_str( &((*this_).private_temp_str), name );
-        utf8stringbuf_append_str( &((*this_).private_temp_str), "\n" );
-        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+        if ( 0 != data_stat_get_total_count( stat ) )
+        {
+            utf8stringbuf_append_str( &((*this_).private_temp_str), "\n" );
+            gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+        }
+        else
+        {
+            /* When creating a new database file, the statistics is empty. do not print anything. */
+        }
     }
     else
     {

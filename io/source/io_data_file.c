@@ -360,7 +360,7 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
             result |= data_database_head_update_value_by_key( &head_table,
                                                               DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME,
                                                               &(hex_time[0]),
-                                                              true,
+                                                              true,  /* create_if_not_found */
                                                               NULL
                                                             );
             U8_TRACE_INFO_STR( "io_data_file_sync_to_disk/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
@@ -398,9 +398,11 @@ bool io_data_file_is_externally_modified ( io_data_file_t *this_ )
                     = data_database_head_read_value_by_key( &head_table,
                                                             DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME,
                                                             &head_val
-                                                        );
+                                                          );
                 if ( db_err == U8_ERROR_NONE )
                 {
+                    U8_TRACE_INFO_STR( "io_data_file_is_externally_modified/<actual measurement>        ", &(hex_time[0]) );
+                    U8_TRACE_INFO_STR( "io_data_file_is_externally_modified/DATA_FILE_LAST_SYNC_MOD_TIME", data_head_get_value_const( &head_val ) );
                     if ( ! utf8string_equals_str( &(hex_time[0]), data_head_get_value_const( &head_val ) ) )
                     {
                         result = true;
