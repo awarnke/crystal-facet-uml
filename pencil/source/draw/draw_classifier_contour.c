@@ -610,11 +610,13 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
                                                      const geometry_rectangle_t *outer_bounds,
                                                      double y_coordinate,
                                                      data_feature_type_t compartment_type,
+                                                     const GdkRGBA *foreground_color,
                                                      const pencil_size_t *pencil_size,
                                                      cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
+    assert ( NULL != foreground_color );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
 
@@ -674,6 +676,8 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
     cairo_stroke( cr );
 
     /* draw label */
+    const GdkRGBA grey_color = pencil_size_get_gray_out_color( pencil_size );
+    cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
     const double line_w = pencil_size_get_standard_line_width( pencil_size );
     switch ( compartment_type )
     {
@@ -773,7 +777,7 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
         }
         break;
     }
-
+    cairo_set_source_rgba( cr, foreground_color->red, foreground_color->green, foreground_color->blue, foreground_color->alpha );
 
     U8_TRACE_END();
 }

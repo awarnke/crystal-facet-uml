@@ -184,14 +184,6 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_STEREOTYPE:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
-#if 0
-                pencil_classifier_painter_private_draw_feature_compartments( this_,
-                                                                             layouted_classifier,
-                                                                             layout_data,
-                                                                             pencil_size,
-                                                                             cr
-                                                                           );
-#endif
             }
             break;
 
@@ -242,14 +234,6 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
             {
                 draw_classifier_contour_draw_rounded_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, false, pencil_size, cr );
-#if 0
-                pencil_classifier_painter_private_draw_feature_compartments( this_,
-                                                                             layouted_classifier,
-                                                                             layout_data,
-                                                                             pencil_size,
-                                                                             cr
-                                                                           );
-#endif
             }
             break;
 
@@ -262,14 +246,6 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_USE_CASE:
             {
                 draw_classifier_contour_draw_ellipse ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
-#if 0
-                pencil_classifier_painter_private_draw_feature_compartments( this_,
-                                                                             layouted_classifier,
-                                                                             layout_data,
-                                                                             pencil_size,
-                                                                             cr
-                                                                           );
-#endif
             }
             break;
 
@@ -450,6 +426,7 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
         pencil_classifier_painter_private_draw_feature_compartments( this_,
                                                                      layouted_classifier,
                                                                      layout_data,
+                                                                     &foreground_color,
                                                                      pencil_size,
                                                                      cr
                                                                    );
@@ -472,12 +449,14 @@ void pencil_classifier_painter_draw( pencil_classifier_painter_t *this_,
 void pencil_classifier_painter_private_draw_feature_compartments( const pencil_classifier_painter_t *this_,
                                                                   const layout_visible_classifier_t *layouted_classifier,
                                                                   const layout_visible_set_t *layout_data,
+                                                                  const GdkRGBA *foreground_color,
                                                                   const pencil_size_t *pencil_size,
                                                                   cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layouted_classifier );
     assert( NULL != layout_data );
+    assert( NULL != foreground_color );
     assert( NULL != pencil_size );
     assert( NULL != cr );
 
@@ -529,6 +508,7 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
                                                                classifier_symbol_box,
                                                                f_probe_top - 3.0 * gap,  /* 2.0 * gap for compartment label */
                                                                f_probe_type,
+                                                               foreground_color,
                                                                pencil_size,
                                                                cr
                                                              );
@@ -545,6 +525,7 @@ void pencil_classifier_painter_private_draw_feature_compartments( const pencil_c
                                                         classifier_symbol_box,
                                                         compartment_bottom_line,
                                                         DATA_FEATURE_TYPE_VOID,
+                                                        foreground_color,
                                                         pencil_size,
                                                         cr
                                                       );

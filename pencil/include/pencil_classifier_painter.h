@@ -92,12 +92,14 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param layouted_classifier pointer to the classifiers layout-information and data to be drawn
  *  \param layout_data pointer to the diagrams layout-information needed to calculate the feature compartments
+ *  \param foreground_color the foreground color to use
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
 void pencil_classifier_painter_private_draw_feature_compartments ( const pencil_classifier_painter_t *this_,
                                                                    const layout_visible_classifier_t *layouted_classifier,
                                                                    const layout_visible_set_t *layout_data,
+                                                                   const GdkRGBA *foreground_color,
                                                                    const pencil_size_t *pencil_size,
                                                                    cairo_t *cr
                                                                  );

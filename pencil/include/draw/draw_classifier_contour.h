@@ -258,6 +258,7 @@ void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *thi
  *  \param outer_bounds outer bounding rectangle of the shape, the line has a distance of gap to the outer bounds
  *  \param y_coordinate coordinate where to draw the line
  *  \param compartment_type type of the compartment that starts below the line
+ *  \param foreground_color color to stroke paths
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
@@ -266,6 +267,7 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
                                                      const geometry_rectangle_t *outer_bounds,
                                                      double y_coordinate,
                                                      data_feature_type_t compartment_type,
+                                                     const GdkRGBA *foreground_color,
                                                      const pencil_size_t *pencil_size,
                                                      cairo_t *cr
                                                    );

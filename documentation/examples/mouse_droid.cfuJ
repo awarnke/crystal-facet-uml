@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.5"
+    "generator_version": "1.71.2"
   }
   ,
   "views":
@@ -3671,7 +3671,7 @@
         [
           {
             "id": 34,
-            "type": "Property", "main_type": 0,
+            "type": "Tagged Value", "main_type": 10,
             "key": "post: MoD5G is at base location",
             "description": [
                 ""
@@ -3707,7 +3707,7 @@
         [
           {
             "id": 32,
-            "type": "Property", "main_type": 0,
+            "type": "Tagged Value", "main_type": 10,
             "key": "pre: mission is defined",
             "description": [
                 ""
@@ -3717,7 +3717,7 @@
           },
           {
             "id": 43,
-            "type": "Property", "main_type": 0,
+            "type": "Tagged Value", "main_type": 10,
             "key": "post: MoD5G is at target location",
             "description": [
                 ""
@@ -3755,7 +3755,7 @@
         [
           {
             "id": 44,
-            "type": "Property", "main_type": 0,
+            "type": "Tagged Value", "main_type": 10,
             "key": "pre: MoD5G is at target location",
             "description": [
                 ""
@@ -7387,7 +7387,7 @@
         [
           {
             "id": 33,
-            "type": "Property", "main_type": 0,
+            "type": "Tagged Value", "main_type": 10,
             "key": "post: MoD5G is at base location",
             "description": [
                 ""
