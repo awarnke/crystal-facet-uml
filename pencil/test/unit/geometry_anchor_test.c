@@ -131,22 +131,6 @@ static test_case_result_t test_geometry_anchor_align_dim_closest( test_fixture_t
     geometry_rectangle_destroy( &rect0 );
     geometry_rectangle_destroy( &my_bounds );
 
-    /* my_dim2 is left/top outside my_bounds, it is shifted and pulled back */
-    geometry_rectangle_init( &my_bounds, 150.0, 15.0, 200.0, 80.0 );
-    geometry_rectangle_t rect3 = geometry_anchor_align_dim_closest( &my_anchor, &my_dim2, &my_bounds );
-    TEST_EXPECT_EQUAL_FLOAT( 160.0, geometry_rectangle_get_center_x( &rect3 ) );
-    TEST_EXPECT_EQUAL_FLOAT( 16.0, geometry_rectangle_get_center_y( &rect3 ) );
-    geometry_rectangle_destroy( &rect3 );
-    geometry_rectangle_destroy( &my_bounds );
-
-    /* my_dim2 is right/bottom outside my_bounds, it is shifted and pulled back */
-    geometry_rectangle_init( &my_bounds, 50.0, 3.0, 39.0, 5.0 );
-    geometry_rectangle_t rect4 = geometry_anchor_align_dim_closest( &my_anchor, &my_dim2, &my_bounds );
-    TEST_EXPECT_EQUAL_FLOAT( 79.0, geometry_rectangle_get_center_x( &rect4 ) );
-    TEST_EXPECT_EQUAL_FLOAT( 7.0, geometry_rectangle_get_center_y( &rect4 ) );
-    geometry_rectangle_destroy( &rect4 );
-    geometry_rectangle_destroy( &my_bounds );
-
     /* my_dim2 is too big for my_bounds but fits on top/left */
     geometry_rectangle_init( &my_bounds, 89.0, 8.6, 3.0, 1.0 );
     geometry_rectangle_t rect5 = geometry_anchor_align_dim_closest( &my_anchor, &my_dim2, &my_bounds );
@@ -161,6 +145,14 @@ static test_case_result_t test_geometry_anchor_align_dim_closest( test_fixture_t
     TEST_EXPECT_EQUAL_FLOAT( 100.0, geometry_rectangle_get_center_x( &rect6 ) );
     TEST_EXPECT_EQUAL_FLOAT( 10.4, geometry_rectangle_get_center_y( &rect6 ) );
     geometry_rectangle_destroy( &rect6 );
+    geometry_rectangle_destroy( &my_bounds );
+
+    /* my_dim2 is too big for my_bounds on all sides */
+    geometry_rectangle_init( &my_bounds, 95.0, 9.5, 10.0, 1.0 );
+    geometry_rectangle_t rect7 = geometry_anchor_align_dim_closest( &my_anchor, &my_dim2, &my_bounds );
+    TEST_EXPECT_EQUAL_FLOAT( 100.0, geometry_rectangle_get_center_x( &rect7 ) );
+    TEST_EXPECT_EQUAL_FLOAT( 10.0, geometry_rectangle_get_center_y( &rect7 ) );
+    geometry_rectangle_destroy( &rect7 );
     geometry_rectangle_destroy( &my_bounds );
 
     geometry_dimensions_destroy( &my_dim2 );

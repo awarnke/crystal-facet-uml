@@ -40,7 +40,7 @@ crystal-facet-uml manages a meta model:
         <para>sequence, communication, timing, interaction overview</para>
     </listitem>
     <listitem>
-        <para>Elements are automatically deleted when not visible anymore</para>
+        <para>Elements are automatically deleted when not visible anymore.</para>
         <para>Since version 1.70.0, crystal-facet-uml deletes invisible elements automatically</para>
     </listitem>
     <listitem>

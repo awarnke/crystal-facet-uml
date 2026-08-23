@@ -7,7 +7,7 @@ crystal-facet-uml
 <!-- What is it? -->
 crystal-facet-uml creates sysml/uml diagrams to document system and software architecture.
 
-Like a crystal shows different facets of the same thing, this application shows different views of the same system.
+Like a crystal shows different facets of the same thing, the diagrams show different views of the same system.
 
 ![ScreenShot](documentation/user_manual/screenshot_1.png)
 
