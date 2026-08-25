@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Stores dimensions of several feature compartments
+ *  \brief Stores dimensions of a classifiers feature compartments
  */
 
 #include "geometry/geometry_dimensions.h"
@@ -15,7 +15,7 @@
 #include <stdint.h>
 
 /*!
- *  \brief attributes of several feature compartments
+ *  \brief attributes describing the dimensions of a classifiers feature compartments
  */
 struct geometry_compartments_struct {
     geometry_dimensions_t feature_compartments;  /*!< this excludes ports and interfaces */

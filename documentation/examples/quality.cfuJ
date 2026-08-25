@@ -432,7 +432,7 @@
                 "Note that there is a newer version of that standard (2023). One may check if ",
                 "this is an improvement."
         ],
-        "list_order": 98304,
+        "list_order": 1073790975,
         "parent_name": "Product Quality",
         "parent": "7746b3b4-185c-49c3-8f65-e2015e799251",
         "uuid": "45fc4dee-2999-4742-9caa-997404191457",
@@ -577,6 +577,62 @@
     },
     {
       "diagram": {
+        "id": 55,
+        "type": "Class Diagram", "diagram_type": 34,
+        "name": "Strategies for Functional Suitability",
+        "description": [
+                ""
+        ],
+        "list_order": -1073725440,
+        "parent_name": "Functional Suitability",
+        "parent": "aff53fdb-97e7-4a3d-aeaa-1bed36721eed",
+        "uuid": "9cbcea4a-45c2-4593-9992-449a8001fe55",
+        "diagramelements":
+        [
+          {
+            "id": 516,
+            "classifier_name": "Correctness",
+            "node": "63c02458-d018-489a-bde3-c3aa1bda9d7a",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "8de8f51c-5fab-4b6e-a644-64c265d4c07d"
+          },
+          {
+            "id": 517,
+            "classifier_name": "Appropriateness",
+            "node": "f986f420-5247-4585-a58c-1f5c3280e729",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "4950b495-687f-4a47-b7a6-175cb4c2ce22"
+          },
+          {
+            "id": 518,
+            "classifier_name": "Completeness",
+            "node": "5816fc48-eb17-4876-a0c9-fafd9aec11ba",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "ca0ae7b9-27cd-40f3-9c23-a14d738b38be"
+          },
+          {
+            "id": 519,
+            "classifier_name": "No Dead End",
+            "node": "100483ea-5dca-42b1-bd74-ac40226adc5e",
+            "uuid": "318a3446-85c8-43ba-882b-0a3f08e7b4b4"
+          },
+          {
+            "id": 520,
+            "classifier_name": "Log and compare resource consumption",
+            "node": "3d1969e2-073f-4874-a461-44bb6682f1b1",
+            "uuid": "c7575fc6-5dd1-4db2-ba2b-469b61341fd8"
+          },
+          {
+            "id": 523,
+            "classifier_name": "Fault injection Tests",
+            "node": "730e9920-d5af-484e-8d1c-cf07ea3b6c2d",
+            "uuid": "20a1f84c-a142-41f0-af0e-cbe4eec4b413"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 4,
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Usability",
@@ -637,6 +693,83 @@
     },
     {
       "diagram": {
+        "id": 54,
+        "type": "Class Diagram", "diagram_type": 34,
+        "name": "Strategies for Usability",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "parent_name": "Usability",
+        "parent": "bbe78212-64d5-4dc9-9018-da6196183adc",
+        "uuid": "2aa0e243-9b7a-4f51-b836-4761c5173e34",
+        "diagramelements":
+        [
+          {
+            "id": 507,
+            "classifier_name": "Operability",
+            "node": "4a7af1ad-72a9-4b1a-a6f7-9e983f152744",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "4d15c369-4114-4cf2-9ac2-06b5e05e9519"
+          },
+          {
+            "id": 508,
+            "classifier_name": "Recognizability",
+            "node": "d7e8f130-ce2c-481d-b7a3-9dac989da6cb",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "bbb00a4f-d419-4dd8-a372-af2d10fd8cdd"
+          },
+          {
+            "id": 509,
+            "classifier_name": "Aesthetics",
+            "node": "4de93bfa-1cde-4f1d-acb1-28137d2077da",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "06a9b30d-c35f-48d9-80be-4bf9b1690b14"
+          },
+          {
+            "id": 510,
+            "classifier_name": "User Error Protection",
+            "node": "108ab8ad-0a0b-4df1-8dbe-f421a9cde4d4",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "43df97d9-815f-4abd-b308-74abbdc6c22f"
+          },
+          {
+            "id": 511,
+            "classifier_name": "Learnability",
+            "node": "733dcb73-f52c-4a4b-991b-1b757c1bd140",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "696450fd-14e3-43fb-bdeb-9549d83bc686"
+          },
+          {
+            "id": 512,
+            "classifier_name": "Accessibility",
+            "node": "ebea7dad-8d40-461c-ab0e-086a1a391395",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "68c5212b-f038-4a37-a8a1-ce38569bc483"
+          },
+          {
+            "id": 513,
+            "classifier_name": "Responsiveness",
+            "node": "4ae0b6d9-ee90-4cf0-81f0-a5518ca01961",
+            "uuid": "990ecc3b-1e88-4e2e-ad82-3f046ebb4f52"
+          },
+          {
+            "id": 514,
+            "classifier_name": "Coherence in accepting User Input",
+            "node": "c2b33f6b-8905-48d4-b9f1-bfd1bc795bc8",
+            "uuid": "8a00487d-e129-4ab6-8b68-7bd1536dff43"
+          },
+          {
+            "id": 515,
+            "classifier_name": "Coherence in showing status and results",
+            "node": "269a691e-f6d6-4734-90e3-fc9fe153901c",
+            "uuid": "c12a3380-3ff4-465d-8fd2-9467b8665021"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 43,
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Portability",
@@ -680,7 +813,7 @@
     {
       "diagram": {
         "id": 52,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Strategies for Portability",
         "description": [
                 ""
@@ -778,7 +911,7 @@
     {
       "diagram": {
         "id": 8,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Strategies for Reliability/A.+F.T.+R.",
         "description": [
                 "This diagram shows examples - not aiming for completeness."
@@ -1465,7 +1598,7 @@
     {
       "diagram": {
         "id": 51,
-        "type": "Component Diagram", "diagram_type": 31,
+        "type": "Class Diagram", "diagram_type": 34,
         "name": "Strategies for Compatibility",
         "description": [
                 ""
@@ -1495,6 +1628,12 @@
             "node": "237779b9-5980-48c3-91dd-8e55562cac2e",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "31764c20-7866-43ea-a085-da78de181ec8"
+          },
+          {
+            "id": 524,
+            "classifier_name": "No singletons",
+            "node": "4e88cea1-9f50-421a-b154-dc05261bd9ef",
+            "uuid": "486654dc-22a7-4a5e-ad64-6743fdb40120"
           }
         ]
       }
@@ -3732,7 +3871,7 @@
         "type": "Class", "main_type": 125,
         "name": "Appropriateness",
         "description": [
-                ""
+                "Checks if tasks can be soved without unnecessary effort"
         ],
         "x_order": -2141488973,
         "y_order": -2133626947,
@@ -3783,7 +3922,7 @@
         "type": "Class", "main_type": 125,
         "name": "Completeness",
         "description": [
-                ""
+                "Checks if all specified behavior is implemented"
         ],
         "x_order": -615086240,
         "y_order": -2133626947,
@@ -3970,7 +4109,7 @@
         "type": "Class", "main_type": 125,
         "name": "Coexistence",
         "description": [
-                ""
+                "Entities share environment and resources with others"
         ],
         "x_order": 1708630526,
         "y_order": -2082256020,
@@ -3987,7 +4126,7 @@
         "type": "Class", "main_type": 125,
         "name": "Interoperability",
         "description": [
-                ""
+                "Entities can exchange information"
         ],
         "x_order": 1708630526,
         "y_order": -2082043851,
@@ -7993,8 +8132,8 @@
                 "  an operator by an error log,\n",
                 "7) if and how to resume operation."
         ],
-        "x_order": 2071658820,
-        "y_order": -2139190401,
+        "x_order": 2077213554,
+        "y_order": -2139397556,
         "list_order": -2135714765,
         "uuid": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
         "features":
@@ -9932,6 +10071,208 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 312,
+        "type": "Class", "main_type": 125,
+        "stereotype": "principle",
+        "name": "Responsiveness",
+        "description": [
+                "Do not block user interaction by calculating or waiting tasks."
+        ],
+        "x_order": 1777639370,
+        "y_order": -2137169202,
+        "list_order": -2137169202,
+        "uuid": "4ae0b6d9-ee90-4cf0-81f0-a5518ca01961",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 313,
+        "type": "Class", "main_type": 125,
+        "stereotype": "principle",
+        "name": "Coherence in accepting User Input",
+        "description": [
+                ""
+        ],
+        "x_order": -749692466,
+        "y_order": -2129099671,
+        "list_order": -2131531516,
+        "uuid": "c2b33f6b-8905-48d4-b9f1-bfd1bc795bc8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 314,
+        "type": "Class", "main_type": 125,
+        "stereotype": "principle",
+        "name": "Coherence in showing status and results",
+        "description": [
+                ""
+        ],
+        "x_order": 1777639370,
+        "y_order": -2132958653,
+        "list_order": -2133129295,
+        "uuid": "269a691e-f6d6-4734-90e3-fc9fe153901c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 315,
+        "type": "Class", "main_type": 125,
+        "stereotype": "principle",
+        "name": "No Dead End",
+        "description": [
+                ""
+        ],
+        "x_order": 2071658820,
+        "y_order": -2140536650,
+        "list_order": -2140536650,
+        "uuid": "100483ea-5dca-42b1-bd74-ac40226adc5e",
+        "features":
+        [
+          {
+            "id": 113,
+            "type": "Operation", "main_type": 1,
+            "key": "Use Cases",
+            "value": "Every post condition of one is a valid precondition for another",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "adc9673d-eac2-487c-b58e-cefed8168519"
+          },
+          {
+            "id": 114,
+            "type": "Operation", "main_type": 1,
+            "key": "Activities",
+            "value": "Every final node of a flow allows to start another activity flow",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "695821bf-28f6-41ae-9c9d-18112c7c6869"
+          },
+          {
+            "id": 115,
+            "type": "Operation", "main_type": 1,
+            "key": "Errors",
+            "value": "Every error condition has a use case or activity to handle it",
+            "description": [
+                ""
+            ],
+            "list_order": 98304,
+            "uuid": "da7a0778-d52c-47e2-9338-a8a358f18dcf"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 316,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Log and compare resource consumption",
+        "description": [
+                ""
+        ],
+        "x_order": -2145542272,
+        "y_order": -2140536650,
+        "list_order": -2140536650,
+        "uuid": "3d1969e2-073f-4874-a461-44bb6682f1b1",
+        "features":
+        [
+          {
+            "id": 116,
+            "type": "Operation", "main_type": 1,
+            "key": "CPU time",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "0703fa93-43ff-4239-b060-52d505995887"
+          },
+          {
+            "id": 117,
+            "type": "Operation", "main_type": 1,
+            "key": "Screen refreshes",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "0832264d-432a-4ee9-a4c4-e2b615a16306"
+          },
+          {
+            "id": 118,
+            "type": "Operation", "main_type": 1,
+            "key": "Network traffic",
+            "description": [
+                ""
+            ],
+            "list_order": 98304,
+            "uuid": "918c2679-f730-47c6-94b1-08445f85d5a1"
+          },
+          {
+            "id": 119,
+            "type": "Operation", "main_type": 1,
+            "key": "RAM memory",
+            "description": [
+                ""
+            ],
+            "list_order": 131072,
+            "uuid": "8fbcb0d8-90e6-41f6-bd8d-72ba14173e92"
+          },
+          {
+            "id": 120,
+            "type": "Operation", "main_type": 1,
+            "key": "Storage memory",
+            "description": [
+                ""
+            ],
+            "list_order": 163840,
+            "uuid": "8c957bbb-19cd-40b0-a905-a1ea81706df5"
+          },
+          {
+            "id": 121,
+            "type": "Operation", "main_type": 1,
+            "key": "Task latency",
+            "description": [
+                ""
+            ],
+            "list_order": 196608,
+            "uuid": "5a8227fc-63bc-4cec-949d-8b9a44e2acc5"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 317,
+        "type": "Class", "main_type": 125,
+        "stereotype": "principle",
+        "name": "No singletons",
+        "description": [
+                "If entities share resources, one may have to wait for another to finish before ",
+                "continuing the own task."
+        ],
+        "x_order": 1744077574,
+        "y_order": -2082150314,
+        "list_order": -2082150314,
+        "uuid": "4e88cea1-9f50-421a-b154-dc05261bd9ef",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -10895,6 +11236,22 @@
         "to_classifier_name": "Fault Tolerance",
         "to_node": "8066b80c-2170-4243-a1be-e8b0246701d7",
         "uuid": "a93e9304-9b5d-4049-be4b-d7314ecbe42a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 385,
+        "type": "Association", "main_type": 200,
+        "name": "checks for",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Fault injection Tests",
+        "from_node": "730e9920-d5af-484e-8d1c-cf07ea3b6c2d",
+        "to_classifier_name": "Correctness",
+        "to_node": "63c02458-d018-489a-bde3-c3aa1bda9d7a",
+        "uuid": "2bf5c7df-a044-4c92-90a8-80cc79721f86"
       }
     },
     {
@@ -14961,6 +15318,151 @@
         "to_classifier_name": "Integrity",
         "to_node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
         "uuid": "4a8dbdbd-1e55-41d4-a40e-a6434fc2c660"
+      }
+    },
+    {
+      "relationship": {
+        "id": 377,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Responsiveness",
+        "from_node": "4ae0b6d9-ee90-4cf0-81f0-a5518ca01961",
+        "to_classifier_name": "Operability",
+        "to_node": "4a7af1ad-72a9-4b1a-a6f7-9e983f152744",
+        "uuid": "279302a3-c38f-47d6-b1b8-2d1f7cce6b95"
+      }
+    },
+    {
+      "relationship": {
+        "id": 378,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Responsiveness",
+        "from_node": "4ae0b6d9-ee90-4cf0-81f0-a5518ca01961",
+        "to_classifier_name": "User Error Protection",
+        "to_node": "108ab8ad-0a0b-4df1-8dbe-f421a9cde4d4",
+        "uuid": "80435877-a297-4284-bd37-6dbc57173f94"
+      }
+    },
+    {
+      "relationship": {
+        "id": 380,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Coherence in accepting User Input",
+        "from_node": "c2b33f6b-8905-48d4-b9f1-bfd1bc795bc8",
+        "to_classifier_name": "Learnability",
+        "to_node": "733dcb73-f52c-4a4b-991b-1b757c1bd140",
+        "uuid": "68b66b76-310f-4fe4-b176-f7a20133c674"
+      }
+    },
+    {
+      "relationship": {
+        "id": 381,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Coherence in accepting User Input",
+        "from_node": "c2b33f6b-8905-48d4-b9f1-bfd1bc795bc8",
+        "to_classifier_name": "Operability",
+        "to_node": "4a7af1ad-72a9-4b1a-a6f7-9e983f152744",
+        "uuid": "9f934782-44a3-4e28-9da1-559d7bbda4c0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 379,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Coherence in showing status and results",
+        "from_node": "269a691e-f6d6-4734-90e3-fc9fe153901c",
+        "to_classifier_name": "Learnability",
+        "to_node": "733dcb73-f52c-4a4b-991b-1b757c1bd140",
+        "uuid": "f402d668-dc4a-4191-92f1-0c03a5da5ad2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 382,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Coherence in showing status and results",
+        "from_node": "269a691e-f6d6-4734-90e3-fc9fe153901c",
+        "to_classifier_name": "Recognizability",
+        "to_node": "d7e8f130-ce2c-481d-b7a3-9dac989da6cb",
+        "uuid": "057ade17-9a6a-48b9-a238-229e1eeecba0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 383,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "No Dead End",
+        "from_node": "100483ea-5dca-42b1-bd74-ac40226adc5e",
+        "to_classifier_name": "Completeness",
+        "to_node": "5816fc48-eb17-4876-a0c9-fafd9aec11ba",
+        "uuid": "49f7e36d-dc49-4335-9e1d-46f0b4dee8fa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 384,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Log and compare resource consumption",
+        "from_node": "3d1969e2-073f-4874-a461-44bb6682f1b1",
+        "to_classifier_name": "Appropriateness",
+        "to_node": "f986f420-5247-4585-a58c-1f5c3280e729",
+        "uuid": "07376b7d-09d5-4486-8502-a1bb67d42ec2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 386,
+        "type": "Association", "main_type": 200,
+        "name": "supports",
+        "description": [
+                "If a single resource needs to be shared between entities, these may have to ",
+                "wait; latencies may increase."
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "No singletons",
+        "from_node": "4e88cea1-9f50-421a-b154-dc05261bd9ef",
+        "to_classifier_name": "Coexistence",
+        "to_node": "f8f99d9e-0bf6-4811-9e11-f5bcd6478cc0",
+        "uuid": "4a71fba6-3353-4e9d-b285-e6748d4cfe47"
       }
     }
   ]

@@ -1016,12 +1016,6 @@
             "uuid": "d9acf045-2523-4fdf-8051-1e1db40e4761"
           },
           {
-            "id": 357,
-            "classifier_name": "Perform repair tactic",
-            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
-            "uuid": "3c65860f-87d6-47bb-a61d-6d48dcc4d61f"
-          },
-          {
             "id": 358,
             "classifier_name": "SYS-Req: Position screw driver",
             "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
@@ -1034,6 +1028,24 @@
             "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
             "display_tags": "Gray", "display_flags": 33554432,
             "uuid": "cf44065e-107b-4162-96bd-b5bf0d5dfa18"
+          },
+          {
+            "id": 458,
+            "classifier_name": "Plan repair strategy",
+            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "uuid": "024a3ca1-7cc9-490d-bb3f-c6c8cc3b9f6a"
+          },
+          {
+            "id": 459,
+            "classifier_name": "Perform repair tactic",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "6884f754-99eb-4ee9-9612-4480c9e03eb4"
+          },
+          {
+            "id": 460,
+            "classifier_name": "Perform movement tactic",
+            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "uuid": "03aeea79-a6b7-4ad1-90eb-f3e573da344b"
           }
         ]
       }
@@ -1124,17 +1136,71 @@
     },
     {
       "diagram": {
-        "id": 51,
+        "id": 72,
         "type": "Block Definition Diagram", "diagram_type": 4,
         "stereotype": "locigal_form",
         "name": "Logical View",
         "description": [
-                "This view maps the functions to a form.\n",
-                ""
+                "This section maps the functions to a form (Solution Space, System Level).\n",
+                "\n",
+                "Starting with this diagram, the logical blocks and their connections are shown. ",
+                "\n",
+                "\n",
+                "The subchapters D0051#name and D0069#name show the allocation of functios to ",
+                "these."
         ],
-        "list_order": 127392,
+        "list_order": 143568,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "uuid": "3a1a91c0-7883-448c-b17d-ae15db9bb668",
+        "diagramelements":
+        [
+          {
+            "id": 453,
+            "classifier_name": "Main Strategy Planning",
+            "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+            "uuid": "23af1e7c-539a-4ca3-a637-b0bc47f080f7"
+          },
+          {
+            "id": 454,
+            "classifier_name": "Base Tactic Execution",
+            "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+            "uuid": "5c267a50-5f38-4f52-8896-6346d002d449"
+          },
+          {
+            "id": 455,
+            "classifier_name": "Wheels with Engine",
+            "node": "7b74542b-1c58-49df-a502-e58cc4ff5777",
+            "uuid": "42be7a2f-6d1c-45d0-b114-7129cce212a2"
+          },
+          {
+            "id": 456,
+            "classifier_name": "Tool-Arm with Motors",
+            "node": "af39338e-c11f-4641-b1d3-d8d1cdc49a22",
+            "uuid": "ee694c76-a375-4948-ae24-15e19193056e"
+          },
+          {
+            "id": 457,
+            "classifier_name": "Camera Subsystem",
+            "node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+            "uuid": "2e072686-018a-4699-8b39-ffbe3b9ad7e3"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 51,
+        "type": "Block Definition Diagram", "diagram_type": 4,
+        "stereotype": "locigal_form",
+        "name": "Logical View on Main and Base Execution Blocks",
+        "description": [
+                "The functions identified in D0050#name are allocated to locical blocks. \n",
+                ""
+        ],
+        "list_order": -1610612736,
+        "parent_name": "Logical View",
+        "parent": "3a1a91c0-7883-448c-b17d-ae15db9bb668",
         "uuid": "0a061bdf-1c88-4f16-9a75-f73a0bc8ae42",
         "diagramelements":
         [
@@ -1190,9 +1256,9 @@
         "description": [
                 "The functions identified in D0050#name are allocated to locical blocks. "
         ],
-        "list_order": 32768,
+        "list_order": -1073741824,
         "parent_name": "Logical View",
-        "parent": "0a061bdf-1c88-4f16-9a75-f73a0bc8ae42",
+        "parent": "3a1a91c0-7883-448c-b17d-ae15db9bb668",
         "uuid": "09b1b46a-3eaf-4e91-bda0-9bd2f7a89a1e",
         "diagramelements":
         [
@@ -3554,8 +3620,8 @@
                 "- spying and surveillance tasks\n",
                 "- message delivery"
         ],
-        "x_order": 329295460,
-        "y_order": -586627176,
+        "x_order": -773692780,
+        "y_order": -1049299704,
         "list_order": -586627176,
         "uuid": "37777305-f8d0-4f99-8a24-b7a39e022659",
         "features":
@@ -8296,7 +8362,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1506783247,
+        "x_order": -901501342,
         "y_order": -1021307211,
         "list_order": -1021307211,
         "uuid": "7b74542b-1c58-49df-a502-e58cc4ff5777",
@@ -8314,8 +8380,8 @@
         "description": [
                 "locigal_form"
         ],
-        "x_order": -602991231,
-        "y_order": -1720202308,
+        "x_order": 2001393748,
+        "y_order": -1021307211,
         "list_order": -1720202308,
         "uuid": "af39338e-c11f-4641-b1d3-d8d1cdc49a22",
         "features":
@@ -8332,8 +8398,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1506783247,
-        "y_order": -1720202308,
+        "x_order": -1392758694,
+        "y_order": -1952244370,
         "list_order": -1720202308,
         "uuid": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
         "features":
@@ -8348,7 +8414,7 @@
         "stereotype": "feature",
         "name": "30 years operation time",
         "description": [
-                "The MoD5G shall be designed for a lifetime of 30 years."
+                "The MoD5G shall be designed for a lifetime and service-time of 30 years."
         ],
         "x_order": 1858836500,
         "y_order": -29093700,
@@ -13054,6 +13120,22 @@
     },
     {
       "relationship": {
+        "id": 429,
+        "type": "Trace", "main_type": 401,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "Plan repair strategy",
+        "from_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+        "to_classifier_name": "SYS-Req: Position screw driver",
+        "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "uuid": "316b6623-a094-47c7-bd32-869e8246fd66"
+      }
+    },
+    {
+      "relationship": {
         "id": 290,
         "type": "Communication Path", "main_type": 230,
         "name": "",
@@ -13068,6 +13150,22 @@
         "to_feature_key": "ctrl",
         "to_node": "ce62d2c3-c8b1-4018-8daf-916c64a1d085",
         "uuid": "e8483bd4-d3f9-4059-97d9-f32e91ebe089"
+      }
+    },
+    {
+      "relationship": {
+        "id": 427,
+        "type": "Trace", "main_type": 401,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "Perform movement tactic",
+        "from_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+        "to_classifier_name": "SYS-Req: Recognize paths",
+        "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "uuid": "1bf5f9c0-1ee0-4c2b-8d20-91c44495b67c"
       }
     },
     {
@@ -13106,6 +13204,22 @@
     },
     {
       "relationship": {
+        "id": 428,
+        "type": "Communication Path", "main_type": 230,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "Perform repair tactic",
+        "from_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+        "to_classifier_name": "SYS-Req: Position screw driver",
+        "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "uuid": "62f3a4a3-bcc7-4711-b7d3-92878088af11"
+      }
+    },
+    {
+      "relationship": {
         "id": 292,
         "type": "Containment", "main_type": 300,
         "name": "",
@@ -13138,6 +13252,22 @@
     },
     {
       "relationship": {
+        "id": 424,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Main Strategy Planning",
+        "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "to_classifier_name": "Base Tactic Execution",
+        "to_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "uuid": "b69ee3e7-73d8-4355-8ae3-c7e3289a4d6e"
+      }
+    },
+    {
+      "relationship": {
         "id": 294,
         "type": "Containment", "main_type": 300,
         "name": "",
@@ -13166,6 +13296,38 @@
         "to_classifier_name": "Perform repair tactic",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "uuid": "66eeb5c2-c638-4426-9cb4-f987c09923cb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 425,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Base Tactic Execution",
+        "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "to_classifier_name": "Tool-Arm with Motors",
+        "to_node": "af39338e-c11f-4641-b1d3-d8d1cdc49a22",
+        "uuid": "dec519fe-a87e-4d22-880c-46722aa411df"
+      }
+    },
+    {
+      "relationship": {
+        "id": 426,
+        "type": "Control Flow", "main_type": 240,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Base Tactic Execution",
+        "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "to_classifier_name": "Wheels with Engine",
+        "to_node": "7b74542b-1c58-49df-a502-e58cc4ff5777",
+        "uuid": "781545e4-d5ce-4c6b-9adf-ff2cff5b0ded"
       }
     },
     {
@@ -13970,6 +14132,22 @@
         "to_classifier_name": "Recognize objects to repair",
         "to_node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
         "uuid": "7d41a34d-4402-4e86-83bd-075c125ae617"
+      }
+    },
+    {
+      "relationship": {
+        "id": 423,
+        "type": "Object Flow", "main_type": 241,
+        "name": "detected objects",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Camera Subsystem",
+        "from_node": "0860e04c-0b1c-4b6f-a888-ff1996f3c3a2",
+        "to_classifier_name": "Main Strategy Planning",
+        "to_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "uuid": "ec0ae457-107a-4bf7-bcc6-0a3114400cdb"
       }
     }
   ]

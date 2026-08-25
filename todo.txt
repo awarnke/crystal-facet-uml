@@ -24,6 +24,7 @@ ideas for future versions:
   [?] to pink-mark several objects - require shift key
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
   [ ] In Nav+Search view, no linebreaks are introduced to long words in titles
+  [ ] In Nav-View, allow to scroll like in search view.
   [ ] Toggle a Dark Mode
   @pencil
   [?] Asynchronous calls shall be slightly diagonal

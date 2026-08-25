@@ -287,6 +287,9 @@ static inline void geometry_compartments_trace( const geometry_compartments_t *t
 {
     U8_TRACE_INFO( "geometry_compartments_t" );
     geometry_dimensions_trace( &((*this_).feature_compartments) );
+    U8_TRACE_INFO_INT( "- has_properties:", (int)(*this_).has_properties );
+    U8_TRACE_INFO_INT( "- has_operations:", (int)(*this_).has_operations );
+    U8_TRACE_INFO_INT( "- has_tagged_values:", (int)(*this_).has_tagged_values );
     U8_TRACE_INFO_INT( "- port_height_on_left:", (*this_).port_height_on_left );
     U8_TRACE_INFO_INT( "- port_height_on_right:", (*this_).port_height_on_right );
     U8_TRACE_INFO_INT( "- port_width_on_top:", (*this_).port_width_on_top );
