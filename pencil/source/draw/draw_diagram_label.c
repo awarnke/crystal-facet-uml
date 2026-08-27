@@ -272,6 +272,52 @@ void draw_diagram_label_draw_type_and_name ( draw_diagram_label_t *this_,
     U8_TRACE_END();
 }
 
+void draw_diagram_label_draw_id( draw_diagram_label_t *this_,
+                                 const data_diagram_t *diagram,
+                                 const GdkRGBA *color,
+                                 const geometry_rectangle_t *label_box,
+                                 const pencil_size_t *pencil_size,
+                                 PangoLayout *font_layout,
+                                 cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != diagram );
+    assert( NULL != color );
+    assert( NULL != label_box );
+    assert( NULL != pencil_size );
+    assert( NULL != font_layout );
+    assert( NULL != cr );
+
+    /* prepare text */
+    const data_id_t the_id = data_diagram_get_data_id( diagram );
+
+    char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+5];
+    utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+    utf8stringbuf_copy_str( &id_str, "{id=" );
+    data_id_to_utf8stringbuf( &the_id, id_str );
+    utf8stringbuf_append_str( &id_str, "}" );
+
+    int text4_width;
+    int text4_height;
+    pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
+    pango_layout_set_text( font_layout, utf8stringbuf_get_string( &id_str ), -1 );
+    pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
+    text4_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+    text4_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
+
+    /* draw text */
+    const double top = geometry_rectangle_get_top ( label_box );
+    const double right = geometry_rectangle_get_right ( label_box );
+    cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
+    cairo_move_to( cr,
+                   ceil( right - text4_width ),
+                   ceil( top )
+                 );  /* align font with pixel border */
+    pango_cairo_show_layout( cr, font_layout );
+
+    U8_TRACE_END();
+}
+
 
 /*
 Copyright 2017-2026 Andreas Warnke

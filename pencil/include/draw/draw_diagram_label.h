@@ -91,6 +91,26 @@ void draw_diagram_label_draw_type_and_name( draw_diagram_label_t *this_,
                                             cairo_t *cr
                                           );
 
+/*!
+ *  \brief renders id of the diagram.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram the diagram to draw
+ *  \param color color to draw text
+ *  \param label_box the rectangle where to draw to
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param cr the cairo drawing context.
+ */
+void draw_diagram_label_draw_id( draw_diagram_label_t *this_,
+                                 const data_diagram_t *diagram,
+                                 const GdkRGBA *color,
+                                 const geometry_rectangle_t *label_box,
+                                 const pencil_size_t *pencil_size,
+                                 PangoLayout *font_layout,
+                                 cairo_t *cr
+                               );
+
 #endif  /* DRAW_DIAGRAM_LABEL_H */
 
 
