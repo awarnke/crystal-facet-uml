@@ -301,7 +301,7 @@ void draw_diagram_label_draw_id( draw_diagram_label_t *this_,
     int text4_height;
     pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
     pango_layout_set_text( font_layout, utf8stringbuf_get_string( &id_str ), -1 );
-    pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
+    pango_layout_get_pixel_size( font_layout, &text4_width, &text4_height );
     text4_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
     text4_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
 
