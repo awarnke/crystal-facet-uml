@@ -972,6 +972,12 @@
             "classifier_name": "Error Handling Concept",
             "node": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
             "uuid": "dcc3a45a-a80d-4f38-a641-124cd268f099"
+          },
+          {
+            "id": 550,
+            "classifier_name": "Load balancer",
+            "node": "78181a19-625b-4d97-82d4-ab3711aa35e6",
+            "uuid": "14105ff6-2bcc-4f02-b582-ba334acc2ddb"
           }
         ]
       }
@@ -1023,7 +1029,7 @@
           },
           {
             "id": 343,
-            "classifier_name": "inform stakeholder",
+            "classifier_name": "inform operator/user",
             "node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
             "uuid": "275b65ba-2b8f-48bc-b502-e3782fc844c9"
           },
@@ -1561,6 +1567,60 @@
     },
     {
       "diagram": {
+        "id": 58,
+        "type": "Component Diagram", "diagram_type": 31,
+        "name": "Latency Optimizing Strategies",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "parent_name": "Strategies for Performance Efficiency",
+        "parent": "9458b3ac-ad10-4844-8f43-ec9be7e28d74",
+        "uuid": "bc9c82ea-4922-4e16-a6fa-98e80b500766",
+        "diagramelements":
+        [
+          {
+            "id": 545,
+            "classifier_name": "Time Behaviour",
+            "node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "6adfc310-b957-4e93-9337-869555e0d033"
+          },
+          {
+            "id": 546,
+            "classifier_name": "Optimize/best effort latency",
+            "node": "67cd0a1b-3623-443d-a641-4cd255f5d2a4",
+            "uuid": "319d7e73-35d5-4860-8474-a164a3573d58"
+          },
+          {
+            "id": 547,
+            "classifier_name": "Guaranteed latency",
+            "node": "6bc4cea4-7872-41d2-9ce5-7eb7d23b4967",
+            "uuid": "bdd1cb25-7ed8-4532-a0ff-de5875a1cd16"
+          },
+          {
+            "id": 548,
+            "classifier_name": "Caching",
+            "node": "3eb675a0-b348-49d4-a82d-20955f6e9654",
+            "uuid": "34e7fc7d-ab68-41be-b400-0a198a128134"
+          },
+          {
+            "id": 549,
+            "classifier_name": "Deterministic Scheduler",
+            "node": "8a14afa8-df29-4e92-8f19-92d4b3315c9c",
+            "uuid": "f1523a33-be90-4430-ae45-c62f3b142b59"
+          },
+          {
+            "id": 553,
+            "classifier_name": "Define Filtering, Sorting, Pageing into API",
+            "node": "9c8aa2b2-4bcb-4b6a-9de9-25716a9329a7",
+            "uuid": "fc5dfef7-22c5-4f50-8f35-f443a1217441"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 44,
         "type": "Requirement Diagram", "diagram_type": 9,
         "name": "Compatibility",
@@ -1955,6 +2015,42 @@
             "classifier_name": "Version Compatible",
             "node": "044e7a90-11c3-4c19-ad6e-66ed95d1cae7",
             "uuid": "48d99a47-50f5-489e-95cd-2f058b2b5845"
+          },
+          {
+            "id": 552,
+            "classifier_name": "Define Filtering, Sorting, Pageing into API",
+            "node": "9c8aa2b2-4bcb-4b6a-9de9-25716a9329a7",
+            "uuid": "72ab4499-e795-445e-a1c7-330cf99b34d2"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 59,
+        "type": "Class Diagram", "diagram_type": 34,
+        "name": "Tactics for Modularity",
+        "description": [
+                ""
+        ],
+        "list_order": 1073790975,
+        "parent_name": "Strategies for Maintainability",
+        "parent": "f05046bc-aaa3-4403-a40f-1f2dee29bc6a",
+        "uuid": "c7ae89e3-2f9f-471e-ba38-4e0537b5507f",
+        "diagramelements":
+        [
+          {
+            "id": 554,
+            "classifier_name": "Modularity",
+            "node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
+            "display_tags": "Gray", "display_flags": 33554432,
+            "uuid": "2f7abd86-f46e-4ae9-a78d-37b527a7d8f9"
+          },
+          {
+            "id": 555,
+            "classifier_name": "SAGA Pattern",
+            "node": "c70e29db-3f4a-4472-90c2-33959aaf83fd",
+            "uuid": "00bff0ca-1283-4af2-bd31-7e6080a5cc59"
           }
         ]
       }
@@ -2128,6 +2224,12 @@
             "classifier_name": "Declare all interfaces",
             "node": "5337dc66-cfda-4f39-8d1d-efe68ba73a2a",
             "uuid": "66df2f46-e540-4327-b83b-9007e1533e0f"
+          },
+          {
+            "id": 551,
+            "classifier_name": "Rate Limiter",
+            "node": "61131db9-c83e-4ee2-80a4-ae0c117c9bf0",
+            "uuid": "de648a11-e9b5-410f-a6a5-2719ee5b78a0"
           }
         ]
       }
@@ -5231,7 +5333,19 @@
         "stereotype": "concept",
         "name": "Partitioning",
         "description": [
-                "synonym for Compartments\n",
+                "This concept separates data and/or excution environments. Partition is a ",
+                "synonym for Compartment.\n",
+                "\n",
+                "This separation allows to enhance security by encapsulating attacks, enhance ",
+                "safety by separating function and monitor, manage complexity by splitting ",
+                "functions into rather independant partitions.\n",
+                "\n",
+                "There are also physical reasons for partitioning: If e.g. sensors and actuators ",
+                "are distributed over different locations, one may first want to aggregate these ",
+                "locally and then communicate to a central controller.\n",
+                "\n",
+                "The downside of partitioning is stated by the CAP theorem: Only two of three ",
+                "properties are possible: Consistency, Availability and Partitioning.\n",
                 "\n",
                 "see D0017#name."
         ],
@@ -8434,10 +8548,9 @@
       "classifier": {
         "id": 227,
         "type": "Activity", "main_type": 110,
-        "name": "inform stakeholder",
+        "name": "inform operator/user",
         "description": [
                 "stakeholders may be:\n",
-                "- developer\n",
                 "- operator\n",
                 "- user"
         ],
@@ -9844,8 +9957,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1421381224,
-        "y_order": -2082921651,
+        "x_order": 1486357262,
+        "y_order": 619331017,
         "list_order": -2083087398,
         "uuid": "aaf54be0-7842-43e5-bbc0-7f3e0485ac89",
         "features":
@@ -9963,8 +10076,8 @@
                 "Interfaces between SW components are defined so that old clients can operate ",
                 "with new services and vice versa."
         ],
-        "x_order": 1486357262,
-        "y_order": -2082258624,
+        "x_order": 1198229110,
+        "y_order": 619331017,
         "list_order": -2082258624,
         "uuid": "044e7a90-11c3-4c19-ad6e-66ed95d1cae7",
         "features":
@@ -10789,6 +10902,157 @@
         "y_order": -489754249,
         "list_order": -624641585,
         "uuid": "2fe57bf4-aa18-4891-987b-c5ed44c56181",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 338,
+        "type": "Package", "main_type": 124,
+        "name": "Optimize/best effort latency",
+        "description": [
+                ""
+        ],
+        "x_order": 441257053,
+        "y_order": -2106033169,
+        "list_order": -2106033169,
+        "uuid": "67cd0a1b-3623-443d-a641-4cd255f5d2a4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 339,
+        "type": "Package", "main_type": 124,
+        "name": "Guaranteed latency",
+        "description": [
+                ""
+        ],
+        "x_order": 337177901,
+        "y_order": -1640270830,
+        "list_order": -1640270830,
+        "uuid": "6bc4cea4-7872-41d2-9ce5-7eb7d23b4967",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 340,
+        "type": "Component", "main_type": 121,
+        "stereotype": "concept",
+        "name": "Caching",
+        "description": [
+                ""
+        ],
+        "x_order": 661518897,
+        "y_order": -2100000058,
+        "list_order": -2100000058,
+        "uuid": "3eb675a0-b348-49d4-a82d-20955f6e9654",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 341,
+        "type": "Component", "main_type": 121,
+        "stereotype": "concept",
+        "name": "Deterministic Scheduler",
+        "description": [
+                "Planned Time Slices"
+        ],
+        "x_order": 661518897,
+        "y_order": 619331017,
+        "list_order": -759686975,
+        "uuid": "8a14afa8-df29-4e92-8f19-92d4b3315c9c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 342,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Load balancer",
+        "description": [
+                ""
+        ],
+        "x_order": 2071658820,
+        "y_order": -2082470503,
+        "list_order": -2082470503,
+        "uuid": "78181a19-625b-4d97-82d4-ab3711aa35e6",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 343,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Rate Limiter",
+        "description": [
+                "To resist denial of service attacks, a maximum rate for incoming requests is ",
+                "established."
+        ],
+        "x_order": 2071561721,
+        "y_order": -2082276215,
+        "list_order": -2082276215,
+        "uuid": "61131db9-c83e-4ee2-80a4-ae0c117c9bf0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 344,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "Define Filtering, Sorting, Pageing into API",
+        "description": [
+                "If a client of an API has to request more data than needed or gets this in a ",
+                "wrong order, the communication may get inefficient."
+        ],
+        "x_order": 1186635430,
+        "y_order": 619331017,
+        "list_order": 55612986,
+        "uuid": "9c8aa2b2-4bcb-4b6a-9de9-25716a9329a7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 345,
+        "type": "Class", "main_type": 125,
+        "stereotype": "concept",
+        "name": "SAGA Pattern",
+        "description": [
+                "SAGA defines a roll-back strategy for a sequence of functions.\n",
+                "\n",
+                "When decompositioning a sequence of functions into functions and executing ",
+                "these one by one,\n",
+                "any function may fail.\n",
+                "\n",
+                "SAGA requires each succssful function to keep a compensation function so that ",
+                "the whole sequence can be rolled back in case a subsequent function fails."
+        ],
+        "x_order": 1862218218,
+        "y_order": -2096896521,
+        "list_order": -2084513667,
+        "uuid": "c70e29db-3f4a-4472-90c2-33959aaf83fd",
         "features":
         [
         ]
@@ -14508,7 +14772,7 @@
         "list_order": -2139650113,
         "from_classifier_name": "Error Handling Example",
         "from_node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
-        "to_classifier_name": "inform stakeholder",
+        "to_classifier_name": "inform operator/user",
         "to_node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
         "uuid": "af60fdc6-cffc-4607-bc44-52fe5191677e"
       }
@@ -14572,7 +14836,7 @@
         "list_order": 1017296,
         "from_classifier_name": "propagate and re-interpret",
         "from_node": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
-        "to_classifier_name": "inform stakeholder",
+        "to_classifier_name": "inform operator/user",
         "to_node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
         "uuid": "1c571c8f-4c0c-4f52-a74b-6b621f1b06fc"
       }
@@ -14586,7 +14850,7 @@
                 ""
         ],
         "list_order": 1050064,
-        "from_classifier_name": "inform stakeholder",
+        "from_classifier_name": "inform operator/user",
         "from_node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
         "to_classifier_name": "abort, degrade, retry or continue",
         "to_node": "6688791a-3833-46d9-9465-c5c2c90989b0",
@@ -16320,6 +16584,151 @@
         "to_classifier_name": "end optimized",
         "to_node": "011e13f7-79dc-49a7-9b44-d4d2195104c7",
         "uuid": "0e5aa640-eebf-4284-b41d-08d20dfcb20a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 410,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2100000058,
+        "from_classifier_name": "Optimize/best effort latency",
+        "from_node": "67cd0a1b-3623-443d-a641-4cd255f5d2a4",
+        "to_classifier_name": "Caching",
+        "to_node": "3eb675a0-b348-49d4-a82d-20955f6e9654",
+        "uuid": "bdaccd96-b890-4079-bc2b-e27d615032ae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 412,
+        "type": "Containment", "main_type": 300,
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -759686975,
+        "from_classifier_name": "Guaranteed latency",
+        "from_node": "6bc4cea4-7872-41d2-9ce5-7eb7d23b4967",
+        "to_classifier_name": "Deterministic Scheduler",
+        "to_node": "8a14afa8-df29-4e92-8f19-92d4b3315c9c",
+        "uuid": "66981c49-30e5-4c7d-bfa0-eae52969b479"
+      }
+    },
+    {
+      "relationship": {
+        "id": 411,
+        "type": "Association", "main_type": 200,
+        "name": "improves",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Caching",
+        "from_node": "3eb675a0-b348-49d4-a82d-20955f6e9654",
+        "to_classifier_name": "Time Behaviour",
+        "to_node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
+        "uuid": "dd5489b6-2991-481e-85f7-995acaeaff04"
+      }
+    },
+    {
+      "relationship": {
+        "id": 413,
+        "type": "Association", "main_type": 200,
+        "name": "influences",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Deterministic Scheduler",
+        "from_node": "8a14afa8-df29-4e92-8f19-92d4b3315c9c",
+        "to_classifier_name": "Time Behaviour",
+        "to_node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
+        "uuid": "066c72b6-0f1c-40fe-a010-578e7fe69fcf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 414,
+        "type": "Association", "main_type": 200,
+        "name": "improves",
+        "description": [
+                ""
+        ],
+        "list_order": 951760,
+        "from_classifier_name": "Load balancer",
+        "from_node": "78181a19-625b-4d97-82d4-ab3711aa35e6",
+        "to_classifier_name": "Availability",
+        "to_node": "434e57ae-2dd0-4d37-a8af-c4044307974b",
+        "uuid": "75115575-b1fa-4b21-984e-ddde3d815c18"
+      }
+    },
+    {
+      "relationship": {
+        "id": 415,
+        "type": "Association", "main_type": 200,
+        "name": "",
+        "description": [
+                "To resist denial of service attacks, a maximum rate for incoming requests is ",
+                "established."
+        ],
+        "list_order": 1014224,
+        "from_classifier_name": "Rate Limiter",
+        "from_node": "61131db9-c83e-4ee2-80a4-ae0c117c9bf0",
+        "to_classifier_name": "Resistence",
+        "to_node": "6c94dfde-39f6-4fa2-b5f7-58e0e62c8a3f",
+        "uuid": "e0f1f4e2-d383-4ed8-8aca-601224fa99ab"
+      }
+    },
+    {
+      "relationship": {
+        "id": 416,
+        "type": "Association", "main_type": 200,
+        "name": "",
+        "description": [
+                "support"
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "Define Filtering, Sorting, Pageing into API",
+        "from_node": "9c8aa2b2-4bcb-4b6a-9de9-25716a9329a7",
+        "to_classifier_name": "Modularity",
+        "to_node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
+        "uuid": "15ad830c-6b51-4693-bc8f-11242b863cd0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 417,
+        "type": "Association", "main_type": 200,
+        "name": "optimizes",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Define Filtering, Sorting, Pageing into API",
+        "from_node": "9c8aa2b2-4bcb-4b6a-9de9-25716a9329a7",
+        "to_classifier_name": "Time Behaviour",
+        "to_node": "8799727e-7b56-431c-b5a7-d45bef123cc8",
+        "uuid": "33b59ce6-1cbf-41a2-930f-7c8c17391d56"
+      }
+    },
+    {
+      "relationship": {
+        "id": 418,
+        "type": "Association", "main_type": 200,
+        "name": "compensates consistency",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "SAGA Pattern",
+        "from_node": "c70e29db-3f4a-4472-90c2-33959aaf83fd",
+        "to_classifier_name": "Modularity",
+        "to_node": "617511b6-6be3-4c76-b3d3-b4315cf029ba",
+        "uuid": "4535eb5a-3746-4fa1-b3e8-757edd22914f"
       }
     }
   ]
