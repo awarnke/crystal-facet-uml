@@ -54,7 +54,7 @@ static test_fixture_t * set_up()
     /* remove old database files first */
     int err;
     err = remove( DATABASE_FILENAME );
-    TEST_ENVIRONMENT_ASSERT ( ( 0 == err )|| (( -1 == err )&&( errno == ENOENT )) );
+    TEST_ENVIRONMENT_ASSERT ( ( 0 == err ) || (( -1 == err )&&( errno == ENOENT )) );
 
     /* open a database and initialize a reader and a writer */
     test_fixture_t *fix = &test_fixture;

@@ -101,5 +101,5 @@ ideas for a version 2
   - sysml2 support
   - improve visibility:
     crystal_facet_uml wird bei heise Download gehostet und
-    wurde in den letzten 30 Tagen 102 Mal heruntergeladen,
-    das entspricht dem Download-Rang 588.
+    wurde in den letzten 30 Tagen 115 Mal heruntergeladen,
+    das entspricht dem Download-Rang 548.

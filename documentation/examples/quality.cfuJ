@@ -4134,7 +4134,8 @@
         "type": "Class", "main_type": 125,
         "name": "Appropriateness",
         "description": [
-                "Checks if tasks can be soved without unnecessary effort"
+                "Tasks can be soved without unnecessary waiting-time, interactions, cost or ",
+                "effort"
         ],
         "x_order": -2141488973,
         "y_order": -2133626947,
@@ -4151,7 +4152,7 @@
         "type": "Class", "main_type": 125,
         "name": "Correctness",
         "description": [
-                ""
+                "The functions of the system-of-interest produce the specified result"
         ],
         "x_order": -2141488973,
         "y_order": -2141219072,
@@ -4185,7 +4186,7 @@
         "type": "Class", "main_type": 125,
         "name": "Completeness",
         "description": [
-                "Checks if all specified behavior is implemented"
+                "All specified behavior is implemented"
         ],
         "x_order": -615086240,
         "y_order": -2133626947,
@@ -4236,7 +4237,8 @@
         "type": "Class", "main_type": 125,
         "name": "Resource Utilization",
         "description": [
-                ""
+                "The system-of-interest performs its function with low costs and low ",
+                "resouce-needs"
         ],
         "x_order": -615086240,
         "y_order": -2082238657,
@@ -4324,7 +4326,7 @@
         "type": "Class", "main_type": 125,
         "name": "Operability",
         "description": [
-                ""
+                "A user/operator can easily control the functions of the system-of-interest"
         ],
         "x_order": 1017473300,
         "y_order": -2141219072,
@@ -4341,7 +4343,8 @@
         "type": "Class", "main_type": 125,
         "name": "Time Behaviour",
         "description": [
-                ""
+                "The system-of-interest performs its function with low startup-times, high ",
+                "throughput rates, low latency, low jitter"
         ],
         "x_order": -2141488973,
         "y_order": -2082238657,
@@ -4358,7 +4361,7 @@
         "type": "Class", "main_type": 125,
         "name": "Capacity",
         "description": [
-                ""
+                "The system-of-interest can serve multiple requests or handle multiple streams"
         ],
         "x_order": -615086240,
         "y_order": -2082235199,
@@ -4409,7 +4412,8 @@
         "type": "Class", "main_type": 125,
         "name": "Accessibility",
         "description": [
-                ""
+                "Different users/operators in different contexts can easily operate the ",
+                "functions of the system-of-interest"
         ],
         "x_order": 1708630526,
         "y_order": -2129099671,
@@ -4426,7 +4430,8 @@
         "type": "Class", "main_type": 125,
         "name": "Recognizability",
         "description": [
-                ""
+                "A user/operator can easily recognize if the functions of the system-of-interest ",
+                "are appropriate for the intended task"
         ],
         "x_order": 1708630526,
         "y_order": -2141219072,
@@ -4443,7 +4448,7 @@
         "type": "Class", "main_type": 125,
         "name": "Aesthetics",
         "description": [
-                ""
+                "A user/operator values the interface towards the system-of-interest"
         ],
         "x_order": 1708630526,
         "y_order": -2133626947,
@@ -4460,7 +4465,7 @@
         "type": "Class", "main_type": 125,
         "name": "Learnability",
         "description": [
-                ""
+                "A user/operator can easily learn how to use the system-of-interest"
         ],
         "x_order": 1017473300,
         "y_order": -2129099671,
@@ -4477,7 +4482,8 @@
         "type": "Class", "main_type": 125,
         "name": "User Error Protection",
         "description": [
-                ""
+                "A user/operator can operate the functions of the system-of-interest without ",
+                "causing errors"
         ],
         "x_order": 1017473300,
         "y_order": -2133626947,
@@ -4494,7 +4500,7 @@
         "type": "Class", "main_type": 125,
         "name": "Availability",
         "description": [
-                ""
+                "The system-of-interest can be operated when needed"
         ],
         "x_order": 2042689424,
         "y_order": -2130994995,
@@ -4511,7 +4517,8 @@
         "type": "Class", "main_type": 125,
         "name": "Maturity",
         "description": [
-                ""
+                "The system-of-interest performs its operation reliably over development ",
+                "iterations "
         ],
         "x_order": 2042689424,
         "y_order": -2139190401,
@@ -4528,7 +4535,7 @@
         "type": "Class", "main_type": 125,
         "name": "Fault Tolerance",
         "description": [
-                ""
+                "The system-of-interest can operate even if own hardware or software is faulty"
         ],
         "x_order": 2066864567,
         "y_order": -2139190401,
@@ -4545,7 +4552,8 @@
         "type": "Class", "main_type": 125,
         "name": "Recoverability",
         "description": [
-                ""
+                "The system-of-interest can recover data and operation after a failure or ",
+                "interruption"
         ],
         "x_order": 2066864567,
         "y_order": -2130994995,
@@ -4563,7 +4571,7 @@
         "name": "Non-Repudiation",
         "description": [
                 "Non-Repudiation is a proof:\n",
-                "which person(enitiy) authorized an action (at which time, based on what input)"
+                "which person/entity authorized an action (at which time, based on what input)"
         ],
         "x_order": 2042689424,
         "y_order": -2082043851,
@@ -4580,7 +4588,8 @@
         "type": "Class", "main_type": 125,
         "name": "Confidentiality",
         "description": [
-                ""
+                "The system-of-interest ensures that data/functions are accessible only to ",
+                "authorized users/entities "
         ],
         "x_order": 2066864567,
         "y_order": -2082256020,
@@ -4597,7 +4606,8 @@
         "type": "Class", "main_type": 125,
         "name": "Integrity",
         "description": [
-                ""
+                "The system-of-interest ensures that data/functions are modified only by ",
+                "authorized users/entities "
         ],
         "x_order": 2066864567,
         "y_order": -2082043851,
@@ -4614,7 +4624,7 @@
         "type": "Class", "main_type": 125,
         "name": "Accountability",
         "description": [
-                ""
+                "The system-of-interest can determine if a user is allowed to do perform a task"
         ],
         "x_order": 2042689424,
         "y_order": -2082278036,
@@ -4631,7 +4641,7 @@
         "type": "Class", "main_type": 125,
         "name": "Authenticity",
         "description": [
-                ""
+                "The system-of-interest can determine which user/entity triggers an action"
         ],
         "x_order": 2045633400,
         "y_order": -2082256020,
@@ -4716,7 +4726,8 @@
         "type": "Class", "main_type": 125,
         "name": "Testability",
         "description": [
-                "To determine a level of quality of a product"
+                "The system-of-interest allows to run tests to determine the level of quality of ",
+                "the product"
         ],
         "x_order": 1186635430,
         "y_order": -2082256020,
@@ -7072,7 +7083,8 @@
         "type": "Class", "main_type": 125,
         "name": "Adaptability",
         "description": [
-                ""
+                "The system-of-interest can easily be adapted to changed hardware or software or ",
+                "a new operating environment"
         ],
         "x_order": 1421381224,
         "y_order": -2139190401,
@@ -7089,7 +7101,7 @@
         "type": "Class", "main_type": 125,
         "name": "Replaceability",
         "description": [
-                ""
+                "The system-of-interest can replace another system"
         ],
         "x_order": 1708630526,
         "y_order": -2139190401,
@@ -7106,7 +7118,7 @@
         "type": "Class", "main_type": 125,
         "name": "Installability",
         "description": [
-                ""
+                "The system-of-interest can easily be deployed to an operating environment"
         ],
         "x_order": 1186635430,
         "y_order": -2139190401,
@@ -7646,7 +7658,7 @@
         "type": "Requirement", "main_type": 99,
         "name": "Efficiency",
         "description": [
-                "A user of the system-of-interest gets needed results with low waiting-time and ",
+                "A user of the system-of-interest gets results with low waiting-time and low ",
                 "effort"
         ],
         "x_order": 321461009,
@@ -7664,7 +7676,8 @@
         "type": "Requirement", "main_type": 99,
         "name": "Satisfaction",
         "description": [
-                "A user of the system-of-interest is comfortable with the way how to interact"
+                "A user/operator of the system-of-interest is comfortable with the way how to ",
+                "interact"
         ],
         "x_order": 2099146592,
         "y_order": -1163520015,
@@ -7699,8 +7712,8 @@
         "type": "Requirement", "main_type": 99,
         "name": "Context Coverage",
         "description": [
-                "The system-of-interest produces expected results in different contexts like ",
-                "environment, input-data, overall-task"
+                "The system-of-interest produces expected results in different contexts, e.g. ",
+                "different environments, input-data or overall-task"
         ],
         "x_order": 1708275717,
         "y_order": -1163520015,
@@ -16672,8 +16685,7 @@
         "type": "Association", "main_type": 200,
         "name": "",
         "description": [
-                "To resist denial of service attacks, a maximum rate for incoming requests is ",
-                "established."
+                "supports"
         ],
         "list_order": 1014224,
         "from_classifier_name": "Rate Limiter",
