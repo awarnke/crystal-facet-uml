@@ -34,9 +34,9 @@ test_suite_t utf8string_test_get_suite(void)
     test_suite_t result;
     test_suite_init( &result,
 #ifndef NDEBUG
-                     "utf8StringTest (VARIANT: DEBUG)",
+                     "utf8string (VARIANT: DEBUG)",
 #else
-                     "utf8StringTest (VARIANT: RELEASE)",
+                     "utf8string (VARIANT: RELEASE)",
 #endif
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,

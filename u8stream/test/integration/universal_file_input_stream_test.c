@@ -28,9 +28,9 @@ test_suite_t universal_file_input_stream_test_get_suite(void)
     test_suite_t result;
     test_suite_init( &result,
 #ifndef NDEBUG
-                     "universal_file_input_stream_test_get_suite (VARIANT: DEBUG)",
+                     "universal_file_input_stream (VARIANT: DEBUG)",
 #else
-                     "universal_file_input_stream_test_get_suite (VARIANT: RELEASE)",
+                     "universal_file_input_stream (VARIANT: RELEASE)",
 #endif
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,

@@ -19,7 +19,7 @@ test_suite_t universal_memory_output_stream_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "universal_memory_output_stream_test_get_suite",
+                     "universal_memory_output_stream",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

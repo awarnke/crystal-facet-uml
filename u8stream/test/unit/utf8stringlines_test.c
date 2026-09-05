@@ -22,7 +22,7 @@ test_suite_t utf8stringlines_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "utf8StringLinesTest",
+                     "utf8stringlines",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

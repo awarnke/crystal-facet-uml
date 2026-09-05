@@ -22,7 +22,7 @@ test_suite_t u8dir_file_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "u8dir_file_test_get_suite",
+                     "u8dir_file",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

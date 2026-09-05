@@ -19,7 +19,7 @@ test_suite_t utf8stringbuf_performance_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "utf8StringBuf_PerformanceTest",
+                     "utf8stringbuf/performance",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_RELEASE,
                      &set_up,
                      &tear_down
