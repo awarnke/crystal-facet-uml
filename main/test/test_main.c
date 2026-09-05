@@ -300,7 +300,7 @@ int main (int argc, char *argv[]) {
     /* fetch failures */
     test_result_t res = test_get_result( &runner );
     fprintf( stdout,
-             "ALL TESTS - RESULT:  ..............  skipped: %4d, passed: %4d, failed: %4d\n",
+             "ALL TESTS - RESULT:  ...............  skipped: %4d, passed: %4d, failed: %4d\n",
              test_result_get_skipped( &res ),
              test_result_get_passed( &res ),
              test_result_get_failed( &res )
