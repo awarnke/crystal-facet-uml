@@ -18,7 +18,7 @@ test_suite_t data_rules_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "data_rules_test",
+                     "data_rules",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

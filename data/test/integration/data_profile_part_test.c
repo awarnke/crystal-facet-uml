@@ -22,7 +22,7 @@ test_suite_t data_profile_part_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "data_profile_part_test",
+                     "data_profile_part",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

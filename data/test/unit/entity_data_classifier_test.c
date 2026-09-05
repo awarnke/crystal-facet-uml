@@ -18,7 +18,7 @@ test_suite_t entity_data_classifier_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "entity_data_classifier_test",
+                     "entity_data_classifier",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

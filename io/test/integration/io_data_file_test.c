@@ -24,7 +24,7 @@ test_suite_t io_data_file_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "io_data_file_test",
+                     "io_data_file",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

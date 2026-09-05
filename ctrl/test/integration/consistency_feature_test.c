@@ -21,7 +21,7 @@ test_suite_t consistency_feature_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "consistency_feature_test",
+                     "consistency_feature",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

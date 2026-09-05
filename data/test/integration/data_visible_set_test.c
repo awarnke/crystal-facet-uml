@@ -21,7 +21,7 @@ test_suite_t data_visible_set_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "data_visible_set_test",
+                     "data_visible_set",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

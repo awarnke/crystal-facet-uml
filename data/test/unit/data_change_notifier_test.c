@@ -17,7 +17,7 @@ test_suite_t data_change_notifier_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "data_change_notifier_test",
+                     "data_change_notifier",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

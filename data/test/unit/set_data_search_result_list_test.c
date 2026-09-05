@@ -14,7 +14,7 @@ test_suite_t set_data_search_result_list_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "set_data_search_result_list_test",
+                     "set_data_search_result_list",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

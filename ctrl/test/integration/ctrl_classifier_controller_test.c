@@ -26,7 +26,7 @@ test_suite_t ctrl_classifier_controller_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "ctrl_classifier_controller_test",
+                     "ctrl_classifier_controller",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

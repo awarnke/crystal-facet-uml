@@ -25,7 +25,7 @@ test_suite_t ctrl_multi_step_changer_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "ctrl_multi_step_changer_test",
+                     "ctrl_multi_step_changer",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
