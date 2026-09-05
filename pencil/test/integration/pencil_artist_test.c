@@ -24,7 +24,7 @@ test_suite_t pencil_artist_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "pencil_artist_test_get_suite",
+                     "pencil_artist",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS,
                      &set_up,
                      &tear_down

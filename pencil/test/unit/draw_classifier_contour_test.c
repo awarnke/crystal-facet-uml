@@ -17,7 +17,7 @@ test_suite_t draw_classifier_contour_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "draw_classifier_contour_test_get_suite",
+                     "draw_classifier_contour",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

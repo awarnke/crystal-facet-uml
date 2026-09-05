@@ -46,7 +46,7 @@ test_suite_t io_export_model_traversal_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "io_export_model_traversal_test_get_suite",
+                     "io_export_model_traversal",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_RELEASE,
                      &set_up,
                      &tear_down

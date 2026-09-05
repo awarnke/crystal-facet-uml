@@ -35,7 +35,7 @@ test_suite_t io_importer_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "io_importer_test_test_get_suite",
+                     "io_importer",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

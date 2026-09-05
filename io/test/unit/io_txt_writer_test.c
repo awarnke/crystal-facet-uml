@@ -24,7 +24,7 @@ test_suite_t io_txt_writer_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "io_txt_writer_test_get_suite",
+                     "io_txt_writer",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

@@ -21,7 +21,7 @@ test_suite_t gui_sketch_nav_tree_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "gui_sketch_nav_tree_test_get_suite",
+                     "gui_sketch_nav_tree",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
