@@ -22,6 +22,7 @@
 #include "unit/data_guidelines_test.h"
 #include "unit/data_database_listener_test.h"
 #include "unit/data_database_head_test.h"
+#include "integration/data_database_test.h"
 #include "integration/data_database_reader_test.h"
 #include "integration/data_database_text_search_test.h"
 #include "integration/data_profile_part_test.h"
@@ -248,6 +249,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, data_database_listener_test_get_suite() );
         test_runner_run_suite( &runner, data_database_head_test_get_suite() );
 
+        test_runner_run_suite( &runner, data_database_test_get_suite() );
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
         test_runner_run_suite( &runner, data_database_text_search_test_get_suite() );
         test_runner_run_suite( &runner, data_profile_part_test_get_suite() );
@@ -298,7 +300,7 @@ int main (int argc, char *argv[]) {
     /* fetch failures */
     test_result_t res = test_get_result( &runner );
     fprintf( stdout,
-             "ALL TESTS - RESULT: skipped: %d, passed %d, failed: %d\n",
+             "ALL TESTS - RESULT:  ..............  skipped: %4d, passed: %4d, failed: %4d\n",
              test_result_get_skipped( &res ),
              test_result_get_passed( &res ),
              test_result_get_failed( &res )

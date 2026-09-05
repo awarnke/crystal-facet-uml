@@ -102,11 +102,12 @@ u8_error_t data_diagramelement_iterator_next ( data_diagramelement_iterator_t *t
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement );
-    assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
     u8_error_t result = U8_ERROR_NONE;
 
     if ( ! (*this_).is_at_end )
     {
+        assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
+
         sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).statement) );
         result |= data_diagramelement_init( out_diagramelement,
                                             sqlite3_column_int64( sql_statement, RESULT_DIAGRAMELEMENT_ID_COLUMN ),

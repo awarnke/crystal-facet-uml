@@ -146,17 +146,17 @@ u8_error_t data_visible_classifier_iterator_next ( data_visible_classifier_itera
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_visible_classifier );
-    assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
     u8_error_t result = U8_ERROR_NONE;
 
     if ( ! (*this_).is_at_end )
     {
-        sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).statement) );
+        assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
 
+        sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).statement) );
         data_visible_classifier_init_empty( out_visible_classifier );
 
-        data_classifier_t *current_classifier;
-        current_classifier = data_visible_classifier_get_classifier_ptr( out_visible_classifier );
+        data_classifier_t *const current_classifier
+            = data_visible_classifier_get_classifier_ptr( out_visible_classifier );
         data_row_t classifier_id = sqlite3_column_int64( sql_statement, RESULT_CLASSIFIER_ID_COLUMN );
         result |= data_classifier_reinit( current_classifier,
                                           classifier_id,
@@ -170,8 +170,8 @@ u8_error_t data_visible_classifier_iterator_next ( data_visible_classifier_itera
                                           (const char*) sqlite3_column_text( sql_statement, RESULT_CLASSIFIER_UUID_COLUMN )
                                         );
 
-        data_diagramelement_t *current_diag_element;
-        current_diag_element = data_visible_classifier_get_diagramelement_ptr( out_visible_classifier );
+        data_diagramelement_t *const current_diag_element
+            = data_visible_classifier_get_diagramelement_ptr( out_visible_classifier );
         result |= data_diagramelement_reinit( current_diag_element,
                                               sqlite3_column_int64( sql_statement, RESULT_DIAGRAMELEMENT_ID_COLUMN ),
                                               sqlite3_column_int64( sql_statement, RESULT_DIAGRAMELEMENT_DIAGRAM_ID_COLUMN ),

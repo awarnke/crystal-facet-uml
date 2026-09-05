@@ -3,6 +3,9 @@ crystal-facet-uml (1.71.3) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   *
 
+TEST ENVIRONMENT ERROR (!(U8_ERROR_NONE == data_err)) at /home/andi/Code/crystal-facet-uml/data/test/integration/data_database_test.c:56
+
+
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 22 Aug 2026 15:30:00 +0200
 
 crystal-facet-uml (1.71.2) UNRELEASED; urgency=medium

@@ -24,7 +24,7 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
 {
     test_result_t suite_local_result;
     test_result_init( &suite_local_result );
-    fprintf( stdout, "test suite: %s\n", test_suite_get_name( &test_suite ) );
+    fprintf( stdout, "test suite: %65s:\n", test_suite_get_name( &test_suite ) );
     unsigned int count = test_suite_get_test_case_count( &test_suite );
     for ( unsigned int idx = 0; idx < count; idx ++ )
     {
@@ -33,7 +33,7 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
         test_category_t current_cat = test_case_get_catgegory( current_case );
         if (( current_cat & (*this_).mask ) == (*this_).pattern )
         {
-            fprintf( stdout, "  test case: %s\n", test_case_get_name( current_case ) );
+            fprintf( stdout, "  test case: %65s\n", test_case_get_name( current_case ) );
             fflush( stdout );  /* help to localize errors in case of sudden termination */
             test_case_result_t tc_result;
             tc_result = test_suite_run_test_case( &test_suite, idx );
@@ -47,7 +47,7 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
         }
     }
     fprintf( stdout,
-             "test result: skipped: %d, passed %d, failed: %d\n",
+             "test result:                         skipped: %4d, passed: %4d, failed: %4d\n",
              test_result_get_skipped( &suite_local_result ),
              test_result_get_passed( &suite_local_result ),
              test_result_get_failed( &suite_local_result )

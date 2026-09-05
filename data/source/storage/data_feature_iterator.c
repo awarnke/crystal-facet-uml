@@ -131,13 +131,13 @@ u8_error_t data_feature_iterator_next ( data_feature_iterator_t *this_, data_fea
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_feature );
-    assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
     u8_error_t result = U8_ERROR_NONE;
 
     if ( ! (*this_).is_at_end )
     {
-        sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).statement) );
+        assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
 
+        sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).statement) );
         result |= data_feature_init( out_feature,
                                      sqlite3_column_int64( sql_statement, RESULT_FEATURE_ID_COLUMN ),
                                      sqlite3_column_int( sql_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),

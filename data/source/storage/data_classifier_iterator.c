@@ -128,11 +128,12 @@ u8_error_t data_classifier_iterator_next ( data_classifier_iterator_t *this_, da
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_classifier );
-    assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
     u8_error_t result = U8_ERROR_NONE;
 
     if ( ! (*this_).is_at_end )
     {
+        assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );
+
         sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).statement) );
         data_row_t classifier_id = sqlite3_column_int64( sql_statement, RESULT_CLASSIFIER_ID_COLUMN );
         result |= data_classifier_reinit( out_classifier,
