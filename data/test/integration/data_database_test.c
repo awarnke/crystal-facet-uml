@@ -69,10 +69,18 @@ static test_case_result_t test_open_readonly( test_fixture_t *fix )
     data_classifier_t out_classifier;
     bool has_next;
 
+    /* create an empty, exiting database file first */
+    data_database_init( &((*fix).database) );
+    data_err = data_database_open( &((*fix).database), DATABASE_FILENAME );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+    data_err = data_database_close( &((*fix).database) );
+    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+    data_database_destroy( &((*fix).database) );
+
     /* open a database */
     data_database_init( &((*fix).database) );
     data_err = data_database_open_read_only( &((*fix).database), DATABASE_FILENAME );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NO_DB, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* init reader and writer */
     data_err = data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
@@ -82,7 +90,7 @@ static test_case_result_t test_open_readonly( test_fixture_t *fix )
     /* test the iterator, init */
     data_classifier_iterator_init_empty( &classifier_iterator );
     data_err = data_database_reader_get_all_classifiers ( &((*fix).db_reader), true, &classifier_iterator );
-    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NO_DB, data_err, u8_error_get_name );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
 
     /* test the iterator, step on empty set */
     has_next = data_classifier_iterator_has_next( &classifier_iterator );
@@ -93,6 +101,13 @@ static test_case_result_t test_open_readonly( test_fixture_t *fix )
     /* test the iterator, destroy */
     data_err = data_classifier_iterator_destroy( &classifier_iterator );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* test the writer on a read-only db */
+    data_diagram_t empty;
+    data_diagram_init_empty( &empty );
+    data_err = data_database_writer_create_diagram( &((*fix).db_writer), &empty, NULL /*out_new_id*/ );
+    data_diagram_destroy( &empty );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_READ_ONLY_DB, data_err, u8_error_get_name );
 
     /* destroy reader and writer */
     data_database_writer_destroy( &((*fix).db_writer) );

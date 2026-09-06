@@ -33,8 +33,10 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
         test_category_t current_cat = test_case_get_catgegory( current_case );
         if (( current_cat & (*this_).mask ) == (*this_).pattern )
         {
+#ifndef NDEBUG
             fprintf( stdout, "  test case: %66s\n", test_case_get_name( current_case ) );
             fflush( stdout );  /* help to localize errors in case of sudden termination */
+#endif
             test_case_result_t tc_result;
             tc_result = test_suite_run_test_case( &test_suite, idx );
             test_result_add_test_case_result( &((*this_).result), tc_result );
@@ -52,6 +54,7 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
              test_result_get_passed( &suite_local_result ),
              test_result_get_failed( &suite_local_result )
            );
+    fflush( stdout );  /* help to localize errors in case of sudden termination */
     if ( test_result_get_failed( &suite_local_result ) != 0 )
     {
         /* wait some seconds for the user to interrupt here */

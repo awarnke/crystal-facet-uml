@@ -678,8 +678,6 @@ u8_error_t data_database_transaction_begin ( data_database_t *this_ )
 u8_error_t data_database_transaction_commit ( data_database_t *this_ )
 {
     U8_TRACE_BEGIN();
-    /* there should be at least 1 pending transaction */
-    assert( (*this_).transaction_recursion > 0 );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
@@ -687,6 +685,9 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ )
 
     if ( data_database_is_open( this_ ) )
     {
+        /* there should be at least 1 pending transaction */
+        assert( (*this_).transaction_recursion > 0 );
+
         if ( (*this_).transaction_recursion == 1 )
         {
             U8_LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
