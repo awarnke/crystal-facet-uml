@@ -8726,7 +8726,7 @@
         "type": "Class", "main_type": 125,
         "name": "Economic risk mitigation",
         "description": [
-                ""
+                "The system-of-interest can be operated at low economic risk for stakeholders"
         ],
         "x_order": 1781433583,
         "y_order": -958333318,
@@ -8743,7 +8743,7 @@
         "type": "Class", "main_type": 125,
         "name": "Health and safety risk mitigation",
         "description": [
-                ""
+                "The system-of-interest can be operated at low risk for human life and health "
         ],
         "x_order": -1460030655,
         "y_order": -958333318,
@@ -8760,7 +8760,7 @@
         "type": "Class", "main_type": 125,
         "name": "Environmental risk mitigation",
         "description": [
-                ""
+                "The system-of-interest can be operated at low risk for the environment"
         ],
         "x_order": 321461009,
         "y_order": -958333318,
@@ -8777,7 +8777,8 @@
         "type": "Class", "main_type": 125,
         "name": "Flexibility",
         "description": [
-                ""
+                "The system-of-interest produces expected results in different, even unintended ",
+                "environments"
         ],
         "x_order": 321461009,
         "y_order": -1136833321,
@@ -8794,7 +8795,7 @@
         "type": "Class", "main_type": 125,
         "name": "Context completeness",
         "description": [
-                ""
+                "The system-of-interest produces expected results in intended situations of use"
         ],
         "x_order": 1781433583,
         "y_order": -1136833321,
@@ -8811,7 +8812,8 @@
         "type": "Class", "main_type": 125,
         "name": "Usefulness",
         "description": [
-                ""
+                "The system-of-interest is helping a user to accomplish his/her target ",
+                "objectives efficiently and effectively."
         ],
         "x_order": 2050872284,
         "y_order": -1163520015,
@@ -8828,6 +8830,7 @@
         "type": "Class", "main_type": 125,
         "name": "Trust",
         "description": [
+                "A user has confidence in the system-of-interest to behave predictably\n",
                 ""
         ],
         "x_order": 2050872284,
@@ -8845,6 +8848,7 @@
         "type": "Class", "main_type": 125,
         "name": "Pleasure",
         "description": [
+                "Using the system-of-interest brings emotional satisfaction to the user\n",
                 ""
         ],
         "x_order": 2050872284,
@@ -8862,6 +8866,7 @@
         "type": "Class", "main_type": 125,
         "name": "Comfort",
         "description": [
+                "A user can operate the system-of-interest with ease\n",
                 ""
         ],
         "x_order": 2050872284,

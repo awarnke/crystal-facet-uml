@@ -12,6 +12,8 @@
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_open_readonly( test_fixture_t *fix );
+static test_case_result_t test_not_open( test_fixture_t *fix );
+static test_case_result_t test_open_writeable( test_fixture_t *fix );
 
 test_suite_t data_database_test_get_suite(void)
 {
@@ -23,6 +25,8 @@ test_suite_t data_database_test_get_suite(void)
                      &tear_down
                    );
     test_suite_add_test_case( &result, "test_open_readonly", &test_open_readonly );
+    test_suite_add_test_case( &result, "test_not_open", &test_not_open );
+    test_suite_add_test_case( &result, "test_open_writeable", &test_open_writeable );
     return result;
 }
 
@@ -109,6 +113,10 @@ static test_case_result_t test_open_readonly( test_fixture_t *fix )
     data_diagram_destroy( &empty );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_READ_ONLY_DB, data_err, u8_error_get_name );
 
+    /* flush */
+    data_err = data_database_flush_caches( &((*fix).database) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
     /* destroy reader and writer */
     data_database_writer_destroy( &((*fix).db_writer) );
     data_database_reader_destroy( &((*fix).db_reader) );
@@ -120,6 +128,123 @@ static test_case_result_t test_open_readonly( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+static test_case_result_t test_not_open( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    u8_error_t data_err;
+    data_classifier_iterator_t classifier_iterator;
+    data_classifier_t out_classifier;
+    bool has_next;
+
+    /* open a non-existing database as read-only */
+    data_database_init( &((*fix).database) );
+    data_err = data_database_open_read_only( &((*fix).database), DATABASE_FILENAME );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NO_DB, data_err, u8_error_get_name );
+
+    /* init reader and writer */
+    data_err = data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+    data_database_writer_init( &((*fix).db_writer), &((*fix).db_reader), &((*fix).database) );
+
+    /* test the iterator, init */
+    data_classifier_iterator_init_empty( &classifier_iterator );
+    data_err = data_database_reader_get_all_classifiers ( &((*fix).db_reader), true, &classifier_iterator );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NO_DB, data_err, u8_error_get_name );
+
+    /* test the iterator, step on empty set */
+    has_next = data_classifier_iterator_has_next( &classifier_iterator );
+    TEST_EXPECT( ! has_next );
+    data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
+
+    /* test the iterator, destroy */
+    data_err = data_classifier_iterator_destroy( &classifier_iterator );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* test the writer on a read-only db */
+    data_diagram_t empty;
+    data_diagram_init_empty( &empty );
+    data_err = data_database_writer_create_diagram( &((*fix).db_writer), &empty, NULL /*out_new_id*/ );
+    data_diagram_destroy( &empty );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NO_DB, data_err, u8_error_get_name );
+
+    /* flush */
+    data_err = data_database_flush_caches( &((*fix).database) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NO_DB, data_err, u8_error_get_name );
+
+    /* trace */
+    data_err = data_database_trace_stats( &((*fix).database) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* destroy reader and writer */
+    data_database_writer_destroy( &((*fix).db_writer) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+
+    /* close the database */
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_open_writeable( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    u8_error_t data_err;
+    data_classifier_iterator_t classifier_iterator;
+    data_classifier_t out_classifier;
+    bool has_next;
+
+    /* open a non-existing database as read-only */
+    data_database_init( &((*fix).database) );
+    data_err = data_database_open( &((*fix).database), DATABASE_FILENAME );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* init reader and writer */
+    data_err = data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+    data_database_writer_init( &((*fix).db_writer), &((*fix).db_reader), &((*fix).database) );
+
+    /* test the iterator, init */
+    data_classifier_iterator_init_empty( &classifier_iterator );
+    data_err = data_database_reader_get_all_classifiers ( &((*fix).db_reader), true, &classifier_iterator );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* test the iterator, step on empty set */
+    has_next = data_classifier_iterator_has_next( &classifier_iterator );
+    TEST_EXPECT( ! has_next );
+    data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_INVALID_REQUEST, data_err, u8_error_get_name );
+
+    /* test the iterator, destroy */
+    data_err = data_classifier_iterator_destroy( &classifier_iterator );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* test the writer on a read-only db */
+    data_diagram_t empty;
+    data_diagram_init_empty( &empty );
+    data_err = data_database_writer_create_diagram( &((*fix).db_writer), &empty, NULL /*out_new_id*/ );
+    data_diagram_destroy( &empty );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* flush */
+    data_err = data_database_flush_caches( &((*fix).database) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* trace */
+    data_err = data_database_trace_stats( &((*fix).database) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
+
+    /* destroy reader and writer */
+    data_database_writer_destroy( &((*fix).db_writer) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+
+    /* close the database */
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
+
+    return TEST_CASE_RESULT_OK;
+}
 
 /*
  * Copyright 2026-2026 Andreas Warnke
