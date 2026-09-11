@@ -1864,7 +1864,8 @@
         "type": "Component Diagram", "diagram_type": 31,
         "name": "Simplicity Terms",
         "description": [
-                ""
+                "There are a couple of principles reminding us to keep things as simple as ",
+                "possible."
         ],
         "list_order": 32768,
         "parent_name": "Strategies for Maintainability",
@@ -2544,7 +2545,9 @@
         "type": "Component Diagram", "diagram_type": 31,
         "name": "Strategies for Safety Risk Mitigation",
         "description": [
-                ""
+                "After analyzing the safety risks,\n",
+                "one may define the goals that mitigate these safety risks.\n",
+                "Based on the goals, one may choose the appropriate strategies."
         ],
         "list_order": 0,
         "parent_name": "Quality in Use",
@@ -5977,7 +5980,7 @@
         "stereotype": "principle",
         "name": "Simplicity",
         "description": [
-                ""
+                "Do not invent complexity."
         ],
         "x_order": -1759479307,
         "y_order": -2082107451,
