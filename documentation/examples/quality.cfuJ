@@ -3700,6 +3700,30 @@
     },
     {
       "diagram": {
+        "id": 34,
+        "type": "Box Overview", "diagram_type": 1,
+        "name": "Internet Articles",
+        "description": [
+                "This section lists internet articles\n",
+                "that were input to this collection of quality expectations and methods."
+        ],
+        "list_order": -1073725440,
+        "parent_name": "Bibliography",
+        "parent": "8058351e-fd1d-4153-a4c7-b9447aff9684",
+        "uuid": "32c784f3-4006-4031-99ad-bdb16222b6f6",
+        "diagramelements":
+        [
+          {
+            "id": 359,
+            "classifier_name": "Principles of technical documentation",
+            "node": "67b80dd8-a9d6-4f21-8d92-4b49797beeac",
+            "uuid": "49c9576d-bba9-49fa-97f2-ea0de89a3f4b"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 32,
         "type": "Profile Diagram", "diagram_type": 39,
         "name": "Notation",
@@ -3729,30 +3753,6 @@
             "classifier_name": "turtle",
             "node": "e67e082d-087e-4e92-9385-6446415c531e",
             "uuid": "10f17e5e-1f7d-445a-96d1-1b9f4ea677c4"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 34,
-        "type": "Box Overview", "diagram_type": 1,
-        "name": "Internet Articles",
-        "description": [
-                "Thid section lists internet articles\n",
-                "that were input to this collection of quality expectations and methods."
-        ],
-        "list_order": 65536,
-        "parent_name": "Bibliography",
-        "parent": "8058351e-fd1d-4153-a4c7-b9447aff9684",
-        "uuid": "32c784f3-4006-4031-99ad-bdb16222b6f6",
-        "diagramelements":
-        [
-          {
-            "id": 359,
-            "classifier_name": "Principles of technical documentation",
-            "node": "67b80dd8-a9d6-4f21-8d92-4b49797beeac",
-            "uuid": "49c9576d-bba9-49fa-97f2-ea0de89a3f4b"
           }
         ]
       }
@@ -4120,7 +4120,9 @@
         "name": "Maintainability",
         "description": [
                 "The system-of-interest can easily be analyzed, repaired, adapted to new ",
-                "environments, extended in functionality"
+                "environments, extended in functionality.\n",
+                "\n",
+                "Strategies to achieve maintainability are shown in D0007#name."
         ],
         "x_order": 1421381224,
         "y_order": -2082453547,
@@ -4172,7 +4174,9 @@
         "type": "Requirement", "main_type": 99,
         "name": "Functional Suitability",
         "description": [
-                "The functions of the system-of-interest meet the expectations"
+                "The functions of the system-of-interest meet the expectations.\n",
+                "\n",
+                "Strategies to achieve functional suitability are shown in D0055#name."
         ],
         "x_order": -615086240,
         "y_order": -2145874996,
@@ -4206,7 +4210,9 @@
         "type": "Requirement", "main_type": 99,
         "name": "Usability",
         "description": [
-                "A user can easily interact with the system-of-interest "
+                "A user can easily interact with the system-of-interest.\n",
+                "\n",
+                "Strategies to achieve usability are shown in D0054#name."
         ],
         "x_order": 1027722837,
         "y_order": -2145874996,
@@ -4223,7 +4229,9 @@
         "type": "Requirement", "main_type": 99,
         "name": "Security",
         "description": [
-                "The system-of-interest protects data and functionality"
+                "The system-of-interest protects data and functionality.\n",
+                "\n",
+                "Strategies to achieve security are shown in D0042#name and D0010#name."
         ],
         "x_order": 1842702999,
         "y_order": -2082453547,
@@ -4258,7 +4266,9 @@
         "type": "Requirement", "main_type": 99,
         "name": "Portability",
         "description": [
-                "It is easy to adapt the system-of-interest to a new operating environment"
+                "It is easy to adapt the system-of-interest to a new operating environment.\n",
+                "\n",
+                "Strategies to achieve portability are shown in D0052#name."
         ],
         "x_order": 1421381224,
         "y_order": -2145874996,
@@ -4276,7 +4286,9 @@
         "name": "Reliability",
         "description": [
                 "The system-of-interest performs its functions reliably while the environment ",
-                "conditions and the age of the system are within specification range"
+                "conditions and the age of the system are within specification range.\n",
+                "\n",
+                "Strategies to achieve reliability are shown in D0040#name and D0008#name."
         ],
         "x_order": 1842702999,
         "y_order": -2145874996,
@@ -4294,7 +4306,9 @@
         "name": "Compatibility",
         "description": [
                 "The system-of-interest is able to communicate with other entities and to share ",
-                "a common environment "
+                "a common environment.\n",
+                "\n",
+                "Strategies to achieve compatibility are shown in D0051#name."
         ],
         "x_order": 1027722837,
         "y_order": -2082453547,
@@ -4312,7 +4326,9 @@
         "name": "Performance Efficiency",
         "description": [
                 "The system-of-interest performs its functions with minimal resources like time, ",
-                "memory, energy."
+                "memory, energy.\n",
+                "\n",
+                "Strategies to achieve performance efficiency are shown in D0022#name."
         ],
         "x_order": -615086240,
         "y_order": -2082453547,
@@ -7698,7 +7714,9 @@
         "name": "Freedom from Risk",
         "description": [
                 "The system-of-interest can be operated at low risk for economic, life and ",
-                "environmental hazards, see D0025#name."
+                "environmental hazards.\n",
+                "\n",
+                "Strategies to achieve freedom from risk are shown in D0025#name."
         ],
         "x_order": 1166883154,
         "y_order": -1163520015,
