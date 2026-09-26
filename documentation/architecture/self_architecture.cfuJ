@@ -5161,13 +5161,13 @@
           },
           {
             "id": 833,
-            "classifier_name": "open data file",
+            "classifier_name": "open file",
             "node": "150d8d95-85eb-4934-a681-93525de34562",
             "uuid": "36172eed-7bce-4c4b-ad97-4228f4e98ca9"
           },
           {
             "id": 834,
-            "classifier_name": "parse data file",
+            "classifier_name": "parse file",
             "node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
             "uuid": "8d0f5f19-d427-4cc5-afca-e2d0143cd592"
           },
@@ -5179,7 +5179,7 @@
           },
           {
             "id": 836,
-            "classifier_name": "write data file",
+            "classifier_name": "write file",
             "node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
             "uuid": "b002b901-e42a-4c49-bdcc-9588d5710745"
           },
@@ -15997,8 +15997,8 @@
         "type": "Class", "main_type": 125,
         "name": "io_data_file",
         "description": [
-                "The io_data_file manages the file location of the json data file and the ",
-                "temporary sqlite3 database."
+                "The io_data_file manages the file location of the json file and the temporary ",
+                "sqlite3 database."
         ],
         "x_order": -1202184480,
         "y_order": -2042643717,
@@ -17783,7 +17783,7 @@
       "classifier": {
         "id": 505,
         "type": "Initial Node", "main_type": 151,
-        "name": "open data file",
+        "name": "open file",
         "description": [
                 ""
         ],
@@ -17800,7 +17800,7 @@
       "classifier": {
         "id": 506,
         "type": "Activity", "main_type": 110,
-        "name": "parse data file",
+        "name": "parse file",
         "description": [
                 ""
         ],
@@ -17834,7 +17834,7 @@
       "classifier": {
         "id": 508,
         "type": "Activity", "main_type": 110,
-        "name": "write data file",
+        "name": "write file",
         "description": [
                 ""
         ],
@@ -17849,8 +17849,8 @@
             "type": "Operation", "main_type": 1,
             "key": "warn-on-overwite()",
             "description": [
-                "If the data file to be written changed while having the focus, the user shall ",
-                "be warned on overwriting."
+                "If the file to be written changed while having the focus, the user shall be ",
+                "warned on overwriting."
             ],
             "list_order": 802343181,
             "uuid": "5dce57e1-3f7b-427c-8140-cfbaac559b01"
@@ -17882,7 +17882,7 @@
         "stereotype": "not-yet-implemented",
         "name": "newer?",
         "description": [
-                "If the .tmp-cfu file has the right checksum of the data file stored, then the ",
+                "If the .tmp-cfu file has the right checksum of the json file stored, then the ",
                 ".tmp-cfu file is more actual (newer).\n",
                 "Otherwise the .cfuJ file is modified and shall not be overwritten."
         ],
@@ -17970,8 +17970,8 @@
         "stereotype": "not-yet-implemented",
         "name": "checksum",
         "description": [
-                "If the checksum of the data file changed during focus lost, the data file shall ",
-                "be reloaded."
+                "If the checksum of the file changed during focus lost, the file shall be ",
+                "reloaded."
         ],
         "x_order": -773287769,
         "y_order": -1154323452,
@@ -33670,7 +33670,7 @@
         "list_order": -988493427,
         "from_classifier_name": "TEMP DB FILE EXISTS",
         "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
-        "to_classifier_name": "write data file",
+        "to_classifier_name": "write file",
         "to_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
         "uuid": "5c021b53-6325-4a07-8c69-f5c77e518ec2"
       }
@@ -33748,7 +33748,7 @@
                 ""
         ],
         "list_order": 229376,
-        "from_classifier_name": "open data file",
+        "from_classifier_name": "open file",
         "from_node": "150d8d95-85eb-4934-a681-93525de34562",
         "to_classifier_name": "newer?",
         "to_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
@@ -33764,7 +33764,7 @@
                 ""
         ],
         "list_order": 131072,
-        "from_classifier_name": "parse data file",
+        "from_classifier_name": "parse file",
         "from_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
         "to_classifier_name": "do work",
         "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
@@ -33782,7 +33782,7 @@
         "list_order": 851968,
         "from_classifier_name": "do work",
         "from_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
-        "to_classifier_name": "write data file",
+        "to_classifier_name": "write file",
         "to_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
         "uuid": "c42d9b60-d702-4c03-8743-35de410aa77e"
       }
@@ -33796,7 +33796,7 @@
                 ""
         ],
         "list_order": 196608,
-        "from_classifier_name": "write data file",
+        "from_classifier_name": "write file",
         "from_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
         "to_classifier_name": "do work",
         "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
@@ -33812,7 +33812,7 @@
                 ""
         ],
         "list_order": 425984,
-        "from_classifier_name": "write data file",
+        "from_classifier_name": "write file",
         "from_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
         "to_classifier_name": "delete temp db file",
         "to_node": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
@@ -33828,7 +33828,7 @@
                 ""
         ],
         "list_order": 655360,
-        "from_classifier_name": "write data file",
+        "from_classifier_name": "write file",
         "from_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
         "to_classifier_name": "pause work",
         "to_node": "482cbb84-526f-4a67-9672-7ed8dceeca5b",
@@ -33862,7 +33862,7 @@
         "list_order": 294912,
         "from_classifier_name": "newer?",
         "from_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
-        "to_classifier_name": "parse data file",
+        "to_classifier_name": "parse file",
         "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
         "uuid": "163e0c83-7615-4af8-8e6b-9db7e8e790c3"
       }
@@ -33926,7 +33926,7 @@
         "list_order": 753664,
         "from_classifier_name": "checksum",
         "from_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
-        "to_classifier_name": "parse data file",
+        "to_classifier_name": "parse file",
         "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
         "uuid": "26d105e7-c15c-4d59-879c-dc861ad4ff1a"
       }

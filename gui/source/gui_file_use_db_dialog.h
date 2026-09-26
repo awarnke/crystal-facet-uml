@@ -8,7 +8,7 @@
  *  \file
  *  \brief Displays a use database file dialog and reacts on user events
  *
- *  This file dialog can either create a new data file or open an existing data file.
+ *  This file dialog can either create a new file or open an existing file.
  */
 
 #include "gui_simple_message_to_user.h"

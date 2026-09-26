@@ -25,7 +25,8 @@ ideas for future versions:
   [ ] In Nav-View, show the first sentence of the Diagram-Description for better orientation.
   [ ] In Nav+Search view, no linebreaks are introduced to long words in titles
   [ ] In Nav-View, allow to scroll like in search view.
-  [ ] Toggle a Dark Mode
+  [ ] Toggle a Dark Mode / improve icons for dark mode
+  [ ] Include all resources in executable file using glib-compile-resources on windows
   @pencil
   [?] Asynchronous calls shall be slightly diagonal
   [ ] sequence diagrams need if/loop-boxes
@@ -45,6 +46,7 @@ ideas for future versions:
   [ ] If a diagram shows only one parent and all other elements are children, maximize the parent
       (to better support the sysml concept of "a diagram explains exactly one element")
   [ ] Labels of relationships overlap too often
+  [ ] Export ascii-art diagrams to text files
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -55,6 +57,8 @@ ideas for future versions:
   [ ] add test case for opening non-cfuJ files
   [ ] At concurrent modifications, allow to quit without saving;
       maybe disable the autosave till a manual save was pressed (see io_data_file_is_externally_modified).
+! [ ] pandoc -f docbook -t pdf -o quality.pdf quality.xml  #--> throws some warnings
+      possibly caused by too deep chapter structure?
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"

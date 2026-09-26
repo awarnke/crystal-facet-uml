@@ -1,7 +1,6 @@
 <!DOCTYPE para>
 <para>
-    The json-based data file can be stored in a version control system (vcs)
-    like svn or git.
+    The json file can be stored in a version control system (vcs) like svn or git.
 
     <itemizedlist>
         <listitem>
@@ -12,7 +11,7 @@
         </listitem>
         <listitem>
             <para>
-                In case of merge conflicts in the json-based data files,
+                In case of merge conflicts in the json file,
                 note that uuid strings do uniquely identify all json objects.
                 Relations between objects are defined by these uuid strings.
                 In contrast to uuids, integer-id can be changed

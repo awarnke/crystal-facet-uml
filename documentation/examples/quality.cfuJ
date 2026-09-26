@@ -16118,7 +16118,7 @@
         "type": "Association", "main_type": 200,
         "name": "supports",
         "description": [
-                "see "
+                ""
         ],
         "list_order": 65536,
         "from_classifier_name": "Domain Driven Design",

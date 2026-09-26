@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 3,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.71.1"
+    "generator_version": "1.71.2"
   }
   ,
   "views":
@@ -3017,8 +3017,8 @@
         "description": [
                 ""
         ],
-        "x_order": -810782554,
-        "y_order": -1994400493,
+        "x_order": -810163302,
+        "y_order": -1031954683,
         "list_order": 0,
         "uuid": "fce3ffeb-62d1-4689-92db-83387adbcbc7",
         "features":
@@ -3030,7 +3030,7 @@
             "description": [
                 "SPI / Master Out - Slave In"
             ],
-            "list_order": 399458677,
+            "list_order": 337494544,
             "uuid": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461"
           },
           {
@@ -3040,7 +3040,7 @@
             "description": [
                 "SPI / Serial Clock"
             ],
-            "list_order": 717123613,
+            "list_order": 568136933,
             "uuid": "a83a8fcb-d6a7-4afc-802d-40d4faf73c50"
           },
           {
@@ -3050,7 +3050,7 @@
             "description": [
                 "SPI / Master In - Slave Out"
             ],
-            "list_order": 160918646,
+            "list_order": 106923207,
             "uuid": "2d08c1fd-9f2a-41a6-af8b-263f6817849c"
           },
           {
@@ -3060,7 +3060,7 @@
             "description": [
                 "SPI / Chip Select"
             ],
-            "list_order": 971209293,
+            "list_order": 809326010,
             "uuid": "bee9760f-db5f-4998-9555-d30477c3255d"
           }
         ]
@@ -3306,7 +3306,7 @@
             "description": [
                 "SPI / Master Out - Slave In"
             ],
-            "list_order": -1461209180,
+            "list_order": -1404583784,
             "uuid": "30503e33-e7bf-40ff-abbb-45206fa222c7"
           },
           {
@@ -3316,7 +3316,7 @@
             "description": [
                 "SPI / Serial Clock"
             ],
-            "list_order": -1770311052,
+            "list_order": -1644095761,
             "uuid": "3f201e6b-41f3-415c-8a72-3138928adf81"
           },
           {
@@ -3326,7 +3326,7 @@
             "description": [
                 "SPI / Master In - Slave Out"
             ],
-            "list_order": -1255973612,
+            "list_order": -1172491808,
             "uuid": "a7c78b22-67b7-448a-b686-f28e05b18a6e"
           },
           {
@@ -3336,7 +3336,7 @@
             "description": [
                 "SPI / Chip Select"
             ],
-            "list_order": -2015850752,
+            "list_order": -1882625958,
             "uuid": "33dd37c0-4607-45cf-9567-2f758b0a3f39"
           }
         ]

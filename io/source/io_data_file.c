@@ -230,7 +230,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 {
                     err |= data_database_close( &((*this_).database) );
 
-                    U8_LOG_ERROR("An error occurred at reading a json data file")
+                    U8_LOG_ERROR("An error occurred at reading a json file")
                     u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible additional errors */
                     U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;

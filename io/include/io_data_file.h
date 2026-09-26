@@ -26,7 +26,7 @@ struct io_data_file_struct {
                                /*!< and notifications to registered listeners */
     ctrl_controller_t controller;  /*!< a controller struct to modify the database */
 
-    utf8stringbuf_t json_file_name;  /*!< the file name of the json data file */
+    utf8stringbuf_t json_file_name;  /*!< the file name of the json file */
     char private_json_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
 
     utf8stringbuf_t db_file_name;  /*!< the file name of the temporary sqlite database */
@@ -119,7 +119,7 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param requested_file_path a relative or absolute file path
- *  \param read_only if true, the data file is not modified. Otherwise it depends on the write permissions of the file.
+ *  \param read_only if true, the file is not modified. Otherwise it depends on the write permissions of the file.
  *  \param io_stat undefined in case of an error in the return value;
  *                 otherwise statistics on parsing the file are collected.
  *                 These statistics are of special interest if a database file was externally modified, e.g. merged in git.
@@ -200,7 +200,7 @@ static inline bool io_data_file_is_in_sync ( io_data_file_t *this_ );
 bool io_data_file_is_externally_modified ( io_data_file_t *this_ );
 
 /*!
- *  \brief prints statistics of the current data file to the trace output
+ *  \brief prints statistics of the current file to the trace output
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success

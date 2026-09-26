@@ -12,7 +12,7 @@
 /* extern const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT; */
 
 /*!
- *  \brief stores the filename (but not the file path) to the json data file that is currently open
+ *  \brief stores the filename (but not the file path) to the json file that is currently open
  */
 extern const char *const DATA_HEAD_KEY_DATA_FILE_NAME;
 
