@@ -2,8 +2,6 @@
 
 use crate::model::icon::IconSource;
 use crate::stream_if::geometry;
-use crate::stream_if::geometry::DrawDirective::Line;
-use crate::stream_if::geometry::DrawDirective::Move;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
@@ -19,26 +17,23 @@ const ICON_VIEW_RECT: Rect = Rect {
 
 /// icon center x
 const BASELINE_X: f32 = 10.0;
-const BASELINE_Y: f32 = 29.0;
-const FONT_SIZE: f32 = 8.0;
+const BASELINE_Y: f32 = 30.0;
+const FONT_SIZE: f32 = 12.0;
 
-/// black color
-static BLACK: geometry::Color = geometry::Color {
-    red: 0x0,
-    green: 0x0,
-    blue: 0x0,
+/// gray line color
+static GRAY: geometry::Color = geometry::Color {
+    red: 0x7f,
+    green: 0x7f,
+    blue: 0x7f,
 };
 
-/// black pen
-static BLACK_PEN: geometry::Pen = geometry::Pen {
-    color: BLACK,
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
     width: 1.0,
 };
 
-/// half line width
-const HALFLINE: f32 = 0.5;
-
-/// The function generates a separator line to vector graphics drawing directives
+/// The function generates a separator label
 ///
 /// # Panics
 ///
@@ -51,30 +46,67 @@ pub fn generate_file_sect(out: &mut dyn PathRenderer) -> () {
             x: BASELINE_X,
             y: BASELINE_Y,
         },
-        BLACK_PEN,
+        GRAY_PEN,
         FONT_SIZE,
         out,
     );
 }
 
-/// The function generates a separator line to vector graphics drawing directives
+/// The function generates a separator label
 ///
 /// # Panics
 ///
 /// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_tool_sect(out: &mut dyn PathRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 2] = [
-        Move(Point {
-            x: BASELINE_X + HALFLINE,
-            y: 11.0,
-        }),
-        Line(Point {
-            x: BASELINE_X + HALFLINE,
-            y: 31.0,
-        }),
-    ];
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+pub fn generate_view_sect(out: &mut dyn PathRenderer) -> () {
+    simple_font::draw_string_upwards(
+        "VIEW",
+        Point {
+            x: BASELINE_X,
+            y: BASELINE_Y,
+        },
+        GRAY_PEN,
+        FONT_SIZE,
+        out,
+    );
+}
+
+/// The function generates a separator label
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_edit_sect(out: &mut dyn PathRenderer) -> () {
+    simple_font::draw_string_upwards(
+        "EEIF",
+        Point {
+            x: BASELINE_X,
+            y: BASELINE_Y,
+        },
+        GRAY_PEN,
+        FONT_SIZE,
+        out,
+    );
+}
+
+/// The function generates a separator label
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_help_sect(out: &mut dyn PathRenderer) -> () {
+    simple_font::draw_string_upwards(
+        "EELF",
+        Point {
+            x: BASELINE_X,
+            y: BASELINE_Y,
+        },
+        GRAY_PEN,
+        FONT_SIZE,
+        out,
+    );
 }
 
 /// The function returns an array of IconSource
@@ -89,17 +121,17 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
         IconSource {
             name: "view_sect",
             viewport: ICON_VIEW_RECT,
-            generate: generate_tool_sect,
+            generate: generate_view_sect,
         },
         IconSource {
             name: "edit_sect",
             viewport: ICON_VIEW_RECT,
-            generate: generate_tool_sect,
+            generate: generate_edit_sect,
         },
         IconSource {
             name: "help_sect",
             viewport: ICON_VIEW_RECT,
-            generate: generate_tool_sect,
+            generate: generate_help_sect,
         },
     ]
 }

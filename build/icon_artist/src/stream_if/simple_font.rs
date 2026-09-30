@@ -23,104 +23,153 @@ pub fn draw_string_upwards(
 ) -> () {
     let halfline = stroke.width / 2.0;
     let mut base_start = base_line_start;
+    let descend = (0.38 * font_size).floor();  /* smaller fibonacci */
+    let ascend = font_size - descend;
     for codepoint in text.chars() {
         match codepoint {
-            'F' => {
-                let char_f_y: f32 = base_start.y;
-                let char_width: f32 = (0.6 * font_size).ceil();
-                let char_halfheight: f32 = (0.5 * font_size).ceil();
-                let icon_segs: [geometry::DrawDirective; 5] = [
-                    Move(Point {
-                        x: base_start.x,
-                        y: char_f_y - halfline,
-                    }),
-                    Line(Point {
-                        x: base_start.x - font_size + halfline,
-                        y: char_f_y - halfline,
-                    }),
-                    Line(Point {
-                        x: base_start.x - font_size + halfline,
-                        y: char_f_y - char_width,
-                    }),
-                    Move(Point {
-                        x: base_start.x - char_halfheight - halfline,
-                        y: char_f_y - halfline,
-                    }),
-                    Line(Point {
-                        x: base_start.x - char_halfheight - halfline,
-                        y: char_f_y - char_width + 1.0,
-                    }),
-                ];
-                out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - font_size;
-            }
-            'I' => {
-                let char_i_y: f32 = base_start.y;
-                let icon_segs: [geometry::DrawDirective; 2] = [
-                    Move(Point {
-                        x: base_start.x,
-                        y: char_i_y - halfline,
-                    }),
-                    Line(Point {
-                        x: base_start.x - font_size,
-                        y: char_i_y - halfline,
-                    }),
-                ];
-                out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - 0.5 * font_size;
-            }
-            'L' => {
-                let char_l_y: f32 = base_start.y;
-                let char_width: f32 = (0.6 * font_size).ceil();
-                let icon_segs: [geometry::DrawDirective; 3] = [
-                    Move(Point {
-                        x: base_start.x - halfline,
-                        y: char_l_y - char_width,
-                    }),
-                    Line(Point {
-                        x: base_start.x - halfline,
-                        y: char_l_y - halfline,
-                    }),
-                    Line(Point {
-                        x: base_start.x - font_size,
-                        y: char_l_y - halfline,
-                    }),
-                ];
-                out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - font_size;
-            }
             'E' => {
-                let char_e_y: f32 = base_start.y;
-                let char_width: f32 = (0.6 * font_size).ceil();
-                let char_halfheight: f32 = (0.5 * font_size).ceil();
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let char_halfascend: f32 = (0.62 * ascend).floor();
                 let icon_segs: [geometry::DrawDirective; 6] = [
                     Move(Point {
                         x: base_start.x - halfline,
-                        y: char_e_y - char_width,
+                        y: base_start.y - char_width,
                     }),
                     Line(Point {
                         x: base_start.x - halfline,
-                        y: char_e_y - halfline,
+                        y: base_start.y - halfline,
                     }),
                     Line(Point {
-                        x: base_start.x - font_size + halfline,
-                        y: char_e_y - halfline,
+                        x: base_start.x - ascend + halfline,
+                        y: base_start.y - halfline,
                     }),
                     Line(Point {
-                        x: base_start.x - font_size + halfline,
-                        y: char_e_y - char_width,
+                        x: base_start.x - ascend + halfline,
+                        y: base_start.y - char_width,
                     }),
                     Move(Point {
-                        x: base_start.x - char_halfheight - halfline,
-                        y: char_e_y - halfline,
+                        x: base_start.x - char_halfascend - halfline,
+                        y: base_start.y - halfline,
                     }),
                     Line(Point {
-                        x: base_start.x - char_halfheight - halfline,
-                        y: char_e_y - char_width + 1.0,
+                        x: base_start.x - char_halfascend - halfline,
+                        y: base_start.y - char_width + 1.0,
                     }),
                 ];
                 out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - font_size;
+                base_start.y = base_start.y - char_width - 2.0;
+            }
+            'F' => {
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let char_halfascend: f32 = (0.62 * ascend).floor();
+                let icon_segs: [geometry::DrawDirective; 5] = [
+                    Move(Point {
+                        x: base_start.x,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend + halfline,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend + halfline,
+                        y: base_start.y - char_width,
+                    }),
+                    Move(Point {
+                        x: base_start.x - char_halfascend - halfline,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - char_halfascend - halfline,
+                        y: base_start.y - char_width + 1.0,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - 2.0;
+            }
+            'I' => {
+                let char_width: f32 = (0.38 * ascend).ceil();
+                let icon_segs: [geometry::DrawDirective; 2] = [
+                    Move(Point {
+                        x: base_start.x,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - halfline,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - 2.0;
+            }
+            'L' => {
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let icon_segs: [geometry::DrawDirective; 3] = [
+                    Move(Point {
+                        x: base_start.x - halfline,
+                        y: base_start.y - char_width,
+                    }),
+                    Line(Point {
+                        x: base_start.x - halfline,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - halfline,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - 2.0;
+            }
+            'V' => {
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let char_halfwidth: f32 = (0.5 * char_width).ceil();
+                let icon_segs: [geometry::DrawDirective; 3] = [
+                    Move(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x,
+                        y: base_start.y - char_halfwidth + halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - char_width + halfline,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - 2.0;
+            }
+            'W' => {
+                let char_width: f32 = ascend;
+                let char_halfwidth: f32 = (0.5 * char_width).ceil();
+                let char_quarterwidth: f32 = (0.2 * char_width).ceil();
+                let char_halfascend: f32 = (0.62 * ascend).floor();
+                let icon_segs: [geometry::DrawDirective; 5] = [
+                    Move(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x,
+                        y: base_start.y - char_halfwidth + char_quarterwidth + halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - char_halfascend,
+                        y: base_start.y - char_halfwidth + halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x,
+                        y: base_start.y - char_halfwidth - char_quarterwidth + halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - char_width + halfline,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - 2.0;
             }
             _ => {}
         }
