@@ -394,7 +394,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
     U8_TRACE_BEGIN();
     const gui_resources_t *const res = (*this_).resources;
 
-    (*this_).file_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    (*this_).file_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_file_sect( res ) ) );
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).file_sect_icon), 32 /*=max(w,h)*/ );
     gtk_widget_set_halign( (*this_).file_sect_icon, GTK_ALIGN_START );
 
@@ -436,7 +436,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
                      "Export..."
                     );
 
-    (*this_).view_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    (*this_).view_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_view_sect( res ) ) );
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).view_sect_icon), 32 /*=max(w,h)*/ );
     gtk_widget_set_halign( (*this_).view_sect_icon, GTK_ALIGN_START );
 
@@ -479,7 +479,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
                                  GTK_TOGGLE_BUTTON( gui_button_get_widget_ptr( &((*this_).view_create) ) )
                                );
 
-    (*this_).edit_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    (*this_).edit_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_edit_sect( res ) ) );
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).edit_sect_icon), 32 /*=max(w,h)*/ );
     gtk_widget_set_halign( (*this_).edit_sect_icon, GTK_ALIGN_START );
 
@@ -573,7 +573,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
                      "Reset Selection"
                    );
 
-    (*this_).help_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    (*this_).help_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_help_sect( res ) ) );
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).help_sect_icon), 32 /*=max(w,h)*/ );
     gtk_widget_set_halign( (*this_).help_sect_icon, GTK_ALIGN_START );
 

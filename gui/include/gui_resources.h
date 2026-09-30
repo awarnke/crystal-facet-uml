@@ -19,6 +19,7 @@ struct gui_resources_struct {
     GdkTexture *crystal_facet_uml;
     GdkTexture *edit_attributes_sect;
 
+    GdkTexture *file_sect;
     GdkTexture *file_new;
     GdkTexture *file_open;
     GdkTexture *file_save;
@@ -26,6 +27,7 @@ struct gui_resources_struct {
     GdkTexture *file_unsaved;
     GdkTexture *file_export;
 
+    GdkTexture *view_sect;
     GdkTexture *view_new_window;
     GdkTexture *view_search;
     GdkTexture *view_search_now;
@@ -33,8 +35,7 @@ struct gui_resources_struct {
     GdkTexture *view_create;
     GdkTexture *view_edit;
 
-    GdkTexture *tool_sect;
-
+    GdkTexture *edit_sect;
     GdkTexture *edit_copy;
     GdkTexture *edit_cut;
     GdkTexture *edit_delete;
@@ -44,6 +45,8 @@ struct gui_resources_struct {
     GdkTexture *edit_instantiate;
     GdkTexture *edit_highlight;
     GdkTexture *edit_reset;
+
+    GdkTexture *help_sect;
 
     GdkTexture *message_error;
     GdkTexture *message_info;
@@ -181,6 +184,13 @@ void gui_resources_destroy ( gui_resources_t *this_ );
 static inline GdkTexture *gui_resources_get_crystal_facet_uml ( const gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the file_sect
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_file_sect ( const gui_resources_t *this_ );
+
+/*!
  *  \brief gets the file_new
  *
  *  \param this_ pointer to own object attributes
@@ -221,6 +231,13 @@ static inline GdkTexture *gui_resources_get_file_unsaved ( const gui_resources_t
  *  \param this_ pointer to own object attributes
  */
 static inline GdkTexture *gui_resources_get_file_export ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_sect
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_edit_sect ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_attributes_sect
@@ -321,6 +338,13 @@ static inline GdkTexture *gui_resources_get_message_warn ( const gui_resources_t
 static inline GdkTexture *gui_resources_get_message_user_doc ( const gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the view_sect
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_view_sect ( const gui_resources_t *this_ );
+
+/*!
  *  \brief gets the view_new_window
  *
  *  \param this_ pointer to own object attributes
@@ -363,11 +387,11 @@ static inline GdkTexture *gui_resources_get_view_create ( const gui_resources_t 
 static inline GdkTexture *gui_resources_get_view_edit ( const gui_resources_t *this_ );
 
 /*!
- *  \brief gets the tool_sect
+ *  \brief gets the help_sect
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_tool_sect ( const gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_help_sect ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_breadcrumb_folder

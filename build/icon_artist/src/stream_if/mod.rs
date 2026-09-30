@@ -3,6 +3,7 @@
 
 pub mod geometry;
 pub mod path_renderer;
+pub mod simple_font;
 pub mod transform;
 
 /*

@@ -128,7 +128,7 @@ fn main() {
             println!("-f file icons");
             println!("-v view icons");
             println!("-e edit icons");
-            println!("-t tool icon");
+            println!("-t tool icons");
             println!("   ");
             println!("-g gui sketch icons");
             println!("   ");

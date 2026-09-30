@@ -7,6 +7,7 @@ use crate::stream_if::geometry::DrawDirective::Move;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
+use crate::stream_if::simple_font;
 
 /// The view rectangle of each icon except navigation icons
 const ICON_VIEW_RECT: Rect = Rect {
@@ -17,7 +18,9 @@ const ICON_VIEW_RECT: Rect = Rect {
 };
 
 /// icon center x
-const CX: f32 = 6.0;
+const BASELINE_X: f32 = 10.0;
+const BASELINE_Y: f32 = 29.0;
+const FONT_SIZE: f32 = 8.0;
 
 /// black color
 static BLACK: geometry::Color = geometry::Color {
@@ -41,14 +44,33 @@ const HALFLINE: f32 = 0.5;
 ///
 /// This function panics if PathRenderer cannot write to the output sink.
 ///
+pub fn generate_file_sect(out: &mut dyn PathRenderer) -> () {
+    simple_font::draw_string_upwards(
+        "FILE",
+        Point {
+            x: BASELINE_X,
+            y: BASELINE_Y,
+        },
+        BLACK_PEN,
+        FONT_SIZE,
+        out,
+    );
+}
+
+/// The function generates a separator line to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
 pub fn generate_tool_sect(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 2] = [
         Move(Point {
-            x: CX + HALFLINE,
+            x: BASELINE_X + HALFLINE,
             y: 11.0,
         }),
         Line(Point {
-            x: CX + HALFLINE,
+            x: BASELINE_X + HALFLINE,
             y: 31.0,
         }),
     ];
@@ -58,11 +80,28 @@ pub fn generate_tool_sect(out: &mut dyn PathRenderer) -> () {
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
-    &[IconSource {
-        name: "tool_sect",
-        viewport: ICON_VIEW_RECT,
-        generate: generate_tool_sect,
-    }]
+    &[
+        IconSource {
+            name: "file_sect",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_file_sect,
+        },
+        IconSource {
+            name: "view_sect",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_tool_sect,
+        },
+        IconSource {
+            name: "edit_sect",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_tool_sect,
+        },
+        IconSource {
+            name: "help_sect",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_tool_sect,
+        },
+    ]
 }
 
 /*

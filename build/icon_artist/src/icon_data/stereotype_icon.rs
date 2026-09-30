@@ -648,11 +648,15 @@ pub fn generate_landmark_top_left(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 31.0, y: 6.0 }),
         Line(Point { x: 31.0, y: 1.0 }),
         Line(Point { x: 5.0, y: 1.0 }),
-        Curve(Point { x: 2.8, y: 1.0 },Point { x: 1.0, y: 2.8 },Point { x: 1.0, y: 5.0 }),
+        Curve(
+            Point { x: 2.8, y: 1.0 },
+            Point { x: 1.0, y: 2.8 },
+            Point { x: 1.0, y: 5.0 },
+        ),
         Line(Point { x: 1.0, y: 31.0 }),
         Line(Point { x: 6.0, y: 31.0 }),
         Line(Point { x: 6.0, y: 6.0 }),
-        Close
+        Close,
     ];
     out.render_path(&outer_segs, &None, &Some(LIGHT_VIOLET));
 
@@ -663,9 +667,17 @@ pub fn generate_landmark_top_left(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 7.0, y: 31.0 }),
         Line(Point { x: 11.0, y: 31.0 }),
         Line(Point { x: 11.0, y: 15.0 }),
-        Curve(Point { x: 9.0, y: 13.5 },Point { x: 8.5, y: 11.5 },Point { x: 10.0, y: 10.0 }),
-        Curve(Point { x: 11.5, y: 8.5 },Point { x: 13.5, y: 9.0 },Point { x: 15.0, y: 11.0 }),
-        Close
+        Curve(
+            Point { x: 9.0, y: 13.5 },
+            Point { x: 8.5, y: 11.5 },
+            Point { x: 10.0, y: 10.0 },
+        ),
+        Curve(
+            Point { x: 11.5, y: 8.5 },
+            Point { x: 13.5, y: 9.0 },
+            Point { x: 15.0, y: 11.0 },
+        ),
+        Close,
     ];
     out.render_path(&inner_segs, &None, &Some(LIGHT_VIOLET));
 }
@@ -681,11 +693,15 @@ pub fn generate_landmark_top_right(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 26.0, y: 31.0 }),
         Line(Point { x: 31.0, y: 31.0 }),
         Line(Point { x: 31.0, y: 5.0 }),
-        Curve(Point { x: 31.0, y: 2.8 },Point { x: 29.2, y: 1.0 },Point { x: 27.0, y: 1.0 }),
+        Curve(
+            Point { x: 31.0, y: 2.8 },
+            Point { x: 29.2, y: 1.0 },
+            Point { x: 27.0, y: 1.0 },
+        ),
         Line(Point { x: 1.0, y: 1.0 }),
         Line(Point { x: 1.0, y: 6.0 }),
         Line(Point { x: 26.0, y: 6.0 }),
-        Close
+        Close,
     ];
     out.render_path(&outer_segs, &None, &Some(LIGHT_VIOLET));
 
@@ -696,9 +712,17 @@ pub fn generate_landmark_top_right(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 1.0, y: 7.0 }),
         Line(Point { x: 1.0, y: 11.0 }),
         Line(Point { x: 17.0, y: 11.0 }),
-        Curve(Point { x: 18.5, y: 9.0 },Point { x: 20.5, y: 8.5 },Point { x: 22.0, y: 10.0 }),
-        Curve(Point { x: 23.5, y: 11.5 },Point { x: 23.0, y: 13.5 },Point { x: 21.0, y: 15.0 }),
-        Close
+        Curve(
+            Point { x: 18.5, y: 9.0 },
+            Point { x: 20.5, y: 8.5 },
+            Point { x: 22.0, y: 10.0 },
+        ),
+        Curve(
+            Point { x: 23.5, y: 11.5 },
+            Point { x: 23.0, y: 13.5 },
+            Point { x: 21.0, y: 15.0 },
+        ),
+        Close,
     ];
     out.render_path(&inner_segs, &None, &Some(LIGHT_VIOLET));
 }
@@ -714,11 +738,15 @@ pub fn generate_landmark_bottom_left(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 31.0, y: 26.0 }),
         Line(Point { x: 31.0, y: 31.0 }),
         Line(Point { x: 5.0, y: 31.0 }),
-        Curve(Point { x: 2.8, y: 31.0 },Point { x: 1.0, y: 29.2 },Point { x: 1.0, y: 27.0 }),
+        Curve(
+            Point { x: 2.8, y: 31.0 },
+            Point { x: 1.0, y: 29.2 },
+            Point { x: 1.0, y: 27.0 },
+        ),
         Line(Point { x: 1.0, y: 1.0 }),
         Line(Point { x: 6.0, y: 1.0 }),
         Line(Point { x: 6.0, y: 26.0 }),
-        Close
+        Close,
     ];
     out.render_path(&outer_segs, &None, &Some(LIGHT_VIOLET));
 
@@ -729,9 +757,17 @@ pub fn generate_landmark_bottom_left(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 7.0, y: 1.0 }),
         Line(Point { x: 11.0, y: 1.0 }),
         Line(Point { x: 11.0, y: 17.0 }),
-        Curve(Point { x: 9.0, y: 18.5 },Point { x: 8.5, y: 20.5 },Point { x: 10.0, y: 22.0 }),
-        Curve(Point { x: 11.5, y: 23.5 },Point { x: 13.5, y: 23.0 },Point { x: 15.0, y: 21.0 }),
-        Close
+        Curve(
+            Point { x: 9.0, y: 18.5 },
+            Point { x: 8.5, y: 20.5 },
+            Point { x: 10.0, y: 22.0 },
+        ),
+        Curve(
+            Point { x: 11.5, y: 23.5 },
+            Point { x: 13.5, y: 23.0 },
+            Point { x: 15.0, y: 21.0 },
+        ),
+        Close,
     ];
     out.render_path(&inner_segs, &None, &Some(LIGHT_VIOLET));
 }
@@ -747,11 +783,15 @@ pub fn generate_landmark_bottom_right(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 26.0, y: 1.0 }),
         Line(Point { x: 31.0, y: 1.0 }),
         Line(Point { x: 31.0, y: 27.0 }),
-        Curve(Point { x: 31.0, y: 29.2 },Point { x: 29.2, y: 31.0 },Point { x: 27.0, y: 31.0 }),
+        Curve(
+            Point { x: 31.0, y: 29.2 },
+            Point { x: 29.2, y: 31.0 },
+            Point { x: 27.0, y: 31.0 },
+        ),
         Line(Point { x: 1.0, y: 31.0 }),
         Line(Point { x: 1.0, y: 26.0 }),
         Line(Point { x: 26.0, y: 26.0 }),
-        Close
+        Close,
     ];
     out.render_path(&outer_segs, &None, &Some(LIGHT_VIOLET));
 
@@ -762,9 +802,17 @@ pub fn generate_landmark_bottom_right(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 1.0, y: 25.0 }),
         Line(Point { x: 1.0, y: 21.0 }),
         Line(Point { x: 17.0, y: 21.0 }),
-        Curve(Point { x: 18.5, y: 23.0 },Point { x: 20.5, y: 23.5 },Point { x: 22.0, y: 22.0 }),
-        Curve(Point { x: 23.5, y: 20.5 },Point { x: 23.0, y: 18.5 },Point { x: 21.0, y: 17.0 }),
-        Close
+        Curve(
+            Point { x: 18.5, y: 23.0 },
+            Point { x: 20.5, y: 23.5 },
+            Point { x: 22.0, y: 22.0 },
+        ),
+        Curve(
+            Point { x: 23.5, y: 20.5 },
+            Point { x: 23.0, y: 18.5 },
+            Point { x: 21.0, y: 17.0 },
+        ),
+        Close,
     ];
     out.render_path(&inner_segs, &None, &Some(LIGHT_VIOLET));
 }

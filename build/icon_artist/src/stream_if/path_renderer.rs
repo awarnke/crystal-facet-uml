@@ -6,12 +6,6 @@ use crate::stream_if::geometry::Pen;
 
 /// A path renderer is an object that provides a function to
 /// draw a path.
-///
-/// # Lifetimes
-///
-/// * `'all_testing` refers to the lifetime of `TestSuite` and `TestCase`
-///   objects: They exist during the whole test run.
-///
 pub trait PathRenderer {
     /// This function renders a path; it is called by a drawing source
     /// and implemented by a drawing sink (renderer).

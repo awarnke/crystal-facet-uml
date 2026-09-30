@@ -10,6 +10,11 @@ static inline GdkTexture *gui_resources_get_edit_attributes_sect ( const gui_res
     return (*this_).edit_attributes_sect;
 }
 
+static inline GdkTexture *gui_resources_get_file_sect ( const gui_resources_t *this_ )
+{
+    return (*this_).file_sect;
+}
+
 static inline GdkTexture *gui_resources_get_file_new ( const gui_resources_t *this_ )
 {
     return (*this_).file_new;
@@ -38,6 +43,11 @@ static inline GdkTexture *gui_resources_get_file_unsaved ( const gui_resources_t
 static inline GdkTexture *gui_resources_get_file_export ( const gui_resources_t *this_ )
 {
     return (*this_).file_export;
+}
+
+static inline GdkTexture *gui_resources_get_edit_sect ( const gui_resources_t *this_ )
+{
+    return (*this_).edit_sect;
 }
 
 static inline GdkTexture *gui_resources_get_edit_copy ( const gui_resources_t *this_ )
@@ -105,6 +115,11 @@ static inline GdkTexture *gui_resources_get_message_user_doc ( const gui_resourc
     return (*this_).message_user_doc;
 }
 
+static inline GdkTexture *gui_resources_get_view_sect ( const gui_resources_t *this_ )
+{
+    return (*this_).view_sect;
+}
+
 static inline GdkTexture *gui_resources_get_view_new_window ( const gui_resources_t *this_ )
 {
     return (*this_).view_new_window;
@@ -135,9 +150,9 @@ static inline GdkTexture *gui_resources_get_view_edit ( const gui_resources_t *t
     return (*this_).view_edit;
 }
 
-static inline GdkTexture *gui_resources_get_tool_sect ( const gui_resources_t *this_ )
+static inline GdkTexture *gui_resources_get_help_sect ( const gui_resources_t *this_ )
 {
-    return (*this_).tool_sect;
+    return (*this_).help_sect;
 }
 
 static inline GdkTexture *gui_resources_get_navigate_breadcrumb_folder ( const gui_resources_t *this_ )
