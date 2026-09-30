@@ -44,7 +44,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     (*this_).file_export_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_file_export( resources ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_export_icon), 32 /*=w*/ , 32 /*=h*/ );
-    gtk_widget_set_margin_start( GTK_WIDGET((*this_).file_export_icon), 192 );
+    gtk_widget_set_margin_start( GTK_WIDGET((*this_).file_export_icon), 224 );
     gtk_widget_set_margin_end( GTK_WIDGET((*this_).file_export_icon), 16 );
     gtk_widget_set_margin_top( GTK_WIDGET((*this_).file_export_icon), 0 );
     gtk_widget_set_margin_bottom( GTK_WIDGET((*this_).file_export_icon), 0 );
@@ -53,7 +53,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).file_export_icon ), false );
     gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).file_export_icon ), false );
 
-    (*this_).diagram_set_label = gtk_label_new ( "Diagram-sets:" );
+    (*this_).diagram_set_label = gtk_label_new ( "Diagrams:" );
     (*this_).document_label = gtk_label_new ( "Documents:" );
     gtk_label_set_xalign (GTK_LABEL( (*this_).document_label ), 0.0 );
     gtk_label_set_xalign (GTK_LABEL( (*this_).diagram_set_label ), 0.0 );

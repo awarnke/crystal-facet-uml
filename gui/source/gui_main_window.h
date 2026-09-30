@@ -60,12 +60,14 @@ struct gui_main_window_struct {
 
     GtkWidget *tool_row;
 
+    GtkWidget *file_sect_icon;
+
     gui_button_t file_new;
     gui_button_t file_open;
     gui_button_t file_save;
     gui_button_t file_export;
 
-    GtkWidget *tool_sect_1_icon;
+    GtkWidget *view_sect_icon;
 
     gui_button_t view_new_window;
     gui_button_t view_navigate;
@@ -73,7 +75,7 @@ struct gui_main_window_struct {
     gui_button_t view_create;
     gui_button_t view_search;
 
-    GtkWidget *tool_sect_2_icon;
+    GtkWidget *edit_sect_icon;
 
     gui_button_t edit_undo;
     gui_button_t edit_redo;
@@ -84,6 +86,8 @@ struct gui_main_window_struct {
     gui_button_t edit_instantiate;
     gui_button_t edit_highlight;
     gui_button_t edit_reset;
+
+    GtkWidget *help_sect_icon;
 
     gui_button_t help_about;
 

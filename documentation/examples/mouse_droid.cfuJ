@@ -22,9 +22,11 @@
                 "and software architecture for the mouse droid MoD5G.\n",
                 "The MoD5G is a small repair droid similar to the MSE-6 used on death star 1.\n",
                 "\n",
-                "The structure of the system architecture is loosely based on arc42.\n",
-                "The software architecture in chapter D0019#id follows more exactly the ",
-                "arc42.org template\n",
+                "The structure of the system architecture is following an RFLP approach where ",
+                "Requirements are stated, functions are defined, logical blocks aer derived and ",
+                "physical artifacts are selected.\n",
+                "\n",
+                "The software architecture in chapter D0019#id follows the arc42.org template\n",
                 "proposed by Gernot Starke and Peter Hruschka.\n",
                 "\n",
                 "Copyright 2020-2026 Andreas Warnke\n",
@@ -126,7 +128,7 @@
                 "This section explains the major obstacles that need to be considered when ",
                 "designing a solution to D0058#name. (Problem Space, System Level)"
         ],
-        "list_order": -536837632,
+        "list_order": -1073714944,
         "parent_name": "Mouse Droid",
         "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
         "uuid": "b0a32840-23af-4d7a-be45-5d556ef350a2",
@@ -926,9 +928,9 @@
       "diagram": {
         "id": 50,
         "type": "Block Definition Diagram", "diagram_type": 4,
-        "name": "Functional View",
+        "name": "Functional Domain",
         "description": [
-                "This view shows the functionalities of the MoD5G.\n",
+                "This model-part shows the functionalities of the MoD5G.\n",
                 "\n",
                 "Functions represent the solutions to the functional requirements.\n",
                 "\n",
@@ -1004,7 +1006,7 @@
                 "This diagram shows which function implements/solves which requirements."
         ],
         "list_order": 32768,
-        "parent_name": "Functional View",
+        "parent_name": "Functional Domain",
         "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
         "uuid": "23882e2c-436a-4283-8277-b95e9529fecd",
         "diagramelements":
@@ -1060,7 +1062,7 @@
                 "modes related to moving."
         ],
         "list_order": 536942191,
-        "parent_name": "Functional View",
+        "parent_name": "Functional Domain",
         "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
         "uuid": "c9f1778f-63e7-4bca-941f-8d71f10646ee",
         "diagramelements":
@@ -1102,7 +1104,7 @@
                 "modes related to using tools."
         ],
         "list_order": 1073789343,
-        "parent_name": "Functional View",
+        "parent_name": "Functional Domain",
         "parent": "73596088-5c4a-4e29-8a51-c01db258b7ea",
         "uuid": "91474ebb-491f-4d79-886a-47f9e0b34079",
         "diagramelements":
@@ -1139,7 +1141,7 @@
         "id": 72,
         "type": "Block Definition Diagram", "diagram_type": 4,
         "stereotype": "locigal_form",
-        "name": "Logical View",
+        "name": "Logical Domain",
         "description": [
                 "This section maps the functions to a form (Solution Space, System Level).\n",
                 "\n",
@@ -1199,7 +1201,7 @@
                 ""
         ],
         "list_order": -1610612736,
-        "parent_name": "Logical View",
+        "parent_name": "Logical Domain",
         "parent": "3a1a91c0-7883-448c-b17d-ae15db9bb668",
         "uuid": "0a061bdf-1c88-4f16-9a75-f73a0bc8ae42",
         "diagramelements":
@@ -1257,7 +1259,7 @@
                 "The functions identified in D0050#name are allocated to locical blocks. "
         ],
         "list_order": -1073741824,
-        "parent_name": "Logical View",
+        "parent_name": "Logical Domain",
         "parent": "3a1a91c0-7883-448c-b17d-ae15db9bb668",
         "uuid": "09b1b46a-3eaf-4e91-bda0-9bd2f7a89a1e",
         "diagramelements":
@@ -1315,10 +1317,10 @@
       "diagram": {
         "id": 6,
         "type": "Block Definition Diagram", "diagram_type": 4,
-        "name": "Physical View",
+        "name": "Physical Domain",
         "description": [
-                "This view maps the logical form to physical artifacts. These are mechanical, ",
-                "electronic or software parts.\n",
+                "This model-part maps the logical form to physical artifacts. These are ",
+                "mechanical, electronic or software parts.\n",
                 "(Solution Space, System Level)"
         ],
         "list_order": 159744,
@@ -1390,7 +1392,7 @@
                 "This section shows the mechanical parts of the MoD5G system (Solution Space)"
         ],
         "list_order": 32768,
-        "parent_name": "Physical View",
+        "parent_name": "Physical Domain",
         "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "7a791ba0-d626-4233-91aa-e7a0358155e9",
         "diagramelements":
@@ -1513,7 +1515,7 @@
                 "(Solution Space)"
         ],
         "list_order": 1073815550,
-        "parent_name": "Physical View",
+        "parent_name": "Physical Domain",
         "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "72834205-268a-4b3d-9720-c30d79cc089c",
         "diagramelements":
@@ -1742,7 +1744,7 @@
                 "relations and interactions."
         ],
         "list_order": 1073815551,
-        "parent_name": "Physical View",
+        "parent_name": "Physical Domain",
         "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "diagramelements":
@@ -2810,9 +2812,9 @@
                 "This section shows the dynamic behavior of the system (Solution Space, System ",
                 "Level)"
         ],
-        "list_order": 212992,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "list_order": 1610649598,
+        "parent_name": "Physical Domain",
+        "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "3ad75bb7-9e06-47b2-b03b-97bf60246359",
         "diagramelements":
         [
@@ -3038,9 +3040,9 @@
                 "This section shows the deployment of the solution into the environment. ",
                 "(Solution Space, System Level)"
         ],
-        "list_order": 253952,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "list_order": 1879066622,
+        "parent_name": "Physical Domain",
+        "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "81d4cf4a-deef-42aa-8006-07d616f6234b",
         "diagramelements":
         [
@@ -3086,9 +3088,9 @@
                 "This section shows the recurring concepts within the the designed solution. ",
                 "(Solution Space, System Level)"
         ],
-        "list_order": 262144,
-        "parent_name": "Mouse Droid",
-        "parent": "93055a07-ed69-40c8-ba80-469e94242de3",
+        "list_order": 2013275134,
+        "parent_name": "Physical Domain",
+        "parent": "63422298-86c5-4518-83ff-5198d871abc5",
         "uuid": "b5f1abf2-3110-44e1-819f-0d0442247dc4",
         "diagramelements":
         [
@@ -6992,7 +6994,7 @@
                 ""
         ],
         "x_order": -1373741336,
-        "y_order": -1883935665,
+        "y_order": -2039976797,
         "list_order": -1541016509,
         "uuid": "658b972a-f9cb-4425-a6de-3b85e7e9fe17",
         "features":
@@ -7030,7 +7032,7 @@
                 ""
         ],
         "x_order": -1373741336,
-        "y_order": -1541016509,
+        "y_order": -1738517685,
         "list_order": -1883935665,
         "uuid": "791caace-aac4-448b-8fd7-5157db967221",
         "features":
@@ -7049,7 +7051,7 @@
                 "flower is found by insects by visual and chemical sensors."
         ],
         "x_order": 585891664,
-        "y_order": -1541016509,
+        "y_order": -1738517685,
         "list_order": -1541016509,
         "uuid": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
         "features":
@@ -7067,7 +7069,7 @@
                 ""
         ],
         "x_order": 949280726,
-        "y_order": -1883935665,
+        "y_order": -1738517685,
         "list_order": -1883935665,
         "uuid": "ff523246-ceb7-4bab-ab55-540ae9c96788",
         "features":
@@ -7122,7 +7124,7 @@
                 "12,4 s -5.25,4 -12,4 s -12,-1.75 -12,-4 \" />"
         ],
         "x_order": 905551310,
-        "y_order": -1738517685,
+        "y_order": -1541016509,
         "list_order": -1883935665,
         "uuid": "ed720ac0-2ba6-42e9-a97a-a45b30712d69",
         "features":
@@ -7140,7 +7142,7 @@
                 ""
         ],
         "x_order": 585891664,
-        "y_order": -1738517685,
+        "y_order": -1541016509,
         "list_order": -1738517685,
         "uuid": "5deefbf7-53cd-494a-957b-bbee7f4e2bc0",
         "features":
@@ -8129,7 +8131,7 @@
                 "</path>"
         ],
         "x_order": 905551310,
-        "y_order": -2039976797,
+        "y_order": -1883935665,
         "list_order": -1924522237,
         "uuid": "dd089494-8ef7-413e-8634-1718be66330e",
         "features":
@@ -8148,7 +8150,7 @@
                 "shape of the airplane is derived from the fly-function."
         ],
         "x_order": 585891664,
-        "y_order": -2039976797,
+        "y_order": -1883935665,
         "list_order": -1924522237,
         "uuid": "7abc2baa-c7b4-4fd8-a2af-dc0ee24fd0b0",
         "features":

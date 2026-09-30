@@ -394,6 +394,10 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
     U8_TRACE_BEGIN();
     const gui_resources_t *const res = (*this_).resources;
 
+    (*this_).file_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).file_sect_icon), 32 /*=max(w,h)*/ );
+    gtk_widget_set_halign( (*this_).file_sect_icon, GTK_ALIGN_START );
+
     gui_button_init( &((*this_).file_new),
                      GDK_PAINTABLE( gui_resources_get_file_new( res ) ),
                      "new",
@@ -432,9 +436,9 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
                      "Export..."
                     );
 
-    (*this_).tool_sect_1_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
-    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_1_icon), 32 /*=max(w,h)*/ );
-    gtk_widget_set_halign( (*this_).tool_sect_1_icon, GTK_ALIGN_START );
+    (*this_).view_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).view_sect_icon), 32 /*=max(w,h)*/ );
+    gtk_widget_set_halign( (*this_).view_sect_icon, GTK_ALIGN_START );
 
     gui_button_init( &((*this_).view_new_window),
                      GDK_PAINTABLE( gui_resources_get_view_new_window( res ) ),
@@ -475,9 +479,9 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
                                  GTK_TOGGLE_BUTTON( gui_button_get_widget_ptr( &((*this_).view_create) ) )
                                );
 
-    (*this_).tool_sect_2_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
-    gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_2_icon), 32 /*=max(w,h)*/ );
-    gtk_widget_set_halign( (*this_).tool_sect_2_icon, GTK_ALIGN_START );
+    (*this_).edit_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).edit_sect_icon), 32 /*=max(w,h)*/ );
+    gtk_widget_set_halign( (*this_).edit_sect_icon, GTK_ALIGN_START );
 
     gui_button_init( &((*this_).edit_undo),
                      GDK_PAINTABLE( gui_resources_get_edit_undo( res ) ),
@@ -569,6 +573,10 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
                      "Reset Selection"
                    );
 
+    (*this_).help_sect_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
+    gtk_image_set_pixel_size( GTK_IMAGE((*this_).help_sect_icon), 32 /*=max(w,h)*/ );
+    gtk_widget_set_halign( (*this_).help_sect_icon, GTK_ALIGN_START );
+
     gui_button_init( &((*this_).help_about),
                      GDK_PAINTABLE( gui_resources_get_crystal_facet_uml( res ) ),
                      "info",
@@ -578,17 +586,18 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
     /* insert widgets to box container */
     {
         (*this_).tool_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 4 );
+        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_sect_icon) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_new) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_open) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_save) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_export) ) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_1_icon) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).view_sect_icon) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).view_new_window) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).view_search) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).view_navigate) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).view_edit) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).view_create) ) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_2_icon) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_sect_icon) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_undo) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_redo) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_cut) ) );
@@ -598,6 +607,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_instantiate) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_highlight) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_reset) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).help_sect_icon) );
         gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).help_about) ) );
     }
 
