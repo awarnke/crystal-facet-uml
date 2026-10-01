@@ -260,7 +260,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                         a: 0xff,
                     }),
                     &raqote::StrokeStyle {
-                        cap: raqote::LineCap::Round,
+                        cap: raqote::LineCap::Butt,
                         join: raqote::LineJoin::Round,
                         width: pen.width,
                         miter_limit: 0.0,

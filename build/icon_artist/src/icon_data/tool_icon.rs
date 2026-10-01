@@ -79,7 +79,7 @@ pub fn generate_view_sect(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_edit_sect(out: &mut dyn PathRenderer) -> () {
     simple_font::draw_string_upwards(
-        "EEIF",
+        "EDIT",
         Point {
             x: BASELINE_X,
             y: BASELINE_Y,
@@ -98,7 +98,7 @@ pub fn generate_edit_sect(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_help_sect(out: &mut dyn PathRenderer) -> () {
     simple_font::draw_string_upwards(
-        "EELF",
+        "HELP",
         Point {
             x: BASELINE_X,
             y: BASELINE_Y,

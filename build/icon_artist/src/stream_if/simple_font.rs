@@ -2,6 +2,8 @@
 
 use super::path_renderer::PathRenderer;
 use crate::stream_if::geometry;
+use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::Move;
 use crate::stream_if::geometry::Pen;
@@ -23,10 +25,37 @@ pub fn draw_string_upwards(
 ) -> () {
     let halfline = stroke.width / 2.0;
     let mut base_start = base_line_start;
-    let descend = (0.38 * font_size).floor();  /* smaller fibonacci */
+    let descend = (0.38 * font_size).floor(); /* smaller fibonacci */
     let ascend = font_size - descend;
+    let space = 3.0 * stroke.width;
     for codepoint in text.chars() {
         match codepoint {
+            'D' => {
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let icon_segs: [geometry::DrawDirective; 3] = [
+                    Move(Point {
+                        x: base_start.x - halfline,
+                        y: base_start.y - halfline,
+                    }),
+                    Curve(
+                        Point {
+                            x: base_start.x - halfline,
+                            y: base_start.y - 1.2 * char_width,
+                        },
+                        Point {
+                            x: base_start.x - ascend + halfline,
+                            y: base_start.y - 1.2 * char_width,
+                        },
+                        Point {
+                            x: base_start.x - ascend + halfline,
+                            y: base_start.y - halfline,
+                        },
+                    ),
+                    Close,
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - space;
+            }
             'E' => {
                 let char_width: f32 = (0.62 * ascend).ceil();
                 let char_halfascend: f32 = (0.62 * ascend).floor();
@@ -57,7 +86,7 @@ pub fn draw_string_upwards(
                     }),
                 ];
                 out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - char_width - 2.0;
+                base_start.y = base_start.y - char_width - space;
             }
             'F' => {
                 let char_width: f32 = (0.62 * ascend).ceil();
@@ -85,10 +114,41 @@ pub fn draw_string_upwards(
                     }),
                 ];
                 out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - char_width - 2.0;
+                base_start.y = base_start.y - char_width - space;
+            }
+            'H' => {
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let char_halfascend: f32 = (0.62 * ascend).floor();
+                let icon_segs: [geometry::DrawDirective; 6] = [
+                    Move(Point {
+                        x: base_start.x,
+                        y: base_start.y - halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - halfline,
+                    }),
+                    Move(Point {
+                        x: base_start.x,
+                        y: base_start.y - char_width + halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - char_width + halfline,
+                    }),
+                    Move(Point {
+                        x: base_start.x - char_halfascend + halfline,
+                        y: base_start.y,
+                    }),
+                    Line(Point {
+                        x: base_start.x - char_halfascend + halfline,
+                        y: base_start.y - char_width,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - space;
             }
             'I' => {
-                let char_width: f32 = (0.38 * ascend).ceil();
                 let icon_segs: [geometry::DrawDirective; 2] = [
                     Move(Point {
                         x: base_start.x,
@@ -100,7 +160,7 @@ pub fn draw_string_upwards(
                     }),
                 ];
                 out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - char_width - 2.0;
+                base_start.y = base_start.y - stroke.width - space;
             }
             'L' => {
                 let char_width: f32 = (0.62 * ascend).ceil();
@@ -119,7 +179,61 @@ pub fn draw_string_upwards(
                     }),
                 ];
                 out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - char_width - 2.0;
+                base_start.y = base_start.y - char_width - space;
+            }
+            'P' => {
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let char_halfascend: f32 = (0.38 * ascend).ceil();
+                let icon_segs: [geometry::DrawDirective; 3] = [
+                    Move(Point {
+                        x: base_start.x - char_halfascend + halfline,
+                        y: base_start.y - halfline,
+                    }),
+                    Curve(
+                        Point {
+                            x: base_start.x - char_halfascend + halfline,
+                            y: base_start.y - 1.2 * char_width,
+                        },
+                        Point {
+                            x: base_start.x - ascend + halfline,
+                            y: base_start.y - 1.2 * char_width,
+                        },
+                        Point {
+                            x: base_start.x - ascend + halfline,
+                            y: base_start.y - halfline,
+                        },
+                    ),
+                    Line(Point {
+                        x: base_start.x,
+                        y: base_start.y - halfline,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - space;
+            }
+            'T' => {
+                let char_width: f32 = (0.62 * ascend).ceil();
+                let char_halfwidth: f32 = (0.5 * char_width).ceil();
+                let icon_segs: [geometry::DrawDirective; 4] = [
+                    Move(Point {
+                        x: base_start.x,
+                        y: base_start.y - char_halfwidth + halfline,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend,
+                        y: base_start.y - char_halfwidth + halfline,
+                    }),
+                    Move(Point {
+                        x: base_start.x - ascend + halfline,
+                        y: base_start.y,
+                    }),
+                    Line(Point {
+                        x: base_start.x - ascend + halfline,
+                        y: base_start.y - char_width,
+                    }),
+                ];
+                out.render_path(&icon_segs, &Some(stroke), &None);
+                base_start.y = base_start.y - char_width - space;
             }
             'V' => {
                 let char_width: f32 = (0.62 * ascend).ceil();
@@ -139,12 +253,12 @@ pub fn draw_string_upwards(
                     }),
                 ];
                 out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - char_width - 2.0;
+                base_start.y = base_start.y - char_width - space;
             }
             'W' => {
-                let char_width: f32 = ascend;
-                let char_halfwidth: f32 = (0.5 * char_width).ceil();
-                let char_quarterwidth: f32 = (0.2 * char_width).ceil();
+                let char_halfwidth: f32 = (0.38 * ascend).floor() + 0.5;
+                let char_width: f32 = 2.0 * char_halfwidth;
+                let char_quarterwidth: f32 = (0.25 * char_width).ceil();
                 let char_halfascend: f32 = (0.62 * ascend).floor();
                 let icon_segs: [geometry::DrawDirective; 5] = [
                     Move(Point {
@@ -152,16 +266,16 @@ pub fn draw_string_upwards(
                         y: base_start.y - halfline,
                     }),
                     Line(Point {
-                        x: base_start.x,
-                        y: base_start.y - char_halfwidth + char_quarterwidth + halfline,
+                        x: base_start.x - stroke.width,
+                        y: base_start.y - char_halfwidth + char_quarterwidth,
                     }),
                     Line(Point {
                         x: base_start.x - char_halfascend,
-                        y: base_start.y - char_halfwidth + halfline,
+                        y: base_start.y - char_halfwidth,
                     }),
                     Line(Point {
-                        x: base_start.x,
-                        y: base_start.y - char_halfwidth - char_quarterwidth + halfline,
+                        x: base_start.x - stroke.width,
+                        y: base_start.y - char_halfwidth - char_quarterwidth,
                     }),
                     Line(Point {
                         x: base_start.x - ascend,
@@ -169,7 +283,7 @@ pub fn draw_string_upwards(
                     }),
                 ];
                 out.render_path(&icon_segs, &Some(stroke), &None);
-                base_start.y = base_start.y - char_width - 2.0;
+                base_start.y = base_start.y - char_width - space;
             }
             _ => {}
         }
