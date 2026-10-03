@@ -14,6 +14,7 @@ use crate::stream_if::geometry::Offset;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
+use crate::stream_if::simple_font;
 
 /// The view rectangle of each icon
 const ICON_VIEW_RECT: Rect = Rect {
@@ -21,6 +22,35 @@ const ICON_VIEW_RECT: Rect = Rect {
     top: 0.0,
     width: 32.0,
     height: 32.0,
+};
+
+/// The view rectangle of section icons
+const SECT_ICON_VIEW_RECT: Rect = Rect {
+    left: 0.0,
+    top: 0.0,
+    width: 12.0,
+    height: 32.0,
+};
+
+/// half line width
+const HALFLINE: f32 = 0.5;
+
+/// section icon font baseline and size
+const SECT_BASELINE_X: f32 = 10.0;
+const SECT_BASELINE_Y: f32 = 30.0;
+const SECT_FONT_SIZE: f32 = 12.0;
+
+/// gray line color
+static GRAY: geometry::Color = geometry::Color {
+    red: 0x7f,
+    green: 0x7f,
+    blue: 0x7f,
+};
+
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 1.0,
 };
 
 /// green fill color
@@ -50,8 +80,24 @@ static BLACK_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
-/// half line width
-const HALFLINE: f32 = 0.5;
+/// The function generates a separator label
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_view_sect(out: &mut dyn PathRenderer) -> () {
+    simple_font::draw_string_upwards(
+        "VIEW",
+        Point {
+            x: SECT_BASELINE_X,
+            y: SECT_BASELINE_Y,
+        },
+        GRAY_PEN,
+        SECT_FONT_SIZE,
+        out,
+    );
+}
 
 /// The function defines the draw directives for the view mode background
 ///
@@ -611,6 +657,11 @@ pub fn generate_view_create(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
     &[
+        IconSource {
+            name: "view_sect",
+            viewport: SECT_ICON_VIEW_RECT,
+            generate: generate_view_sect,
+        },
         IconSource {
             name: "view_new_window",
             viewport: ICON_VIEW_RECT,

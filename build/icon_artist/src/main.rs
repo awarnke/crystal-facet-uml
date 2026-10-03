@@ -12,7 +12,7 @@ use icon_data::sketch_icon;
 use icon_data::stereotype_icon;
 use icon_data::tool_edit_icon;
 use icon_data::tool_file_icon;
-use icon_data::tool_icon;
+use icon_data::tool_help_icon;
 use icon_data::tool_view_icon;
 use icon_data::type_class_icon;
 use icon_data::type_diag_icon;
@@ -34,12 +34,6 @@ fn main() {
 
     for argument in args {
         let arg = argument.as_str();
-        if arg == "-e" {
-            let gui_edit_icons: &'static [IconSource<'static>] = tool_edit_icon::get_icons();
-            icon_writer::generate_files(gui_edit_icons, FileType::Svg, OUT_DIR_GUI);
-            icon_writer::generate_files(gui_edit_icons, FileType::PixBuf, OUT_DIR_GUI);
-            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
-        }
         if arg == "-f" {
             let gui_file_icons: &'static [IconSource<'static>] = tool_file_icon::get_icons();
             icon_writer::generate_files(gui_file_icons, FileType::Svg, OUT_DIR_GUI);
@@ -52,10 +46,16 @@ fn main() {
             icon_writer::generate_files(gui_view_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
-        if arg == "-t" {
-            let gui_view_icons: &'static [IconSource<'static>] = tool_icon::get_icons();
-            icon_writer::generate_files(gui_view_icons, FileType::Svg, OUT_DIR_GUI);
-            icon_writer::generate_files(gui_view_icons, FileType::PixBuf, OUT_DIR_GUI);
+        if arg == "-e" {
+            let gui_edit_icons: &'static [IconSource<'static>] = tool_edit_icon::get_icons();
+            icon_writer::generate_files(gui_edit_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(gui_edit_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
+        if arg == "-i" {
+            let gui_help_icons: &'static [IconSource<'static>] = tool_help_icon::get_icons();
+            icon_writer::generate_files(gui_help_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(gui_help_icons, FileType::PixBuf, OUT_DIR_GUI);
             println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
         }
         if arg == "-d" {
@@ -128,7 +128,7 @@ fn main() {
             println!("-f file icons");
             println!("-v view icons");
             println!("-e edit icons");
-            println!("-t tool icons");
+            println!("-i help icons");
             println!("   ");
             println!("-g gui sketch icons");
             println!("   ");

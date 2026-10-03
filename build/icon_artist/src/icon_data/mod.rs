@@ -7,7 +7,7 @@ pub mod sketch_icon;
 pub mod stereotype_icon;
 pub mod tool_edit_icon;
 pub mod tool_file_icon;
-pub mod tool_icon;
+pub mod tool_help_icon;
 pub mod tool_view_icon;
 pub mod type_class_icon;
 pub mod type_diag_icon;

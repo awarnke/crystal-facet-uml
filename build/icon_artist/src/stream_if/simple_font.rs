@@ -266,7 +266,7 @@ pub fn draw_string_upwards(
                         y: base_start.y - halfline,
                     }),
                     Line(Point {
-                        x: base_start.x - stroke.width,
+                        x: base_start.x,
                         y: base_start.y - char_halfwidth + char_quarterwidth,
                     }),
                     Line(Point {
@@ -274,7 +274,7 @@ pub fn draw_string_upwards(
                         y: base_start.y - char_halfwidth,
                     }),
                     Line(Point {
-                        x: base_start.x - stroke.width,
+                        x: base_start.x,
                         y: base_start.y - char_halfwidth - char_quarterwidth,
                     }),
                     Line(Point {

@@ -229,7 +229,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                 let options = raqote::DrawOptions {
                     blend_mode: raqote::BlendMode::SrcOver,
                     alpha: 1.0,
-                    antialias: raqote::AntialiasMode::None,
+                    antialias: raqote::AntialiasMode::Gray,
                 };
                 self.dt.fill(
                     &path,
@@ -261,7 +261,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                     }),
                     &raqote::StrokeStyle {
                         cap: raqote::LineCap::Butt,
-                        join: raqote::LineJoin::Round,
+                        join: raqote::LineJoin::Bevel,
                         width: pen.width,
                         miter_limit: 0.0,
                         dash_array: vec![],

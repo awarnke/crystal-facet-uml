@@ -15,6 +15,7 @@ use crate::stream_if::geometry::Offset;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
+use crate::stream_if::simple_font;
 
 /// The view rectangle of each icon (except edit_attributes_sect)
 const ICON_VIEW_RECT: Rect = Rect {
@@ -22,6 +23,22 @@ const ICON_VIEW_RECT: Rect = Rect {
     top: 0.0,
     width: 32.0,
     height: 32.0,
+};
+
+/// The view rectangle of section icons
+const SECT_ICON_VIEW_RECT: Rect = Rect {
+    left: 0.0,
+    top: 0.0,
+    width: 12.0,
+    height: 32.0,
+};
+
+/// The view rectangle of edit_attributes_sect icon
+const SECT_ATTRIBUTES_RECT: Rect = Rect {
+    left: 0.0,
+    top: 0.0,
+    width: 32.0,
+    height: 24.0,
 };
 
 /// icon center x
@@ -32,12 +49,22 @@ const CY: f32 = 16.0;
 /// half line width
 const HALFLINE: f32 = 0.5;
 
-/// The view rectangle of edit_attributes_sect icon
-const SECT_RECT: Rect = Rect {
-    left: 0.0,
-    top: 0.0,
-    width: 32.0,
-    height: 24.0,
+/// section icon font baseline and size
+const SECT_BASELINE_X: f32 = 10.0;
+const SECT_BASELINE_Y: f32 = 30.0;
+const SECT_FONT_SIZE: f32 = 12.0;
+
+/// gray line color
+static GRAY: geometry::Color = geometry::Color {
+    red: 0x7f,
+    green: 0x7f,
+    blue: 0x7f,
+};
+
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 1.0,
 };
 
 /// green fill color
@@ -53,22 +80,22 @@ static GREEN_THICK_PEN: geometry::Pen = geometry::Pen {
     width: 2.0,
 };
 
-/// gray color
-static GRAY: geometry::Color = geometry::Color {
+/// light gray color
+static LIGHT_GRAY: geometry::Color = geometry::Color {
     red: 0x99,
     green: 0x99,
     blue: 0x99,
 };
 
-/// gray pen
-static GRAY_PEN: geometry::Pen = geometry::Pen {
-    color: GRAY,
+/// light gray pen
+static LIGHT_GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: LIGHT_GRAY,
     width: 1.0,
 };
 
-/// gray pen
-static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
-    color: GRAY,
+/// light gray pen
+static LIGHT_GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: LIGHT_GRAY,
     width: 2.0,
 };
 
@@ -111,6 +138,25 @@ static BRIGHT_YELLOW: geometry::Color = geometry::Color {
     green: 0xff,
     blue: 0x44,
 };
+
+/// The function generates a separator label
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_edit_sect(out: &mut dyn PathRenderer) -> () {
+    simple_font::draw_string_upwards(
+        "EDIT",
+        Point {
+            x: SECT_BASELINE_X,
+            y: SECT_BASELINE_Y,
+        },
+        GRAY_PEN,
+        SECT_FONT_SIZE,
+        out,
+    );
+}
 
 /// The function defines the draw directives for the broken_circle contour
 ///
@@ -296,7 +342,7 @@ fn get_pink_marker() -> [geometry::DrawDirective; 2] {
 pub fn generate_edit_undo(out: &mut dyn PathRenderer) -> () {
     /* background */
     let broken_circle_sym: [geometry::DrawDirective; 4] = get_broken_circle_contour();
-    out.render_path(&broken_circle_sym, &Some(GRAY_PEN), &None);
+    out.render_path(&broken_circle_sym, &Some(LIGHT_GRAY_PEN), &None);
 
     /* green sand */
     let sand_sym: [geometry::DrawDirective; 6] = [
@@ -358,7 +404,7 @@ pub fn generate_edit_undo(out: &mut dyn PathRenderer) -> () {
 pub fn generate_edit_redo(out: &mut dyn PathRenderer) -> () {
     /* background */
     let broken_circle_sym: [geometry::DrawDirective; 4] = get_broken_circle_contour();
-    out.render_path(&broken_circle_sym, &Some(GRAY_PEN), &None);
+    out.render_path(&broken_circle_sym, &Some(LIGHT_GRAY_PEN), &None);
 
     /* green sand */
     let sand_sym: [geometry::DrawDirective; 5] = [
@@ -545,7 +591,7 @@ pub fn generate_edit_paste(out: &mut dyn PathRenderer) -> () {
     out.render_path(&board_sym, &Some(BLACK_PEN), &None);
 
     let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
-    out.render_path(&pink_line, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&pink_line, &Some(LIGHT_GRAY_THICK_PEN), &None);
 }
 
 /// The function generates an edit/delete icon to vector graphics drawing directives
@@ -655,7 +701,7 @@ pub fn generate_edit_instantiate(out: &mut dyn PathRenderer) -> () {
             Offset { dx: 1.0, dy: -11.0 },
         ),
     ];
-    out.render_path(&shadow_sym, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&shadow_sym, &Some(LIGHT_GRAY_THICK_PEN), &None);
 
     let stamp_sym: [geometry::DrawDirective; 8] = [
         MoveRel(Offset {
@@ -707,7 +753,7 @@ pub fn generate_edit_highlight(out: &mut dyn PathRenderer) -> () {
             dy: 1.125,
         }),
     ];
-    out.render_path(&pen_sym, &Some(GRAY_PEN), &Some(YELLOW));
+    out.render_path(&pen_sym, &Some(LIGHT_GRAY_PEN), &Some(YELLOW));
 
     let tip_sym: [geometry::DrawDirective; 4] = [
         Move(Point { x: 9.75, y: 25.0 }),
@@ -732,7 +778,7 @@ pub fn generate_edit_highlight(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_edit_reset(out: &mut dyn PathRenderer) -> () {
     let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
-    out.render_path(&pink_line, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&pink_line, &Some(LIGHT_GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a section item for the edit attributes to vector graphics drawing directives
@@ -746,7 +792,7 @@ pub fn generate_edit_attributes_sect(out: &mut dyn PathRenderer) -> () {
         MoveRel(Offset { dx: 16.0, dy: 12.0 }),
         LineRel(Offset { dx: 15.0, dy: 0.0 }),
     ];
-    out.render_path(&gray_line, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&gray_line, &Some(LIGHT_GRAY_THICK_PEN), &None);
 
     let yellow_arrow_tip: [geometry::DrawDirective; 4] = [
         MoveRel(Offset { dx: 1.0, dy: 12.0 }),
@@ -757,13 +803,22 @@ pub fn generate_edit_attributes_sect(out: &mut dyn PathRenderer) -> () {
         LineRel(Offset { dx: 0.0, dy: 20.0 }),
         CloseRel,
     ];
-    out.render_path(&yellow_arrow_tip, &Some(GRAY_PEN), &Some(BRIGHT_YELLOW));
+    out.render_path(
+        &yellow_arrow_tip,
+        &Some(LIGHT_GRAY_PEN),
+        &Some(BRIGHT_YELLOW),
+    );
 }
 
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
     &[
+        IconSource {
+            name: "edit_sect",
+            viewport: SECT_ICON_VIEW_RECT,
+            generate: generate_edit_sect,
+        },
         IconSource {
             name: "edit_undo",
             viewport: ICON_VIEW_RECT,
@@ -811,7 +866,7 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
         },
         IconSource {
             name: "edit_attributes_sect",
-            viewport: SECT_RECT,
+            viewport: SECT_ATTRIBUTES_RECT,
             generate: generate_edit_attributes_sect,
         },
     ]
