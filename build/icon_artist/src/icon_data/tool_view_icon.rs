@@ -47,24 +47,11 @@ static GRAY: geometry::Color = geometry::Color {
     blue: 0x7f,
 };
 
-/// gray pen
-static GRAY_PEN: geometry::Pen = geometry::Pen {
-    color: GRAY,
-    width: 1.0,
-};
-
-/// green fill color
-static GREEN: geometry::Color = geometry::Color {
-    red: 0x0,
-    green: 0xff,
-    blue: 0x99,
-};
-
-/// black color
-static BLACK: geometry::Color = geometry::Color {
-    red: 0x0,
-    green: 0x0,
-    blue: 0x0,
+/// light gray fill color
+static SILVER: geometry::Color = geometry::Color {
+    red: 0xe0,
+    green: 0xe0,
+    blue: 0xe0,
 };
 
 /// white color
@@ -74,10 +61,16 @@ static WHITE: geometry::Color = geometry::Color {
     blue: 0xff,
 };
 
-/// black pen
-static BLACK_PEN: geometry::Pen = geometry::Pen {
-    color: BLACK,
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
     width: 1.0,
+};
+
+/// gray thick pen
+static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 2.0,
 };
 
 /// The function generates a separator label
@@ -138,41 +131,49 @@ fn get_view_ground(pos: i32) -> [geometry::DrawDirective; 5] {
 /// This function panics if PathRenderer cannot write to the output sink.
 ///
 pub fn generate_view_new_window(out: &mut dyn PathRenderer) -> () {
+    let center_x: f32 = 16.0;
+    let center_y: f32 = 16.0;
+
     /* window */
-    let icon_segs: [geometry::DrawDirective; 7] = [
+    let titlebar_segs: [geometry::DrawDirective; 2] = [
+        MoveRel(Offset {
+            dx: 1.0,
+            dy: 7.0,
+        }),
+        LineRel(Offset { dx: 30.0, dy: 0.0 }),
+    ];
+    out.render_path(&titlebar_segs, &Some(GRAY_THICK_PEN), &None);
+    let border_segs: [geometry::DrawDirective; 4] = [
         MoveRel(Offset {
             dx: 31.0 - HALFLINE,
-            dy: 7.0 + HALFLINE,
+            dy: 7.0,
         }),
+        LineRel(Offset { dx: 0.0, dy: 18.0 - HALFLINE }),
         LineRel(Offset { dx: -29.0, dy: 0.0 }),
-        LineRel(Offset { dx: 0.0, dy: 17.0 }),
-        LineRel(Offset { dx: 29.0, dy: 0.0 }),
-        LineRel(Offset { dx: 0.0, dy: -19.0 }),
-        LineRel(Offset { dx: -29.0, dy: 0.0 }),
-        LineRel(Offset { dx: 0.0, dy: 2.0 }),
+        LineRel(Offset { dx: 0.0, dy: -18.0 + HALFLINE }),
     ];
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+    out.render_path(&border_segs, &Some(GRAY_PEN), &None);
 
     /* plus symbol */
     let plus_sym: [geometry::DrawDirective; 4] = [
         Move(Point {
-            x: 12.0,
-            y: 16.0 - HALFLINE,
+            x: center_x - 4.0,
+            y: center_y,
         }),
         Line(Point {
-            x: 20.0,
-            y: 16.0 - HALFLINE,
+            x: center_x + 4.0,
+            y: center_y,
         }),
         Move(Point {
-            x: 16.0 - HALFLINE,
-            y: 12.0,
+            x: center_x,
+            y: center_y - 4.0,
         }),
         Line(Point {
-            x: 16.0 - HALFLINE,
-            y: 20.0,
+            x: center_x,
+            y: center_y + 4.0,
         }),
     ];
-    out.render_path(&plus_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&plus_sym, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -188,16 +189,14 @@ pub fn generate_view_search(out: &mut dyn PathRenderer) -> () {
 
     /* circle */
     let icon_segs: [geometry::DrawDirective; 5] =
-        get_circle_abs(Point { x: 19.25, y: 12.0 }, 7.5, 7.5);
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(GREEN));
+        get_circle_abs(Point { x: 19.0, y: 12.0 }, 7.0, 7.0);
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
 
-    let icon_segs: [geometry::DrawDirective; 4] = [
-        MoveRel(Offset { dx: 16.0, dy: 19.0 }),
-        LineRel(Offset { dx: -3.0, dy: 10.0 }),
-        LineRel(Offset { dx: 2.0, dy: 0.6 }),
-        LineRel(Offset { dx: 3.0, dy: -10.0 }),
+    let icon_segs: [geometry::DrawDirective; 2] = [
+        MoveRel(Offset { dx: 16.5, dy: 18.75 }),
+        LineRel(Offset { dx: -4.5, dy: 11.25 }),
     ];
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -209,16 +208,14 @@ pub fn generate_view_search(out: &mut dyn PathRenderer) -> () {
 pub fn generate_view_search_now(out: &mut dyn PathRenderer) -> () {
     /* circle */
     let icon_segs: [geometry::DrawDirective; 5] =
-        get_circle_abs(Point { x: 19.25, y: 12.0 }, 7.5, 7.5);
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(WHITE));
+        get_circle_abs(Point { x: 19.0, y: 12.0 }, 7.0, 7.0);
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &Some(WHITE));
 
-    let icon_segs: [geometry::DrawDirective; 4] = [
-        MoveRel(Offset { dx: 16.0, dy: 19.0 }),
-        LineRel(Offset { dx: -3.0, dy: 10.0 }),
-        LineRel(Offset { dx: 2.0, dy: 0.6 }),
-        LineRel(Offset { dx: 3.0, dy: -10.0 }),
+    let icon_segs: [geometry::DrawDirective; 2] = [
+        MoveRel(Offset { dx: 16.5, dy: 18.75 }),
+        LineRel(Offset { dx: -4.5, dy: 11.25 }),
     ];
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &Some(SILVER));
 }
 
 /// The function generates a steering wheel of ship navigation to vector graphics drawing directives
@@ -234,37 +231,31 @@ pub fn generate_view_navigate(out: &mut dyn PathRenderer) -> () {
 
     /* spoke of wheel */
     let r2: f32 = 15.0;
-    let r1: f32 = 11.0;
+    let r1: f32 = 3.0;
     let cx: f32 = 16.0;
     let cy: f32 = 16.0;
-    let mut icon_segs: [geometry::DrawDirective; 40] = [Close; 40];
+    let mut icon_segs: [geometry::DrawDirective; 20] = [Close; 20];
     for index in 0..10 {
         let alpha: f32 = std::f32::consts::PI / 5.0 * (index as f32);
         let dx = alpha.cos();
         let dy = alpha.sin();
-        icon_segs[index * 4 + 0] = Move(Point { x: cx, y: cy });
-        icon_segs[index * 4 + 1] = LineRel(Offset {
-            dx: r2 * dx,
-            dy: r2 * dy,
-        });
-        icon_segs[index * 4 + 2] = MoveRel(Offset {
-            dx: (r1 - r2) * dx,
-            dy: (r1 - r2) * dy,
-        });
-        let beta: f32 = std::f32::consts::PI / 5.0 * ((index + 1) as f32);
-        let n_dx = beta.cos();
-        let n_dy = beta.sin();
-        icon_segs[index * 4 + 3] = LineRel(Offset {
-            dx: (-r1) * dx + r1 * n_dx,
-            dy: (-r1) * dy + r1 * n_dy,
+        icon_segs[index * 2 + 0] = Move(Point { x: cx + r1 * dx, y: cy + r1 * dy });
+        icon_segs[index * 2 + 1] = Line(Point {
+            x: cx + r2 * dx,
+            y: cy + r2 * dy,
         });
     }
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
+
+    /* axle of wheel */
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: cx, y: cy }, 2.0 + HALFLINE, 2.0 + HALFLINE);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* rim of wheel */
     let icon_segs: [geometry::DrawDirective; 5] =
-        get_circle_abs(Point { x: cx, y: cy }, 11.0, 11.0);
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+    get_circle_abs(Point { x: cx, y: cy }, 11.0, 11.0);
+    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a hand icon to vector graphics drawing directives
@@ -466,7 +457,7 @@ pub fn generate_view_edit(out: &mut dyn PathRenderer) -> () {
         ),
         Close,
     ];
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(GREEN));
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &Some(SILVER));
 }
 
 /// The function generates a growing plant icon to vector graphics drawing directives
@@ -650,7 +641,7 @@ pub fn generate_view_create(out: &mut dyn PathRenderer) -> () {
             },
         ),
     ];
-    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(GREEN));
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &Some(SILVER));
 }
 
 /// The function returns an array of IconSource

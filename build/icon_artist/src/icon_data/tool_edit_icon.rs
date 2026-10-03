@@ -67,17 +67,17 @@ static GRAY_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
-/// green fill color
-static GREEN: geometry::Color = geometry::Color {
-    red: 0x0,
-    green: 0xff,
-    blue: 0x99,
+/// gray thick pen
+static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 2.0,
 };
 
-/// green pen
-static GREEN_THICK_PEN: geometry::Pen = geometry::Pen {
-    color: GREEN,
-    width: 2.0,
+/// very light gray fill color
+static SILVER: geometry::Color = geometry::Color {
+    red: 0xe0,
+    green: 0xe0,
+    blue: 0xe0,
 };
 
 /// light gray color
@@ -97,19 +97,6 @@ static LIGHT_GRAY_PEN: geometry::Pen = geometry::Pen {
 static LIGHT_GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
     color: LIGHT_GRAY,
     width: 2.0,
-};
-
-/// black color
-static BLACK: geometry::Color = geometry::Color {
-    red: 0x0,
-    green: 0x0,
-    blue: 0x0,
-};
-
-/// black pen
-static BLACK_PEN: geometry::Pen = geometry::Pen {
-    color: BLACK,
-    width: 1.0,
 };
 
 /// pink color
@@ -342,7 +329,7 @@ fn get_pink_marker() -> [geometry::DrawDirective; 2] {
 pub fn generate_edit_undo(out: &mut dyn PathRenderer) -> () {
     /* background */
     let broken_circle_sym: [geometry::DrawDirective; 4] = get_broken_circle_contour();
-    out.render_path(&broken_circle_sym, &Some(LIGHT_GRAY_PEN), &None);
+    out.render_path(&broken_circle_sym, &Some(GRAY_THICK_PEN), &None);
 
     /* green sand */
     let sand_sym: [geometry::DrawDirective; 6] = [
@@ -388,11 +375,11 @@ pub fn generate_edit_undo(out: &mut dyn PathRenderer) -> () {
         ),
         Close,
     ];
-    out.render_path(&sand_sym, &None, &Some(GREEN));
+    out.render_path(&sand_sym, &None, &Some(LIGHT_GRAY));
 
     /* time glass symbol */
     let time_glass_sym: [geometry::DrawDirective; 9] = get_time_glass();
-    out.render_path(&time_glass_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&time_glass_sym, &Some(GRAY_PEN), &None);
 }
 
 /// The function generates an edit/undo icon to vector graphics drawing directives
@@ -404,7 +391,7 @@ pub fn generate_edit_undo(out: &mut dyn PathRenderer) -> () {
 pub fn generate_edit_redo(out: &mut dyn PathRenderer) -> () {
     /* background */
     let broken_circle_sym: [geometry::DrawDirective; 4] = get_broken_circle_contour();
-    out.render_path(&broken_circle_sym, &Some(LIGHT_GRAY_PEN), &None);
+    out.render_path(&broken_circle_sym, &Some(GRAY_THICK_PEN), &None);
 
     /* green sand */
     let sand_sym: [geometry::DrawDirective; 5] = [
@@ -446,11 +433,11 @@ pub fn generate_edit_redo(out: &mut dyn PathRenderer) -> () {
         }),
         Close,
     ];
-    out.render_path(&sand_sym, &None, &Some(GREEN));
+    out.render_path(&sand_sym, &None, &Some(LIGHT_GRAY));
 
     /* time glass symbol */
     let time_glass_sym: [geometry::DrawDirective; 9] = get_time_glass();
-    out.render_path(&time_glass_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&time_glass_sym, &Some(GRAY_PEN), &None);
 }
 
 /// The function generates an edit/cut icon to vector graphics drawing directives
@@ -462,11 +449,11 @@ pub fn generate_edit_redo(out: &mut dyn PathRenderer) -> () {
 pub fn generate_edit_cut(out: &mut dyn PathRenderer) -> () {
     let left_finger_sym: [geometry::DrawDirective; 5] =
         get_circle_abs(Point { x: 15.5, y: 24.5 }, 3.0, 3.0);
-    out.render_path(&left_finger_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&left_finger_sym, &Some(GRAY_PEN), &None);
 
     let right_finger_sym: [geometry::DrawDirective; 5] =
         get_circle_abs(Point { x: 23.5, y: 21.5 }, 3.0, 3.0);
-    out.render_path(&right_finger_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&right_finger_sym, &Some(GRAY_PEN), &None);
 
     let scissors_sym: [geometry::DrawDirective; 11] = [
         MoveRel(Offset { dx: 16.0, dy: 21.5 }),
@@ -505,7 +492,7 @@ pub fn generate_edit_cut(out: &mut dyn PathRenderer) -> () {
         }),
         CloseRel,
     ];
-    out.render_path(&scissors_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&scissors_sym, &Some(GRAY_PEN), &None);
 
     let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
     out.render_path(&pink_line, &Some(PINK_THICK_PEN), &None);
@@ -538,11 +525,11 @@ fn get_page_contour(left: f32, top: f32) -> [geometry::DrawDirective; 8] {
 pub fn generate_edit_copy(out: &mut dyn PathRenderer) -> () {
     let left_page_sym: [geometry::DrawDirective; 8] =
         get_page_contour(3.0 + HALFLINE, 4.0 + HALFLINE);
-    out.render_path(&left_page_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&left_page_sym, &Some(GRAY_PEN), &None);
 
     let right_page_sym: [geometry::DrawDirective; 8] =
         get_page_contour(17.0 + HALFLINE, 4.0 + HALFLINE);
-    out.render_path(&right_page_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&right_page_sym, &Some(GRAY_PEN), &None);
 
     let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
     out.render_path(&pink_line, &Some(PINK_THICK_PEN), &None);
@@ -557,7 +544,7 @@ pub fn generate_edit_copy(out: &mut dyn PathRenderer) -> () {
 pub fn generate_edit_paste(out: &mut dyn PathRenderer) -> () {
     let left_page_sym: [geometry::DrawDirective; 8] =
         get_page_contour(11.0 + HALFLINE, 5.0 + HALFLINE);
-    out.render_path(&left_page_sym, &Some(BLACK_PEN), &Some(GREEN));
+    out.render_path(&left_page_sym, &Some(GRAY_PEN), &Some(SILVER));
 
     let board_sym: [geometry::DrawDirective; 8] = [
         MoveRel(Offset {
@@ -588,7 +575,7 @@ pub fn generate_edit_paste(out: &mut dyn PathRenderer) -> () {
             Offset { dx: -3.0, dy: 3.0 },
         ),
     ];
-    out.render_path(&board_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&board_sym, &Some(GRAY_PEN), &None);
 
     let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
     out.render_path(&pink_line, &Some(LIGHT_GRAY_THICK_PEN), &None);
@@ -652,7 +639,7 @@ pub fn generate_edit_delete(out: &mut dyn PathRenderer) -> () {
         LineRel(Offset { dx: 0.0, dy: -9.0 }),
         CloseRel,
     ];
-    out.render_path(&man_sym, &Some(BLACK_PEN), &Some(BLACK));
+    out.render_path(&man_sym, &Some(GRAY_PEN), &Some(GRAY));
 
     let tool_sym: [geometry::DrawDirective; 4] = [
         MoveRel(Offset {
@@ -674,7 +661,7 @@ pub fn generate_edit_delete(out: &mut dyn PathRenderer) -> () {
             Offset { dx: 13.0, dy: -4.0 },
         ),
     ];
-    out.render_path(&tool_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&tool_sym, &Some(GRAY_PEN), &None);
 
     let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
     out.render_path(&pink_line, &Some(PINK_THICK_PEN), &None);
@@ -691,7 +678,7 @@ pub fn generate_edit_instantiate(out: &mut dyn PathRenderer) -> () {
         MoveRel(Offset { dx: 3.5, dy: 20.0 }),
         LineRel(Offset { dx: 21.0, dy: 6.0 }),
     ];
-    out.render_path(&color_sym, &Some(GREEN_THICK_PEN), &None);
+    out.render_path(&color_sym, &Some(LIGHT_GRAY_THICK_PEN), &None);
 
     let shadow_sym: [geometry::DrawDirective; 2] = [
         MoveRel(Offset { dx: 18.0, dy: 16.0 }),
@@ -720,7 +707,7 @@ pub fn generate_edit_instantiate(out: &mut dyn PathRenderer) -> () {
         LineRel(Offset { dx: 7.0, dy: 2.0 }),
         LineRel(Offset { dx: -0.5, dy: 7.0 }),
     ];
-    out.render_path(&stamp_sym, &Some(BLACK_PEN), &None);
+    out.render_path(&stamp_sym, &Some(GRAY_PEN), &None);
 
     let pink_line: [geometry::DrawDirective; 2] = get_pink_marker();
     out.render_path(&pink_line, &Some(PINK_THICK_PEN), &None);

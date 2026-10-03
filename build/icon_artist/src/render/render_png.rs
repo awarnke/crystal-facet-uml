@@ -237,7 +237,7 @@ impl<'my_lifespan> PathRenderer for PngRenderer<'my_lifespan> {
                 let options = raqote::DrawOptions {
                     blend_mode: raqote::BlendMode::SrcOver,
                     alpha: 1.0,
-                    antialias: raqote::AntialiasMode::Gray,
+                    antialias: raqote::AntialiasMode::None,  /* otherwise some black error pixels appear at borders */
                 };
                 self.dt.fill(
                     &path,

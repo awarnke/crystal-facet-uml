@@ -2,6 +2,7 @@ crystal-facet-uml (1.71.3) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * toolbar has 2 more separator icons
+  * toolbar icons are less green
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 Nov 2026 15:30:00 +0200
 
