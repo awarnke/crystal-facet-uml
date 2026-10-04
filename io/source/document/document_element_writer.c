@@ -28,6 +28,8 @@
 #define DOCUMENT_ELEMENT_WRITER_RIGHT_POINTING_GUILLEMENTS "\xc2\xbb"
 #define DOCUMENT_ELEMENT_WRITER_NON_BREAKING_SPACE "\xc2\xa0"
 
+enum DOCBOOK_DIAGRAM_MAX { DOCBOOK_DIAGRAM_MAX_DEPTH = 6, };  /* some docbook processors like pandoc have limits at 6 */
+
 static const char DOCBOOK_ENC[]
     = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 static const char DOCBOOK_DOC_START[]
@@ -1457,6 +1459,12 @@ u8_error_t document_element_writer_start_diagram( document_element_writer_t *thi
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
+            if ( (*this_).current_tree_depth > DOCBOOK_DIAGRAM_MAX_DEPTH )
+            {
+                /* end previos section already now */
+                io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
+                export_err |= io_xml_writer_write_plain( &((*this_).xml_writer), DOCBOOK_DIAGRAM_END );
+            }
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
             export_err |= io_xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
@@ -1705,8 +1713,15 @@ u8_error_t document_element_writer_end_diagram( document_element_writer_t *this_
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_END : DOCBOOK_DIAGRAM_END );
+            if ( (*this_).current_tree_depth <= DOCBOOK_DIAGRAM_MAX_DEPTH )
+            {
+                io_xml_writer_decrease_indent ( &((*this_).xml_writer) );
+                export_err |= io_xml_writer_write_plain( &((*this_).xml_writer),
+                                                         ((*this_).current_tree_depth==1)
+                                                         ? DOCBOOK_TOP_DIAGRAM_END
+                                                         : DOCBOOK_DIAGRAM_END
+                                                       );
+            }
         }
         break;
 

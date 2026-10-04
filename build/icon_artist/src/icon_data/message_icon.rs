@@ -28,19 +28,6 @@ const CY: f32 = 16.0;
 /// half line width
 const HALFLINE: f32 = 0.5;
 
-/// black line color
-static BLACK: geometry::Color = geometry::Color {
-    red: 0x00,
-    green: 0x00,
-    blue: 0x00,
-};
-
-/// black bold pen
-static BLACK_THICK_PEN: geometry::Pen = geometry::Pen {
-    color: BLACK,
-    width: 2.0,
-};
-
 /// white color
 static WHITE: geometry::Color = geometry::Color {
     red: 0xff,
@@ -255,7 +242,7 @@ pub fn generate_message_user_doc(out: &mut dyn PathRenderer) -> () {
         ),
         Close,
     ];
-    out.render_path(&icon_object, &Some(BLACK_THICK_PEN), &Some(WHITE));
+    out.render_path(&icon_object, &Some(GRAY_THICK_PEN), &Some(WHITE));
 }
 
 /// The function generates a message_warn icon

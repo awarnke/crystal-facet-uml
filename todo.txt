@@ -27,7 +27,6 @@ ideas for future versions:
   [ ] In Nav-View, allow to scroll like in search view.
   [ ] Toggle a Dark Mode / improve icons for dark mode
   [ ] Include all resources in executable file using glib-compile-resources on windows
-! [ ] Simplify the tool icons: no colors, gray thick pen as for classifier types
   @pencil
   [?] Asynchronous calls shall be slightly diagonal
   [ ] sequence diagrams need if/loop-boxes
@@ -58,10 +57,6 @@ ideas for future versions:
   [ ] add test case for opening non-cfuJ files
   [ ] At concurrent modifications, allow to quit without saving;
       maybe disable the autosave till a manual save was pressed (see io_data_file_is_externally_modified).
-! [ ] pandoc -f docbook -t pdf -o quality.pdf quality.xml  #--> throws some warnings
-      possibly caused by too deep chapter structure?
-      possibly the book structure should be part chapter section section ...
-      can be fixed by parameter --top-level-division=chapter
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"

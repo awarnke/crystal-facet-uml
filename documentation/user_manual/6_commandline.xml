@@ -30,7 +30,24 @@
             <command>crystal-facet-uml -e my_database_file.cfuJ html output_directory"</command>
         </para>
     </section>
-    <section><title>Storing data in a version control system</title>
+    <section><title>Storing Data in a Version Control System</title>
         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="6_command_line_example_para.xml" />
+    </section>
+    <section>
+        <title>Command Line Usage of related Tools</title>
+        <para>
+            Convert docbook to pdf using dblatex:
+        </para>
+        <para>
+            <command>dblatex --type=pdf mouse_droid.xml</command>
+        </para>
+        <para>
+            Convert docbook to pdf using pandoc:
+        </para>
+        <para>
+            <command>pandoc -f docbook -t pdf --top-level-division=chapter -o mouse_droid.pdf mouse_droid.xml</command>
+        </para>
+
+
     </section>
 </section>
