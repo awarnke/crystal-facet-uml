@@ -7,10 +7,10 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#999999" fill="none"
+    <path stroke="#b0b0b0" fill="none"
         d="m 3.5,20 l 21,6 "
     />
-    <path stroke="#999999" fill="none"
+    <path stroke="#b0b0b0" fill="none"
         d="m 18,16 c 6.5,-13 4.5,-10 1,-11 "
     />
     <path stroke="#7f7f7f" fill="none"

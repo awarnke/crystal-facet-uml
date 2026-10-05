@@ -67,12 +67,6 @@ static GRAY_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
-/// gray thick pen
-static GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
-    color: GRAY,
-    width: 2.0,
-};
-
 /// very light gray fill color
 static SILVER: geometry::Color = geometry::Color {
     red: 0xe0,
@@ -82,9 +76,9 @@ static SILVER: geometry::Color = geometry::Color {
 
 /// light gray color
 static LIGHT_GRAY: geometry::Color = geometry::Color {
-    red: 0x99,
-    green: 0x99,
-    blue: 0x99,
+    red: 0xb0,
+    green: 0xb0,
+    blue: 0xb0,
 };
 
 /// light gray pen
@@ -93,7 +87,7 @@ static LIGHT_GRAY_PEN: geometry::Pen = geometry::Pen {
     width: 1.0,
 };
 
-/// light gray pen
+/// light gray thick pen
 static LIGHT_GRAY_THICK_PEN: geometry::Pen = geometry::Pen {
     color: LIGHT_GRAY,
     width: 2.0,
@@ -329,9 +323,9 @@ fn get_pink_marker() -> [geometry::DrawDirective; 2] {
 pub fn generate_edit_undo(out: &mut dyn PathRenderer) -> () {
     /* background */
     let broken_circle_sym: [geometry::DrawDirective; 4] = get_broken_circle_contour();
-    out.render_path(&broken_circle_sym, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&broken_circle_sym, &Some(GRAY_PEN), &None);
 
-    /* green sand */
+    /* sand */
     let sand_sym: [geometry::DrawDirective; 6] = [
         Move(Point {
             x: CX - 1.0 - HALFLINE,
@@ -391,9 +385,9 @@ pub fn generate_edit_undo(out: &mut dyn PathRenderer) -> () {
 pub fn generate_edit_redo(out: &mut dyn PathRenderer) -> () {
     /* background */
     let broken_circle_sym: [geometry::DrawDirective; 4] = get_broken_circle_contour();
-    out.render_path(&broken_circle_sym, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&broken_circle_sym, &Some(GRAY_PEN), &None);
 
-    /* green sand */
+    /* sand */
     let sand_sym: [geometry::DrawDirective; 5] = [
         Move(Point {
             x: CX + 7.0 + HALFLINE,
