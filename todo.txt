@@ -57,6 +57,7 @@ ideas for future versions:
   [ ] add test case for opening non-cfuJ files
   [ ] At concurrent modifications, allow to quit without saving;
       maybe disable the autosave till a manual save was pressed (see io_data_file_is_externally_modified).
+! [ ] improve the mymodel.schema so that an AI is able to generate a valid json file
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
@@ -105,5 +106,5 @@ ideas for a version 2
   - improve visibility:
     crystal_facet_uml wird bei heise Download gehostet und
     wurde in den letzten 30 Tagen 142 Mal heruntergeladen,
-    das entspricht dem Download-Rang 475.
+    das entspricht dem Download-Rang 523.
 

@@ -165,7 +165,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).sketch_stack_column ), true );
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).attr_edit_column ), true );
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).attr_edit_column ), false );
-    gtk_paned_set_position( GTK_PANED((*this_).two_panes), 11*70 );
+    gtk_paned_set_position( GTK_PANED((*this_).two_panes), 900 );
 
     (*this_).main_stack_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 0 );
     gtk_box_append( GTK_BOX((*this_).main_stack_column), GTK_WIDGET((*this_).tool_row) );
