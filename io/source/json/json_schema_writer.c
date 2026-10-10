@@ -6,80 +6,93 @@
 #include "u8/u8_trace.h"
 #include <assert.h>
 
-static const char SCHEMA_GRAPH_HEADER[]
-=
-"{\n"
-"  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n"
-"  \"$id\": \"https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json\",\n"
-"  \"title\": \"crystal-facet-uml model\",\n"
-"  \"description\": \"This schema defines the structure of json objects to store a uml/sysml model.\",\n"
-"  \"type\": \"object\",\n"
-"  \"required\": [\"" JSON_CONSTANTS_KEY_HEAD "\"],\n"
-"  \"properties\":\n"
-"  {\n"
-"    \"" JSON_CONSTANTS_KEY_HEAD "\":\n"
-"    {\n"
-"      \"description\": \"" JSON_CONSTANTS_KEY_HEAD " defines properties of the json file.\",\n"
-"      \"type\": \"object\"\n"
-"    },\n"
-;
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
 
-static const char SCHEMA_GRAPH_VIEWS[]
-=
-"    \"" JSON_CONSTANTS_KEY_VIEWS "\":\n"
-"    {\n"
-"      \"description\": \"" JSON_CONSTANTS_KEY_VIEWS " is an array whose elements describe the views on the model.\",\n"
-"      \"type\": \"array\",\n"
-"      \"items\":\n"
-"      {\n"
-"        \"description\": \"An element of " JSON_CONSTANTS_KEY_VIEWS " is an object that specifies a "
-JSON_CONSTANTS_KEY_DIAGRAM ".\",\n"
-"        \"type\": \"object\",\n"
-"        \"required\": [\"" JSON_CONSTANTS_KEY_DIAGRAM "\"],\n"
-"        \"properties\":\n"
-"        {\n"
-;
+static const char SCHEMA_GRAPH_HEADER[]
+    = "{\n"
+    "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n"
+    "  \"$id\": \"https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json\",\n"
+    "  \"title\": \"crystal-facet-uml model\",\n"
+    "  \"description\": \"This schema defines the structure of json objects to store a uml/sysml model.\",\n"
+    "  \"type\": \"object\",\n"
+    "  \"required\": [\"" JSON_CONSTANTS_KEY_HEAD "\"],\n"
+    "  \"properties\":\n"
+    "  {\n";
+
+static const char SCHEMA_GRAPH_HEAD_HEADER[]
+    = "    \"" JSON_CONSTANTS_KEY_HEAD "\":\n"
+    "    {\n"
+    "      \"description\": \"" JSON_CONSTANTS_KEY_HEAD " defines properties of the json file.\",\n"
+    "      \"type\": \"object\",\n"
+    "      \"required\": [\n"
+    "        \"" JSON_CONSTANTS_KEY_HEAD_ENCODING "\",\n"
+    "        \"" JSON_CONSTANTS_KEY_HEAD_STRUCTURE "\",\n"
+    "        \"" JSON_CONSTANTS_KEY_HEAD_FORMAT "\",\n"
+    "        \"" JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION "\",\n"
+    "        \"" JSON_CONSTANTS_KEY_HEAD_MINOR_VERSION "\"\n"
+    "      ],\n"
+    "      \"properties\":\n"
+    "      {\n" ;
+
+static const char SCHEMA_GRAPH_HEAD_FOOTER[]
+    = "      },\n"
+    "      \"additionalProperties\": true\n"
+    "    },\n";
+
+static const char SCHEMA_GRAPH_VIEWS_HEADER[]
+    = "    \"" JSON_CONSTANTS_KEY_VIEWS "\":\n"
+    "    {\n"
+    "      \"description\": \"" JSON_CONSTANTS_KEY_VIEWS " is an array whose elements describe the views on the model.\",\n"
+    "      \"type\": \"array\",\n"
+    "      \"items\":\n"
+    "      {\n"
+    "        \"description\": \""
+    "An element of " JSON_CONSTANTS_KEY_VIEWS " is an object that specifies a "
+    JSON_CONSTANTS_KEY_DIAGRAM "."
+    "\",\n"
+    "        \"type\": \"object\",\n"
+    "        \"required\": [\"" JSON_CONSTANTS_KEY_DIAGRAM "\"],\n"
+    "        \"properties\":\n"
+    "        {\n" ;
 
 static const char SCHEMA_DIAGRAM_HEADER[]
-=
-"          \"" JSON_CONSTANTS_KEY_DIAGRAM "\":\n"
-"          {\n"
-"            \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM " is a view that is specified by listing the nodes to be shown in "
+    = "          \"" JSON_CONSTANTS_KEY_DIAGRAM "\":\n"
+    "          {\n"
+    "            \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM " is a view that is specified by listing the nodes to be shown in "
 #ifdef JSON_CONSTANTS_NEW_KEYS
-JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST ".\",\n"
+    JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST ".\",\n"
 #else
-JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ".\",\n"
+    JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ".\",\n"
 #endif
-"            \"type\": \"object\",\n"
-"            \"properties\":\n"
-"            {\n"
-;
+    "            \"type\": \"object\",\n"
+    "            \"properties\":\n"
+    "            {\n";
 
 static const char SCHEMA_DIAGRAM_ELEMENTS_HEADER[]
-=
+    =
 #ifdef JSON_CONSTANTS_NEW_KEYS
-"              \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST "\":\n"
+    "              \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST "\":\n"
 #else
-"              \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS "\":\n"
+    "              \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS "\":\n"
 #endif
-"              {\n"
+    "              {\n"
 #ifdef JSON_CONSTANTS_NEW_KEYS
-"                \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST " is the list of elements shown in the diagram.\",\n"
+    "                \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST " is the list of elements shown in the diagram.\",\n"
 #else
-"                \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS " is the list of elements shown in the diagram.\",\n"
+    "                \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS " is the list of elements shown in the diagram.\",\n"
 #endif
-"                \"type\": \"array\",\n"
-"                \"items\":\n"
-"                {\n"
+    "                \"type\": \"array\",\n"
+    "                \"items\":\n"
+    "                {\n"
 #ifdef JSON_CONSTANTS_NEW_KEYS
-"                  \"description\": \"An element of " JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST " specifies what and how to show.\",\n"
+    "                  \"description\": \"An element of " JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST " specifies what and how to show.\",\n"
 #else
-"                  \"description\": \"An element of " JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS " specifies what and how to show.\",\n"
+    "                  \"description\": \"An element of " JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS " specifies what and how to show.\",\n"
 #endif
-"                  \"type\": \"object\",\n"
-"                  \"properties\":\n"
-"                  {\n"
-;
+    "                  \"type\": \"object\",\n"
+    "                  \"properties\":\n"
+    "                  {\n";
 
 static const char SCHEMA_DIAGRAM_ELEMENTS_FOOTER[]
 =
@@ -96,109 +109,98 @@ static const char SCHEMA_DIAGRAM_FOOTER[]
 "          }\n"
 ;
 
-static const char SCHEMA_GRAPH_NODES[]
-=
-"        }\n"
-"      }\n"
-"    },\n"
-"    \"" JSON_CONSTANTS_KEY_NODES "\":\n"
-"    {\n"
-"      \"description\": \"" JSON_CONSTANTS_KEY_NODES " is an array whose elements describe the nodes of the model-graph.\",\n"
-"      \"type\": \"array\",\n"
-"      \"items\":\n"
-"      {\n"
-"        \"description\": \"An element of " JSON_CONSTANTS_KEY_NODES " is an object that specifies a "
-JSON_CONSTANTS_KEY_CLASSIFIER ".\",\n"
-"        \"type\": \"object\",\n"
-"        \"required\": [\"" JSON_CONSTANTS_KEY_CLASSIFIER "\"],\n"
-"        \"properties\":\n"
-"        {\n"
-;
+static const char SCHEMA_GRAPH_VIEWS_FOOTER[]
+    = "        }\n"
+    "      }\n"
+    "    },\n";
+
+static const char SCHEMA_GRAPH_NODES_HEADER[]
+    = "    \"" JSON_CONSTANTS_KEY_NODES "\":\n"
+    "    {\n"
+    "      \"description\": \"" JSON_CONSTANTS_KEY_NODES " is an array whose elements describe the nodes of the model-graph.\",\n"
+    "      \"type\": \"array\",\n"
+    "      \"items\":\n"
+    "      {\n"
+    "        \"description\": \"An element of " JSON_CONSTANTS_KEY_NODES " is an object that specifies a "
+    JSON_CONSTANTS_KEY_CLASSIFIER ".\",\n"
+    "        \"type\": \"object\",\n"
+    "        \"required\": [\"" JSON_CONSTANTS_KEY_CLASSIFIER "\"],\n"
+    "        \"properties\":\n"
+    "        {\n";
 
 static const char SCHEMA_CLASSIFIER_HEADER[]
-=
-"          \"" JSON_CONSTANTS_KEY_CLASSIFIER "\":\n"
-"          {\n"
-"            \"description\": \"" JSON_CONSTANTS_KEY_CLASSIFIER " is a node that contains a list of subnodes called " JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ".\",\n"
-"            \"type\": \"object\",\n"
-"            \"properties\":\n"
-"            {\n"
-;
+    = "          \"" JSON_CONSTANTS_KEY_CLASSIFIER "\":\n"
+    "          {\n"
+    "            \"description\": \"" JSON_CONSTANTS_KEY_CLASSIFIER " is a node that contains a list of subnodes called " JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ".\",\n"
+    "            \"type\": \"object\",\n"
+    "            \"properties\":\n"
+    "            {\n";
 
 static const char SCHEMA_FEATURES_HEADER[]
-=
-"              \"" JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES "\":\n"
-"              {\n"
-"                \"description\": \"" JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES " is the list of features of the classifier.\",\n"
-"                \"type\": \"array\",\n"
-"                \"items\":\n"
-"                {\n"
-"                  \"description\": \"An element of " JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES " specifies a feature or port or lifeline.\",\n"
-"                  \"type\": \"object\",\n"
-"                  \"properties\":\n"
-"                  {\n"
-;
+    = "              \"" JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES "\":\n"
+    "              {\n"
+    "                \"description\": \"" JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES " is the list of features of the classifier.\",\n"
+    "                \"type\": \"array\",\n"
+    "                \"items\":\n"
+    "                {\n"
+    "                  \"description\": \"An element of " JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES " specifies a feature or port or lifeline.\",\n"
+    "                  \"type\": \"object\",\n"
+    "                  \"properties\":\n"
+    "                  {\n";
 
 static const char SCHEMA_FEATURES_FOOTER[]
-=
-"                  },\n"
-"                  \"additionalProperties\": false\n"
-"                }\n"
-"              }\n"
-;
+    = "                  },\n"
+    "                  \"additionalProperties\": false\n"
+    "                }\n"
+    "              }\n";
 
 static const char SCHEMA_CLASSIFIER_FOOTER[]
-=
-"            },\n"
-"            \"additionalProperties\": false\n"
-"          }\n"
-;
+    = "            },\n"
+    "            \"additionalProperties\": false\n"
+    "          }\n";
 
-static const char SCHEMA_GRAPH_EDGES[]
-=
-"        }\n"
-"      }\n"
-"    },\n"
-"    \"" JSON_CONSTANTS_KEY_EDGES "\":\n"
-"    {\n"
-"      \"description\": \"" JSON_CONSTANTS_KEY_EDGES " is an array whose elements describe the edges of the model-graph.\",\n"
-"      \"type\": \"array\",\n"
-"      \"items\":\n"
-"      {\n"
-"        \"description\": \"An element of " JSON_CONSTANTS_KEY_EDGES " is an object that specifies a "
-JSON_CONSTANTS_KEY_RELATIONSHIP ".\",\n"
-"        \"type\": \"object\",\n"
-"        \"required\": [\"" JSON_CONSTANTS_KEY_RELATIONSHIP "\"],\n"
-"        \"properties\":\n"
-"        {\n"
-;
+static const char SCHEMA_GRAPH_NODES_FOOTER[]
+    = "        }\n"
+    "      }\n"
+    "    },\n";
+
+static const char SCHEMA_GRAPH_EDGES_HEADER[]
+    = "    \"" JSON_CONSTANTS_KEY_EDGES "\":\n"
+    "    {\n"
+    "      \"description\": \"" JSON_CONSTANTS_KEY_EDGES " is an array whose elements describe the edges of the model-graph.\",\n"
+    "      \"type\": \"array\",\n"
+    "      \"items\":\n"
+    "      {\n"
+    "        \"description\": \"An element of " JSON_CONSTANTS_KEY_EDGES " is an object that specifies a "
+    JSON_CONSTANTS_KEY_RELATIONSHIP ".\",\n"
+    "        \"type\": \"object\",\n"
+    "        \"required\": [\"" JSON_CONSTANTS_KEY_RELATIONSHIP "\"],\n"
+    "        \"properties\":\n"
+    "        {\n";
 
 static const char SCHEMA_RELATIONSHIP_HEADER[]
-=
-"          \"" JSON_CONSTANTS_KEY_RELATIONSHIP "\":\n"
-"          {\n"
-"            \"description\": \"" JSON_CONSTANTS_KEY_RELATIONSHIP " is an edge with 1 source and 1 destination end.\",\n"
-"            \"type\": \"object\",\n"
-"            \"properties\":\n"
-"            {\n"
-;
+    = "          \"" JSON_CONSTANTS_KEY_RELATIONSHIP "\":\n"
+    "          {\n"
+    "            \"description\": \"" JSON_CONSTANTS_KEY_RELATIONSHIP " is an edge with 1 source and 1 destination end.\",\n"
+    "            \"type\": \"object\",\n"
+    "            \"properties\":\n"
+    "            {\n";
 
 static const char SCHEMA_RELATIONSHIP_FOOTER[]
-=
-"            },\n"
-"            \"additionalProperties\": false\n"
-"          }\n"
-;
+    = "            },\n"
+    "            \"additionalProperties\": false\n"
+    "          }\n";
+
+static const char SCHEMA_GRAPH_EDGES_FOOTER[]
+    = "        }\n"
+    "      }\n"
+    "    }\n";
 
 static const char SCHEMA_GRAPH_FOOTER[]
-=
-"        }\n"
-"      }\n"
-"    }\n"
-"  }\n"
-"}\n"
-;
+    = "  }\n"
+    "}\n";
 
+static const char INDENT_4[] = "        ";
 static const char INDENT_7[] = "              ";
 static const char INDENT_10[] = "                    ";
 
@@ -238,7 +240,36 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions";
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_HEADER );
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_VIEWS );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_HEAD_HEADER );
+
+    (*this_).indent = 4;
+    static const char *const HEAD_ENC_INFO = "only \\\"utf-8\\\" is supported";
+    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_HEAD_ENCODING, HEAD_ENC_INFO );
+    static const char *const HEAD_STRUCT_INFO
+        = "only \\\"rfc-8259 w/o hexadecimal escapes\\\" is supported; "
+        "hexadecimal escapes are not needed because utf-8 can encode all unicode characters.";
+    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_HEAD_STRUCTURE, HEAD_STRUCT_INFO );
+    static const char *const HEAD_FORMAT_INFO = "only \\\"cfu-json\\\" is supported";
+    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_HEAD_FORMAT, HEAD_FORMAT_INFO );
+    static const char *const HEAD_MAJOR_INFO
+        = "current major version is " STR(JSON_CONSTANTS_VALUE_HEAD_MAJOR_VERSION) ", "
+        "the major version changes if an older json reader cannot read a new format";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION, HEAD_MAJOR_INFO );
+    static const char *const HEAD_MINOR_INFO
+        = "current minor version is " STR(JSON_CONSTANTS_VALUE_HEAD_MINOR_VERSION) ", "
+        "the minor version changes if an older json reader may not process all information";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_HEAD_MINOR_VERSION, HEAD_MINOR_INFO );
+    static const char *const HEAD_GEN_NAME_INFO = "the name of the generator, can be freely chosen";
+    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_HEAD_GENERATOR_NAME, HEAD_GEN_NAME_INFO );
+    static const char *const HEAD_GEN_VERSION_INFO = "the version of the generator, can be freely chosen";
+    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_HEAD_GENERATOR_VERSION, HEAD_GEN_VERSION_INFO );
+    static const char *const HEAD_ID_PREFIX_INFO = "a prefix string that is prepended to ids within this model";
+    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_HEAD_MODEL_ID_PREFIX, HEAD_ID_PREFIX_INFO );
+    export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_HEAD_MODEL_UUID, ANY_UUID, false /*no elements follow*/ );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_HEAD_FOOTER );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_VIEWS_HEADER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_HEADER );
 
     (*this_).indent = 7;
@@ -319,7 +350,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_ELEMENTS_FOOTER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_FOOTER );
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_NODES );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_VIEWS_FOOTER );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_NODES_HEADER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_CLASSIFIER_HEADER );
 
     (*this_).indent = 7;
@@ -391,7 +424,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_FEATURES_FOOTER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_CLASSIFIER_FOOTER );
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_EDGES );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_NODES_FOOTER );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_EDGES_HEADER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_RELATIONSHIP_HEADER );
 
     (*this_).indent = 7;
@@ -474,6 +509,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, false );
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_RELATIONSHIP_FOOTER );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_EDGES_FOOTER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_FOOTER );
 
     export_err |= utf8stream_writer_flush( &((*this_).writer) );
@@ -490,7 +526,7 @@ u8_error_t json_schema_writer_private_declare_integer( json_schema_writer_t *thi
     assert( name != NULL );
     assert( description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
-    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : ((*this_).indent==7) ? INDENT_7 : INDENT_4;
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
@@ -523,7 +559,7 @@ u8_error_t json_schema_writer_private_declare_string( json_schema_writer_t *this
     assert( name != NULL );
     assert( description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
-    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : ((*this_).indent==7) ? INDENT_7 : INDENT_4;
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
@@ -558,7 +594,7 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
     assert( description != NULL );
     assert( element_description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
-    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : ((*this_).indent==7) ? INDENT_7 : INDENT_4;
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent  );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
@@ -611,7 +647,7 @@ u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
     assert( description != NULL );
     assert( value_list != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
-    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : ((*this_).indent==7) ? INDENT_7 : INDENT_4;
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
@@ -662,7 +698,7 @@ u8_error_t json_schema_writer_private_declare_uuid( json_schema_writer_t *this_,
     assert( name != NULL );
     assert( description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
-    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : ((*this_).indent==7) ? INDENT_7 : INDENT_4;
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );

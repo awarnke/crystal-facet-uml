@@ -126,22 +126,67 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
                                         JSON_CONSTANTS_BEGIN_OBJECT_NL
                                       );
 
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "encoding", "utf-8", true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                2,
+                                                JSON_CONSTANTS_KEY_HEAD_ENCODING,
+                                                "utf-8",
+                                                true
+                                              );
     /* hexadecimal escapes are complex: */
     /* a single 6-byte sequence can only encode a codepoint of the the basic multilingual plane, */
     /* two of these 6-byte sequences may form a surrogate pair */
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "structure_format", "rfc-8259 w/o hexadecimal escapes", true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "cfu-json", true );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                2,
+                                                JSON_CONSTANTS_KEY_HEAD_STRUCTURE,
+                                                "rfc-8259 w/o hexadecimal escapes",
+                                                true
+                                              );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                2,
+                                                JSON_CONSTANTS_KEY_HEAD_FORMAT,
+                                                "cfu-json",
+                                                true
+                                              );
 #ifdef JSON_CONSTANTS_NEW_KEYS
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 2, true );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 0, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer),
+                                             2,
+                                             JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION,
+                                             2,
+                                             true
+                                           );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer),
+                                             2,
+                                             JSON_CONSTANTS_KEY_HEAD_MINOR_VERSION,
+                                             0,
+                                             true
+                                           );
 #else
     /* version 1.1 stores stereotypes for diagrams and relationships */
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 1, true );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 3, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer),
+                                             2,
+                                             JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION,
+                                             JSON_CONSTANTS_VALUE_HEAD_MAJOR_VERSION,
+                                             true
+                                           );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer),
+                                             2,
+                                             JSON_CONSTANTS_KEY_HEAD_MINOR_VERSION,
+                                             JSON_CONSTANTS_VALUE_HEAD_MINOR_VERSION,
+                                             true
+                                           );
 #endif
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_name", META_INFO_PROGRAM_ID_STR, true );
-    out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_version", META_VERSION_STR, false );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                2,
+                                                JSON_CONSTANTS_KEY_HEAD_GENERATOR_NAME,
+                                                META_INFO_PROGRAM_ID_STR,
+                                                true
+                                              );
+    out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                2,
+                                                JSON_CONSTANTS_KEY_HEAD_GENERATOR_VERSION,
+                                                META_VERSION_STR,
+                                                false
+                                              );
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB

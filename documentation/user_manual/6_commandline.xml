@@ -47,7 +47,11 @@
         <para>
             <command>pandoc -f docbook -t pdf --top-level-division=chapter -o mouse_droid.pdf mouse_droid.xml</command>
         </para>
-
-
+        <para>
+            Check if json/cfuJ files are valid:
+        </para>
+        <para>
+            <command>jsonlint myModel.json myModel.schema</command>
+        </para>
     </section>
 </section>

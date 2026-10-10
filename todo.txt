@@ -73,6 +73,7 @@ ideas for future versions:
   [ ] as sysml2 preparation: clarify what things are definitions an what are usages. E.g. all part-types should be instances.
   [ ] have a separate type for each data_row_t --> mixing these between tables is anyhow dangerous
   [ ] allow a project-specific prefix for IDs, e.g. CFU-D0012 instead of D0012
+      support json header values "model_id_prefix" and "model_uuid"
   @ctrl
   [ ] at importing databases, classifiers are not checked if they are attached to a diagramelement. ctrl should ensure this.
   [ ] at importing databases, lifelines are not checked if they are attached to a diagramelement. ctrl should ensure this.
