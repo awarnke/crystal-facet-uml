@@ -66,11 +66,13 @@ u8_error_t json_schema_writer_private_declare_integer( json_schema_writer_t *thi
  *  \param this_ pointer to own object attributes
  *  \param name name of the member to declare
  *  \param description description of the member
+ *  \param max_utf8_byte_length maximum length of the utf-8 encoded value in bytes
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t json_schema_writer_private_declare_string( json_schema_writer_t *this_,
                                                       const char* name,
-                                                      const char* description
+                                                      const char* description,
+                                                      unsigned int max_utf8_byte_length
                                                     );
 
 /*!
@@ -79,12 +81,14 @@ u8_error_t json_schema_writer_private_declare_string( json_schema_writer_t *this
  *  \param this_ pointer to own object attributes
  *  \param name name of the member to declare
  *  \param description description of the member
+ *  \param max_utf8_byte_length maximum length of the utf-8 encoded, concatenated elements in bytes
  *  \param element_description description of the array element
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_writer_t *this_,
                                                                const char* name,
                                                                const char* description,
+                                                               unsigned int max_utf8_byte_length,
                                                                const char* element_description
                                                              );
 
