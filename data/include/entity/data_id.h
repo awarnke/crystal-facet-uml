@@ -22,8 +22,10 @@
  *  \brief constants to define maximum length of textual representation
  */
 enum data_id_max_enum {
-    DATA_ID_MAX_UTF8STRING_LENGTH = 21,  /*!< maximum ID length is strlen("X-9223372036854775807") which is 21 */
-    DATA_ID_MAX_UTF8STRING_SIZE = 22,  /*!< maximum ID size is sizeof("X-9223372036854775807") which is 22 */
+    DATA_ID_MAX_UTF8STRING_LENGTH = 21,  /*!< maximum ID length is strlen("X-9223372036854775807") which is 21; */
+                                         /*!< X is the type identifier */
+    DATA_ID_MAX_UTF8STRING_SIZE = 22,  /*!< maximum ID size is sizeof("X-9223372036854775807") which is 22; */
+                                       /*!< X is the type identifier */
 };
 
 /*!

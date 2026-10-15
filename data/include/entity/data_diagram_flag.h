@@ -9,6 +9,9 @@
  *  \brief Defines layout (like emphasis) of diagrams
  */
 
+#include "entity/data_enum_iterator.h"
+#include "entity/data_enum_def.h"
+
 /*!
  *  \brief constants which define display options for a classifier in a diagram
  */
