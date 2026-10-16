@@ -9,6 +9,8 @@
  *  \brief Defines types of relationships
  */
 
+#include "entity/data_enum_def.h"
+
 /*!
  *  \brief enumeration of all relationship types
  */
@@ -54,7 +56,15 @@ enum data_relationship_type_enum {
 
 typedef enum data_relationship_type_enum data_relationship_type_t;
 
+/*!
+ *  \brief total number of types, excluding DATA_RELATIONSHIP_TYPE_VOID
+ */
 #define DATA_RELATIONSHIP_TYPE_COUNT (19)
+
+/*!
+ *  \brief lists all values of data_relationship_type_t
+ */
+extern const data_enum_def_t DATA_RELATIONSHIP_TYPE_ENUM_ARRAY [ DATA_RELATIONSHIP_TYPE_COUNT ];
 
 /*!
  *  \brief a modulo for a hash function for unique hashing

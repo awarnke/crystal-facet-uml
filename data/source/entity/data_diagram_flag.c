@@ -2,6 +2,13 @@
 
 #include "entity/data_diagram_flag.h"
 
+const data_enum_def_t DATA_DIAGRAM_FLAG_ENUM_ARRAY [ DATA_DIAGRAM_FLAG_COUNT ]
+    = {
+        { .number = DATA_DIAGRAM_FLAG_NONE, .name = "" },
+        { .number = DATA_DIAGRAM_FLAG_EMPHASIS, .name = "Emphasis" },
+        { .number = DATA_DIAGRAM_FLAG_GRAY_OUT, .name = "Gray" },
+    };
+
 
 /*
 Copyright 2026-2026 Andreas Warnke

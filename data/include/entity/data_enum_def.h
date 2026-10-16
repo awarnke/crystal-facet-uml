@@ -15,23 +15,23 @@
  *  \brief attributes of a data_enum_def_t
  */
 struct data_enum_def_struct {
-    int value;
+    int number;
     const char* name;
 };
 
 typedef struct data_enum_def_struct data_enum_def_t;
 
-#define DATA_ENUM_DEF_VOID ((data_enum_def_t){.value=-1,.name=""})
-#define DATA_ENUM_DEF(enum_value,enum_name) ((data_enum_def_t){.value=enum_value,.name=enum_name})
+#define DATA_ENUM_DEF_VOID ((data_enum_def_t){.number=-1,.name=""})
+#define DATA_ENUM_DEF(enum_number,enum_name) ((data_enum_def_t){.number=enum_number,.name=enum_name})
 
 /*!
  *  \brief initializes the data_enum_def_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param value value of the enumeration definition
+ *  \param number numerical value of the enumeration definition
  *  \param name name of the enumeration definition
  */
-static inline void data_enum_def_init ( data_enum_def_t *this_, int value, const char* name );
+static inline void data_enum_def_init ( data_enum_def_t *this_, int number, const char* name );
 
 /*!
  *  \brief destroys the data_enum_def_t struct
@@ -41,11 +41,11 @@ static inline void data_enum_def_init ( data_enum_def_t *this_, int value, const
 static inline void data_enum_def_destroy ( data_enum_def_t *this_ );
 
 /*!
- *  \brief gets the value of data_enum_def_t
+ *  \brief gets the numerical value of data_enum_def_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int data_enum_def_get_value ( const data_enum_def_t *this_ );
+static inline int data_enum_def_get_number ( const data_enum_def_t *this_ );
 
 /*!
  *  \brief gets the name of data_enum_def_t
@@ -62,7 +62,7 @@ static inline const char* data_enum_def_get_name ( const data_enum_def_t *this_ 
 static inline void data_enum_def_trace ( const data_enum_def_t *this_ );
 
 /*!
- *  \brief checks if data_enum_def has a value not equal to -1
+ *  \brief checks if data_enum_def has a numerical value not equal to -1
  *
  *  \param this_ pointer to own object attributes
  *  \return true if valid, false if void

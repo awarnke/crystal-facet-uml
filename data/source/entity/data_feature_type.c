@@ -4,6 +4,21 @@
 #include <stddef.h>
 #include <assert.h>
 
+const data_enum_def_t DATA_FEATURE_TYPE_ENUM_ARRAY [ DATA_FEATURE_TYPE_COUNT ]
+    = {
+        { .number = DATA_FEATURE_TYPE_PROPERTY, .name = "Property" },
+        { .number = DATA_FEATURE_TYPE_OPERATION, .name = "Operation" },
+        { .number = DATA_FEATURE_TYPE_PORT, .name = "Port" },
+        { .number = DATA_FEATURE_TYPE_LIFELINE, .name = "Lifeline" },
+        { .number = DATA_FEATURE_TYPE_PROVIDED_INTERFACE, .name = "Provided Interface" },
+        { .number = DATA_FEATURE_TYPE_REQUIRED_INTERFACE, .name = "Required Interface" },
+        { .number = DATA_FEATURE_TYPE_IN_PORT_PIN, .name = "Input Port" },
+        { .number = DATA_FEATURE_TYPE_OUT_PORT_PIN, .name = "Output Port" },
+        { .number = DATA_FEATURE_TYPE_ENTRY, .name = "Entry" },
+        { .number = DATA_FEATURE_TYPE_EXIT, .name = "Exit" },
+        { .number = DATA_FEATURE_TYPE_TAGGED_VALUE, .name = "Tagged Value" },
+    };
+
 const data_feature_type_t DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT]
     = {
         DATA_FEATURE_TYPE_PROPERTY,

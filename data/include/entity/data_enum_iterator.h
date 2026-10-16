@@ -25,6 +25,9 @@ struct data_enum_iterator_struct {
 
 typedef struct data_enum_iterator_struct data_enum_iterator_t;
 
+#define DATA_ENUM_ITERATOR(enum_list) \
+    ((data_enum_iterator_t){.list=enum_list,.size=(sizeof(enum_list)/sizeof(data_enum_def_t)),.next=0})
+
 /*!
  *  \brief initializes the data_enum_iterator_t struct
  *

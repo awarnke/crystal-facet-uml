@@ -9,6 +9,8 @@
  *  \brief Defines semantics (like instance-of) and layout (like emphasis) of classifiers in diagrams
  */
 
+#include "entity/data_enum_def.h"
+
 /*!
  *  \brief constants which define display options for a classifier in a diagram
  */
@@ -26,6 +28,16 @@ enum data_diagramelement_flag_enum {
 };
 
 typedef enum data_diagramelement_flag_enum data_diagramelement_flag_t;
+
+/*!
+ *  \brief total number of flags, taking into account combinations if applicable
+ */
+#define DATA_DIAGRAMELEMENT_FLAG_COUNT (3*3)
+
+/*!
+ *  \brief lists all values of data_diagramelement_flag_t
+ */
+extern const data_enum_def_t DATA_DIAGRAMELEMENT_FLAG_ENUM_ARRAY [ DATA_DIAGRAMELEMENT_FLAG_COUNT ];
 
 #endif  /* DATA_DIAGRAMELEMENT_FLAG_H */
 

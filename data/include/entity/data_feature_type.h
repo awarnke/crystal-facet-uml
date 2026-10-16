@@ -9,6 +9,7 @@
  *  \brief Defines types of features
  */
 
+#include "entity/data_enum_def.h"
 #include <stdbool.h>
 
 /*!
@@ -32,7 +33,15 @@ enum data_feature_type_enum {
 
 typedef enum data_feature_type_enum data_feature_type_t;
 
+/*!
+ *  \brief total number of types, excluding DATA_FEATURE_TYPE_VOID
+ */
 #define DATA_FEATURE_TYPE_COUNT (11)
+
+/*!
+ *  \brief lists all values of data_feature_type_t
+ */
+extern const data_enum_def_t DATA_FEATURE_TYPE_ENUM_ARRAY [ DATA_FEATURE_TYPE_COUNT ];
 
 /*!
  *  \brief a modulo for a hash function for unique hashing

@@ -2,6 +2,19 @@
 
 #include "entity/data_diagramelement_flag.h"
 
+const data_enum_def_t DATA_DIAGRAMELEMENT_FLAG_ENUM_ARRAY [ DATA_DIAGRAMELEMENT_FLAG_COUNT ]
+    = {
+        { .number = DATA_DIAGRAMELEMENT_FLAG_NONE, .name = "" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, .name = "Emphasis" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT, .name = "Gray" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_NONE, .name = "Named Instance" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, .name = "Named Instance, Emphasis" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT, .name = "Named Instance, Gray" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_NONE, .name = "Anonymous Instance" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, .name = "Anonymous Instance, Emphasis" },
+        { .number = DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT, .name = "Anonymous Instance, Gray" },
+    };
+
 
 /*
 Copyright 2026-2026 Andreas Warnke

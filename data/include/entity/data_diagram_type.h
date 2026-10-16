@@ -9,6 +9,7 @@
  *  \brief Defines types of diagrams
  */
 
+#include "entity/data_enum_iterator.h"
 #include <stdbool.h>
 
 /*!
@@ -42,7 +43,15 @@ enum data_diagram_type_enum {
 
 typedef enum data_diagram_type_enum data_diagram_type_t;
 
+/*!
+ *  \brief total number of types, excluding DATA_DIAGRAM_TYPE_VOID
+ */
 #define DATA_DIAGRAM_TYPE_COUNT (19)
+
+/*!
+ *  \brief lists all values of data_diagram_type_t
+ */
+extern const data_enum_def_t DATA_DIAGRAM_TYPE_ENUM_ARRAY [ DATA_DIAGRAM_TYPE_COUNT ];
 
 /*!
  *  \brief a modulo for a hash function for unique hashing

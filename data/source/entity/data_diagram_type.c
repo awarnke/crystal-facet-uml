@@ -4,6 +4,29 @@
 #include <stddef.h>
 #include <assert.h>
 
+const data_enum_def_t DATA_DIAGRAM_TYPE_ENUM_ARRAY [ DATA_DIAGRAM_TYPE_COUNT ]
+    = {
+        { .number = DATA_DIAGRAM_TYPE_LIST, .name = "List" },
+        { .number = DATA_DIAGRAM_TYPE_BOX_DIAGRAM, .name = "Box Overview" },
+        { .number = DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM, .name = "Block Definition Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM, .name = "Internal Block Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM, .name = "Parametric Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, .name = "Requirement Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, .name = "Use Case Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, .name = "Activity Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, .name = "State Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, .name = "Sequence Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, .name = "Communication Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, .name = "Timing Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM, .name = "Interation Overview Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM, .name = "Deployment Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, .name = "Component Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM, .name = "Composite Structure Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, .name = "Package Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, .name = "Class Diagram" },
+        { .number = DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, .name = "Profile Diagram" },
+    };
+
 const data_diagram_type_t DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT]
     = {
         DATA_DIAGRAM_TYPE_LIST,

@@ -324,7 +324,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            D_TYPE_VALUES
                                                          );
 
-    static const char *const D_DIAGTYPE_ID = "id of diagram type, see source file data/include/entity/data_diagram_type.h";
+    static const char *const D_DIAGTYPE_ID = "numeric value of diagram type, see source file data/include/entity/data_diagram_type.h";
 #ifdef JSON_CONSTANTS_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_TYPE_ID, D_DIAGTYPE_ID );
 #else
@@ -442,11 +442,19 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            C_TYPE_VALUES
                                                          );
 
-    static const char *const C_TYPE_ID = "id of classifier type, see source file data/include/entity/data_classifier_type.h";
+    static const char *const C_TYPE_ID = "numeric value of classifier type";
 #ifdef JSON_CONSTANTS_NEW_KEYS
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_TYPE_ID, C_TYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+                                                                  C_TYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_CLASSIFIER_TYPE_ENUM_ARRAY )
+                                                                );
 #else
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE, C_TYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE,
+                                                                  C_TYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_CLASSIFIER_TYPE_ENUM_ARRAY )
+                                                                );
 #endif
 
     export_err |= json_schema_writer_private_declare_string( this_,
@@ -499,7 +507,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            F_TYPE_VALUES
                                                          );
 
-    static const char *const F_TYPE_ID = "id of feature type, see source file data/include/entity/data_feature_type.h";
+    static const char *const F_TYPE_ID = "numeric value of feature type, see source file data/include/entity/data_feature_type.h";
 #ifdef JSON_CONSTANTS_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_TYPE_ID, F_TYPE_ID );
 #else
@@ -558,7 +566,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            R_TYPE_VALUES
                                                          );
 
-    static const char *const R_TYPE_ID = "id of relationship type, see source file data/include/entity/data_relationship_type.h";
+    static const char *const R_TYPE_ID = "numeric value of relationship type, see source file data/include/entity/data_relationship_type.h";
 #ifdef JSON_CONSTANTS_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_TYPE_ID, R_TYPE_ID );
 #else
@@ -870,6 +878,51 @@ u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  ]\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "},\n" );
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t json_schema_writer_private_declare_enum_number( json_schema_writer_t *this_,
+                                                           const char* name,
+                                                           const char* description,
+                                                           data_enum_iterator_t enum_list )
+{
+    U8_TRACE_BEGIN();
+    assert( name != NULL );
+    assert( description != NULL );
+    u8_error_t export_err = U8_ERROR_NONE;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : ((*this_).indent==7) ? INDENT_7 : INDENT_4;
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), name );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "\":\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "{\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"description\": \"" );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), description );
+    while ( data_enum_iterator_has_next( &enum_list ) )
+    {
+        data_enum_def_t data_enum;
+        const u8_error_t iter_err = data_enum_iterator_next( &enum_list, &data_enum );
+        assert( iter_err == U8_ERROR_NONE );
+        (void) iter_err;
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), "\\n" );
+        export_err |= utf8stream_writer_write_int( &((*this_).writer), data_enum_def_get_number( &data_enum ) );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), ": " );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), data_enum_def_get_name( &data_enum ) );
+    }
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"type\": \"number\"\n" );
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "},\n" );

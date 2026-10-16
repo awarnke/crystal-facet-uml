@@ -4,6 +4,29 @@
 #include <stddef.h>
 #include <assert.h>
 
+const data_enum_def_t DATA_RELATIONSHIP_TYPE_ENUM_ARRAY [ DATA_RELATIONSHIP_TYPE_COUNT ]
+    = {
+        { .number = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, .name = "Dependency" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, .name = "Association" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, .name = "Aggregation" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, .name = "Composition" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, .name = "Generalization" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_REALIZATION, .name = "Realization" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, .name = "Asynchronous Call" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL, .name = "Synchronous Call" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL, .name = "Return" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, .name = "Control Flow" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, .name = "Object Flow" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_DEPLOY, .name = "Deployment" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_MANIFEST, .name = "Manifestation" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_EXTEND, .name = "Extension" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_INCLUDE, .name = "Inclusion" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, .name = "Containment" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_REFINE, .name = "Refinement" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_TRACE, .name = "Trace" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, .name = "Communication Path" },
+    };
+
 const data_relationship_type_t DATA_RELATIONSHIP_TYPE_ARRAY [DATA_RELATIONSHIP_TYPE_COUNT]
     = {
         DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,

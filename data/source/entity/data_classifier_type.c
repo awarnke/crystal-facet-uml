@@ -4,6 +4,42 @@
 #include <stddef.h>
 #include <assert.h>
 
+const data_enum_def_t DATA_CLASSIFIER_TYPE_ENUM_ARRAY [ DATA_CLASSIFIER_TYPE_COUNT ]
+    = {
+        { .number = DATA_CLASSIFIER_TYPE_BLOCK, .name = "Block" },
+        { .number = DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK, .name = "Constraint Block" },
+        { .number = DATA_CLASSIFIER_TYPE_REQUIREMENT, .name = "Requirement" },
+        { .number = DATA_CLASSIFIER_TYPE_ACTOR, .name = "Actor" },
+        { .number = DATA_CLASSIFIER_TYPE_USE_CASE, .name = "Use Case" },
+        { .number = DATA_CLASSIFIER_TYPE_SUBSYSTEM, .name = "Subsystem" },
+        { .number = DATA_CLASSIFIER_TYPE_ACTIVITY, .name = "Activity" },
+        { .number = DATA_CLASSIFIER_TYPE_STATE, .name = "State" },
+        { .number = DATA_CLASSIFIER_TYPE_INTERACTION_USE, .name = "Interaction Use" },
+        { .number = DATA_CLASSIFIER_TYPE_NODE, .name = "Node" },
+        { .number = DATA_CLASSIFIER_TYPE_COMPONENT, .name = "Component" },
+        { .number = DATA_CLASSIFIER_TYPE_PART, .name = "Part" },
+        { .number = DATA_CLASSIFIER_TYPE_INTERFACE, .name = "Interface" },
+        { .number = DATA_CLASSIFIER_TYPE_PACKAGE, .name = "Package" },
+        { .number = DATA_CLASSIFIER_TYPE_CLASS, .name = "Class" },
+        { .number = DATA_CLASSIFIER_TYPE_OBJECT, .name = "Object" },
+        { .number = DATA_CLASSIFIER_TYPE_ARTIFACT, .name = "Artifact" },
+        { .number = DATA_CLASSIFIER_TYPE_COMMENT, .name = "Comment" },
+        { .number = DATA_CLASSIFIER_TYPE_IMAGE, .name = "Image" },
+        { .number = DATA_CLASSIFIER_TYPE_STEREOTYPE, .name = "Stereotype" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION, .name = "Interruptable Region" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE, .name = "Initial Node" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE, .name = "Final Node" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_FORK_NODE, .name = "Fork" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE, .name = "Join" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE, .name = "Decision" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY, .name = "Shallow History" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY, .name = "Deep History" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT, .name = "Accept Event" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT, .name = "Time Event" },
+        { .number = DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL, .name = "Send Signal" },
+        { .number = DATA_CLASSIFIER_TYPE_INTERACTION, .name = "Interaction" },
+    };
+
 const data_classifier_type_t DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_TYPE_COUNT]
     = {
         DATA_CLASSIFIER_TYPE_BLOCK,

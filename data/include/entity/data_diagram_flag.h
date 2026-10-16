@@ -9,7 +9,6 @@
  *  \brief Defines layout (like emphasis) of diagrams
  */
 
-#include "entity/data_enum_iterator.h"
 #include "entity/data_enum_def.h"
 
 /*!
@@ -27,6 +26,16 @@ enum data_diagram_flag_enum {
 };
 
 typedef enum data_diagram_flag_enum data_diagram_flag_t;
+
+/*!
+ *  \brief total number of flags, taking into account combinations if applicable
+ */
+#define DATA_DIAGRAM_FLAG_COUNT (3)
+
+/*!
+ *  \brief lists all values of data_diagram_flag_t
+ */
+extern const data_enum_def_t DATA_DIAGRAM_FLAG_ENUM_ARRAY [ DATA_DIAGRAM_FLAG_COUNT ];
 
 #endif  /* DATA_DIAGRAM_FLAG_H */
 

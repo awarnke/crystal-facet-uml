@@ -4,9 +4,9 @@
 #include "u8/u8_log.h"
 #include "utf8stringbuf/utf8string.h"
 
-static inline void data_enum_def_init ( data_enum_def_t *this_, int value, const char* name )
+static inline void data_enum_def_init ( data_enum_def_t *this_, int number, const char* name )
 {
-    (*this_).value = value;
+    (*this_).number = number;
     (*this_).name = name;
 }
 
@@ -15,9 +15,9 @@ static inline void data_enum_def_destroy ( data_enum_def_t *this_ )
     *this_ = DATA_ENUM_DEF_VOID;
 }
 
-static inline int data_enum_def_get_value ( const data_enum_def_t *this_ )
+static inline int data_enum_def_get_number ( const data_enum_def_t *this_ )
 {
-    return (*this_).value;
+    return (*this_).number;
 }
 
 static inline const char* data_enum_def_get_name ( const data_enum_def_t *this_ )
@@ -27,12 +27,12 @@ static inline const char* data_enum_def_get_name ( const data_enum_def_t *this_ 
 
 static inline void data_enum_def_trace ( const data_enum_def_t *this_ )
 {
-    U8_TRACE_INFO_INT_STR( "data_enum_def_t", (*this_).value, (*this_).name );
+    U8_TRACE_INFO_INT_STR( "data_enum_def_t", (*this_).number, (*this_).name );
 }
 
 static inline bool data_enum_def_is_valid ( const data_enum_def_t *this_ )
 {
-    return ( -1 != (*this_).value );
+    return ( -1 != (*this_).number );
 }
 
 
