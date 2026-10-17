@@ -9,6 +9,35 @@ const data_enum_def_t DATA_DIAGRAM_FLAG_ENUM_ARRAY [ DATA_DIAGRAM_FLAG_COUNT ]
         { .number = DATA_DIAGRAM_FLAG_GRAY_OUT, .name = "Gray" },
     };
 
+const char * data_diagram_flag_get_name( data_diagram_flag_t this_ )
+{
+    U8_TRACE_BEGIN();
+    const char * tag_names = "";
+
+    switch( this_ )
+    {
+        case DATA_DIAGRAM_FLAG_EMPHASIS:
+        {
+            tag_names = "Emphasis";
+        }
+        break;
+
+        case DATA_DIAGRAM_FLAG_GRAY_OUT:
+        {
+            tag_names = "Gray";
+        }
+        break;
+
+        default:
+        {
+            tag_names = "";
+        }
+        break;
+    }
+
+    U8_TRACE_END();
+    return tag_names;
+}
 
 /*
 Copyright 2026-2026 Andreas Warnke

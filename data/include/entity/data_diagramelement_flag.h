@@ -39,6 +39,14 @@ typedef enum data_diagramelement_flag_enum data_diagramelement_flag_t;
  */
 extern const data_enum_def_t DATA_DIAGRAMELEMENT_FLAG_ENUM_ARRAY [ DATA_DIAGRAMELEMENT_FLAG_COUNT ];
 
+/*!
+ *  \brief returns a name for the data_diagramelement_flag_t
+ *
+ *  \param this_ enumeration value
+ *  \return name(s) of the flag(s), "" if unknown or none
+ */
+const char * data_diagramelement_flag_get_name( data_diagramelement_flag_t this_ );
+
 #endif  /* DATA_DIAGRAMELEMENT_FLAG_H */
 
 

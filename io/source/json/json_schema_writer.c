@@ -7,6 +7,8 @@
 #include "entity/data_feature.h"
 #include "entity/data_relationship.h"
 #include "entity/data_diagram.h"
+#include "entity/data_diagramelement_flag.h"
+#include "entity/data_enum_iterator.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
 #include <assert.h>

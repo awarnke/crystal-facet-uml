@@ -62,8 +62,6 @@ void json_element_writer_init( json_element_writer_t *this_,
 
     json_writer_init( &((*this_).json_writer), output );
 
-    json_type_name_map_init( &((*this_).type_map) );
-
     (*this_).in_outer_array = false;
     (*this_).is_outer_first = false;
     (*this_).in_inner_array = false;
@@ -78,8 +76,6 @@ void json_element_writer_init( json_element_writer_t *this_,
 void json_element_writer_destroy( json_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-
-    json_type_name_map_destroy( &((*this_).type_map) );
 
     json_writer_destroy( &((*this_).json_writer) );
 
@@ -1118,9 +1114,7 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
         if ( data_diagram_get_display_flags( diag_ptr ) != DATA_DIAGRAM_FLAG_NONE )
         {
             const char *const tag_names
-                = json_type_name_map_get_diagram_tags( &((*this_).type_map),
-                                                       data_diagram_get_display_flags( diag_ptr )
-                                                     );
+                = data_diagram_flag_get_name( data_diagram_get_display_flags( diag_ptr ) );
 
             out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                       4,
@@ -1365,9 +1359,7 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
         if ( data_diagramelement_get_display_flags( diagramelement_ptr ) != DATA_DIAGRAMELEMENT_FLAG_NONE )
         {
             const char *const tag_names
-                = json_type_name_map_get_diagramelement_tags( &((*this_).type_map),
-                                                              data_diagramelement_get_display_flags( diagramelement_ptr )
-                                                            );
+                = data_diagramelement_flag_get_name( data_diagramelement_get_display_flags( diagramelement_ptr ) );
             out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                       6,
                                                       JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,

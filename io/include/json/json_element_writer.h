@@ -12,7 +12,6 @@
 
 #include "json/json_writer.h"
 #include "json/json_writer_pass.h"
-#include "json/json_type_name_map.h"
 #include "io_element_writer.h"
 #include "entity/data_classifier.h"
 #include "entity/data_classifier_type.h"
@@ -38,8 +37,6 @@ struct json_element_writer_struct {
     json_writer_pass_t mode;  /*!< depending on the mode, filtering of data objects differs */
 
     json_writer_t json_writer;  /*!< own instance of the json writer */
-
-    json_type_name_map_t type_map;  /*!< own instance of a mapping from type ids to type names */
 
     bool in_outer_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
     bool is_outer_first;  /*!< true if after begin_array(), no object was inserted yet. */
