@@ -54,7 +54,8 @@ static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *fix )
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
-        data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
+        data_classifier_type_t classifier_type
+            = data_enum_def_get_number( &(DATA_CLASSIFIER_TYPE_ENUM_ARRAY[ t_idx ]) );
         /* printf("  type: %d\n", t_idx); */
 
         const geometry_rectangle_t inner_area

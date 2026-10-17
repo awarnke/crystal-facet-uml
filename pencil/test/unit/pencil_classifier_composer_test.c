@@ -140,7 +140,8 @@ static test_case_result_t test_expand_space( test_fixture_t *fix )
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
-        data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
+        data_classifier_type_t classifier_type
+            = data_enum_def_get_number( &(DATA_CLASSIFIER_TYPE_ENUM_ARRAY[ t_idx ]) );
         data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &(*fix).data_vis_classifier ),
                                        classifier_type
                                      );
@@ -200,7 +201,8 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *fix )
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
-        data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
+        data_classifier_type_t classifier_type
+            = data_enum_def_get_number( &(DATA_CLASSIFIER_TYPE_ENUM_ARRAY[ t_idx ]) );
         data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &(*fix).data_vis_classifier ),
                                        classifier_type
                                      );
@@ -252,7 +254,8 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *fix )
 
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
-        data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
+        data_classifier_type_t classifier_type
+             = data_enum_def_get_number( &(DATA_CLASSIFIER_TYPE_ENUM_ARRAY[ t_idx ]) );
         data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &(*fix).data_vis_classifier ),
                                        classifier_type
                                      );

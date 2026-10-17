@@ -239,7 +239,8 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
 
         const uint_fast32_t pseudo_random_1 = ((*this_).variant + index)*23;  /* = this shall be variable/dynamic but not really random */
         const uint_fast32_t pseudo_random_2 = ((*this_).variant + index + 8)*29;  /* = this shall be variable/dynamic but not really random */
-        const data_classifier_type_t class_type = DATA_CLASSIFIER_TYPE_ARRAY [ pseudo_random_1 % DATA_CLASSIFIER_TYPE_COUNT ];
+        const data_classifier_type_t class_type
+            = data_enum_def_get_number( &(DATA_CLASSIFIER_TYPE_ENUM_ARRAY[ pseudo_random_1 % DATA_CLASSIFIER_TYPE_COUNT ]) );
 
         const char* stereotype = "";
         const char* name = "";

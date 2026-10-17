@@ -81,11 +81,6 @@ extern const data_enum_def_t DATA_CLASSIFIER_TYPE_ENUM_ARRAY [ DATA_CLASSIFIER_T
 #define DATA_CLASSIFIER_TYPE_HASH_MOD (75)
 
 /*!
- *  \brief lists all values of data_classifier_type_t, excluding DATA_CLASSIFIER_TYPE_VOID
- */
-extern data_classifier_type_t const DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_TYPE_COUNT];
-
-/*!
  *  \brief checks if the classifier type is intended for use in a behavioral context
  *
  *  \param this_ enumeration value
