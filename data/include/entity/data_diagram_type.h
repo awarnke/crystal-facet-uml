@@ -59,11 +59,6 @@ extern const data_enum_def_t DATA_DIAGRAM_TYPE_ENUM_ARRAY [ DATA_DIAGRAM_TYPE_CO
 #define DATA_DIAGRAM_TYPE_HASH_MOD (40)
 
 /*!
- *  \brief lists all values of data_diagram_type_t, excluding DATA_DIAGRAM_TYPE_VOID
- */
-extern data_diagram_type_t const DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT];
-
-/*!
  *  \brief checks if the diagram type is an interaction diagram
  *
  *  \param this_ enumeration value

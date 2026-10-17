@@ -72,11 +72,6 @@ extern const data_enum_def_t DATA_RELATIONSHIP_TYPE_ENUM_ARRAY [ DATA_RELATIONSH
 #define DATA_RELATIONSHIP_TYPE_HASH_MOD (43)
 
 /*!
- *  \brief lists all values of data_relationship_type_t, excluding DATA_RELATIONSHIP_TYPE_VOID
- */
-extern data_relationship_type_t const DATA_RELATIONSHIP_TYPE_ARRAY [DATA_RELATIONSHIP_TYPE_COUNT];
-
-/*!
  *  \brief returns a short name for the data_relationship_type_t
  *
  *  \param this_ enumeration value

@@ -49,11 +49,6 @@ extern const data_enum_def_t DATA_FEATURE_TYPE_ENUM_ARRAY [ DATA_FEATURE_TYPE_CO
 #define DATA_FEATURE_TYPE_HASH_MOD (16)
 
 /*!
- *  \brief lists all values of data_feature_type_t, excluding DATA_FEATURE_TYPE_VOID
- */
-extern data_feature_type_t const DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT];
-
-/*!
  *  \brief checks if the classifier type is displayed outside of classifier compartments
  *
  *  \param this_ enumeration value

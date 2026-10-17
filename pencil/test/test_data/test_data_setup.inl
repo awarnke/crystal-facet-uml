@@ -121,7 +121,8 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
         case 2:
         {
             /* select any normal/std diagram type */
-            const data_diagram_type_t proposal_type = DATA_DIAGRAM_TYPE_ARRAY [ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ];
+            const data_diagram_type_t proposal_type
+                = data_enum_def_get_number( &(DATA_DIAGRAM_TYPE_ENUM_ARRAY[ pseudo_random %  DATA_DIAGRAM_TYPE_COUNT ]) );
             const bool proposal_is_not_std
                 = data_diagram_type_is_interaction( proposal_type )
                 || ( proposal_type == DATA_DIAGRAM_TYPE_LIST )
@@ -438,7 +439,8 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
     for ( uint_fast32_t index = 0; index < count; index ++ )
     {
         const uint_fast32_t pseudo_random = ((*this_).variant + index)*7;  /* = this shall be variable/dynamic but not really random */
-        const data_feature_type_t feat_type = DATA_FEATURE_TYPE_ARRAY [ pseudo_random % DATA_FEATURE_TYPE_COUNT ];
+        const data_feature_type_t feat_type
+            = data_enum_def_get_number( &(DATA_FEATURE_TYPE_ENUM_ARRAY[ pseudo_random % DATA_FEATURE_TYPE_COUNT ]) );
 
         const char* feature_key = "";
         const char* feature_value = "";
@@ -558,7 +560,8 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         const uint_fast32_t pseudo_random_1 = ((*this_).variant + index)*17;  /* = this shall be variable/dynamic but not really random */
         const uint_fast32_t pseudo_random_2 = ((*this_).variant + index + 8)*19;  /* = this shall be variable/dynamic but not really random */
 
-        data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY [ pseudo_random_1 %  DATA_RELATIONSHIP_TYPE_COUNT ];
+        data_relationship_type_t rel_type
+            = data_enum_def_get_number( &(DATA_RELATIONSHIP_TYPE_ENUM_ARRAY[ pseudo_random_1 %  DATA_RELATIONSHIP_TYPE_COUNT ]) );
         if ( data_diagram_type_is_interaction( diag_type ) )
         {
             /* in interaction diagrams, most relationships shall be DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL */
