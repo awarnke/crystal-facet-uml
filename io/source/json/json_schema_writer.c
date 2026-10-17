@@ -324,11 +324,19 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            D_TYPE_VALUES
                                                          );
 
-    static const char *const D_DIAGTYPE_ID = "numeric value of diagram type, see source file data/include/entity/data_diagram_type.h";
+    static const char *const D_DIAGTYPE_ID = "numeric value of diagram type";
 #ifdef JSON_CONSTANTS_NEW_KEYS
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_TYPE_ID, D_DIAGTYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+                                                                  D_DIAGTYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_DIAGRAM_TYPE_ENUM_ARRAY )
+                                                                );
 #else
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE, D_DIAGTYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE,
+                                                                  D_DIAGTYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_DIAGRAM_TYPE_ENUM_ARRAY )
+                                                                );
 #endif
 
     export_err |= json_schema_writer_private_declare_string( this_,
@@ -366,8 +374,12 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            D_FLAG_VALUES
                                                          );
 
-    static const char *const D_FLAGS = "set of flags, see source file data/include/entity/data_diagram_flag.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS, D_FLAGS );
+    static const char *const D_FLAGS = "set of flags that influence the layout of a diagram";
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS,
+                                                                  D_FLAGS,
+                                                                  DATA_ENUM_ITERATOR( DATA_DIAGRAM_FLAG_ENUM_ARRAY )
+                                                                );
 
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, true /*elements follow*/ );
 
@@ -413,8 +425,12 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            E_FLAG_VALUES
                                                          );
 
-    static const char *const E_FLAGS = "set of flags, see source file data/include/entity/data_diagramelement_flag.h";
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS, E_FLAGS );
+    static const char *const E_FLAGS = "set of flags that influence the layout of a diagramelement";
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS,
+                                                                  E_FLAGS,
+                                                                  DATA_ENUM_ITERATOR( DATA_DIAGRAMELEMENT_FLAG_ENUM_ARRAY )
+                                                                );
 
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, false );
 
@@ -507,11 +523,19 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            F_TYPE_VALUES
                                                          );
 
-    static const char *const F_TYPE_ID = "numeric value of feature type, see source file data/include/entity/data_feature_type.h";
+    static const char *const F_TYPE_ID = "numeric value of feature type";
 #ifdef JSON_CONSTANTS_NEW_KEYS
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_TYPE_ID, F_TYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+                                                                  F_TYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_FEATURE_TYPE_ENUM_ARRAY )
+                                                                );
 #else
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE, F_TYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE,
+                                                                  F_TYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_FEATURE_TYPE_ENUM_ARRAY )
+                                                                );
 #endif
 
     export_err |= json_schema_writer_private_declare_string( this_,
@@ -568,9 +592,17 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     static const char *const R_TYPE_ID = "numeric value of relationship type, see source file data/include/entity/data_relationship_type.h";
 #ifdef JSON_CONSTANTS_NEW_KEYS
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_TYPE_ID, R_TYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_TYPE_ID,
+                                                                  R_TYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_RELATIONSHIP_TYPE_ENUM_ARRAY )
+                                                                );
 #else
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE, R_TYPE_ID );
+    export_err |= json_schema_writer_private_declare_enum_number( this_,
+                                                                  JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE,
+                                                                  R_TYPE_ID,
+                                                                  DATA_ENUM_ITERATOR( DATA_RELATIONSHIP_TYPE_ENUM_ARRAY )
+                                                                );
 #endif
 
     export_err |= json_schema_writer_private_declare_string( this_,
@@ -755,7 +787,7 @@ u8_error_t json_schema_writer_private_declare_string( json_schema_writer_t *this
     if ( max_utf8_byte_length != 0 )
     {
         export_err |= utf8stream_writer_write_str( &((*this_).writer),
-                                                   "\\nThe utf-8 encoding of the string must not exceed "
+                                                   "\\n The utf-8 encoding of the string must not exceed "
                                                  );
         export_err |= utf8stream_writer_write_int( &((*this_).writer), max_utf8_byte_length );
         export_err |= utf8stream_writer_write_str( &((*this_).writer), " bytes." );
@@ -799,7 +831,7 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
     if ( max_utf8_byte_length != 0 )
     {
         export_err |= utf8stream_writer_write_str( &((*this_).writer),
-                                                   "\\nThe utf-8 encoding of the concatenated strings must not exceed "
+                                                   "\\n The utf-8 encoding of the concatenated strings must not exceed "
                                                  );
         export_err |= utf8stream_writer_write_int( &((*this_).writer), max_utf8_byte_length );
         export_err |= utf8stream_writer_write_str( &((*this_).writer), " bytes." );
@@ -914,7 +946,7 @@ u8_error_t json_schema_writer_private_declare_enum_number( json_schema_writer_t 
         const u8_error_t iter_err = data_enum_iterator_next( &enum_list, &data_enum );
         assert( iter_err == U8_ERROR_NONE );
         (void) iter_err;
-        export_err |= utf8stream_writer_write_str( &((*this_).writer), "\\n" );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), "\\n " );
         export_err |= utf8stream_writer_write_int( &((*this_).writer), data_enum_def_get_number( &data_enum ) );
         export_err |= utf8stream_writer_write_str( &((*this_).writer), ": " );
         export_err |= utf8stream_writer_write_str( &((*this_).writer), data_enum_def_get_name( &data_enum ) );
