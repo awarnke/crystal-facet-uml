@@ -29,6 +29,9 @@ const SECT_ICON_VIEW_RECT: Rect = Rect {
     height: 32.0,
 };
 
+/// half line width
+const HALFLINE: f32 = 0.5;
+
 /// section icon font baseline and size
 const SECT_BASELINE_X: f32 = 10.0;
 const SECT_BASELINE_Y: f32 = 30.0;
@@ -91,8 +94,8 @@ pub fn generate_file_sect(out: &mut dyn PathRenderer) -> () {
 /// * `closed_shape` - True if the countour shall leave the right side open
 ///
 fn get_db_storage_contour(closed_shape: bool) -> [geometry::DrawDirective; 9] {
-    let x_rad: f32 = 10.0;
-    let y_rad: f32 = 4.0;
+    let x_rad: f32 = 10.0 - HALFLINE;
+    let y_rad: f32 = 4.0 - HALFLINE;
     let height: f32 = 22.0;
     let center_x: f32 = 16.0;
     let center_y: f32 = 16.0;
@@ -220,7 +223,7 @@ fn get_asterisk() -> [geometry::DrawDirective; 8] {
 pub fn generate_file_new(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour(true);
-    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* plus symbol */
     let center_x: f32 = 16.0;
@@ -255,7 +258,7 @@ pub fn generate_file_new(out: &mut dyn PathRenderer) -> () {
 pub fn generate_file_open(out: &mut dyn PathRenderer) -> () {
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour(true);
-    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 }
 
 /// The function generates a save-file icon to vector graphics drawing directives
@@ -267,7 +270,7 @@ pub fn generate_file_open(out: &mut dyn PathRenderer) -> () {
 pub fn generate_file_save(out: &mut dyn PathRenderer) -> () {
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour(false);
-    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* asterisk symbol */
     let unsaved_sym: [geometry::DrawDirective; 8] = get_asterisk();
@@ -283,7 +286,7 @@ pub fn generate_file_save(out: &mut dyn PathRenderer) -> () {
 pub fn generate_file_saved(out: &mut dyn PathRenderer) -> () {
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour(false);
-    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* ok symbol */
     let ok_sym: [geometry::DrawDirective; 3] = [
@@ -307,7 +310,7 @@ pub fn generate_file_unsaved(out: &mut dyn PathRenderer) -> () {
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour(false);
-    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* asterisk symbol */
     let unsaved_sym: [geometry::DrawDirective; 8] = get_asterisk();
@@ -323,7 +326,7 @@ pub fn generate_file_unsaved(out: &mut dyn PathRenderer) -> () {
 pub fn generate_file_export(out: &mut dyn PathRenderer) -> () {
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour(false);
-    out.render_path(&icon_segs, &Some(GRAY_THICK_PEN), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* out symbol */
     let out_sym: [geometry::DrawDirective; 7] = [
