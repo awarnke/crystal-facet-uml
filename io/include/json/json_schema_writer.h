@@ -99,14 +99,14 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
  *  \param this_ pointer to own object attributes
  *  \param name name of the member to declare
  *  \param description description of the member
- *  \param value_list names of the allowed enum values, terminated by NULL
+ *  \param enum_list iterator on names and numbers of the expected enum values
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
-                                                    const char* name,
-                                                    const char* description,
-                                                    const char *const * value_list
-                                                  );
+u8_error_t json_schema_writer_private_declare_enum_name( json_schema_writer_t *this_,
+                                                         const char* name,
+                                                         const char* description,
+                                                         data_enum_iterator_t enum_list
+                                                       );
 
 /*!
  *  \brief writes a json member declaration of type enum (of strings)

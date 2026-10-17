@@ -317,12 +317,11 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 #else
         = JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE " as string, exported for reviews by humans, ignored at import";
 #endif
-    const char *const * D_TYPE_VALUES = json_type_name_map_get_diagram_types_list( &((*this_).enum_map) );
-    export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
-                                                           D_DIAGTYPE_NAME,
-                                                           D_TYPE_VALUES
-                                                         );
+    export_err |= json_schema_writer_private_declare_enum_name( this_,
+                                                                JSON_CONSTANTS_KEY_TYPE_NAME,
+                                                                D_DIAGTYPE_NAME,
+                                                                DATA_ENUM_ITERATOR( DATA_DIAGRAM_TYPE_ENUM_ARRAY )
+                                                              );
 
     static const char *const D_DIAGTYPE_ID = "numeric value of diagram type";
 #ifdef JSON_CONSTANTS_NEW_KEYS
@@ -367,12 +366,11 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     /* generate an enum listing all options */
     static const char *const D_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
-    const char *const * D_FLAG_VALUES = json_type_name_map_get_diagram_tags_list( &((*this_).enum_map) );
-    export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
-                                                           D_FLAG_NAME,
-                                                           D_FLAG_VALUES
-                                                         );
+    export_err |= json_schema_writer_private_declare_enum_name( this_,
+                                                                JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES,
+                                                                D_FLAG_NAME,
+                                                                DATA_ENUM_ITERATOR( DATA_DIAGRAM_FLAG_ENUM_ARRAY )
+                                                              );
 
     static const char *const D_FLAGS = "set of flags that influence the layout of a diagram";
     export_err |= json_schema_writer_private_declare_enum_number( this_,
@@ -418,12 +416,11 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     /* generate an enum listing all options */
     static const char *const E_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
-    const char *const * E_FLAG_VALUES = json_type_name_map_get_diagramelement_tags_list( &((*this_).enum_map) );
-    export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
-                                                           E_FLAG_NAME,
-                                                           E_FLAG_VALUES
-                                                         );
+    export_err |= json_schema_writer_private_declare_enum_name( this_,
+                                                                JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES,
+                                                                E_FLAG_NAME,
+                                                                DATA_ENUM_ITERATOR( DATA_DIAGRAMELEMENT_FLAG_ENUM_ARRAY )
+                                                              );
 
     static const char *const E_FLAGS = "set of flags that influence the layout of a diagramelement";
     export_err |= json_schema_writer_private_declare_enum_number( this_,
@@ -451,12 +448,11 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 #else
         = "name of " JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ", exported for reviews by humans, ignored at import";
 #endif
-    const char *const * C_TYPE_VALUES = json_type_name_map_get_classifier_types_list( &((*this_).enum_map) );
-    export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
-                                                           C_TYPE_NAME,
-                                                           C_TYPE_VALUES
-                                                         );
+    export_err |= json_schema_writer_private_declare_enum_name( this_,
+                                                                JSON_CONSTANTS_KEY_TYPE_NAME,
+                                                                C_TYPE_NAME,
+                                                                DATA_ENUM_ITERATOR( DATA_CLASSIFIER_TYPE_ENUM_ARRAY )
+                                                              );
 
     static const char *const C_TYPE_ID = "numeric value of classifier type";
 #ifdef JSON_CONSTANTS_NEW_KEYS
@@ -516,12 +512,11 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 #else
         = "name of " JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ", exported for reviews by humans, ignored at import";
 #endif
-    const char *const * F_TYPE_VALUES = json_type_name_map_get_feature_types_list( &((*this_).enum_map) );
-    export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
-                                                           F_TYPE_NAME,
-                                                           F_TYPE_VALUES
-                                                         );
+    export_err |= json_schema_writer_private_declare_enum_name( this_,
+                                                                JSON_CONSTANTS_KEY_TYPE_NAME,
+                                                                F_TYPE_NAME,
+                                                                DATA_ENUM_ITERATOR( DATA_FEATURE_TYPE_ENUM_ARRAY )
+                                                              );
 
     static const char *const F_TYPE_ID = "numeric value of feature type";
 #ifdef JSON_CONSTANTS_NEW_KEYS
@@ -583,14 +578,13 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 #else
         = "name of " JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ", exported for reviews by humans, ignored at import";
 #endif
-    const char *const * R_TYPE_VALUES = json_type_name_map_get_relationship_types_list( &((*this_).enum_map) );
-    export_err |= json_schema_writer_private_declare_enum( this_,
-                                                           JSON_CONSTANTS_KEY_TYPE_NAME,
-                                                           R_TYPE_NAME,
-                                                           R_TYPE_VALUES
-                                                         );
+    export_err |= json_schema_writer_private_declare_enum_name( this_,
+                                                                JSON_CONSTANTS_KEY_TYPE_NAME,
+                                                                R_TYPE_NAME,
+                                                                DATA_ENUM_ITERATOR( DATA_RELATIONSHIP_TYPE_ENUM_ARRAY )
+                                                              );
 
-    static const char *const R_TYPE_ID = "numeric value of relationship type, see source file data/include/entity/data_relationship_type.h";
+    static const char *const R_TYPE_ID = "numeric value of relationship type";
 #ifdef JSON_CONSTANTS_NEW_KEYS
     export_err |= json_schema_writer_private_declare_enum_number( this_,
                                                                   JSON_CONSTANTS_KEY_TYPE_ID,
@@ -866,15 +860,14 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
     return export_err;
 }
 
-u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
-                                                    const char* name,
-                                                    const char* description,
-                                                    const char *const * value_list )
+u8_error_t json_schema_writer_private_declare_enum_name( json_schema_writer_t *this_,
+                                                         const char* name,
+                                                         const char* description,
+                                                         data_enum_iterator_t enum_list )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );
     assert( description != NULL );
-    assert( value_list != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
     const char *const indent = ((*this_).indent==10) ? INDENT_10 : ((*this_).indent==7) ? INDENT_7 : INDENT_4;
 
@@ -896,16 +889,18 @@ u8_error_t json_schema_writer_private_declare_enum( json_schema_writer_t *this_,
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  [\n" );
 
-    unsigned int index = 0;
-    while ( value_list[index] != NULL )
+    while ( data_enum_iterator_has_next( &enum_list ) )
     {
-        const bool has_next = ( value_list[ index + 1 ] != NULL );
+        data_enum_def_t data_enum;
+        const u8_error_t iter_err = data_enum_iterator_next( &enum_list, &data_enum );
+        assert( iter_err == U8_ERROR_NONE );
+        (void) iter_err;
+        const bool has_next = data_enum_iterator_has_next( &enum_list );
+
         export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
         export_err |= utf8stream_writer_write_str( &((*this_).writer), "    \"" );
-        export_err |= utf8stream_writer_write_str( &((*this_).writer), value_list[index] );
+        export_err |= utf8stream_writer_write_str( &((*this_).writer), data_enum_def_get_name( &data_enum ) );
         export_err |= utf8stream_writer_write_str( &((*this_).writer), has_next ? "\",\n": "\"\n" );
-
-        index ++;
     }
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
@@ -946,6 +941,7 @@ u8_error_t json_schema_writer_private_declare_enum_number( json_schema_writer_t 
         const u8_error_t iter_err = data_enum_iterator_next( &enum_list, &data_enum );
         assert( iter_err == U8_ERROR_NONE );
         (void) iter_err;
+
         export_err |= utf8stream_writer_write_str( &((*this_).writer), "\\n " );
         export_err |= utf8stream_writer_write_int( &((*this_).writer), data_enum_def_get_number( &data_enum ) );
         export_err |= utf8stream_writer_write_str( &((*this_).writer), ": " );

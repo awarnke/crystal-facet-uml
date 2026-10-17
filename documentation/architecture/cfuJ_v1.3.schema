@@ -477,7 +477,7 @@
               },
               "main_type":
               {
-                "description": "numeric value of relationship type, see source file data/include/entity/data_relationship_type.h\n 0: Dependency\n 200: Association\n 201: Aggregation\n 202: Composition\n 210: Generalization\n 211: Realization\n 220: Asynchronous Call\n 221: Synchronous Call\n 222: Return\n 240: Control Flow\n 241: Object Flow\n 250: Deployment\n 251: Manifestation\n 260: Extension\n 261: Inclusion\n 300: Containment\n 400: Refinement\n 401: Trace\n 230: Communication Path",
+                "description": "numeric value of relationship type\n 0: Dependency\n 200: Association\n 201: Aggregation\n 202: Composition\n 210: Generalization\n 211: Realization\n 220: Asynchronous Call\n 221: Synchronous Call\n 222: Return\n 230: Communication Path\n 240: Control Flow\n 241: Object Flow\n 250: Deployment\n 251: Manifestation\n 260: Extension\n 261: Inclusion\n 300: Containment\n 400: Refinement\n 401: Trace",
                 "type": "number"
               },
               "stereotype":

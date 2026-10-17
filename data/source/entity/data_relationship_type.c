@@ -15,6 +15,7 @@ const data_enum_def_t DATA_RELATIONSHIP_TYPE_ENUM_ARRAY [ DATA_RELATIONSHIP_TYPE
         { .number = DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, .name = "Asynchronous Call" },
         { .number = DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL, .name = "Synchronous Call" },
         { .number = DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL, .name = "Return" },
+        { .number = DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, .name = "Communication Path" },
         { .number = DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, .name = "Control Flow" },
         { .number = DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, .name = "Object Flow" },
         { .number = DATA_RELATIONSHIP_TYPE_UML_DEPLOY, .name = "Deployment" },
@@ -24,7 +25,6 @@ const data_enum_def_t DATA_RELATIONSHIP_TYPE_ENUM_ARRAY [ DATA_RELATIONSHIP_TYPE
         { .number = DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, .name = "Containment" },
         { .number = DATA_RELATIONSHIP_TYPE_UML_REFINE, .name = "Refinement" },
         { .number = DATA_RELATIONSHIP_TYPE_UML_TRACE, .name = "Trace" },
-        { .number = DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, .name = "Communication Path" },
     };
 
 const data_relationship_type_t DATA_RELATIONSHIP_TYPE_ARRAY [DATA_RELATIONSHIP_TYPE_COUNT]
