@@ -23,48 +23,49 @@
       {
         "encoding":
         {
-          "description": "only \"utf-8\" is supported",
+          "description": "Only \"utf-8\" is supported.",
           "type": "string"
         },
         "structure_format":
         {
-          "description": "only \"rfc-8259 w/o hexadecimal escapes\" is supported; hexadecimal escapes are not needed because utf-8 can encode all unicode characters.",
+          "description": "Only \"rfc-8259 w/o hexadecimal escapes\" is supported; hexadecimal escapes are not needed because utf-8 can encode all unicode characters.",
           "type": "string"
         },
         "format":
         {
-          "description": "only \"cfu-json\" is supported",
+          "description": "Only \"cfu-json\" is supported.",
           "type": "string"
         },
         "major_version":
         {
-          "description": "current major version is 1, the major version changes if an older json reader cannot read a new format",
+          "description": "The current major version is 1, the major version changes if an older json reader cannot read a new format.",
           "type": "number"
         },
         "minor_version":
         {
-          "description": "current minor version is 3, the minor version changes if an older json reader may not process all information",
+          "description": "The current minor version is 3, the minor version changes if an older json reader may not process all information.",
           "type": "number"
         },
         "generator_name":
         {
-          "description": "the name of the generator, can be chosen freely\n The utf-8 encoding of the string must not exceed 1023 bytes.",
+          "description": "This is the name of the generator, can be chosen freely-\n The utf-8 encoding of the string must not exceed 1023 bytes.",
           "type": "string"
         },
         "generator_version":
         {
-          "description": "the version of the generator, can be chosen freely\n The utf-8 encoding of the string must not exceed 1023 bytes.",
+          "description": "This is the version of the generator, can be chosen freely.\n The utf-8 encoding of the string must not exceed 1023 bytes.",
           "type": "string"
         },
         "model_id_prefix":
         {
-          "description": "a prefix string that is prepended to ids within this model\n The utf-8 encoding of the string must not exceed 15 bytes.",
+          "description": "This is a prefix string that is prepended to ids within this model.\n The utf-8 encoding of the string must not exceed 15 bytes.",
           "type": "string"
         },
         "model_uuid":
         {
-          "description": "uuid is an identifier according to rfc-9562, all letters must be lowercase",
-          "type": "string"
+          "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
         }
       },
       "additionalProperties": true
@@ -88,22 +89,23 @@
             {
               "id":
               {
-                "description": "id is a proposal; it may be changed automatically",
+                "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
                 "type": "number"
               },
               "parent_name":
               {
-                "description": "name of parent diagram, exported for reviews by humans, ignored at import",
+                "description": "This is the name of the parent diagram, exported for reviews by humans, ignored at import",
                 "type": "string"
               },
               "parent":
               {
-                "description": "uuid of the parent diagram, omitted by the root diagram",
-                "type": "string"
+                "description": "The uuid of the parent diagram, it is omitted only by the root diagram.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },
               "type":
               {
-                "description": "diagram_type as string, exported for reviews by humans, ignored at import",
+                "description": "diagram_type as string, exported for reviews by humans, ignored at import.",
                 "enum":
                 [
                   "List",
@@ -129,37 +131,37 @@
               },
               "diagram_type":
               {
-                "description": "numeric value of diagram type\n 0: List\n 1: Box Overview\n 4: Block Definition Diagram\n 5: Internal Block Diagram\n 7: Parametric Diagram\n 9: Requirement Diagram\n 10: Use Case Diagram\n 11: Activity Diagram\n 12: State Diagram\n 13: Sequence Diagram\n 14: Communication Diagram\n 16: Timing Diagram\n 17: Interation Overview Diagram\n 30: Deployment Diagram\n 31: Component Diagram\n 32: Composite Structure Diagram\n 33: Package Diagram\n 34: Class Diagram\n 39: Profile Diagram",
+                "description": "This is the numeric value of the diagram type.\n 0: List\n 1: Box Overview\n 4: Block Definition Diagram\n 5: Internal Block Diagram\n 7: Parametric Diagram\n 9: Requirement Diagram\n 10: Use Case Diagram\n 11: Activity Diagram\n 12: State Diagram\n 13: Sequence Diagram\n 14: Communication Diagram\n 16: Timing Diagram\n 17: Interation Overview Diagram\n 30: Deployment Diagram\n 31: Component Diagram\n 32: Composite Structure Diagram\n 33: Package Diagram\n 34: Class Diagram\n 39: Profile Diagram",
                 "type": "number"
               },
               "stereotype":
               {
-                "description": "stereotype is available since version 1.47.0\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "description": "This is the stereotype; it is available since version 1.47.0.\n The utf-8 encoding of the string must not exceed 47 bytes.",
                 "type": "string"
               },
               "name":
               {
-                "description": "\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "description": "This is the title of the diagram.\n The utf-8 encoding of the string must not exceed 47 bytes.",
                 "type": "string"
               },
               "description":
               {
-                "description": "\n The utf-8 encoding of the concatenated strings must not exceed 8191 bytes.",
+                "description": "This is the description of the diagram.\n The utf-8 encoding of the concatenated strings must not exceed 8191 bytes.",
                 "type": "array",
                 "items":
                 {
-                  "description": "a part of the description (to be concatenated)",
+                  "description": "This is a part of the description (to be concatenated).",
                   "type": "string"
                 }
               },
               "list_order":
               {
-                "description": "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
                 "type": "number"
               },
               "display_tags":
               {
-                "description": "display_flags as string, exported for reviews by humans, ignored at import",
+                "description": "display_flags as string, exported for reviews by humans, ignored at import.",
                 "enum":
                 [
                   "",
@@ -169,13 +171,14 @@
               },
               "display_flags":
               {
-                "description": "set of flags that influence the layout of a diagram\n 0: \n 16777216: Emphasis\n 33554432: Gray",
+                "description": "This is a set of flags that influence the layout of a diagram.\n 0: \n 16777216: Emphasis\n 33554432: Gray",
                 "type": "number"
               },
               "uuid":
               {
-                "description": "uuid is an identifier according to rfc-9562, all letters must be lowercase",
-                "type": "string"
+                "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },
               "diagramelements":
               {
@@ -189,27 +192,28 @@
                   {
                     "id":
                     {
-                      "description": "id is a proposal; it may be changed automatically",
+                      "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
                       "type": "number"
                     },
                     "classifier_name":
                     {
-                      "description": "name of node/classifier, exported for reviews by humans, ignored at import",
+                      "description": "The name of node/classifier is exported for reviews by humans, ignored at import.",
                       "type": "string"
                     },
                     "focused_feature_name":
                     {
-                      "description": "name of node/feature (if lifeline), optional, exported for reviews by humans, ignored at import",
+                      "description": "The name of node/feature (if lifeline) is optionally exported for reviews by humans, ignored at import.",
                       "type": "string"
                     },
                     "node":
                     {
-                      "description": "the uuid of either the classifier or the feature (type lifeline only)",
-                      "type": "string"
+                      "description": "This is the uuid of either the classifier or the feature (type lifeline only).",
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
                     },
                     "display_tags":
                     {
-                      "description": "display_flags as string, exported for reviews by humans, ignored at import",
+                      "description": "display_flags as string is exported for reviews by humans, ignored at import.",
                       "enum":
                       [
                         "",
@@ -225,13 +229,14 @@
                     },
                     "display_flags":
                     {
-                      "description": "set of flags that influence the layout of a diagramelement\n 0: \n 16777216: Emphasis\n 33554432: Gray\n 1: Named Instance\n 16777217: Named Instance, Emphasis\n 33554433: Named Instance, Gray\n 2: Anonymous Instance\n 16777218: Anonymous Instance, Emphasis\n 33554434: Anonymous Instance, Gray",
+                      "description": "This is a set of flags that influence the layout of a diagramelement.\n 0: \n 16777216: Emphasis\n 33554432: Gray\n 1: Named Instance\n 16777217: Named Instance, Emphasis\n 33554433: Named Instance, Gray\n 2: Anonymous Instance\n 16777218: Anonymous Instance, Emphasis\n 33554434: Anonymous Instance, Gray",
                       "type": "number"
                     },
                     "uuid":
                     {
-                      "description": "uuid is an identifier according to rfc-9562, all letters must be lowercase",
-                      "type": "string"
+                      "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
                     }
                   },
                   "additionalProperties": false
@@ -262,12 +267,12 @@
             {
               "id":
               {
-                "description": "id is a proposal; it may be changed automatically",
+                "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
                 "type": "number"
               },
               "type":
               {
-                "description": "name of main_type, exported for reviews by humans, ignored at import",
+                "description": "The name of main_type is exported for reviews by humans, ignored at import.",
                 "enum":
                 [
                   "Block",
@@ -306,48 +311,49 @@
               },
               "main_type":
               {
-                "description": "numeric value of classifier type\n 90: Block\n 96: Constraint Block\n 99: Requirement\n 100: Actor\n 101: Use Case\n 102: Subsystem\n 110: Activity\n 111: State\n 112: Interaction Use\n 120: Node\n 121: Component\n 122: Part\n 123: Interface\n 124: Package\n 125: Class\n 126: Object\n 127: Artifact\n 130: Comment\n 138: Image\n 139: Stereotype\n 150: Interruptable Region\n 151: Initial Node\n 152: Final Node\n 154: Fork\n 155: Join\n 157: Decision\n 158: Shallow History\n 159: Deep History\n 167: Accept Event\n 168: Time Event\n 170: Send Signal\n 190: Interaction",
+                "description": "This is the numeric value of classifier type.\n 90: Block\n 96: Constraint Block\n 99: Requirement\n 100: Actor\n 101: Use Case\n 102: Subsystem\n 110: Activity\n 111: State\n 112: Interaction Use\n 120: Node\n 121: Component\n 122: Part\n 123: Interface\n 124: Package\n 125: Class\n 126: Object\n 127: Artifact\n 130: Comment\n 138: Image\n 139: Stereotype\n 150: Interruptable Region\n 151: Initial Node\n 152: Final Node\n 154: Fork\n 155: Join\n 157: Decision\n 158: Shallow History\n 159: Deep History\n 167: Accept Event\n 168: Time Event\n 170: Send Signal\n 190: Interaction",
                 "type": "number"
               },
               "stereotype":
               {
-                "description": "\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "description": "This is the stereotype of the classifier.\n The utf-8 encoding of the string must not exceed 47 bytes.",
                 "type": "string"
               },
               "name":
               {
-                "description": "\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "description": "This is the name of the classifier.\n The name must be unique among all classifiers.\n The utf-8 encoding of the string must not exceed 47 bytes.",
                 "type": "string"
               },
               "description":
               {
-                "description": "\n The utf-8 encoding of the concatenated strings must not exceed 4095 bytes.",
+                "description": "This is the description of the classifier.\n The utf-8 encoding of the concatenated strings must not exceed 4095 bytes.",
                 "type": "array",
                 "items":
                 {
-                  "description": "a part of the description (to be concatenated)",
+                  "description": "This is a part of the description (to be concatenated).",
                   "type": "string"
                 }
               },
               "x_order":
               {
-                "description": "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
                 "type": "number"
               },
               "y_order":
               {
-                "description": "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
                 "type": "number"
               },
               "list_order":
               {
-                "description": "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
                 "type": "number"
               },
               "uuid":
               {
-                "description": "uuid is an identifier according to rfc-9562, all letters must be lowercase",
-                "type": "string"
+                "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },
               "features":
               {
@@ -361,12 +367,12 @@
                   {
                     "id":
                     {
-                      "description": "id is a proposal; it may be changed automatically",
+                      "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
                       "type": "number"
                     },
                     "type":
                     {
-                      "description": "name of main_type, exported for reviews by humans, ignored at import",
+                      "description": "The name of main_type is exported for reviews by humans, ignored at import.",
                       "enum":
                       [
                         "Property",
@@ -384,38 +390,39 @@
                     },
                     "main_type":
                     {
-                      "description": "numeric value of feature type\n 0: Property\n 1: Operation\n 2: Port\n 3: Lifeline\n 4: Provided Interface\n 5: Required Interface\n 6: Input Port\n 7: Output Port\n 8: Entry\n 9: Exit\n 10: Tagged Value",
+                      "description": "This is the numeric value of the feature type.\n 0: Property\n 1: Operation\n 2: Port\n 3: Lifeline\n 4: Provided Interface\n 5: Required Interface\n 6: Input Port\n 7: Output Port\n 8: Entry\n 9: Exit\n 10: Tagged Value",
                       "type": "number"
                     },
                     "key":
                     {
-                      "description": "name\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                      "description": "This is the name of the feature.\n The utf-8 encoding of the string must not exceed 47 bytes.",
                       "type": "string"
                     },
                     "value":
                     {
-                      "description": "valuetype in case of properties, value in case of tagges values, stereotype otherwise\n The utf-8 encoding of the string must not exceed 255 bytes.",
+                      "description": "This is the valuetype in case of properties, the value in case of tagges values, the stereotype otherwise.\n The utf-8 encoding of the string must not exceed 255 bytes.",
                       "type": "string"
                     },
                     "description":
                     {
-                      "description": "\n The utf-8 encoding of the concatenated strings must not exceed 1023 bytes.",
+                      "description": "This is the description of the feature.\n The utf-8 encoding of the concatenated strings must not exceed 1023 bytes.",
                       "type": "array",
                       "items":
                       {
-                        "description": "a part of the description (to be concatenated)",
+                        "description": "This is a part of the description (to be concatenated).",
                         "type": "string"
                       }
                     },
                     "list_order":
                     {
-                      "description": "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                      "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
                       "type": "number"
                     },
                     "uuid":
                     {
-                      "description": "uuid is an identifier according to rfc-9562, all letters must be lowercase",
-                      "type": "string"
+                      "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
                     }
                   },
                   "additionalProperties": false
@@ -446,12 +453,12 @@
             {
               "id":
               {
-                "description": "id is a proposal; it may be changed automatically",
+                "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
                 "type": "number"
               },
               "type":
               {
-                "description": "name of main_type, exported for reviews by humans, ignored at import",
+                "description": "The name of main_type is exported for reviews by humans, ignored at import.",
                 "enum":
                 [
                   "Dependency",
@@ -477,68 +484,71 @@
               },
               "main_type":
               {
-                "description": "numeric value of relationship type\n 0: Dependency\n 200: Association\n 201: Aggregation\n 202: Composition\n 210: Generalization\n 211: Realization\n 220: Asynchronous Call\n 221: Synchronous Call\n 222: Return\n 230: Communication Path\n 240: Control Flow\n 241: Object Flow\n 250: Deployment\n 251: Manifestation\n 260: Extension\n 261: Inclusion\n 300: Containment\n 400: Refinement\n 401: Trace",
+                "description": "This is the numeric value of relationship type.\n 0: Dependency\n 200: Association\n 201: Aggregation\n 202: Composition\n 210: Generalization\n 211: Realization\n 220: Asynchronous Call\n 221: Synchronous Call\n 222: Return\n 230: Communication Path\n 240: Control Flow\n 241: Object Flow\n 250: Deployment\n 251: Manifestation\n 260: Extension\n 261: Inclusion\n 300: Containment\n 400: Refinement\n 401: Trace",
                 "type": "number"
               },
               "stereotype":
               {
-                "description": "stereotype is available since version 1.47.0\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "description": "This is the stereotype; it is available since version 1.47.0.\n The utf-8 encoding of the string must not exceed 47 bytes.",
                 "type": "string"
               },
               "name":
               {
-                "description": "\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "description": "This is the name of the relationship.\n The utf-8 encoding of the string must not exceed 47 bytes.",
                 "type": "string"
               },
               "description":
               {
-                "description": "\n The utf-8 encoding of the concatenated strings must not exceed 1023 bytes.",
+                "description": "This is the description of the relationship.\n The utf-8 encoding of the concatenated strings must not exceed 1023 bytes.",
                 "type": "array",
                 "items":
                 {
-                  "description": "a part of the description (to be concatenated)",
+                  "description": "This is a part of the description (to be concatenated).",
                   "type": "string"
                 }
               },
               "list_order":
               {
-                "description": "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
                 "type": "number"
               },
               "from_classifier_name":
               {
-                "description": "name of from_node/classifier, exported for reviews by humans, ignored at import",
+                "description": "The name of from_node/classifier is exported for reviews by humans, ignored at import.",
                 "type": "string"
               },
               "from_feature_key":
               {
-                "description": "key of from_node/feature if applicable, exported for reviews by humans, ignored at import",
+                "description": "The key of from_node/feature is exported (if applicable) for reviews by humans, ignored at import",
                 "type": "string"
               },
               "from_node":
               {
-                "description": "the uuid of the source: either the classifier or the feature",
-                "type": "string"
+                "description": "The uuid of the source: either the classifier or the feature.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },
               "to_classifier_name":
               {
-                "description": "name of to_node/classifier, exported for reviews by humans, ignored at import",
+                "description": "The name of to_node/classifier is exported for reviews by humans, ignored at import.",
                 "type": "string"
               },
               "to_feature_key":
               {
-                "description": "key of to_node/feature if applicable, exported for reviews by humans, ignored at import",
+                "description": "The key of to_node/feature is exported (if applicable) for reviews by humans, ignored at import.",
                 "type": "string"
               },
               "to_node":
               {
-                "description": "the uuid of the destination: either the classifier or the feature",
-                "type": "string"
+                "description": "The uuid of the destination: either the classifier or the feature.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },
               "uuid":
               {
-                "description": "uuid is an identifier according to rfc-9562, all letters must be lowercase",
-                "type": "string"
+                "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               }
             },
             "additionalProperties": false

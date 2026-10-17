@@ -58,6 +58,10 @@ ideas for future versions:
   [ ] At concurrent modifications, allow to quit without saving;
       maybe disable the autosave till a manual save was pressed (see io_data_file_is_externally_modified).
 ! [ ] improve the mymodel.schema so that an AI is able to generate a valid json file
+
+TODO: list_order shall better explain the ranges
+TODO: 1 paragraph explaining the general relationships between the 5 object types
+
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
