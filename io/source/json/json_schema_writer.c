@@ -21,7 +21,9 @@ static const char SCHEMA_GRAPH_HEADER[]
     "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n"
     "  \"$id\": \"https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json\",\n"
     "  \"title\": \"crystal-facet-uml model\",\n"
-    "  \"description\": \"This schema defines the structure of json objects to store a uml/sysml model.\",\n"
+    "  \"description\": \"This schema defines the structure of json objects to store a uml/sysml model.\\n"
+        " It consists of sections: " JSON_CONSTANTS_KEY_HEAD ", " JSON_CONSTANTS_KEY_VIEWS ", "
+        JSON_CONSTANTS_KEY_NODES ", " JSON_CONSTANTS_KEY_EDGES ".\",\n"
     "  \"type\": \"object\",\n"
     "  \"required\": [\"" JSON_CONSTANTS_KEY_HEAD "\"],\n"
     "  \"properties\":\n"
@@ -53,7 +55,8 @@ static const char SCHEMA_GRAPH_HEAD_FOOTER[]
 static const char SCHEMA_GRAPH_VIEWS_HEADER[]
     = "    \"" JSON_CONSTANTS_KEY_VIEWS "\":\n"
     "    {\n"
-    "      \"description\": \"" JSON_CONSTANTS_KEY_VIEWS " is an array whose elements describe the views on the model.\",\n"
+    "      \"description\": \"" JSON_CONSTANTS_KEY_VIEWS " is an array whose elements describe the views on "
+        JSON_CONSTANTS_KEY_NODES " and thereby implicitly on " JSON_CONSTANTS_KEY_EDGES ".\",\n"
     "      \"type\": \"array\",\n"
     "      \"items\":\n"
     "      {\n"
@@ -191,7 +194,8 @@ static const char SCHEMA_GRAPH_EDGES_HEADER[]
 static const char SCHEMA_RELATIONSHIP_HEADER[]
     = "          \"" JSON_CONSTANTS_KEY_RELATIONSHIP "\":\n"
     "          {\n"
-    "            \"description\": \"" JSON_CONSTANTS_KEY_RELATIONSHIP " is an edge with 1 source and 1 destination end.\",\n"
+    "            \"description\": \"" JSON_CONSTANTS_KEY_RELATIONSHIP
+        " is an edge with 1 source (\\\"from\\\") and 1 destination (\\\"to\\\") end.\",\n"
     "            \"type\": \"object\",\n"
     "            \"properties\":\n"
     "            {\n";
@@ -247,7 +251,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     static const char *const ANY_STEREO = "This is the stereotype; it is available since version 1.47.0.";
     static const char *const ANY_DESCR = "This is a part of the description (to be concatenated).";
     static const char *const ANY_ORDER
-        = "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions";
+        = "This integer determines the location where an element appears.\\n"
+        " Lower numbers cause an appearance more to the left or top, higher numbers more to the right or bottom.\\n"
+        " This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).";
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_HEADER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_HEAD_HEADER );
@@ -492,9 +498,17 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                                       ANY_DESCR
                                                                     );
 
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_X_ORDER, ANY_ORDER );
+    static const char *const C_ORDER_X
+        = "This integer determines the location where a classifier appears.\\n"
+        " Lower numbers cause an appearance more to the left, higher numbers more to the right.\\n"
+        " This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_X_ORDER, C_ORDER_X );
 
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_Y_ORDER, ANY_ORDER );
+    static const char *const C_ORDER_Y
+        = "This integer determines the location where a classifier appears.\\n"
+        " Lower numbers cause an appearance more to the top, higher numbers more to the bottom.\\n"
+        " This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).";
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_Y_ORDER, C_ORDER_Y );
 
 #ifdef JSON_CONSTANTS_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_ORDER, ANY_ORDER );
@@ -558,10 +572,16 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                                       ANY_DESCR
                                                                     );
 
+    static const char *const F_ORDER
+        = "This integer determines the order in which features appear.\\n"
+        " Lower numbers cause an appearance at left or top, higher numbers at right or bottom.\\n"
+        " For ports and interfaces, locations move counter-clockwise from INT32_MIN at bottom-right, "
+        "INT32_MIN/2 at top-right, 0 at top-left, INT32_MAX/2 at bottom-left, INT32_MAX at bottom-right.\\n"
+        " This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).";
 #ifdef JSON_CONSTANTS_NEW_KEYS
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_ORDER, ANY_ORDER );
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_ORDER, F_ORDER );
 #else
-    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER, ANY_ORDER );
+    export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER, F_ORDER );
 #endif
 
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, false );

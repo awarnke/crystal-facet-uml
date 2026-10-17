@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json",
   "title": "crystal-facet-uml model",
-  "description": "This schema defines the structure of json objects to store a uml/sysml model.",
+  "description": "This schema defines the structure of json objects to store a uml/sysml model.\n It consists of sections: head, views, nodes, edges.",
   "type": "object",
   "required": ["head"],
   "properties":
@@ -72,7 +72,7 @@
     },
     "views":
     {
-      "description": "views is an array whose elements describe the views on the model.",
+      "description": "views is an array whose elements describe the views on nodes and thereby implicitly on edges.",
       "type": "array",
       "items":
       {
@@ -156,7 +156,7 @@
               },
               "list_order":
               {
-                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This integer determines the location where an element appears.\n Lower numbers cause an appearance more to the left or top, higher numbers more to the right or bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
                 "type": "number"
               },
               "display_tags":
@@ -336,17 +336,17 @@
               },
               "x_order":
               {
-                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This integer determines the location where a classifier appears.\n Lower numbers cause an appearance more to the left, higher numbers more to the right.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
                 "type": "number"
               },
               "y_order":
               {
-                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This integer determines the location where a classifier appears.\n Lower numbers cause an appearance more to the top, higher numbers more to the bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
                 "type": "number"
               },
               "list_order":
               {
-                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This integer determines the location where an element appears.\n Lower numbers cause an appearance more to the left or top, higher numbers more to the right or bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
                 "type": "number"
               },
               "uuid":
@@ -415,7 +415,7 @@
                     },
                     "list_order":
                     {
-                      "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                      "description": "This integer determines the order in which features appear.\n Lower numbers cause an appearance at left or top, higher numbers at right or bottom.\n For ports and interfaces, locations move counter-clockwise from INT32_MIN at bottom-right, INT32_MIN/2 at top-right, 0 at top-left, INT32_MAX/2 at bottom-left, INT32_MAX at bottom-right.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
                       "type": "number"
                     },
                     "uuid":
@@ -447,7 +447,7 @@
         {
           "relationship":
           {
-            "description": "relationship is an edge with 1 source and 1 destination end.",
+            "description": "relationship is an edge with 1 source (\"from\") and 1 destination (\"to\") end.",
             "type": "object",
             "properties":
             {
@@ -509,7 +509,7 @@
               },
               "list_order":
               {
-                "description": "This is a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions",
+                "description": "This integer determines the location where an element appears.\n Lower numbers cause an appearance more to the left or top, higher numbers more to the right or bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
                 "type": "number"
               },
               "from_classifier_name":
