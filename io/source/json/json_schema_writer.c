@@ -984,7 +984,12 @@ u8_error_t json_schema_writer_private_declare_uuid( json_schema_writer_t *this_,
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"type\": \"string\"\n" );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"type\": \"string\",\n" );
+
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer),
+                                               "  \"pattern\": \"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$\"\n"
+                                             );
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), has_next ? "},\n" : "}\n" );
