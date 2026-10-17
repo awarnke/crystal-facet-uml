@@ -22,7 +22,6 @@
 #include "format/io_txt_writer.h"
 #include "format/io_txt_icon.h"
 #include "format/io_md_writer.h"
-#include "json/json_type_name_map.h"
 #include "entity/data_diagram.h"
 #include "entity/data_classifier.h"
 #include "data_guidelines.h"
@@ -45,7 +44,6 @@ struct document_element_writer_struct {
     uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, */
                                   /*!< increases with every call to document_element_writer_start_diagram() */
 
-    json_type_name_map_t type_map;  /*!< own instance of a mapping from type ids to type names */
     data_guidelines_t data_guidelines;  /*!< own instance of uml and sysml consistency guidelines */
     document_link_provider_t link_provider;  /*!< own instance of a document_link_provider_t */
     io_txt_icon_t txt_icon;  /*!< own instance of a io_txt_icon provider for relationship types */

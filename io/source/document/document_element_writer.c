@@ -377,7 +377,6 @@ void document_element_writer_init ( document_element_writer_t *this_,
     (*this_).export_type = export_type;
     (*this_).current_tree_depth = 0;
 
-    json_type_name_map_init( &((*this_).type_map) );
     data_guidelines_init( &((*this_).data_guidelines) );
     io_txt_icon_init( &((*this_).txt_icon) );
 
@@ -473,7 +472,6 @@ void document_element_writer_destroy( document_element_writer_t *this_ )
 
     io_txt_icon_destroy( &((*this_).txt_icon) );
     data_guidelines_destroy( &((*this_).data_guidelines) );
-    json_type_name_map_destroy( &((*this_).type_map) );
 
     (*this_).export_stat = NULL;
 
@@ -855,9 +853,7 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const char *const classifier_type_name
-        = json_type_name_map_get_classifier_type( &((*this_).type_map),
-                                                  data_classifier_get_main_type( classifier_ptr )
-                                                );
+        = data_classifier_type_get_name( data_classifier_get_main_type( classifier_ptr ) );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier_ptr );
 
     switch ( (*this_).export_type )
@@ -1058,8 +1054,7 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
-    const char *const feature_type_name
-        = json_type_name_map_get_feature_type( &((*this_).type_map), feature_type );
+    const char *const feature_type_name = data_feature_type_get_name( feature_type );
     const bool has_stereotype = data_guidelines_feature_value_is_stereotype( &((*this_).data_guidelines), feature_type );
 
     switch ( (*this_).export_type )
@@ -1268,8 +1263,7 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         = (NULL != to_c)
         ? data_classifier_get_name_const( to_c )
         : "";
-    const char *const relation_type_name
-        = json_type_name_map_get_relationship_type( &((*this_).type_map), relation_type );
+    const char *const relation_type_name = data_relationship_type_get_name( relation_type );
     const char*const relation_txticon = io_txt_icon_get_relationship ( &((*this_).txt_icon), relation_type );
 
     const char *const relation_stereotype = data_relationship_get_stereotype_const( relation_ptr );
@@ -1524,10 +1518,7 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
     const char *const diag_name = data_diagram_get_name_const( diag_ptr );
     const char *const diag_description = data_diagram_get_description_const( diag_ptr );
     const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
-    const char *const diag_type_name
-        = json_type_name_map_get_diagram_type( &((*this_).type_map),
-                                               data_diagram_get_diagram_type( diag_ptr )
-                                              );
+    const char *const diag_type_name = data_diagram_type_get_name( data_diagram_get_diagram_type( diag_ptr ) );
     const char *const diag_stereotype = data_diagram_get_stereotype_const( diag_ptr );
 
     switch ( (*this_).export_type )

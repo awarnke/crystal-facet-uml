@@ -349,10 +349,7 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
                                                );
 
         /* type */
-        const char *const type_name
-            = json_type_name_map_get_classifier_type( &((*this_).type_map),
-                                                      data_classifier_get_main_type( classifier_ptr )
-                                                    );
+        const char *const type_name = data_classifier_type_get_name( data_classifier_get_main_type( classifier_ptr ) );
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
@@ -570,10 +567,7 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                );
 
         /* type */
-        const char *const type_name
-            = json_type_name_map_get_feature_type( &((*this_).type_map),
-                                                   data_feature_get_main_type( feature_ptr )
-                                                 );
+        const char *const type_name = data_feature_type_get_name( data_feature_get_main_type( feature_ptr ) );
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   6,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
@@ -764,9 +758,7 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
 
         /* type */
         const char *const type_name
-            = json_type_name_map_get_relationship_type( &((*this_).type_map),
-                                                        data_relationship_get_main_type( relation_ptr )
-                                                      );
+            = data_relationship_type_get_name( data_relationship_get_main_type( relation_ptr ) );
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
@@ -1069,10 +1061,7 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                );
 
         /* diagram type */
-        const char *const type_name
-            = json_type_name_map_get_diagram_type( &((*this_).type_map),
-                                                   data_diagram_get_diagram_type( diag_ptr )
-                                                 );
+        const char *const type_name = data_diagram_type_get_name( data_diagram_get_diagram_type( diag_ptr ) );
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,

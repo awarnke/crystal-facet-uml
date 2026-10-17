@@ -218,7 +218,6 @@ void json_schema_writer_init ( json_schema_writer_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != output );
 
-    json_type_name_map_init( &((*this_).enum_map) );
     utf8stream_writer_init( &((*this_).writer), output );
     (*this_).indent = 4;
 
@@ -230,7 +229,6 @@ void json_schema_writer_destroy( json_schema_writer_t *this_ )
     U8_TRACE_BEGIN();
 
     utf8stream_writer_destroy( &((*this_).writer) );
-    json_type_name_map_destroy( &((*this_).enum_map) );
 
     U8_TRACE_END();
 }

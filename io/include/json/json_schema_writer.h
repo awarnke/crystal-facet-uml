@@ -11,14 +11,12 @@
 
 #include "u8stream/universal_output_stream.h"
 #include "utf8stream/utf8stream_writer.h"
-#include "json/json_type_name_map.h"
 #include "entity/data_enum_iterator.h"
 
 /*!
  *  \brief attributes of the json schema writer
  */
 struct json_schema_writer_struct {
-    json_type_name_map_t enum_map;  /*!< an own provider of typenames to declare enumerations */
     utf8stream_writer_t writer;  /*!< an own universal_output_stream_t, wrapping the *output */
     unsigned int indent;  /*!< indentation level: 7 and 10 are supported */
 };

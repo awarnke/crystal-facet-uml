@@ -17,50 +17,6 @@ void json_type_name_map_destroy( json_type_name_map_t *this_ )
     U8_TRACE_END();
 }
 
-const char * json_type_name_map_get_classifier_type( const json_type_name_map_t *this_,
-                                                     data_classifier_type_t classifier_type )
-{
-    U8_TRACE_BEGIN();
-
-    const char *const type_name = data_classifier_type_get_name( classifier_type );
-
-    U8_TRACE_END();
-    return type_name;
-}
-
-const char * json_type_name_map_get_feature_type( const json_type_name_map_t *this_,
-                                                  data_feature_type_t feature_type )
-{
-    U8_TRACE_BEGIN();
-
-    const char *const type_name = data_feature_type_get_name( feature_type );
-
-    U8_TRACE_END();
-    return type_name;
-}
-
-const char * json_type_name_map_get_relationship_type( const json_type_name_map_t *this_,
-                                                       data_relationship_type_t rel_type )
-{
-    U8_TRACE_BEGIN();
-
-    const char *const type_name = data_relationship_type_get_name( rel_type );
-
-    U8_TRACE_END();
-    return type_name;
-}
-
-const char * json_type_name_map_get_diagram_type( const json_type_name_map_t *this_,
-                                                  data_diagram_type_t diagram_type )
-{
-    U8_TRACE_BEGIN();
-
-    const char *const type_name = data_diagram_type_get_name( diagram_type );
-
-    U8_TRACE_END();
-    return type_name;
-}
-
 const char * json_type_name_map_get_diagram_tags( const json_type_name_map_t *this_,
                                                   data_diagram_flag_t diagram_flag )
 {

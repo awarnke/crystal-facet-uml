@@ -46,50 +46,6 @@ void json_type_name_map_init( json_type_name_map_t *this_ );
 void json_type_name_map_destroy( json_type_name_map_t *this_ );
 
 /*!
- *  \brief gets the type name of the data_classifier_type_t id.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_type id for which to select the name
- *  \return type name of classifier_type id; empty string if the id is unknown
- */
-const char * json_type_name_map_get_classifier_type ( const json_type_name_map_t *this_,
-                                                      data_classifier_type_t classifier_type
-                                                    );
-
-/*!
- *  \brief gets the type name of the data_feature_type_t id.
- *
- *  \param this_ pointer to own object attributes
- *  \param feature_type id for which to select the name
- *  \return type name of feature_type id; empty string if the id is unknown
- */
-const char * json_type_name_map_get_feature_type ( const json_type_name_map_t *this_,
-                                                   data_feature_type_t feature_type
-                                                 );
-
-/*!
- *  \brief gets the type name of the data_relationship_type_t id.
- *
- *  \param this_ pointer to own object attributes
- *  \param rel_type id for which to select the name
- *  \return type name of rel_type id; empty string if the id is unknown
- */
-const char * json_type_name_map_get_relationship_type ( const json_type_name_map_t *this_,
-                                                        data_relationship_type_t rel_type
-                                                      );
-
-/*!
- *  \brief gets the type name of the data_diagram_type_t id.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_type id for which to select the name
- *  \return type name of diagram_type id; empty string if the id is unknown
- */
-const char * json_type_name_map_get_diagram_type ( const json_type_name_map_t *this_,
-                                                   data_diagram_type_t diagram_type
-                                                 );
-
-/*!
  *  \brief gets the tag name of the data_diagram_flag_t.
  *
  *  \param this_ pointer to own object attributes
