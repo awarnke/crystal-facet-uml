@@ -25,7 +25,8 @@ static const char SCHEMA_GRAPH_HEADER[]
         " It consists of sections: " JSON_CONSTANTS_KEY_HEAD ", " JSON_CONSTANTS_KEY_VIEWS ", "
         JSON_CONSTANTS_KEY_NODES ", " JSON_CONSTANTS_KEY_EDGES ".\",\n"
     "  \"type\": \"object\",\n"
-    "  \"required\": [\"" JSON_CONSTANTS_KEY_HEAD "\"],\n"
+    "  \"required\": [\"" JSON_CONSTANTS_KEY_HEAD "\", \"" JSON_CONSTANTS_KEY_VIEWS "\", \""
+        JSON_CONSTANTS_KEY_NODES "\", \"" JSON_CONSTANTS_KEY_EDGES"\"],\n"
     "  \"properties\":\n"
     "  {\n";
 

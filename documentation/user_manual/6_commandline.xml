@@ -51,7 +51,7 @@
             Check if json/cfuJ files are valid:
         </para>
         <para>
-            <command>jsonlint myModel.json myModel.schema</command>
+            <command>check-jsonschema --schemafile myModel.schema myModel.json</command>
         </para>
     </section>
 </section>

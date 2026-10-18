@@ -4,7 +4,7 @@
   "title": "crystal-facet-uml model",
   "description": "This schema defines the structure of json objects to store a uml/sysml model.\n It consists of sections: head, views, nodes, edges.",
   "type": "object",
-  "required": ["head"],
+  "required": ["head", "views", "nodes", "edges"],
   "properties":
   {
     "head":
