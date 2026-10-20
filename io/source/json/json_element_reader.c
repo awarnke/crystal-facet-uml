@@ -16,6 +16,7 @@ void json_element_reader_init ( json_element_reader_t *this_, universal_input_st
 
     (*this_).top_array_after_first_entry = false;
     (*this_).sub_array_after_first_entry = false;
+    (*this_).object_after_first_entry = false;
 
     U8_TRACE_END();
 }
@@ -51,7 +52,7 @@ u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ )
     return result;
 }
 
-u8_error_t json_element_reader_expect_head ( json_element_reader_t *this_ )
+u8_error_t json_element_reader_expect_begin_head ( json_element_reader_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -75,9 +76,33 @@ u8_error_t json_element_reader_expect_head ( json_element_reader_t *this_ )
         result = json_token_reader_expect_name_separator( &((*this_).tokenizer) );
     }
 
+#if 0
     if ( U8_ERROR_NONE == result )
     {
         result = json_element_reader_skip_next_object( this_ );
+    }
+#endif
+
+    if ( U8_ERROR_NONE == result )
+    {
+        result = json_token_reader_expect_begin_object( &((*this_).tokenizer) );
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t json_element_reader_check_end_head ( json_element_reader_t *this_, bool* out_end )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != out_end );
+    u8_error_t result = U8_ERROR_NONE;
+
+    result = json_token_reader_check_end_object ( &((*this_).tokenizer), out_end );
+
+    if (( U8_ERROR_NONE == result ) && ( *out_end ))
+    {
+        (*this_).object_after_first_entry = false;
     }
 
     U8_TRACE_END_ERR( result );
@@ -302,6 +327,115 @@ u8_error_t json_element_reader_expect_end_type_of_element ( json_element_reader_
                          json_token_reader_get_input_line( &((*this_).tokenizer) )
                        );
         result |= U8_ERROR_PARSER_STRUCTURE;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t json_element_reader_get_next_head ( json_element_reader_t *this_, data_head_t *out_info )
+{
+    U8_TRACE_BEGIN();
+    assert ( NULL != out_info );
+    u8_error_t result = U8_ERROR_NONE;
+
+    /* get name */
+
+    if ( (*this_).object_after_first_entry )
+    {
+        result = json_token_reader_expect_value_separator ( &((*this_).tokenizer) );
+    }
+    else
+    {
+        (*this_).object_after_first_entry = true;
+    }
+    if ( U8_ERROR_NONE == result )
+    {
+        result = json_token_reader_read_member_name ( &((*this_).tokenizer), (*this_).temp_string );
+        if ( U8_ERROR_NONE == result )
+        {
+            data_head_set_key( out_info, utf8stringbuf_get_string( &((*this_).temp_string) ) );
+        }
+    }
+    if ( U8_ERROR_NONE == result )
+    {
+        result = json_token_reader_expect_name_separator ( &((*this_).tokenizer) );
+    }
+    json_value_type_t v_type;
+    if ( U8_ERROR_NONE == result )
+    {
+        result = json_token_reader_get_value_type ( &((*this_).tokenizer), &v_type );
+    }
+    if ( U8_ERROR_NONE == result )
+    {
+        switch ( v_type )
+        {
+            case JSON_VALUE_TYPE_OBJECT:
+            {
+                result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
+            }
+            break;
+
+            case JSON_VALUE_TYPE_ARRAY:
+            {
+                result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect arrays in objects */
+            }
+            break;
+
+            case JSON_VALUE_TYPE_NUMBER:
+            {
+                double parsed_number;
+                /* result = */ json_token_reader_read_number_value ( &((*this_).tokenizer), &parsed_number );
+                /* ignore the U8_ERROR_NOT_YET_IMPLEMENTED here... */
+            }
+            break;
+
+            case JSON_VALUE_TYPE_INTEGER:
+            {
+                int64_t parsed_integer;
+                result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
+            }
+            break;
+
+            case JSON_VALUE_TYPE_STRING:
+            {
+                result = json_token_reader_read_string_value ( &((*this_).tokenizer), (*this_).temp_string );
+                if ( U8_ERROR_NONE == result )
+                {
+                    data_head_set_value( out_info, utf8stringbuf_get_string( &((*this_).temp_string) ) );
+                }
+            }
+            break;
+
+            case JSON_VALUE_TYPE_BOOLEAN:
+            {
+                bool parsed_bool;
+                result = json_token_reader_read_boolean_value ( &((*this_).tokenizer), &parsed_bool );
+            }
+            break;
+
+            case JSON_VALUE_TYPE_NULL:
+            {
+                result = json_token_reader_expect_null_value ( &((*this_).tokenizer) );
+            }
+            break;
+
+            case JSON_VALUE_TYPE_UNDEF:
+            default:
+            {
+                U8_LOG_ERROR_INT( "unexpected member name at line",
+                                  json_token_reader_get_input_line( &((*this_).tokenizer) )
+                                );
+                result = U8_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
+            }
+            break;
+        }
+    }
+
+    /* footer */
+    if ( U8_ERROR_NONE == result )
+    {
+        data_head_trace( out_info );
     }
 
     U8_TRACE_END_ERR( result );
@@ -832,6 +966,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
     return result;
 }
 
+#if 0
 u8_error_t json_element_reader_skip_next_object ( json_element_reader_t *this_ )
 {
     U8_TRACE_BEGIN();
@@ -954,6 +1089,7 @@ u8_error_t json_element_reader_skip_next_object ( json_element_reader_t *this_ )
     U8_TRACE_END_ERR( result );
     return result;
 }
+#endif
 
 u8_error_t json_element_reader_skip_next_string ( json_element_reader_t *this_ )
 {

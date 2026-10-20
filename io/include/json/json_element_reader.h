@@ -19,6 +19,7 @@
 #include "entity/data_relationship.h"
 #include "entity/data_diagram.h"
 #include "entity/data_diagramelement.h"
+#include "entity/data_head.h"
 #include "u8stream/universal_input_stream.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error.h"
@@ -38,6 +39,7 @@ struct json_element_reader_struct {
     json_token_reader_t tokenizer;  /*!< own token_reader instance to consecutively fetch tokens from the json input file */
     bool top_array_after_first_entry;  /*!< true if the first entry of the top-level array has already been parsed */
     bool sub_array_after_first_entry;  /*!< true if the first entry of the 2nd-level array has already been parsed */
+    bool object_after_first_entry;  /*!< true if the first entry of the object (like head) has already been parsed */
     utf8stringbuf_t temp_string;  /*!< a local buffer to buffer streamed strings before assigning them to data objects */
     char temp_string_buffer[DATA_DIAGRAM_MAX_DESCRIPTION_SIZE];
 };
@@ -82,14 +84,27 @@ void json_element_reader_destroy ( json_element_reader_t *this_ );
 u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ );
 
 /*!
- *  \brief checks that the head structure of the json data is valid
+ *  \brief checks that the beginning of the head object is valid
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          U8_ERROR_NONE if structure of the input is valid.
  */
-u8_error_t json_element_reader_expect_head ( json_element_reader_t *this_ );
+u8_error_t json_element_reader_expect_begin_head ( json_element_reader_t *this_ );
+
+/*!
+ *  \brief checks that the beginning of the head object is valid
+ *
+ *  If yes, the end is read and consumed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_end true if the data object is at its end.
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_element_reader_check_end_head ( json_element_reader_t *this_, bool* out_end );
 
 /*!
  *  \brief checks that the footer/ending of the json data is valid
@@ -174,6 +189,18 @@ u8_error_t json_element_reader_expect_begin_type_of_element ( json_element_reade
 u8_error_t json_element_reader_expect_end_type_of_element ( json_element_reader_t *this_ );
 
 /*!
+ *  \brief parses the next head information
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_info pointer to storage location for the result. Must not be NULL.
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_info,
+ *          U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_element_reader_get_next_head ( json_element_reader_t *this_, data_head_t *out_info );
+
+/*!
  *  \brief parses the next object as classifier
  *
  *  \param this_ pointer to own object attributes
@@ -246,6 +273,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                                                        utf8stringbuf_t out_to_node_uuid
                                                      );
 
+#if 0
 /*!
  *  \brief skips the next object, e.g. a relationship if this is of no interest
  *
@@ -255,6 +283,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
  *          U8_ERROR_NONE if structure of the input is valid.
  */
 u8_error_t json_element_reader_skip_next_object ( json_element_reader_t *this_ );
+#endif
 
 /*!
  *  \brief skips the next string, e.g. a key or string-value of no interest

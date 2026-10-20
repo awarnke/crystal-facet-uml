@@ -91,7 +91,33 @@ u8_error_t json_importer_private_import_head( json_importer_t *this_ )
 
     u8_error_t sync_error = U8_ERROR_NONE;
 
-    sync_error = json_element_reader_expect_head( &((*this_).temp_element_reader) );
+    if ( U8_ERROR_NONE == sync_error )
+    {
+        sync_error = json_element_reader_expect_begin_head( &((*this_).temp_element_reader) );
+    }
+
+    if ( U8_ERROR_NONE == sync_error )
+    {
+        bool set_end = false;  /* end of data set reached or error at parsing */
+        sync_error = json_element_reader_check_end_head( &((*this_).temp_element_reader), &set_end );
+        while (( ! set_end ) && ( sync_error == U8_ERROR_NONE ))
+        {
+            data_head_t head_info;
+            data_head_init_new( &head_info, "", "" );
+            sync_error = json_element_reader_get_next_head( &((*this_).temp_element_reader), &head_info );
+
+            if ( U8_ERROR_NONE == sync_error )
+            {
+            }
+
+            data_head_destroy( &head_info );
+
+            if ( U8_ERROR_NONE == sync_error )
+            {
+                sync_error = json_element_reader_check_end_head( &((*this_).temp_element_reader), &set_end );
+            }
+        }
+    }
 
     U8_TRACE_END_ERR( sync_error );
     return sync_error;
