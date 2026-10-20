@@ -78,12 +78,6 @@ sudo zypper install crystal-facet-uml
                         On windows, doubleclick on <userinput>crystal-facet-uml.bat</userinput>,
                     </para>
                 </listitem>
-                <listitem>
-                    <para>
-                        or using the wine emulation, call
-                        <userinput>XDG_DATA_HOME=".\\share" wine64 bin/crystal-facet-uml.exe</userinput>.
-                    </para>
-                </listitem>
             </itemizedlist>
         </para>
     </section>

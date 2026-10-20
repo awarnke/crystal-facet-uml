@@ -55,7 +55,7 @@ void json_importer_init( json_importer_t *this_, io_import_elements_t *elements_
 void json_importer_destroy( json_importer_t *this_ );
 
 /*!
- *  \brief copies the clipboard contents to the focused diagram
+ *  \brief copies the clipboard contents to the focused diagram or opens or imports a file
  *
  *  \param this_ pointer to own object attributes
  *  \param json_text stream in json format, not NULL
@@ -68,6 +68,14 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
                                         universal_input_stream_t *json_text,
                                         u8_error_info_t *out_err_info
                                       );
+
+/*!
+ *  \brief imports head data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, other error code otherwise
+ */
+u8_error_t json_importer_private_import_head( json_importer_t *this_ );
 
 /*!
  *  \brief imports views to the focused diagram

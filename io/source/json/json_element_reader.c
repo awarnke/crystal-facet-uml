@@ -44,10 +44,19 @@ u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    char member_name_buf[24] = "";
-    utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     result = json_token_reader_expect_begin_object ( &((*this_).tokenizer) );
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t json_element_reader_expect_head ( json_element_reader_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+    char member_name_buf[24] = "";
+    utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     if ( U8_ERROR_NONE == result )
     {
@@ -55,8 +64,8 @@ u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ )
         if ( ! utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_HEAD ) )
         {
             U8_LOG_ERROR_INT( "unexpected object contents at line",
-                             json_token_reader_get_input_line( &((*this_).tokenizer) )
-                           );
+                              json_token_reader_get_input_line( &((*this_).tokenizer) )
+                            );
             result |= U8_ERROR_PARSER_STRUCTURE;
         }
     }

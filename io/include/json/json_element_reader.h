@@ -72,7 +72,7 @@ void json_element_reader_reinit ( json_element_reader_t *this_,
 void json_element_reader_destroy ( json_element_reader_t *this_ );
 
 /*!
- *  \brief checks that the header of the json data is valid
+ *  \brief checks that the json data starts with curly braces
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
@@ -80,6 +80,16 @@ void json_element_reader_destroy ( json_element_reader_t *this_ );
  *          U8_ERROR_NONE if structure of the input is valid.
  */
 u8_error_t json_element_reader_expect_header ( json_element_reader_t *this_ );
+
+/*!
+ *  \brief checks that the head structure of the json data is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          U8_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          U8_ERROR_NONE if structure of the input is valid.
+ */
+u8_error_t json_element_reader_expect_head ( json_element_reader_t *this_ );
 
 /*!
  *  \brief checks that the footer/ending of the json data is valid

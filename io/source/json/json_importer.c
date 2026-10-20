@@ -52,6 +52,11 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
 
     if ( U8_ERROR_NONE == sync_error )
     {
+        sync_error = json_importer_private_import_head( this_ );
+    }
+
+    if ( U8_ERROR_NONE == sync_error )
+    {
         sync_error = json_importer_private_import_views( this_ );
     }
 
@@ -75,6 +80,18 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
     u8_error_info_init_line( out_err_info, sync_error, current_read_line );
 
     json_element_reader_destroy( &((*this_).temp_element_reader) );
+
+    U8_TRACE_END_ERR( sync_error );
+    return sync_error;
+}
+
+u8_error_t json_importer_private_import_head( json_importer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+
+    u8_error_t sync_error = U8_ERROR_NONE;
+
+    sync_error = json_element_reader_expect_head( &((*this_).temp_element_reader) );
 
     U8_TRACE_END_ERR( sync_error );
     return sync_error;

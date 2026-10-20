@@ -46,7 +46,7 @@ openSuSE:
 >       # or sudo zypper addrepo https://download.opensuse.org/repositories/devel:/tools/16.0 devel_tools_16.0
 >       sudo zypper install crystal-facet-uml
 
-Windows/wine:
+Windows:
 
 Fetch a prebuild binary version from e.g. https://www.heise.de/download/product/crystal-facet-uml/
 or https://sourceforge.net/projects/crystal-facet-uml/ and unpack it:
