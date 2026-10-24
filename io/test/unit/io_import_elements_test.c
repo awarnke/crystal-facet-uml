@@ -6,6 +6,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_head.h"
 #include "set/data_stat.h"
 #include "u8stream/universal_null_output_stream.h"
 #include "u8/u8_trace.h"
@@ -40,6 +41,7 @@ struct test_fixture_struct {
     data_database_t database;  /*!< database instance on which the tests are performed */
     data_database_reader_t db_reader;  /*!< database reader to access the database */
     ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+    data_database_head_t db_head;  /*!< database head to access the metadata of the database */
     data_stat_t stats;  /*!< statistics */
     io_import_elements_t elements_importer;  /*!< io_import_elements to be tested */
     universal_null_output_stream_t null_out;  /*!< ignore report of io_import_elements_t */
@@ -55,14 +57,20 @@ static test_fixture_t * set_up()
     data_database_open_in_memory( &((*fix).database) );
 
     data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
-
     ctrl_controller_init( &((*fix).controller), &((*fix).database) );
+    data_database_head_init( &((*fix).db_head), &((*fix).database) );
 
     data_stat_init( &((*fix).stats) );
 
     universal_null_output_stream_init( &((*fix).null_out) );
     utf8stream_writer_init( &((*fix).out_writer), universal_null_output_stream_get_output_stream( &((*fix).null_out) ) );
-    io_import_elements_init( &((*fix).elements_importer), &((*fix).db_reader), &((*fix).controller), &((*fix).stats), &((*fix).out_writer) );
+    io_import_elements_init( &((*fix).elements_importer),
+                             &((*fix).db_reader),
+                             &((*fix).controller),
+                             &((*fix).db_head),
+                             &((*fix).stats),
+                             &((*fix).out_writer)
+                           );
     return fix;
 }
 
@@ -76,8 +84,8 @@ static void tear_down( test_fixture_t *fix )
 
     data_stat_destroy( &((*fix).stats) );
 
+    data_database_head_destroy( &((*fix).db_head) );
     ctrl_controller_destroy( &((*fix).controller) );
-
     data_database_reader_destroy( &((*fix).db_reader) );
 
     data_database_close( &((*fix).database) );
@@ -125,6 +133,7 @@ static data_row_t set_mode_paste_to_root_diag( test_fixture_t *fix )
                                        root_diag_id,
                                        &((*fix).db_reader),
                                        &((*fix).controller),
+                                       &((*fix).db_head),
                                        &((*fix).stats),
                                        &((*fix).out_writer)
                                      );

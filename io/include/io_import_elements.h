@@ -27,6 +27,7 @@
 #include "entity/data_row.h"
 #include "data_rules.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_head.h"
 #include "set/data_stat.h"
 #include "set/data_visible_set.h"
 #include "ctrl_controller.h"
@@ -38,12 +39,13 @@
  *  \brief object data of a io_import_elements_t.
  *
  *  Lifecycle: An element importer shall perform a single import operation only.
- *  It may be initialized before one import operation and be destroyed afterwards.
+ *  It shall be initialized before one import operation and be destroyed afterwards.
  */
 struct io_import_elements_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
+    data_database_head_t *db_head;  /*!< pointer to external data_database_head */
 
     io_import_step_t step;  /*!< the import step */
     data_row_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
@@ -68,6 +70,7 @@ typedef struct io_import_elements_struct io_import_elements_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
+ *  \param db_head pointer to the database metadata
  *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller.
  *                 In case the element can be created but id or name have to be adapted to be unique,
  *                 a warning is added.
@@ -76,6 +79,7 @@ typedef struct io_import_elements_struct io_import_elements_t;
 void io_import_elements_init( io_import_elements_t *this_,
                               data_database_reader_t *db_reader,
                               ctrl_controller_t *controller,
+                              data_database_head_t *db_head,
                               data_stat_t *io_stat,
                               utf8stream_writer_t *out_english_report
                             );
@@ -87,6 +91,7 @@ void io_import_elements_init( io_import_elements_t *this_,
  *  \param paste_to_diagram the parent diagram where pasted objects shall be attached to
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
+ *  \param db_head pointer to the database metadata
  *  \param io_stat Statistics are only added, *io_stat shall be initialized by caller.
  *                 In case the element can be created but id or name have to be adapted to be unique,
  *                 a warning is added.
@@ -96,6 +101,7 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
                                         data_row_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
+                                        data_database_head_t *db_head,
                                         data_stat_t *io_stat,
                                         utf8stream_writer_t *out_english_report
                                       );

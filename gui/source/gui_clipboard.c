@@ -16,13 +16,15 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
                           gui_toolbox_t *tool_switcher,
                           gui_simple_message_to_user_t *message_to_user,
                           data_database_reader_t *db_reader,
-                          ctrl_controller_t *controller )
+                          ctrl_controller_t *controller,
+                          data_database_head_t *db_head )
 {
     U8_TRACE_BEGIN();
     assert( NULL != clipboard );
     assert( NULL != message_to_user );
     assert( NULL != db_reader );
     assert( NULL != controller );
+    assert( NULL != db_head );
 
     (*this_).destination_diagram_id = DATA_ROW_VOID;
     (*this_).message_to_user = message_to_user;
@@ -33,7 +35,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
                                                     );
 
     io_exporter_light_init ( &((*this_).exporter), db_reader );
-    io_importer_init ( &((*this_).importer), db_reader, controller );
+    io_importer_init ( &((*this_).importer), db_reader, controller, db_head );
 
     U8_TRACE_END();
 }

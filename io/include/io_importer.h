@@ -13,6 +13,7 @@
 #include "io_file_format.h"
 #include "ctrl_controller.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_head.h"
 #include "set/data_stat.h"
 #include "utf8stream/utf8stream_writer.h"
 #include "u8stream/universal_input_stream.h"
@@ -28,6 +29,7 @@
 struct io_importer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
+    data_database_head_t *db_head;  /*!< pointer to external data_database_head */
 
     json_importer_t temp_json_importer;  /*!< own instance of a json stream importer */
     io_import_elements_t temp_elements_importer;  /*!< own instance of a db-element sync to database */
@@ -41,10 +43,12 @@ typedef struct io_importer_struct io_importer_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
+ *  \param db_head pointer to the database metadata
  */
 void io_importer_init ( io_importer_t *this_,
                         data_database_reader_t *db_reader,
-                        ctrl_controller_t *controller
+                        ctrl_controller_t *controller,
+                        data_database_head_t *db_head
                       );
 
 /*!

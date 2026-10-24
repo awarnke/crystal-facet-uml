@@ -11,17 +11,20 @@
 void io_import_elements_init( io_import_elements_t *this_,
                               data_database_reader_t *db_reader,
                               ctrl_controller_t *controller,
+                              data_database_head_t *db_head,
                               data_stat_t *io_stat,
                               utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != controller );
+    assert( NULL != db_head );
     assert( NULL != io_stat );
     assert( NULL != out_english_report );
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    (*this_).db_head = db_head;
     (*this_).stat = io_stat;
     (*this_).english_report = out_english_report;
 
@@ -68,12 +71,18 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
                                         data_row_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
+                                        data_database_head_t *db_head,
                                         data_stat_t *io_stat,
                                         utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
+    assert( NULL != db_reader );
+    assert( NULL != controller );
+    assert( NULL != db_head );
+    assert( NULL != io_stat );
+    assert( NULL != out_english_report );
 
-    io_import_elements_init( this_, db_reader, controller, io_stat, out_english_report );
+    io_import_elements_init( this_, db_reader, controller, db_head, io_stat, out_english_report );
     (*this_).step = IO_IMPORT_STEP_CREATE_D_C_F_R;
 
     /* check if diagram id exists */
@@ -104,6 +113,7 @@ void io_import_elements_destroy( io_import_elements_t *this_ )
     U8_TRACE_BEGIN();
     assert( NULL != (*this_).db_reader );
     assert( NULL != (*this_).controller );
+    assert( NULL != (*this_).db_head );
     assert( NULL != (*this_).stat );
     assert( NULL != (*this_).english_report );
 
@@ -113,6 +123,7 @@ void io_import_elements_destroy( io_import_elements_t *this_ )
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
+    (*this_).db_head = NULL;
     (*this_).stat = NULL;
     (*this_).english_report = NULL;
 

@@ -17,6 +17,7 @@ void gui_window_manager_init( gui_window_manager_t *this_,
 
     gui_resources_init( &((*this_).gui_resources) );
     data_database_reader_init( &((*this_).db_reader), io_data_file_get_database_ptr( data_file ) );
+    data_database_head_init( &((*this_).db_head), io_data_file_get_database_ptr( data_file ) );
     (*this_).controller = io_data_file_get_controller_ptr( data_file );
     (*this_).data_file = data_file;
     (*this_).gtk_app = gtk_app;
@@ -51,6 +52,7 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ )
         }
     }
     observer_destroy( &((*this_).window_close_observer) );
+    data_database_head_destroy( &((*this_).db_head) );
     data_database_reader_destroy( &((*this_).db_reader) );
     gui_resources_destroy( &((*this_).gui_resources) );
     (*this_).controller = NULL;
@@ -77,9 +79,10 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
     if ( -1 != pos )
     {
         gui_main_window_init( &((*this_).main_window[pos]),
-                              (*this_).controller,
                               (*this_).data_file,
                               &((*this_).db_reader),
+                              (*this_).controller,
+                              &((*this_).db_head),
                               &((*this_).gui_resources),
                               (*this_).gtk_app,
                               &((*this_).window_close_observer),

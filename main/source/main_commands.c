@@ -221,8 +221,10 @@ u8_error_t main_commands_import ( main_commands_t *this_,
     {
         static data_database_reader_t db_reader;
         data_database_reader_init( &db_reader, io_data_file_get_database_ptr( (*this_).data_file ) );
+        static data_database_head_t db_head;
+        data_database_head_init( &db_head, io_data_file_get_database_ptr( (*this_).data_file ) );
         static io_importer_t importer;
-        io_importer_init( &importer, &db_reader, io_data_file_get_controller_ptr( (*this_).data_file ));
+        io_importer_init( &importer, &db_reader, io_data_file_get_controller_ptr( (*this_).data_file ), &db_head );
         {
             data_stat_t import_stat;
             data_stat_init ( &import_stat );
@@ -234,6 +236,7 @@ u8_error_t main_commands_import ( main_commands_t *this_,
             data_stat_destroy ( &import_stat );
         }
         io_importer_destroy( &importer );
+        data_database_head_destroy( &db_head );
         data_database_reader_destroy( &db_reader );
     }
     else

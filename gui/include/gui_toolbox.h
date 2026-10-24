@@ -14,6 +14,7 @@
 #include "gui_clipboard.h"
 #include "set/data_stat.h"
 #include "ctrl_controller.h"
+#include "storage/data_database_head.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "gui_gtk.h"
 
@@ -53,6 +54,7 @@ extern const char *GUI_TOOLBOX_GLIB_SIGNAL_NAME;
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
+ *  \param db_head pointer to the database metadata
  */
 void gui_toolbox_init ( gui_toolbox_t *this_,
                         GtkWidget *toolbar,
@@ -64,7 +66,8 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
                         gui_marked_set_t *marker,
                         gui_simple_message_to_user_t *message_to_user,
                         data_database_reader_t *db_reader,
-                        ctrl_controller_t *controller
+                        ctrl_controller_t *controller,
+                        data_database_head_t *db_head
                       );
 
 /*!

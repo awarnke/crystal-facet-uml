@@ -15,6 +15,7 @@
 #include "observer/observer.h"
 #include "io_data_file.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_head.h"
 #include "gui_gtk.h"
 #include <stdbool.h>
 
@@ -32,6 +33,7 @@ struct gui_window_manager_struct {
     ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
     io_data_file_t *data_file;  /*!< pointer to external io_data_file_t */
     data_database_reader_t db_reader;  /*!< own instance of data_database_reader_t */
+    data_database_head_t db_head;  /*!< own instance of data_database_head */
     gui_resources_t gui_resources;  /*!< own instance of gui_resources_t */
     GtkApplication *gtk_app;  /*!< the gtk application object */
     observer_t window_close_observer;  /*!< own instance of observer_t to observe window close events */

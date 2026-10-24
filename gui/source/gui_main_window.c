@@ -17,16 +17,24 @@
 #include <stdbool.h>
 
 void gui_main_window_init( gui_main_window_t *this_,
-                           ctrl_controller_t *controller,
                            io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
+                           ctrl_controller_t *controller,
+                           data_database_head_t *db_head,
                            const gui_resources_t *resources,
                            GtkApplication *gtk_app,
                            observer_t *window_close_observer,
                            observer_t *window_open_observer )
 {
     U8_TRACE_BEGIN();
+    assert( data_file != NULL );
+    assert( db_reader != NULL );
+    assert( controller != NULL );
+    assert( db_head != NULL );
+    assert( resources != NULL );
     assert( gtk_app != NULL );
+    assert( window_close_observer != NULL );
+    assert( window_open_observer != NULL );
 
     /* init own attributes */
     (*this_).window_close_observer = window_close_observer;
@@ -78,7 +86,8 @@ void gui_main_window_init( gui_main_window_t *this_,
                       &((*this_).marker_data),
                       &((*this_).message_to_user),
                       db_reader,
-                      controller
+                      controller,
+                      db_head
                     );
 
     /* init search widgets and sketch area */

@@ -26,6 +26,7 @@ void io_data_file_init ( io_data_file_t *this_ )
 
     data_database_init( &((*this_).database) );
     ctrl_controller_init( &((*this_).controller), &((*this_).database) );
+    data_database_head_init( &((*this_).db_head), &((*this_).database) );
 
     (*this_).json_file_name
         = utf8stringbuf_new( (*this_).private_json_file_name_buffer, sizeof((*this_).private_json_file_name_buffer) );
@@ -46,6 +47,7 @@ void io_data_file_destroy ( io_data_file_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    data_database_head_destroy( &((*this_).db_head) );
     ctrl_controller_destroy( &((*this_).controller) );
     data_database_destroy( &((*this_).database) );
 
@@ -514,7 +516,7 @@ u8_error_t io_data_file_private_import( io_data_file_t *this_,
         static data_database_reader_t db_reader;
         data_database_reader_init( &db_reader, &((*this_).database) );
         static io_importer_t importer;
-        io_importer_init( &importer, &db_reader, &((*this_).controller) );
+        io_importer_init( &importer, &db_reader, &((*this_).controller), &((*this_).db_head) );
         {
             import_err = io_importer_import_file( &importer, IO_IMPORT_MODE_IMPORT, src_file, io_stat, out_err_info, &out_null );
             data_stat_trace( io_stat );

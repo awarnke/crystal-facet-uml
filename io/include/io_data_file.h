@@ -12,6 +12,7 @@
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_revision.h"
+#include "storage/data_database_head.h"
 #include "set/data_stat.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error_info.h"
@@ -25,6 +26,7 @@ struct io_data_file_struct {
     data_database_t database;  /*!< a database struct to read/write the database, handle locks and transactions */
                                /*!< and notifications to registered listeners */
     ctrl_controller_t controller;  /*!< a controller struct to modify the database */
+    data_database_head_t db_head;  /*!< own instance of data_database_head */
 
     utf8stringbuf_t json_file_name;  /*!< the file name of the json file */
     char private_json_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];

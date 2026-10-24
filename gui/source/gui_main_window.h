@@ -26,8 +26,10 @@
 #include "attributes/gui_attribute_type_of_feature.h"
 #include "attributes/gui_attribute_type_of_relationship.h"
 #include "io_data_file.h"
-#include "storage/data_change_message.h"
 #include "ctrl_controller.h"
+#include "storage/data_change_message.h"
+#include "storage/data_database_reader.h"
+#include "storage/data_database_head.h"
 #include "entity/data_diagram_type.h"
 #include "entity/data_classifier_type.h"
 #include "entity/data_feature_type.h"
@@ -147,18 +149,20 @@ typedef struct gui_main_window_struct gui_main_window_t;
  *  \brief initializes the main window
  *
  *  \param this_ pointer to own object attributes
- *  \param controller pointer to a controller object which can modify the database
  *  \param data_file pointer to a data_file object
  *  \param db_reader pointer to a database reader object
+ *  \param controller pointer to a controller object which can modify the database
+ *  \param db_head pointer to the database metadata
  *  \param resources pointer to a resource provider
  *  \param gtk_app the gtk application object
  *  \param window_close_observer observer for a button press on the close window button
  *  \param window_open_observer observer for a button press on the open window button
  */
 void gui_main_window_init( gui_main_window_t *this_,
-                           ctrl_controller_t *controller,
                            io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
+                           ctrl_controller_t *controller,
+                           data_database_head_t *db_head,
                            const gui_resources_t *resources,
                            GtkApplication *gtk_app,
                            observer_t *window_close_observer,

@@ -14,14 +14,17 @@
 
 void io_importer_init ( io_importer_t *this_,
                         data_database_reader_t *db_reader,
-                        ctrl_controller_t *controller )
+                        ctrl_controller_t *controller,
+                        data_database_head_t *db_head )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != controller );
+    assert( NULL != db_head );
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    (*this_).db_head = db_head;
 
     U8_TRACE_END();
 }
@@ -31,9 +34,11 @@ void io_importer_destroy ( io_importer_t *this_ )
     U8_TRACE_BEGIN();
     assert( NULL != (*this_).db_reader );
     assert( NULL != (*this_).controller );
+    assert( NULL != (*this_).db_head );
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
+    (*this_).db_head = NULL;
 
     U8_TRACE_END();
 }
@@ -59,6 +64,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
                                        diagram_id,
                                        (*this_).db_reader,
                                        (*this_).controller,
+                                       (*this_).db_head,
                                        io_stat,
                                        &out_writer
                                      );
@@ -141,6 +147,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
     io_import_elements_init( &((*this_).temp_elements_importer),
                              (*this_).db_reader,
                              (*this_).controller,
+                             (*this_).db_head,
                              io_stat,
                              out_english_report
                            );

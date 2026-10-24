@@ -23,7 +23,8 @@ void gui_toolbox_init( gui_toolbox_t *this_,
                        gui_marked_set_t *marker,
                        gui_simple_message_to_user_t *message_to_user,
                        data_database_reader_t *db_reader,
-                       ctrl_controller_t *controller )
+                       ctrl_controller_t *controller,
+                       data_database_head_t *db_head )
 {
     U8_TRACE_BEGIN();
     assert( NULL != tool_navigate );
@@ -35,6 +36,7 @@ void gui_toolbox_init( gui_toolbox_t *this_,
     assert( NULL != message_to_user );
     assert( NULL != db_reader );
     assert( NULL != controller );
+    assert( NULL != db_head );
 
     (*this_).selected_tool = GUI_TOOL_NAVIGATE;
     (*this_).marker = marker;
@@ -52,7 +54,8 @@ void gui_toolbox_init( gui_toolbox_t *this_,
                         this_,
                         message_to_user,
                         db_reader,
-                        controller
+                        controller,
+                        db_head
                       );
 
     /* define a new signal */

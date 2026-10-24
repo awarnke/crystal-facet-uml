@@ -14,6 +14,7 @@
 #include "io_importer.h"
 #include "ctrl_controller.h"
 #include "data_rules.h"
+#include "storage/data_database_head.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <gdk/gdkclipboard.h>
 
@@ -46,13 +47,15 @@ typedef struct gui_clipboard_struct gui_clipboard_t;
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
+ *  \param db_head pointer to the database metadata
  */
 void gui_clipboard_init ( gui_clipboard_t *this_,
                           GdkClipboard *clipboard,
                           gui_toolbox_t *tool_switcher,
                           gui_simple_message_to_user_t *message_to_user,
                           data_database_reader_t *db_reader,
-                          ctrl_controller_t *controller
+                          ctrl_controller_t *controller,
+                          data_database_head_t *db_head
                         );
 
 /*!
