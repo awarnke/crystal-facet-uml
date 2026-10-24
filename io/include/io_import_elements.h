@@ -23,6 +23,7 @@
 #include "entity/data_relationship.h"
 #include "entity/data_diagram.h"
 #include "entity/data_diagramelement.h"
+#include "entity/data_head.h"
 #include "entity/data_row.h"
 #include "data_rules.h"
 #include "storage/data_database_reader.h"
@@ -120,6 +121,15 @@ void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t 
  *  \brief synchronizes a diagram with the database
  *
  *  \param this_ pointer to own object attributes
+ *  \param head_ptr pointer to data_head_t entry that shall be synced to the database, not NULL,
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
+ */
+u8_error_t io_import_elements_sync_head_entry( io_import_elements_t *this_, const data_head_t *head_ptr );
+
+/*!
+ *  \brief synchronizes a diagram with the database
+ *
+ *  \param this_ pointer to own object attributes
  *  \param diagram_ptr pointer to diagram that shall be written, not NULL, (diagram may be modified)
  *  \param parent_uuid uuid of the parent diagram, NULL if root diagram
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_FOCUS_EMPTY if no parent diagram provided
@@ -196,7 +206,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                                );
 
 /*!
- *  \brief writes a note to the report that the requested id differes frmo the created id
+ *  \brief writes a note to the report that the requested id differes from the created id
  *
  *  \param this_ pointer to own object attributes
  *  \param req_id requested id for an element to be imported
@@ -205,7 +215,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
 void io_import_elements_private_report_id_differs( io_import_elements_t *this_, data_id_t req_id, data_id_t act_id );
 
 /*!
- *  \brief writes a note to the report that the requested id differes frmo the created id
+ *  \brief writes a note to the report that the requested id differes from the created id
  *
  *  \param this_ pointer to own object attributes
  *  \param req_name requested name for an element to be imported (not NULL)

@@ -108,6 +108,7 @@ u8_error_t json_importer_private_import_head( json_importer_t *this_ )
 
             if ( U8_ERROR_NONE == sync_error )
             {
+                sync_error = io_import_elements_sync_head_entry( (*this_).elements_importer, &head_info );
             }
 
             data_head_destroy( &head_info );

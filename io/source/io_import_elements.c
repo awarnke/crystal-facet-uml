@@ -131,6 +131,16 @@ void io_import_elements_set_mode( io_import_elements_t *this_, io_import_mode_t 
     U8_TRACE_END();
 }
 
+u8_error_t io_import_elements_sync_head_entry( io_import_elements_t *this_, const data_head_t *head_ptr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != head_ptr );
+    u8_error_t sync_error = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR( sync_error );
+    return sync_error;
+}
+
 u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                             const data_diagram_t *diagram_ptr,
                                             const char *parent_uuid )
