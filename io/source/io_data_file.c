@@ -165,7 +165,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 data_database_head_init( &head_table, &((*this_).database) );
 
                 data_head_t head;
-                u8_error_t key_err = data_database_head_read_value_by_key( &head_table, DATA_HEAD_KEY_DATA_FILE_NAME, &head );
+                u8_error_t key_err = data_database_head_read_value_by_key( &head_table, DATA_HEAD_KEY_FILE_NAME, &head );
                 if ( key_err == U8_ERROR_NONE )
                 {
                     /* case: recovery after abnormal program termination */
@@ -252,7 +252,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                         /* DATA_HEAD_KEY_DATA_FILE_NAME */
                         data_head_t head1;
                         const char *const requested_file_name = utf8stringview_get_start( &req_file_name );  /* This view is null terminated */
-                        data_head_init_new( &head1, DATA_HEAD_KEY_DATA_FILE_NAME, requested_file_name );
+                        data_head_init_new( &head1, DATA_HEAD_KEY_FILE_NAME, requested_file_name );
                         err |= data_database_head_create_value( &head_table, &head1, NULL );
                         data_head_destroy( &head1 );
                         U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_NAME", requested_file_name );
@@ -265,7 +265,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                             u8_u64_hex_t hex_time;
                             u8_u64_get_hex( mod_time, &hex_time );
                             data_head_t head2;
-                            data_head_init_new( &head2, DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME, &(hex_time[0]) );
+                            data_head_init_new( &head2, DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME, &(hex_time[0]) );
                             err |= data_database_head_create_value( &head_table, &head2, NULL );
                             data_head_destroy( &head2 );
                             U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
@@ -360,7 +360,7 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
             u8_u64_hex_t hex_time;
             u8_u64_get_hex( mod_time, &hex_time );
             result |= data_database_head_update_value_by_key( &head_table,
-                                                              DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME,
+                                                              DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME,
                                                               &(hex_time[0]),
                                                               true,  /* create_if_not_found */
                                                               NULL
@@ -398,7 +398,7 @@ bool io_data_file_is_externally_modified ( io_data_file_t *this_ )
                 data_head_t head_val;
                 const u8_error_t db_err
                     = data_database_head_read_value_by_key( &head_table,
-                                                            DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME,
+                                                            DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME,
                                                             &head_val
                                                           );
                 if ( db_err == U8_ERROR_NONE )

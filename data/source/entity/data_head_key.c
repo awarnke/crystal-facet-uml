@@ -2,9 +2,13 @@
 
 #include "entity/data_head_key.h"
 
-/* const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT = "DATA_FILE_FORMAT"; */
-const char *const DATA_HEAD_KEY_DATA_FILE_NAME = "DATA_FILE_NAME";
-const char *const DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME = "DATA_FILE_LAST_SYNC_MOD_TIME";
+const char *const DATA_HEAD_KEY_INTERNAL_PREFIX = "\t/";
+const char *const DATA_HEAD_KEY_FILE_NAME = "\t/FILE_NAME";
+const char *const DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME = "\t/FILE_LAST_SYNC_MOD_TIME";
+const char *const DATA_HEAD_KEY_FILE_MAJOR_VERSION = "major_version";  /*!< keep this in sync with json_contants.h */
+const char *const DATA_HEAD_KEY_FILE_MINOR_VERSION = "minor_version";  /*!< keep this in sync with json_contants.h */
+const char *const DATA_HEAD_KEY_MODEL_ID_PREFIX = "model_id_prefix";  /*!< keep this in sync with json_contants.h */
+const char *const DATA_HEAD_KEY_MODEL_UUID = "model_uuid";  /*!< keep this in sync with json_contants.h */
 
 
 /*

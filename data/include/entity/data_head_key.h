@@ -12,14 +12,40 @@
 /* extern const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT; */
 
 /*!
+ *  \brief a prefix for head parameters to distinguish internal, session-lifetime parameters
+ *         from parameters that are stored to a file.
+ */
+extern const char *const DATA_HEAD_KEY_INTERNAL_PREFIX;
+
+/*!
  *  \brief stores the filename (but not the file path) to the json file that is currently open
  */
-extern const char *const DATA_HEAD_KEY_DATA_FILE_NAME;
+extern const char *const DATA_HEAD_KEY_FILE_NAME;
 
 /*!
  *  \brief stored the modification time (as hex) when the currently open database was last synched to json (ex- or import)
  */
-extern const char *const DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME;
+extern const char *const DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME;
+
+/*!
+ *  \brief The major version of the storage file format
+ */
+extern const char *const DATA_HEAD_KEY_FILE_MAJOR_VERSION;
+
+/*!
+ *  \brief The minor version of the storage file format
+ */
+extern const char *const DATA_HEAD_KEY_FILE_MINOR_VERSION;
+
+/*!
+ *  \brief The model id prefix of the data model
+ */
+extern const char *const DATA_HEAD_KEY_MODEL_ID_PREFIX;
+
+/*!
+ *  \brief The model uuid of the data model. This is preserved over versions and branches.
+ */
+extern const char *const DATA_HEAD_KEY_MODEL_UUID;
 
 #endif  /* DATA_HEAD_KEY_H */
 

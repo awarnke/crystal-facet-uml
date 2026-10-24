@@ -1,6 +1,7 @@
 /* File: io_import_elements.c; Copyright and License: see below */
 
 #include "io_import_elements.h"
+#include "entity/data_head_key.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
@@ -147,6 +148,29 @@ u8_error_t io_import_elements_sync_head_entry( io_import_elements_t *this_, cons
     U8_TRACE_BEGIN();
     assert( NULL != head_ptr );
     u8_error_t sync_error = U8_ERROR_NONE;
+
+    /* if CREATE */
+    if (( (*this_).step == IO_IMPORT_STEP_CREATE_D_C_L )&&( sync_error == U8_ERROR_NONE ))
+    {
+        const char *const key = data_head_get_key_const( head_ptr );
+
+        if ( ! utf8string_starts_with_str( key, DATA_HEAD_KEY_INTERNAL_PREFIX ) )
+        {
+            const u8_error_t duplicate = data_database_head_create_value( (*this_).db_head, head_ptr, NULL );
+            if ( duplicate != U8_ERROR_NONE )
+            {
+                U8_TRACE_INFO_STR( "File head parameter is duplicate:", key );
+                U8_LOG_WARNING( "File head parameter is duplicate. Duplicate parameter is ignored." );
+                /* continue */
+            }
+        }
+        else
+        {
+            U8_TRACE_INFO_STR( "File head parameter is for internal use only:", key );
+            U8_LOG_WARNING( "File head parameter is for internal use only. Parameter is not imported." );
+            /* continue */
+        }
+    }
 
     U8_TRACE_END_ERR( sync_error );
     return sync_error;
