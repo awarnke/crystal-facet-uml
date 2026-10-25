@@ -77,6 +77,8 @@ u8_error_t data_database_head_reader_get_head_by_id( data_database_head_reader_t
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
+    /* checking if the database is open is duplicate if used via data_database_reader, but other callers may miss this check */
+    if ( data_database_is_open( (*this_).database ) )
     {
         prepared_statement = (*this_).statement_head_by_id;
 
@@ -109,6 +111,11 @@ u8_error_t data_database_head_reader_get_head_by_id( data_database_head_reader_t
             }
         }
     }
+    else
+    {
+        result |= U8_ERROR_NO_DB;
+        U8_TRACE_INFO( "Database not open, cannot request data." );
+    }
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -125,6 +132,8 @@ u8_error_t data_database_head_reader_get_head_by_key( data_database_head_reader_
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
+    /* checking if the database is open is duplicate if used via data_database_reader, but other callers may miss this check */
+    if ( data_database_is_open( (*this_).database ) )
     {
         prepared_statement = (*this_).statement_head_by_key;
 
@@ -156,6 +165,11 @@ u8_error_t data_database_head_reader_get_head_by_key( data_database_head_reader_
                 result |= U8_ERROR_DB_STRUCTURE;
             }
         }
+    }
+    else
+    {
+        result |= U8_ERROR_NO_DB;
+        U8_TRACE_INFO( "Database not open, cannot request data." );
     }
 
     U8_TRACE_END_ERR( result );
