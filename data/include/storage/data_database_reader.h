@@ -20,6 +20,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_classifier_reader.h"
 #include "storage/data_database_diagram_reader.h"
+#include "storage/data_database_head_reader.h"
 #include "entity/data_diagram.h"
 #include "u8/u8_error.h"
 #include "entity/data_classifier.h"
@@ -40,9 +41,10 @@ struct data_database_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_classifier_reader_t temp_classifier_reader;  /*!< own instance of a classifier reader, initialized while open */
     data_database_diagram_reader_t temp_diagram_reader;  /*!< own instance of a diagram reader, initialized while open */
+    data_database_head_reader_t temp_head_reader;  /*!< own instance of a head reader, initialized while open */
 
-    bool is_open;  /*!< the temp_classifier_reader and temp_diagram_reader with their prepared statements */
-                   /*!< are only initialized if the database is open */
+    bool is_open;  /*!< the temp_classifier_reader and temp_diagram_reader and temp_head_reader with their */
+                   /*!< prepared statements are only initialized if/while the database is open */
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t */
                                               /*!< which wraps data_database_reader_db_change_callback */

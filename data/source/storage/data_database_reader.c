@@ -103,6 +103,7 @@ u8_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
     {
         result |= data_database_classifier_reader_init( &((*this_).temp_classifier_reader), (*this_).database );
         result |= data_database_diagram_reader_init( &((*this_).temp_diagram_reader), (*this_).database );
+        result |= data_database_head_reader_init( &((*this_).temp_head_reader), (*this_).database );
 
         if ( result == U8_ERROR_NONE )
         {
@@ -126,6 +127,7 @@ u8_error_t data_database_reader_private_close ( data_database_reader_t *this_ )
 
     if ( (*this_).is_open )
     {
+        result |= data_database_head_reader_destroy( &((*this_).temp_head_reader) );
         result |= data_database_diagram_reader_destroy( &((*this_).temp_diagram_reader) );
         result |= data_database_classifier_reader_destroy( &((*this_).temp_classifier_reader) );
 

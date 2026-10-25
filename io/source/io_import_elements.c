@@ -156,6 +156,9 @@ u8_error_t io_import_elements_sync_head_entry( io_import_elements_t *this_, cons
 
         if ( ! utf8string_starts_with_str( key, DATA_HEAD_KEY_INTERNAL_PREFIX ) )
         {
+            /* copy all non-internal values from json to sqlite */
+            /* to ensure that no head data gets lost when the program terminates */
+            /* and later resumes from a .tmp-cfu file. */
             const u8_error_t duplicate = data_database_head_create_value( (*this_).db_head, head_ptr, NULL );
             if ( duplicate != U8_ERROR_NONE )
             {
