@@ -88,7 +88,7 @@ u8_error_t data_database_head_reader_get_head_by_id( data_database_head_reader_t
         {
             /* Do not log this incident, the caller may not expect to find a row. */
             U8_TRACE_INFO_INT( "sqlite3_step did not find a row for id", id );
-            result |= U8_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_NOT_FOUND;
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -136,7 +136,7 @@ u8_error_t data_database_head_reader_get_head_by_key( data_database_head_reader_
         {
             /* Do not log this incident, the caller may not expect to find a row. */
             U8_TRACE_INFO_STR( "sqlite3_step did not find a row for key", key );
-            result |= U8_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_NOT_FOUND;
         }
 
         if ( SQLITE_ROW == sqlite_err )

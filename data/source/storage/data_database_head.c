@@ -33,7 +33,7 @@ const char *const (DATA_DATABASE_HEAD_SQL_ENCODE[][2]) = {
     { NULL, NULL }
 };
 
-void data_database_head_init ( data_database_head_t *this_, data_database_t *database )
+void data_database_head_init( data_database_head_t *this_, data_database_t *database )
 {
     U8_TRACE_BEGIN();
 
@@ -63,7 +63,7 @@ void data_database_head_init ( data_database_head_t *this_, data_database_t *dat
     U8_TRACE_END();
 }
 
-void data_database_head_destroy ( data_database_head_t *this_ )
+void data_database_head_destroy( data_database_head_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -81,159 +81,6 @@ void data_database_head_destroy ( data_database_head_t *this_ )
 }
 
 /*!
- *  \brief prefix search statement to find a head value by id
- */
-static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_ID_PREFIX =
-    "SELECT id,key,value FROM head WHERE id=";
-
-/*!
- *  \brief postfix search statement to find a head value by id
- */
-static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_ID_POSTFIX = ";";
-
-u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, data_row_t obj_id, data_head_t *out_head )
-{
-    U8_TRACE_BEGIN();
-    assert( out_head != NULL );
-    u8_error_t result = U8_ERROR_NONE;
-
-    /* create an sql command */
-    {
-        result |= universal_memory_output_stream_reset( &((*this_).plain_out) );
-
-        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_ID_PREFIX );
-        result |= utf8stream_writer_write_int( &((*this_).plain), obj_id );
-        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_ID_POSTFIX );
-
-        result |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
-    }
-
-    if ( result == U8_ERROR_NONE )
-    {
-        const char *const sql_cmd = &((*this_).private_sql_buffer[0]);
-        sqlite3_stmt *prepared_statement;
-        int sqlite_err;
-
-        result |= data_database_prepare_statement( (*this_).database,
-                                                   sql_cmd,
-                                                   utf8string_get_length( sql_cmd ) + sizeof( char ),
-                                                   &prepared_statement
-                                                 );
-
-        U8_TRACE_INFO( "sqlite3_step()" );
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_ROW != sqlite_err )
-        {
-            /* Do not log this incident, the caller may not expect to find a row. */
-            U8_TRACE_INFO_INT( "sqlite3_step did not find a row for id", obj_id );
-            result |= U8_ERROR_NOT_FOUND;
-        }
-
-        if ( SQLITE_ROW == sqlite_err )
-        {
-            result |= data_head_init( out_head,
-                                      sqlite3_column_int64( prepared_statement, 0 ),
-                                      (const char*) sqlite3_column_text( prepared_statement, 1 ),
-                                      (const char*) sqlite3_column_text( prepared_statement, 2 )
-                                    );
-
-            data_head_trace( out_head );
-
-            sqlite_err = sqlite3_step( prepared_statement );
-            if ( SQLITE_DONE != sqlite_err )
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-                result |= U8_ERROR_DB_STRUCTURE;
-            }
-        }
-
-        result |= data_database_finalize_statement( (*this_).database, prepared_statement );
-    }
-
-    U8_TRACE_END_ERR( result );
-    return( result );
-}
-
-/*!
- *  \brief prefix search statement to find a head value by key
- */
-static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_PREFIX =
-    "SELECT id,key,value FROM head WHERE key=";
-
-/*!
- *  \brief postfix search statement to find a head value by key
- */
-static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_POSTFIX = ";";
-
-u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, const char *key, data_head_t *out_head )
-{
-    U8_TRACE_BEGIN();
-    assert( key != NULL );
-    assert( out_head != NULL );
-    u8_error_t result = U8_ERROR_NONE;
-
-    /* create an sql command */
-    {
-        result |= universal_memory_output_stream_reset( &((*this_).plain_out) );
-
-        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_PREFIX );
-        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
-        result |= utf8stream_writer_flush( &((*this_).plain) );
-        result |= utf8stream_writer_write_str( &((*this_).escaped), key );
-        result |= utf8stream_writer_flush( &((*this_).escaped) );
-        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
-        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_POSTFIX );
-
-        result |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
-    }
-
-    if ( result == U8_ERROR_NONE )
-    {
-        const char *const sql_cmd = &((*this_).private_sql_buffer[0]);
-        sqlite3_stmt *prepared_statement;
-        int sqlite_err;
-
-        result |= data_database_prepare_statement( (*this_).database,
-                                                   sql_cmd,
-                                                   utf8string_get_length( sql_cmd ) + sizeof( char ),
-                                                   &prepared_statement
-                                                 );
-
-        U8_TRACE_INFO( "sqlite3_step()" );
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_ROW != sqlite_err )
-        {
-            /* Do not log this incident, the caller may not expect to find a row. */
-            U8_TRACE_INFO_STR( "sqlite3_step did not find a row for key", key );
-            result |= U8_ERROR_NOT_FOUND;
-        }
-
-        if ( SQLITE_ROW == sqlite_err )
-        {
-            result |= data_head_init( out_head,
-                                      sqlite3_column_int64( prepared_statement, 0 ),
-                                      (const char*) sqlite3_column_text( prepared_statement, 1 ),
-                                      (const char*) sqlite3_column_text( prepared_statement, 2 )
-                                    );
-
-            data_head_trace( out_head );
-
-            sqlite_err = sqlite3_step( prepared_statement );
-            if ( SQLITE_DONE != sqlite_err )
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-                result |= U8_ERROR_DB_STRUCTURE;
-            }
-        }
-
-        result |= data_database_finalize_statement( (*this_).database, prepared_statement );
-    }
-
-    U8_TRACE_END_ERR( result );
-    return( result );
-}
-
-/*!
  *  \brief prefix string constant to insert a head value
  */
 static const char *const DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX =
@@ -244,7 +91,7 @@ static const char *const DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX =
  */
 static const char *const DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX = ");";
 
-u8_error_t data_database_head_create_value ( data_database_head_t *this_, const data_head_t *head, data_row_t* out_new_id )
+u8_error_t data_database_head_create_value( data_database_head_t *this_, const data_head_t *head, data_row_t* out_new_id )
 {
     U8_TRACE_BEGIN();
     assert( head != NULL );
@@ -304,7 +151,7 @@ static const char *const ATA_DATABASE_HEAD_DELETE_HEAD_PREFIX =
  */
 static const char *const DATA_DATABASE_HEAD_DELETE_HEAD_POSTFIX = ");";
 
-u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_row_t obj_id, data_head_t *out_old_head )
+u8_error_t data_database_head_delete_value( data_database_head_t *this_, data_row_t obj_id, data_head_t *out_old_head )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -313,7 +160,12 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_r
     /* Note: out_old_head is NULL if old data shall not be returned */
     if ( NULL != out_old_head )
     {
-        result |= data_database_head_read_value_by_id ( this_, obj_id, out_old_head );
+        /* a short-living data_database_head_reader_t is created and used here. */
+        /* if a long-living entity is wished here, one would have to register as listener at the database */
+        /* and track/react on the open/closed state. */
+        result |= data_database_head_reader_init( &((*this_).temp_reader), (*this_).database );
+        result |= data_database_head_reader_get_head_by_id ( &((*this_).temp_reader), obj_id, out_old_head );
+        result |= data_database_head_reader_destroy( &((*this_).temp_reader) );
     }
 
     /* create an sql command AFTER(!) reading the old value, same stringbuffer is used. */
@@ -356,7 +208,7 @@ static const char *DATA_DATABASE_HEAD_UPDATE_HEAD_INFIX = " WHERE id=";
  */
 static const char *DATA_DATABASE_HEAD_UPDATE_HEAD_POSTFIX = ";";
 
-u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_row_t head_id, const char* new_head_value, data_head_t *out_old_head )
+u8_error_t data_database_head_update_value( data_database_head_t *this_, data_row_t head_id, const char* new_head_value, data_head_t *out_old_head )
 {
     U8_TRACE_BEGIN();
     assert( new_head_value != NULL );
@@ -366,7 +218,12 @@ u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_r
     /* Note: out_old_head is NULL if old data shall not be returned */
     if ( NULL != out_old_head )
     {
-        result |= data_database_head_read_value_by_id ( this_, head_id, out_old_head );
+        /* a short-living data_database_head_reader_t is created and used here. */
+        /* if a long-living entity is wished here, one would have to register as listener at the database */
+        /* and track/react on the open/closed state. */
+        result |= data_database_head_reader_init( &((*this_).temp_reader), (*this_).database );
+        result |= data_database_head_reader_get_head_by_id ( &((*this_).temp_reader), head_id, out_old_head );
+        result |= data_database_head_reader_destroy( &((*this_).temp_reader) );
     }
 
     /* create an sql command AFTER(!) reading the old value, same stringbuffer is used. */

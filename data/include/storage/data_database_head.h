@@ -13,6 +13,7 @@
 
 #include "entity/data_head.h"
 #include "storage/data_database.h"
+#include "storage/data_database_head_reader.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8stream/universal_escaping_output_stream.h"
 #include "utf8stream/utf8stream_writer.h"
@@ -25,7 +26,8 @@
  */
 struct data_database_head_struct {
     data_database_t *database;  /*!< pointer to external database */
-
+    data_database_head_reader_t temp_reader;  /*!< own instance of a database head reader */
+                                              /*!< which may be queried within write-transactions */
     char private_sql_buffer[2048];  /* sufficient size to encode a data record including DATA_HEAD_MAX_VALUE_LENGTH */
     universal_memory_output_stream_t plain_out;  /* an output stream to write to private_sql_buffer as plain utf8 */
     utf8stream_writer_t plain;  /* an utf8 writer to write to plain_out */
@@ -49,36 +51,6 @@ void data_database_head_init ( data_database_head_t *this_, data_database_t *dat
  *  \param this_ pointer to own object attributes
  */
 void data_database_head_destroy ( data_database_head_t *this_ );
-
-#if 0
-/*!
- *  \brief reads a head value from the database
- *
- *  \param this_ pointer to own object attributes
- *  \param obj_id the row id of the head value to be read from the database
- *  \param[out] out_head the head value read from the database (in case of success)
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
- */
-u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_,
-                                                 data_row_t obj_id,
-                                                 data_head_t *out_head
-                                               );
-#endif
-
-/*!
- *  \brief reads a head value from the database
- *
- *  \param this_ pointer to own object attributes
- *  \param key the key of the head value to be read from the database
- *  \param[out] out_head the head value read from the database (in case of success)
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
- */
-u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_,
-                                                  const char *key,
-                                                  data_head_t *out_head
-                                                );
 
 /*!
  *  \brief creates a head value and returns its id

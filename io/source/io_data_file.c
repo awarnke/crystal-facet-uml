@@ -26,7 +26,6 @@ void io_data_file_init ( io_data_file_t *this_ )
 
     data_database_init( &((*this_).database) );
     ctrl_controller_init( &((*this_).controller), &((*this_).database) );
-    data_database_head_init( &((*this_).db_head), &((*this_).database) );
 
     (*this_).json_file_name
         = utf8stringbuf_new( (*this_).private_json_file_name_buffer, sizeof((*this_).private_json_file_name_buffer) );
@@ -47,7 +46,6 @@ void io_data_file_destroy ( io_data_file_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    data_database_head_destroy( &((*this_).db_head) );
     ctrl_controller_destroy( &((*this_).controller) );
     data_database_destroy( &((*this_).database) );
 
@@ -128,6 +126,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             else
             {
                 err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+                err |= data_database_head_reader_init( &((*this_).temp_db_head_reader), &((*this_).database) );
+                data_database_head_init( &((*this_).temp_db_head), &((*this_).database) );
             }
 
             /* new file is not in sync by definition */
@@ -153,6 +153,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+            err |= data_database_head_reader_init( &((*this_).temp_db_head_reader), &((*this_).database) );
+            data_database_head_init( &((*this_).temp_db_head), &((*this_).database) );
 
             /* temp file is not in sync by definition */
             (*this_).sync_revision = DATA_REVISION_VOID;
@@ -161,11 +163,11 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             /* If found, update (*this_).json_file_name */
             if ( err == U8_ERROR_NONE )
             {
-                data_database_head_t head_table;
-                data_database_head_init( &head_table, &((*this_).database) );
-
                 data_head_t head;
-                u8_error_t key_err = data_database_head_read_value_by_key( &head_table, DATA_HEAD_KEY_FILE_NAME, &head );
+                u8_error_t key_err = data_database_head_reader_get_head_by_key( &((*this_).temp_db_head_reader),
+                                                                                DATA_HEAD_KEY_FILE_NAME,
+                                                                                &head
+                                                                              );
                 if ( key_err == U8_ERROR_NONE )
                 {
                     /* case: recovery after abnormal program termination */
@@ -174,8 +176,6 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                     err |= utf8stringbuf_copy_view( &((*this_).json_file_name), &req_file_parent );
                     err |= utf8stringbuf_append_str( &((*this_).json_file_name), data_head_get_value_const( &head ) );
                 }
-
-                data_database_head_destroy( &head_table );
             }
         }
         else if ( is_json )
@@ -207,6 +207,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             else
             {
                 err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+                err |= data_database_head_reader_init( &((*this_).temp_db_head_reader), &((*this_).database) );
+                data_database_head_init( &((*this_).temp_db_head), &((*this_).database) );
                 if ( err != U8_ERROR_NONE )
                 {
                     U8_LOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
@@ -230,6 +232,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
 
                 if ( err != U8_ERROR_NONE )
                 {
+                    data_database_head_destroy( &((*this_).temp_db_head) );
+                    err |= data_database_head_reader_destroy( &((*this_).temp_db_head_reader) );
                     err |= data_database_close( &((*this_).database) );
 
                     U8_LOG_ERROR("An error occurred at reading a json file")
@@ -246,14 +250,12 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                     U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
 
                     /* update head data */
-                    data_database_head_t head_table;
-                    data_database_head_init( &head_table, &((*this_).database) );
                     {
                         /* DATA_HEAD_KEY_DATA_FILE_NAME */
                         data_head_t head1;
                         const char *const requested_file_name = utf8stringview_get_start( &req_file_name );  /* This view is null terminated */
                         data_head_init_new( &head1, DATA_HEAD_KEY_FILE_NAME, requested_file_name );
-                        err |= data_database_head_create_value( &head_table, &head1, NULL );
+                        err |= data_database_head_create_value( &((*this_).temp_db_head), &head1, NULL );
                         data_head_destroy( &head1 );
                         U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_NAME", requested_file_name );
 
@@ -266,12 +268,11 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                             u8_u64_get_hex( mod_time, &hex_time );
                             data_head_t head2;
                             data_head_init_new( &head2, DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME, &(hex_time[0]) );
-                            err |= data_database_head_create_value( &head_table, &head2, NULL );
+                            err |= data_database_head_create_value( &((*this_).temp_db_head), &head2, NULL );
                             data_head_destroy( &head2 );
                             U8_TRACE_INFO_STR( "io_data_file_open/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
                         }
                     }
-                    data_database_head_destroy( &head_table );
 
                     /* restore revision to the one that is stored in the undo redo list */
                     data_database_set_revision( &((*this_).database), (*this_).sync_revision );
@@ -295,6 +296,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
+            err |= data_database_head_reader_init( &((*this_).temp_db_head_reader), &((*this_).database) );
+            data_database_head_init( &((*this_).temp_db_head), &((*this_).database) );
 
             /* old file is not in sync to force conversion to json */
             (*this_).sync_revision = DATA_REVISION_VOID;
@@ -317,6 +320,8 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
         result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &((*this_).json_file_name) ) );
     }
 
+    data_database_head_destroy( &((*this_).temp_db_head) );
+    result |= data_database_head_reader_destroy( &((*this_).temp_db_head_reader) );
     result |= data_database_close( &((*this_).database) );
 
     if ( (*this_).delete_db_when_finished )
@@ -348,8 +353,6 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
     U8_TRACE_INFO_INT( "sync_revision", (*this_).sync_revision );
 
     /* update head data */
-    data_database_head_t head_table;
-    data_database_head_init( &head_table, &((*this_).database) );
     {
         /* DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_MOD_TIME */
         uint64_t mod_time;
@@ -359,7 +362,7 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
         {
             u8_u64_hex_t hex_time;
             u8_u64_get_hex( mod_time, &hex_time );
-            result |= data_database_head_update_value_by_key( &head_table,
+            result |= data_database_head_update_value_by_key( &((*this_).temp_db_head),
                                                               DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME,
                                                               &(hex_time[0]),
                                                               true,  /* create_if_not_found */
@@ -368,7 +371,6 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
             U8_TRACE_INFO_STR( "io_data_file_sync_to_disk/DATA_FILE_LAST_SYNC_MOD_TIME", &(hex_time[0]) );
         }
     }
-    data_database_head_destroy( &head_table );
 
     /* restore sync revision so that undo_redo history and this_ refer to the same revision */
     data_database_set_revision( &((*this_).database), (*this_).sync_revision );
@@ -384,8 +386,6 @@ bool io_data_file_is_externally_modified ( io_data_file_t *this_ )
 
     if ( data_database_is_open( &((*this_).database) ) )
     {
-        data_database_head_t head_table;
-        data_database_head_init( &head_table, &((*this_).database) );
         {
             uint64_t mod_time;
             const char *const json_file_path = utf8stringbuf_get_string( &((*this_).json_file_name) );
@@ -397,10 +397,10 @@ bool io_data_file_is_externally_modified ( io_data_file_t *this_ )
 
                 data_head_t head_val;
                 const u8_error_t db_err
-                    = data_database_head_read_value_by_key( &head_table,
-                                                            DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME,
-                                                            &head_val
-                                                          );
+                    = data_database_head_reader_get_head_by_key( &((*this_).temp_db_head_reader),
+                                                                 DATA_HEAD_KEY_FILE_LAST_SYNC_MOD_TIME,
+                                                                 &head_val
+                                                               );
                 if ( db_err == U8_ERROR_NONE )
                 {
                     U8_TRACE_INFO_STR( "io_data_file_is_externally_modified/<actual measurement>        ", &(hex_time[0]) );
@@ -412,7 +412,6 @@ bool io_data_file_is_externally_modified ( io_data_file_t *this_ )
                 }
             }
         }
-        data_database_head_destroy( &head_table );
     }
 
     if ( result == true )
@@ -516,7 +515,7 @@ u8_error_t io_data_file_private_import( io_data_file_t *this_,
         static data_database_reader_t db_reader;
         data_database_reader_init( &db_reader, &((*this_).database) );
         static io_importer_t importer;
-        io_importer_init( &importer, &db_reader, &((*this_).controller), &((*this_).db_head) );
+        io_importer_init( &importer, &db_reader, &((*this_).controller), &((*this_).temp_db_head) );
         {
             import_err = io_importer_import_file( &importer, IO_IMPORT_MODE_IMPORT, src_file, io_stat, out_err_info, &out_null );
             data_stat_trace( io_stat );

@@ -10,9 +10,15 @@ static inline u8_error_t data_database_head_delete_value_by_key ( data_database_
                                                                   data_head_t *out_old_head )
 {
     assert( key != NULL );
-    u8_error_t result;
+    u8_error_t result = U8_ERROR_NONE;
+
+    /* a short-living data_database_head_reader_t is created and used here. */
+    /* if a long-living entity is wished here, one would have to register as listener at the database */
+    /* and track/react on the open/closed state. */
+    result |= data_database_head_reader_init( &((*this_).temp_reader), (*this_).database );
+
     data_head_t head;
-    result = data_database_head_read_value_by_key( this_, key, &head );
+    result |= data_database_head_reader_get_head_by_key ( &((*this_).temp_reader), key, &head );
     if ( result == U8_ERROR_NONE )
     {
         if ( out_old_head != NULL )
@@ -32,6 +38,9 @@ static inline u8_error_t data_database_head_delete_value_by_key ( data_database_
             result = U8_ERROR_NONE;
         }
     }
+
+    result |= data_database_head_reader_destroy( &((*this_).temp_reader) );
+
     return result;
 }
 
@@ -43,9 +52,15 @@ static inline u8_error_t data_database_head_update_value_by_key ( data_database_
 {
     assert( key != NULL );
     assert( new_head_value != NULL );
-    u8_error_t result;
+    u8_error_t result = U8_ERROR_NONE;
+
+    /* a short-living data_database_head_reader_t is created and used here. */
+    /* if a long-living entity is wished here, one would have to register as listener at the database */
+    /* and track/react on the open/closed state. */
+    result |= data_database_head_reader_init( &((*this_).temp_reader), (*this_).database );
+
     data_head_t head;
-    result = data_database_head_read_value_by_key( this_, key, &head );
+    result |= data_database_head_reader_get_head_by_key ( &((*this_).temp_reader), key, &head );
     if ( result == U8_ERROR_NONE )
     {
         if ( out_old_head != NULL )
@@ -68,6 +83,9 @@ static inline u8_error_t data_database_head_update_value_by_key ( data_database_
             data_head_destroy( &head );
         }
     }
+
+    result |= data_database_head_reader_destroy( &((*this_).temp_reader) );
+
     return result;
 }
 
