@@ -39,8 +39,10 @@
  */
 struct data_database_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
-    data_database_classifier_reader_t temp_classifier_reader;  /*!< own instance of a classifier reader, initialized while open */
-    data_database_diagram_reader_t temp_diagram_reader;  /*!< own instance of a diagram reader, initialized while open */
+    data_database_classifier_reader_t temp_classifier_reader;  /*!< own instance of a classifier reader, */
+                                                               /*!< initialized while open */
+    data_database_diagram_reader_t temp_diagram_reader;  /*!< own instance of a diagram reader, */
+                                                         /*!< initialized while open */
     data_database_head_reader_t temp_head_reader;  /*!< own instance of a head reader, initialized while open */
 
     bool is_open;  /*!< the temp_classifier_reader and temp_diagram_reader and temp_head_reader with their */
@@ -487,6 +489,37 @@ static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( 
                                                                                 data_row_t diagram_id,
                                                                                 data_relationship_iterator_t *io_relationship_iterator
                                                                               );
+
+
+/* ================================ HEAD ================================ */
+
+/*!
+ *  \brief reads a head value from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id the row id of the head value to be read from the database
+ *  \param[out] out_head the head value read from the database (in case of success)
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
+ */
+static inline u8_error_t data_database_reader_get_head_by_id ( data_database_reader_t *this_,
+                                                               data_row_t id,
+                                                               data_head_t *out_head
+                                                             );
+
+/*!
+ *  \brief reads a head value from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param key the key of the head value to be read from the database
+ *  \param[out] out_head the head value read from the database (in case of success)
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
+ */
+static inline u8_error_t data_database_reader_get_head_by_key ( data_database_reader_t *this_,
+                                                                const char *key,
+                                                                data_head_t *out_head
+                                                              );
 
 /* ================================ private ================================ */
 

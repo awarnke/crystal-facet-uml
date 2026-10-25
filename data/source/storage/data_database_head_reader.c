@@ -67,7 +67,8 @@ static const int RESULT_HEAD_KEY_COLUMN = 1;
  */
 static const int RESULT_HEAD_VALUE_COLUMN = 2;
 
-u8_error_t data_database_head_reader_read_value_by_id ( data_database_head_reader_t *this_, data_row_t id, data_head_t *out_head )
+u8_error_t data_database_head_reader_get_head_by_id( data_database_head_reader_t *this_,
+                                                     data_row_t id, data_head_t *out_head )
 {
     U8_TRACE_BEGIN();
     assert( out_head != NULL );
@@ -113,7 +114,8 @@ u8_error_t data_database_head_reader_read_value_by_id ( data_database_head_reade
     return result;
 }
 
-u8_error_t data_database_head_reader_read_value_by_key ( data_database_head_reader_t *this_, const char *key, data_head_t *out_head )
+u8_error_t data_database_head_reader_get_head_by_key( data_database_head_reader_t *this_,
+                                                      const char *key, data_head_t *out_head )
 {
     U8_TRACE_BEGIN();
     assert( key != NULL );
@@ -162,7 +164,7 @@ u8_error_t data_database_head_reader_read_value_by_key ( data_database_head_read
 
 /* ================================ private ================================ */
 
-u8_error_t data_database_head_reader_private_open ( data_database_head_reader_t *this_ )
+u8_error_t data_database_head_reader_private_open( data_database_head_reader_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -190,7 +192,7 @@ u8_error_t data_database_head_reader_private_open ( data_database_head_reader_t 
     return result;
 }
 
-u8_error_t data_database_head_reader_private_close ( data_database_head_reader_t *this_ )
+u8_error_t data_database_head_reader_private_close( data_database_head_reader_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

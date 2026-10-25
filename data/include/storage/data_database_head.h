@@ -50,6 +50,7 @@ void data_database_head_init ( data_database_head_t *this_, data_database_t *dat
  */
 void data_database_head_destroy ( data_database_head_t *this_ );
 
+#if 0
 /*!
  *  \brief reads a head value from the database
  *
@@ -63,6 +64,7 @@ u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_,
                                                  data_row_t obj_id,
                                                  data_head_t *out_head
                                                );
+#endif
 
 /*!
  *  \brief reads a head value from the database

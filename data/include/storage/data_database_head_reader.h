@@ -58,10 +58,10 @@ u8_error_t data_database_head_reader_destroy ( data_database_head_reader_t *this
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_head_reader_read_value_by_id ( data_database_head_reader_t *this_,
-                                                        data_row_t id,
-                                                        data_head_t *out_head
-                                                      );
+u8_error_t data_database_head_reader_get_head_by_id ( data_database_head_reader_t *this_,
+                                                      data_row_t id,
+                                                      data_head_t *out_head
+                                                    );
 
 /*!
  *  \brief reads a head value from the database
@@ -72,10 +72,10 @@ u8_error_t data_database_head_reader_read_value_by_id ( data_database_head_reade
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_head_reader_read_value_by_key ( data_database_head_reader_t *this_,
-                                                         const char *key,
-                                                         data_head_t *out_head
-                                                       );
+u8_error_t data_database_head_reader_get_head_by_key ( data_database_head_reader_t *this_,
+                                                       const char *key,
+                                                       data_head_t *out_head
+                                                     );
 
 /* ================================ private ================================ */
 

@@ -2,6 +2,7 @@
 
 #include "data_database_head_test.h"
 #include "storage/data_database_head.h"
+#include "storage/data_database_head_reader.h"
 #include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
@@ -61,6 +62,8 @@ static test_case_result_t test_create_head( test_fixture_t *fix )
     u8_error_t data_err;
     data_head_t value;
 
+    data_database_head_reader_t head_reader;
+    data_database_head_reader_init( &head_reader, &((*fix).database) );
     data_database_head_t test_me;
     data_database_head_init( &test_me, &((*fix).database) );
 
@@ -87,6 +90,7 @@ static test_case_result_t test_create_head( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_DUPLICATE, data_err, u8_error_get_name );
 
     data_database_head_destroy( &test_me );
+    data_database_head_reader_destroy( &head_reader );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -97,6 +101,8 @@ static test_case_result_t test_read_head( test_fixture_t *fix )
     u8_error_t data_err;
     data_head_t value;
 
+    data_database_head_reader_t head_reader;
+    data_database_head_reader_init( &head_reader, &((*fix).database) );
     data_database_head_t test_me;
     data_database_head_init( &test_me, &((*fix).database) );
 
@@ -120,7 +126,7 @@ static test_case_result_t test_read_head( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
 
     /* read by id success */
-    data_err = data_database_head_read_value_by_id( &test_me, new_id, &value );
+    data_err = data_database_head_reader_get_head_by_id( &head_reader, new_id, &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
@@ -128,6 +134,7 @@ static test_case_result_t test_read_head( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
 
     data_database_head_destroy( &test_me );
+    data_database_head_reader_destroy( &head_reader );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -138,6 +145,8 @@ static test_case_result_t test_update_head( test_fixture_t *fix )
     u8_error_t data_err;
     data_head_t value;
 
+    data_database_head_reader_t head_reader;
+    data_database_head_reader_init( &head_reader, &((*fix).database) );
     data_database_head_t test_me;
     data_database_head_init( &test_me, &((*fix).database) );
 
@@ -161,7 +170,7 @@ static test_case_result_t test_update_head( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
 
     /* read success */
-    data_err = data_database_head_read_value_by_id( &test_me, new_id, &value );
+    data_err = data_database_head_reader_get_head_by_id( &head_reader, new_id, &value );
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
     TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
@@ -169,6 +178,7 @@ static test_case_result_t test_update_head( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
 
     data_database_head_destroy( &test_me );
+    data_database_head_reader_destroy( &head_reader );
 
     return TEST_CASE_RESULT_OK;
 }
@@ -179,6 +189,8 @@ static test_case_result_t test_delete_head( test_fixture_t *fix )
     u8_error_t data_err;
     data_head_t value;
 
+    data_database_head_reader_t head_reader;
+    data_database_head_reader_init( &head_reader, &((*fix).database) );
     data_database_head_t test_me;
     data_database_head_init( &test_me, &((*fix).database) );
 
@@ -206,6 +218,7 @@ static test_case_result_t test_delete_head( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NOT_FOUND, data_err, u8_error_get_name );
 
     data_database_head_destroy( &test_me );
+    data_database_head_reader_destroy( &head_reader );
 
     return TEST_CASE_RESULT_OK;
 }

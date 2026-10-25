@@ -620,6 +620,56 @@ static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( 
     return result;
 }
 
+/* ================================ HEAD ================================ */
+
+static inline u8_error_t data_database_reader_get_head_by_id( data_database_reader_t *this_,
+                                                              data_row_t id,
+                                                              data_head_t *out_head )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    if ( (*this_).is_open )
+    {
+        result = data_database_head_reader_get_head_by_id( &((*this_).temp_head_reader),
+                                                           id,
+                                                           out_head
+                                                         );
+    }
+    else
+    {
+        result |= U8_ERROR_NO_DB;
+        U8_TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+static inline u8_error_t data_database_reader_get_head_by_key( data_database_reader_t *this_,
+                                                               const char *key,
+                                                               data_head_t *out_head )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    if ( (*this_).is_open )
+    {
+        result = data_database_head_reader_get_head_by_key( &((*this_).temp_head_reader),
+                                                            key,
+                                                            out_head
+                                                          );
+    }
+    else
+    {
+        result |= U8_ERROR_NO_DB;
+        U8_TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2026 Andreas Warnke
