@@ -1,6 +1,9 @@
 /* File: io_element_writer_if.h; Copyright and License: see below */
 
     u8_error_t (*write_header)( io_element_writer_impl_t *this_, const char *document_title );  /*!< \see io_element_writer_t */
+    u8_error_t (*start_head)( io_element_writer_impl_t *this_ );  /*!< \see io_element_writer_t */
+    u8_error_t (*add_head)( io_element_writer_impl_t *this_, const data_head_t *head_ptr );  /*!< \see io_element_writer_t */
+    u8_error_t (*end_head)( io_element_writer_impl_t *this_ );  /*!< \see io_element_writer_t */
     u8_error_t (*start_main)( io_element_writer_impl_t *this_, const char *document_title );  /*!< \see io_element_writer_t */
     bool (*can_classifier_nest_classifier)( io_element_writer_impl_t *this_,
                                             data_classifier_type_t host_type,

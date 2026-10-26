@@ -24,6 +24,9 @@ struct json_element_writer_io_element_writer_if_struct {
 static const struct json_element_writer_io_element_writer_if_struct json_element_writer_private_io_element_writer_if
     = {
         .write_header = &json_element_writer_write_header,
+        .start_head = &json_element_writer_start_head,
+        .add_head = &json_element_writer_add_head,
+        .end_head = &json_element_writer_end_head,
         .start_main = &json_element_writer_start_main,
         .can_classifier_nest_classifier = &json_element_writer_can_classifier_nest_classifier,
         .can_classifier_nest_relationship = &json_element_writer_can_classifier_nest_relationship,
@@ -195,6 +198,34 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
     {
         U8_LOG_ERROR( "output buffer exceeded." );
     }
+
+    U8_TRACE_END_ERR(out_err);
+    return out_err;
+}
+
+u8_error_t json_element_writer_start_head( json_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t out_err = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR(out_err);
+    return out_err;
+}
+
+u8_error_t json_element_writer_add_head( json_element_writer_t *this_, const data_head_t *head_ptr )
+{
+    U8_TRACE_BEGIN();
+    assert( head_ptr != NULL );
+    u8_error_t out_err = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR(out_err);
+    return out_err;
+}
+
+u8_error_t json_element_writer_end_head( json_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t out_err = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR(out_err);
     return out_err;

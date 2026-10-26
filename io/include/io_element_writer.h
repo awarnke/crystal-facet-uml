@@ -82,6 +82,31 @@ static inline io_element_writer_impl_t* io_element_writer_get_objectdata( io_ele
 static inline u8_error_t io_element_writer_write_header( io_element_writer_t *this_, const char *document_title );
 
 /*!
+ *  \brief writes the start of the head section of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success
+ */
+static inline u8_error_t io_element_writer_start_head( io_element_writer_t *this_ );
+
+/*!
+ *  \brief writes a value of the head section
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param head_ptr the head value to append
+ *  \return U8_ERROR_NONE in case of success
+ */
+static inline u8_error_t io_element_writer_add_head( io_element_writer_t *this_, const data_head_t *head_ptr );
+
+/*!
+ *  \brief writes the end of the head section of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success
+ */
+static inline u8_error_t io_element_writer_end_head( io_element_writer_t *this_ );
+
+/*!
  *  \brief writes the start of the main section
  *
  *  This starts a section that contains the main part of the document

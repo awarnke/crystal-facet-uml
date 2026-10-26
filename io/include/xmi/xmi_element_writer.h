@@ -99,6 +99,31 @@ void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t
 u8_error_t xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *document_title );
 
 /*!
+ *  \brief writes the start of the head section of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t xmi_element_writer_start_head( xmi_element_writer_t *this_ );
+
+/*!
+ *  \brief writes a value of the head section
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param head_ptr the head value to append
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t xmi_element_writer_add_head( xmi_element_writer_t *this_, const data_head_t *head_ptr );
+
+/*!
+ *  \brief writes the end of the head section of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t xmi_element_writer_end_head( xmi_element_writer_t *this_ );
+
+/*!
  *  \brief writes the start of the main section
  *
  *  This starts a section that contains the main part of the document

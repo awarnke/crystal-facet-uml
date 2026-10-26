@@ -33,6 +33,9 @@ struct xmi_element_writer_io_element_writer_if_struct {
 static const struct xmi_element_writer_io_element_writer_if_struct xmi_element_writer_private_io_element_writer_if
     = {
         .write_header = &xmi_element_writer_write_header,
+        .start_head = &xmi_element_writer_start_head,
+        .add_head = &xmi_element_writer_add_head,
+        .end_head = &xmi_element_writer_end_head,
         .start_main = &xmi_element_writer_start_main,
         .can_classifier_nest_classifier = &xmi_element_writer_can_classifier_nest_classifier,
         .can_classifier_nest_relationship = &xmi_element_writer_can_classifier_nest_relationship,
@@ -212,6 +215,34 @@ u8_error_t xmi_element_writer_write_header( xmi_element_writer_t *this_, const c
     export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_MIDDLE );
     export_err |= io_xml_writer_write_xml_enc ( &((*this_).xml_writer), META_VERSION_STR );
     export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_END );
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t xmi_element_writer_start_head( xmi_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t export_err = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t xmi_element_writer_add_head( xmi_element_writer_t *this_, const data_head_t *head_ptr )
+{
+    U8_TRACE_BEGIN();
+    assert ( NULL != head_ptr );
+    u8_error_t export_err = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t xmi_element_writer_end_head( xmi_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t export_err = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR( export_err );
     return export_err;

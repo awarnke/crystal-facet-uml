@@ -334,6 +334,9 @@ struct document_element_writer_io_element_writer_if_struct {
 static const struct document_element_writer_io_element_writer_if_struct document_element_writer_private_io_element_writer_if
     = {
         .write_header = &document_element_writer_write_header,
+        .start_head = &document_element_writer_start_head,
+        .add_head = &document_element_writer_add_head,
+        .end_head = &document_element_writer_end_head,
         .start_main = &document_element_writer_start_main,
         .can_classifier_nest_classifier = &document_element_writer_can_classifier_nest_classifier,
         .can_classifier_nest_relationship = &document_element_writer_can_classifier_nest_relationship,
@@ -544,6 +547,34 @@ u8_error_t document_element_writer_write_header( document_element_writer_t *this
         }
         break;
     }
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t document_element_writer_start_head( document_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t export_err = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t document_element_writer_add_head( document_element_writer_t *this_, const data_head_t *head_ptr )
+{
+    U8_TRACE_BEGIN();
+    assert( head_ptr != NULL );
+    u8_error_t export_err = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t document_element_writer_end_head( document_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t export_err = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR( export_err );
     return export_err;

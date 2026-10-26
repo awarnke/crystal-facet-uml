@@ -43,6 +43,30 @@ static inline u8_error_t io_element_writer_write_header( io_element_writer_t *th
     return (*(  (*((*this_).interface)).write_header  )) ( (*this_).objectdata, document_title );
 }
 
+static inline u8_error_t io_element_writer_start_head( io_element_writer_t *this_ )
+{
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).start_head != NULL );
+    return (*(  (*((*this_).interface)).start_head  )) ( (*this_).objectdata );
+}
+
+static inline u8_error_t io_element_writer_add_head( io_element_writer_t *this_, const data_head_t *head_ptr )
+{
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).add_head != NULL );
+    return (*(  (*((*this_).interface)).add_head  )) ( (*this_).objectdata, head_ptr );
+}
+
+static inline u8_error_t io_element_writer_end_head( io_element_writer_t *this_ )
+{
+    assert( (*this_).interface != NULL );
+    assert( (*this_).objectdata != NULL );
+    assert( (*((*this_).interface)).end_head != NULL );
+    return (*(  (*((*this_).interface)).end_head  )) ( (*this_).objectdata );
+}
+
 static inline u8_error_t io_element_writer_start_main( io_element_writer_t *this_, const char *document_title )
 {
     assert( (*this_).interface != NULL );

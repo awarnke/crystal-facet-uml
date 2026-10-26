@@ -23,6 +23,7 @@
 #include "entity/data_diagram.h"
 #include "entity/data_diagram_type.h"
 #include "entity/data_diagramelement.h"
+#include "entity/data_head.h"
 #include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
