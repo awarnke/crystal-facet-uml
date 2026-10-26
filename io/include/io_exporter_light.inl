@@ -55,6 +55,8 @@ static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_
     /* do traversal */
     const char *const document_title = "";
     exp_err |= io_element_writer_write_header( element_writer, document_title );
+    exp_err |= io_element_writer_start_head( element_writer );
+    exp_err |= io_element_writer_end_head( element_writer );
     json_element_writer_set_mode( &json_writer, JSON_WRITER_PASS_VIEWS );
     exp_err |= io_export_set_traversal_export_set( &((*this_).temp_set_traversal), set_to_be_exported );
     data_stat_add( io_export_stat, &count_just_once );  /* after the first pass, report the error statistics */

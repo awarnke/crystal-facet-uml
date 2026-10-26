@@ -328,6 +328,8 @@ u8_error_t io_exporter_export_image_file( io_exporter_t *this_,
                                               document_element_writer_get_element_writer( &((*this_).temp_format_writer) )
                                             );
             write_err |= document_element_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
+            write_err |= document_element_writer_start_head( &((*this_).temp_format_writer) );
+            write_err |= document_element_writer_end_head( &((*this_).temp_format_writer) );
             write_err |= io_export_diagram_traversal_begin_and_walk_diagram ( &((*this_).temp_diagram_traversal), diagram_id, "NO_IMAGE_FILE" );
             write_err |= io_export_diagram_traversal_end_diagram ( &((*this_).temp_diagram_traversal), diagram_id );
             write_err |= document_element_writer_write_footer( &((*this_).temp_format_writer) );
@@ -475,6 +477,8 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
                                           );
             /* write the document */
             export_err |= xmi_element_writer_write_header( &((*this_).temp_xmi_writer), document_title );
+            export_err |= xmi_element_writer_start_head( &((*this_).temp_xmi_writer) );
+            export_err |= xmi_element_writer_end_head( &((*this_).temp_xmi_writer) );
             export_err |= xmi_element_writer_start_main( &((*this_).temp_xmi_writer), document_title );
             xmi_element_writer_set_mode( &((*this_).temp_xmi_writer ), XMI_WRITER_PASS_BASE );
             export_err |= io_export_model_traversal_walk_model_nodes( &((*this_).temp_model_traversal) );
@@ -490,6 +494,8 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
         {
             json_element_writer_init( &((*this_).temp_json_writer ), io_export_stat, output );
             export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_title );
+            export_err |= json_element_writer_start_head( &((*this_).temp_json_writer) );
+            export_err |= json_element_writer_end_head( &((*this_).temp_json_writer) );
 
             /* init the diagram_traversal */
             {
@@ -549,6 +555,8 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
                                             );
             /* write the document */
             export_err |= document_element_writer_write_header( &((*this_).temp_format_writer), document_title );
+            export_err |= document_element_writer_start_head( &((*this_).temp_format_writer) );
+            export_err |= document_element_writer_end_head( &((*this_).temp_format_writer) );
             export_err |= document_element_writer_start_toc( &((*this_).temp_format_writer) );
             export_err |= io_exporter_private_export_table_of_contents( this_,
                                                                         DATA_ID_VOID,
