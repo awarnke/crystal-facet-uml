@@ -117,6 +117,20 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                      );
+
+    U8_TRACE_END_ERR(out_err);
+    return out_err;
+}
+
+u8_error_t json_element_writer_start_head( json_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    assert( (*this_).in_outer_array == false );
+    assert( (*this_).in_inner_array == false );
+    u8_error_t out_err = U8_ERROR_NONE;
+
+    out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_KEY_HEAD
@@ -174,6 +188,37 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
                                              true
                                            );
 #endif
+
+    U8_TRACE_END_ERR(out_err);
+    return out_err;
+}
+
+u8_error_t json_element_writer_add_head( json_element_writer_t *this_, const data_head_t *head_ptr )
+{
+    U8_TRACE_BEGIN();
+    assert( head_ptr != NULL );
+    assert( (*this_).in_outer_array == false );
+    assert( (*this_).in_inner_array == false );
+    u8_error_t out_err = U8_ERROR_NONE;
+
+    out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                2,
+                                                data_head_get_key_const( head_ptr ),  /* should be json encoded */
+                                                data_head_get_value_const( head_ptr ),
+                                                true
+                                              );
+
+    U8_TRACE_END_ERR(out_err);
+    return out_err;
+}
+
+u8_error_t json_element_writer_end_head( json_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    assert( (*this_).in_outer_array == false );
+    assert( (*this_).in_inner_array == false );
+    u8_error_t out_err = U8_ERROR_NONE;
+
     out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                 2,
                                                 JSON_CONSTANTS_KEY_HEAD_GENERATOR_NAME,
@@ -193,39 +238,10 @@ u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const
                                         JSON_CONSTANTS_NL
                                       );
 
-
     if ( out_err != 0 )
     {
         U8_LOG_ERROR( "output buffer exceeded." );
     }
-
-    U8_TRACE_END_ERR(out_err);
-    return out_err;
-}
-
-u8_error_t json_element_writer_start_head( json_element_writer_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t out_err = U8_ERROR_NONE;
-
-    U8_TRACE_END_ERR(out_err);
-    return out_err;
-}
-
-u8_error_t json_element_writer_add_head( json_element_writer_t *this_, const data_head_t *head_ptr )
-{
-    U8_TRACE_BEGIN();
-    assert( head_ptr != NULL );
-    u8_error_t out_err = U8_ERROR_NONE;
-
-    U8_TRACE_END_ERR(out_err);
-    return out_err;
-}
-
-u8_error_t json_element_writer_end_head( json_element_writer_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t out_err = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR(out_err);
     return out_err;

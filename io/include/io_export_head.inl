@@ -51,7 +51,7 @@ static inline u8_error_t io_export_head_iterate_head_values( io_export_head_t *t
         data_head_init_new( &((*this_).temp_head), "", "" );
         const u8_error_t id_prefix_err
             = data_database_reader_get_head_by_key( (*this_).db_reader,
-                                                    DATA_HEAD_KEY_MODEL_ID_PREFIX,
+                                                    DATA_HEAD_KEY_MODEL_UUID,
                                                     &((*this_).temp_head)
                                                   );
         if ( id_prefix_err == U8_ERROR_NONE )
