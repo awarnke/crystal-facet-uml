@@ -105,8 +105,8 @@ ideas for a version 2
     "to_node" -> "to"
     (above changes are prepared since 1.67.4)
   - sysml2 support
-  - improve visibility:
+  - keep visibility:
     crystal_facet_uml wird bei heise Download gehostet und
-    wurde in den letzten 30 Tagen 142 Mal heruntergeladen,
-    das entspricht dem Download-Rang 523.
+    wurde in den letzten 30 Tagen 169 Mal heruntergeladen,
+    das entspricht dem Download-Rang 457.
 

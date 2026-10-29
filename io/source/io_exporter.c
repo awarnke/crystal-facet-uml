@@ -1,6 +1,7 @@
 /* File: io_exporter.c; Copyright and License: see below */
 
 #include "io_exporter.h"
+#include "io_export_head.h"
 #include "document/document_css_writer.h"
 #include "json/json_schema_writer.h"
 #include "u8stream/universal_file_output_stream.h"
@@ -494,8 +495,14 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
         {
             json_element_writer_init( &((*this_).temp_json_writer ), io_export_stat, output );
             export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_title );
-            export_err |= json_element_writer_start_head( &((*this_).temp_json_writer) );
-            export_err |= json_element_writer_end_head( &((*this_).temp_json_writer) );
+            /* write head */
+            {
+                io_element_writer_t *const element_out
+                    = json_element_writer_get_element_writer( &((*this_).temp_json_writer) );
+                io_export_head_init( &((*this_).temp_head_traversal), (*this_).db_reader, element_out );
+                export_err |= io_export_head_iterate_head_values( &((*this_).temp_head_traversal) );
+                io_export_head_destroy( &((*this_).temp_head_traversal) );
+            }
 
             /* init the diagram_traversal */
             {

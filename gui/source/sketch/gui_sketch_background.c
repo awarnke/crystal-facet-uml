@@ -334,12 +334,20 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                        );
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_view_navigate( (*this_).resources ),
-                                                         "Click on a diagram to navigate,",
-                                                         "on '+' to create a new diagram.",
+                                                         "Click on a diagram",
+                                                         "to navigate.",
                                                          TAB_COL1_X,
                                                          TAB_ROW0_Y,
                                                          cr
                                                        );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_navigate_create_sibling_0( (*this_).resources ),
+                                                         "Click on this icon",
+                                                         "to create a new diagram.",
+                                                         TAB_COL2_X,
+                                                         TAB_ROW0_Y,
+                                                         cr
+    );
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_view_edit( (*this_).resources ),
                                                          "Click on an element to edit",
@@ -350,16 +358,16 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                        );
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_view_edit( (*this_).resources ),
-                                                         "Drag an element to change",
-                                                         "its position.",
+                                                         "Drag an element",
+                                                         "to change its position.",
                                                          TAB_COL2_X,
                                                          TAB_ROW1_Y,
                                                          cr
                                                        );
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_view_create( (*this_).resources ),
-                                                         "Click to create items.",
-                                                         "Drag to create arrows.",
+                                                         "Click to create nodes or ports.",
+                                                         "Drag to create edges.",
                                                          TAB_COL1_X,
                                                          TAB_ROW2_Y,
                                                          cr
