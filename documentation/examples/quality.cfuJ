@@ -5,7 +5,7 @@
     "format": "cfu-json",
     "major_version": 1,
     "minor_version": 3,
-    "model_id_prefix": "Q.",
+    "model_id_prefix": "Q-",
     "model_uuid": "223523e8-f2b8-4a78-b13d-b2a0e4100c22",
     "generator_name": "crystal-facet-uml",
     "generator_version": "1.71.5"

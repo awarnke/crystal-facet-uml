@@ -845,28 +845,6 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                     from_c_name,
                                                     true /* :next_follows */
                                                   );
-#if 0
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_NAME
-#else
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME
-#endif
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_QUOTE
-                                          );
-        out_err |= json_writer_write_string_enc( &((*this_).json_writer), from_c_name );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-#endif
 
         /* from_feature_key */
         if ( from_f_valid )
@@ -881,30 +859,6 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                         data_feature_get_key_const( from_f ),
                                                         true /* :next_follows */
                                                       );
-#if 0
-            out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_QUOTE
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_PORT_NAME
-#else
-                                                JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY
-#endif
-                                                JSON_CONSTANTS_QUOTE
-                                                JSON_CONSTANTS_DEF
-                                                JSON_CONSTANTS_QUOTE
-                                              );
-            out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                                     data_feature_get_key_const( from_f )
-                                                   );
-            out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                                JSON_CONSTANTS_QUOTE
-                                                JSON_CONSTANTS_NEXT_NL
-                                              );
-#endif
         }
 
         /* from node ref_uuid */
@@ -937,28 +891,6 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                     to_c_name,
                                                     true /* :next_follows */
                                                   );
-#if 0
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_NAME
-#else
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME
-#endif
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF
-                                            JSON_CONSTANTS_QUOTE
-                                          );
-        out_err |= json_writer_write_string_enc( &((*this_).json_writer), to_c_name );
-        out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_NEXT_NL
-                                          );
-#endif
 
         /* to_feature_key */
         if ( to_f_valid )
@@ -973,30 +905,6 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                         data_feature_get_key_const( to_f ),
                                                         true /* :next_follows */
                                                       );
-#if 0
-            out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_TAB
-                                                JSON_CONSTANTS_QUOTE
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                JSON_CONSTANTS_KEY_RELATIONSHIP_TO_PORT_NAME
-#else
-                                                JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY
-#endif
-                                                JSON_CONSTANTS_QUOTE
-                                                JSON_CONSTANTS_DEF
-                                                JSON_CONSTANTS_QUOTE
-                                              );
-            out_err |= json_writer_write_string_enc( &((*this_).json_writer),
-                                                     data_feature_get_key_const( to_f )
-                                                   );
-            out_err |= json_writer_write_plain( &((*this_).json_writer),
-                                                JSON_CONSTANTS_QUOTE
-                                                JSON_CONSTANTS_NEXT_NL
-                                              );
-#endif
         }
 
         /* to node ref_uuid */

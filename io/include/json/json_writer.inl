@@ -63,12 +63,18 @@ static inline u8_error_t json_writer_write_member_int ( json_writer_t *this_,
     assert( indent <= JSON_WRITER_MAX_INDENT );
     u8_error_t write_err;
 
+    const unsigned int key_len = utf8string_get_length( enc_name );
+
     write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT_QUOTE[2*(JSON_WRITER_MAX_INDENT-indent)]) );
     write_err |= json_writer_write_plain( this_, enc_name );
     write_err |= json_writer_write_plain( this_,
                                           JSON_CONSTANTS_QUOTE
                                           JSON_CONSTANTS_DEF
                                         );
+    if ( key_len < 4 )
+    {
+        write_err |= json_writer_write_plain( this_, (key_len<3) ? "  " : " " );
+    }
     write_err |= json_writer_write_int( this_, number_value );
     write_err |= json_writer_write_plain( this_,
                                           next_follows
@@ -89,11 +95,27 @@ static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
     assert( indent <= JSON_WRITER_MAX_INDENT );
     u8_error_t write_err;
 
+    const unsigned int key_len = utf8string_get_length( enc_name );
+
     write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT_QUOTE[2*(JSON_WRITER_MAX_INDENT-indent)]) );
     write_err |= json_writer_write_plain( this_, enc_name );
     write_err |= json_writer_write_plain( this_,
+                                          ( key_len >= 4 )
+                                          ?
                                           JSON_CONSTANTS_QUOTE
                                           JSON_CONSTANTS_DEF
+                                          JSON_CONSTANTS_QUOTE
+                                          :
+                                          ( key_len < 3 )
+                                          ?
+                                          JSON_CONSTANTS_QUOTE
+                                          JSON_CONSTANTS_DEF
+                                          "  "
+                                          JSON_CONSTANTS_QUOTE
+                                          :
+                                          JSON_CONSTANTS_QUOTE
+                                          JSON_CONSTANTS_DEF
+                                          " "
                                           JSON_CONSTANTS_QUOTE
                                         );
     write_err |= json_writer_write_string_enc( this_, unenc_value );
