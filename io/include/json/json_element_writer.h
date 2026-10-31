@@ -35,7 +35,7 @@ struct json_element_writer_struct {
     io_element_writer_t element_writer;  /*!< instance of implemented interface \c io_element_writer_t */
 
     json_writer_pass_t mode;  /*!< depending on the mode, filtering of data objects differs */
-
+    bool version_2;  /*!< true if version 2 of the json format shall be generated */
     json_writer_t json_writer;  /*!< own instance of the json writer */
 
     bool in_outer_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
@@ -52,10 +52,12 @@ typedef struct json_element_writer_struct json_element_writer_t;
  *  \brief initializes the json_element_writer_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param version_2 true if the version 2 of the json format shall e generated
  *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param output output stream where to write the generated output to
  */
 void json_element_writer_init( json_element_writer_t *this_,
+                               bool version_2,
                                data_stat_t *io_export_stat,
                                universal_output_stream_t *output
                              );

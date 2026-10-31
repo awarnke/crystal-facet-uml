@@ -51,6 +51,7 @@ static const struct json_element_writer_io_element_writer_if_struct json_element
     };
 
 void json_element_writer_init( json_element_writer_t *this_,
+                               bool version_2,
                                data_stat_t *io_export_stat,
                                universal_output_stream_t *output)
 {
@@ -71,6 +72,7 @@ void json_element_writer_init( json_element_writer_t *this_,
     (*this_).is_inner_first = false;
 
     (*this_).mode = JSON_WRITER_PASS_NODES;
+    (*this_).version_2 = version_2;
     (*this_).export_stat = io_export_stat;
 
     U8_TRACE_END();
@@ -160,34 +162,22 @@ u8_error_t json_element_writer_start_head( json_element_writer_t *this_ )
                                                 "cfu-json",
                                                 true
                                               );
-#ifdef JSON_CONSTANTS_NEW_KEYS
+
+    /* json version */
+    const int value_major_version = ( (*this_).version_2 ) ? 2 : JSON_CONSTANTS_VALUE_HEAD_MAJOR_VERSION;
+    const int value_minor_version = ( (*this_).version_2 ) ? 0 : JSON_CONSTANTS_VALUE_HEAD_MINOR_VERSION;
     out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                              2,
                                              JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION,
-                                             2,
+                                             value_major_version,
                                              true
                                            );
     out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                              2,
                                              JSON_CONSTANTS_KEY_HEAD_MINOR_VERSION,
-                                             0,
+                                             value_minor_version,
                                              true
                                            );
-#else
-    /* version 1.1 stores stereotypes for diagrams and relationships */
-    out_err |= json_writer_write_member_int( &((*this_).json_writer),
-                                             2,
-                                             JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION,
-                                             JSON_CONSTANTS_VALUE_HEAD_MAJOR_VERSION,
-                                             true
-                                           );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer),
-                                             2,
-                                             JSON_CONSTANTS_KEY_HEAD_MINOR_VERSION,
-                                             JSON_CONSTANTS_VALUE_HEAD_MINOR_VERSION,
-                                             true
-                                           );
-#endif
 
     U8_TRACE_END_ERR(out_err);
     return out_err;
@@ -201,6 +191,7 @@ u8_error_t json_element_writer_add_head( json_element_writer_t *this_, const dat
     assert( (*this_).in_inner_array == false );
     u8_error_t out_err = U8_ERROR_NONE;
 
+    /* WARN: call json_writer_write_member_string only on known keys! These are not json encoded! */
     out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                 2,
                                                 data_head_get_key_const( head_ptr ),  /* should be json encoded */
@@ -393,15 +384,13 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
 
         /* type */
         const char *const type_name = data_classifier_type_get_name( data_classifier_get_main_type( classifier_ptr ) );
+        const char *const key_type_id
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_TYPE_ID : JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE;
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                  JSON_CONSTANTS_KEY_TYPE_ID,
-#else
-                                                  JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE,
-#endif
+                                                  key_type_id,
                                                   data_classifier_get_main_type( classifier_ptr ),
                                                   true
                                                 );
@@ -450,13 +439,11 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
                                                );
 
         /* list_order */
+        const char *const key_order
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_ORDER : JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER;
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                 JSON_CONSTANTS_KEY_ORDER,
-#else
-                                                 JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER,
-#endif
+                                                 key_order,
                                                  data_classifier_get_list_order( classifier_ptr ),
                                                  true
                                                );
@@ -611,15 +598,13 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
 
         /* type */
         const char *const type_name = data_feature_type_get_name( data_feature_get_main_type( feature_ptr ) );
+        const char *const key_type_id
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_TYPE_ID : JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE;
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   6,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                  JSON_CONSTANTS_KEY_TYPE_ID,
-#else
-                                                  JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE,
-#endif
+                                                  key_type_id,
                                                   data_feature_get_main_type( feature_ptr ),
                                                   true
                                                 );
@@ -659,14 +644,12 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
 
         if (( ! is_lifeline )||( 0 != data_feature_get_list_order( feature_ptr ) ))
         {
-          /* list_order */
+            /* list_order */
+            const char *const key_order
+                = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_ORDER : JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER;
             out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                     6,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                    JSON_CONSTANTS_KEY_ORDER,
-#else
-                                                    JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER,
-#endif
+                                                    key_order,
                                                     data_feature_get_list_order( feature_ptr ),
                                                     true
                                                   );
@@ -802,15 +785,13 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
         /* type */
         const char *const type_name
             = data_relationship_type_get_name( data_relationship_get_main_type( relation_ptr ) );
+        const char *const key_type_id
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_TYPE_ID : JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE;
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                  JSON_CONSTANTS_KEY_TYPE_ID,
-#else
-                                                  JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE,
-#endif
+                                                  key_type_id,
                                                   data_relationship_get_main_type( relation_ptr ),
                                                   true
                                                 );
@@ -843,19 +824,28 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                         );
 
         /* list_order */
+        const char *const key_order
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_ORDER : JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER;
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                 JSON_CONSTANTS_KEY_ORDER,
-#else
-                                                 JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER,
-#endif
+                                                 key_order,
                                                  data_relationship_get_list_order( relation_ptr ),
                                                  true
                                                );
 
         /* from_classifier_name */
         const char *const from_c_name = from_c_valid ? data_classifier_get_name_const( from_c ) : "";
+        const char *const key_from_node_name
+            = ( (*this_).version_2 )
+            ? JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_NAME
+            : JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME;
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,  /* :indent */
+                                                    key_from_node_name,
+                                                    from_c_name,
+                                                    true /* :next_follows */
+                                                  );
+#if 0
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -876,10 +866,22 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL
                                           );
+#endif
 
         /* from_feature_key */
         if ( from_f_valid )
         {
+            const char *const key_from_port_name
+                = ( (*this_).version_2 )
+                ? JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_PORT_NAME
+                : JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY;
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,  /* :indent */
+                                                        key_from_port_name,
+                                                        data_feature_get_key_const( from_f ),
+                                                        true /* :next_follows */
+                                                      );
+#if 0
             out_err |= json_writer_write_plain( &((*this_).json_writer),
                                                 JSON_CONSTANTS_TAB
                                                 JSON_CONSTANTS_TAB
@@ -902,6 +904,7 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                 JSON_CONSTANTS_QUOTE
                                                 JSON_CONSTANTS_NEXT_NL
                                               );
+#endif
         }
 
         /* from node ref_uuid */
@@ -911,19 +914,30 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
             : ( from_c_valid )
             ? data_classifier_get_uuid_const( from_c )
             : "";
+        const char *const key_from_node_uuid
+            = ( (*this_).version_2 )
+            ? JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID
+            : JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE;
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     4,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID,
-#else
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE,
-#endif
+                                                    key_from_node_uuid,
                                                     from_node_ref,
                                                     true
                                                   );
 
         /* to_classifier_name */
         const char *const to_c_name = to_c_valid ? data_classifier_get_name_const( to_c ) : "";
+        const char *const key_to_node_name
+            = ( (*this_).version_2 )
+            ? JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_NAME
+            : JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME;
+        out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                    4,  /* :indent */
+                                                    key_to_node_name,
+                                                    to_c_name,
+                                                    true /* :next_follows */
+                                                  );
+#if 0
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -944,10 +958,22 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_NEXT_NL
                                           );
+#endif
 
         /* to_feature_key */
         if ( to_f_valid )
         {
+            const char *const key_to_port_name
+                = ( (*this_).version_2 )
+                ? JSON_CONSTANTS_KEY_RELATIONSHIP_TO_PORT_NAME
+                : JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY;
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,  /* :indent */
+                                                        key_to_port_name,
+                                                        data_feature_get_key_const( to_f ),
+                                                        true /* :next_follows */
+                                                      );
+#if 0
             out_err |= json_writer_write_plain( &((*this_).json_writer),
                                                 JSON_CONSTANTS_TAB
                                                 JSON_CONSTANTS_TAB
@@ -970,6 +996,7 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                 JSON_CONSTANTS_QUOTE
                                                 JSON_CONSTANTS_NEXT_NL
                                               );
+#endif
         }
 
         /* to node ref_uuid */
@@ -979,13 +1006,13 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
             : ( to_c_valid )
             ? data_classifier_get_uuid_const( to_c )
             : "";
+        const char *const key_to_node_uuid
+            = ( (*this_).version_2 )
+            ? JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID
+            : JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE;
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     4,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID,
-#else
-                                                    JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE,
-#endif
+                                                    key_to_node_uuid,
                                                     to_node_ref,
                                                     true
                                                   );
@@ -1105,15 +1132,13 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
 
         /* diagram type */
         const char *const type_name = data_diagram_type_get_name( data_diagram_get_diagram_type( diag_ptr ) );
+        const char *const key_type_id
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_TYPE_ID : JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE;
         out_err |= json_writer_write_member_enum( &((*this_).json_writer),
                                                   4,
                                                   JSON_CONSTANTS_KEY_TYPE_NAME,
                                                   type_name,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                  JSON_CONSTANTS_KEY_TYPE_ID,
-#else
-                                                  JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE,
-#endif
+                                                  key_type_id,
                                                   data_diagram_get_diagram_type( diag_ptr ),
                                                   true
                                                 );
@@ -1146,13 +1171,11 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                         );
 
         /* list_order */
+        const char *const key_order
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_ORDER : JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER;
         out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                                  4,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                 JSON_CONSTANTS_KEY_ORDER,
-#else
-                                                 JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER,
-#endif
+                                                 key_order,
                                                  data_diagram_get_list_order( diag_ptr ),
                                                  true
                                                );
@@ -1206,17 +1229,19 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                   );
 
         /* array of features */
+        const char *const key_elements
+            = ( (*this_).version_2 ) ? JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST : JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS;
         out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_QUOTE
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                            JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST
-#else
-                                            JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS
-#endif
+                                          );
+        out_err |= json_writer_write_plain( &((*this_).json_writer),
+                                            key_elements
+                                          );
+        out_err |= json_writer_write_plain( &((*this_).json_writer),
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF_NL
                                             JSON_CONSTANTS_TAB
@@ -1372,13 +1397,13 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
                                                );
 
         /* classifier_name */
+        const char *const key_classifier_name
+            = ( (*this_).version_2 )
+            ? JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE_NAME
+            : JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME;
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
                                                     6,
-#ifdef JSON_CONSTANTS_NEW_KEYS
-                                                    JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE_NAME,
-#else
-                                                    JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME,
-#endif
+                                                    key_classifier_name,
                                                     data_classifier_get_name_const( occurrence ),
                                                     true
                                                   );

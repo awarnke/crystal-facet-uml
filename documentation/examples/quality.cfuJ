@@ -8,7 +8,7 @@
     "model_id_prefix": "Q.",
     "model_uuid": "223523e8-f2b8-4a78-b13d-b2a0e4100c22",
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.71.5-pre2"
+    "generator_version": "1.71.5"
   }
   ,
   "views":

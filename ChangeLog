@@ -1,7 +1,8 @@
 crystal-facet-uml (1.71.5) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * ...
+  * model_id_prefix and model_uuid header fields are preserved in cfuJ file
+  * data exchange via clipboard uses already the new json version 2.0 format
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 18 Oct 2026 09:30:00 +0200
 

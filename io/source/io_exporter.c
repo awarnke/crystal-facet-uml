@@ -493,7 +493,7 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
         }
         else if ( IO_FILE_FORMAT_JSON == export_type )
         {
-            json_element_writer_init( &((*this_).temp_json_writer ), io_export_stat, output );
+            json_element_writer_init( &((*this_).temp_json_writer ), false /* :v2.0 */, io_export_stat, output );
             export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_title );
             /* write head */
             {
