@@ -66,6 +66,39 @@ static inline u8_error_t io_export_head_iterate_head_values( io_export_head_t *t
     return result;
 }
 
+static inline unsigned int io_export_head_get_major_version( io_export_head_t *this_ )
+{
+    assert( NULL != (*this_).element_writer );
+    assert( NULL != (*this_).db_reader );
+
+    unsigned int result = 0;
+
+    /* DATA_HEAD_KEY_FILE_MAJOR_VERSION */
+    {
+        data_head_init_new( &((*this_).temp_head), "", "" );
+        const u8_error_t version_err
+            = data_database_reader_get_head_by_key( (*this_).db_reader,
+                                                    DATA_HEAD_KEY_FILE_MAJOR_VERSION,
+                                                    &((*this_).temp_head)
+                                                  );
+        if ( version_err == U8_ERROR_NONE )
+        {
+            const char *version_as_string = data_head_get_value_const( &((*this_).temp_head) );
+            int64_t parsed_number;
+            unsigned int byte_length;
+            utf8error_t err = utf8string_parse_int( version_as_string, &byte_length, &parsed_number );
+            (void) byte_length;
+            if ( UTF8ERROR_SUCCESS == err )
+            {
+                result = parsed_number;
+            }
+        }
+        data_head_destroy( &((*this_).temp_head) );
+    }
+
+    return result;
+}
+
 
 /*
 Copyright 2026-2026 Andreas Warnke

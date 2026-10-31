@@ -41,7 +41,8 @@ static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_
 
     /* initialize an element writer */
     json_element_writer_t json_writer;
-    json_element_writer_init( &json_writer, true /* :v2.0 */, io_export_stat, output );
+    json_element_writer_init( &json_writer, io_export_stat, output );
+    json_element_writer_set_version_2( &json_writer, true );
     io_element_writer_t *element_writer;
     element_writer = json_element_writer_get_element_writer( &json_writer );
 

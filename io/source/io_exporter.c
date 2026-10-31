@@ -493,13 +493,17 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
         }
         else if ( IO_FILE_FORMAT_JSON == export_type )
         {
-            json_element_writer_init( &((*this_).temp_json_writer ), false /* :v2.0 */, io_export_stat, output );
+            json_element_writer_init( &((*this_).temp_json_writer ), io_export_stat, output );
             export_err |= json_element_writer_write_header( &((*this_).temp_json_writer), document_title );
             /* write head */
             {
                 io_element_writer_t *const element_out
                     = json_element_writer_get_element_writer( &((*this_).temp_json_writer) );
                 io_export_head_init( &((*this_).temp_head_traversal), (*this_).db_reader, element_out );
+
+                unsigned int major_version = io_export_head_get_major_version( &((*this_).temp_head_traversal) );
+                json_element_writer_set_version_2( &((*this_).temp_json_writer), ( 2 == major_version ) );
+
                 export_err |= io_export_head_iterate_head_values( &((*this_).temp_head_traversal) );
                 io_export_head_destroy( &((*this_).temp_head_traversal) );
             }

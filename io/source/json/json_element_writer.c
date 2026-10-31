@@ -51,7 +51,6 @@ static const struct json_element_writer_io_element_writer_if_struct json_element
     };
 
 void json_element_writer_init( json_element_writer_t *this_,
-                               bool version_2,
                                data_stat_t *io_export_stat,
                                universal_output_stream_t *output)
 {
@@ -72,7 +71,7 @@ void json_element_writer_init( json_element_writer_t *this_,
     (*this_).is_inner_first = false;
 
     (*this_).mode = JSON_WRITER_PASS_NODES;
-    (*this_).version_2 = version_2;
+    (*this_).version_2 = false;
     (*this_).export_stat = io_export_stat;
 
     U8_TRACE_END();
@@ -105,6 +104,15 @@ void json_element_writer_set_mode( json_element_writer_t *this_, json_writer_pas
     U8_TRACE_BEGIN();
 
     (*this_).mode = mode;
+
+    U8_TRACE_END();
+}
+
+void json_element_writer_set_version_2( json_element_writer_t *this_, bool version_2 )
+{
+    U8_TRACE_BEGIN();
+
+    (*this_).version_2 = version_2;
 
     U8_TRACE_END();
 }

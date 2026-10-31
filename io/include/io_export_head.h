@@ -61,6 +61,16 @@ static inline void io_export_head_destroy ( io_export_head_t *this_ );
  */
 static inline u8_error_t io_export_head_iterate_head_values( io_export_head_t *this_ );
 
+/*!
+ *  \brief gets the major version of the json file format
+ *
+ *  This is needed to detemine the output format when saving the file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return major version, 0 if unknown
+ */
+static inline unsigned int io_export_head_get_major_version( io_export_head_t *this_ );
+
 #include "io_export_head.inl"
 
 #endif  /* IO_EXPORT_HEAD_H */

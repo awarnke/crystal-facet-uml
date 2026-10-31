@@ -3,29 +3,29 @@
     "encoding": "utf-8",
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
-    "major_version": 1,
-    "minor_version": 3,
+    "major_version": 2,
+    "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.70.0"
+    "generator_version": "1.72.0"
   }
   ,
   "views":
   [
     {
       "diagram": {
-        "id": 1,
-        "type": "Use Case Diagram", "diagram_type": 10,
+        "id":   1,
+        "type": "Use Case Diagram", "type_id": 10,
         "name": "New Overview",
         "description": [
                 ""
         ],
-        "list_order": 0,
+        "order": 0,
         "uuid": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 1,
-            "classifier_name": "This file shows hints",
+            "id":   1,
+            "node_name": "This file shows hints",
             "node": "ab678d19-cff2-42a3-9108-4232e8e72f9d",
             "uuid": "70ef2b0c-8dd8-446c-b68c-b95eb9a55bdb"
           }
@@ -34,63 +34,63 @@
     },
     {
       "diagram": {
-        "id": 5,
-        "type": "State Diagram", "diagram_type": 12,
+        "id":   5,
+        "type": "State Diagram", "type_id": 12,
         "name": "add hierarchy level",
         "description": [
                 ""
         ],
-        "list_order": -1073684480,
+        "order": -1073684480,
         "parent_name": "New Overview",
         "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
         "uuid": "c390f58f-5f05-44a4-9eec-596bac59fc2f",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 18,
-            "classifier_name": "power on",
+            "id":   18,
+            "node_name": "power on",
             "node": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
             "uuid": "8f00c1a2-ea34-4f39-abac-6c8f84a2d871"
           },
           {
-            "id": 19,
-            "classifier_name": "boot",
+            "id":   19,
+            "node_name": "boot",
             "node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
             "uuid": "b9ffc0e5-f153-483e-bc75-9afa280d0f9f"
           },
           {
-            "id": 20,
-            "classifier_name": "special mode?",
+            "id":   20,
+            "node_name": "special mode?",
             "node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
             "uuid": "b7aa4f2f-c896-46cc-8212-e706ff674972"
           },
           {
-            "id": 21,
-            "classifier_name": "run normal",
+            "id":   21,
+            "node_name": "run normal",
             "node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
             "uuid": "3ecc4af8-0bf2-4025-9792-d9e1c6a3b1e3"
           },
           {
-            "id": 22,
-            "classifier_name": "run special",
+            "id":   22,
+            "node_name": "run special",
             "node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
             "uuid": "e6058bba-85bb-4b6a-9003-64688a30d7e3"
           },
           {
-            "id": 23,
-            "classifier_name": "shutdown",
+            "id":   23,
+            "node_name": "shutdown",
             "node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
             "uuid": "780c1dc0-95a5-4783-8479-8e34481ecc13"
           },
           {
-            "id": 24,
-            "classifier_name": "power off",
+            "id":   24,
+            "node_name": "power off",
             "node": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
             "uuid": "ee6faff6-9d24-4753-b548-183ede4dcf4b"
           },
           {
-            "id": 25,
-            "classifier_name": "run",
+            "id":   25,
+            "node_name": "run",
             "node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
             "uuid": "2e20f690-42e0-49e2-b977-89dcc275a2c4"
           }
@@ -99,45 +99,45 @@
     },
     {
       "diagram": {
-        "id": 11,
-        "type": "State Diagram", "diagram_type": 12,
+        "id":   11,
+        "type": "State Diagram", "type_id": 12,
         "name": "higher hierarchy level",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "order": 32768,
         "parent_name": "add hierarchy level",
         "parent": "c390f58f-5f05-44a4-9eec-596bac59fc2f",
         "uuid": "b96a0135-e62d-4898-b060-a2de60b93624",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 42,
-            "classifier_name": "power on",
+            "id":   42,
+            "node_name": "power on",
             "node": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
             "uuid": "fd0029e1-0817-40fb-846e-003f9ec096f5"
           },
           {
-            "id": 43,
-            "classifier_name": "boot",
+            "id":   43,
+            "node_name": "boot",
             "node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
             "uuid": "6ad59291-bb20-49a5-adc2-aaf93338eb8e"
           },
           {
-            "id": 44,
-            "classifier_name": "run",
+            "id":   44,
+            "node_name": "run",
             "node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
             "uuid": "72998249-880e-47cc-8cf1-24fff923d395"
           },
           {
-            "id": 45,
-            "classifier_name": "shutdown",
+            "id":   45,
+            "node_name": "shutdown",
             "node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
             "uuid": "4493b09c-b2e6-4447-9313-80e1b30bfc86"
           },
           {
-            "id": 46,
-            "classifier_name": "power off",
+            "id":   46,
+            "node_name": "power off",
             "node": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
             "uuid": "bfb3b17f-43bc-438e-953b-6674796575dc"
           }
@@ -146,39 +146,39 @@
     },
     {
       "diagram": {
-        "id": 12,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   12,
+        "type": "Component Diagram", "type_id": 31,
         "name": "detailed level",
         "description": [
                 ""
         ],
-        "list_order": 65536,
+        "order": 65536,
         "parent_name": "add hierarchy level",
         "parent": "c390f58f-5f05-44a4-9eec-596bac59fc2f",
         "uuid": "cab61db7-c9ea-4601-9480-24ebebd1fc47",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 47,
-            "classifier_name": "run normal",
+            "id":   47,
+            "node_name": "run normal",
             "node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
             "uuid": "f0e90658-e192-4dbc-83b9-3f6fde2e556b"
           },
           {
-            "id": 48,
-            "classifier_name": "special mode?",
+            "id":   48,
+            "node_name": "special mode?",
             "node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
             "uuid": "90dd76a5-6d5b-454c-8e9c-68c7a40da857"
           },
           {
-            "id": 49,
-            "classifier_name": "run special",
+            "id":   49,
+            "node_name": "run special",
             "node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
             "uuid": "7634b5d7-596a-4c45-b195-ca099019031f"
           },
           {
-            "id": 50,
-            "classifier_name": "run",
+            "id":   50,
+            "node_name": "run",
             "node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
             "uuid": "12156184-6227-4f57-85bd-54cb42e8a4b0"
           }
@@ -187,57 +187,57 @@
     },
     {
       "diagram": {
-        "id": 3,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   3,
+        "type": "Component Diagram", "type_id": 31,
         "name": "add parent ports",
         "description": [
                 ""
         ],
-        "list_order": 114688,
+        "order": 114688,
         "parent_name": "New Overview",
         "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
         "uuid": "0c121609-02b8-495e-8f97-754ceef74501",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 9,
-            "classifier_name": "data exporter",
+            "id":   9,
+            "node_name": "data exporter",
             "node": "eaf97f94-ad89-4c29-828d-a88c94479176",
             "uuid": "185e2705-de70-4884-a76f-b9c4b05fe9fb"
           },
           {
-            "id": 10,
-            "classifier_name": "xml writer",
+            "id":   10,
+            "node_name": "xml writer",
             "node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
             "uuid": "0bb0083d-e16c-419b-8d03-af862afdbb74"
           },
           {
-            "id": 11,
-            "classifier_name": "json writer",
+            "id":   11,
+            "node_name": "json writer",
             "node": "f05e1756-e939-4020-960b-699e61b35cf8",
             "uuid": "06a1befa-d4e8-4f9c-bb96-4845777cc40d"
           },
           {
-            "id": 12,
-            "classifier_name": "OS abstraction",
+            "id":   12,
+            "node_name": "OS abstraction",
             "node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
             "uuid": "56ba0733-120c-49aa-9118-2e9bea4c8365"
           },
           {
-            "id": 13,
-            "classifier_name": "file output stream",
+            "id":   13,
+            "node_name": "file output stream",
             "node": "516f2c14-065c-4552-bab3-4fc942030dcd",
             "uuid": "5829776e-07ae-40b2-abde-83d70c57c405"
           },
           {
-            "id": 14,
-            "classifier_name": "socket output stream",
+            "id":   14,
+            "node_name": "socket output stream",
             "node": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
             "uuid": "7d995a5d-565c-4e66-9d58-e0ade3302c08"
           },
           {
-            "id": 15,
-            "classifier_name": "txt writer",
+            "id":   15,
+            "node_name": "txt writer",
             "node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
             "uuid": "1cbf411e-62aa-45ab-ab42-a5343fd0c6aa"
           }
@@ -246,27 +246,27 @@
     },
     {
       "diagram": {
-        "id": 8,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   8,
+        "type": "Component Diagram", "type_id": 31,
         "name": "parents",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "order": 32768,
         "parent_name": "add parent ports",
         "parent": "0c121609-02b8-495e-8f97-754ceef74501",
         "uuid": "e5ea4709-1f80-4fc2-9e78-563703631b6d",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 33,
-            "classifier_name": "data exporter",
+            "id":   33,
+            "node_name": "data exporter",
             "node": "eaf97f94-ad89-4c29-828d-a88c94479176",
             "uuid": "fa0bb040-5663-4847-82c7-e16b1b03e975"
           },
           {
-            "id": 34,
-            "classifier_name": "OS abstraction",
+            "id":   34,
+            "node_name": "OS abstraction",
             "node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
             "uuid": "b4a4fd81-6840-47f5-bef6-12dc701707e7"
           }
@@ -275,39 +275,39 @@
     },
     {
       "diagram": {
-        "id": 9,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   9,
+        "type": "Component Diagram", "type_id": 31,
         "name": "children",
         "description": [
                 ""
         ],
-        "list_order": 65536,
+        "order": 65536,
         "parent_name": "add parent ports",
         "parent": "0c121609-02b8-495e-8f97-754ceef74501",
         "uuid": "01c265c9-97c8-4297-91c3-07a123828634",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 35,
-            "classifier_name": "data exporter",
+            "id":   35,
+            "node_name": "data exporter",
             "node": "eaf97f94-ad89-4c29-828d-a88c94479176",
             "uuid": "57288d52-168c-4267-9a8a-1525833142ba"
           },
           {
-            "id": 36,
-            "classifier_name": "txt writer",
+            "id":   36,
+            "node_name": "txt writer",
             "node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
             "uuid": "e6311e99-a0bb-49f3-8f1c-8340e9199b14"
           },
           {
-            "id": 37,
-            "classifier_name": "json writer",
+            "id":   37,
+            "node_name": "json writer",
             "node": "f05e1756-e939-4020-960b-699e61b35cf8",
             "uuid": "6d405190-862c-460e-9cf4-1d86ae7662f3"
           },
           {
-            "id": 38,
-            "classifier_name": "xml writer",
+            "id":   38,
+            "node_name": "xml writer",
             "node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
             "uuid": "95b42716-0c9f-4f3d-ab0c-fc06ef69c834"
           }
@@ -316,57 +316,57 @@
     },
     {
       "diagram": {
-        "id": 2,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   2,
+        "type": "Component Diagram", "type_id": 31,
         "name": "add abstraction level",
         "description": [
                 ""
         ],
-        "list_order": 139264,
+        "order": 139264,
         "parent_name": "New Overview",
         "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
         "uuid": "94f35bca-37bf-4a89-ba75-ca39714bc72b",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 2,
-            "classifier_name": "Abstract Model",
+            "id":   2,
+            "node_name": "Abstract Model",
             "node": "e7318211-6617-4692-b4b4-03679af55bec",
             "uuid": "29edb7a8-9ec9-4fa6-9766-055016133f07"
           },
           {
-            "id": 3,
-            "classifier_name": "Abstract View",
+            "id":   3,
+            "node_name": "Abstract View",
             "node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
             "uuid": "d6534f1e-9434-425e-9df9-3ddfbb96df2a"
           },
           {
-            "id": 4,
-            "classifier_name": "Abstract Controller",
+            "id":   4,
+            "node_name": "Abstract Controller",
             "node": "a96ab724-84a5-4d2d-b198-d595630612fe",
             "uuid": "b0bc35ea-e79c-4080-a788-4fb98db2c2b0"
           },
           {
-            "id": 5,
-            "classifier_name": "View",
+            "id":   5,
+            "node_name": "View",
             "node": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
             "uuid": "d66dfeb3-9731-4116-ba1c-0daf8f7ae905"
           },
           {
-            "id": 6,
-            "classifier_name": "Model",
+            "id":   6,
+            "node_name": "Model",
             "node": "d37ad518-4d03-4ce6-9426-880ce18b594a",
             "uuid": "1bccd7dd-5245-4c6c-a018-a3cd0f832340"
           },
           {
-            "id": 7,
-            "classifier_name": "Controller",
+            "id":   7,
+            "node_name": "Controller",
             "node": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
             "uuid": "5e7d191a-263d-4031-8466-8cfa52201aea"
           },
           {
-            "id": 8,
-            "classifier_name": "User",
+            "id":   8,
+            "node_name": "User",
             "node": "b91a6190-b380-44ec-9b47-825653460dc0",
             "uuid": "9b26a71a-b040-415c-8a7e-c8739c020aa4"
           }
@@ -375,39 +375,39 @@
     },
     {
       "diagram": {
-        "id": 6,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   6,
+        "type": "Component Diagram", "type_id": 31,
         "name": "abstract components",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "order": 32768,
         "parent_name": "add abstraction level",
         "parent": "94f35bca-37bf-4a89-ba75-ca39714bc72b",
         "uuid": "aa88d27e-fc82-422a-bdc3-68a8a09f04f7",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 26,
-            "classifier_name": "User",
+            "id":   26,
+            "node_name": "User",
             "node": "b91a6190-b380-44ec-9b47-825653460dc0",
             "uuid": "9860faf2-8403-4f03-ad50-d84bd1c1557e"
           },
           {
-            "id": 27,
-            "classifier_name": "Abstract Model",
+            "id":   27,
+            "node_name": "Abstract Model",
             "node": "e7318211-6617-4692-b4b4-03679af55bec",
             "uuid": "6ec74178-814e-44b0-a97d-95a09d0b426b"
           },
           {
-            "id": 28,
-            "classifier_name": "Abstract View",
+            "id":   28,
+            "node_name": "Abstract View",
             "node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
             "uuid": "6e75bb46-2d5e-44f5-b078-e648fe4a5e8e"
           },
           {
-            "id": 29,
-            "classifier_name": "Abstract Controller",
+            "id":   29,
+            "node_name": "Abstract Controller",
             "node": "a96ab724-84a5-4d2d-b198-d595630612fe",
             "uuid": "11e51718-7b4b-4b7e-b33b-2465a010de14"
           }
@@ -416,33 +416,33 @@
     },
     {
       "diagram": {
-        "id": 7,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   7,
+        "type": "Component Diagram", "type_id": 31,
         "name": "concrete components",
         "description": [
                 ""
         ],
-        "list_order": 65536,
+        "order": 65536,
         "parent_name": "add abstraction level",
         "parent": "94f35bca-37bf-4a89-ba75-ca39714bc72b",
         "uuid": "8df3e0b0-f92e-4aed-a456-3072f17f2a3f",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 30,
-            "classifier_name": "Model",
+            "id":   30,
+            "node_name": "Model",
             "node": "d37ad518-4d03-4ce6-9426-880ce18b594a",
             "uuid": "0961d5cc-badc-4635-ab77-1c21b9f220fd"
           },
           {
-            "id": 31,
-            "classifier_name": "View",
+            "id":   31,
+            "node_name": "View",
             "node": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
             "uuid": "6c720174-9eb5-42de-b17c-68b169e5fa82"
           },
           {
-            "id": 32,
-            "classifier_name": "Controller",
+            "id":   32,
+            "node_name": "Controller",
             "node": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
             "uuid": "29e85bca-1e69-4ab2-81a8-571fe2d508c7"
           }
@@ -451,39 +451,39 @@
     },
     {
       "diagram": {
-        "id": 4,
-        "type": "Class Diagram", "diagram_type": 34,
+        "id":   4,
+        "type": "Class Diagram", "type_id": 34,
         "name": "extract interface",
         "description": [
                 ""
         ],
-        "list_order": 147456,
+        "order": 147456,
         "parent_name": "New Overview",
         "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
         "uuid": "e7701c86-c2a0-47b7-9062-2d22a5254337",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 16,
-            "classifier_name": "file wrapper class",
+            "id":   16,
+            "node_name": "file wrapper class",
             "node": "040c8834-a428-43d2-8767-76ff800d017a",
             "uuid": "eac8e934-fb5a-4846-ac57-15fca8a5a7ec"
           },
           {
-            "id": 17,
-            "classifier_name": "file wrapper interface",
+            "id":   17,
+            "node_name": "file wrapper interface",
             "node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
             "uuid": "d5098387-f06a-45e7-add8-3c311b23688b"
           },
           {
-            "id": 51,
-            "classifier_name": "Data Storage Class",
+            "id":   51,
+            "node_name": "Data Storage Class",
             "node": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
             "uuid": "b175ac90-b51c-4890-ae7a-e68a45e6e780"
           },
           {
-            "id": 52,
-            "classifier_name": "POSIX file interface",
+            "id":   52,
+            "node_name": "POSIX file interface",
             "node": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
             "uuid": "9214173b-5367-494a-b40e-ff03006db754"
           }
@@ -492,27 +492,27 @@
     },
     {
       "diagram": {
-        "id": 13,
-        "type": "Class Diagram", "diagram_type": 34,
+        "id":   13,
+        "type": "Class Diagram", "type_id": 34,
         "name": "separate interface",
         "description": [
                 ""
         ],
-        "list_order": -1073725440,
+        "order": -1073725440,
         "parent_name": "extract interface",
         "parent": "e7701c86-c2a0-47b7-9062-2d22a5254337",
         "uuid": "0ab4f9b3-f670-4291-adfe-1347bdb78ba1",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 53,
-            "classifier_name": "file wrapper interface",
+            "id":   53,
+            "node_name": "file wrapper interface",
             "node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
             "uuid": "a7f2a683-de48-45af-9e89-5a029bad328e"
           },
           {
-            "id": 54,
-            "classifier_name": "file wrapper class",
+            "id":   54,
+            "node_name": "file wrapper class",
             "node": "040c8834-a428-43d2-8767-76ff800d017a",
             "uuid": "6740d6a4-30e1-4e3a-8d4b-2fe42886d2d6"
           }
@@ -521,33 +521,33 @@
     },
     {
       "diagram": {
-        "id": 10,
-        "type": "Class Diagram", "diagram_type": 34,
+        "id":   10,
+        "type": "Class Diagram", "type_id": 34,
         "name": "interface hidden",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "order": 32768,
         "parent_name": "extract interface",
         "parent": "e7701c86-c2a0-47b7-9062-2d22a5254337",
         "uuid": "31a3fcdf-4f27-4598-9169-044e7cff4695",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 39,
-            "classifier_name": "file wrapper class",
+            "id":   39,
+            "node_name": "file wrapper class",
             "node": "040c8834-a428-43d2-8767-76ff800d017a",
             "uuid": "5494aa14-3009-4f7a-a48f-3f3bebedff55"
           },
           {
-            "id": 40,
-            "classifier_name": "POSIX file interface",
+            "id":   40,
+            "node_name": "POSIX file interface",
             "node": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
             "uuid": "50814297-982e-4774-b1bf-e13d0b03da60"
           },
           {
-            "id": 41,
-            "classifier_name": "Data Storage Class",
+            "id":   41,
+            "node_name": "Data Storage Class",
             "node": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
             "uuid": "67e7809d-5c5e-44ee-b48c-7ec982fbe6b4"
           }
@@ -556,39 +556,39 @@
     },
     {
       "diagram": {
-        "id": 14,
-        "type": "Class Diagram", "diagram_type": 34,
+        "id":   14,
+        "type": "Class Diagram", "type_id": 34,
         "name": "add mediator class",
         "description": [
                 ""
         ],
-        "list_order": 163840,
+        "order": 163840,
         "parent_name": "New Overview",
         "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
         "uuid": "88e6b285-c44a-459a-acb8-8d6dd89cc36a",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 55,
-            "classifier_name": "Resource-hungry Application",
+            "id":   55,
+            "node_name": "Resource-hungry Application",
             "node": "161503c1-57ef-48e7-878f-35196f630471",
             "uuid": "946af4fd-45d5-4543-8bfc-ca3e7131b9bc"
           },
           {
-            "id": 56,
-            "classifier_name": "Resource Supervisor",
+            "id":   56,
+            "node_name": "Resource Supervisor",
             "node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
             "uuid": "1020457d-649f-406d-8ece-10b5083fa784"
           },
           {
-            "id": 57,
-            "classifier_name": "Risk: Out of Memory",
+            "id":   57,
+            "node_name": "Risk: Out of Memory",
             "node": "a975b649-12c7-456e-8804-151526d0c8e7",
             "uuid": "b318321e-2be3-4497-91a9-d84b7b103dfa"
           },
           {
-            "id": 64,
-            "classifier_name": "Background Task Manager",
+            "id":   64,
+            "node_name": "Background Task Manager",
             "node": "ecff405a-83d3-4238-9a81-783de7f987a2",
             "uuid": "a8cd0314-dfed-4830-b025-7f8310e41aa0"
           }
@@ -597,33 +597,33 @@
     },
     {
       "diagram": {
-        "id": 15,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   15,
+        "type": "Component Diagram", "type_id": 31,
         "name": "technical solution",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "order": 32768,
         "parent_name": "add mediator class",
         "parent": "88e6b285-c44a-459a-acb8-8d6dd89cc36a",
         "uuid": "a686c7d3-d73c-4946-98e6-f512f4818e55",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 58,
-            "classifier_name": "Resource-hungry Application",
+            "id":   58,
+            "node_name": "Resource-hungry Application",
             "node": "161503c1-57ef-48e7-878f-35196f630471",
             "uuid": "0aa1eb33-fa01-4a1b-8e3a-a1cf4e82cef7"
           },
           {
-            "id": 59,
-            "classifier_name": "Resource Supervisor",
+            "id":   59,
+            "node_name": "Resource Supervisor",
             "node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
             "uuid": "a337d695-1e94-47e4-b2d7-71a4b2ec7397"
           },
           {
-            "id": 65,
-            "classifier_name": "Background Task Manager",
+            "id":   65,
+            "node_name": "Background Task Manager",
             "node": "ecff405a-83d3-4238-9a81-783de7f987a2",
             "uuid": "78683bec-ce00-4825-a376-c578c82d4a03"
           }
@@ -632,33 +632,33 @@
     },
     {
       "diagram": {
-        "id": 16,
-        "type": "Component Diagram", "diagram_type": 31,
+        "id":   16,
+        "type": "Component Diagram", "type_id": 31,
         "name": "risk",
         "description": [
                 ""
         ],
-        "list_order": 1073758207,
+        "order": 1073758207,
         "parent_name": "add mediator class",
         "parent": "88e6b285-c44a-459a-acb8-8d6dd89cc36a",
         "uuid": "d0d309c2-b224-45c2-8a4e-f7c616dd4e77",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 62,
-            "classifier_name": "Risk: Out of Memory",
+            "id":   62,
+            "node_name": "Risk: Out of Memory",
             "node": "a975b649-12c7-456e-8804-151526d0c8e7",
             "uuid": "e74037aa-3366-47fe-bcea-68b7bd21bb4d"
           },
           {
-            "id": 63,
-            "classifier_name": "Resource Supervisor",
+            "id":   63,
+            "node_name": "Resource Supervisor",
             "node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
             "uuid": "04b71e3f-07f7-4330-822b-97c92ae4b222"
           },
           {
-            "id": 67,
-            "classifier_name": "Resource-hungry Application",
+            "id":   67,
+            "node_name": "Resource-hungry Application",
             "node": "161503c1-57ef-48e7-878f-35196f630471",
             "uuid": "36f1faa5-611d-46ef-b7c6-b5bde025a91f"
           }
@@ -667,45 +667,45 @@
     },
     {
       "diagram": {
-        "id": 17,
-        "type": "Sequence Diagram", "diagram_type": 13,
+        "id":   17,
+        "type": "Sequence Diagram", "type_id": 13,
         "name": "split scenarios",
         "description": [
                 ""
         ],
-        "list_order": 196608,
+        "order": 196608,
         "parent_name": "New Overview",
         "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
         "uuid": "cc6ff82c-6d37-4b38-858d-1a1c80734c7e",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 69,
-            "classifier_name": "GUI",
+            "id":   69,
+            "node_name": "GUI",
             "node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
             "uuid": "30cecb96-53a1-488a-9f27-83919a319a8d"
           },
           {
-            "id": 70,
-            "classifier_name": "Database",
+            "id":   70,
+            "node_name": "Database",
             "node": "0a29c758-2b51-4451-a8f2-fb1d9fc923d0",
             "uuid": "5e97a1a1-2406-4e08-9ce9-fc22ff2d2a56"
           },
           {
-            "id": 71,
-            "classifier_name": "Search Logic",
+            "id":   71,
+            "node_name": "Search Logic",
             "node": "9cd202f4-4d97-4138-95ba-a517307992ad",
             "uuid": "de41ded3-4d99-4d93-a39a-4203238ddfcc"
           },
           {
-            "id": 72,
-            "classifier_name": "User",
+            "id":   72,
+            "node_name": "User",
             "node": "060835e8-e935-4fc2-815e-c1f5e83e9704",
             "uuid": "ff1efc44-3c78-451a-aa20-2d1164eb6048"
           },
           {
-            "id": 81,
-            "classifier_name": "Drawing Library",
+            "id":   81,
+            "node_name": "Drawing Library",
             "node": "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818",
             "uuid": "85f7953c-9dd7-4582-a3e8-d55332f7f99b"
           }
@@ -714,45 +714,45 @@
     },
     {
       "diagram": {
-        "id": 19,
-        "type": "Sequence Diagram", "diagram_type": 13,
+        "id":   19,
+        "type": "Sequence Diagram", "type_id": 13,
         "name": "show diagram",
         "description": [
                 ""
         ],
-        "list_order": -1073725440,
+        "order": -1073725440,
         "parent_name": "split scenarios",
         "parent": "cc6ff82c-6d37-4b38-858d-1a1c80734c7e",
         "uuid": "04502b42-15f7-4df9-bc7f-b64e6df2db33",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 77,
-            "classifier_name": "Database",
+            "id":   77,
+            "node_name": "Database",
             "node": "a30db590-006d-4b39-aff2-0e0530e408a1",
             "uuid": "ab54635b-1fc3-45f2-9df7-5859e2c344d2"
           },
           {
-            "id": 78,
-            "classifier_name": "Search Logic",
+            "id":   78,
+            "node_name": "Search Logic",
             "node": "618db078-a08d-4a8b-bb6f-cca21134abbc",
             "uuid": "9ea4a517-f2cd-40d0-9636-dfce5ce8ca17"
           },
           {
-            "id": 79,
-            "classifier_name": "GUI",
+            "id":   79,
+            "node_name": "GUI",
             "node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
             "uuid": "e8649764-20f4-401c-a8e4-7db0f2db1a0b"
           },
           {
-            "id": 80,
-            "classifier_name": "User",
+            "id":   80,
+            "node_name": "User",
             "node": "27fffca3-cce5-4b64-a7aa-3f8ed55d1392",
             "uuid": "088d3b5a-43ec-402c-97af-0a4c1e0b0fae"
           },
           {
-            "id": 82,
-            "classifier_name": "Drawing Library",
+            "id":   82,
+            "node_name": "Drawing Library",
             "node": "054f1afd-aee7-4b82-abb6-b027743adb69",
             "uuid": "262717e7-63cc-439e-ad85-c50f71d2b7b5"
           }
@@ -761,45 +761,45 @@
     },
     {
       "diagram": {
-        "id": 18,
-        "type": "Sequence Diagram", "diagram_type": 13,
+        "id":   18,
+        "type": "Sequence Diagram", "type_id": 13,
         "name": "do search",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "order": 32768,
         "parent_name": "split scenarios",
         "parent": "cc6ff82c-6d37-4b38-858d-1a1c80734c7e",
         "uuid": "7998342f-73f5-4847-a396-16f8cd8a46d2",
-        "diagramelements":
+        "elements":
         [
           {
-            "id": 73,
-            "classifier_name": "Database",
+            "id":   73,
+            "node_name": "Database",
             "node": "c3e906ed-5588-4953-901d-8e78f431edeb",
             "uuid": "fcb02bfe-6953-4227-ba2c-d4845c7077cb"
           },
           {
-            "id": 74,
-            "classifier_name": "Search Logic",
+            "id":   74,
+            "node_name": "Search Logic",
             "node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
             "uuid": "554e5565-fc94-47b1-8fae-a4795715be26"
           },
           {
-            "id": 75,
-            "classifier_name": "GUI",
+            "id":   75,
+            "node_name": "GUI",
             "node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
             "uuid": "d848330b-d2cc-42e6-9e5e-7964910c1ad6"
           },
           {
-            "id": 76,
-            "classifier_name": "User",
+            "id":   76,
+            "node_name": "User",
             "node": "51a94fe2-8115-4254-b91a-a668d6bc8900",
             "uuid": "dd6cd468-c103-4ab9-a957-a02c31fd094e"
           },
           {
-            "id": 83,
-            "classifier_name": "Drawing Library",
+            "id":   83,
+            "node_name": "Drawing Library",
             "node": "3d3a9710-2a65-40d9-a0d8-aa3e5a44fdf2",
             "uuid": "f410173e-0305-42b1-bff8-41be113ed025"
           }
@@ -812,8 +812,8 @@
   [
     {
       "classifier": {
-        "id": 1,
-        "type": "Comment", "main_type": 130,
+        "id":   1,
+        "type": "Comment", "type_id": 130,
         "name": "This file shows hints",
         "description": [
                 "on how to cope with relationships\n",
@@ -825,7 +825,7 @@
         ],
         "x_order": -346386954,
         "y_order": -646238141,
-        "list_order": -646238141,
+        "order": -646238141,
         "uuid": "ab678d19-cff2-42a3-9108-4232e8e72f9d",
         "features":
         [
@@ -834,15 +834,15 @@
     },
     {
       "classifier": {
-        "id": 2,
-        "type": "Component", "main_type": 121,
+        "id":   2,
+        "type": "Component", "type_id": 121,
         "name": "Abstract Model",
         "description": [
                 ""
         ],
         "x_order": -1345136003,
         "y_order": -1324947708,
-        "list_order": -1201378635,
+        "order": -1201378635,
         "uuid": "e7318211-6617-4692-b4b4-03679af55bec",
         "features":
         [
@@ -851,15 +851,15 @@
     },
     {
       "classifier": {
-        "id": 3,
-        "type": "Component", "main_type": 121,
+        "id":   3,
+        "type": "Component", "type_id": 121,
         "name": "Abstract View",
         "description": [
                 ""
         ],
         "x_order": 204093101,
         "y_order": -1572681019,
-        "list_order": -1778776537,
+        "order": -1778776537,
         "uuid": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
         "features":
         [
@@ -868,15 +868,15 @@
     },
     {
       "classifier": {
-        "id": 4,
-        "type": "Component", "main_type": 121,
+        "id":   4,
+        "type": "Component", "type_id": 121,
         "name": "Abstract Controller",
         "description": [
                 ""
         ],
         "x_order": 815405880,
         "y_order": -1324947708,
-        "list_order": -1324947708,
+        "order": -1324947708,
         "uuid": "a96ab724-84a5-4d2d-b198-d595630612fe",
         "features":
         [
@@ -885,46 +885,46 @@
     },
     {
       "classifier": {
-        "id": 5,
-        "type": "Component", "main_type": 121,
+        "id":   5,
+        "type": "Component", "type_id": 121,
         "name": "View",
         "description": [
                 ""
         ],
         "x_order": 204093101,
         "y_order": 1931646106,
-        "list_order": 1220844657,
+        "order": 1220844657,
         "uuid": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
         "features":
         [
           {
-            "id": 10,
-            "type": "Input Port", "main_type": 6,
-            "key": "be notified",
+            "id":   10,
+            "type": "Input Port", "type_id": 6,
+            "key":  "be notified",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 702446858,
+            "order": 702446858,
             "uuid": "cba45a3a-af14-4e5e-a9b1-80d5b1f98adc"
           },
           {
-            "id": 11,
-            "type": "Port", "main_type": 2,
-            "key": "read",
+            "id":   11,
+            "type": "Port", "type_id": 2,
+            "key":  "read",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 198250977,
+            "order": 198250977,
             "uuid": "acd869dc-eb98-4f05-82dc-93d71f8fbbb6"
           },
           {
-            "id": 12,
-            "type": "Output Port", "main_type": 7,
-            "key": "request change",
+            "id":   12,
+            "type": "Output Port", "type_id": 7,
+            "key":  "request change",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": -1896721345,
+            "order": -1896721345,
             "uuid": "7515513a-a6d7-463d-ab9d-41f6f2912643"
           }
         ]
@@ -932,66 +932,66 @@
     },
     {
       "classifier": {
-        "id": 6,
-        "type": "Component", "main_type": 121,
+        "id":   6,
+        "type": "Component", "type_id": 121,
         "name": "Model",
         "description": [
                 ""
         ],
         "x_order": -1345136003,
         "y_order": 1802070392,
-        "list_order": 1802070392,
+        "order": 1802070392,
         "uuid": "d37ad518-4d03-4ce6-9426-880ce18b594a",
         "features":
         [
           {
-            "id": 1,
-            "type": "Input Port", "main_type": 6,
-            "key": "create",
+            "id":   1,
+            "type": "Input Port", "type_id": 6,
+            "key":  "create",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": -1149969953,
+            "order": -1149969953,
             "uuid": "352d8d3a-e8a5-4252-af31-c2e7350d1f59"
           },
           {
-            "id": 2,
-            "type": "Port", "main_type": 2,
-            "key": "read",
+            "id":   2,
+            "type": "Port", "type_id": 2,
+            "key":  "read",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 1690273790,
+            "order": 1690273790,
             "uuid": "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15"
           },
           {
-            "id": 3,
-            "type": "Input Port", "main_type": 6,
-            "key": "update",
+            "id":   3,
+            "type": "Input Port", "type_id": 6,
+            "key":  "update",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": -1747388003,
+            "order": -1747388003,
             "uuid": "25e75212-d506-442c-9f5d-c54add39f3d7"
           },
           {
-            "id": 4,
-            "type": "Input Port", "main_type": 6,
-            "key": "delete",
+            "id":   4,
+            "type": "Input Port", "type_id": 6,
+            "key":  "delete",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": -2085274330,
+            "order": -2085274330,
             "uuid": "f60d8e41-4018-4f34-83a5-9b61935b46f6"
           },
           {
-            "id": 5,
-            "type": "Output Port", "main_type": 7,
-            "key": "notify",
+            "id":   5,
+            "type": "Output Port", "type_id": 7,
+            "key":  "notify",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 1238492197,
+            "order": 1238492197,
             "uuid": "e3bfe8c1-45c9-40be-b6e5-e62139a2a232"
           }
         ]
@@ -999,66 +999,66 @@
     },
     {
       "classifier": {
-        "id": 7,
-        "type": "Component", "main_type": 121,
+        "id":   7,
+        "type": "Component", "type_id": 121,
         "name": "Controller",
         "description": [
                 ""
         ],
         "x_order": 815405880,
         "y_order": 1802070392,
-        "list_order": 1802070392,
+        "order": 1802070392,
         "uuid": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
         "features":
         [
           {
-            "id": 6,
-            "type": "Output Port", "main_type": 7,
-            "key": "create",
+            "id":   6,
+            "type": "Output Port", "type_id": 7,
+            "key":  "create",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 81591752,
+            "order": 81591752,
             "uuid": "2de3f74e-731f-46d3-b0ad-1f800f4bee0c"
           },
           {
-            "id": 7,
-            "type": "Output Port", "main_type": 7,
-            "key": "update",
+            "id":   7,
+            "type": "Output Port", "type_id": 7,
+            "key":  "update",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 433040694,
+            "order": 433040694,
             "uuid": "edc71d29-0136-47d3-a558-16a14101d534"
           },
           {
-            "id": 8,
-            "type": "Port", "main_type": 2,
-            "key": "read",
+            "id":   8,
+            "type": "Port", "type_id": 2,
+            "key":  "read",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 1304638788,
+            "order": 1304638788,
             "uuid": "6ffaaf7e-eb33-4ef5-ae3e-f7997368758d"
           },
           {
-            "id": 9,
-            "type": "Output Port", "main_type": 7,
-            "key": "delete",
+            "id":   9,
+            "type": "Output Port", "type_id": 7,
+            "key":  "delete",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 987884872,
+            "order": 987884872,
             "uuid": "0483ebe0-662f-4ecf-8c46-2a3f77ac3899"
           },
           {
-            "id": 13,
-            "type": "Input Port", "main_type": 6,
-            "key": "do change",
+            "id":   13,
+            "type": "Input Port", "type_id": 6,
+            "key":  "do change",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 2053760397,
+            "order": 2053760397,
             "uuid": "66e28b3c-4cb9-4998-b7bc-4997cda9c1c7"
           }
         ]
@@ -1066,31 +1066,31 @@
     },
     {
       "classifier": {
-        "id": 8,
-        "type": "Actor", "main_type": 100,
+        "id":   8,
+        "type": "Actor", "type_id": 100,
         "name": "User",
         "description": [
                 ""
         ],
         "x_order": -1828339185,
         "y_order": -1324947708,
-        "list_order": -1324947708,
+        "order": -1324947708,
         "uuid": "b91a6190-b380-44ec-9b47-825653460dc0",
         "features":
         [
           {
-            "id": 29,
-            "type": "Lifeline", "main_type": 3,
+            "id":   29,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "060835e8-e935-4fc2-815e-c1f5e83e9704"
           },
           {
-            "id": 33,
-            "type": "Lifeline", "main_type": 3,
+            "id":   33,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "51a94fe2-8115-4254-b91a-a668d6bc8900"
           },
           {
-            "id": 37,
-            "type": "Lifeline", "main_type": 3,
+            "id":   37,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "27fffca3-cce5-4b64-a7aa-3f8ed55d1392"
           }
         ]
@@ -1098,26 +1098,26 @@
     },
     {
       "classifier": {
-        "id": 9,
-        "type": "Component", "main_type": 121,
+        "id":   9,
+        "type": "Component", "type_id": 121,
         "name": "data exporter",
         "description": [
                 ""
         ],
         "x_order": -1595125606,
         "y_order": -1282468418,
-        "list_order": -1282468418,
+        "order": -1282468418,
         "uuid": "eaf97f94-ad89-4c29-828d-a88c94479176",
         "features":
         [
           {
-            "id": 14,
-            "type": "Output Port", "main_type": 7,
-            "key": "out_byte_stream",
+            "id":   14,
+            "type": "Output Port", "type_id": 7,
+            "key":  "out_byte_stream",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 1631053317,
+            "order": 1631053317,
             "uuid": "6c395810-23d1-49bb-a915-756d918194be"
           }
         ]
@@ -1125,15 +1125,15 @@
     },
     {
       "classifier": {
-        "id": 10,
-        "type": "Component", "main_type": 121,
+        "id":   10,
+        "type": "Component", "type_id": 121,
         "name": "xml writer",
         "description": [
                 ""
         ],
         "x_order": -1735866576,
         "y_order": -1325689788,
-        "list_order": -1325689788,
+        "order": -1325689788,
         "uuid": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
         "features":
         [
@@ -1142,15 +1142,15 @@
     },
     {
       "classifier": {
-        "id": 11,
-        "type": "Component", "main_type": 121,
+        "id":   11,
+        "type": "Component", "type_id": 121,
         "name": "json writer",
         "description": [
                 ""
         ],
         "x_order": -503435609,
         "y_order": -1431415763,
-        "list_order": -1431415763,
+        "order": -1431415763,
         "uuid": "f05e1756-e939-4020-960b-699e61b35cf8",
         "features":
         [
@@ -1159,26 +1159,26 @@
     },
     {
       "classifier": {
-        "id": 12,
-        "type": "Component", "main_type": 121,
+        "id":   12,
+        "type": "Component", "type_id": 121,
         "name": "OS abstraction",
         "description": [
                 ""
         ],
         "x_order": -263890353,
         "y_order": 1093568863,
-        "list_order": 1093568863,
+        "order": 1093568863,
         "uuid": "9f30803e-a564-4917-8de0-7f8ac56b2036",
         "features":
         [
           {
-            "id": 15,
-            "type": "Input Port", "main_type": 6,
-            "key": "byte_stream",
+            "id":   15,
+            "type": "Input Port", "type_id": 6,
+            "key":  "byte_stream",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 706541957,
+            "order": 706541957,
             "uuid": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d"
           }
         ]
@@ -1186,15 +1186,15 @@
     },
     {
       "classifier": {
-        "id": 13,
-        "type": "Component", "main_type": 121,
+        "id":   13,
+        "type": "Component", "type_id": 121,
         "name": "file output stream",
         "description": [
                 ""
         ],
         "x_order": -294168665,
         "y_order": 1227273063,
-        "list_order": 1227273063,
+        "order": 1227273063,
         "uuid": "516f2c14-065c-4552-bab3-4fc942030dcd",
         "features":
         [
@@ -1203,15 +1203,15 @@
     },
     {
       "classifier": {
-        "id": 14,
-        "type": "Component", "main_type": 121,
+        "id":   14,
+        "type": "Component", "type_id": 121,
         "name": "socket output stream",
         "description": [
                 ""
         ],
         "x_order": 819228344,
         "y_order": 1327558539,
-        "list_order": 1327558539,
+        "order": 1327558539,
         "uuid": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
         "features":
         [
@@ -1220,15 +1220,15 @@
     },
     {
       "classifier": {
-        "id": 15,
-        "type": "Component", "main_type": 121,
+        "id":   15,
+        "type": "Component", "type_id": 121,
         "name": "txt writer",
         "description": [
                 ""
         ],
         "x_order": -1735866576,
         "y_order": -1431415763,
-        "list_order": -1431415763,
+        "order": -1431415763,
         "uuid": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
         "features":
         [
@@ -1237,15 +1237,15 @@
     },
     {
       "classifier": {
-        "id": 16,
-        "type": "Class", "main_type": 125,
+        "id":   16,
+        "type": "Class", "type_id": 125,
         "name": "file wrapper class",
         "description": [
                 ""
         ],
         "x_order": -1148850062,
         "y_order": -819811752,
-        "list_order": -819811752,
+        "order": -819811752,
         "uuid": "040c8834-a428-43d2-8767-76ff800d017a",
         "features":
         [
@@ -1254,86 +1254,86 @@
     },
     {
       "classifier": {
-        "id": 17,
-        "type": "Interface", "main_type": 123,
+        "id":   17,
+        "type": "Interface", "type_id": 123,
         "name": "file wrapper interface",
         "description": [
                 ""
         ],
         "x_order": 845007361,
         "y_order": -1496529748,
-        "list_order": -1496529748,
+        "order": -1496529748,
         "uuid": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
         "features":
         [
           {
-            "id": 16,
-            "type": "Operation", "main_type": 1,
-            "key": "open",
+            "id":   16,
+            "type": "Operation", "type_id": 1,
+            "key":  "open",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 32768,
+            "order": 32768,
             "uuid": "02158aed-2b04-4818-8656-595f7758d7ba"
           },
           {
-            "id": 17,
-            "type": "Operation", "main_type": 1,
-            "key": "read",
+            "id":   17,
+            "type": "Operation", "type_id": 1,
+            "key":  "read",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 65536,
+            "order": 65536,
             "uuid": "eedaa6f1-c3ec-409a-991f-a29c7c0cb3c2"
           },
           {
-            "id": 18,
-            "type": "Operation", "main_type": 1,
-            "key": "write",
+            "id":   18,
+            "type": "Operation", "type_id": 1,
+            "key":  "write",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 98304,
+            "order": 98304,
             "uuid": "d77558c6-cd11-43ad-b72e-83a4e5f6e48e"
           },
           {
-            "id": 19,
-            "type": "Operation", "main_type": 1,
-            "key": "close",
+            "id":   19,
+            "type": "Operation", "type_id": 1,
+            "key":  "close",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 131072,
+            "order": 131072,
             "uuid": "9ae58577-89df-40c9-ac0e-b7b01960bba3"
           },
           {
-            "id": 20,
-            "type": "Operation", "main_type": 1,
-            "key": "delete",
+            "id":   20,
+            "type": "Operation", "type_id": 1,
+            "key":  "delete",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 163840,
+            "order": 163840,
             "uuid": "5dde68b0-cebb-4f3a-b137-5a8f1727ab48"
           },
           {
-            "id": 21,
-            "type": "Operation", "main_type": 1,
-            "key": "seek",
+            "id":   21,
+            "type": "Operation", "type_id": 1,
+            "key":  "seek",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 81920,
+            "order": 81920,
             "uuid": "d34a0d8d-de4d-4ce9-96c8-ee45e86c16ec"
           },
           {
-            "id": 22,
-            "type": "Operation", "main_type": 1,
-            "key": "flush",
+            "id":   22,
+            "type": "Operation", "type_id": 1,
+            "key":  "flush",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 114688,
+            "order": 114688,
             "uuid": "8b797a55-50c3-47b1-8275-9bd7704d813f"
           }
         ]
@@ -1341,15 +1341,15 @@
     },
     {
       "classifier": {
-        "id": 18,
-        "type": "Initial Node", "main_type": 151,
+        "id":   18,
+        "type": "Initial Node", "type_id": 151,
         "name": "power on",
         "description": [
                 ""
         ],
         "x_order": -1785814246,
         "y_order": -655963001,
-        "list_order": -806629503,
+        "order": -806629503,
         "uuid": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
         "features":
         [
@@ -1358,15 +1358,15 @@
     },
     {
       "classifier": {
-        "id": 19,
-        "type": "State", "main_type": 111,
+        "id":   19,
+        "type": "State", "type_id": 111,
         "name": "boot",
         "description": [
                 ""
         ],
         "x_order": -1785814246,
         "y_order": -564723830,
-        "list_order": -564723830,
+        "order": -564723830,
         "uuid": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
         "features":
         [
@@ -1375,15 +1375,15 @@
     },
     {
       "classifier": {
-        "id": 20,
-        "type": "Decision", "main_type": 157,
+        "id":   20,
+        "type": "Decision", "type_id": 157,
         "name": "special mode?",
         "description": [
                 ""
         ],
         "x_order": -1602164196,
         "y_order": -564723830,
-        "list_order": -564723830,
+        "order": -564723830,
         "uuid": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
         "features":
         [
@@ -1392,15 +1392,15 @@
     },
     {
       "classifier": {
-        "id": 21,
-        "type": "State", "main_type": 111,
+        "id":   21,
+        "type": "State", "type_id": 111,
         "name": "run normal",
         "description": [
                 ""
         ],
         "x_order": -1586247241,
         "y_order": -655963001,
-        "list_order": -655963001,
+        "order": -655963001,
         "uuid": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
         "features":
         [
@@ -1409,15 +1409,15 @@
     },
     {
       "classifier": {
-        "id": 22,
-        "type": "State", "main_type": 111,
+        "id":   22,
+        "type": "State", "type_id": 111,
         "name": "run special",
         "description": [
                 ""
         ],
         "x_order": -1586247241,
         "y_order": -55607899,
-        "list_order": -55607899,
+        "order": -55607899,
         "uuid": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
         "features":
         [
@@ -1426,15 +1426,15 @@
     },
     {
       "classifier": {
-        "id": 23,
-        "type": "State", "main_type": 111,
+        "id":   23,
+        "type": "State", "type_id": 111,
         "name": "shutdown",
         "description": [
                 ""
         ],
         "x_order": 157409060,
         "y_order": -564723830,
-        "list_order": -564723830,
+        "order": -564723830,
         "uuid": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
         "features":
         [
@@ -1443,15 +1443,15 @@
     },
     {
       "classifier": {
-        "id": 24,
-        "type": "Final Node", "main_type": 152,
+        "id":   24,
+        "type": "Final Node", "type_id": 152,
         "name": "power off",
         "description": [
                 ""
         ],
         "x_order": 157409060,
         "y_order": -55607899,
-        "list_order": -564723830,
+        "order": -564723830,
         "uuid": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
         "features":
         [
@@ -1460,36 +1460,36 @@
     },
     {
       "classifier": {
-        "id": 25,
-        "type": "State", "main_type": 111,
+        "id":   25,
+        "type": "State", "type_id": 111,
         "name": "run",
         "description": [
                 ""
         ],
         "x_order": -1646638250,
         "y_order": -564723830,
-        "list_order": -674927098,
+        "order": -674927098,
         "uuid": "970fb1e2-9933-4423-95e6-688674c7a9c6",
         "features":
         [
           {
-            "id": 23,
-            "type": "Entry", "main_type": 8,
-            "key": "started",
+            "id":   23,
+            "type": "Entry", "type_id": 8,
+            "key":  "started",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": 805467214,
+            "order": 805467214,
             "uuid": "81698f78-a5ea-4020-9dbc-99541d9b4821"
           },
           {
-            "id": 24,
-            "type": "Exit", "main_type": 9,
-            "key": "stop",
+            "id":   24,
+            "type": "Exit", "type_id": 9,
+            "key":  "stop",
             "description": [
-                ""
+                    ""
             ],
-            "list_order": -1606903830,
+            "order": -1606903830,
             "uuid": "94d1b743-2383-4de4-8f5f-412d2f4692cc"
           }
         ]
@@ -1497,15 +1497,15 @@
     },
     {
       "classifier": {
-        "id": 26,
-        "type": "Class", "main_type": 125,
+        "id":   26,
+        "type": "Class", "type_id": 125,
         "name": "POSIX file interface",
         "description": [
                 ""
         ],
         "x_order": -575819078,
         "y_order": 855319084,
-        "list_order": 855319084,
+        "order": 855319084,
         "uuid": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
         "features":
         [
@@ -1514,15 +1514,15 @@
     },
     {
       "classifier": {
-        "id": 27,
-        "type": "Class", "main_type": 125,
+        "id":   27,
+        "type": "Class", "type_id": 125,
         "name": "Data Storage Class",
         "description": [
                 ""
         ],
         "x_order": -1148850062,
         "y_order": -1496529748,
-        "list_order": -1492401430,
+        "order": -1492401430,
         "uuid": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
         "features":
         [
@@ -1531,15 +1531,15 @@
     },
     {
       "classifier": {
-        "id": 28,
-        "type": "Class", "main_type": 125,
+        "id":   28,
+        "type": "Class", "type_id": 125,
         "name": "Resource-hungry Application",
         "description": [
                 ""
         ],
         "x_order": -695821637,
         "y_order": -552926133,
-        "list_order": -552926133,
+        "order": -552926133,
         "uuid": "161503c1-57ef-48e7-878f-35196f630471",
         "features":
         [
@@ -1548,15 +1548,15 @@
     },
     {
       "classifier": {
-        "id": 29,
-        "type": "Class", "main_type": 125,
+        "id":   29,
+        "type": "Class", "type_id": 125,
         "name": "Resource Supervisor",
         "description": [
                 ""
         ],
         "x_order": -695821637,
         "y_order": 51760812,
-        "list_order": 51760812,
+        "order": 51760812,
         "uuid": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
         "features":
         [
@@ -1565,15 +1565,15 @@
     },
     {
       "classifier": {
-        "id": 30,
-        "type": "Class", "main_type": 125,
+        "id":   30,
+        "type": "Class", "type_id": 125,
         "name": "Risk: Out of Memory",
         "description": [
                 ""
         ],
         "x_order": 1089976675,
         "y_order": -552926133,
-        "list_order": -552926133,
+        "order": -552926133,
         "uuid": "a975b649-12c7-456e-8804-151526d0c8e7",
         "features":
         [
@@ -1582,15 +1582,15 @@
     },
     {
       "classifier": {
-        "id": 31,
-        "type": "Class", "main_type": 125,
+        "id":   31,
+        "type": "Class", "type_id": 125,
         "name": "Background Task Manager",
         "description": [
                 ""
         ],
         "x_order": -1681186248,
         "y_order": 664111950,
-        "list_order": 51760812,
+        "order": 51760812,
         "uuid": "ecff405a-83d3-4238-9a81-783de7f987a2",
         "features":
         [
@@ -1599,31 +1599,31 @@
     },
     {
       "classifier": {
-        "id": 33,
-        "type": "Class", "main_type": 125,
+        "id":   33,
+        "type": "Class", "type_id": 125,
         "name": "GUI",
         "description": [
                 ""
         ],
         "x_order": 1184985345,
         "y_order": 0,
-        "list_order": -1154623178,
+        "order": -1154623178,
         "uuid": "944ef746-3772-4ec7-a1b8-3491a20f18f7",
         "features":
         [
           {
-            "id": 26,
-            "type": "Lifeline", "main_type": 3,
+            "id":   26,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "017c2ec1-8615-4c47-99fa-c900d03bbadc"
           },
           {
-            "id": 32,
-            "type": "Lifeline", "main_type": 3,
+            "id":   32,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "eef46c30-c82c-40b5-aeca-eed2b91280d3"
           },
           {
-            "id": 36,
-            "type": "Lifeline", "main_type": 3,
+            "id":   36,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "c834f4bd-f546-4b79-8af7-b24f27680a4b"
           }
         ]
@@ -1631,31 +1631,31 @@
     },
     {
       "classifier": {
-        "id": 34,
-        "type": "Class", "main_type": 125,
+        "id":   34,
+        "type": "Class", "type_id": 125,
         "name": "Database",
         "description": [
                 ""
         ],
         "x_order": 1408640275,
         "y_order": 0,
-        "list_order": 0,
+        "order": 0,
         "uuid": "51d13a7d-9bca-4fbc-907d-5848b6af33d0",
         "features":
         [
           {
-            "id": 27,
-            "type": "Lifeline", "main_type": 3,
+            "id":   27,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "0a29c758-2b51-4451-a8f2-fb1d9fc923d0"
           },
           {
-            "id": 30,
-            "type": "Lifeline", "main_type": 3,
+            "id":   30,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "c3e906ed-5588-4953-901d-8e78f431edeb"
           },
           {
-            "id": 34,
-            "type": "Lifeline", "main_type": 3,
+            "id":   34,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "a30db590-006d-4b39-aff2-0e0530e408a1"
           }
         ]
@@ -1663,31 +1663,31 @@
     },
     {
       "classifier": {
-        "id": 35,
-        "type": "Class", "main_type": 125,
+        "id":   35,
+        "type": "Class", "type_id": 125,
         "name": "Search Logic",
         "description": [
                 ""
         ],
         "x_order": 150101012,
         "y_order": 0,
-        "list_order": -375252534,
+        "order": -375252534,
         "uuid": "f88709d3-e4e2-4fa8-909e-dde872340d97",
         "features":
         [
           {
-            "id": 28,
-            "type": "Lifeline", "main_type": 3,
+            "id":   28,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "9cd202f4-4d97-4138-95ba-a517307992ad"
           },
           {
-            "id": 31,
-            "type": "Lifeline", "main_type": 3,
+            "id":   31,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5"
           },
           {
-            "id": 35,
-            "type": "Lifeline", "main_type": 3,
+            "id":   35,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "618db078-a08d-4a8b-bb6f-cca21134abbc"
           }
         ]
@@ -1695,31 +1695,31 @@
     },
     {
       "classifier": {
-        "id": 36,
-        "type": "Class", "main_type": 125,
+        "id":   36,
+        "type": "Class", "type_id": 125,
         "name": "Drawing Library",
         "description": [
                 ""
         ],
         "x_order": -418178472,
         "y_order": 0,
-        "list_order": -738672209,
+        "order": -738672209,
         "uuid": "04e91cf4-1e6d-4bd9-80bd-e8dc84bfa726",
         "features":
         [
           {
-            "id": 38,
-            "type": "Lifeline", "main_type": 3,
+            "id":   38,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818"
           },
           {
-            "id": 39,
-            "type": "Lifeline", "main_type": 3,
+            "id":   39,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "054f1afd-aee7-4b82-abb6-b027743adb69"
           },
           {
-            "id": 40,
-            "type": "Lifeline", "main_type": 3,
+            "id":   40,
+            "type": "Lifeline", "type_id": 3,
             "uuid": "3d3a9710-2a65-40d9-a0d8-aa3e5a44fdf2"
           }
         ]
@@ -1731,1450 +1731,1450 @@
   [
     {
       "relationship": {
-        "id": 4,
-        "type": "Dependency", "main_type": 0,
+        "id":   4,
+        "type": "Dependency", "type_id": 0,
         "name": "notify on change",
         "description": [
                 ""
         ],
-        "list_order": 131072,
-        "from_classifier_name": "Abstract Model",
-        "from_node": "e7318211-6617-4692-b4b4-03679af55bec",
-        "to_classifier_name": "Abstract View",
-        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "order": 131072,
+        "from_name": "Abstract Model",
+        "from": "e7318211-6617-4692-b4b4-03679af55bec",
+        "to_name": "Abstract View",
+        "to":   "86bff426-c583-4667-ae8c-f69fa1b9cde9",
         "uuid": "95ff56fd-61fc-473a-9728-32ba38de21e8"
       }
     },
     {
       "relationship": {
-        "id": 3,
-        "type": "Association", "main_type": 200,
+        "id":   3,
+        "type": "Association", "type_id": 200,
         "name": "read",
         "description": [
                 ""
         ],
-        "list_order": 98304,
-        "from_classifier_name": "Abstract View",
-        "from_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
-        "to_classifier_name": "Abstract Model",
-        "to_node": "e7318211-6617-4692-b4b4-03679af55bec",
+        "order": 98304,
+        "from_name": "Abstract View",
+        "from": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "to_name": "Abstract Model",
+        "to":   "e7318211-6617-4692-b4b4-03679af55bec",
         "uuid": "e231dc5a-f2aa-40ac-bcb3-defabaa7163e"
       }
     },
     {
       "relationship": {
-        "id": 5,
-        "type": "Association", "main_type": 200,
+        "id":   5,
+        "type": "Association", "type_id": 200,
         "name": "trigger on user interaction",
         "description": [
                 ""
         ],
-        "list_order": 163840,
-        "from_classifier_name": "Abstract View",
-        "from_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
-        "to_classifier_name": "Abstract Controller",
-        "to_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "order": 163840,
+        "from_name": "Abstract View",
+        "from": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "to_name": "Abstract Controller",
+        "to":   "a96ab724-84a5-4d2d-b198-d595630612fe",
         "uuid": "9ef140b7-bd3f-4f9b-9fe8-3f46e777a41b"
       }
     },
     {
       "relationship": {
-        "id": 1,
-        "type": "Association", "main_type": 200,
+        "id":   1,
+        "type": "Association", "type_id": 200,
         "name": "read/write",
         "description": [
                 ""
         ],
-        "list_order": 32768,
-        "from_classifier_name": "Abstract Controller",
-        "from_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
-        "to_classifier_name": "Abstract Model",
-        "to_node": "e7318211-6617-4692-b4b4-03679af55bec",
+        "order": 32768,
+        "from_name": "Abstract Controller",
+        "from": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "to_name": "Abstract Model",
+        "to":   "e7318211-6617-4692-b4b4-03679af55bec",
         "uuid": "c651e390-12a4-4b47-ad1e-63393c8f777a"
       }
     },
     {
       "relationship": {
-        "id": 6,
-        "type": "Dependency", "main_type": 0,
+        "id":   6,
+        "type": "Dependency", "type_id": 0,
         "name": "notify on success",
         "description": [
                 ""
         ],
-        "list_order": 196608,
-        "from_classifier_name": "Abstract Controller",
-        "from_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
-        "to_classifier_name": "Abstract View",
-        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "order": 196608,
+        "from_name": "Abstract Controller",
+        "from": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "to_name": "Abstract View",
+        "to":   "86bff426-c583-4667-ae8c-f69fa1b9cde9",
         "uuid": "a54b204f-e61a-49f1-bf8d-e1a83f0a0515"
       }
     },
     {
       "relationship": {
-        "id": 8,
-        "type": "Dependency", "main_type": 0,
+        "id":   8,
+        "type": "Dependency", "type_id": 0,
         "stereotype": "abstraction",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 262144,
-        "from_classifier_name": "View",
-        "from_node": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
-        "to_classifier_name": "Abstract View",
-        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "order": 262144,
+        "from_name": "View",
+        "from": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
+        "to_name": "Abstract View",
+        "to":   "86bff426-c583-4667-ae8c-f69fa1b9cde9",
         "uuid": "5f3ea6e5-1cd4-4f37-8aff-88ef176e41c6"
       }
     },
     {
       "relationship": {
-        "id": 12,
-        "type": "Communication Path", "main_type": 230,
+        "id":   12,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 393216,
-        "from_classifier_name": "View",
-        "from_feature_key": "read",
-        "from_node": "acd869dc-eb98-4f05-82dc-93d71f8fbbb6",
-        "to_classifier_name": "Model",
-        "to_feature_key": "read",
-        "to_node": "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15",
+        "order": 393216,
+        "from_name": "View",
+        "from_port": "read",
+        "from": "acd869dc-eb98-4f05-82dc-93d71f8fbbb6",
+        "to_name": "Model",
+        "to_port": "read",
+        "to":   "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15",
         "uuid": "576d90f5-7854-4cfa-9fba-6d0df8d029e0"
       }
     },
     {
       "relationship": {
-        "id": 17,
-        "type": "Communication Path", "main_type": 230,
+        "id":   17,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 557056,
-        "from_classifier_name": "View",
-        "from_feature_key": "request change",
-        "from_node": "7515513a-a6d7-463d-ab9d-41f6f2912643",
-        "to_classifier_name": "Controller",
-        "to_feature_key": "do change",
-        "to_node": "66e28b3c-4cb9-4998-b7bc-4997cda9c1c7",
+        "order": 557056,
+        "from_name": "View",
+        "from_port": "request change",
+        "from": "7515513a-a6d7-463d-ab9d-41f6f2912643",
+        "to_name": "Controller",
+        "to_port": "do change",
+        "to":   "66e28b3c-4cb9-4998-b7bc-4997cda9c1c7",
         "uuid": "5859cab2-45a8-4d61-bcae-adbd781e9686"
       }
     },
     {
       "relationship": {
-        "id": 9,
-        "type": "Dependency", "main_type": 0,
+        "id":   9,
+        "type": "Dependency", "type_id": 0,
         "stereotype": "abstraction",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 294912,
-        "from_classifier_name": "Model",
-        "from_node": "d37ad518-4d03-4ce6-9426-880ce18b594a",
-        "to_classifier_name": "Abstract Model",
-        "to_node": "e7318211-6617-4692-b4b4-03679af55bec",
+        "order": 294912,
+        "from_name": "Model",
+        "from": "d37ad518-4d03-4ce6-9426-880ce18b594a",
+        "to_name": "Abstract Model",
+        "to":   "e7318211-6617-4692-b4b4-03679af55bec",
         "uuid": "df857943-fc4b-4a94-b9a6-618586f82c44"
       }
     },
     {
       "relationship": {
-        "id": 11,
-        "type": "Communication Path", "main_type": 230,
+        "id":   11,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 360448,
-        "from_classifier_name": "Model",
-        "from_feature_key": "notify",
-        "from_node": "e3bfe8c1-45c9-40be-b6e5-e62139a2a232",
-        "to_classifier_name": "View",
-        "to_feature_key": "be notified",
-        "to_node": "cba45a3a-af14-4e5e-a9b1-80d5b1f98adc",
+        "order": 360448,
+        "from_name": "Model",
+        "from_port": "notify",
+        "from": "e3bfe8c1-45c9-40be-b6e5-e62139a2a232",
+        "to_name": "View",
+        "to_port": "be notified",
+        "to":   "cba45a3a-af14-4e5e-a9b1-80d5b1f98adc",
         "uuid": "0950b921-d08c-40d4-b507-1b05cf5032b5"
       }
     },
     {
       "relationship": {
-        "id": 7,
-        "type": "Dependency", "main_type": 0,
+        "id":   7,
+        "type": "Dependency", "type_id": 0,
         "stereotype": "abstraction",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 229376,
-        "from_classifier_name": "Controller",
-        "from_node": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
-        "to_classifier_name": "Abstract Controller",
-        "to_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "order": 229376,
+        "from_name": "Controller",
+        "from": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
+        "to_name": "Abstract Controller",
+        "to":   "a96ab724-84a5-4d2d-b198-d595630612fe",
         "uuid": "a7f7fff7-16b7-47e8-bf67-80b3236ad84f"
       }
     },
     {
       "relationship": {
-        "id": 13,
-        "type": "Communication Path", "main_type": 230,
+        "id":   13,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 425984,
-        "from_classifier_name": "Controller",
-        "from_feature_key": "read",
-        "from_node": "6ffaaf7e-eb33-4ef5-ae3e-f7997368758d",
-        "to_classifier_name": "Model",
-        "to_feature_key": "read",
-        "to_node": "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15",
+        "order": 425984,
+        "from_name": "Controller",
+        "from_port": "read",
+        "from": "6ffaaf7e-eb33-4ef5-ae3e-f7997368758d",
+        "to_name": "Model",
+        "to_port": "read",
+        "to":   "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15",
         "uuid": "841e8638-6d8d-4056-9b91-a57b7246f7aa"
       }
     },
     {
       "relationship": {
-        "id": 14,
-        "type": "Communication Path", "main_type": 230,
+        "id":   14,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 458752,
-        "from_classifier_name": "Controller",
-        "from_feature_key": "delete",
-        "from_node": "0483ebe0-662f-4ecf-8c46-2a3f77ac3899",
-        "to_classifier_name": "Model",
-        "to_feature_key": "delete",
-        "to_node": "f60d8e41-4018-4f34-83a5-9b61935b46f6",
+        "order": 458752,
+        "from_name": "Controller",
+        "from_port": "delete",
+        "from": "0483ebe0-662f-4ecf-8c46-2a3f77ac3899",
+        "to_name": "Model",
+        "to_port": "delete",
+        "to":   "f60d8e41-4018-4f34-83a5-9b61935b46f6",
         "uuid": "616816ba-9574-4b5d-891c-cfa0df6a6e91"
       }
     },
     {
       "relationship": {
-        "id": 15,
-        "type": "Communication Path", "main_type": 230,
+        "id":   15,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 491520,
-        "from_classifier_name": "Controller",
-        "from_feature_key": "update",
-        "from_node": "edc71d29-0136-47d3-a558-16a14101d534",
-        "to_classifier_name": "Model",
-        "to_feature_key": "update",
-        "to_node": "25e75212-d506-442c-9f5d-c54add39f3d7",
+        "order": 491520,
+        "from_name": "Controller",
+        "from_port": "update",
+        "from": "edc71d29-0136-47d3-a558-16a14101d534",
+        "to_name": "Model",
+        "to_port": "update",
+        "to":   "25e75212-d506-442c-9f5d-c54add39f3d7",
         "uuid": "a9793829-8963-4b59-87c4-ccc814f1e1fd"
       }
     },
     {
       "relationship": {
-        "id": 16,
-        "type": "Communication Path", "main_type": 230,
+        "id":   16,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 524288,
-        "from_classifier_name": "Controller",
-        "from_feature_key": "create",
-        "from_node": "2de3f74e-731f-46d3-b0ad-1f800f4bee0c",
-        "to_classifier_name": "Model",
-        "to_feature_key": "create",
-        "to_node": "352d8d3a-e8a5-4252-af31-c2e7350d1f59",
+        "order": 524288,
+        "from_name": "Controller",
+        "from_port": "create",
+        "from": "2de3f74e-731f-46d3-b0ad-1f800f4bee0c",
+        "to_name": "Model",
+        "to_port": "create",
+        "to":   "352d8d3a-e8a5-4252-af31-c2e7350d1f59",
         "uuid": "6c8520f9-2b69-4746-8acd-7ff06234274e"
       }
     },
     {
       "relationship": {
-        "id": 10,
-        "type": "Association", "main_type": 200,
+        "id":   10,
+        "type": "Association", "type_id": 200,
         "name": "interacts",
         "description": [
                 ""
         ],
-        "list_order": 327680,
-        "from_classifier_name": "User",
-        "from_node": "b91a6190-b380-44ec-9b47-825653460dc0",
-        "to_classifier_name": "Abstract View",
-        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "order": 327680,
+        "from_name": "User",
+        "from": "b91a6190-b380-44ec-9b47-825653460dc0",
+        "to_name": "Abstract View",
+        "to":   "86bff426-c583-4667-ae8c-f69fa1b9cde9",
         "uuid": "c1ce72e9-8a3b-4c39-ac58-84dc4c059272"
       }
     },
     {
       "relationship": {
-        "id": 56,
-        "type": "Asynchronous Call", "main_type": 220,
+        "id":   56,
+        "type": "Asynchronous Call", "type_id": 220,
         "name": "request diagram",
         "description": [
                 ""
         ],
-        "list_order": -1308997622,
-        "from_classifier_name": "User",
-        "from_feature_key": "",
-        "from_node": "060835e8-e935-4fc2-815e-c1f5e83e9704",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": -1308997622,
+        "from_name": "User",
+        "from_port": "",
+        "from": "060835e8-e935-4fc2-815e-c1f5e83e9704",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "34290c30-cca4-4a63-ab15-122c34bf9bd8"
       }
     },
     {
       "relationship": {
-        "id": 60,
-        "type": "Asynchronous Call", "main_type": 220,
+        "id":   60,
+        "type": "Asynchronous Call", "type_id": 220,
         "name": "request search",
         "description": [
                 ""
         ],
-        "list_order": -111457967,
-        "from_classifier_name": "User",
-        "from_feature_key": "",
-        "from_node": "060835e8-e935-4fc2-815e-c1f5e83e9704",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": -111457967,
+        "from_name": "User",
+        "from_port": "",
+        "from": "060835e8-e935-4fc2-815e-c1f5e83e9704",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "80283b50-8cc4-4344-abaa-163638f968f0"
       }
     },
     {
       "relationship": {
-        "id": 67,
-        "type": "Asynchronous Call", "main_type": 220,
+        "id":   67,
+        "type": "Asynchronous Call", "type_id": 220,
         "name": "request diagram",
         "description": [
                 ""
         ],
-        "list_order": -911400597,
-        "from_classifier_name": "User",
-        "from_feature_key": "",
-        "from_node": "27fffca3-cce5-4b64-a7aa-3f8ed55d1392",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "order": -911400597,
+        "from_name": "User",
+        "from_port": "",
+        "from": "27fffca3-cce5-4b64-a7aa-3f8ed55d1392",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "c834f4bd-f546-4b79-8af7-b24f27680a4b",
         "uuid": "945c3733-1e59-43cc-890e-61255f054c93"
       }
     },
     {
       "relationship": {
-        "id": 71,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   71,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "request search",
         "description": [
                 ""
         ],
-        "list_order": -1142383409,
-        "from_classifier_name": "User",
-        "from_feature_key": "",
-        "from_node": "51a94fe2-8115-4254-b91a-a668d6bc8900",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "order": -1142383409,
+        "from_name": "User",
+        "from_port": "",
+        "from": "51a94fe2-8115-4254-b91a-a668d6bc8900",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "eef46c30-c82c-40b5-aeca-eed2b91280d3",
         "uuid": "0b47cb08-ae85-449d-9914-55fcdebc518a"
       }
     },
     {
       "relationship": {
-        "id": 22,
-        "type": "Communication Path", "main_type": 230,
+        "id":   22,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327591307,
-        "from_classifier_name": "data exporter",
-        "from_feature_key": "out_byte_stream",
-        "from_node": "6c395810-23d1-49bb-a915-756d918194be",
-        "to_classifier_name": "OS abstraction",
-        "to_feature_key": "byte_stream",
-        "to_node": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
+        "order": 1327591307,
+        "from_name": "data exporter",
+        "from_port": "out_byte_stream",
+        "from": "6c395810-23d1-49bb-a915-756d918194be",
+        "to_name": "OS abstraction",
+        "to_port": "byte_stream",
+        "to":   "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
         "uuid": "d58f5cf7-86d9-4061-b1ea-9b6cc11c4299"
       }
     },
     {
       "relationship": {
-        "id": 29,
-        "type": "Containment", "main_type": 300,
+        "id":   29,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327787915,
-        "from_classifier_name": "data exporter",
-        "from_node": "eaf97f94-ad89-4c29-828d-a88c94479176",
-        "to_classifier_name": "txt writer",
-        "to_node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
+        "order": 1327787915,
+        "from_name": "data exporter",
+        "from": "eaf97f94-ad89-4c29-828d-a88c94479176",
+        "to_name": "txt writer",
+        "to":   "18779bd2-0aec-44e0-ac27-210a4315cf0d",
         "uuid": "f126e3cb-fc30-4784-afaa-a502927959cb"
       }
     },
     {
       "relationship": {
-        "id": 30,
-        "type": "Containment", "main_type": 300,
+        "id":   30,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327820683,
-        "from_classifier_name": "data exporter",
-        "from_node": "eaf97f94-ad89-4c29-828d-a88c94479176",
-        "to_classifier_name": "json writer",
-        "to_node": "f05e1756-e939-4020-960b-699e61b35cf8",
+        "order": 1327820683,
+        "from_name": "data exporter",
+        "from": "eaf97f94-ad89-4c29-828d-a88c94479176",
+        "to_name": "json writer",
+        "to":   "f05e1756-e939-4020-960b-699e61b35cf8",
         "uuid": "911032cc-363e-4aaf-87ec-28a9d0561bf0"
       }
     },
     {
       "relationship": {
-        "id": 31,
-        "type": "Containment", "main_type": 300,
+        "id":   31,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327853451,
-        "from_classifier_name": "data exporter",
-        "from_node": "eaf97f94-ad89-4c29-828d-a88c94479176",
-        "to_classifier_name": "xml writer",
-        "to_node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
+        "order": 1327853451,
+        "from_name": "data exporter",
+        "from": "eaf97f94-ad89-4c29-828d-a88c94479176",
+        "to_name": "xml writer",
+        "to":   "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
         "uuid": "669d18ac-1a48-4e66-aea2-d3d37897b53d"
       }
     },
     {
       "relationship": {
-        "id": 23,
-        "type": "Communication Path", "main_type": 230,
+        "id":   23,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327624075,
-        "from_classifier_name": "xml writer",
-        "from_node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
-        "to_classifier_name": "data exporter",
-        "to_feature_key": "out_byte_stream",
-        "to_node": "6c395810-23d1-49bb-a915-756d918194be",
+        "order": 1327624075,
+        "from_name": "xml writer",
+        "from": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
+        "to_name": "data exporter",
+        "to_port": "out_byte_stream",
+        "to":   "6c395810-23d1-49bb-a915-756d918194be",
         "uuid": "5966ee65-566d-44aa-9ddf-a99505253740"
       }
     },
     {
       "relationship": {
-        "id": 24,
-        "type": "Communication Path", "main_type": 230,
+        "id":   24,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327656843,
-        "from_classifier_name": "json writer",
-        "from_node": "f05e1756-e939-4020-960b-699e61b35cf8",
-        "to_classifier_name": "data exporter",
-        "to_feature_key": "out_byte_stream",
-        "to_node": "6c395810-23d1-49bb-a915-756d918194be",
+        "order": 1327656843,
+        "from_name": "json writer",
+        "from": "f05e1756-e939-4020-960b-699e61b35cf8",
+        "to_name": "data exporter",
+        "to_port": "out_byte_stream",
+        "to":   "6c395810-23d1-49bb-a915-756d918194be",
         "uuid": "e7355e30-2ffd-4cee-a326-f8eb115356db"
       }
     },
     {
       "relationship": {
-        "id": 25,
-        "type": "Communication Path", "main_type": 230,
+        "id":   25,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327689611,
-        "from_classifier_name": "OS abstraction",
-        "from_feature_key": "byte_stream",
-        "from_node": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
-        "to_classifier_name": "file output stream",
-        "to_node": "516f2c14-065c-4552-bab3-4fc942030dcd",
+        "order": 1327689611,
+        "from_name": "OS abstraction",
+        "from_port": "byte_stream",
+        "from": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
+        "to_name": "file output stream",
+        "to":   "516f2c14-065c-4552-bab3-4fc942030dcd",
         "uuid": "77bb9d4a-155b-422a-b237-6e508488d6b8"
       }
     },
     {
       "relationship": {
-        "id": 26,
-        "type": "Communication Path", "main_type": 230,
+        "id":   26,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327722379,
-        "from_classifier_name": "OS abstraction",
-        "from_feature_key": "byte_stream",
-        "from_node": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
-        "to_classifier_name": "socket output stream",
-        "to_node": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
+        "order": 1327722379,
+        "from_name": "OS abstraction",
+        "from_port": "byte_stream",
+        "from": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
+        "to_name": "socket output stream",
+        "to":   "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
         "uuid": "e1b755f2-2d98-4c6a-b577-da6091206ce4"
       }
     },
     {
       "relationship": {
-        "id": 32,
-        "type": "Containment", "main_type": 300,
+        "id":   32,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327886219,
-        "from_classifier_name": "OS abstraction",
-        "from_node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
-        "to_classifier_name": "file output stream",
-        "to_node": "516f2c14-065c-4552-bab3-4fc942030dcd",
+        "order": 1327886219,
+        "from_name": "OS abstraction",
+        "from": "9f30803e-a564-4917-8de0-7f8ac56b2036",
+        "to_name": "file output stream",
+        "to":   "516f2c14-065c-4552-bab3-4fc942030dcd",
         "uuid": "571193e9-e757-40f8-a6b7-e7627f4a6fc1"
       }
     },
     {
       "relationship": {
-        "id": 33,
-        "type": "Containment", "main_type": 300,
+        "id":   33,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327918987,
-        "from_classifier_name": "OS abstraction",
-        "from_node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
-        "to_classifier_name": "socket output stream",
-        "to_node": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
+        "order": 1327918987,
+        "from_name": "OS abstraction",
+        "from": "9f30803e-a564-4917-8de0-7f8ac56b2036",
+        "to_name": "socket output stream",
+        "to":   "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
         "uuid": "efbc7370-30bf-4d88-b7f6-7a34eb268cdb"
       }
     },
     {
       "relationship": {
-        "id": 28,
-        "type": "Communication Path", "main_type": 230,
+        "id":   28,
+        "type": "Communication Path", "type_id": 230,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1327755147,
-        "from_classifier_name": "txt writer",
-        "from_node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
-        "to_classifier_name": "data exporter",
-        "to_feature_key": "out_byte_stream",
-        "to_node": "6c395810-23d1-49bb-a915-756d918194be",
+        "order": 1327755147,
+        "from_name": "txt writer",
+        "from": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
+        "to_name": "data exporter",
+        "to_port": "out_byte_stream",
+        "to":   "6c395810-23d1-49bb-a915-756d918194be",
         "uuid": "20566e5c-a55a-4223-8366-31940ec063a0"
       }
     },
     {
       "relationship": {
-        "id": 34,
-        "type": "Realization", "main_type": 211,
+        "id":   34,
+        "type": "Realization", "type_id": 211,
         "name": "realizes",
         "description": [
                 ""
         ],
-        "list_order": 32768,
-        "from_classifier_name": "file wrapper class",
-        "from_node": "040c8834-a428-43d2-8767-76ff800d017a",
-        "to_classifier_name": "file wrapper interface",
-        "to_node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
+        "order": 32768,
+        "from_name": "file wrapper class",
+        "from": "040c8834-a428-43d2-8767-76ff800d017a",
+        "to_name": "file wrapper interface",
+        "to":   "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
         "uuid": "315582a4-b65a-4aac-94e6-ed76036bcac2"
       }
     },
     {
       "relationship": {
-        "id": 35,
-        "type": "Control Flow", "main_type": 240,
+        "id":   35,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 32768,
-        "from_classifier_name": "power on",
-        "from_node": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
-        "to_classifier_name": "boot",
-        "to_node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
+        "order": 32768,
+        "from_name": "power on",
+        "from": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
+        "to_name": "boot",
+        "to":   "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
         "uuid": "b0644e70-9cb0-45c7-a1f0-6261a4405f02"
       }
     },
     {
       "relationship": {
-        "id": 47,
-        "type": "Control Flow", "main_type": 240,
+        "id":   47,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 425984,
-        "from_classifier_name": "boot",
-        "from_node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
-        "to_classifier_name": "run",
-        "to_feature_key": "started",
-        "to_node": "81698f78-a5ea-4020-9dbc-99541d9b4821",
+        "order": 425984,
+        "from_name": "boot",
+        "from": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
+        "to_name": "run",
+        "to_port": "started",
+        "to":   "81698f78-a5ea-4020-9dbc-99541d9b4821",
         "uuid": "8b80b1af-1476-4203-8f20-69538d8c6181"
       }
     },
     {
       "relationship": {
-        "id": 37,
-        "type": "Control Flow", "main_type": 240,
+        "id":   37,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 98304,
-        "from_classifier_name": "special mode?",
-        "from_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
-        "to_classifier_name": "run normal",
-        "to_node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+        "order": 98304,
+        "from_name": "special mode?",
+        "from": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "to_name": "run normal",
+        "to":   "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
         "uuid": "396bbcce-60c2-41b6-bef9-38b494b8833d"
       }
     },
     {
       "relationship": {
-        "id": 38,
-        "type": "Control Flow", "main_type": 240,
+        "id":   38,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 131072,
-        "from_classifier_name": "special mode?",
-        "from_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
-        "to_classifier_name": "run special",
-        "to_node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+        "order": 131072,
+        "from_name": "special mode?",
+        "from": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "to_name": "run special",
+        "to":   "1cc3022e-4e1e-4571-b8c0-0861d622da86",
         "uuid": "f6e0a1e9-49b3-4858-99b0-40dbce6eceb7"
       }
     },
     {
       "relationship": {
-        "id": 44,
-        "type": "Control Flow", "main_type": 240,
+        "id":   44,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 327680,
-        "from_classifier_name": "run normal",
-        "from_node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
-        "to_classifier_name": "run",
-        "to_feature_key": "stop",
-        "to_node": "94d1b743-2383-4de4-8f5f-412d2f4692cc",
+        "order": 327680,
+        "from_name": "run normal",
+        "from": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+        "to_name": "run",
+        "to_port": "stop",
+        "to":   "94d1b743-2383-4de4-8f5f-412d2f4692cc",
         "uuid": "0a590062-fe8f-4689-928e-8aac365bff37"
       }
     },
     {
       "relationship": {
-        "id": 45,
-        "type": "Control Flow", "main_type": 240,
+        "id":   45,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 360448,
-        "from_classifier_name": "run special",
-        "from_node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
-        "to_classifier_name": "run",
-        "to_feature_key": "stop",
-        "to_node": "94d1b743-2383-4de4-8f5f-412d2f4692cc",
+        "order": 360448,
+        "from_name": "run special",
+        "from": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+        "to_name": "run",
+        "to_port": "stop",
+        "to":   "94d1b743-2383-4de4-8f5f-412d2f4692cc",
         "uuid": "c2edb0c7-51f4-4f35-a47b-b0bb044ea80b"
       }
     },
     {
       "relationship": {
-        "id": 40,
-        "type": "Control Flow", "main_type": 240,
+        "id":   40,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 196608,
-        "from_classifier_name": "shutdown",
-        "from_node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
-        "to_classifier_name": "power off",
-        "to_node": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
+        "order": 196608,
+        "from_name": "shutdown",
+        "from": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
+        "to_name": "power off",
+        "to":   "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
         "uuid": "12e80739-5720-4e4e-b83d-18bc64c9ad0b"
       }
     },
     {
       "relationship": {
-        "id": 41,
-        "type": "Containment", "main_type": 300,
+        "id":   41,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 229376,
-        "from_classifier_name": "run",
-        "from_node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
-        "to_classifier_name": "special mode?",
-        "to_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "order": 229376,
+        "from_name": "run",
+        "from": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+        "to_name": "special mode?",
+        "to":   "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
         "uuid": "00f1b90e-70cf-4cdb-aed4-f7990d761108"
       }
     },
     {
       "relationship": {
-        "id": 42,
-        "type": "Containment", "main_type": 300,
+        "id":   42,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 262144,
-        "from_classifier_name": "run",
-        "from_node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
-        "to_classifier_name": "run normal",
-        "to_node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+        "order": 262144,
+        "from_name": "run",
+        "from": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+        "to_name": "run normal",
+        "to":   "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
         "uuid": "35dff0db-a02c-4979-8e14-647ab88ee14d"
       }
     },
     {
       "relationship": {
-        "id": 43,
-        "type": "Containment", "main_type": 300,
+        "id":   43,
+        "type": "Containment", "type_id": 300,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 294912,
-        "from_classifier_name": "run",
-        "from_node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
-        "to_classifier_name": "run special",
-        "to_node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+        "order": 294912,
+        "from_name": "run",
+        "from": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+        "to_name": "run special",
+        "to":   "1cc3022e-4e1e-4571-b8c0-0861d622da86",
         "uuid": "2176cc0f-d5d6-4ca0-b3fd-a75e773d1c04"
       }
     },
     {
       "relationship": {
-        "id": 46,
-        "type": "Control Flow", "main_type": 240,
+        "id":   46,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 393216,
-        "from_classifier_name": "run",
-        "from_feature_key": "stop",
-        "from_node": "94d1b743-2383-4de4-8f5f-412d2f4692cc",
-        "to_classifier_name": "shutdown",
-        "to_node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
+        "order": 393216,
+        "from_name": "run",
+        "from_port": "stop",
+        "from": "94d1b743-2383-4de4-8f5f-412d2f4692cc",
+        "to_name": "shutdown",
+        "to":   "a738b092-bc5b-40c1-983e-8aaf98fac50d",
         "uuid": "8b92477b-fc41-48a1-a085-0f9cfd9b051e"
       }
     },
     {
       "relationship": {
-        "id": 48,
-        "type": "Control Flow", "main_type": 240,
+        "id":   48,
+        "type": "Control Flow", "type_id": 240,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 458752,
-        "from_classifier_name": "run",
-        "from_feature_key": "started",
-        "from_node": "81698f78-a5ea-4020-9dbc-99541d9b4821",
-        "to_classifier_name": "special mode?",
-        "to_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "order": 458752,
+        "from_name": "run",
+        "from_port": "started",
+        "from": "81698f78-a5ea-4020-9dbc-99541d9b4821",
+        "to_name": "special mode?",
+        "to":   "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
         "uuid": "d05d50c9-16d0-4b13-a54f-613a71395a55"
       }
     },
     {
       "relationship": {
-        "id": 50,
-        "type": "Generalization", "main_type": 210,
+        "id":   50,
+        "type": "Generalization", "type_id": 210,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 65536,
-        "from_classifier_name": "POSIX file interface",
-        "from_node": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
-        "to_classifier_name": "file wrapper class",
-        "to_node": "040c8834-a428-43d2-8767-76ff800d017a",
+        "order": 65536,
+        "from_name": "POSIX file interface",
+        "from": "8b7ddc32-44f6-4f34-8bab-ce1f5f41f45e",
+        "to_name": "file wrapper class",
+        "to":   "040c8834-a428-43d2-8767-76ff800d017a",
         "uuid": "8c397ad9-90ff-4867-b99e-bf5ae00539c8"
       }
     },
     {
       "relationship": {
-        "id": 49,
-        "type": "Association", "main_type": 200,
+        "id":   49,
+        "type": "Association", "type_id": 200,
         "name": "use",
         "description": [
                 ""
         ],
-        "list_order": 32768,
-        "from_classifier_name": "Data Storage Class",
-        "from_node": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
-        "to_classifier_name": "file wrapper class",
-        "to_node": "040c8834-a428-43d2-8767-76ff800d017a",
+        "order": 32768,
+        "from_name": "Data Storage Class",
+        "from": "92729b73-9546-45e6-bec9-fb1a0e702dd7",
+        "to_name": "file wrapper class",
+        "to":   "040c8834-a428-43d2-8767-76ff800d017a",
         "uuid": "a6c67cce-92e9-4473-88d1-ccb95ba756d5"
       }
     },
     {
       "relationship": {
-        "id": 51,
-        "type": "Association", "main_type": 200,
+        "id":   51,
+        "type": "Association", "type_id": 200,
         "name": "monitors",
         "description": [
                 ""
         ],
-        "list_order": 32768,
-        "from_classifier_name": "Resource Supervisor",
-        "from_node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
-        "to_classifier_name": "Resource-hungry Application",
-        "to_node": "161503c1-57ef-48e7-878f-35196f630471",
+        "order": 32768,
+        "from_name": "Resource Supervisor",
+        "from": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+        "to_name": "Resource-hungry Application",
+        "to":   "161503c1-57ef-48e7-878f-35196f630471",
         "uuid": "f7b650cb-296e-43ec-bac7-f7ffbbcd9ac0"
       }
     },
     {
       "relationship": {
-        "id": 53,
-        "type": "Trace", "main_type": 401,
+        "id":   53,
+        "type": "Trace", "type_id": 401,
         "name": "detects",
         "description": [
                 ""
         ],
-        "list_order": 98304,
-        "from_classifier_name": "Resource Supervisor",
-        "from_node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
-        "to_classifier_name": "Risk: Out of Memory",
-        "to_node": "a975b649-12c7-456e-8804-151526d0c8e7",
+        "order": 98304,
+        "from_name": "Resource Supervisor",
+        "from": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+        "to_name": "Risk: Out of Memory",
+        "to":   "a975b649-12c7-456e-8804-151526d0c8e7",
         "uuid": "84c24a24-302b-4000-b5c2-1cf4dfd59e92"
       }
     },
     {
       "relationship": {
-        "id": 55,
-        "type": "Association", "main_type": 200,
+        "id":   55,
+        "type": "Association", "type_id": 200,
         "name": "ask for resources",
         "description": [
                 ""
         ],
-        "list_order": 163840,
-        "from_classifier_name": "Resource Supervisor",
-        "from_node": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
-        "to_classifier_name": "Background Task Manager",
-        "to_node": "ecff405a-83d3-4238-9a81-783de7f987a2",
+        "order": 163840,
+        "from_name": "Resource Supervisor",
+        "from": "85b02576-98de-46b6-b3c7-1a8da44eb2c5",
+        "to_name": "Background Task Manager",
+        "to":   "ecff405a-83d3-4238-9a81-783de7f987a2",
         "uuid": "37e910f0-4841-4e8c-9589-50703ff63b05"
       }
     },
     {
       "relationship": {
-        "id": 54,
-        "type": "Dependency", "main_type": 0,
+        "id":   54,
+        "type": "Dependency", "type_id": 0,
         "name": "caused by",
         "description": [
                 ""
         ],
-        "list_order": 131072,
-        "from_classifier_name": "Risk: Out of Memory",
-        "from_node": "a975b649-12c7-456e-8804-151526d0c8e7",
-        "to_classifier_name": "Resource-hungry Application",
-        "to_node": "161503c1-57ef-48e7-878f-35196f630471",
+        "order": 131072,
+        "from_name": "Risk: Out of Memory",
+        "from": "a975b649-12c7-456e-8804-151526d0c8e7",
+        "to_name": "Resource-hungry Application",
+        "to":   "161503c1-57ef-48e7-878f-35196f630471",
         "uuid": "e5713aba-032c-4533-947a-3a6905477c61"
       }
     },
     {
       "relationship": {
-        "id": 57,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   57,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "read elements",
         "description": [
                 ""
         ],
-        "list_order": -993124844,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "Database",
-        "to_feature_key": "",
-        "to_node": "0a29c758-2b51-4451-a8f2-fb1d9fc923d0",
+        "order": -993124844,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "Database",
+        "to_port": "",
+        "to":   "0a29c758-2b51-4451-a8f2-fb1d9fc923d0",
         "uuid": "18dcf1a8-0262-4f38-ab7f-56266bb17c2e"
       }
     },
     {
       "relationship": {
-        "id": 61,
-        "type": "Asynchronous Call", "main_type": 220,
+        "id":   61,
+        "type": "Asynchronous Call", "type_id": 220,
         "name": "perform search",
         "description": [
                 ""
         ],
-        "list_order": 155818999,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "order": 155818999,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "9cd202f4-4d97-4138-95ba-a517307992ad",
         "uuid": "42106dd7-001c-4eb5-a77a-c41c2d82099c"
       }
     },
     {
       "relationship": {
-        "id": 65,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   65,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "read results",
         "description": [
                 ""
         ],
-        "list_order": 1058312652,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "order": 1058312652,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "9cd202f4-4d97-4138-95ba-a517307992ad",
         "uuid": "22b88b9f-4991-4ce1-be58-01fdcd916441"
       }
     },
     {
       "relationship": {
-        "id": 66,
-        "type": "Return", "main_type": 222,
+        "id":   66,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 343259989,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": 343259989,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "09c6dca7-3779-4f6a-bd42-0e49f9f0d1a8"
       }
     },
     {
       "relationship": {
-        "id": 68,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   68,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "read elements",
         "description": [
                 ""
         ],
-        "list_order": -222534109,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
-        "to_classifier_name": "Database",
-        "to_feature_key": "",
-        "to_node": "a30db590-006d-4b39-aff2-0e0530e408a1",
+        "order": -222534109,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "to_name": "Database",
+        "to_port": "",
+        "to":   "a30db590-006d-4b39-aff2-0e0530e408a1",
         "uuid": "503fc932-1b9d-4218-bed7-30451129e642"
       }
     },
     {
       "relationship": {
-        "id": 72,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   72,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "perform search",
         "description": [
                 ""
         ],
-        "list_order": -705021101,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "order": -705021101,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
         "uuid": "7a333588-2a9c-4a9c-8fc4-9ae3421a7540"
       }
     },
     {
       "relationship": {
-        "id": 76,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   76,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "read results",
         "description": [
                 ""
         ],
-        "list_order": 561941143,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "order": 561941143,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
         "uuid": "e323d735-0241-4943-946f-32a459ae6998"
       }
     },
     {
       "relationship": {
-        "id": 77,
-        "type": "Return", "main_type": 222,
+        "id":   77,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": -503695593,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "order": -503695593,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "eef46c30-c82c-40b5-aeca-eed2b91280d3",
         "uuid": "49380160-a820-4624-9070-07aba38a53a3"
       }
     },
     {
       "relationship": {
-        "id": 78,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   78,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "handle event",
         "description": [
                 ""
         ],
-        "list_order": -1194450351,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": -1194450351,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "49237a52-49e1-49ca-9b10-acbb214b3b4c"
       }
     },
     {
       "relationship": {
-        "id": 79,
-        "type": "Return", "main_type": 222,
+        "id":   79,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": -350965898,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": -350965898,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "b251bc17-8b38-417d-8009-b9dc63a8702d"
       }
     },
     {
       "relationship": {
-        "id": 80,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   80,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "handle event",
         "description": [
                 ""
         ],
-        "list_order": -729319007,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "order": -729319007,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "c834f4bd-f546-4b79-8af7-b24f27680a4b",
         "uuid": "7828c7fa-8edc-4110-b0c8-221de294e410"
       }
     },
     {
       "relationship": {
-        "id": 81,
-        "type": "Return", "main_type": 222,
+        "id":   81,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1256167030,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "order": 1256167030,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "c834f4bd-f546-4b79-8af7-b24f27680a4b",
         "uuid": "566935c4-bbc1-4bd8-8e19-fd1f56cfd12e"
       }
     },
     {
       "relationship": {
-        "id": 82,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   82,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "layout diagram",
         "description": [
                 ""
         ],
-        "list_order": -802212725,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "Drawing Library",
-        "to_feature_key": "",
-        "to_node": "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818",
+        "order": -802212725,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "Drawing Library",
+        "to_port": "",
+        "to":   "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818",
         "uuid": "3ce6046c-0b13-4ccd-8607-922672349a95"
       }
     },
     {
       "relationship": {
-        "id": 83,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   83,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "draw diagram",
         "description": [
                 ""
         ],
-        "list_order": -573118182,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "Drawing Library",
-        "to_feature_key": "",
-        "to_node": "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818",
+        "order": -573118182,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "Drawing Library",
+        "to_port": "",
+        "to":   "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818",
         "uuid": "54df67ee-1281-4fe6-9638-11c809a45722"
       }
     },
     {
       "relationship": {
-        "id": 84,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   84,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "handle event",
         "description": [
                 ""
         ],
-        "list_order": 10031563,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": 10031563,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "80b1d027-b4a8-42f7-8c28-105d7e9a3b01"
       }
     },
     {
       "relationship": {
-        "id": 85,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   85,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "show list",
         "description": [
                 ""
         ],
-        "list_order": 1447079149,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "Drawing Library",
-        "to_feature_key": "",
-        "to_node": "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818",
+        "order": 1447079149,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "Drawing Library",
+        "to_port": "",
+        "to":   "ce5bad96-0cb1-4a9e-9c70-fa074cfb8818",
         "uuid": "c2b1c434-f2dd-424c-b263-a94fe2b3aa0d"
       }
     },
     {
       "relationship": {
-        "id": 86,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   86,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "handle event",
         "description": [
                 ""
         ],
-        "list_order": -920231125,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "order": -920231125,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "eef46c30-c82c-40b5-aeca-eed2b91280d3",
         "uuid": "7c798827-a505-4e80-926d-a94813475c2d"
       }
     },
     {
       "relationship": {
-        "id": 87,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   87,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "show list",
         "description": [
                 ""
         ],
-        "list_order": 978476675,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
-        "to_classifier_name": "Drawing Library",
-        "to_feature_key": "",
-        "to_node": "3d3a9710-2a65-40d9-a0d8-aa3e5a44fdf2",
+        "order": 978476675,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "to_name": "Drawing Library",
+        "to_port": "",
+        "to":   "3d3a9710-2a65-40d9-a0d8-aa3e5a44fdf2",
         "uuid": "a5771cff-1e6a-49c1-8135-72040f1758de"
       }
     },
     {
       "relationship": {
-        "id": 88,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   88,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "layout diagram",
         "description": [
                 ""
         ],
-        "list_order": 249539494,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
-        "to_classifier_name": "Drawing Library",
-        "to_feature_key": "",
-        "to_node": "054f1afd-aee7-4b82-abb6-b027743adb69",
+        "order": 249539494,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "to_name": "Drawing Library",
+        "to_port": "",
+        "to":   "054f1afd-aee7-4b82-abb6-b027743adb69",
         "uuid": "2078a6c5-f7c6-4bf8-a235-72cc5ee29b6f"
       }
     },
     {
       "relationship": {
-        "id": 89,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   89,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "draw diagram",
         "description": [
                 ""
         ],
-        "list_order": 735497615,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
-        "to_classifier_name": "Drawing Library",
-        "to_feature_key": "",
-        "to_node": "054f1afd-aee7-4b82-abb6-b027743adb69",
+        "order": 735497615,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "c834f4bd-f546-4b79-8af7-b24f27680a4b",
+        "to_name": "Drawing Library",
+        "to_port": "",
+        "to":   "054f1afd-aee7-4b82-abb6-b027743adb69",
         "uuid": "4b2bf663-8497-4a7c-a483-df0385459c05"
       }
     },
     {
       "relationship": {
-        "id": 91,
-        "type": "Return", "main_type": 222,
+        "id":   91,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1634520139,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "order": 1634520139,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "9cd202f4-4d97-4138-95ba-a517307992ad",
         "uuid": "63b0e654-dbbc-45b5-ba6c-28dc9e6ee6a3"
       }
     },
     {
       "relationship": {
-        "id": 97,
-        "type": "Return", "main_type": 222,
+        "id":   97,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1186744442,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "from_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "order": 1186744442,
+        "from_name": "GUI",
+        "from_port": "",
+        "from": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
         "uuid": "e9b23954-683d-4b41-9096-8379c30f8746"
       }
     },
     {
       "relationship": {
-        "id": 62,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   62,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "search diagrams",
         "description": [
                 ""
         ],
-        "list_order": 489047425,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
-        "to_classifier_name": "Database",
-        "to_feature_key": "",
-        "to_node": "0a29c758-2b51-4451-a8f2-fb1d9fc923d0",
+        "order": 489047425,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "to_name": "Database",
+        "to_port": "",
+        "to":   "0a29c758-2b51-4451-a8f2-fb1d9fc923d0",
         "uuid": "91eccbfe-85e8-4967-b6c8-10d4e083a24c"
       }
     },
     {
       "relationship": {
-        "id": 63,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   63,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "search elements",
         "description": [
                 ""
         ],
-        "list_order": 700786321,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
-        "to_classifier_name": "Database",
-        "to_feature_key": "",
-        "to_node": "0a29c758-2b51-4451-a8f2-fb1d9fc923d0",
+        "order": 700786321,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "to_name": "Database",
+        "to_port": "",
+        "to":   "0a29c758-2b51-4451-a8f2-fb1d9fc923d0",
         "uuid": "cd0f8a5b-6a87-43f3-89c9-7ec4b8e24d04"
       }
     },
     {
       "relationship": {
-        "id": 64,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   64,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "notify on finish",
         "description": [
                 ""
         ],
-        "list_order": 853516016,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": 853516016,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "6c59a6c9-a896-4e85-ac9b-3e561e18ee5a"
       }
     },
     {
       "relationship": {
-        "id": 73,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   73,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "search diagrams",
         "description": [
                 ""
         ],
-        "list_order": -222534109,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
-        "to_classifier_name": "Database",
-        "to_feature_key": "",
-        "to_node": "c3e906ed-5588-4953-901d-8e78f431edeb",
+        "order": -222534109,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "to_name": "Database",
+        "to_port": "",
+        "to":   "c3e906ed-5588-4953-901d-8e78f431edeb",
         "uuid": "ce25c2f1-c1fa-4531-80f2-b3425353532f"
       }
     },
     {
       "relationship": {
-        "id": 74,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   74,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "search elements",
         "description": [
                 ""
         ],
-        "list_order": 58627375,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
-        "to_classifier_name": "Database",
-        "to_feature_key": "",
-        "to_node": "c3e906ed-5588-4953-901d-8e78f431edeb",
+        "order": 58627375,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "to_name": "Database",
+        "to_port": "",
+        "to":   "c3e906ed-5588-4953-901d-8e78f431edeb",
         "uuid": "e8b932f6-32d6-4dd7-82d2-7aaaa3bfe9a8"
       }
     },
     {
       "relationship": {
-        "id": 75,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   75,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "notify on finish",
         "description": [
                 ""
         ],
-        "list_order": 312019824,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "order": 312019824,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "eef46c30-c82c-40b5-aeca-eed2b91280d3",
         "uuid": "c7d04a50-9420-48c9-94f3-063eb657be13"
       }
     },
     {
       "relationship": {
-        "id": 90,
-        "type": "Return", "main_type": 222,
+        "id":   90,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1252695901,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "017c2ec1-8615-4c47-99fa-c900d03bbadc",
+        "order": 1252695901,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "017c2ec1-8615-4c47-99fa-c900d03bbadc",
         "uuid": "0be77be0-1677-49b0-b7e2-849ddc2bd960"
       }
     },
     {
       "relationship": {
-        "id": 92,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   92,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "run search",
         "description": [
                 ""
         ],
-        "list_order": 284250788,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "order": 284250788,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "9cd202f4-4d97-4138-95ba-a517307992ad",
         "uuid": "30644fb7-ea4a-4b1d-82f2-167e5d9468ba"
       }
     },
     {
       "relationship": {
-        "id": 93,
-        "type": "Return", "main_type": 222,
+        "id":   93,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1804605481,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "order": 1804605481,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "9cd202f4-4d97-4138-95ba-a517307992ad",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "9cd202f4-4d97-4138-95ba-a517307992ad",
         "uuid": "0892c219-3dfb-4872-a8d5-a7d32992c1ad"
       }
     },
     {
       "relationship": {
-        "id": 94,
-        "type": "Synchronous Call", "main_type": 221,
+        "id":   94,
+        "type": "Synchronous Call", "type_id": 221,
         "name": "run search",
         "description": [
                 ""
         ],
-        "list_order": -437744134,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "order": -437744134,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
         "uuid": "f3abcf64-2882-498d-b8b5-f8ada61650fc"
       }
     },
     {
       "relationship": {
-        "id": 95,
-        "type": "Return", "main_type": 222,
+        "id":   95,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1398483337,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
-        "to_classifier_name": "Search Logic",
-        "to_feature_key": "",
-        "to_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "order": 1398483337,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "to_name": "Search Logic",
+        "to_port": "",
+        "to":   "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
         "uuid": "e389e575-7313-42b5-b5dc-2d71cb2f05b8"
       }
     },
     {
       "relationship": {
-        "id": 96,
-        "type": "Return", "main_type": 222,
+        "id":   96,
+        "type": "Return", "type_id": 222,
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 752853262,
-        "from_classifier_name": "Search Logic",
-        "from_feature_key": "",
-        "from_node": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "to_node": "eef46c30-c82c-40b5-aeca-eed2b91280d3",
+        "order": 752853262,
+        "from_name": "Search Logic",
+        "from_port": "",
+        "from": "dae6d3c3-2b4b-4234-be8d-7479dfef9bc5",
+        "to_name": "GUI",
+        "to_port": "",
+        "to":   "eef46c30-c82c-40b5-aeca-eed2b91280d3",
         "uuid": "c8f4be33-0c34-471c-8332-8b4504ddc965"
       }
     }

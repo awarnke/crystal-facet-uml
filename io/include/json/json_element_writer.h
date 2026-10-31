@@ -49,15 +49,13 @@ struct json_element_writer_struct {
 typedef struct json_element_writer_struct json_element_writer_t;
 
 /*!
- *  \brief initializes the json_element_writer_t
+ *  \brief initializes the json_element_writer_t to version 1
  *
  *  \param this_ pointer to own object attributes
- *  \param version_2 true if the version 2 of the json format shall e generated
  *  \param io_export_stat pointer to statistics object where export statistics are collected
  *  \param output output stream where to write the generated output to
  */
 void json_element_writer_init( json_element_writer_t *this_,
-                               bool version_2,
                                data_stat_t *io_export_stat,
                                universal_output_stream_t *output
                              );
@@ -84,6 +82,14 @@ io_element_writer_t * json_element_writer_get_element_writer( json_element_write
  *  \param mode mode which data objects to filter from the output
  */
 void json_element_writer_set_mode( json_element_writer_t *this_, json_writer_pass_t mode );
+
+/*!
+ *  \brief sets the filtering mode of the json_element_writer_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param version_2 true if the version 2 of the json format shall e generated
+ */
+void json_element_writer_set_version_2( json_element_writer_t *this_, bool version_2 );
 
 /*!
  *  \brief writes the header of the document
