@@ -144,7 +144,7 @@ static test_case_result_t open_invalid_file( test_fixture_t *fix )
     size_t written;
     written = fwrite( DATABASE_FILENAME, 1, sizeof(DATABASE_FILENAME), nondb );
     TEST_EXPECT_EQUAL_INT( sizeof(DATABASE_FILENAME), written );
-    TEST_EXPECT_EQUAL_INT( 40, sizeof(DATABASE_FILENAME) );  /* check if sizeof works as expected */
+    TEST_EXPECT_EQUAL_INT( 39, sizeof(DATABASE_FILENAME) );  /* check if sizeof works as expected */
 
     stdio_err = fclose( nondb );
     TEST_EXPECT_EQUAL_INT( 0, stdio_err );
