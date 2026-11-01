@@ -12,7 +12,7 @@ echo version: ${VERSIONSTR}
 mkdir -p crystal-facet-uml
 cp ${1}/installation/crystal-facet-uml_documentation.pdf crystal-facet-uml/
 cp ${1}/installation/win/* crystal-facet-uml/
-cp ${1}/documentation/examples/mouse_droid.cfuJ crystal-facet-uml/crystal-facet-uml_mod5g-example.cfuJ
+cp ${1}/documentation/examples/mouse_droid.cfu crystal-facet-uml/crystal-facet-uml_mod5g-example.cfu
 cp ${1}/LICENSE.txt crystal-facet-uml/crystal-facet-uml_LICENSE.txt
 ${1}/build/msys2/fetch_licenses.sh | tee crystal-facet-uml/LICENSES_of_3rd_party.txt
 

@@ -71,7 +71,7 @@ void json_element_writer_init( json_element_writer_t *this_,
     (*this_).is_inner_first = false;
 
     (*this_).mode = JSON_WRITER_PASS_NODES;
-    (*this_).version_2 = false;
+    (*this_).version_2 = true;
     (*this_).export_stat = io_export_stat;
 
     U8_TRACE_END();

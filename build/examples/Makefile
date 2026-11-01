@@ -4,23 +4,23 @@ all: mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.html quality/quality.pd
 ARCDIR=../../documentation/architecture
 SRCDIR=../../documentation/examples
 
-mouse_droid/mouse_droid.html: $(SRCDIR)/mouse_droid.cfuJ
+mouse_droid/mouse_droid.html: $(SRCDIR)/mouse_droid.cfu
 	mkdir -p mouse_droid
-	crystal-facet-uml -e $(SRCDIR)/mouse_droid.cfuJ html mouse_droid
+	crystal-facet-uml -e $(SRCDIR)/mouse_droid.cfu html mouse_droid
 
-mouse_droid/mouse_droid.pdf: $(SRCDIR)/mouse_droid.cfuJ
+mouse_droid/mouse_droid.pdf: $(SRCDIR)/mouse_droid.cfu
 	mkdir -p mouse_droid
-	crystal-facet-uml -e $(SRCDIR)/mouse_droid.cfuJ docbook mouse_droid
+	crystal-facet-uml -e $(SRCDIR)/mouse_droid.cfu docbook mouse_droid
 	[ ! -f /home/andi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/andi/Downloads/docbook.xsd mouse_droid/mouse_droid.xml
 	(cd mouse_droid && dblatex -p ../xsl_params.xsl --type=pdf mouse_droid.xml)
 
-quality/quality.html: $(SRCDIR)/quality.cfuJ
+quality/quality.html: $(SRCDIR)/quality.cfu
 	mkdir -p quality
-	crystal-facet-uml -e $(SRCDIR)/quality.cfuJ html quality
+	crystal-facet-uml -e $(SRCDIR)/quality.cfu html quality
 
-quality/quality.pdf: $(SRCDIR)/quality.cfuJ
+quality/quality.pdf: $(SRCDIR)/quality.cfu
 	mkdir -p quality
-	crystal-facet-uml -e $(SRCDIR)/quality.cfuJ docbook quality
+	crystal-facet-uml -e $(SRCDIR)/quality.cfu docbook quality
 	[ ! -f /home/andi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/andi/Downloads/docbook.xsd quality/quality.xml
 	(cd quality && dblatex -p ../xsl_params.xsl --type=pdf quality.xml)
 

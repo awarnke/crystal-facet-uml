@@ -12,7 +12,7 @@
             To run consistency checks, use the <command>-t</command> option:
         </para>
         <para>
-            <command>crystal-facet-uml -t my_database_file.cfuJ || echo "ERROR $?"</command>
+            <command>crystal-facet-uml -t my_database_file.cfu || echo "ERROR $?"</command>
         </para>
         <para>
             To repair the database, use the <command>-r</command> option.
@@ -21,13 +21,13 @@
             To merge two model files, use the <command>-i</command> option.
         </para>
         <para>
-            <command>crystal-facet-uml -i my_database_file_1.cfuJ add my_database_file_2.cfuJ"</command>
+            <command>crystal-facet-uml -i my_database_file_1.cfu add my_database_file_2.cfu"</command>
         </para>
         <para>
             To export a model, use the <command>-e</command> option.
         </para>
         <para>
-            <command>crystal-facet-uml -e my_database_file.cfuJ html output_directory"</command>
+            <command>crystal-facet-uml -e my_database_file.cfu html output_directory"</command>
         </para>
     </section>
     <section><title>Storing Data in a Version Control System</title>
@@ -48,7 +48,7 @@
             <command>pandoc -f docbook -t pdf --top-level-division=chapter -o mouse_droid.pdf mouse_droid.xml</command>
         </para>
         <para>
-            Check if json/cfuJ files are valid:
+            Check if json/cfu files are valid:
         </para>
         <para>
             <command>check-jsonschema --schemafile myModel.schema myModel.json</command>

@@ -16,6 +16,9 @@
 #define SCHEMA_STR_HELPER(x) #x
 #define SCHEMA_STR(x) SCHEMA_STR_HELPER(x)
 
+/* NEW !! */
+#define SCHEMA_NEW_KEYS 1
+
 static const char SCHEMA_GRAPH_HEADER[]
     = "{\n"
     "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n"
@@ -74,7 +77,7 @@ static const char SCHEMA_DIAGRAM_HEADER[]
     = "          \"" JSON_CONSTANTS_KEY_DIAGRAM "\":\n"
     "          {\n"
     "            \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM " is a view that is specified by listing the nodes to be shown in "
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST ".\",\n"
 #else
     JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ".\",\n"
@@ -85,13 +88,13 @@ static const char SCHEMA_DIAGRAM_HEADER[]
 
 static const char SCHEMA_DIAGRAM_ELEMENTS_HEADER[]
     =
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     "              \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST "\":\n"
 #else
     "              \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS "\":\n"
 #endif
     "              {\n"
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     "                \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST " is the list of elements shown in the diagram.\",\n"
 #else
     "                \"description\": \"" JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS " is the list of elements shown in the diagram.\",\n"
@@ -99,7 +102,7 @@ static const char SCHEMA_DIAGRAM_ELEMENTS_HEADER[]
     "                \"type\": \"array\",\n"
     "                \"items\":\n"
     "                {\n"
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     "                  \"description\": \"An element of " JSON_CONSTANTS_KEY_DIAGRAM_ELEMENT_LIST " specifies what and how to show.\",\n"
 #else
     "                  \"description\": \"An element of " JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS " specifies what and how to show.\",\n"
@@ -321,7 +324,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     /* generate an enum listing all options */
     static const char *const D_DIAGTYPE_NAME
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
         = JSON_CONSTANTS_KEY_TYPE_ID " as string, exported for reviews by humans, ignored at import.";
 #else
         = JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE " as string, exported for reviews by humans, ignored at import.";
@@ -333,7 +336,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                               );
 
     static const char *const D_DIAGTYPE_ID = "This is the numeric value of the diagram type.";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_enum_number( this_,
                                                                   JSON_CONSTANTS_KEY_TYPE_ID,
                                                                   D_DIAGTYPE_ID,
@@ -366,7 +369,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                                       ANY_DESCR
                                                                     );
 
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_ORDER, ANY_ORDER );
 #else
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_LIST_ORDER, ANY_ORDER );
@@ -397,10 +400,10 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     static const char *const E_NODE_C_NAME
         = "The name of " JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE "/classifier is exported for reviews by humans, ignored at import.";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_string( this_,
                                                              JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE_NAME,
-                                                             E_NODE_C_NAME
+                                                             E_NODE_C_NAME,
                                                              0
                                                            );
 #else
@@ -410,6 +413,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                              0
                                                            );
 
+    /* Note that the only features that are referenced from diagramelements are lifelines and these have no name ... */
     static const char *const E_NODE_F_NAME
         = "The name of " JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE
             "/feature (if lifeline) is optionally exported for reviews by humans, ignored at import.";
@@ -453,7 +457,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     /* generate an enum listing all options */
     static const char *const C_TYPE_NAME
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
         = "The name of " JSON_CONSTANTS_KEY_TYPE_ID " is exported for reviews by humans, ignored at import.";
 #else
         = "The name of " JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE " is exported for reviews by humans, ignored at import.";
@@ -465,7 +469,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                               );
 
     static const char *const C_TYPE_ID = "This is the numeric value of classifier type.";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_enum_number( this_,
                                                                   JSON_CONSTANTS_KEY_TYPE_ID,
                                                                   C_TYPE_ID,
@@ -511,7 +515,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         " This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).";
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_Y_ORDER, C_ORDER_Y );
 
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_ORDER, ANY_ORDER );
 #else
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER, ANY_ORDER );
@@ -526,7 +530,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     /* generate an enum listing all options */
     static const char *const F_TYPE_NAME
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
         = "The name of " JSON_CONSTANTS_KEY_TYPE_ID " is exported for reviews by humans, ignored at import.";
 #else
         = "The name of " JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE " is exported for reviews by humans, ignored at import.";
@@ -538,7 +542,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                               );
 
     static const char *const F_TYPE_ID = "This is the numeric value of the feature type.";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_enum_number( this_,
                                                                   JSON_CONSTANTS_KEY_TYPE_ID,
                                                                   F_TYPE_ID,
@@ -579,7 +583,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         " For ports and interfaces, locations move counter-clockwise from INT32_MIN at bottom-right, "
         "INT32_MIN/2 at top-right, 0 at top-left, INT32_MAX/2 at bottom-left, INT32_MAX at bottom-right.\\n"
         " This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_ORDER, F_ORDER );
 #else
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_LIST_ORDER, F_ORDER );
@@ -599,7 +603,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     /* generate an enum listing all options */
     static const char *const R_TYPE_NAME
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
         = "The name of " JSON_CONSTANTS_KEY_TYPE_ID " is exported for reviews by humans, ignored at import.";
 #else
         = "The name of " JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE " is exported for reviews by humans, ignored at import.";
@@ -611,7 +615,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                               );
 
     static const char *const R_TYPE_ID = "This is the numeric value of relationship type.";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_enum_number( this_,
                                                                   JSON_CONSTANTS_KEY_TYPE_ID,
                                                                   R_TYPE_ID,
@@ -644,13 +648,13 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                                       ANY_DESCR
                                                                     );
 
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_ORDER, ANY_ORDER );
 #else
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER, ANY_ORDER );
 #endif
 
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     static const char *const E_FROM_NODE_C_NAME
         = "The name of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID "/classifier is exported for reviews by humans, ignored at import.";
     export_err |= json_schema_writer_private_declare_string( this_,
@@ -668,7 +672,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            );
 #endif
 
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     static const char *const E_FROM_NODE_F_NAME
         = "The key of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID
             "/feature is exported (if applicable) for reviews by humans, ignored at import";
@@ -689,13 +693,13 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 #endif
 
     static const char *const E_FROM_NODE = "The uuid of the source: either the classifier or the feature.";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID, E_FROM_NODE, true );
 #else
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE, E_FROM_NODE, true );
 #endif
 
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     static const char *const E_TO_NODE_C_NAME
         = "The name of " JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID "/classifier is exported for reviews by humans, ignored at import.";
     export_err |= json_schema_writer_private_declare_string( this_,
@@ -713,7 +717,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            );
 #endif
 
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     static const char *const E_TO_NODE_F_NAME
         = "The key of " JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID
         "/feature is exported (if applicable) for reviews by humans, ignored at import.";
@@ -734,7 +738,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 #endif
 
     static const char *const E_TO_NODE = "The uuid of the destination: either the classifier or the feature.";
-#ifdef JSON_CONSTANTS_NEW_KEYS
+#ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID, E_TO_NODE, true );
 #else
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE, E_TO_NODE, true );

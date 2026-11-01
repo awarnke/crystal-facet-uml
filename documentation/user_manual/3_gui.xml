@@ -89,7 +89,7 @@
                         </para>
                         <para>
                             Alternatively, ensure that the file is not used concurrently,
-                            delete the <command>.tmp-cfu</command> file and select the <command>.cfuJ</command> file
+                            delete the <command>.tmp-cfu</command> file and select the <command>.cfu</command> file
                             to continue from your last save action.
                         </para>
                     </listitem>

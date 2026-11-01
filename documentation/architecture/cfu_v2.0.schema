@@ -1,0 +1,555 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json",
+  "title": "crystal-facet-uml model",
+  "description": "This schema defines the structure of json objects to store a uml/sysml model.\n It consists of sections: head, views, nodes, edges.",
+  "type": "object",
+  "required": ["head", "views", "nodes", "edges"],
+  "properties":
+  {
+    "head":
+    {
+      "description": "head defines properties of the json file.",
+      "type": "object",
+      "required":
+      [
+        "encoding",
+        "structure_format",
+        "format",
+        "major_version",
+        "minor_version"
+      ],
+      "properties":
+      {
+        "encoding":
+        {
+          "description": "Only \"utf-8\" is supported.",
+          "type": "string"
+        },
+        "structure_format":
+        {
+          "description": "Only \"rfc-8259 w/o hexadecimal escapes\" is supported; hexadecimal escapes are not needed because utf-8 can encode all unicode characters.",
+          "type": "string"
+        },
+        "format":
+        {
+          "description": "Only \"cfu-json\" is supported.",
+          "type": "string"
+        },
+        "major_version":
+        {
+          "description": "The current major version is 1, the major version changes if an older json reader cannot read a new format.",
+          "type": "number"
+        },
+        "minor_version":
+        {
+          "description": "The current minor version is 3, the minor version changes if an older json reader may not process all information.",
+          "type": "number"
+        },
+        "generator_name":
+        {
+          "description": "This is the name of the generator, can be chosen freely-\n The utf-8 encoding of the string must not exceed 1023 bytes.",
+          "type": "string"
+        },
+        "generator_version":
+        {
+          "description": "This is the version of the generator, can be chosen freely.\n The utf-8 encoding of the string must not exceed 1023 bytes.",
+          "type": "string"
+        },
+        "model_id_prefix":
+        {
+          "description": "This is a prefix string that is prepended to ids within this model.\n The utf-8 encoding of the string must not exceed 15 bytes.",
+          "type": "string"
+        },
+        "model_uuid":
+        {
+          "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "views":
+    {
+      "description": "views is an array whose elements describe the views on nodes and thereby implicitly on edges.",
+      "type": "array",
+      "items":
+      {
+        "description": "An element of views is an object that specifies a diagram.",
+        "type": "object",
+        "required": ["diagram"],
+        "properties":
+        {
+          "diagram":
+          {
+            "description": "diagram is a view that is specified by listing the nodes to be shown in elements.",
+            "type": "object",
+            "properties":
+            {
+              "id":
+              {
+                "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
+                "type": "number"
+              },
+              "parent_name":
+              {
+                "description": "This is the name of the parent diagram, exported for reviews by humans, ignored at import",
+                "type": "string"
+              },
+              "parent":
+              {
+                "description": "The uuid of the parent diagram, it is omitted only by the root diagram.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "type":
+              {
+                "description": "type_id as string, exported for reviews by humans, ignored at import.",
+                "enum":
+                [
+                  "List",
+                  "Box Overview",
+                  "Block Definition Diagram",
+                  "Internal Block Diagram",
+                  "Parametric Diagram",
+                  "Requirement Diagram",
+                  "Use Case Diagram",
+                  "Activity Diagram",
+                  "State Diagram",
+                  "Sequence Diagram",
+                  "Communication Diagram",
+                  "Timing Diagram",
+                  "Interation Overview Diagram",
+                  "Deployment Diagram",
+                  "Component Diagram",
+                  "Composite Structure Diagram",
+                  "Package Diagram",
+                  "Class Diagram",
+                  "Profile Diagram"
+                ]
+              },
+              "type_id":
+              {
+                "description": "This is the numeric value of the diagram type.\n 0: List\n 1: Box Overview\n 4: Block Definition Diagram\n 5: Internal Block Diagram\n 7: Parametric Diagram\n 9: Requirement Diagram\n 10: Use Case Diagram\n 11: Activity Diagram\n 12: State Diagram\n 13: Sequence Diagram\n 14: Communication Diagram\n 16: Timing Diagram\n 17: Interation Overview Diagram\n 30: Deployment Diagram\n 31: Component Diagram\n 32: Composite Structure Diagram\n 33: Package Diagram\n 34: Class Diagram\n 39: Profile Diagram",
+                "type": "number"
+              },
+              "stereotype":
+              {
+                "description": "This is the stereotype; it is available since version 1.47.0.\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "type": "string"
+              },
+              "name":
+              {
+                "description": "This is the title of the diagram.\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "type": "string"
+              },
+              "description":
+              {
+                "description": "This is the description of the diagram.\n The utf-8 encoding of the concatenated strings must not exceed 8191 bytes.",
+                "type": "array",
+                "items":
+                {
+                  "description": "This is a part of the description (to be concatenated).",
+                  "type": "string"
+                }
+              },
+              "order":
+              {
+                "description": "This integer determines the location where an element appears.\n Lower numbers cause an appearance more to the left or top, higher numbers more to the right or bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
+                "type": "number"
+              },
+              "display_tags":
+              {
+                "description": "display_flags as string, exported for reviews by humans, ignored at import.",
+                "enum":
+                [
+                  "",
+                  "Emphasis",
+                  "Gray"
+                ]
+              },
+              "display_flags":
+              {
+                "description": "This is a set of flags that influence the layout of a diagram.\n 0: \n 16777216: Emphasis\n 33554432: Gray",
+                "type": "number"
+              },
+              "uuid":
+              {
+                "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "elements":
+              {
+                "description": "elements is the list of elements shown in the diagram.",
+                "type": "array",
+                "items":
+                {
+                  "description": "An element of elements specifies what and how to show.",
+                  "type": "object",
+                  "properties":
+                  {
+                    "id":
+                    {
+                      "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
+                      "type": "number"
+                    },
+                    "node_name":
+                    {
+                      "description": "The name of node/classifier is exported for reviews by humans, ignored at import.",
+                      "type": "string"
+                    },
+                    "node":
+                    {
+                      "description": "This is the uuid of either the classifier or the feature (type lifeline only).",
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "display_tags":
+                    {
+                      "description": "display_flags as string is exported for reviews by humans, ignored at import.",
+                      "enum":
+                      [
+                        "",
+                        "Emphasis",
+                        "Gray",
+                        "Named Instance",
+                        "Named Instance, Emphasis",
+                        "Named Instance, Gray",
+                        "Anonymous Instance",
+                        "Anonymous Instance, Emphasis",
+                        "Anonymous Instance, Gray"
+                      ]
+                    },
+                    "display_flags":
+                    {
+                      "description": "This is a set of flags that influence the layout of a diagramelement.\n 0: \n 16777216: Emphasis\n 33554432: Gray\n 1: Named Instance\n 16777217: Named Instance, Emphasis\n 33554433: Named Instance, Gray\n 2: Anonymous Instance\n 16777218: Anonymous Instance, Emphasis\n 33554434: Anonymous Instance, Gray",
+                      "type": "number"
+                    },
+                    "uuid":
+                    {
+                      "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    "nodes":
+    {
+      "description": "nodes is an array whose elements describe the nodes of the model-graph.",
+      "type": "array",
+      "items":
+      {
+        "description": "An element of nodes is an object that specifies a classifier.",
+        "type": "object",
+        "required": ["classifier"],
+        "properties":
+        {
+          "classifier":
+          {
+            "description": "classifier is a node that contains a list of subnodes called features.",
+            "type": "object",
+            "properties":
+            {
+              "id":
+              {
+                "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
+                "type": "number"
+              },
+              "type":
+              {
+                "description": "The name of type_id is exported for reviews by humans, ignored at import.",
+                "enum":
+                [
+                  "Block",
+                  "Constraint Block",
+                  "Requirement",
+                  "Actor",
+                  "Use Case",
+                  "Subsystem",
+                  "Activity",
+                  "State",
+                  "Interaction Use",
+                  "Node",
+                  "Component",
+                  "Part",
+                  "Interface",
+                  "Package",
+                  "Class",
+                  "Object",
+                  "Artifact",
+                  "Comment",
+                  "Image",
+                  "Stereotype",
+                  "Interruptable Region",
+                  "Initial Node",
+                  "Final Node",
+                  "Fork",
+                  "Join",
+                  "Decision",
+                  "Shallow History",
+                  "Deep History",
+                  "Accept Event",
+                  "Time Event",
+                  "Send Signal",
+                  "Interaction"
+                ]
+              },
+              "type_id":
+              {
+                "description": "This is the numeric value of classifier type.\n 90: Block\n 96: Constraint Block\n 99: Requirement\n 100: Actor\n 101: Use Case\n 102: Subsystem\n 110: Activity\n 111: State\n 112: Interaction Use\n 120: Node\n 121: Component\n 122: Part\n 123: Interface\n 124: Package\n 125: Class\n 126: Object\n 127: Artifact\n 130: Comment\n 138: Image\n 139: Stereotype\n 150: Interruptable Region\n 151: Initial Node\n 152: Final Node\n 154: Fork\n 155: Join\n 157: Decision\n 158: Shallow History\n 159: Deep History\n 167: Accept Event\n 168: Time Event\n 170: Send Signal\n 190: Interaction",
+                "type": "number"
+              },
+              "stereotype":
+              {
+                "description": "This is the stereotype of the classifier.\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "type": "string"
+              },
+              "name":
+              {
+                "description": "This is the name of the classifier.\n The name must be unique among all classifiers.\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "type": "string"
+              },
+              "description":
+              {
+                "description": "This is the description of the classifier.\n The utf-8 encoding of the concatenated strings must not exceed 4095 bytes.",
+                "type": "array",
+                "items":
+                {
+                  "description": "This is a part of the description (to be concatenated).",
+                  "type": "string"
+                }
+              },
+              "x_order":
+              {
+                "description": "This integer determines the location where a classifier appears.\n Lower numbers cause an appearance more to the left, higher numbers more to the right.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
+                "type": "number"
+              },
+              "y_order":
+              {
+                "description": "This integer determines the location where a classifier appears.\n Lower numbers cause an appearance more to the top, higher numbers more to the bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
+                "type": "number"
+              },
+              "order":
+              {
+                "description": "This integer determines the location where an element appears.\n Lower numbers cause an appearance more to the left or top, higher numbers more to the right or bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
+                "type": "number"
+              },
+              "uuid":
+              {
+                "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "features":
+              {
+                "description": "features is the list of features of the classifier.",
+                "type": "array",
+                "items":
+                {
+                  "description": "An element of features specifies a feature or port or lifeline.",
+                  "type": "object",
+                  "properties":
+                  {
+                    "id":
+                    {
+                      "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
+                      "type": "number"
+                    },
+                    "type":
+                    {
+                      "description": "The name of type_id is exported for reviews by humans, ignored at import.",
+                      "enum":
+                      [
+                        "Property",
+                        "Operation",
+                        "Port",
+                        "Lifeline",
+                        "Provided Interface",
+                        "Required Interface",
+                        "Input Port",
+                        "Output Port",
+                        "Entry",
+                        "Exit",
+                        "Tagged Value"
+                      ]
+                    },
+                    "type_id":
+                    {
+                      "description": "This is the numeric value of the feature type.\n 0: Property\n 1: Operation\n 2: Port\n 3: Lifeline\n 4: Provided Interface\n 5: Required Interface\n 6: Input Port\n 7: Output Port\n 8: Entry\n 9: Exit\n 10: Tagged Value",
+                      "type": "number"
+                    },
+                    "key":
+                    {
+                      "description": "This is the name of the feature.\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                      "type": "string"
+                    },
+                    "value":
+                    {
+                      "description": "This is the valuetype in case of properties, the value in case of tagges values, the stereotype otherwise.\n The utf-8 encoding of the string must not exceed 255 bytes.",
+                      "type": "string"
+                    },
+                    "description":
+                    {
+                      "description": "This is the description of the feature.\n The utf-8 encoding of the concatenated strings must not exceed 1023 bytes.",
+                      "type": "array",
+                      "items":
+                      {
+                        "description": "This is a part of the description (to be concatenated).",
+                        "type": "string"
+                      }
+                    },
+                    "order":
+                    {
+                      "description": "This integer determines the order in which features appear.\n Lower numbers cause an appearance at left or top, higher numbers at right or bottom.\n For ports and interfaces, locations move counter-clockwise from INT32_MIN at bottom-right, INT32_MIN/2 at top-right, 0 at top-left, INT32_MAX/2 at bottom-left, INT32_MAX at bottom-right.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
+                      "type": "number"
+                    },
+                    "uuid":
+                    {
+                      "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    "edges":
+    {
+      "description": "edges is an array whose elements describe the edges of the model-graph.",
+      "type": "array",
+      "items":
+      {
+        "description": "An element of edges is an object that specifies a relationship.",
+        "type": "object",
+        "required": ["relationship"],
+        "properties":
+        {
+          "relationship":
+          {
+            "description": "relationship is an edge with 1 source (\"from\") and 1 destination (\"to\") end.",
+            "type": "object",
+            "properties":
+            {
+              "id":
+              {
+                "description": "This integer number identifies the object within the database.\n The id is a proposal; it may be changed automatically.",
+                "type": "number"
+              },
+              "type":
+              {
+                "description": "The name of type_id is exported for reviews by humans, ignored at import.",
+                "enum":
+                [
+                  "Dependency",
+                  "Association",
+                  "Aggregation",
+                  "Composition",
+                  "Generalization",
+                  "Realization",
+                  "Asynchronous Call",
+                  "Synchronous Call",
+                  "Return",
+                  "Communication Path",
+                  "Control Flow",
+                  "Object Flow",
+                  "Deployment",
+                  "Manifestation",
+                  "Extension",
+                  "Inclusion",
+                  "Containment",
+                  "Refinement",
+                  "Trace"
+                ]
+              },
+              "type_id":
+              {
+                "description": "This is the numeric value of relationship type.\n 0: Dependency\n 200: Association\n 201: Aggregation\n 202: Composition\n 210: Generalization\n 211: Realization\n 220: Asynchronous Call\n 221: Synchronous Call\n 222: Return\n 230: Communication Path\n 240: Control Flow\n 241: Object Flow\n 250: Deployment\n 251: Manifestation\n 260: Extension\n 261: Inclusion\n 300: Containment\n 400: Refinement\n 401: Trace",
+                "type": "number"
+              },
+              "stereotype":
+              {
+                "description": "This is the stereotype; it is available since version 1.47.0.\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "type": "string"
+              },
+              "name":
+              {
+                "description": "This is the name of the relationship.\n The utf-8 encoding of the string must not exceed 47 bytes.",
+                "type": "string"
+              },
+              "description":
+              {
+                "description": "This is the description of the relationship.\n The utf-8 encoding of the concatenated strings must not exceed 1023 bytes.",
+                "type": "array",
+                "items":
+                {
+                  "description": "This is a part of the description (to be concatenated).",
+                  "type": "string"
+                }
+              },
+              "order":
+              {
+                "description": "This integer determines the location where an element appears.\n Lower numbers cause an appearance more to the left or top, higher numbers more to the right or bottom.\n This value is between –2147483648 (INT32_MIN) and 2147483647 (INT32_MAX).",
+                "type": "number"
+              },
+              "from_name":
+              {
+                "description": "The name of from/classifier is exported for reviews by humans, ignored at import.",
+                "type": "string"
+              },
+              "from_port":
+              {
+                "description": "The key of from/feature is exported (if applicable) for reviews by humans, ignored at import",
+                "type": "string"
+              },
+              "from":
+              {
+                "description": "The uuid of the source: either the classifier or the feature.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "to_name":
+              {
+                "description": "The name of to/classifier is exported for reviews by humans, ignored at import.",
+                "type": "string"
+              },
+              "to_port":
+              {
+                "description": "The key of to/feature is exported (if applicable) for reviews by humans, ignored at import.",
+                "type": "string"
+              },
+              "to":
+              {
+                "description": "The uuid of the destination: either the classifier or the feature.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "uuid":
+              {
+                "description": "The uuid is an identifier according to rfc-9562, all letters must be lowercase.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  }
+}

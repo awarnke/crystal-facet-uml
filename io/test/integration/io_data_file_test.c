@@ -17,7 +17,7 @@ static test_case_result_t open_invalid_file( test_fixture_t *fix );
 /*!
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
  */
-static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfuJ";
+static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu";
 static const char DATABASE_TEMPNAME[] = "unittest_crystal_facet_uml_default.tmp-cfu";
 
 test_suite_t io_data_file_test_get_suite(void)

@@ -18,7 +18,7 @@
 #include <assert.h>
 
 static const char *IO_DATA_FILE_TEMP_EXT = ".tmp-cfu";
-static const char *IO_DATA_FILE_JSON_EXT = ".cfuJ";
+static const char *IO_DATA_FILE_JSON_EXT = ".cfu";
 
 void io_data_file_init ( io_data_file_t *this_ )
 {

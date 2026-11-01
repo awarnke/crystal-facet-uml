@@ -40,7 +40,7 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
     gtk_file_dialog_set_accept_label( (*this_).new_file_dialog, "New" );
     gtk_file_dialog_set_modal( (*this_).new_file_dialog, false );
     gtk_file_dialog_set_title( (*this_).new_file_dialog, "Select new file" );
-    gtk_file_dialog_set_initial_name( (*this_).new_file_dialog, "NewModel.cfuJ" );
+    gtk_file_dialog_set_initial_name( (*this_).new_file_dialog, "NewModel.cfu" );
 
     (*this_).open_file_dialog = gtk_file_dialog_new();
     gtk_file_dialog_set_accept_label( (*this_).open_file_dialog, "Open" );
@@ -98,7 +98,7 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
     if( ! open_existing )
     {
         /* moved here as workaround for disabled file dialog widgets, see https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
-        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).new_file_chooser ), "NewModel.cfuJ" );
+        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).new_file_chooser ), "NewModel.cfu" );
 
         gtk_widget_set_visible( GTK_WIDGET( (*this_).new_file_chooser ), TRUE );
         gtk_widget_set_sensitive( GTK_WIDGET((*this_).new_file_chooser), TRUE );  /* idea taken from gtk demo */
