@@ -99,7 +99,7 @@
               },
               "parent":
               {
-                "description": "The uuid of the parent diagram, it is omitted only by the root diagram.",
+                "description": "The uuid of the parent diagram, it is omitted only by the root diagram.\n Circles in parent relationships are not allowed.",
                 "type": "string",
                 "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },
@@ -249,7 +249,7 @@
       "type": "array",
       "items":
       {
-        "description": "An element of nodes is an object that specifies a classifier.",
+        "description": "An element of nodes is an object that specifies a classifier.\n A classifier must be referenced from at least one diagramelement.",
         "type": "object",
         "required": ["classifier"],
         "properties":
@@ -385,7 +385,7 @@
                     },
                     "type_id":
                     {
-                      "description": "This is the numeric value of the feature type.\n 0: Property\n 1: Operation\n 2: Port\n 3: Lifeline\n 4: Provided Interface\n 5: Required Interface\n 6: Input Port\n 7: Output Port\n 8: Entry\n 9: Exit\n 10: Tagged Value",
+                      "description": "This is the numeric value of the feature type.\n Features of type \"Lifeline\" (3) must be referenced from a diagramelement.\n 0: Property\n 1: Operation\n 2: Port\n 3: Lifeline\n 4: Provided Interface\n 5: Required Interface\n 6: Input Port\n 7: Output Port\n 8: Entry\n 9: Exit\n 10: Tagged Value",
                       "type": "number"
                     },
                     "key":
@@ -519,7 +519,7 @@
               },
               "from":
               {
-                "description": "The uuid of the source: either the classifier or the feature.",
+                "description": "The uuid of the source: either the classifier or the feature.\n This relationship is valid only if the from node and the to node are both visible in at least one common diagram.",
                 "type": "string",
                 "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },
@@ -535,7 +535,7 @@
               },
               "to":
               {
-                "description": "The uuid of the destination: either the classifier or the feature.",
+                "description": "The uuid of the destination: either the classifier or the feature.\n This relationship is valid only if the from node and the to node are both visible in at least one common diagram.",
                 "type": "string",
                 "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
               },

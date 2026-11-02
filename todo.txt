@@ -88,22 +88,5 @@ ideas for future versions:
 ideas for a version 2
   - support rust in application code
   - gtk5 support (no GdkPixBuf anymore)
-  - re-format the json format, putting more focus on contents and less on cfu data structures
-    "diagramelements" -> "elements";
-    "diagram_type" -> "type_id"
-    "list_order" -> "order"
-    "main_type" -> "type_id"
-    "classifier_name" -> "node_name"
-    "from_classifier_name" -> "from_name"
-    "from_feature_key" -> "from_port"
-    "from_node" -> "from"
-    "to_classifier_name" -> "to_name"
-    "to_feature_key" -> "to_port"
-    "to_node" -> "to"
-    (above changes are prepared since 1.67.4)
   - sysml2 support
-  - keep visibility:
-    crystal_facet_uml wird bei heise Download gehostet und
-    wurde in den letzten 30 Tagen 169 Mal heruntergeladen,
-    das entspricht dem Download-Rang 457.
 

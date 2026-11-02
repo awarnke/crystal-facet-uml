@@ -139,7 +139,8 @@ static const char SCHEMA_GRAPH_NODES_HEADER[]
     "      \"items\":\n"
     "      {\n"
     "        \"description\": \"An element of " JSON_CONSTANTS_KEY_NODES " is an object that specifies a "
-    JSON_CONSTANTS_KEY_CLASSIFIER ".\",\n"
+    JSON_CONSTANTS_KEY_CLASSIFIER ".\\n"
+    " A classifier must be referenced from at least one diagramelement.\",\n"
     "        \"type\": \"object\",\n"
     "        \"required\": [\"" JSON_CONSTANTS_KEY_CLASSIFIER "\"],\n"
     "        \"properties\":\n"
@@ -309,6 +310,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_HEAD_FOOTER );
 
+    /* DIAGRAM */
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_VIEWS_HEADER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_HEADER );
 
@@ -319,7 +321,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = "This is the name of the parent diagram, exported for reviews by humans, ignored at import";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_PARENT_NAME, D_PARENT_NAME, 0 );
 
-    static const char *const D_PARENT_ID = "The uuid of the parent diagram, it is omitted only by the root diagram.";
+    static const char *const D_PARENT_ID
+        = "The uuid of the parent diagram, it is omitted only by the root diagram.\\n"
+        " Circles in parent relationships are not allowed.";
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_DIAGRAM_PARENT, D_PARENT_ID, true );
 
     /* generate an enum listing all options */
@@ -393,6 +397,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, true /*elements follow*/ );
 
+    /* DIAGRAMELEMENT */
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_ELEMENTS_HEADER );
 
     (*this_).indent = 10;
@@ -449,6 +454,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_DIAGRAM_FOOTER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_VIEWS_FOOTER );
 
+    /* CLASSIFIER */
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_NODES_HEADER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_CLASSIFIER_HEADER );
 
@@ -468,7 +474,8 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                                 DATA_ENUM_ITERATOR( DATA_CLASSIFIER_TYPE_ENUM_ARRAY )
                                                               );
 
-    static const char *const C_TYPE_ID = "This is the numeric value of classifier type.";
+    static const char *const C_TYPE_ID
+        = "This is the numeric value of classifier type.";
 #ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_enum_number( this_,
                                                                   JSON_CONSTANTS_KEY_TYPE_ID,
@@ -523,6 +530,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, true /*features follow*/ );
 
+    /* FEATURE */
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_FEATURES_HEADER );
 
     (*this_).indent = 10;
@@ -541,7 +549,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                                 DATA_ENUM_ITERATOR( DATA_FEATURE_TYPE_ENUM_ARRAY )
                                                               );
 
-    static const char *const F_TYPE_ID = "This is the numeric value of the feature type.";
+    static const char *const F_TYPE_ID
+        = "This is the numeric value of the feature type.\\n"
+        " Features of type \\\"Lifeline\\\" (3) must be referenced from a diagramelement.";
 #ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_enum_number( this_,
                                                                   JSON_CONSTANTS_KEY_TYPE_ID,
@@ -595,6 +605,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_CLASSIFIER_FOOTER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_NODES_FOOTER );
 
+    /* RELATIONSHIP */
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_EDGES_HEADER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_RELATIONSHIP_HEADER );
 
@@ -656,7 +667,8 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
 #ifdef SCHEMA_NEW_KEYS
     static const char *const E_FROM_NODE_C_NAME
-        = "The name of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID "/classifier is exported for reviews by humans, ignored at import.";
+        = "The name of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID
+        "/classifier is exported for reviews by humans, ignored at import.";
     export_err |= json_schema_writer_private_declare_string( this_,
                                                              JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_NAME,
                                                              E_FROM_NODE_C_NAME,
@@ -664,7 +676,8 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            );
 #else
     static const char *const E_FROM_NODE_C_NAME
-        = "The name of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE "/classifier is exported for reviews by humans, ignored at import.";
+        = "The name of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE
+        "/classifier is exported for reviews by humans, ignored at import.";
     export_err |= json_schema_writer_private_declare_string( this_,
                                                              JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME,
                                                              E_FROM_NODE_C_NAME,
@@ -692,7 +705,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            );
 #endif
 
-    static const char *const E_FROM_NODE = "The uuid of the source: either the classifier or the feature.";
+    static const char *const E_FROM_NODE
+        = "The uuid of the source: either the classifier or the feature.\\n"
+        " This relationship is valid only if the from node and the to node are both visible in at least one common diagram.";
 #ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE_UUID, E_FROM_NODE, true );
 #else
@@ -737,7 +752,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
                                                            );
 #endif
 
-    static const char *const E_TO_NODE = "The uuid of the destination: either the classifier or the feature.";
+    static const char *const E_TO_NODE
+        = "The uuid of the destination: either the classifier or the feature.\\n"
+        " This relationship is valid only if the from node and the to node are both visible in at least one common diagram.";
 #ifdef SCHEMA_NEW_KEYS
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE_UUID, E_TO_NODE, true );
 #else

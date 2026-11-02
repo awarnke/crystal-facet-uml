@@ -2,11 +2,24 @@ crystal-facet-uml (1.72.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * model_id_prefix and model_uuid header fields are preserved in cfuJ file
-  * new files and data exchange via clipboard uses the new json 2.0 format
   * indentations in cfu file look better aligned
+  * new files and data exchange via clipboard uses the new json 2.0 format
+    "diagramelements" -> "elements";
+    "diagram_type" -> "type_id"
+    "list_order" -> "order"
+    "main_type" -> "type_id"
+    "classifier_name" -> "node_name"
+    "from_classifier_name" -> "from_name"
+    "from_feature_key" -> "from_port"
+    "from_node" -> "from"
+    "to_classifier_name" -> "to_name"
+    "to_feature_key" -> "to_port"
+    "to_node" -> "to"
   * If the opened file format is 1.x, the file is stored as 1.3 format
+    To convert a file from 1.x to 2.0, set "major_version": 2, open and save.
+    Since 1.67.4, crystal-facet-uml is upwards-compatible to this version 2.0.
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 01 Nov 2026 20:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 08 Nov 2026 20:30:00 +0100
 
 crystal-facet-uml (1.71.4) UNRELEASED; urgency=medium
 
