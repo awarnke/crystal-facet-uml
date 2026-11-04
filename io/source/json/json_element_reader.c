@@ -1205,7 +1205,8 @@ u8_error_t json_element_reader_get_next_feature( json_element_reader_t *this_, d
                                                       utf8stringbuf_get_string( &((*this_).temp_string) )
                                                     );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_KEY ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_KEY )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_feature_set_key( out_object,
