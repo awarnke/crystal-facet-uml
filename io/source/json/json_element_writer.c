@@ -172,8 +172,8 @@ u8_error_t json_element_writer_start_head( json_element_writer_t *this_ )
                                               );
 
     /* json version */
-    const int value_major_version = ( (*this_).version_2 ) ? 2 : JSON_CONSTANTS_VALUE_HEAD_MAJOR_VERSION;
-    const int value_minor_version = ( (*this_).version_2 ) ? 0 : JSON_CONSTANTS_VALUE_HEAD_MINOR_VERSION;
+    const int value_major_version = ( (*this_).version_2 ) ? 2 : 1;
+    const int value_minor_version = ( (*this_).version_2 ) ? 0 : 3;
     out_err |= json_writer_write_member_int( &((*this_).json_writer),
                                              2,
                                              JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION,

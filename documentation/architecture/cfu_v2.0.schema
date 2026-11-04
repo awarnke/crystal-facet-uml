@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json",
+  "$id": "https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml_v2.0.schema.json",
   "title": "crystal-facet-uml model",
   "description": "This schema defines the structure of json objects to store a uml/sysml model.\n It consists of sections: head, views, nodes, edges.",
   "type": "object",
@@ -38,12 +38,12 @@
         },
         "major_version":
         {
-          "description": "The current major version is 1, the major version changes if an older json reader cannot read a new format.",
+          "description": "The current major version is 2, the major version changes if an older json reader cannot read a new format.",
           "type": "number"
         },
         "minor_version":
         {
-          "description": "The current minor version is 3, the minor version changes if an older json reader may not process all information.",
+          "description": "The current minor version is 0, the minor version changes if an older json reader may not process all information.",
           "type": "number"
         },
         "generator_name":

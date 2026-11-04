@@ -22,7 +22,7 @@
 static const char SCHEMA_GRAPH_HEADER[]
     = "{\n"
     "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n"
-    "  \"$id\": \"https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json\",\n"
+    "  \"$id\": \"https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml_v2.0.schema.json\",\n"
     "  \"title\": \"crystal-facet-uml model\",\n"
     "  \"description\": \"This schema defines the structure of json objects to store a uml/sysml model.\\n"
         " It consists of sections: " JSON_CONSTANTS_KEY_HEAD ", " JSON_CONSTANTS_KEY_VIEWS ", "
@@ -275,14 +275,24 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     static const char *const HEAD_FORMAT_INFO = "Only \\\"cfu-json\\\" is supported.";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_HEAD_FORMAT, HEAD_FORMAT_INFO, 0 );
 
+#ifdef SCHEMA_NEW_KEYS
     static const char *const HEAD_MAJOR_INFO
-        = "The current major version is " SCHEMA_STR(JSON_CONSTANTS_VALUE_HEAD_MAJOR_VERSION) ", "
+        = "The current major version is 2, "
         "the major version changes if an older json reader cannot read a new format.";
+    static const char *const HEAD_MINOR_INFO
+        = "The current minor version is 0, "
+        "the minor version changes if an older json reader may not process all information.";
+#else
+    static const char *const HEAD_MAJOR_INFO
+        = "The current major version is 1, "
+        "the major version changes if an older json reader cannot read a new format.";
+    static const char *const HEAD_MINOR_INFO
+        = "The current minor version is 3, "
+        "the minor version changes if an older json reader may not process all information.";
+#endif
+
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_HEAD_MAJOR_VERSION, HEAD_MAJOR_INFO );
 
-    static const char *const HEAD_MINOR_INFO
-        = "The current minor version is " SCHEMA_STR(JSON_CONSTANTS_VALUE_HEAD_MINOR_VERSION) ", "
-        "the minor version changes if an older json reader may not process all information.";
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_HEAD_MINOR_VERSION, HEAD_MINOR_INFO );
 
     static const char *const HEAD_GEN_NAME_INFO = "This is the name of the generator, can be chosen freely-";

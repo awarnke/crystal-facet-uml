@@ -532,7 +532,8 @@ u8_error_t json_element_reader_get_next_classifier( json_element_reader_t *this_
                         result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                         data_classifier_set_list_order ( out_object, parsed_integer );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_CLASSIFIER_STEREO ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_classifier_set_stereotype( out_object,
@@ -713,7 +714,8 @@ u8_error_t json_element_reader_get_next_diagram( json_element_reader_t *this_,
                                                          utf8stringbuf_get_string( &((*this_).temp_string) )
                                                        );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_STEREO ) )
                     {
                         /* new in 1.43.0: stereotype; imported since 1.47.0 */
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
@@ -846,7 +848,8 @@ u8_error_t json_element_reader_get_next_relationship( json_element_reader_t *thi
                     {
                         result = json_element_reader_skip_next_string( this_ );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREO ) )
                     {
                         /* new in 1.43.0: stereotype; imported since 1.47.0 */
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
@@ -1209,7 +1212,8 @@ u8_error_t json_element_reader_get_next_feature( json_element_reader_t *this_, d
                                               utf8stringbuf_get_string( &((*this_).temp_string) )
                                             );
                     }
-                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_VALUE ) )
+                    else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_VALUE )
+                        || utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_STEREO ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_feature_set_value( out_object,
