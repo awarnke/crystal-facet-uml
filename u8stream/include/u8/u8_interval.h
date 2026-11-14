@@ -24,7 +24,7 @@ typedef struct u8_interval_struct u8_interval_t;
  *
  *  \return a new interval
  */
-static inline u8_interval_t u8_interval_new_void();
+static inline u8_interval_t u8_interval_new_void( void );
 
 /*!
  *  \brief initializes a new interval by unordered boundry values

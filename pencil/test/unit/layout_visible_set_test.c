@@ -8,13 +8,13 @@
 #include "test_environment_assert.h"
 #include "test_case_result.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_empty_model( test_fixture_t *fix );
 static test_case_result_t test_normal_model( test_fixture_t *fix );
 static test_case_result_t test_too_big_model( test_fixture_t *fix );
 static test_case_result_t test_inconsistent_model( test_fixture_t *fix );
-static data_visible_set_t* init_empty_input_data();
+static data_visible_set_t* init_empty_input_data( void );
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships );
 
 test_suite_t layout_visible_set_test_get_suite(void)
@@ -33,7 +33,7 @@ test_suite_t layout_visible_set_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }
@@ -42,14 +42,13 @@ static void tear_down( test_fixture_t *fix )
 {
 }
 
-static data_visible_set_t* init_empty_input_data()
+static data_visible_set_t* init_empty_input_data( void )
 {
     static data_visible_set_t empty_input_data;
     data_visible_set_init( &empty_input_data );
     data_visible_set_update_containment_cache ( &empty_input_data );
     TEST_ENVIRONMENT_ASSERT ( ! data_visible_set_is_valid ( &empty_input_data ) );
     return &empty_input_data;
-    return TEST_CASE_RESULT_OK;
 }
 
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships )
@@ -164,7 +163,6 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
 
     TEST_ENVIRONMENT_ASSERT ( data_visible_set_is_valid ( &fake_input_data ) );
     return &fake_input_data;
-    return TEST_CASE_RESULT_OK;
 }
 
 static const int DUPLICATE_PARENT_CLASSIFIER=2;

@@ -12,7 +12,7 @@
 #include "test_case_result.h"
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_error( test_fixture_t *fix );
 static test_case_result_t test_error_info( test_fixture_t *fix );
@@ -37,7 +37,7 @@ test_suite_t u8__test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }
@@ -102,7 +102,7 @@ static test_case_result_t test_error( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_STRING( "U8_ERROR_AT_FILE_READ", u8_error_get_name( U8_ERROR_AT_FILE_READ ) );
     TEST_EXPECT_EQUAL_STRING( "U8_ERROR_AT_FILE_WRITE", u8_error_get_name( U8_ERROR_AT_FILE_WRITE ) );
     TEST_EXPECT_EQUAL_STRING( "U8_ERROR_READ_ONLY_DB", u8_error_get_name( U8_ERROR_READ_ONLY_DB ) );
-    TEST_EXPECT_EQUAL_STRING( "U8_ERROR_<multiple>", u8_error_get_name( U8_ERROR_READ_ONLY_DB || U8_ERROR_AT_FILE_WRITE ) );
+    TEST_EXPECT_EQUAL_STRING( "U8_ERROR_<multiple>", u8_error_get_name( U8_ERROR_READ_ONLY_DB | U8_ERROR_AT_FILE_WRITE ) );
 
     return TEST_CASE_RESULT_OK;
 }

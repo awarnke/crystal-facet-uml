@@ -403,7 +403,7 @@ void gui_attributes_editor_type_of_classifier_btn_callback( GtkWidget* button, g
     assert ( NULL != btn_data );
     gui_attributes_editor_t *const this_ = gui_attribute_type_of_classifier_get_editor( btn_data );
     assert ( NULL != this_ );
-    const data_diagram_type_t selected_type = gui_attribute_type_of_classifier_get_selected_type( btn_data );
+    const data_classifier_type_t selected_type = gui_attribute_type_of_classifier_get_selected_type( btn_data );
     U8_TRACE_INFO_INT( "selected type:", selected_type );
 
     /* commit possibly changed texts before causing update events */
@@ -422,7 +422,7 @@ void gui_attributes_editor_type_of_feature_btn_callback( GtkWidget* button, gpoi
     assert ( NULL != btn_data );
     gui_attributes_editor_t *const this_ = gui_attribute_type_of_feature_get_editor( btn_data );
     assert ( NULL != this_ );
-    const data_diagram_type_t selected_type = gui_attribute_type_of_feature_get_selected_type( btn_data );
+    const data_feature_type_t selected_type = gui_attribute_type_of_feature_get_selected_type( btn_data );
     U8_TRACE_INFO_INT( "selected type:", selected_type );
 
     /* commit possibly changed texts before causing update events */
@@ -441,7 +441,7 @@ void gui_attributes_editor_type_of_relationship_btn_callback( GtkWidget* button,
     assert ( NULL != btn_data );
     gui_attributes_editor_t *const this_ = gui_attribute_type_of_relationship_get_editor( btn_data );
     assert ( NULL != this_ );
-    const data_diagram_type_t selected_type = gui_attribute_type_of_relationship_get_selected_type( btn_data );
+    const data_relationship_type_t selected_type = gui_attribute_type_of_relationship_get_selected_type( btn_data );
     U8_TRACE_INFO_INT( "selected type:", selected_type );
 
     /* commit possibly changed texts before causing update events */

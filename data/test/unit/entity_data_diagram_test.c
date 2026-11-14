@@ -7,7 +7,7 @@
 #include "test_environment_assert.h"
 #include <string.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_initialize( test_fixture_t *test_env );
 static test_case_result_t test_set_get( test_fixture_t *test_env );
@@ -42,7 +42,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture.too_long = &(static_too_long[0]);
     return &test_fixture;

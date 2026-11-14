@@ -54,21 +54,21 @@ static inline const data_diagram_type_t data_type_get_diagram_type ( const data_
 static inline data_classifier_type_t data_type_get_classifier_type ( const data_type_t *this_ )
 {
     return ( ((*this_).context == DATA_TABLE_CLASSIFIER)
-        ? (data_diagram_type_t) (*this_).specific_type
+        ? (data_classifier_type_t) (*this_).specific_type
         : DATA_CLASSIFIER_TYPE_VOID );
 }
 
 static inline data_feature_type_t data_type_get_feature_type ( const data_type_t *this_ )
 {
     return ( ((*this_).context == DATA_TABLE_FEATURE)
-        ? (data_diagram_type_t) (*this_).specific_type
+        ? (data_feature_type_t) (*this_).specific_type
         : DATA_FEATURE_TYPE_VOID );
 }
 
 static inline data_relationship_type_t data_type_get_relationship_type ( const data_type_t *this_ )
 {
     return ( ((*this_).context == DATA_TABLE_RELATIONSHIP)
-        ? (data_diagram_type_t) (*this_).specific_type
+        ? (data_relationship_type_t) (*this_).specific_type
         : DATA_RELATIONSHIP_TYPE_VOID );
 }
 

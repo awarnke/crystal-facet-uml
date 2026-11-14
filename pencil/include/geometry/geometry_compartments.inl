@@ -62,7 +62,7 @@ static inline void geometry_compartments_replacemove ( geometry_compartments_t *
     geometry_compartments_destroy( that );
 }
 
-static inline geometry_compartments_t geometry_compartments_new_empty()
+static inline geometry_compartments_t geometry_compartments_new_empty( void )
 {
     geometry_compartments_t result;
     geometry_compartments_init( &result, 0.0, 0.0 );

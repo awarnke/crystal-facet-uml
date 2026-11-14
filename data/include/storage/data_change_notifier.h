@@ -13,9 +13,21 @@
 #include "u8/u8_error.h"
 #include "entity/data_table.h"
 #include "entity/data_row.h"
+
+#if __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc2y-extensions"
+#endif
+
 #include <glib-object.h>
+
+#if __clang__
+#pragma clang diagnostic pop
+#endif
+
 #include <stdbool.h>
 #include <stdint.h>
+
 
 /*!
  *  \brief definition of max constants like max array sizes

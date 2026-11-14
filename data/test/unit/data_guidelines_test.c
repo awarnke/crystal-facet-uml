@@ -5,7 +5,7 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_data_guidelines_classifier_is_scenario( test_fixture_t *test_env );
 static test_case_result_t test_data_guidelines_feature_value( test_fixture_t *test_env );
@@ -24,7 +24,7 @@ test_suite_t data_guidelines_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }

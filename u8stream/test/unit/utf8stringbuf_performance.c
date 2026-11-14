@@ -10,7 +10,7 @@
 #include <time.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testClear( test_fixture_t *fix );
 static test_case_result_t testAppendStr( test_fixture_t *fix );
@@ -48,7 +48,7 @@ static test_fixture_t test_fixture;
 
 static int cpu_perf_factor = 0;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     (*fix).utf8_sb_buf = UTF8STRINGBUF( (*fix).utf8_sb_arr );

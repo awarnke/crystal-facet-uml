@@ -99,7 +99,7 @@ static inline void geometry_compartments_replacemove ( geometry_compartments_t *
  *
  *  \return own object attributes
  */
-static inline geometry_compartments_t geometry_compartments_new_empty ();
+static inline geometry_compartments_t geometry_compartments_new_empty ( void );
 
 /*!
  *  \brief initializes the geometry_compartments_t struct to an empty rect at position 0,0

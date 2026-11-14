@@ -6,7 +6,7 @@
 #include "test_environment_assert.h"
 #include <string.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_initialize( test_fixture_t *test_env );
 static test_case_result_t test_set_get( test_fixture_t *test_env );
@@ -25,7 +25,7 @@ test_suite_t entity_data_diagramelement_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }

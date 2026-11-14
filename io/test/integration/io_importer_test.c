@@ -17,7 +17,7 @@
 #include "test_environment_assert.h"
 #include "test_case_result.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t insert_invalid_json( test_fixture_t *fix );
 static test_case_result_t insert_invalid_parent_diag( test_fixture_t *fix );
@@ -63,7 +63,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     data_database_init( &((*fix).database) );
@@ -630,7 +630,7 @@ static test_case_result_t insert_existing_feature_to_existing_classifier( test_f
                                                );
         /* a feature/lifeline cannot be imported because invisible, therefore a consecutive relationship does not abort the import. */
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );  /* source of relationship does not exist */
-        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
         /* classifier already exists */
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
@@ -660,12 +660,12 @@ static test_case_result_t insert_existing_feature_to_existing_classifier( test_f
                                                  &read_pos
                                                );
         TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, data_err, u8_error_get_name );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &stat, DATA_STAT_TABLE_DIAGRAM ) );
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );  /* implicit */
         /* duplicate name for one of the 2 classifiers */
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
         TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );

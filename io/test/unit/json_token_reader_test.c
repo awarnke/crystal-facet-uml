@@ -8,7 +8,7 @@
 #include "test_environment_assert.h"
 #include "test_case_result.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_skip_whitespace( test_fixture_t *fix );
 static test_case_result_t test_is_value_end( test_fixture_t *fix );
@@ -38,7 +38,7 @@ test_suite_t json_token_reader_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }

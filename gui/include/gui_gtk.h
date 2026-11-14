@@ -7,7 +7,7 @@
 
 #if __clang__
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wc++17-extensions"
+#pragma clang diagnostic ignored "-Wc2y-extensions"
 #endif
 
 #include <gtk/gtk.h>

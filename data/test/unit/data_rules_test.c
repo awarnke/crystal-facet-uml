@@ -6,7 +6,7 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_data_rules_filter_scenarios( test_fixture_t *test_env );
 static test_case_result_t test_data_rules_filter_box_and_list( test_fixture_t *test_env );
@@ -30,7 +30,7 @@ test_suite_t data_rules_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }
@@ -182,7 +182,6 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
 
     TEST_ENVIRONMENT_ASSERT ( data_visible_set_is_valid ( &test_input_data ) );
     return &test_input_data;
-    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t test_data_rules_filter_scenarios( test_fixture_t *test_env )

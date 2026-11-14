@@ -9,7 +9,7 @@
 #include <string.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testInit1( test_fixture_t *fix );
 static test_case_result_t testInit2( test_fixture_t *fix );
@@ -32,7 +32,7 @@ test_suite_t utf8codepoint_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }

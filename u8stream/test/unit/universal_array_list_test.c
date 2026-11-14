@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix );
 static test_case_result_t test_max_size( test_fixture_t *fix );
@@ -40,7 +40,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture.ctor_calls = 0;
     test_fixture.dtor_calls = 0;

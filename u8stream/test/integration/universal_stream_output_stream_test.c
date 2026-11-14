@@ -13,7 +13,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_stream_write( test_fixture_t *fix );
 #ifndef NDEBUG
@@ -47,7 +47,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
 #ifdef _WIN32
     test_fixture.mem_outstream = fopen( "mem_fake.tmp", "w" );

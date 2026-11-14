@@ -9,18 +9,33 @@
  *  \brief Provides a set of size values used to draw a diagram
  */
 
+#if __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc2y-extensions"
+#endif
+
 #include <pango/pangocairo.h>
+
+#if __clang__
+#pragma clang diagnostic pop
+#endif
+
 #include <cairo.h>
+
 #if __GNUC__ >= 8
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 #endif
+
 #include <gdk/gdk.h>
+
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
 #endif
+
 #include <stdint.h>
 #include <stdbool.h>
+
 
 /*!
  *  \brief enumeration of alignment buffers for text rendering
