@@ -1,8 +1,9 @@
 #!/bin/sh
 echo call parameters: \"SOURCE_DIR BUILD_DIR\"
-echo SELF:       \"${0}\"
-echo SOURCE_DIR: \"${1}\"
-echo BUILD_DIR:  \"${2}\"
+echo SELF:            \"${0}\"
+echo SOURCE_DIR:      \"${1}\"
+echo BUILD_DIR:       \"${2}\"
+echo MINGW_PREFIX:    \"${MINGW_PREFIX}\"
 
 . ${1}/main/include/meta/meta_version.inl
 VERSIONSTR=${META_VERSION_STR}
@@ -19,14 +20,18 @@ ${1}/build/msys2/fetch_licenses.sh | tee crystal-facet-uml/LICENSES_of_3rd_party
 mkdir -p crystal-facet-uml/bin
 cp crystal-facet-uml.exe crystal-facet-uml/bin/
 cp test_crystal-facet-uml.exe crystal-facet-uml/bin/
-ldd crystal-facet-uml.exe | grep -e ' /ucrt64' | sed -e 's/^[^/]*\(\S*\).*$/\1/' | xargs cp -t crystal-facet-uml/bin/
-cp /ucrt64/bin/gdbus.exe crystal-facet-uml/bin/
+ldd crystal-facet-uml.exe | grep -e " ${MINGW_PREFIX}" | sed -e 's/^[^/]*\(\S*\).*$/\1/' | xargs cp -t crystal-facet-uml/bin/
+cp "${MINGW_PREFIX}/bin/gdbus.exe" crystal-facet-uml/bin/
 
 mkdir -p crystal-facet-uml/share/glib-2.0/schemas
-cp /ucrt64/share/glib-2.0/schemas/gschemas.compiled crystal-facet-uml/share/glib-2.0/schemas/
+cp "${MINGW_PREFIX}/share/glib-2.0/schemas/gschemas.compiled" crystal-facet-uml/share/glib-2.0/schemas/
 
 # zip
-7z a crystal-facet-uml_${VERSIONSTR}-1_win64.zip crystal-facet-uml
+if [ ${MINGW_PREFIX} == "/clangarm64" ]; then
+    7z a crystal-facet-uml_${VERSIONSTR}-1_win_on_arm64.zip crystal-facet-uml
+else
+    7z a crystal-facet-uml_${VERSIONSTR}-1_win64.zip crystal-facet-uml
+fi
 
 
 # Copyright 2025-2026 Andreas Warnke

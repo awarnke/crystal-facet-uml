@@ -104,7 +104,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
         else
         {
-            U8_LOG_EVENT( "creating a new database based on a given json filename (cfuJ)..." );
+            U8_LOG_EVENT( "creating a new database based on a given json filename (cfu)..." );
             U8_TRACE_INFO( "CASE: use json file that does not exist or is not accessible" );
             /* A new json file shall be created */
             (*this_).auto_writeback_to_json = true;
@@ -180,7 +180,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
         else if ( is_json )
         {
-            U8_LOG_EVENT( "opening an existing database based on a given json filename (cfuJ)..." );
+            U8_LOG_EVENT( "opening an existing database based on a given json filename (cfu)..." );
             U8_TRACE_INFO_STR( "CASE: use existing json file ", read_only ? "read_only" : "writeable" );
             /* An existing json file shall be used */
             (*this_).auto_writeback_to_json = ( ! read_only );

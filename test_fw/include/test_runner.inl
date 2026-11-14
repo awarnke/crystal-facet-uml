@@ -41,6 +41,12 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
             tc_result = test_suite_run_test_case( &test_suite, idx );
             test_result_add_test_case_result( &((*this_).result), tc_result );
             test_result_add_test_case_result( &suite_local_result, tc_result );
+#ifndef NDEBUG
+            if ( TEST_CASE_RESULT_OK != tc_result )
+            {
+                exit(-1);            
+            }
+#endif
         }
         else
         {
