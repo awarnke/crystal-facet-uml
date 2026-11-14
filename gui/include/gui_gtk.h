@@ -4,7 +4,18 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 #endif
+
+#if __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++17-extensions"
+#endif
+
 #include <gtk/gtk.h>
+
+#if __clang__
+#pragma clang diagnostic pop
+#endif
+
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
 #endif
