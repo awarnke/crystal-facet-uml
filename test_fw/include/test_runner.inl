@@ -2,6 +2,7 @@
 
 #include "test_case_result.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 static inline void test_runner_init( test_runner_t *this_ )
@@ -41,12 +42,13 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
             tc_result = test_suite_run_test_case( &test_suite, idx );
             test_result_add_test_case_result( &((*this_).result), tc_result );
             test_result_add_test_case_result( &suite_local_result, tc_result );
-#ifndef NDEBUG
+
             if ( TEST_CASE_RESULT_OK != tc_result )
             {
+                fprintf( stdout, "  error at test case: %57s\n", test_case_get_name( current_case ) );
+                fflush( stdout );  /* help to localize errors in case of sudden termination */
                 exit(-1);            
             }
-#endif
         }
         else
         {

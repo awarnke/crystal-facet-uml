@@ -126,6 +126,11 @@ static test_case_result_t open_existing_db( test_fixture_t *fix )
 
     isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( true, isopen );
+
+    /* clean up - especially finalize the prepared statements before closing the DB! */
+    ctrl_err = io_data_file_close ( &((*fix).data_file) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+
     return TEST_CASE_RESULT_OK;
 }
 
