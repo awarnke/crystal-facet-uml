@@ -324,62 +324,62 @@ static test_case_result_t testParseInt( test_fixture_t *fix )
 {
     unsigned int byte_length;
     int64_t number;
-    utf8error_t u8err;
+    u8_error_t u8err;
 
     u8err = utf8string_parse_int( NULL, &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_MISSING, u8err );
 
     u8err = utf8string_parse_int( "", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, u8err );
     TEST_EXPECT_EQUAL_INT( 0, byte_length );
     TEST_EXPECT_EQUAL_INT( 0, number );
 
     u8err = utf8string_parse_int( " void", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, u8err );
     TEST_EXPECT_EQUAL_INT( 0, byte_length );
     TEST_EXPECT_EQUAL_INT( 0, number );
 
     u8err = utf8string_parse_int( "0", NULL, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 0, number );
 
     u8err = utf8string_parse_int( "-9223372036854775809", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err );
     TEST_EXPECT_EQUAL_INT( 20, byte_length );
     TEST_EXPECT( (0==number)||(LLONG_MIN==number) );
 
     u8err = utf8string_parse_int( "+9223372036854775808", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err );
     TEST_EXPECT_EQUAL_INT( 20, byte_length );
     TEST_EXPECT( (0==number)||(LLONG_MAX==number) );
 
     u8err = utf8string_parse_int( "15", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 2, byte_length );
     TEST_EXPECT_EQUAL_INT( 15, number );
 
     u8err = utf8string_parse_int( "-15", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 3, byte_length );
     TEST_EXPECT_EQUAL_INT( -15, number );
 
     u8err = utf8string_parse_int( "+2000111222", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 11, byte_length );
     TEST_EXPECT( +2000111222 == number );
 
     u8err = utf8string_parse_int( "-2000111222", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 11, byte_length );
     TEST_EXPECT( -2000111222 == number );
 
     u8err = utf8string_parse_int( "  15 cm", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 4, byte_length );
     TEST_EXPECT_EQUAL_INT( 15, number );
 
     u8err = utf8string_parse_int( " -015 cm", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 5, byte_length );
     TEST_EXPECT_EQUAL_INT( -15, number );
 
@@ -390,62 +390,62 @@ static test_case_result_t testParseFloat( test_fixture_t *fix )
 {
     unsigned int byte_length;
     double number;
-    utf8error_t u8err;
+    u8_error_t u8err;
 
     u8err = utf8string_parse_float( NULL, &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_MISSING, u8err );
 
     u8err = utf8string_parse_float( "", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, u8err );
     TEST_EXPECT_EQUAL_INT( 0, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
 
     u8err = utf8string_parse_float( " void", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, u8err );
     TEST_EXPECT_EQUAL_INT( 0, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
 
     u8err = utf8string_parse_float( "0", NULL, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
 
     u8err = utf8string_parse_float( "-9.999e99999", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err );
     TEST_EXPECT_EQUAL_INT( 12, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( -INFINITY, number );
 
     u8err = utf8string_parse_float( "+9.999e-99999", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err );
     TEST_EXPECT_EQUAL_INT( 13, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
 
     u8err = utf8string_parse_float( "15.3", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 4, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( 15.3, number );
 
     u8err = utf8string_parse_float( "-15.e-1", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 7, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( -1.5, number );
 
     u8err = utf8string_parse_float( "+3.4E38", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 7, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( 3.4E38, number );
 
     u8err = utf8string_parse_float( "-1.2E-38", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 8, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( -1.2E-38, number );
 
     u8err = utf8string_parse_float( "  15.0E+1 cm", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 9, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( 150.0, number );
 
     u8err = utf8string_parse_float( " -015e-1 cm", &byte_length, &number );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     TEST_EXPECT_EQUAL_INT( 8, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( -1.5, number );
 
@@ -457,12 +457,12 @@ static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *fix )
 {
     unsigned int byte_length;
     int64_t number;
-    utf8error_t u8err;
+    u8_error_t u8err;
 
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_STRTOLL );
     {
         u8err = utf8string_parse_int( "-9223372036854775809  24", &byte_length, &number );
-        TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err );
         TEST_EXPECT_EQUAL_INT( 24, byte_length );
         TEST_EXPECT( (0==number)||(LLONG_MIN==number) );
     }
@@ -477,12 +477,12 @@ static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *fix )
 {
     unsigned int byte_length;
     double number;
-    utf8error_t u8err;
+    u8_error_t u8err;
 
     U8_FAULT_INJECT_SETUP( U8_TEST_COND_STRTOD );
     {
         u8err = utf8string_parse_float( "-9.999e99999  16", &byte_length, &number );
-        TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err );
         TEST_EXPECT_EQUAL_INT( 16, byte_length );
         TEST_EXPECT_EQUAL_DOUBLE( -INFINITY, number );
     }

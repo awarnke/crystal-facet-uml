@@ -111,34 +111,34 @@ static test_case_result_t testInitFunctionsOnRightRange( test_fixture_t *fix )
 {
     static const char *const my_txt = "txt";
     static const char *const my_long_txt = "1-\xc3\xb7-\xe1\xb4\x81-\xf0\x92\x80\x80";
-    utf8error_t err;
+    u8_error_t err;
     utf8stringview_t my_view;
 
     /* check initialization with utf8stringview_init function */
     /* sub test case: start ok, end on 1-byte char */
     err = utf8stringview_init( &my_view, my_txt, 3 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_PTR( my_txt, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start ok, end on 2-byte char */
     err = utf8stringview_init( &my_view, my_long_txt, 4 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start ok, end on 3-byte char */
     err = utf8stringview_init( &my_view, my_long_txt, 8 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 8, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start ok, end on 4-byte char */
     err = utf8stringview_init( &my_view, my_long_txt, 13 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 13, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
@@ -153,14 +153,14 @@ static test_case_result_t testInitFunctionsOnRightRange( test_fixture_t *fix )
     /* check initialization with utf8stringview_init_region function */
     /* sub test case: start ok at 1-byte char, end exactly at string end with 1-byte char*/
     err = utf8stringview_init_region( &my_view, my_txt, 1, 2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_PTR( (my_txt+1), utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start at 2-byte char, end exactly at string end with 4-byte char*/
     err = utf8stringview_init_region( &my_view, my_long_txt, 2, 11 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_PTR( (my_long_txt+2), utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 11, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
@@ -172,55 +172,55 @@ static test_case_result_t testInitFunctionsOnWrongRange( test_fixture_t *fix )
 {
     static const char *const my_txt = "\xc3\xb7" "\xe1\xb4\x81" "t" "\0" "t";
     static const char *const my_long_txt = "1-\xc3\xb7-\xe1\xb4\x81-\xf0\x92\x80\x80";
-    utf8error_t err;
+    u8_error_t err;
     utf8stringview_t my_view;
 
     /* check initialization with utf8stringview_init function */
     /* sub test case: start on 1-byte cut-char, end after terminating zero */
     err = utf8stringview_init( &my_view, my_long_txt+3, 11 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt+4, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 10, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start on 2-byte cut-char, end on 3-byte cut-char */
     err = utf8stringview_init( &my_view, my_long_txt+6, 6 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt+8, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start on 3-byte cut-char but only 1 in range  */
     err = utf8stringview_init( &my_view, my_long_txt+10, 1 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt+11, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start on 3-byte cut-char, end ok  */
     err = utf8stringview_init( &my_view, my_long_txt+10, 3 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt+13, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start ok, ends on 1-byte char and a 2-byte cut-char */
     err = utf8stringview_init( &my_view, my_long_txt+5, 6 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt+5, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start ok, ends on 1-byte char and a 1-byte cut-char */
     err = utf8stringview_init( &my_view, my_long_txt+5, 5 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_long_txt+5, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: start ok, ends on 2-byte char and a 1-byte cut-char */
     err = utf8stringview_init( &my_view, my_txt, 3 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_txt, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
@@ -235,14 +235,14 @@ static test_case_result_t testInitFunctionsOnWrongRange( test_fixture_t *fix )
     /* check initialization with utf8stringview_init_region function */
     /* sub test case: region contains a terminating zero */
     err = utf8stringview_init_region( &my_view, my_txt, 1, 7 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_txt+2, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
     /* sub test case: region is after a terminating zero */
     err = utf8stringview_init_region( &my_view, my_txt, 7, 1 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_PTR( my_txt+7, utf8stringview_get_start( &my_view ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
@@ -452,41 +452,41 @@ static test_case_result_t testSplitAtFirst( test_fixture_t *fix )
 
     /* section string parameter */
 
-    const utf8error_t resultZ = utf8stringview_split_at_first_str( &ananas_view, NULL, &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, resultZ );
+    const u8_error_t resultZ = utf8stringview_split_at_first_str( &ananas_view, NULL, &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_MISSING, resultZ );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result0 = utf8stringview_split_at_first_str( &ananas_view, "", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result0 );
+    const u8_error_t result0 = utf8stringview_split_at_first_str( &ananas_view, "", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result0 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 6, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result1 = utf8stringview_split_at_first_str( &ananas_view, "AN", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result1 );
+    const u8_error_t result1 = utf8stringview_split_at_first_str( &ananas_view, "AN", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result1 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result2 = utf8stringview_split_at_first_str( &ananas_view, "SA", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result2 );
+    const u8_error_t result2 = utf8stringview_split_at_first_str( &ananas_view, "SA", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result2 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result3 = utf8stringview_split_at_first_str( &UTF8STRINGVIEW_EMPTY, "", NULL, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result3 );
+    const u8_error_t result3 = utf8stringview_split_at_first_str( &UTF8STRINGVIEW_EMPTY, "", NULL, NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result3 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result4 = utf8stringview_split_at_first_str( &ananas_view, "***ANANAS***", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result4 );
+    const u8_error_t result4 = utf8stringview_split_at_first_str( &ananas_view, "***ANANAS***", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result4 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );  /* unchanged */
@@ -494,36 +494,36 @@ static test_case_result_t testSplitAtFirst( test_fixture_t *fix )
 
     /* section stringview parameter */
 
-    const utf8error_t result5 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_EMPTY, &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result5 );
+    const u8_error_t result5 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_EMPTY, &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result5 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 6, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result6 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_STR("AN"), &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result6 );
+    const u8_error_t result6 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_STR("AN"), &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result6 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result7 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_STR("SA"), &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result7 );
+    const u8_error_t result7 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_STR("SA"), &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result7 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result8 = utf8stringview_split_at_first_view( &UTF8STRINGVIEW_EMPTY, &UTF8STRINGVIEW_STR(""), NULL, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result8 );
+    const u8_error_t result8 = utf8stringview_split_at_first_view( &UTF8STRINGVIEW_EMPTY, &UTF8STRINGVIEW_STR(""), NULL, NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result8 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result9 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_STR("***ANANAS***"), &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result9 );
+    const u8_error_t result9 = utf8stringview_split_at_first_view( &ananas_view, &UTF8STRINGVIEW_STR("***ANANAS***"), &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result9 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[2]), utf8stringview_get_start( &after ) );  /* unchanged */
@@ -541,41 +541,41 @@ static test_case_result_t testSplitAtLast( test_fixture_t *fix )
 
     /* section string parameter */
 
-    const utf8error_t resultZ = utf8stringview_split_at_last_str( &ananas_view, NULL, &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, resultZ );
+    const u8_error_t resultZ = utf8stringview_split_at_last_str( &ananas_view, NULL, &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_MISSING, resultZ );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result0 = utf8stringview_split_at_last_str( &ananas_view, "", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result0 );
+    const u8_error_t result0 = utf8stringview_split_at_last_str( &ananas_view, "", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result0 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 6, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[6]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result1 = utf8stringview_split_at_last_str( &ananas_view, "AN", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result1 );
+    const u8_error_t result1 = utf8stringview_split_at_last_str( &ananas_view, "AN", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result1 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result2 = utf8stringview_split_at_last_str( &ananas_view, "SA", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result2 );
+    const u8_error_t result2 = utf8stringview_split_at_last_str( &ananas_view, "SA", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result2 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result3 = utf8stringview_split_at_last_str( &UTF8STRINGVIEW_EMPTY, "", NULL, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result3 );
+    const u8_error_t result3 = utf8stringview_split_at_last_str( &UTF8STRINGVIEW_EMPTY, "", NULL, NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result3 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result4 = utf8stringview_split_at_last_str( &ananas_view, "***ANANAS***", &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result4 );
+    const u8_error_t result4 = utf8stringview_split_at_last_str( &ananas_view, "***ANANAS***", &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result4 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );  /* unchanged */
@@ -583,36 +583,36 @@ static test_case_result_t testSplitAtLast( test_fixture_t *fix )
 
     /* section stringview parameter */
 
-    const utf8error_t result5 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_EMPTY, &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result5 );
+    const u8_error_t result5 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_EMPTY, &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result5 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 6, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[6]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result6 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_STR("AN"), &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result6 );
+    const u8_error_t result6 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_STR("AN"), &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result6 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result7 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_STR("SA"), &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result7 );
+    const u8_error_t result7 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_STR("SA"), &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result7 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result8 = utf8stringview_split_at_last_view( &UTF8STRINGVIEW_EMPTY, &UTF8STRINGVIEW_STR(""), NULL, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result8 );
+    const u8_error_t result8 = utf8stringview_split_at_last_view( &UTF8STRINGVIEW_EMPTY, &UTF8STRINGVIEW_STR(""), NULL, NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result8 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &after ) );
 
-    const utf8error_t result9 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_STR("***ANANAS***"), &before, &after );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, result9 );
+    const u8_error_t result9 = utf8stringview_split_at_last_view( &ananas_view, &UTF8STRINGVIEW_STR("***ANANAS***"), &before, &after );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, result9 );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[0]), utf8stringview_get_start( &before ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );  /* unchanged */
@@ -628,26 +628,26 @@ static test_case_result_t testParseInt( test_fixture_t *fix )
     int64_t number;
     utf8stringview_t remainder = UTF8STRINGVIEW_EMPTY;
 
-    const utf8error_t u8err1 = utf8stringview_parse_int( &regular_view, &number, &remainder );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err1 );
+    const u8_error_t u8err1 = utf8stringview_parse_int( &regular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err1 );
     TEST_EXPECT_EQUAL_INT( LLONG_MIN, number );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
 
     const utf8stringview_t empty_view = UTF8STRINGVIEW( regular_arr, 0 );
-    const utf8error_t u8err2 = utf8stringview_parse_int( &empty_view, &number, &remainder );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err2 );
+    const u8_error_t u8err2 = utf8stringview_parse_int( &empty_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, u8err2 );
     TEST_EXPECT_EQUAL_INT( 0, number );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
 
     static const char *const irregular_arr = "  -1009223372036854775808*  ";
     const utf8stringview_t irregular_view = UTF8STRINGVIEW_STR( irregular_arr );
-    const utf8error_t u8err3 = utf8stringview_parse_int( &irregular_view, &number, &remainder );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err3 );
+    const u8_error_t u8err3 = utf8stringview_parse_int( &irregular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err3 );
     TEST_EXPECT( (0==number)||(LLONG_MIN==number) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );
 
-    const utf8error_t u8err4 = utf8stringview_parse_int( &regular_view, &number, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err4 );
+    const u8_error_t u8err4 = utf8stringview_parse_int( &regular_view, &number, NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err4 );
     TEST_EXPECT_EQUAL_INT( LLONG_MIN, number );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );  /* unchanged */
 
@@ -661,26 +661,26 @@ static test_case_result_t testParseFloat( test_fixture_t *fix )
     double number;
     utf8stringview_t remainder = UTF8STRINGVIEW_EMPTY;
 
-    const utf8error_t u8err1 = utf8stringview_parse_float( &regular_view, &number, &remainder );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err1 );
+    const u8_error_t u8err1 = utf8stringview_parse_float( &regular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err1 );
     TEST_EXPECT_EQUAL_FLOAT( -2.2250738585072014E-308, number );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
 
     const utf8stringview_t empty_view = UTF8STRINGVIEW( regular_arr, 0 );
-    const utf8error_t u8err2 = utf8stringview_parse_float( &empty_view, &number, &remainder );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err2 );
+    const u8_error_t u8err2 = utf8stringview_parse_float( &empty_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, u8err2 );
     TEST_EXPECT_EQUAL_FLOAT( 0.0, number );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
 
     static const char *const irregular_arr = "  0000001.7976931348623159e308*  ";
     const utf8stringview_t irregular_view = UTF8STRINGVIEW_STR( irregular_arr );
-    const utf8error_t u8err3 = utf8stringview_parse_float( &irregular_view, &number, &remainder );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err3 );
+    const u8_error_t u8err3 = utf8stringview_parse_float( &irregular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_OUT_OF_RANGE, u8err3 );
     TEST_EXPECT_EQUAL_FLOAT( INFINITY, number );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );
 
-    const utf8error_t u8err4 = utf8stringview_parse_float( &regular_view, &number, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err4 );
+    const u8_error_t u8err4 = utf8stringview_parse_float( &regular_view, &number, NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err4 );
     TEST_EXPECT_EQUAL_FLOAT( -2.2250738585072014E-308, number );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );  /* unchanged */
 

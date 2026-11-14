@@ -22,7 +22,7 @@
 
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8string.h"
-#include "utf8stringbuf/utf8error.h"
+#include "u8/u8_error.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -91,9 +91,9 @@ typedef struct utf8stringview_struct utf8stringview_t;
  *  \param this_ pointer to own object attributes
  *  \param start pointer to a byte array, must not be NULL.
  *  \param length length of the byte array. In case start is NULL, length must be 0.
- *  \return UTF8ERROR_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
+ *  \return U8_ERROR_PARAM_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
  */
-static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const char* start, size_t length );
+static inline u8_error_t utf8stringview_init( utf8stringview_t *this_, const char* start, size_t length );
 
 /*!
  *  \brief initializes a stringview struct
@@ -117,10 +117,10 @@ static inline void utf8stringview_init_str( utf8stringview_t *this_, const char*
  *  \param cstring a 0-terminated string containing a valid utf8 sequence, must not be NULL.
  *  \param start_idx the start index from where the stringview shall start.
  *  \param length length of the stringview.
- *  \return UTF8ERROR_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
- *          UTF8ERROR_OUT_OF_RANGE also if start or end position exceeds a terminating zero, resulting utf8stringview_t is shortened then.
+ *  \return U8_ERROR_PARAM_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
+ *          U8_ERROR_PARAM_OUT_OF_RANGE also if start or end position exceeds a terminating zero, resulting utf8stringview_t is shortened then.
  */
-static inline utf8error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length );
+static inline u8_error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length );
 
 /*!
  *  \brief destroys a stringview struct
@@ -241,9 +241,9 @@ static inline bool utf8stringview_contains_view( const utf8stringview_t *this_, 
  *  \param pattern The 0-terminated string to search
  *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
  *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
- *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
+ *  \return U8_ERROR_NOT_FOUND if there is no match, U8_ERROR_NONE otherwise
  */
-static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_first_str( const utf8stringview_t *this_,
                                                              utf8string_t *pattern,
                                                              utf8stringview_t *out_before,
                                                              utf8stringview_t *out_after
@@ -256,9 +256,9 @@ static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringvie
  *  \param pattern The utf8stringview_t to search
  *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
  *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
- *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
+ *  \return U8_ERROR_NOT_FOUND if there is no match, U8_ERROR_NONE otherwise
  */
-static inline utf8error_t utf8stringview_split_at_first_view( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_first_view( const utf8stringview_t *this_,
                                                               const utf8stringview_t *pattern,
                                                               utf8stringview_t *out_before,
                                                               utf8stringview_t *out_after
@@ -271,9 +271,9 @@ static inline utf8error_t utf8stringview_split_at_first_view( const utf8stringvi
  *  \param pattern The 0-terminated string to search
  *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
  *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
- *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
+ *  \return U8_ERROR_NOT_FOUND if there is no match, U8_ERROR_NONE otherwise
  */
-static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_last_str( const utf8stringview_t *this_,
                                                             utf8string_t *pattern,
                                                             utf8stringview_t *out_before,
                                                             utf8stringview_t *out_after
@@ -286,9 +286,9 @@ static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview
  *  \param pattern The utf8stringview_t to search
  *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
  *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
- *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
+ *  \return U8_ERROR_NOT_FOUND if there is no match, U8_ERROR_NONE otherwise
  */
-static inline utf8error_t utf8stringview_split_at_last_view( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_last_view( const utf8stringview_t *this_,
                                                              const utf8stringview_t *pattern,
                                                              utf8stringview_t *out_before,
                                                              utf8stringview_t *out_after
@@ -301,12 +301,12 @@ static inline utf8error_t utf8stringview_split_at_last_view( const utf8stringvie
  *  \param this_ pointer to own object attributes
  *  \param[out] out_number The parsed integer
  *  \param[out] out_remainder The remaining, unparsed string view behind the number. NULL if value not needed.
- *  \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
- *          UTF8ERROR_NOT_FOUND in case there is no decimal integer.
- *          UTF8ERROR_NULL_PARAM if this_ or out_number is NULL
- *          UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
+ *  \return U8_ERROR_NONE in case of success: An integer number has been parsed.
+ *          U8_ERROR_NOT_FOUND in case there is no decimal integer.
+ *          U8_ERROR_PARAM_MISSING if this_ or out_number is NULL
+ *          U8_ERROR_PARAM_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
  */
-utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );
+u8_error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );
 
 /*!
  *  \brief Parses a floating point number from a string view in decimal mantissa, optional fraction and optional exponent format
@@ -315,12 +315,12 @@ utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *ou
  *  \param this_ pointer to own object attributes
  *  \param[out] out_number The parsed floating point number
  *  \param[out] out_remainder The remaining, unparsed string view behind the number. NULL if value not needed.
- *  \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
- *          UTF8ERROR_NOT_FOUND in case there is no number.
- *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
- *          UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
+ *  \return U8_ERROR_NONE in case of success: An integer number has been parsed.
+ *          U8_ERROR_NOT_FOUND in case there is no number.
+ *          U8_ERROR_PARAM_MISSING in this_ or out_number is NULL
+ *          U8_ERROR_PARAM_OUT_OF_RANGE in case there is a number which does not fit into double.
  */
-utf8error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
+u8_error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
 
 #ifdef __cplusplus
 }

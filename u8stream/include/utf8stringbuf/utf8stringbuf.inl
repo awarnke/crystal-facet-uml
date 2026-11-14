@@ -110,8 +110,8 @@ static inline utf8stringview_t utf8stringbuf_get_view( const utf8stringbuf_t *th
 {
     utf8stringview_t result;
     assert( NULL != (*this_).buf );
-    const utf8error_t err = utf8stringview_init( &result, (*this_).buf, strlen( (*this_).buf ) );
-    assert( UTF8ERROR_SUCCESS == err );
+    const u8_error_t err = utf8stringview_init( &result, (*this_).buf, strlen( (*this_).buf ) );
+    assert( U8_ERROR_NONE == err );
     (void) err;  /* do not warn on unused value */
     return result;
 }
@@ -213,9 +213,9 @@ static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t *this_, con
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
 
-static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *original )
+static inline u8_error_t utf8stringbuf_copy_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *original )
 {
-    utf8error_t complete = UTF8ERROR_SUCCESS;
+    u8_error_t complete = U8_ERROR_NONE;
 #if __GNUC__ >= 8
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstringop-truncation"
@@ -227,18 +227,18 @@ static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t *this_, const 
     if ( (*this_).buf[(*this_).size-1] != '\0' )
     {
         utf8_string_buf_private_make_null_termination( this_ );
-        complete = UTF8ERROR_TRUNCATED;
+        complete = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return complete;
 }
 
-static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t *this_, const char *original )
+static inline u8_error_t utf8stringbuf_copy_str( utf8stringbuf_t *this_, const char *original )
 {
-    utf8error_t complete = UTF8ERROR_SUCCESS;
+    u8_error_t complete = U8_ERROR_NONE;
     if ( original == NULL )
     {
         (*this_).buf[0] = '\0';
-        complete = UTF8ERROR_NULL_PARAM;
+        complete = U8_ERROR_PARAM_MISSING;
     }
     else
     {
@@ -253,16 +253,16 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t *this_, const 
         if ( (*this_).buf[(*this_).size-1] != '\0' )
         {
             utf8_string_buf_private_make_null_termination( this_ );
-            complete = UTF8ERROR_TRUNCATED;
+            complete = U8_ERROR_STRING_BUFFER_EXCEEDED;
         }
     }
     return complete;
 }
 
-static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t *this_, const utf8stringview_t *original )
+static inline u8_error_t utf8stringbuf_copy_view( utf8stringbuf_t *this_, const utf8stringview_t *original )
 {
     assert( original != NULL );
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
 
     const size_t origLen = utf8stringview_get_length( original );
     if ( origLen < (*this_).size )
@@ -281,18 +281,18 @@ static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t *this_, const
             /* buffer non-existant */
         }
         utf8_string_buf_private_make_null_termination( this_ );
-        result = UTF8ERROR_TRUNCATED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     return result;
 }
 
-static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, const char *appendix )
+static inline u8_error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, const char *appendix )
 {
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
     if ( appendix == NULL )
     {
-        result = UTF8ERROR_NULL_PARAM;
+        result = U8_ERROR_PARAM_MISSING;
     }
     else
     {
@@ -319,7 +319,7 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, cons
                 /* buffer full */
             }
             utf8_string_buf_private_make_null_termination( this_ );
-            result = UTF8ERROR_TRUNCATED;
+            result = U8_ERROR_STRING_BUFFER_EXCEEDED;
         }
 
         /* For the standard use case, strlen and memcpy are faster than strncpy; strncat does not provide an error */
@@ -327,8 +327,8 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, cons
     return result;
 }
 
-static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *appendix ) {
-    utf8error_t result = UTF8ERROR_SUCCESS;
+static inline u8_error_t utf8stringbuf_append_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *appendix ) {
+    u8_error_t result = U8_ERROR_NONE;
     const size_t start = strlen( (*this_).buf );
 
     const size_t appLen = strlen( (*appendix).buf );
@@ -348,14 +348,14 @@ static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t *this_, cons
             /* buffer full */
         }
         utf8_string_buf_private_make_null_termination( this_ );
-        result = UTF8ERROR_TRUNCATED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     /* For the standard use case, strlen and memcpy are faster than strncpy; strncat does not provide an error */
     return result;
 }
 
-static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t *this_, const int64_t appendix )
+static inline u8_error_t utf8stringbuf_append_int( utf8stringbuf_t *this_, const int64_t appendix )
 {
     char numberStr[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
     /* Note: snprintf is not available on every OS */
@@ -363,7 +363,7 @@ static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t *this_, cons
     return utf8stringbuf_append_str( this_, numberStr );
 }
 
-static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t *this_, const uint64_t appendix )
+static inline u8_error_t utf8stringbuf_append_hex( utf8stringbuf_t *this_, const uint64_t appendix )
 {
     char numberStr[17]; /* this is sufficient for 64 bit integers */
     /* Note: snprintf is not available on every OS */
@@ -377,10 +377,10 @@ static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t *this_ )
     return utf8stringbuf_new( &((*this_).buf[this_Length]), (*this_).size - this_Length );
 }
 
-static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, const utf8stringview_t *appendix )
+static inline u8_error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, const utf8stringview_t *appendix )
 {
     assert( appendix != NULL );
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
     const size_t start = strlen( (*this_).buf );
 
     const size_t appLen = utf8stringview_get_length( appendix );
@@ -401,7 +401,7 @@ static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, con
             /* buffer full */
         }
         utf8_string_buf_private_make_null_termination( this_ );
-        result = UTF8ERROR_TRUNCATED;
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     return result;

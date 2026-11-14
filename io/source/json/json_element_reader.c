@@ -387,8 +387,8 @@ u8_error_t json_element_reader_get_next_head( json_element_reader_t *this_, data
                 {
                     utf8stringbuf_get_string( &((*this_).temp_string) );
                     utf8stringbuf_clear( &((*this_).temp_string) );
-                    const utf8error_t no_space = utf8stringbuf_append_int( &((*this_).temp_string), parsed_integer );
-                    assert( no_space == UTF8ERROR_SUCCESS );
+                    const u8_error_t no_space = utf8stringbuf_append_int( &((*this_).temp_string), parsed_integer );
+                    assert( no_space == U8_ERROR_NONE );
                     (void) no_space;
                     data_head_set_value( out_info, utf8stringbuf_get_string( &((*this_).temp_string) ) );
                 }

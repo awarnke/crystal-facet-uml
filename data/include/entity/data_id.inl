@@ -95,9 +95,9 @@ static inline void data_id_init_by_stringview ( data_id_t *this_,
             const utf8stringview_t int_to_parse
                 = UTF8STRINGVIEW( utf8stringview_get_start( string_to_parse )+1, utf8stringview_get_length( string_to_parse )-1 );
             int64_t number;
-            const utf8error_t int_err = utf8stringview_parse_int( &int_to_parse, &number, out_remainder );
+            const u8_error_t int_err = utf8stringview_parse_int( &int_to_parse, &number, out_remainder );
             const size_t byte_length = utf8stringview_get_length( &int_to_parse ) - utf8stringview_get_length( out_remainder );
-            if (( int_err == UTF8ERROR_SUCCESS )&&( byte_length >= 4 )) {
+            if (( int_err == U8_ERROR_NONE )&&( byte_length >= 4 )) {
                 (*this_).row = number;
             }
             else {
@@ -186,11 +186,11 @@ static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t tabl
     &&( (*this_).row == row )&&( (*this_).table == table ) );
 }
 
-static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str )
+static inline u8_error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str )
 {
     assert( (*this_).table >= DATA_TABLE_VOID );
     assert( (*this_).table <= DATA_TABLE_DIAGRAM );
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
     switch ( (*this_).table )
     {
         default:

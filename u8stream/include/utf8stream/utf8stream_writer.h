@@ -87,10 +87,10 @@ static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this
  *  \param this_ The destination string buffer
  *  \param codepoint The unicode codepoint to be written
  *  \return U8_ERROR_NONE in case of success,
- *          UTF8ERROR_NOT_A_CODEPOINT if codepoint is greater than 0x10ffff,
+ *          U8_ERROR_INVALID_ENCODING if codepoint is greater than 0x10ffff,
  *          U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline utf8error_t utf8stream_writer_write_char( utf8stream_writer_t *this_, const uint32_t codepoint );
+static inline u8_error_t utf8stream_writer_write_char( utf8stream_writer_t *this_, const uint32_t codepoint );
 
 /*!
  *  \brief writes an utf8 view to a stream

@@ -86,9 +86,9 @@ static inline unsigned int io_export_head_get_major_version( io_export_head_t *t
             const char *version_as_string = data_head_get_value_const( &((*this_).temp_head) );
             int64_t parsed_number;
             unsigned int byte_length;
-            utf8error_t err = utf8string_parse_int( version_as_string, &byte_length, &parsed_number );
+            u8_error_t err = utf8string_parse_int( version_as_string, &byte_length, &parsed_number );
             (void) byte_length;
-            if ( UTF8ERROR_SUCCESS == err )
+            if ( U8_ERROR_NONE == err )
             {
                 result = parsed_number;
             }

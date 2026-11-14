@@ -44,12 +44,12 @@ static inline u8_error_t universal_memory_output_stream_private_write_0term ( un
         {
             /* use a utf8stringview_t to determine the end-position of the last full unicode codepoint: */
             utf8stringview_t view_on_buf;
-            const utf8error_t cut = utf8stringview_init( &view_on_buf, (*this_).mem_buf_start, (*this_).mem_buf_size-1 );
+            const u8_error_t cut = utf8stringview_init( &view_on_buf, (*this_).mem_buf_start, (*this_).mem_buf_size-1 );
             char *const last_char
                 = &(  (*(  (char(*)[])utf8stringview_get_start(&view_on_buf)  ))[utf8stringview_get_length(&view_on_buf)]  );
             *last_char = '\0';
             utf8stringview_destroy( &view_on_buf );
-            if ( cut == UTF8ERROR_SUCCESS )
+            if ( cut == U8_ERROR_NONE )
             {
                 U8_TRACE_INFO( "last byte overwritten by terminating zero" );
                 /* prevent errors on consecutive calls to flush (e.g. at a reset to utf8stream_writer): */

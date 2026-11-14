@@ -102,9 +102,9 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
             data_id_t probe_id = DATA_ID_VOID;
             utf8stringview_t string_to_parse;
             utf8stringview_t remainder = UTF8STRINGVIEW_EMPTY;
-            const utf8error_t region_err
+            const u8_error_t region_err
                 = utf8stringview_init_region( &string_to_parse, text, text_current_byte, text_byte_length - text_current_byte );
-            if ( region_err == UTF8ERROR_SUCCESS )
+            if ( region_err == U8_ERROR_NONE )
             {
                 data_id_init_by_stringview( &probe_id, &string_to_parse, &remainder );
             }

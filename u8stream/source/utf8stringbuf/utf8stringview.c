@@ -8,10 +8,10 @@
 extern "C" {
 #endif
 
-utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder )
+u8_error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder )
 {
     assert( out_number != NULL );
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* the maximum int64 decimal presentation is 20 characters: -9223372036854775808 */
     /* adding some buffer for leading zeros and spaces... */
@@ -19,7 +19,7 @@ utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *ou
     utf8stringbuf_t number_buf = UTF8STRINGBUF( number_arr );
     result |= utf8stringbuf_copy_view( &number_buf, this_ );
     /* it is ok if not all characters could be copied, a number cannot be longer than 39 characters. */
-    result = UTF8ERROR_SUCCESS;
+    result = U8_ERROR_NONE;
 
     unsigned int byte_length = 0;
     result |= utf8string_parse_int( utf8stringbuf_get_string( &number_buf ), &byte_length, out_number );
@@ -32,10 +32,10 @@ utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *ou
     return result;
 }
 
-utf8error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder )
+u8_error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder )
 {
     assert( out_number != NULL );
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* the maximum double 64 decimal presentation in e-notation is 23 characters: -2.2250738585072014E-308 */
     /* adding some buffer for leading zeros, spaces, additional accuracy and non-e-notation */
@@ -43,7 +43,7 @@ utf8error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *o
     utf8stringbuf_t number_buf = UTF8STRINGBUF( number_arr );
     result |= utf8stringbuf_copy_view( &number_buf, this_ );
     /* it is ok if not all characters could be copied, a float number cannot be longer than 79 characters. */
-    result = UTF8ERROR_SUCCESS;
+    result = U8_ERROR_NONE;
 
     unsigned int byte_length = 0;
     result |= utf8string_parse_float( utf8stringbuf_get_string( &number_buf ), &byte_length, out_number );

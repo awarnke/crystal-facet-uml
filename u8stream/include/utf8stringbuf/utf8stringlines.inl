@@ -95,11 +95,11 @@ static inline void utf8stringlines_private_step_to_next ( utf8stringlines_t *thi
             utf8stringview_t before = UTF8STRINGVIEW_EMPTY;
             utf8stringview_t after = UTF8STRINGVIEW_EMPTY;
 
-            utf8error_t err1 = utf8stringview_init_region( &before, start, 0 /*start_idx*/, line_end_pos /*length*/ );
-            assert( err1 == UTF8ERROR_SUCCESS );
+            u8_error_t err1 = utf8stringview_init_region( &before, start, 0 /*start_idx*/, line_end_pos /*length*/ );
+            assert( err1 == U8_ERROR_NONE );
             (void) err1;  /* ok to ignore an error - should not happen */
-            utf8error_t err2 = utf8stringview_init_region( &after, start, line_end_pos /*start_idx*/, len-line_end_pos /*length*/ );
-            assert( err2 == UTF8ERROR_SUCCESS );
+            u8_error_t err2 = utf8stringview_init_region( &after, start, line_end_pos /*start_idx*/, len-line_end_pos /*length*/ );
+            assert( err2 == U8_ERROR_NONE );
             (void) err2;  /* ok to ignore an error - should not happen */
 
             (*this_).next_is_end = ( 0 == utf8stringview_get_length( &after ))&&( ! force_next_line );

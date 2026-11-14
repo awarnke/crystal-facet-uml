@@ -1372,8 +1372,8 @@ void gui_attributes_editor_private_id_update_view ( gui_attributes_editor_t *thi
     utf8stringbuf_clear( &data_id_string );
     if ( data_id_is_valid( &((*this_).selected_object_id) ) )
     {
-        utf8error_t str_err = data_id_to_utf8stringbuf ( &((*this_).selected_object_id), data_id_string );
-        if ( UTF8ERROR_SUCCESS != str_err )
+        u8_error_t str_err = data_id_to_utf8stringbuf ( &((*this_).selected_object_id), data_id_string );
+        if ( U8_ERROR_NONE != str_err )
         {
             U8_LOG_ERROR_HEX( "data_id_to_utf8stringbuf failed:", str_err );
         }

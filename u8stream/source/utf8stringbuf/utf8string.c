@@ -18,9 +18,9 @@
 extern "C" {
 #endif
 
-utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_length, int64_t *out_number )
+u8_error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_length, int64_t *out_number )
 {
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
     if (( this_ != NULL )&&( out_number != NULL )) {
         char *endptr = NULL;
         errno = 0;
@@ -28,7 +28,7 @@ utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_le
         if ((parseResult==0)||(parseResult==LLONG_MIN)||(parseResult==LLONG_MAX))
         {
             if (( errno == ERANGE )||( errno == EINVAL )) {
-                result = UTF8ERROR_OUT_OF_RANGE;
+                result = U8_ERROR_PARAM_OUT_OF_RANGE;
             }
         }
         assert( endptr != NULL );  /* this should not happen, but do not take this for granted */
@@ -45,19 +45,19 @@ utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_le
         }
         if ( length == 0 )
         {
-            result = UTF8ERROR_NOT_FOUND;
+            result = U8_ERROR_NOT_FOUND;
         }
         *out_number = parseResult;
     }
     else {
-        result = UTF8ERROR_NULL_PARAM;
+        result = U8_ERROR_PARAM_MISSING;
     }
     return result;
 }
 
-utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_length, double *out_number )
+u8_error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_length, double *out_number )
 {
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
     if (( this_ != NULL )&&( out_number != NULL )) {
         char *endptr = NULL;
         errno = 0;
@@ -75,7 +75,7 @@ utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_
         if ((parseResult==INFINITY)||(parseResult==-INFINITY)||(parseResult==0.0)||(parseResult==-0.0))
         {
             if (( errno == ERANGE )||( errno == EINVAL )) {
-                result = UTF8ERROR_OUT_OF_RANGE;
+                result = U8_ERROR_PARAM_OUT_OF_RANGE;
             }
         }
         assert( endptr != NULL );  /* this should not happen, but do not take this for granted */
@@ -92,12 +92,12 @@ utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_
         }
         if ( length == 0 )
         {
-            result = UTF8ERROR_NOT_FOUND;
+            result = U8_ERROR_NOT_FOUND;
         }
         *out_number = parseResult;
     }
     else {
-        result = UTF8ERROR_NULL_PARAM;
+        result = U8_ERROR_PARAM_MISSING;
     }
     return result;
 }

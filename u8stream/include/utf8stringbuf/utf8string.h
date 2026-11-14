@@ -9,7 +9,7 @@
  */
 
 #include "utf8stringbuf/utf8codepoint.h"
-#include "utf8stringbuf/utf8error.h"
+#include "u8/u8_error.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -107,29 +107,29 @@ static inline bool utf8string_contains_str( utf8string_t *this_, utf8string_t *p
  * \brief Parses a signed integer from a string in decimal format
  *
  * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A 0-terminated c string. In case of NULL, this function returns UTF8ERROR_NULL_PARAM.
+ * \param this_ A 0-terminated c string. In case of NULL, this function returns U8_ERROR_PARAM_MISSING.
  * \param out_byte_length The number of bytes parsed. (In utf8, this is identical to the number of code points)
  * \param out_number The parsed integer
- * \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
- *         UTF8ERROR_NOT_FOUND in case there is no decimal integer.
- *         UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
- *         UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
+ * \return U8_ERROR_NONE in case of success: An integer number has been parsed.
+ *         U8_ERROR_NOT_FOUND in case there is no decimal integer.
+ *         U8_ERROR_PARAM_MISSING in this_ or out_number is NULL
+ *         U8_ERROR_PARAM_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
  */
-utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_length, int64_t *out_number );
+u8_error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_length, int64_t *out_number );
 
 /*!
  * \brief Parses a floating point number from a string in decimal mantissa, optional fraction and optional exponent format
  *
  * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A 0-terminated c string. In case of NULL, this function returns UTF8ERROR_NULL_PARAM.
+ * \param this_ A 0-terminated c string. In case of NULL, this function returns U8_ERROR_PARAM_MISSING.
  * \param out_byte_length The number of bytes parsed. (In utf8, this is identical to the number of code points)
  * \param out_number The parsed floating point number
- * \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
- *         UTF8ERROR_NOT_FOUND in case there is no number.
- *         UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
- *         UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
+ * \return U8_ERROR_NONE in case of success: An integer number has been parsed.
+ *         U8_ERROR_NOT_FOUND in case there is no number.
+ *         U8_ERROR_PARAM_MISSING in this_ or out_number is NULL
+ *         U8_ERROR_PARAM_OUT_OF_RANGE in case there is a number which does not fit into double.
  */
-utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_length, double *out_number );
+u8_error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_length, double *out_number );
 
 #ifdef __cplusplus
 }

@@ -290,9 +290,9 @@ u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_diagram_stereotype, DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -342,9 +342,9 @@ u8_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_databa
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_diagram_name, DATA_DIAGRAM_MAX_NAME_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -394,9 +394,9 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_diagram_description, DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -717,9 +717,9 @@ u8_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( da
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_classifier_stereotype, DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -769,9 +769,9 @@ u8_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_dat
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_classifier_name, DATA_CLASSIFIER_MAX_NAME_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -821,9 +821,9 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_classifier_description, DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -1389,9 +1389,9 @@ u8_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_databas
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_feature_key, DATA_FEATURE_MAX_KEY_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -1441,9 +1441,9 @@ u8_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_datab
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_feature_value, DATA_FEATURE_MAX_VALUE_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -1493,9 +1493,9 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_feature_description, DATA_FEATURE_MAX_DESCRIPTION_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -1801,9 +1801,9 @@ u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( 
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_relationship_stereotype, DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -1855,9 +1855,9 @@ u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_d
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_relationship_name, DATA_RELATIONSHIP_MAX_NAME_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );
@@ -1907,9 +1907,9 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
         }
         else
         {
-            out_err |= UTF8ERROR_TRUNCATED;
+            out_err |= U8_ERROR_STRING_BUFFER_EXCEEDED;
             utf8stringview_init( &shortened_text, new_relationship_description, DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH );
-            /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
+            /* ignore a possible U8_ERROR_PARAM_OUT_OF_RANGE result */
         }
         out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         out_err |= utf8stream_writer_flush( &((*this_).escaped) );

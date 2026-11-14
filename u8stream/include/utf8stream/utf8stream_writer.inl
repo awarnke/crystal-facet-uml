@@ -61,7 +61,7 @@ static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this
     return err;
 }
 
-static inline utf8error_t utf8stream_writer_write_char( utf8stream_writer_t *this_, const uint32_t codepoint )
+static inline u8_error_t utf8stream_writer_write_char( utf8stream_writer_t *this_, const uint32_t codepoint )
 {
     assert( (*this_).output_stream != NULL );
 

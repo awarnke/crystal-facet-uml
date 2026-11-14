@@ -268,7 +268,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -379,7 +379,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -433,7 +433,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -635,7 +635,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -670,7 +670,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -705,7 +705,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -740,7 +740,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -775,7 +775,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -810,7 +810,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -845,7 +845,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -880,7 +880,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -915,7 +915,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -950,7 +950,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
@@ -985,7 +985,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                         = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
-                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
+                        /* float_err could be a U8_ERROR_NOT_FOUND or a U8_ERROR_PARAM_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
                                                  U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
