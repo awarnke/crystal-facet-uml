@@ -6,7 +6,7 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_database_listener_register_and_notify( test_fixture_t *test_env );
 static test_case_result_t test_database_listener_registration_full( test_fixture_t *test_env );
@@ -33,7 +33,7 @@ static void callback_notification(void* listener_instance, data_database_listene
     (*((int*)listener_instance)) ++;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     callback_counter = 0;
     return NULL;

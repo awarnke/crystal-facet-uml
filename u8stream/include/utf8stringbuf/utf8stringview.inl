@@ -6,10 +6,10 @@
 extern "C" {
 #endif
 
-static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const char* start, size_t length )
+static inline u8_error_t utf8stringview_init( utf8stringview_t *this_, const char* start, size_t length )
 {
     assert( start != NULL );
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
     /* clean type would have been:  char ( *start_arr )[] = (char(*)[]) start; */
 
     /* check start */
@@ -25,20 +25,20 @@ static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const ch
             {
                 start += 3;
                 length -= 3;  /* length was greater than 2 - otherwise start_copy[2] would have been 0x0 */
-                result = UTF8ERROR_OUT_OF_RANGE;
+                result = U8_ERROR_PARAM_OUT_OF_RANGE;
             }
             else
             {
                 start += 2;
                 length -= 2;  /* length was greater than 1 - otherwise start_copy[1] would have been 0x0 */
-                result = UTF8ERROR_OUT_OF_RANGE;
+                result = U8_ERROR_PARAM_OUT_OF_RANGE;
             }
         }
         else
         {
             start += 1;
             length -= 1;  /* length was greater than 0 - otherwise start_copy[0] would have been 0x0 */
-            result = UTF8ERROR_OUT_OF_RANGE;
+            result = U8_ERROR_PARAM_OUT_OF_RANGE;
         }
     }
     else
@@ -65,7 +65,7 @@ static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const ch
         {
             /* 1 byte char at end_copy[2] */
             length -= 1;  /* length was greater than 0 - otherwise end_copy[3] would have been 0x0 */
-            result = UTF8ERROR_OUT_OF_RANGE;
+            result = U8_ERROR_PARAM_OUT_OF_RANGE;
         }
         else
         {
@@ -77,13 +77,13 @@ static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const ch
             {
                 /* 2 byte char at end_copy[1] */
                 length -= 1;  /* length was greater than 0 - otherwise end_copy[3] would have been 0x0 */
-                result = UTF8ERROR_OUT_OF_RANGE;
+                result = U8_ERROR_PARAM_OUT_OF_RANGE;
             }
             else if ( ( 0x80 & (end_copy[1]) ) == 0x00 )
             {
                 /* 1 byte char at end_copy[1] */
                 length -= 2;  /* length was greater than 1 - otherwise end_copy[2] would have been 0x0 */
-                result = UTF8ERROR_OUT_OF_RANGE;
+                result = U8_ERROR_PARAM_OUT_OF_RANGE;
             }
             else
             {
@@ -95,7 +95,7 @@ static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const ch
                 {
                     /* assume 1 byte char at end_copy[0] */
                     length -= 3;  /* length was greater than 2 - otherwise end_copy[1] would have been 0x0 */
-                    result = UTF8ERROR_OUT_OF_RANGE;
+                    result = U8_ERROR_PARAM_OUT_OF_RANGE;
                 }
             }
         }
@@ -110,15 +110,15 @@ static inline void utf8stringview_init_str( utf8stringview_t *this_, const char*
     *this_ = (utf8stringview_t){.start=cstring,.length=(cstring==NULL)?0:strlen(cstring)};
 }
 
-static inline utf8error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length )
+static inline u8_error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length )
 {
     assert( cstring != NULL );
-    utf8error_t result = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
     const size_t cstring_len = strlen( cstring );
     if ( start_idx > cstring_len )
     {
         *this_ = (utf8stringview_t){.start=cstring+start_idx,.length=0};
-        result |= UTF8ERROR_OUT_OF_RANGE;
+        result |= U8_ERROR_PARAM_OUT_OF_RANGE;
     }
     else
     {
@@ -127,7 +127,7 @@ static inline utf8error_t utf8stringview_init_region( utf8stringview_t *this_, c
         if ( length > max_len )
         {
             /* notify that stringview cannot exceed the cstring */
-            result |= UTF8ERROR_OUT_OF_RANGE;
+            result |= U8_ERROR_PARAM_OUT_OF_RANGE;
         }
     }
     return result;
@@ -357,12 +357,12 @@ static inline bool utf8stringview_contains_view( const utf8stringview_t *this_, 
     return result;
 }
 
-static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_first_str( const utf8stringview_t *this_,
                                                              utf8string_t *pattern,
                                                              utf8stringview_t *out_before,
                                                              utf8stringview_t *out_after )
 {
-    utf8error_t result = UTF8ERROR_NOT_FOUND;
+    u8_error_t result = U8_ERROR_NOT_FOUND;
 
     if (( pattern != NULL )&&( this_ != NULL ))
     {
@@ -370,11 +370,11 @@ static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringvie
         if ( pattern_len <= (*this_).length )
         {
             const char *const end = (*this_).start + (*this_).length - pattern_len;
-            for ( const char* pos = (*this_).start; ( pos <= end )&&( result == UTF8ERROR_NOT_FOUND ); pos ++ )
+            for ( const char* pos = (*this_).start; ( pos <= end )&&( result == U8_ERROR_NOT_FOUND ); pos ++ )
             {
                 if ( 0 == memcmp( pos, pattern, pattern_len ) )
                 {
-                    result = UTF8ERROR_SUCCESS;
+                    result = U8_ERROR_NONE;
                     if ( out_before != NULL )
                     {
                         *out_before = (utf8stringview_t){ .start = (*this_).start, .length = ( pos - (*this_).start ) };
@@ -389,28 +389,28 @@ static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringvie
     }
     else
     {
-        result = UTF8ERROR_NULL_PARAM;
+        result = U8_ERROR_PARAM_MISSING;
     }
 
     return result;
 }
 
-static inline utf8error_t utf8stringview_split_at_first_view( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_first_view( const utf8stringview_t *this_,
                                                               const utf8stringview_t *pattern,
                                                               utf8stringview_t *out_before,
                                                               utf8stringview_t *out_after )
 {
     assert( pattern != NULL );
-    utf8error_t result = UTF8ERROR_NOT_FOUND;
+    u8_error_t result = U8_ERROR_NOT_FOUND;
 
     if ( (*pattern).length <= (*this_).length )
     {
         const char *const end = (*this_).start + (*this_).length - (*pattern).length;
-        for ( const char* pos = (*this_).start; ( pos <= end )&&( result == UTF8ERROR_NOT_FOUND ); pos ++ )
+        for ( const char* pos = (*this_).start; ( pos <= end )&&( result == U8_ERROR_NOT_FOUND ); pos ++ )
         {
             if ( 0 == memcmp( pos, (*pattern).start, (*pattern).length ) )
             {
-                result = UTF8ERROR_SUCCESS;
+                result = U8_ERROR_NONE;
                 if ( out_before != NULL )
                 {
                     *out_before = (utf8stringview_t){ .start = (*this_).start, .length = ( pos - (*this_).start ) };
@@ -426,23 +426,23 @@ static inline utf8error_t utf8stringview_split_at_first_view( const utf8stringvi
     return result;
 }
 
-static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_last_str( const utf8stringview_t *this_,
                                                             utf8string_t *pattern,
                                                             utf8stringview_t *out_before,
                                                             utf8stringview_t *out_after )
 {
-    utf8error_t result = UTF8ERROR_NOT_FOUND;
+    u8_error_t result = U8_ERROR_NOT_FOUND;
 
     if (( pattern != NULL )&&( this_ != NULL ))
     {
         const size_t pattern_len = strlen( pattern );
         if ( pattern_len <= (*this_).length )
         {
-            for ( ptrdiff_t pos = (*this_).length - pattern_len; ( pos >= 0 )&&( result == UTF8ERROR_NOT_FOUND ); pos -- )
+            for ( ptrdiff_t pos = (*this_).length - pattern_len; ( pos >= 0 )&&( result == U8_ERROR_NOT_FOUND ); pos -- )
             {
                 if ( 0 == memcmp( (*this_).start + pos, pattern, pattern_len ) )
                 {
-                    result = UTF8ERROR_SUCCESS;
+                    result = U8_ERROR_NONE;
                     if ( out_before != NULL )
                     {
                         *out_before = (utf8stringview_t){ .start = (*this_).start, .length = pos };
@@ -457,27 +457,27 @@ static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview
     }
     else
     {
-        result = UTF8ERROR_NULL_PARAM;
+        result = U8_ERROR_PARAM_MISSING;
     }
 
     return result;
 }
 
-static inline utf8error_t utf8stringview_split_at_last_view( const utf8stringview_t *this_,
+static inline u8_error_t utf8stringview_split_at_last_view( const utf8stringview_t *this_,
                                                              const utf8stringview_t *pattern,
                                                              utf8stringview_t *out_before,
                                                              utf8stringview_t *out_after )
 {
     assert( pattern != NULL );
-    utf8error_t result = UTF8ERROR_NOT_FOUND;
+    u8_error_t result = U8_ERROR_NOT_FOUND;
 
     if ( (*pattern).length <= (*this_).length )
     {
-        for ( ptrdiff_t pos = (*this_).length - (*pattern).length; ( pos >= 0 )&&( result == UTF8ERROR_NOT_FOUND ); pos -- )
+        for ( ptrdiff_t pos = (*this_).length - (*pattern).length; ( pos >= 0 )&&( result == U8_ERROR_NOT_FOUND ); pos -- )
         {
             if ( 0 == memcmp( (*this_).start + pos, (*pattern).start, (*pattern).length ) )
             {
-                result = UTF8ERROR_SUCCESS;
+                result = U8_ERROR_NONE;
                 if ( out_before != NULL )
                 {
                     *out_before = (utf8stringview_t){ .start = (*this_).start, .length = pos };

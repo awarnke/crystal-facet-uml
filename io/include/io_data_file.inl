@@ -61,8 +61,8 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     assert( out_filename != NULL );
     utf8stringview_t before_winpath_sep;
     utf8stringview_t after_winpath_sep;
-    const utf8error_t err_w = utf8stringview_split_at_last_str( path, "\\", &before_winpath_sep, &after_winpath_sep );
-    if ( err_w == UTF8ERROR_SUCCESS )
+    const u8_error_t err_w = utf8stringview_split_at_last_str( path, "\\", &before_winpath_sep, &after_winpath_sep );
+    if ( err_w == U8_ERROR_NONE )
     {
         /* add the separator to before_winpath_sep */
         before_winpath_sep = UTF8STRINGVIEW( utf8stringview_get_start( &before_winpath_sep ),
@@ -71,17 +71,17 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     }
     utf8stringview_t before_unixpath_sep;
     utf8stringview_t after_unixpath_sep;
-    const utf8error_t err_u = utf8stringview_split_at_last_str( path, "/", &before_unixpath_sep, &after_unixpath_sep );
-    if ( err_u == UTF8ERROR_SUCCESS )
+    const u8_error_t err_u = utf8stringview_split_at_last_str( path, "/", &before_unixpath_sep, &after_unixpath_sep );
+    if ( err_u == U8_ERROR_NONE )
     {
         /* add the separator to before_unixpath_sep */
         before_unixpath_sep = UTF8STRINGVIEW( utf8stringview_get_start( &before_unixpath_sep ),
                                               utf8stringview_get_length( &before_unixpath_sep ) + sizeof(char)
                                             );
     }
-    if ( err_w == UTF8ERROR_SUCCESS )
+    if ( err_w == U8_ERROR_NONE )
     {
-        if ( err_u == UTF8ERROR_SUCCESS )
+        if ( err_u == U8_ERROR_NONE )
         {
             /* There is a win and a unix separator, take the shorter filename */
             if ( utf8stringview_get_length( &after_winpath_sep ) < utf8stringview_get_length( &after_unixpath_sep ) )
@@ -104,7 +104,7 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     }
     else
     {
-        if ( err_u == UTF8ERROR_SUCCESS )
+        if ( err_u == U8_ERROR_NONE )
         {
             /* There is a unix separator */
             *out_parent = before_unixpath_sep;
@@ -129,8 +129,8 @@ static inline void io_data_file_private_split_extension( const io_data_file_t *t
     assert( out_extension != NULL );
     utf8stringview_t before_dot;
     utf8stringview_t after_dot;
-    const utf8error_t err = utf8stringview_split_at_last_str( filename, ".", &before_dot, &after_dot );
-    if ( ( err != UTF8ERROR_SUCCESS )
+    const u8_error_t err = utf8stringview_split_at_last_str( filename, ".", &before_dot, &after_dot );
+    if ( ( err != U8_ERROR_NONE )
         || ( utf8stringview_get_length( &before_dot ) == 0 )
         || ( utf8stringview_get_length( &after_dot ) == 0 ) )
     {

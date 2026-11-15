@@ -12,7 +12,7 @@
 #include "entity/data_table.h"
 #include "entity/data_row.h"
 #include "utf8stringbuf/utf8stringbuf.h"
-#include "utf8stringbuf/utf8error.h"
+#include "u8/u8_error.h"
 #include "utf8stream/utf8stream_writer.h"
 #include "u8/u8_error.h"
 #include <stdint.h>
@@ -182,11 +182,11 @@ static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t tabl
  *
  *  \param this_ pointer to own object attributes
  *  \param out_str string to which to append the id
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED if the character could not be appended.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED if the character could not be appended.
  *          (this may happen if the stringbuf is smaller than DATA_ID_MAX_UTF8STRING_LENGTH)
  */
-static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str );
+static inline u8_error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str );
 
 /*!
  *  \brief prints a textual representation of this id to an utf8stream_writer_t

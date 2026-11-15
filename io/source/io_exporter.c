@@ -152,22 +152,22 @@ u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
 
     utf8stringview_t before_winpath_sep;
     utf8stringview_t after_winpath_sep;
-    const utf8error_t err_w = utf8stringview_split_at_last_str( &path_view, "\\", &before_winpath_sep, &after_winpath_sep );
-    if ( err_w != UTF8ERROR_SUCCESS )
+    const u8_error_t err_w = utf8stringview_split_at_last_str( &path_view, "\\", &before_winpath_sep, &after_winpath_sep );
+    if ( err_w != U8_ERROR_NONE )
     {
         after_winpath_sep = path_view;
     }
     utf8stringview_t before_unixpath_sep;
     utf8stringview_t after_unixpath_sep;
-    const utf8error_t err_u = utf8stringview_split_at_last_str( &after_winpath_sep, "/", &before_unixpath_sep, &after_unixpath_sep );
-    if ( err_u != UTF8ERROR_SUCCESS )
+    const u8_error_t err_u = utf8stringview_split_at_last_str( &after_winpath_sep, "/", &before_unixpath_sep, &after_unixpath_sep );
+    if ( err_u != U8_ERROR_NONE )
     {
         after_unixpath_sep = after_winpath_sep;
     }
     utf8stringview_t before_dot;
     utf8stringview_t after_dot;
-    const utf8error_t err_d = utf8stringview_split_at_last_str( &after_unixpath_sep, ".", &before_dot, &after_dot );
-    if ( ( err_d != UTF8ERROR_SUCCESS )
+    const u8_error_t err_d = utf8stringview_split_at_last_str( &after_unixpath_sep, ".", &before_dot, &after_dot );
+    if ( ( err_d != U8_ERROR_NONE )
         || ( utf8stringview_get_length( &before_dot ) == 0 )
         || ( utf8stringview_get_length( &after_dot ) == 0 ) )
     {

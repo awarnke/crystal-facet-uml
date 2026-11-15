@@ -42,9 +42,9 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
     {
         utf8stringview_t before = UTF8STRINGVIEW_EMPTY;
         utf8stringview_t after = UTF8STRINGVIEW_EMPTY;
-        const utf8error_t has_next
+        const u8_error_t has_next
             = utf8stringview_split_at_first_str( &((*this_).remaining), (*this_).separator, &before, &after );
-        if (( has_next != UTF8ERROR_SUCCESS )||( utf8string_get_length( (*this_).separator ) == 0 ))
+        if (( has_next != U8_ERROR_NONE )||( utf8string_get_length( (*this_).separator ) == 0 ))
         {
             (*this_).next_is_end = true;
             (*this_).next = (*this_).remaining;

@@ -7,7 +7,7 @@
 #include "test_environment_assert.h"
 #include "test_case_result.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_init( test_fixture_t *fix );
 static test_case_result_t test_get_grid( test_fixture_t *fix );
@@ -30,7 +30,7 @@ test_suite_t geometry_non_linear_scale_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }

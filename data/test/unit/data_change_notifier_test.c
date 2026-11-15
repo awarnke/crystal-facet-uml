@@ -8,7 +8,7 @@
 #include "test_case_result.h"
 #include <glib-object.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_notifier_list_insert_and_remove( test_fixture_t *fix );
 static test_case_result_t test_notifier_list_full( test_fixture_t *fix );
@@ -38,7 +38,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     data_change_notifier_init( &((*fix).notifier) );

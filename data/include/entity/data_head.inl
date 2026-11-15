@@ -9,14 +9,14 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
 {
     assert( NULL != head_key );
     assert( NULL != head_value );
-    utf8error_t strerr;
+    u8_error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = DATA_ROW_VOID;
 
     (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), head_key );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -24,7 +24,7 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
 
     (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), head_value );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -40,14 +40,14 @@ static inline u8_error_t data_head_init ( data_head_t *this_,
 {
     assert( NULL != head_key );
     assert( NULL != head_value );
-    utf8error_t strerr;
+    u8_error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = head_id;
 
     (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), head_key );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -55,7 +55,7 @@ static inline u8_error_t data_head_init ( data_head_t *this_,
 
     (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), head_value );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -108,9 +108,9 @@ static inline u8_error_t data_head_set_key ( data_head_t *this_, const char *key
 {
     assert( NULL != key );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).key), key );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -132,9 +132,9 @@ static inline u8_error_t data_head_set_value ( data_head_t *this_, const char *v
 {
     assert( NULL != value );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).value), value );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;

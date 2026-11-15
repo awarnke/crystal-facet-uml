@@ -191,7 +191,7 @@ u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_ch
  *  \param base_classifier_name expected new name of the classifier
  *  \param iteration number of alredy failed tries to find an unused, unique name, range 2..9999
  *  \param[out] out_name proposed new name of the classifier
- *  \return UTF8ERROR_TRUNCATED in case the provided out_name buffer is too small, U8_ERROR_NONE otherwise
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED in case the provided out_name buffer is too small, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_multi_step_changer_private_propose_classifier_name ( ctrl_multi_step_changer_t *this_,
                                                                      const char* base_classifier_name,

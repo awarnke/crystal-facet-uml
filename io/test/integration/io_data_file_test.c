@@ -8,7 +8,7 @@
 #include "test_case_result.h"
 #include <stdio.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t create_new_db( test_fixture_t *fix );
 static test_case_result_t open_existing_db( test_fixture_t *fix );
@@ -41,7 +41,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     const int stdio_err_1 = remove( DATABASE_FILENAME );
     (void) stdio_err_1;  /* do not care for errors */
@@ -126,6 +126,11 @@ static test_case_result_t open_existing_db( test_fixture_t *fix )
 
     isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( true, isopen );
+
+    /* clean up - especially finalize the prepared statements before closing the DB! */
+    ctrl_err = io_data_file_close ( &((*fix).data_file) );
+    TEST_EXPECT_EQUAL_ENUM( U8_ERROR_NONE, ctrl_err, u8_error_get_name );
+
     return TEST_CASE_RESULT_OK;
 }
 

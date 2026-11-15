@@ -10,7 +10,7 @@
 #include "test_environment_assert.h"
 #include "test_case_result.h"
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *fix );  /* extreme case */
 static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture_t *fix );  /* no parent, no siblings, no children */
@@ -55,7 +55,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     /* init cairo and pango objects */

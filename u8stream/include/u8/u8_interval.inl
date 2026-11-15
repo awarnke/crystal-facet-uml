@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-static inline u8_interval_t u8_interval_new_void()
+static inline u8_interval_t u8_interval_new_void( void )
 {
     return (u8_interval_t){ .low = NAN, .high = NAN };
 }

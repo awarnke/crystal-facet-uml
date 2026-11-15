@@ -15,7 +15,7 @@ const char *utf8stringbuf_private_format_64_bit_hex = "%" PRIx64;
  *  \private
  */
 /* function to write a code point as utf8, returns the number of bytes written and an error code */
-static inline utf8error_t utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source, int *out_len );
+static inline u8_error_t utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source, int *out_len );
 
 /* utf8 sequences longer or equal 2 bytes start with a byte with 2 highest bits set: 0xc0 */
 /* utf8 sequences longer or equal 3 bytes start with a byte with 3 highest bits set: 0xe0 */
@@ -44,27 +44,27 @@ unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t *thi
     return truncatedLength;
 }
 
-utf8error_t utf8stringbuf_append_char( utf8stringbuf_t *this_, const uint32_t appendix ) {
-    utf8error_t result;
+u8_error_t utf8stringbuf_append_char( utf8stringbuf_t *this_, const uint32_t appendix ) {
+    u8_error_t result;
     const unsigned int start = utf8stringbuf_get_length( this_ );
     int appendLen;
     result = utf8stringbuf_private_write_char( &((*this_).buf[start]), (*this_).size - start - 1, appendix, &appendLen );
-    if ( result == UTF8ERROR_SUCCESS ) {
+    if ( result == U8_ERROR_NONE ) {
         (*this_).buf[start+appendLen] = '\0';
     }
     return result;
 }
 
-utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wchar_t *appendix ) {
-    utf8error_t result = UTF8ERROR_NULL_PARAM;
+u8_error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wchar_t *appendix ) {
+    u8_error_t result = U8_ERROR_PARAM_MISSING;
     if ( appendix != NULL ) {
         unsigned int start = utf8stringbuf_get_length( this_ );
-        result = UTF8ERROR_SUCCESS;
+        result = U8_ERROR_NONE;
         for( ; appendix[0]!=L'\0'; appendix = &(appendix[1]) ) {
             int appendLen;
             result |= utf8stringbuf_private_write_char( &((*this_).buf[start]), (*this_).size - start - 1, appendix[0], &appendLen );
-            if ( result != UTF8ERROR_SUCCESS ) {
-                if ( ( result & UTF8ERROR_TRUNCATED ) != 0 ) {
+            if ( result != U8_ERROR_NONE ) {
+                if ( ( result & U8_ERROR_STRING_BUFFER_EXCEEDED ) != 0 ) {
                     break;
                 }
             }
@@ -75,9 +75,9 @@ utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wchar_t *ap
     return result;
 }
 
-static inline utf8error_t utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source, int *out_len ) {
+static inline u8_error_t utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source, int *out_len ) {
     *out_len = 0;
-    utf8error_t result = UTF8ERROR_TRUNCATED;
+    u8_error_t result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     if ( source <= 0x7ff ) {
         if ( source <= 0x7f ) {
             /* 1 byte character */
@@ -85,7 +85,7 @@ static inline utf8error_t utf8stringbuf_private_write_char( char *destination, u
             if ( max_size >= 1 ) {
                 destination[0] = source;
                 *out_len = 1;
-                result = UTF8ERROR_SUCCESS;
+                result = U8_ERROR_NONE;
             }
         }
         else {
@@ -94,7 +94,7 @@ static inline utf8error_t utf8stringbuf_private_write_char( char *destination, u
                 destination[0] = 0xc0 | ( source >> 6 );
                 destination[1] = 0x80 | ( source & 0x3f );
                 *out_len = 2;
-                result = UTF8ERROR_SUCCESS;
+                result = U8_ERROR_NONE;
             }
         }
     }
@@ -107,7 +107,7 @@ static inline utf8error_t utf8stringbuf_private_write_char( char *destination, u
                     destination[1] = 0x80 | (( source >> 6 ) & 0x3f );
                     destination[2] = 0x80 | ( source & 0x3f );
                     *out_len = 3;
-                    result = UTF8ERROR_SUCCESS;
+                    result = U8_ERROR_NONE;
                 }
             }
             else {
@@ -118,13 +118,13 @@ static inline utf8error_t utf8stringbuf_private_write_char( char *destination, u
                     destination[2] = 0x80 | (( source >> 6 ) & 0x3f );
                     destination[3] = 0x80 | ( source & 0x3f );
                     *out_len = 4;
-                    result = UTF8ERROR_SUCCESS;
+                    result = U8_ERROR_NONE;
                 }
             }
         }
         else {
             /* note: utf8 can not encode more than 21 bits per character, and even there only 0-0x10ffff is allowed. */
-            result = UTF8ERROR_NOT_A_CODEPOINT;
+            result = U8_ERROR_INVALID_ENCODING;
         }
     }
     return result;

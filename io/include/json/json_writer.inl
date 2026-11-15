@@ -1,7 +1,7 @@
 /* File: json_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
-#include "utf8stringbuf/utf8error.h"
+#include "u8/u8_error.h"
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8codepointiterator.h"
 

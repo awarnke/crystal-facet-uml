@@ -12,7 +12,7 @@
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
-#include "utf8stringbuf/utf8error.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief constants for string sizes

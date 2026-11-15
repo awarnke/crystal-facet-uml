@@ -37,7 +37,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
     assert( NULL != feature_key );
     assert( NULL != feature_value );
     assert( NULL != feature_description );
-    utf8error_t strerr;
+    u8_error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = DATA_ROW_VOID;
@@ -46,7 +46,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
 
     (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), feature_key );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -54,7 +54,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
 
     (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), feature_value );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -62,7 +62,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
 
     (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), feature_description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -88,7 +88,7 @@ static inline u8_error_t data_feature_init ( data_feature_t *this_,
     assert( NULL != feature_value );
     assert( NULL != feature_description );
     assert( NULL != uuid );
-    utf8error_t strerr;
+    u8_error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = feature_id;
@@ -97,7 +97,7 @@ static inline u8_error_t data_feature_init ( data_feature_t *this_,
 
     (*this_).key = utf8stringbuf_new( (*this_).private_key_buffer, sizeof((*this_).private_key_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).key), feature_key );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -105,7 +105,7 @@ static inline u8_error_t data_feature_init ( data_feature_t *this_,
 
     (*this_).value = utf8stringbuf_new( (*this_).private_value_buffer, sizeof((*this_).private_value_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).value), feature_value );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -113,7 +113,7 @@ static inline u8_error_t data_feature_init ( data_feature_t *this_,
 
     (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), feature_description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -208,9 +208,9 @@ static inline u8_error_t data_feature_set_key ( data_feature_t *this_, const cha
 {
     assert( NULL != key );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).key), key );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -232,9 +232,9 @@ static inline u8_error_t data_feature_set_value ( data_feature_t *this_, const c
 {
     assert( NULL != value );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).value), value );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -251,9 +251,9 @@ static inline u8_error_t data_feature_set_description ( data_feature_t *this_, c
 {
     assert( NULL != description );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).description), description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -265,9 +265,9 @@ static inline u8_error_t data_feature_append_description ( data_feature_t *this_
 {
     assert( NULL != description );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_append_str( &((*this_).description), description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;

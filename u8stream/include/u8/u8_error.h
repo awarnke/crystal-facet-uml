@@ -23,7 +23,7 @@
  *         strerr |= data_database_reader_get_diagrams_by_classifier_id(...); },
  *  and evaluate multiple errors only once at the end.
  *
- *  The bitmasks are compatible with utf8error_t
+ *  The bitmasks are compatible with u8_error_t
  */
 enum u8_error_enum {
     U8_ERROR_NONE          = U8_ERROR_CAT_NONE,

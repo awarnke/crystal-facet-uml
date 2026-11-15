@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testInit( test_fixture_t *fix );
 static test_case_result_t testClear( test_fixture_t *fix );
@@ -103,7 +103,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     (*fix).one_byte_arr[0] = '\0';
@@ -349,7 +349,7 @@ static test_case_result_t testEndsWith( test_fixture_t *fix )
 
 static test_case_result_t testCopyBuf( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[] = "World";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
@@ -358,22 +358,22 @@ static test_case_result_t testCopyBuf( test_fixture_t *fix )
 
     /* check utf8stringbuf_copy_buf */
     error = utf8stringbuf_copy_buf( &dynTestBuf1, &dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_buf( &((*fix).one_byte_buf), &dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &(*fix).one_byte_buf, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_buf( &dynTestBuf2, &dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_buf( &dynTestBuf2, &((*fix).one_byte_buf) );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
@@ -381,39 +381,39 @@ static test_case_result_t testCopyBuf( test_fixture_t *fix )
 
 static test_case_result_t testCopyStr( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[] = "World";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
 
     /* check utf8stringbuf_copy_str */
     error = utf8stringbuf_copy_str( &dynTestBuf1, "Hello World" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &(*fix).one_byte_buf, "Hi" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &(*fix).one_byte_buf, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf1, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_MISSING, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf1, "" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf1, "Hi" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hi" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf1, "World" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "World" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -422,7 +422,7 @@ static test_case_result_t testCopyStr( test_fixture_t *fix )
 
 static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[3] = "Wo";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
@@ -431,64 +431,64 @@ static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix )
 
     /* check utf8stringbuf_copy_str, \xE2\x82\xAC is the euro symbol in utf8 */
     error = utf8stringbuf_copy_str( &dynTestBuf1, "\xE2\x82\xAC" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "\xE2\x82\xAC" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "\xE2\x82\xAC\xE2\x82\xAC" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "\xE2\x82\xAC\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "\xE2\x82\xAC\xE2\x82\xAC\xE2\x82\xAC" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "\xE2\x82\xAC\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "__\xE2\x82\xAC\xE2\x82\xAC" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "__\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "_\xE2\x82\xAC\xE2\x82\xAC" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "_\xE2\x82\xAC\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "_\xE2\x82\xAC\xE2\x82\xAC_" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "_\xE2\x82\xAC\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_copy_str, \xC2\xA2 and \xF0\xA4\xAD\xA2 are other characters in utf8 */
     error = utf8stringbuf_copy_str( &dynTestBuf1, "\xC2\xA2_" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\xC2\xA2" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf1, "\xF0\xA4\xAD\xA2" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_copy_str, \xC2\xA2 but not \xFC\xA4\xAD\xA2\xAD\xA2 are other characters in utf8 */
     error = utf8stringbuf_copy_str( &dynTestBuf2, "\xC2\xA2\xFC\xA4\xAD\xA2\xAD\xA2" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "\xC2\xA2\xFC\xA4\xAD\xA2\xAD" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "\xC2\xA2_\xFC\xA4\xAD\xA2\xAD\xA2" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "\xC2\xA2_\xFC\xA4\xAD\xA2" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( &dynTestBuf2, "\xC2\xA2_\xC2\xA2_\xC2\xA2" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf2, "\xC2\xA2_\xC2\xA2_" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -497,18 +497,18 @@ static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix )
 
 static test_case_result_t testCopyView( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
 
     /* check success */
     error = utf8stringbuf_copy_view( &(*fix).four_byte_buf, &UTF8STRINGVIEW_STR("Hi") );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &(*fix).four_byte_buf, "Hi" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check truncated */
     error = utf8stringbuf_copy_view( &(*fix).four_byte_buf, &UTF8STRINGVIEW_STR("H\xE2\x80\x8B") );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &(*fix).four_byte_buf, "H" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -517,7 +517,7 @@ static test_case_result_t testCopyView( test_fixture_t *fix )
 
 static test_case_result_t testAppendStr( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -525,43 +525,43 @@ static test_case_result_t testAppendStr( test_fixture_t *fix )
     /* check utf8stringbuf_append_str */
     utf8stringbuf_copy_str( &dynTestBuf1, "Hell" );
     error = utf8stringbuf_append_str( &dynTestBuf1, "o" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "" );
     error = utf8stringbuf_append_str( &dynTestBuf1, "Hello" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hello" );
     error = utf8stringbuf_append_str( &dynTestBuf1, "" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hello" );
     error = utf8stringbuf_append_str( &dynTestBuf1, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_MISSING, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hell" );
     error = utf8stringbuf_append_str( &dynTestBuf1, "\xC2\xA2" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hell" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hell" );
     error = utf8stringbuf_append_str( &dynTestBuf1, "o!" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hel" );
     error = utf8stringbuf_append_str( &dynTestBuf1, "\xC2\xA2!" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hel\xC2\xA2" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
@@ -569,7 +569,7 @@ static test_case_result_t testAppendStr( test_fixture_t *fix )
 
 static test_case_result_t testAppendBuf( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -579,19 +579,19 @@ static test_case_result_t testAppendBuf( test_fixture_t *fix )
     /* check utf8stringbuf_append_buf */
     utf8stringbuf_copy_str( &dynTestBuf1, "He" );
     error = utf8stringbuf_append_buf( &dynTestBuf1, &dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hel\xC2\xA2" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hel" );
     error = utf8stringbuf_append_buf( &dynTestBuf1, &dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hell" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hello" );
     error = utf8stringbuf_append_buf( &dynTestBuf1, &dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
@@ -599,7 +599,7 @@ static test_case_result_t testAppendBuf( test_fixture_t *fix )
 
 static test_case_result_t testAppendInt( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -607,37 +607,37 @@ static test_case_result_t testAppendInt( test_fixture_t *fix )
     /* check utf8stringbuf_append_int */
     utf8stringbuf_copy_str( &dynTestBuf1, "12" );
     error = utf8stringbuf_append_int( &dynTestBuf1, 345 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "12345" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "" );
     error = utf8stringbuf_append_int( &dynTestBuf1, -1234 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "-1234" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "1234" );
     error = utf8stringbuf_append_int( &dynTestBuf1, 0 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "12340" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "12345" );
     error = utf8stringbuf_append_int( &dynTestBuf1, 6 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "12345" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "1" );
     error = utf8stringbuf_append_int( &dynTestBuf1, 234567 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "12345" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "1234" );
     error = utf8stringbuf_append_int( &dynTestBuf1, -1 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "1234-" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
@@ -645,7 +645,7 @@ static test_case_result_t testAppendInt( test_fixture_t *fix )
 
 static test_case_result_t testAppendHex( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -653,19 +653,19 @@ static test_case_result_t testAppendHex( test_fixture_t *fix )
     /* check utf8stringbuf_append_hex */
     utf8stringbuf_copy_str( &dynTestBuf1, "0x" );
     error = utf8stringbuf_append_hex( &dynTestBuf1, -1 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "0xfff" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "0x" );
     error = utf8stringbuf_append_hex( &dynTestBuf1, 0 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "0x0" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "0x" );
     error = utf8stringbuf_append_hex( &dynTestBuf1, 0x1000555 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "0x100" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
@@ -673,7 +673,7 @@ static test_case_result_t testAppendHex( test_fixture_t *fix )
 
 static test_case_result_t testAppendChar( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -681,98 +681,98 @@ static test_case_result_t testAppendChar( test_fixture_t *fix )
     /* check utf8stringbuf_append_char */
     utf8stringbuf_copy_str( &dynTestBuf1, "Hell" );
     error = utf8stringbuf_append_char( &dynTestBuf1, 'o' );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append one byte too much */
     utf8stringbuf_copy_str( &dynTestBuf1, "Hello" );
     error = utf8stringbuf_append_char( &dynTestBuf1, 'o' );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_char */
     utf8stringbuf_copy_str( &dynTestBuf1, "He" );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x20ac );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "He\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append one byte too much */
     utf8stringbuf_copy_str( &dynTestBuf1, "Hel" );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x20ac );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hel" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append zero */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x0 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0x1 1-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x01 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\x01" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0x7f 1-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x7f );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\x7f" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0x80 2-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x80 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\xC2\x80" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0x7ff 2-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x07ff );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\xDF\xBF" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0x800 3-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x800 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\xE0\xA0\x80" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0xffff 3-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0xffff );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\xEF\xBF\xBF" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0x10000 4-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x10000 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\xF0\x90\x80\x80" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append 0x10ffff 4-byte code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x10ffff );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "\xF4\x8F\xBF\xBF" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* append illegal code point */
     utf8stringbuf_clear( &dynTestBuf1 );
     error = utf8stringbuf_append_char( &dynTestBuf1, 0x80000000 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_A_CODEPOINT, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_ENCODING, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -781,7 +781,7 @@ static test_case_result_t testAppendChar( test_fixture_t *fix )
 
 static test_case_result_t testAppendWStr( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -790,7 +790,7 @@ static test_case_result_t testAppendWStr( test_fixture_t *fix )
     wchar_t *wideString = L"lo";
     utf8stringbuf_copy_str( &dynTestBuf1, "Hel" );
     error = utf8stringbuf_append_wstr( &dynTestBuf1, wideString );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -798,27 +798,27 @@ static test_case_result_t testAppendWStr( test_fixture_t *fix )
     const wchar_t *wideString2 = L"e\x20ac";
     utf8stringbuf_copy_str( &dynTestBuf1, "H" );
     error = utf8stringbuf_append_wstr( &dynTestBuf1, wideString2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "He\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_wstr with truncation */
     utf8stringbuf_copy_str( &dynTestBuf1, "He" );
     error = utf8stringbuf_append_wstr( &dynTestBuf1, wideString2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hee" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hello" );
     error = utf8stringbuf_append_wstr( &dynTestBuf1, wideString2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_wstr with NULL */
     utf8stringbuf_copy_str( &dynTestBuf1, "He" );
     error = utf8stringbuf_append_wstr( &dynTestBuf1, NULL );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARAM_MISSING, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "He" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -827,7 +827,7 @@ static test_case_result_t testAppendWStr( test_fixture_t *fix )
 
 static test_case_result_t testAppendView( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -837,7 +837,7 @@ static test_case_result_t testAppendView( test_fixture_t *fix )
     const utf8stringview_t view1 = UTF8STRINGVIEW_STR( "lo" );
     utf8stringbuf_copy_view( &dynTestBuf1, &view0 );
     error = utf8stringbuf_append_view( &dynTestBuf1, &view1 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -845,20 +845,20 @@ static test_case_result_t testAppendView( test_fixture_t *fix )
     const utf8stringview_t view2 = UTF8STRINGVIEW_STR( "e\xE2\x82\xAC" );
     utf8stringbuf_copy_str( &dynTestBuf1, "H" );
     error = utf8stringbuf_append_view( &dynTestBuf1, &view2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "He\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_view with truncation */
     utf8stringbuf_copy_str( &dynTestBuf1, "He" );
     error = utf8stringbuf_append_view( &dynTestBuf1, &view2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hee" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( &dynTestBuf1, "Hello" );
     error = utf8stringbuf_append_view( &dynTestBuf1, &view2 );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -866,7 +866,7 @@ static test_case_result_t testAppendView( test_fixture_t *fix )
     const utf8stringview_t no_view = UTF8STRINGVIEW_EMPTY;
     utf8stringbuf_copy_str( &dynTestBuf1, "He" );
     error = utf8stringbuf_append_view( &dynTestBuf1, &no_view );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "He" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
@@ -875,7 +875,7 @@ static test_case_result_t testAppendView( test_fixture_t *fix )
 
 static test_case_result_t testGetEnd( test_fixture_t *fix )
 {
-    utf8error_t error;
+    u8_error_t error;
     int equal;
     char dynTestArr1[4] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -884,13 +884,13 @@ static test_case_result_t testGetEnd( test_fixture_t *fix )
     //  test utf8stringbuf_get_end
     dynTestEnd = utf8stringbuf_get_end( &dynTestBuf1 );
     error = utf8stringbuf_append_str( &dynTestEnd, "Aa" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "Aa" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     dynTestEnd = utf8stringbuf_get_end( &dynTestBuf1 );
     error = utf8stringbuf_append_str( &dynTestEnd, "BbCc" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, error );
     equal = utf8stringbuf_equals_str( &dynTestBuf1, "AaB" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;

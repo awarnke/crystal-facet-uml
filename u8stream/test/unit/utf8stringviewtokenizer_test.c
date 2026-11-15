@@ -10,7 +10,7 @@
 #include <string.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testIntEmpty( test_fixture_t *fix );
 static test_case_result_t testIntSpaceSeparators( test_fixture_t *fix );
@@ -45,7 +45,7 @@ test_suite_t utf8stringviewtokenizer_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }

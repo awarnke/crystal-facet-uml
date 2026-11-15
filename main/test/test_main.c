@@ -94,14 +94,27 @@
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "test_runner.h"
+
 #if __GNUC__ >= 8
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 #endif
+
+#if __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc2y-extensions"
+#endif
+
 #include <gtk/gtk.h>
+
+#if __clang__
+#pragma clang diagnostic pop
+#endif
+
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
 #endif
+
 #include <stdbool.h>
 #include <stdio.h>
 

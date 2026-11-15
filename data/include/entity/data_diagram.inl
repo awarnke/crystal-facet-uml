@@ -40,7 +40,7 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
     assert( NULL != stereotype );
     assert( NULL != name );
     assert( NULL != description );
-    utf8error_t strerr;
+    u8_error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = DATA_ROW_VOID;
@@ -49,7 +49,7 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
 
     (*this_).stereotype = utf8stringbuf_new( (*this_).private_stereotype_buffer, sizeof((*this_).private_stereotype_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).stereotype), stereotype );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -57,7 +57,7 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
 
     (*this_).name = utf8stringbuf_new( (*this_).private_name_buffer, sizeof((*this_).private_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).name), name );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -65,7 +65,7 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
 
     (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -93,7 +93,7 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
     assert( NULL != name );
     assert( NULL != description );
     assert( NULL != uuid );
-    utf8error_t strerr;
+    u8_error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = diagram_id;
@@ -102,7 +102,7 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
 
     (*this_).stereotype = utf8stringbuf_new( (*this_).private_stereotype_buffer, sizeof((*this_).private_stereotype_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).stereotype), stereotype );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -110,7 +110,7 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
 
     (*this_).name = utf8stringbuf_new( (*this_).private_name_buffer, sizeof((*this_).private_name_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).name), name );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -118,7 +118,7 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
 
     (*this_).description = utf8stringbuf_new( (*this_).private_description_buffer, sizeof((*this_).private_description_buffer) );
     strerr = utf8stringbuf_copy_str( &((*this_).description), description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -234,9 +234,9 @@ static inline u8_error_t data_diagram_set_stereotype ( data_diagram_t *this_, co
     assert( NULL != stereotype );
 
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).stereotype), stereotype );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -253,9 +253,9 @@ static inline u8_error_t data_diagram_set_name ( data_diagram_t *this_, const ch
 {
     assert( NULL != name );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).name), name );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -272,9 +272,9 @@ static inline u8_error_t data_diagram_set_description ( data_diagram_t *this_, c
 {
     assert( NULL != description );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_copy_str( &((*this_).description), description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -286,9 +286,9 @@ static inline u8_error_t data_diagram_append_description ( data_diagram_t *this_
 {
     assert( NULL != description );
     u8_error_t result = U8_ERROR_NONE;
-    utf8error_t strerr;
+    u8_error_t strerr;
     strerr = utf8stringbuf_append_str( &((*this_).description), description );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;

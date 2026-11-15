@@ -403,7 +403,7 @@ void gui_attributes_editor_type_of_classifier_btn_callback( GtkWidget* button, g
     assert ( NULL != btn_data );
     gui_attributes_editor_t *const this_ = gui_attribute_type_of_classifier_get_editor( btn_data );
     assert ( NULL != this_ );
-    const data_diagram_type_t selected_type = gui_attribute_type_of_classifier_get_selected_type( btn_data );
+    const data_classifier_type_t selected_type = gui_attribute_type_of_classifier_get_selected_type( btn_data );
     U8_TRACE_INFO_INT( "selected type:", selected_type );
 
     /* commit possibly changed texts before causing update events */
@@ -422,7 +422,7 @@ void gui_attributes_editor_type_of_feature_btn_callback( GtkWidget* button, gpoi
     assert ( NULL != btn_data );
     gui_attributes_editor_t *const this_ = gui_attribute_type_of_feature_get_editor( btn_data );
     assert ( NULL != this_ );
-    const data_diagram_type_t selected_type = gui_attribute_type_of_feature_get_selected_type( btn_data );
+    const data_feature_type_t selected_type = gui_attribute_type_of_feature_get_selected_type( btn_data );
     U8_TRACE_INFO_INT( "selected type:", selected_type );
 
     /* commit possibly changed texts before causing update events */
@@ -441,7 +441,7 @@ void gui_attributes_editor_type_of_relationship_btn_callback( GtkWidget* button,
     assert ( NULL != btn_data );
     gui_attributes_editor_t *const this_ = gui_attribute_type_of_relationship_get_editor( btn_data );
     assert ( NULL != this_ );
-    const data_diagram_type_t selected_type = gui_attribute_type_of_relationship_get_selected_type( btn_data );
+    const data_relationship_type_t selected_type = gui_attribute_type_of_relationship_get_selected_type( btn_data );
     U8_TRACE_INFO_INT( "selected type:", selected_type );
 
     /* commit possibly changed texts before causing update events */
@@ -1372,8 +1372,8 @@ void gui_attributes_editor_private_id_update_view ( gui_attributes_editor_t *thi
     utf8stringbuf_clear( &data_id_string );
     if ( data_id_is_valid( &((*this_).selected_object_id) ) )
     {
-        utf8error_t str_err = data_id_to_utf8stringbuf ( &((*this_).selected_object_id), data_id_string );
-        if ( UTF8ERROR_SUCCESS != str_err )
+        u8_error_t str_err = data_id_to_utf8stringbuf ( &((*this_).selected_object_id), data_id_string );
+        if ( U8_ERROR_NONE != str_err )
         {
             U8_LOG_ERROR_HEX( "data_id_to_utf8stringbuf failed:", str_err );
         }

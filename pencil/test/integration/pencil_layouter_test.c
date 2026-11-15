@@ -12,7 +12,7 @@
 #include "test_case_result.h"
 #include <inttypes.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t layout_good_cases( test_fixture_t *fix );
 static test_case_result_t layout_challenging_cases( test_fixture_t *fix );
@@ -51,7 +51,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     data_visible_set_init( &((*fix).data_set) );

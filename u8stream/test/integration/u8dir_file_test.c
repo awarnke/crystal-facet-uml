@@ -11,7 +11,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_file_remove( test_fixture_t *fix );
 static test_case_result_t test_file_stat( test_fixture_t *fix );
@@ -32,7 +32,7 @@ test_suite_t u8dir_file_test_get_suite(void)
     return result;
 }
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     return NULL;
 }

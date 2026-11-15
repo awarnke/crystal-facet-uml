@@ -30,7 +30,7 @@
  */
 
 #include "utf8stringbuf/utf8codepoint.h"
-#include "utf8stringbuf/utf8error.h"
+#include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringview.h"
 #include <string.h>
 #include <stdio.h>
@@ -67,7 +67,7 @@ struct utf8stringbuf_struct {
  *
  *  It encapsulates memory-pointers (char*), memory-sizes (size_t) and indices (ptrdiff_t)
  *  so that the calling code only sees a pointer-like utf8stringbuf_t struct and integer-indices.
- *  Errors are reported via an utf8error_t, in some exceptional cases via -1 as special-index.
+ *  Errors are reported via an u8_error_t, in some exceptional cases via -1 as special-index.
  */
 typedef struct utf8stringbuf_struct utf8stringbuf_t;
 
@@ -294,10 +294,10 @@ static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t *this_, con
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  *  \param original The source string buffer. The buffers of this_ and original must not overlap!
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *original );
+static inline u8_error_t utf8stringbuf_copy_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *original );
 
 /*!
  *  \brief Copies a string
@@ -310,10 +310,10 @@ static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t *this_, const 
  *  \param this_ pointer to own object attributes. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  *  \param original The 0-terminated source string. The buffers of this_ and original must not overlap!
  *                  NULL will cause the destination to be the empty string.
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation or UTF8ERROR_NULL_PARAM if that was NULL.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation or U8_ERROR_PARAM_MISSING if that was NULL.
  */
-static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t *this_, const char *original );
+static inline u8_error_t utf8stringbuf_copy_str( utf8stringbuf_t *this_, const char *original );
 
 /*!
  *  \brief Copies a stringview
@@ -325,10 +325,10 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t *this_, const 
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  *  \param original pointer to the source string view. The buffers of this_ and original must not overlap!
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation
  */
-static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t *this_, const utf8stringview_t *original );
+static inline u8_error_t utf8stringbuf_copy_view( utf8stringbuf_t *this_, const utf8stringview_t *original );
 
 /*!
  *  \brief Splits a string buffer into an ignored first part and the unfilled terminating part
@@ -350,11 +350,11 @@ static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t *this_ );
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
  *  \param this_ pointer to own object attributes
  *  \param appendix The 0-terminated source string.
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation or
- *          UTF8ERROR_NULL_PARAM if appendix was NULL.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation or
+ *          U8_ERROR_PARAM_MISSING if appendix was NULL.
  */
-static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, const char *appendix );
+static inline u8_error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, const char *appendix );
 
 /*!
  *  \brief Appends a string buffer to a string buffer
@@ -365,10 +365,10 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t *this_, cons
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
  *  \param this_ pointer to own object attributes
  *  \param appendix The source string buffer
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *appendix );
+static inline u8_error_t utf8stringbuf_append_buf( utf8stringbuf_t *this_, const utf8stringbuf_t *appendix );
 
 /*!
  *  \brief Appends a signed integer to a string buffer in decimal format
@@ -379,10 +379,10 @@ static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t *this_, cons
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
  *  \param appendix The integer to be appended
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t *this_, const int64_t appendix );
+static inline u8_error_t utf8stringbuf_append_int( utf8stringbuf_t *this_, const int64_t appendix );
 
 /*!
  *  \brief Appends an unsigned integer to a string buffer in hexadecimal format
@@ -393,10 +393,10 @@ static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t *this_, cons
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
  *  \param appendix The integer to be appended
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t *this_, const uint64_t appendix );
+static inline u8_error_t utf8stringbuf_append_hex( utf8stringbuf_t *this_, const uint64_t appendix );
 
 /*!
  *  \brief Appends an unicode character to a string buffer
@@ -406,11 +406,11 @@ static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t *this_, cons
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
  *  \param appendix The unicode codepoint to be appended
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED if the character could not be appended.
- *          UTF8ERROR_NOT_A_CODEPOINT if appendix is greater than 0x10ffff
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED if the character could not be appended.
+ *          U8_ERROR_INVALID_ENCODING if appendix is greater than 0x10ffff
  */
-extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t *this_, const uint32_t appendix );
+extern u8_error_t utf8stringbuf_append_char( utf8stringbuf_t *this_, const uint32_t appendix );
 
 /*!
  *  \brief Appends a string of wchar_t to a string buffer
@@ -421,12 +421,12 @@ extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t *this_, const uint
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
  *  \param this_ pointer to own object attributes
  *  \param appendix The 0-terminated source string.
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation or
- *          UTF8ERROR_NULL_PARAM if appendix was NULL or
- *          UTF8ERROR_NOT_A_CODEPOINT if one or more characters of appendix are greater than 0x7fffffff
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation or
+ *          U8_ERROR_PARAM_MISSING if appendix was NULL or
+ *          U8_ERROR_INVALID_ENCODING if one or more characters of appendix are greater than 0x7fffffff
  */
-extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wchar_t *appendix );
+extern u8_error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wchar_t *appendix );
 
 /*!
  *  \brief Appends a stringview to a string buffer
@@ -437,11 +437,11 @@ extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t *this_, const wcha
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
  *  \param this_ pointer to own object attributes
  *  \param appendix pointer to the source stringview.
- *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *          UTF8ERROR_TRUNCATED in case of truncation or
- *          UTF8ERROR_NULL_PARAM if appendix was NULL.
+ *  \return U8_ERROR_NONE in case of success: All bytes have been copied.
+ *          U8_ERROR_STRING_BUFFER_EXCEEDED in case of truncation or
+ *          U8_ERROR_PARAM_MISSING if appendix was NULL.
  */
-static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, const utf8stringview_t *appendix );
+static inline u8_error_t utf8stringbuf_append_view( utf8stringbuf_t *this_, const utf8stringview_t *appendix );
 
 #ifdef __cplusplus
 }

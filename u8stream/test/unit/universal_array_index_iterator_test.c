@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_iterate_on_empty_list( test_fixture_t *fix );
 static test_case_result_t test_iterate_on_list( test_fixture_t *fix );
@@ -35,7 +35,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     universal_array_index_sorter_init( &(test_fixture.index_list) );
     return &test_fixture;

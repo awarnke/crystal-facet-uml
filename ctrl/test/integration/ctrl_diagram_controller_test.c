@@ -14,7 +14,7 @@
 #include "test_case_result.h"
 #include <stdio.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t create_read_modify_read( test_fixture_t *fix );
 static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix );
@@ -43,7 +43,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     data_database_init( &((*fix).database) );

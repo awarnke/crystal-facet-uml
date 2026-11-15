@@ -11,14 +11,14 @@
 static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t *uuid_string )
 {
     assert( NULL != uuid_string );
-    utf8error_t strerr;
+    u8_error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).uuid_string = utf8stringbuf_new( (*this_).private_uuid_string_buffer,
                                               sizeof((*this_).private_uuid_string_buffer)
                                             );
     strerr = utf8stringbuf_copy_str( &((*this_).uuid_string), uuid_string );
-    if ( strerr != UTF8ERROR_SUCCESS )
+    if ( strerr != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
@@ -51,7 +51,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
     universal_simple_random_t rnd;
     universal_simple_random_init( &rnd );
     {
-        utf8error_t strerr = UTF8ERROR_SUCCESS;
+        u8_error_t strerr = U8_ERROR_NONE;
 
         assert( sizeof(int) >= sizeof(uint32_t) );
         const uint32_t rand1 = now ^ universal_simple_random_get_uint32( &rnd );
@@ -74,7 +74,7 @@ static inline void data_uuid_init_new ( data_uuid_t *this_ )
         assert( length == sizeof(thirtyseven_bytes) - sizeof((const char)'\0') );
         data_uuid_unused( length );
         strerr |= utf8stringbuf_append_str( &((*this_).uuid_string), &(thirtyseven_bytes[0]) );
-        assert( strerr == UTF8ERROR_SUCCESS );
+        assert( strerr == U8_ERROR_NONE );
         (void) strerr;  /* in RELEASE mode, ignore strerr */
     }
     universal_simple_random_destroy( &rnd );

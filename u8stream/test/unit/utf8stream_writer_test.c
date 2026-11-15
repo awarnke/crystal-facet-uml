@@ -11,7 +11,7 @@
 #include <string.h>
 #include <assert.h>
 
-static test_fixture_t * set_up();
+static test_fixture_t * set_up( void );
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_write( test_fixture_t *fix );
 static test_case_result_t test_buffer_and_flush( test_fixture_t *fix );
@@ -37,7 +37,7 @@ struct test_fixture_struct {
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
 
-static test_fixture_t * set_up()
+static test_fixture_t * set_up( void )
 {
     test_fixture_t *fix = &test_fixture;
     memset( &((*fix).out_buffer), '\0', sizeof( (*fix).out_buffer) );
