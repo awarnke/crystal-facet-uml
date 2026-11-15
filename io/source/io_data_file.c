@@ -80,9 +80,9 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
     {
         if (( temp_requested )||( ! is_json ))
         {
-            U8_LOG_EVENT( "rejecting to create a new database based on a given tmp-cfu filename..." );
+            U8_LOG_EVENT( "rejecting to create a new database based on a given .tmp-cfu filename..." );
             U8_TRACE_INFO( "CASE: use temp db file that does not exist, is not accessible or has wrong format" );
-            /* This request happens when the user selected the .tmp-fcu file of an already open database. */
+            /* This request happens when the user selected the .tmp-cfu file of an already open database. */
             /* When the database has been closed, the .tmp-cfu file vanishes and now cannot be found anymore. */
             (*this_).auto_writeback_to_json = false;
             (*this_).delete_db_when_finished = false;
@@ -104,7 +104,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
         else
         {
-            U8_LOG_EVENT( "creating a new database based on a given json filename (cfuJ)..." );
+            U8_LOG_EVENT( "creating a new database based on a given json filename (.cfu)..." );
             U8_TRACE_INFO( "CASE: use json file that does not exist or is not accessible" );
             /* A new json file shall be created */
             (*this_).auto_writeback_to_json = true;

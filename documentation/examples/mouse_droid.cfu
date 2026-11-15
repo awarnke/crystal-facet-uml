@@ -6463,7 +6463,9 @@
             "key":  "Detect",
             "value": "Supervise correct order of control/checkpoints",
             "description": [
-                    ""
+                    "If a wrong behavior is detected early, measures can be taken:\n",
+                    "1. Stop the MoD5G,\n",
+                    "2. Restart the system."
             ],
             "order": 32768,
             "uuid": "2edcd3dc-d79b-4be6-83b0-97bccc9cc73a"
@@ -6773,7 +6775,8 @@
             "key":  "Prevent",
             "value": "Extend testing navigation system",
             "description": [
-                    ""
+                    "Prevent that the MoD5G drives into an obstacle by ensuring its navigation ",
+                    "capabilities."
             ],
             "order": 32768,
             "uuid": "b42c0b87-6fa2-4a79-9cd2-aa8a56c5db36"
