@@ -121,7 +121,7 @@ u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
     while ( utf8stringlines_has_next( &line_iter ) )
     {
         utf8stringview_t line = utf8stringlines_next( &line_iter );
-        write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT[2*(JSON_WRITER_MAX_INDENT-indent)]) );
+        write_err |= json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT[2*(JSON_WRITER_MAX_INDENT-indent)]) );
         write_err |= json_writer_write_plain( this_,
                                               JSON_CONSTANTS_TAB
                                               JSON_CONSTANTS_TAB
@@ -145,7 +145,7 @@ u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
                                                 );
         }
     }
-    write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT[2*(JSON_WRITER_MAX_INDENT-indent)]) );
+    write_err |= json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT[2*(JSON_WRITER_MAX_INDENT-indent)]) );
     write_err |= json_writer_write_plain( this_,
                                           next_follows
                                           ? JSON_CONSTANTS_END_ARRAY JSON_CONSTANTS_NEXT_NL

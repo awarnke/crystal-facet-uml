@@ -385,7 +385,6 @@ u8_error_t json_element_reader_get_next_head( json_element_reader_t *this_, data
                 result = json_token_reader_read_int_value ( &((*this_).tokenizer), &parsed_integer );
                 if ( U8_ERROR_NONE == result )
                 {
-                    utf8stringbuf_get_string( &((*this_).temp_string) );
                     utf8stringbuf_clear( &((*this_).temp_string) );
                     const u8_error_t no_space = utf8stringbuf_append_int( &((*this_).temp_string), parsed_integer );
                     assert( no_space == U8_ERROR_NONE );
