@@ -1,7 +1,9 @@
 //! This module tests the graphical user interface of a binary executable
 //! of crystal-facet-uml.
 
+mod fixture;
 pub mod suite;
+mod test_start_stop;
 
 /*
 Copyright 2022-2026 Andreas Warnke

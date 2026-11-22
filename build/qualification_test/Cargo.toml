@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 exitcode = "1.1.2"
 regex = "1.5.4"
+atspi = "0.30.0"

@@ -4,9 +4,10 @@
      =====                                 =====
 
 Scope:
-  crystal-facet-uml shall draw the needed diagram types for system and software architecture.
+  crystal-facet-uml draws the needed diagram types for system and software architecture.
   Only features that are expected to be needed by many projects shall be included.
-  For missing features, the following extension mechanisms exist: tagges values, stereotypes, comments may show constraints.
+  For missing features, the following extension mechanisms exist:
+  tagges values, stereotypes, comments may show constraints.
 
 ideas for future versions:
   @gui
