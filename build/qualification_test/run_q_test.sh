@@ -2,7 +2,7 @@
 rm -fr Makefile cmake_install.cmake  CMakeFiles/ CMakeCache.txt
 cmake ../.. -DCMAKE_BUILD_TYPE=Release
 cmake --build . -j --target crystal-facet-uml --config Release
-find . -name '*.rs' | xargs rustfmt
+find . -name '*.rs' | xargs rustfmt --edition 2024
 cargo run ./crystal-facet-uml ./tmp ; echo "ERROR: $?"
 echo "consider running rustup update"
 echo "view source documentation using cargo doc && chromium-browser target/doc/qualification_test/index.html"
