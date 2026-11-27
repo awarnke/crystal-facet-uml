@@ -96,3 +96,8 @@ ideas for a version 2
   - run as web server (check also cgi interface) instead of a local GUI:
     this may be a starting point for integration as Webview with vs-code?
 
+info
+    crystal_facet_uml wird bei heise Download gehostet
+    und wurde in den letzten 30 Tagen 257 Mal heruntergeladen,
+    das entspricht dem Download-Rang 351.
+

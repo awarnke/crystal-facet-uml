@@ -8,6 +8,6 @@ edition = "2021"
 [dependencies]
 exitcode = "1.1.2"
 regex = "1.5.4"
-atspi = "0.30.0"
 futures = "0.3"
-zbus = "5.19.0"
+atspi = { version = "0.30", features = ["proxies"] }
+zbus = "5.19"

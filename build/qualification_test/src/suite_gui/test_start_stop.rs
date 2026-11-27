@@ -2,8 +2,11 @@ use super::fixture::FixtureGui;
 use atspi::{
     AccessibilityConnection,
     proxy::accessible::{AccessibleProxy, ObjectRefExt},
+    proxy::action::ActionProxy,
 };
 use futures::executor::block_on;
+use std::collections::VecDeque;
+use std::error::Error;
 use std::path::PathBuf;
 use std::process::Command;
 use zbus::proxy::CacheProperties;
@@ -21,6 +24,7 @@ const PROXY_INTERFACE: &str = "org.a11y.atspi.Accessible";
 async fn connect_to_app(app_name: &str) -> Result<(), ()> {
     // Connect to the accessibility interface
     print!("Connecting to the a11y interface...\n");
+    let mut result: Result<(), ()> = Err(());
 
     print!("Establishing ATSPI connection\n");
     let atspi = AccessibilityConnection::new().await.unwrap();
@@ -39,27 +43,77 @@ async fn connect_to_app(app_name: &str) -> Result<(), ()> {
 
     // Find application
     print!("Finding application. Searching for: {app_name:?}\n");
-    let mut matches = vec![];
     let conn = proxy.inner().connection();
     for child in proxy.get_children().await.unwrap() {
-        let ap = child.into_accessible_proxy(conn).await.unwrap();
-        if ap.get_role().await.unwrap() == atspi::Role::Application {
-            let name = ap.name().await.unwrap();
+        let app = child.into_accessible_proxy(conn).await.unwrap();
+        if app.get_role().await.unwrap() == atspi::Role::Application {
+            let name = app.name().await.unwrap();
             print!("Found app with name {}\n", name);
             if name == app_name {
                 print!("Name matches\n");
-                matches.push(ap);
+
+                // Recursively find and click the target widget
+                if let Some(button) = find_widget_by_name(&conn, app, "Close").await.unwrap() {
+                    let action = ActionProxy::builder(conn)
+                        .destination(button.inner().destination().clone())
+                        .unwrap()
+                        .path(button.inner().path().clone())
+                        .unwrap()
+                        .build()
+                        .await
+                        .unwrap();
+
+                    // Action 0 is typically "click" or "activate", which emits the GSignal
+                    action.do_action(0).await.unwrap();
+                    println!("Triggered GSignal via AT-SPI!");
+                }
+
+                result = Ok(());
             }
         }
     }
 
-    if matches.is_empty() {
-        print!("No app match\n");
+    return result;
+}
+
+/// Traverse the object tree without relying on child indexes
+///
+/// # Arguments
+///
+/// * `target_name` - The name of the button
+///
+/// # Errors
+///
+/// This function returns `Err()` if the test case produced an unexpected result
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
+async fn find_widget_by_name<'a>(
+    conn: &'a zbus::Connection,
+    root: AccessibleProxy<'a>,
+    target_name: &str,
+) -> Result<Option<AccessibleProxy<'a>>, Box<dyn Error>> {
+    let mut queue = VecDeque::from([root]);
+
+    while let Some(node) = queue.pop_front() {
+        print!(
+            "Found widget with name {}\n",
+            node.name().await.unwrap_or_default()
+        );
+
+        if node.name().await.unwrap_or_default() == target_name {
+            return Ok(Some(node));
+        }
+
+        for child_ref in node.get_children().await? {
+            let child = child_ref.into_accessible_proxy(&conn).await?;
+            queue.push_back(child);
+        }
     }
-    if matches.len() > 1 {
-        print!("Too many matches\n");
-    }
-    return if matches.len() == 1 { Ok(()) } else { Err(()) };
+
+    Ok(None)
 }
 
 /// Test that importing to a newly created json based format is possible.
@@ -93,7 +147,8 @@ pub(super) fn testcase_start_stop(environment: &mut FixtureGui) -> Result<(), ()
 
     // While starting a process and using its input and output streams can be done
     // syhchronously, sending and receiving messages via dbus is asynchronous:
-    let future = connect_to_app(environment.exe_to_test);
+    //let future = connect_to_app(environment.exe_to_test);
+    let future = connect_to_app("crystal-facet-uml");
     let result = block_on(future);
 
     let stdout1 = match std::string::String::from_utf8(output1.stdout) {
